@@ -175,6 +175,7 @@ class BaseResultForm(forms.Form):
             using_cross_examinations=self.crosses_enabled,
         ))
         self.filled = kwargs.pop('filled', False)
+        self.allow_default_criteria_on_prefill = kwargs.pop('allow_default_criteria_on_prefill', False)
         super().__init__(*args, **kwargs)
 
         self.has_tournament_password = password and self.tournament.pref('public_use_password')
@@ -690,7 +691,7 @@ class ScoresMixin:
         ))
 
     def _default_criterion_initial(self):
-        if self.ballotsub.id is None and not self.filled:
+        if self.ballotsub.id is None and (not self.filled or self.allow_default_criteria_on_prefill):
             return Decimal("4")
         return None
 
@@ -1583,4 +1584,3 @@ class PerAdjudicatorEliminationBallotSetForm(TeamsMixin, BaseBallotSetForm):
     def scoresheets(self):
         for adj in self.adjudicators:
             yield {'adjudicator': adj, 'advancing': self[self._fieldname_advancing(adj)]}
-

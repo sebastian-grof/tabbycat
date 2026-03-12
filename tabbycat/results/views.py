@@ -564,6 +564,7 @@ class BasePublicNewBallotSetView(PersonalizablePublicTournamentPageMixin, RoundM
         kwargs['result'] = self.result
         kwargs['vetos'] = self.vetos
         kwargs['filled'] = self.prefilled
+        kwargs['allow_default_criteria_on_prefill'] = getattr(self, 'prefilled_without_scores', False)
         return kwargs
 
     def add_success_message(self):
@@ -602,6 +603,7 @@ class BasePublicNewBallotSetView(PersonalizablePublicTournamentPageMixin, RoundM
 
         self.vetos = None
         self.prefilled = False
+        self.prefilled_without_scores = False
         if self.ballotsub.single_adj and prefill:
             former_ballot = self.debate.ballotsubmission_set.filter(discarded=False).exclude(
                 participant_submitter=self.object,
@@ -628,17 +630,20 @@ class BasePublicNewBallotSetView(PersonalizablePublicTournamentPageMixin, RoundM
             self.result.set_ghost(ss.debate_team.side, ss.position, ss.ghost)
         else:
             self.prefilled = True
+            self.prefilled_without_scores = True
 
     def set_motions(self, former_ballot):
         if self.tournament.pref('enable_motions'):
             self.ballotsub._roundmotion = self.round_motions[former_ballot.motion_id]
             self.prefilled = True
+            self.prefilled_without_scores = True
         if self.tournament.pref('motion_vetoes_enabled'):
             self.vetos = {}
             for dtmp in former_ballot.debateteammotionpreference_set.filter(preference=3):
                 self.vetos[dtmp.debate_team.side] = dtmp
                 self.vetos[dtmp.debate_team.side]._roundmotion = self.round_motions[dtmp.motion_id]
             self.prefilled = True
+            self.prefilled_without_scores = True
 
     def error_page(self, message):
         # This bypasses the normal TemplateResponseMixin and ContextMixin
@@ -668,9 +673,16 @@ class BasePublicNewBallotSetView(PersonalizablePublicTournamentPageMixin, RoundM
                 confirmed=True,
                 confirm_timestamp=timezone.now(),
             )
-            bses = BallotSubmission.objects.filter(
+            bses = list(BallotSubmission.objects.filter(
                 debate=self.debate, participant_submitter__isnull=False, discarded=False, single_adj=True,
-            ).select_related('participant_submitter').annotate(ordering=Window(Rank(), partition_by="participant_submitter", order_by="-version")).filter(ordering=1)
+            ).select_related('participant_submitter', 'participant_submitter__adjudicator').annotate(
+                ordering=Window(Rank(), partition_by="participant_submitter", order_by="-version")
+            ).filter(ordering=1))
+            voting_adj_ids = {adj.id for adj in self.debate.adjudicators.voting()}
+            bses = [
+                bs for bs in bses
+                if getattr(getattr(bs.participant_submitter, 'adjudicator', None), 'id', None) in voting_adj_ids
+            ]
             missing_adjs = DebateAdjudicator.objects.filter(debate=self.debate).exclude(
                 type=DebateAdjudicator.TYPE_TRAINEE, adjudicator_id__in=[bs.participant_submitter_id for bs in bses]).count()
             if missing_adjs:
@@ -998,9 +1010,16 @@ class BaseMergeLatestBallotsView(BaseNewBallotSetView):
     def populate_objects(self, prefill=True):
         super().populate_objects()
         self.round = self.debate.round
-        bses = BallotSubmission.objects.filter(
+        bses = list(BallotSubmission.objects.filter(
             debate=self.debate, participant_submitter__isnull=False, discarded=False, single_adj=True,
-        ).annotate(ordering=Window(Rank(), partition_by="participant_submitter", order_by="-version")).filter(ordering=1).select_related('participant_submitter')
+        ).annotate(ordering=Window(Rank(), partition_by="participant_submitter", order_by="-version")).filter(ordering=1).select_related(
+            'participant_submitter', 'participant_submitter__adjudicator'
+        ))
+        voting_adj_ids = {adj.id for adj in self.debate.adjudicators.voting()}
+        bses = [
+            bs for bs in bses
+            if getattr(getattr(bs.participant_submitter, 'adjudicator', None), 'id', None) in voting_adj_ids
+        ]
         self.merged_ballots = bses
 
         if prefill:
@@ -1052,4 +1071,3 @@ class AssistantMergeLatestBallotsView(OldAssistantBallotSetMixin, BaseMergeLates
 
     def get_list_url(self):
         return reverse_tournament('results-assistant-round-list', self.tournament)
-

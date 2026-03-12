@@ -676,6 +676,15 @@ class TestVotingDebateResultWithScores(GeneralSpeakerTestsMixin, BaseTestDebateR
     def test_extraneous_scoresheet(self, result):
         result.scoresheets["not-an-adj"] = None
 
+    def test_adjudicator_lookup_accepts_refetched_instance(self):
+        result = self.save_blank_result()
+        refetched_adj = Adjudicator.objects.get(pk=self.adjs[0].pk)
+
+        result.set_score(refetched_adj, DebateSide.AFF, 1, 75)
+
+        self.assertEqual(75, result.get_score(self.adjs[0], DebateSide.AFF, 1))
+        self.assertEqual(75, result.get_score(refetched_adj, DebateSide.AFF, 1))
+
 
 class TestConsensusDebateResultWithScores(GeneralSpeakerTestsMixin, BaseTestDebateResult):
 

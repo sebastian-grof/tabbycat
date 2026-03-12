@@ -1430,7 +1430,22 @@ class DebateResultByAdjudicatorWithScores(DebateResultWithScoresMixin, DebateRes
         if self.using_cross_examinations and not self.crosses:
             self._load_cross_totals_from_team_scores_by_adj()
 
+    def _resolve_scoresheet_adjudicator(self, adjudicator):
+        if adjudicator in self.scoresheets:
+            return adjudicator
+
+        adjudicator_id = getattr(adjudicator, 'id', None)
+        if adjudicator_id is None and hasattr(adjudicator, 'adjudicator'):
+            adjudicator_id = getattr(adjudicator.adjudicator, 'id', None)
+
+        for existing in self.scoresheets.keys():
+            if getattr(existing, 'id', None) == adjudicator_id:
+                return existing
+
+        raise KeyError(adjudicator)
+
     def merge_speaker_result(self, result: BaseDebateResult, adj: 'Adjudicator') -> list[ResultError]:
+        adj = self._resolve_scoresheet_adjudicator(adj)
         errors = self.merge_speaker_order(result)
         for side, pos in product(self.sides, self.positions):
             position_criteria = self.scoresheets[adj].criteria_by_position.get(pos, [])
@@ -1474,6 +1489,7 @@ class DebateResultByAdjudicatorWithScores(DebateResultWithScoresMixin, DebateRes
 
     def set_score(self, adjudicator, side, position, score):
         try:
+            adjudicator = self._resolve_scoresheet_adjudicator(adjudicator)
             self.scoresheets[adjudicator].set_score(side, position, score)
         except KeyError:
             logger.exception("Tried to set score by adjudicator %s, but this adjudicator "
@@ -1481,15 +1497,19 @@ class DebateResultByAdjudicatorWithScores(DebateResultWithScoresMixin, DebateRes
             return
 
     def get_cross_score(self, adjudicator, side, cross):
+        adjudicator = self._resolve_scoresheet_adjudicator(adjudicator)
         return self.scoresheets[adjudicator].get_cross_score(side, cross)
 
     def set_cross_score(self, adjudicator, side, cross, score):
+        adjudicator = self._resolve_scoresheet_adjudicator(adjudicator)
         self.scoresheets[adjudicator].set_cross_score(side, cross, score)
 
     def get_cross_total(self, adjudicator, side):
+        adjudicator = self._resolve_scoresheet_adjudicator(adjudicator)
         return self.scoresheets[adjudicator].get_cross_total(side)
 
     def set_cross_total(self, adjudicator, side, score):
+        adjudicator = self._resolve_scoresheet_adjudicator(adjudicator)
         self.scoresheets[adjudicator].set_cross_total(side, score)
 
     def _speech_total_component(self, adjudicator, side):
@@ -1528,6 +1548,7 @@ class DebateResultByAdjudicatorWithScores(DebateResultWithScoresMixin, DebateRes
             self.set_cross_total(adjudicator, side, cross_total)
 
     def get_speaker_rank(self, adjudicator: 'Adjudicator', side: str, position: int) -> int:
+        adjudicator = self._resolve_scoresheet_adjudicator(adjudicator)
         return self.scoresheets[adjudicator].get_speaker_rank(side, position)
 
     # --------------------------------------------------------------------------
@@ -1540,6 +1561,7 @@ class DebateResultByAdjudicatorWithScores(DebateResultWithScoresMixin, DebateRes
         return self.calculate_margin_by_adj(adj, side)
 
     def teamscorebyadj_field_score(self, adj, side):
+        adj = self._resolve_scoresheet_adjudicator(adj)
         return self.scoresheets[adj].get_total(side)
 
     def _teamscore_score_component(self, adj, side):
@@ -1584,6 +1606,7 @@ class DebateResultByAdjudicatorWithScores(DebateResultWithScoresMixin, DebateRes
         return any(self.ghosts[side].values())
 
     def speakerscorebyadj_field_score(self, adjudicator, side, position):
+        adjudicator = self._resolve_scoresheet_adjudicator(adjudicator)
         return self.scoresheets[adjudicator].get_score(side, position)
     get_score = speakerscorebyadj_field_score
 
@@ -1608,10 +1631,12 @@ class DebateResultByAdjudicatorWithScores(DebateResultWithScoresMixin, DebateRes
         )
 
     def speakercriterionscorebyadj_field_score(self, adjudicator, side, pos, criterion):
+        adjudicator = self._resolve_scoresheet_adjudicator(adjudicator)
         return self.scoresheets[adjudicator].get_criterion_score(side, pos, criterion)
     get_criterion_score = speakercriterionscorebyadj_field_score
 
     def set_criterion_score(self, adj, side, pos, criterion, score):
+        adj = self._resolve_scoresheet_adjudicator(adj)
         self.scoresheets[adj].set_criterion_score(side, pos, criterion, score)
 
     # --------------------------------------------------------------------------
