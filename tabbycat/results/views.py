@@ -681,7 +681,7 @@ class BasePublicNewBallotSetView(PersonalizablePublicTournamentPageMixin, RoundM
             voting_adj_ids = {adj.id for adj in self.debate.adjudicators.voting()}
             bses = [
                 bs for bs in bses
-                if getattr(getattr(bs.participant_submitter, 'adjudicator', None), 'id', None) in voting_adj_ids
+                if bs.participant_submitter_id in voting_adj_ids
             ]
             missing_adjs = DebateAdjudicator.objects.filter(debate=self.debate).exclude(
                 type=DebateAdjudicator.TYPE_TRAINEE, adjudicator_id__in=[bs.participant_submitter_id for bs in bses]).count()
@@ -1018,7 +1018,7 @@ class BaseMergeLatestBallotsView(BaseNewBallotSetView):
         voting_adj_ids = {adj.id for adj in self.debate.adjudicators.voting()}
         bses = [
             bs for bs in bses
-            if getattr(getattr(bs.participant_submitter, 'adjudicator', None), 'id', None) in voting_adj_ids
+            if bs.participant_submitter_id in voting_adj_ids
         ]
         self.merged_ballots = bses
 

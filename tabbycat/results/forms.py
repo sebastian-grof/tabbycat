@@ -916,20 +916,31 @@ class SingleBallotSetForm(ScoresMixin, BaseBallotSetForm):
 
         for side, pos in product(self.sides, self.positions):
             score = result.get_score(side, pos)
-            initial[self._fieldname_score(side, pos)] = score
+            if score is not None:
+                initial[self._fieldname_score(side, pos)] = score
             if self.using_speaker_ranks:
-                initial[self._fieldname_srank(side, pos)] = result.get_speaker_rank(side, pos)
+                rank = result.get_speaker_rank(side, pos)
+                if rank is not None:
+                    initial[self._fieldname_srank(side, pos)] = rank
             for criterion in self.criteria_for_position(pos):
-                initial[self._fieldname_criterion_score(side, pos, criterion)] = result.get_criterion_score(side, pos, criterion)
+                criterion_score = result.get_criterion_score(side, pos, criterion)
+                if criterion_score is not None:
+                    initial[self._fieldname_criterion_score(side, pos, criterion)] = criterion_score
 
         if self.using_cross_examinations:
             for side in self.sides:
-                initial[self._fieldname_cross_total(side)] = result.get_cross_total(side)
+                cross_total = result.get_cross_total(side)
+                if cross_total is not None:
+                    initial[self._fieldname_cross_total(side)] = cross_total
                 for cross in self.crosses:
-                    initial[self._fieldname_cross_score(side, cross)] = result.get_cross_score(side, cross)
+                    cross_score = result.get_cross_score(side, cross)
+                    if cross_score is not None:
+                        initial[self._fieldname_cross_score(side, cross)] = cross_score
 
         if self.using_declared_winner:
-            initial[self._fieldname_declared_winner()] = result.winning_side()
+            winning_side = result.winning_side()
+            if winning_side is not None:
+                initial[self._fieldname_declared_winner()] = winning_side
 
         return initial
 
@@ -1255,18 +1266,27 @@ class PerAdjudicatorBallotSetForm(ScoresMixin, BaseBallotSetForm):
         for adj in self.adjudicators:
             for side, pos in product(self.sides, self.positions):
                 score = result.get_score(adj, side, pos)
-                initial[self._fieldname_score(adj, side, pos)] = score
+                if score is not None:
+                    initial[self._fieldname_score(adj, side, pos)] = score
                 for criterion in self.criteria_for_position(pos):
-                    initial[self._fieldname_criterion_score(adj, side, pos, criterion)] = result.get_criterion_score(adj, side, pos, criterion)
+                    criterion_score = result.get_criterion_score(adj, side, pos, criterion)
+                    if criterion_score is not None:
+                        initial[self._fieldname_criterion_score(adj, side, pos, criterion)] = criterion_score
 
             if self.using_cross_examinations:
                 for side in self.sides:
-                    initial[self._fieldname_cross_total(adj, side)] = result.get_cross_total(adj, side)
+                    cross_total = result.get_cross_total(adj, side)
+                    if cross_total is not None:
+                        initial[self._fieldname_cross_total(adj, side)] = cross_total
                     for cross in self.crosses:
-                        initial[self._fieldname_cross_score(adj, side, cross)] = result.get_cross_score(adj, side, cross)
+                        cross_score = result.get_cross_score(adj, side, cross)
+                        if cross_score is not None:
+                            initial[self._fieldname_cross_score(adj, side, cross)] = cross_score
 
             if self.using_declared_winner:
-                initial[self._fieldname_declared_winner(adj)] = result.get_winner(adj)
+                winner = result.get_winner(adj)
+                if winner is not None:
+                    initial[self._fieldname_declared_winner(adj)] = winner
 
         return initial
 
