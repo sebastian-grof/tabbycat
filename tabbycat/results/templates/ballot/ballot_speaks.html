@@ -1,5 +1,33 @@
 {% load add_field_css debate_tags i18n %}
 
+{% if position.is_cross_group %}
+<div class="list-group-item side-{{ team.side_code }} cross-group">
+  <div class="row flex-column flex-md-row">
+    <div class="col-4 col-md-2 pt-2 p-lg-2 pr-0 p-md-1 speaker-position-label">
+      {{ position.name }}
+    </div>
+
+    <div class="col mb-0 mb-3 pr-md-2 pr-1 form-group"></div>
+
+    <div class="col col-md-4 form-group side-{{ team.side_code }} pr-md-2 pr-1 cross ballot-sliderized-target" data-slider-title="{{ position.name }}">
+      {% for cross in position.crosses %}
+      <div class="criterion mb-3 w-auto {{ cross.field.errors|yesno:'error,' }}">
+        <label class="criterion-name d-block mb-1">{{ cross.name }}</label>
+        {{ cross.field|addcss:"form-control total cross-criterion js-slider-source-number" }}
+        {{ cross.field.errors }}
+      </div>
+      {% endfor %}
+      <div class="ballot-total-field">
+        {% if position.crosses %}
+          <label class="ballot-total-label mb-1">{% trans "Total" %}</label>
+        {% endif %}
+        {{ position.total|addcss:"form-control total cross-total js-slider-source-number" }}
+        {{ position.total.errors }}
+      </div>
+    </div>
+  </div>
+</div>
+{% else %}
 <div class="list-group-item js-team-speakers side-{{ team.side_code }} s{{ position.pos }}">
   <div class="row flex-column flex-md-row">
     <div class="col-4 col-md-2 pt-2 p-lg-2 pr-0 p-md-1 speaker-position-label">
@@ -39,16 +67,16 @@
       </div>
     {% endif %}
 
-    <div class="col col-md-4 form-group side-{{ team.side_code }} pr-md-2 pr-1 score {{ position.score_errors|yesno:'error,' }}">
+    <div class="col col-md-4 form-group side-{{ team.side_code }} pr-md-2 pr-1 score ballot-sliderized-target {{ position.score_errors|yesno:'error,' }}" data-slider-title="{{ position.name }}">
       {% for criterion, field in position.criteria %}
       <div class="criterion mb-3 w-auto">
-        {{ criterion.name }}
-        {{ field|addcss:"form-control" }}
+        <label class="criterion-name d-block mb-1">{{ criterion.name }}</label>
+        {{ field|addcss:"form-control js-slider-source-number" }}
         {{ field.errors }}
       </div>
       {% endfor %}
-      <div>
-        {{ position.score|addcss:"form-control total" }}
+      <div class="ballot-total-field">
+        {{ position.score|addcss:"form-control total js-slider-source-number" }}
         {{ position.score.errors }}
       </div>
 
@@ -56,3 +84,4 @@
 
   </div>
 </div>
+{% endif %}

@@ -310,7 +310,7 @@ class SpeakerScoreByAdj(models.Model):
 
 class TeamScore(models.Model):
     """Stores information about a team's result in a debate. This is all
-    redundant information — it can all be derived from indirectly-related
+    redundant information - it can all be derived from indirectly-related
     SpeakerScore objects. We use a separate model for it for performance
     reasons."""
 
@@ -397,9 +397,112 @@ class SpeakerScore(models.Model):
         except ObjectDoesNotExist:
             pass
 
+class CrossExamination(models.Model):
+    """A named cross-examination criterion configured per tournament."""
+
+    tournament = models.ForeignKey(Tournament, models.CASCADE,
+        verbose_name=_("tournament"))
+    seq = models.IntegerField(verbose_name=_("sequence"))
+    name = models.CharField(max_length=40, verbose_name=_("name"))
+    weight = models.FloatField(default=1.0, verbose_name=_("weight"))
+    min_score = ScoreField(default=2, verbose_name=_("minimum score"))
+    max_score = ScoreField(default=6, verbose_name=_("maximum score"))
+    step = models.FloatField(default=0.5, verbose_name=_("step"))
+    required = models.BooleanField(default=True, verbose_name=_("required"))
+
+    class Meta:
+        constraints = [UniqueConstraint(fields=['tournament', 'seq'])]
+        ordering = ['tournament', 'seq']
+        verbose_name = _("cross-examination")
+        verbose_name_plural = _("cross-examinations")
+
+    def __str__(self):
+        return f"{self.tournament}: {self.name}"
+
+class CrossExaminationScore(models.Model):
+    ballot_submission = models.ForeignKey(BallotSubmission, models.CASCADE,
+        verbose_name=_("ballot submission"))
+    debate_team = models.ForeignKey('draw.DebateTeam', models.CASCADE,
+        verbose_name=_("debate team"))
+    cross_examination = models.ForeignKey(CrossExamination, models.CASCADE,
+        verbose_name=_("cross-examination"))
+    score = ScoreField(null=True, blank=True, verbose_name=_("score"))
+
+    class Meta:
+        constraints = [
+            UniqueConstraint(fields=['ballot_submission', 'debate_team', 'cross_examination']),
+        ]
+        indexes = [models.Index(fields=['ballot_submission', 'debate_team'])]
+        verbose_name = _("cross-examination score")
+        verbose_name_plural = _("cross-examination scores")
+
+    def __str__(self):
+        return ("[{0.ballot_submission_id}/{0.id}] {0.score} for {0.debate_team!s} in "
+            "{0.cross_examination!s}").format(self)
+
+    @property
+    def debate(self):
+        return self.debate_team.debate
+
+    def clean(self):
+        super().clean()
+        try:
+            if self.ballot_submission.debate != self.debate_team.debate:
+                raise ValidationError(_("The ballot submission and debate team must relate to the same debate."))
+            if self.cross_examination.tournament != self.ballot_submission.debate.round.tournament:
+                raise ValidationError(_("Cross-examination must be from the same tournament as this ballot submission."))
+        except ObjectDoesNotExist:
+            pass
+
+
+class CrossExaminationScoreByAdj(models.Model):
+    ballot_submission = models.ForeignKey(BallotSubmission, models.CASCADE,
+        verbose_name=_("ballot submission"))
+    debate_adjudicator = models.ForeignKey('adjallocation.DebateAdjudicator', models.CASCADE,
+        verbose_name=_("debate adjudicator"))
+    debate_team = models.ForeignKey('draw.DebateTeam', models.CASCADE,
+        verbose_name=_("debate team"))
+    cross_examination = models.ForeignKey(CrossExamination, models.CASCADE,
+        verbose_name=_("cross-examination"))
+    score = ScoreField(null=True, blank=True, verbose_name=_("score"))
+
+    class Meta:
+        constraints = [
+            UniqueConstraint(fields=['ballot_submission', 'debate_adjudicator', 'debate_team', 'cross_examination']),
+        ]
+        indexes = [models.Index(fields=['ballot_submission', 'debate_adjudicator'])]
+        verbose_name = _("cross-examination score by adjudicator")
+        verbose_name_plural = _("cross-examination scores by adjudicator")
+
+    def __str__(self):
+        return ("[{0.ballot_submission_id}/{0.id}] {0.score} for {0.debate_team!s} in "
+            "{0.cross_examination!s} from {0.debate_adjudicator!s}").format(self)
+
+    @property
+    def debate(self):
+        return self.debate_team.debate
+
+    def clean(self):
+        super().clean()
+        try:
+            if (
+                self.debate_team.debate != self.debate_adjudicator.debate or
+                self.debate_team.debate != self.ballot_submission.debate
+            ):
+                raise ValidationError(_("The debate team, debate adjudicator and ballot submission must all relate to the same debate."))
+            if self.cross_examination.tournament != self.ballot_submission.debate.round.tournament:
+                raise ValidationError(_("Cross-examination must be from the same tournament as this ballot submission."))
+        except ObjectDoesNotExist:
+            pass
 
 class ScoreCriterion(models.Model):
     """Score criterion for speaker score"""
+    class SpeechType(models.TextChoices):
+        ALL = 'all', _("All speeches")
+        SUBSTANTIVE = 'substantive', _("Substantive speeches")
+        REPLY = 'reply', _("Reply speeches")
+        CROSS = 'cross', _("Cross-examinations")
+
     tournament = models.ForeignKey(Tournament, models.CASCADE,
         verbose_name=_("tournament"))
     name = models.CharField(max_length=20,
@@ -411,6 +514,11 @@ class ScoreCriterion(models.Model):
     step = models.FloatField(verbose_name=_("step"))
     required = models.BooleanField(default=True,
         verbose_name="required")
+    speech_type = models.CharField(
+        max_length=20, choices=SpeechType.choices, default=SpeechType.ALL,
+        verbose_name=_("speech type"),
+    )
+
 
     class Meta:
         constraints = [UniqueConstraint(fields=['tournament', 'seq'])]
@@ -419,6 +527,23 @@ class ScoreCriterion(models.Model):
 
     def __str__(self):
         return ("{0.name} at {0.tournament}").format(self)
+
+    def applies_to_position(self, position, reply_position, using_replies):
+        if self.speech_type == self.SpeechType.ALL:
+            return True
+
+        is_reply_position = bool(using_replies) and reply_position is not None and position == reply_position
+
+        if self.speech_type == self.SpeechType.REPLY:
+            return is_reply_position
+
+        if self.speech_type == self.SpeechType.SUBSTANTIVE:
+            return not is_reply_position
+
+        if self.speech_type == self.SpeechType.CROSS:
+            return False
+
+        return True
 
 
 class SpeakerCriterionScore(models.Model):

@@ -194,3 +194,109 @@ class TestPolyScoresheets(unittest.TestCase):
             for position, score in zip(self.positions, scores_for_side):
                 self.assertEqual(scoresheet.get_score(side, position), score)
         self.assertEqual(scoresheet.is_valid(), len(testdata['ranks']) > 0)
+
+
+class CriterionStub:
+    def __init__(self, name, weight, speech_type):
+        self.name = name
+        self.weight = weight
+        self.speech_type = speech_type
+
+
+class TestSpeechTypeCriteria(unittest.TestCase):
+
+    def test_reply_and_substantive_criteria_are_scoped_by_position(self):
+        substantive = CriterionStub('substantive', 1, 'substantive')
+        reply = CriterionStub('reply', 1, 'reply')
+        scoresheet = HighPointWinsRequiredScoresheet(
+            positions=[1, 2, 3, 4],
+            criteria=[substantive, reply],
+            reply_position=4,
+            using_replies=True,
+        )
+
+        for side, substantive_score in ((DebateSide.AFF, 75), (DebateSide.NEG, 70)):
+            for pos in [1, 2, 3]:
+                scoresheet.set_criterion_score(side, pos, substantive, substantive_score)
+
+        scoresheet.set_criterion_score(DebateSide.AFF, 4, reply, 38)
+        scoresheet.set_criterion_score(DebateSide.NEG, 4, reply, 36)
+
+        # Non-applicable criteria should be ignored.
+        scoresheet.set_criterion_score(DebateSide.AFF, 4, substantive, 999)
+        scoresheet.set_criterion_score(DebateSide.AFF, 1, reply, 999)
+
+        self.assertEqual(scoresheet.get_score(DebateSide.AFF, 1), 75)
+        self.assertEqual(scoresheet.get_score(DebateSide.AFF, 4), 38)
+        self.assertEqual(scoresheet.get_total(DebateSide.AFF), 263)
+        self.assertEqual(scoresheet.get_total(DebateSide.NEG), 246)
+
+    def test_positions_without_criteria_use_direct_scores(self):
+        reply = CriterionStub('reply', 1, 'reply')
+        scoresheet = HighPointWinsRequiredScoresheet(
+            positions=[1, 2, 3, 4],
+            criteria=[reply],
+            reply_position=4,
+            using_replies=True,
+        )
+
+        for pos in [1, 2, 3]:
+            scoresheet.set_score(DebateSide.AFF, pos, 75)
+            scoresheet.set_score(DebateSide.NEG, pos, 74)
+
+        scoresheet.set_criterion_score(DebateSide.AFF, 4, reply, 38)
+        scoresheet.set_criterion_score(DebateSide.NEG, 4, reply, 37)
+
+        # Direct scores on a criterion-backed position should be ignored.
+        scoresheet.set_score(DebateSide.AFF, 4, 999)
+
+        self.assertEqual(scoresheet.get_score(DebateSide.AFF, 1), 75)
+        self.assertEqual(scoresheet.get_score(DebateSide.AFF, 4), 38)
+        self.assertIsNone(scoresheet.get_criterion_score(DebateSide.AFF, 1, reply))
+        self.assertEqual(scoresheet.get_total(DebateSide.AFF), 263)
+        self.assertEqual(scoresheet.get_total(DebateSide.NEG), 259)
+        self.assertTrue(scoresheet.is_complete())
+
+
+class CrossStub:
+    def __init__(self, weight=1, required=True):
+        self.weight = weight
+        self.required = required
+
+
+class TestCrossExaminationToggle(unittest.TestCase):
+
+    def test_crosses_do_not_auto_enable_from_cross_definitions_alone(self):
+        cross = CrossStub()
+        scoresheet = HighPointWinsRequiredScoresheet(
+            positions=[1, 2, 3],
+            crosses=[cross],
+        )
+
+        for side in (DebateSide.AFF, DebateSide.NEG):
+            for pos in [1, 2, 3]:
+                scoresheet.set_score(side, pos, 75)
+
+        self.assertFalse(scoresheet.using_cross_examinations)
+        self.assertTrue(scoresheet.is_complete())
+        self.assertEqual(scoresheet.get_total(DebateSide.AFF), 225)
+
+    def test_crosses_only_apply_when_explicitly_enabled(self):
+        cross = CrossStub(weight=2)
+        scoresheet = HighPointWinsRequiredScoresheet(
+            positions=[1, 2, 3],
+            crosses=[cross],
+            using_cross_examinations=True,
+        )
+
+        for side in (DebateSide.AFF, DebateSide.NEG):
+            for pos in [1, 2, 3]:
+                scoresheet.set_score(side, pos, 75)
+
+        scoresheet.set_cross_score(DebateSide.AFF, cross, 4)
+        scoresheet.set_cross_score(DebateSide.NEG, cross, 3)
+
+        self.assertTrue(scoresheet.using_cross_examinations)
+        self.assertTrue(scoresheet.is_complete())
+        self.assertEqual(scoresheet.get_total(DebateSide.AFF), 233)
+        self.assertEqual(scoresheet.get_total(DebateSide.NEG), 231)

@@ -6,12 +6,14 @@ given in the debate. They do not deal with metadata (like motions), only scores
 and results. These classes track team and speaker identities, so that they can
 save them to the database.
 
-These classes never read TeamScore instances. When loading existing results,
-they rely on scoresheets, which in turn rely on SpeakerScoreByAdj (for voting
-decisions), SpeakerScore (for consensus decisions), and TeamScoreByAdj (for
-declared winner decisions) to calculate results. However, these classes do
-*save* TeamScore objects, overwriting existing objects if necessary, so that
-other parts of Tabbycat (e.g., standings) don't have to recalculate them.
+These classes generally avoid reading TeamScore instances. When loading existing
+results, they rely on scoresheets, which in turn rely on SpeakerScoreByAdj (for
+voting decisions), SpeakerScore (for consensus decisions), and TeamScoreByAdj
+(for declared winner decisions) to calculate results. In cross-examination
+fallback mode (crosses enabled but no cross criteria configured), they also
+reconstruct cross totals from stored team totals. These classes *save* TeamScore
+objects, overwriting existing objects if necessary, so that other parts of
+Tabbycat (e.g., standings) don't have to recalculate them.
 
 A debate result class is associated with a ballot submission, not a debate. This
 allows multiple versions of the result to be retained for a single debate, which
@@ -93,7 +95,119 @@ def get_result_class(ballotsub, round=None, tournament=None, overwrite_forfeit=F
 
 
 def get_class_name(ballotsub, round, tournament=None, overwrite_forfeit=False):
+    if ballotsub.debate.is_bye:
+        return ByeDebateResult.__name__
     return get_result_class(ballotsub, round, tournament, overwrite_forfeit).__name__
+
+
+class ByeDebateResult:
+    """Lightweight result wrapper for synthetic bye ballots.
+
+    Bye debates don't go through normal ballot entry, but a few parts of the app
+    still expect `ballotsub.result` to exist and be safe to inspect.
+    """
+
+    is_voting = False
+    uses_declared_winners = False
+    uses_speakers = True
+
+    def __init__(self, ballotsub, load=True, **kwargs):
+        self.ballotsub = ballotsub
+        self.debate = ballotsub.debate
+        self.tournament = self.debate.round.tournament
+        self.sides = [DebateSide.BYE]
+        self.positions = list(self.tournament.positions)
+        self.debateteams = {DebateSide.BYE: None}
+        self.speakers = {DebateSide.BYE: dict.fromkeys(self.positions, None)}
+        self.ghosts = {DebateSide.BYE: dict.fromkeys(self.positions, False)}
+        self.scores = {DebateSide.BYE: dict.fromkeys(self.positions, None)}
+        self._team_score = None
+
+        if load:
+            self.load_from_db()
+
+    def __repr__(self):
+        return "<{classname} at {id:#x} for {bsub!s}>".format(
+            classname=self.__class__.__name__, id=id(self), bsub=self.ballotsub)
+
+    def load_from_db(self):
+        debateteam = self.debate.debateteam_set.filter(side=DebateSide.BYE).select_related('team').first()
+        self.debateteams[DebateSide.BYE] = debateteam
+        if debateteam is None:
+            return
+
+        for speakerscore in self.ballotsub.speakerscore_set.filter(
+            debate_team=debateteam,
+            position__in=self.positions,
+        ).select_related('speaker'):
+            self.speakers[DebateSide.BYE][speakerscore.position] = speakerscore.speaker
+            self.ghosts[DebateSide.BYE][speakerscore.position] = speakerscore.ghost
+            self.scores[DebateSide.BYE][speakerscore.position] = speakerscore.score
+
+        self._team_score = self.ballotsub.teamscore_set.filter(
+            debate_team=debateteam,
+        ).values_list('score', flat=True).first()
+
+    def is_complete(self):
+        return self.debateteams[DebateSide.BYE] is not None
+
+    def is_valid(self):
+        return self.is_complete()
+
+    def identical(self, other):
+        return (
+            hasattr(other, 'debateteams') and
+            self.debateteams == other.debateteams and
+            getattr(other, 'speakers', None) == self.speakers and
+            getattr(other, 'ghosts', None) == self.ghosts and
+            getattr(other, 'scores', None) == self.scores and
+            getattr(other, '_team_score', None) == self._team_score
+        )
+
+    def save(self):
+        raise ResultError("Bye ballots are managed automatically.")
+
+    def winning_side(self):
+        return DebateSide.BYE
+
+    def winning_dt(self):
+        return self.debateteams[DebateSide.BYE]
+
+    def winning_team(self):
+        debateteam = self.winning_dt()
+        return debateteam.team if debateteam is not None else None
+
+    def losing_dt(self):
+        return None
+
+    def get_speaker(self, side, position):
+        return self.speakers[side].get(position)
+
+    def get_score(self, side, position):
+        return self.scores[side].get(position)
+
+    def as_dicts(self):
+        debateteam = self.winning_dt()
+        if debateteam is None:
+            return iter(())
+
+        speakers = []
+        for pos in self.positions:
+            speakers.append({
+                'pos': pos,
+                'name': _('Reply') if pos == self.tournament.reply_position else str(pos),
+                'speaker': self.get_speaker(DebateSide.BYE, pos),
+                'score': self.get_score(DebateSide.BYE, pos),
+                'rank': None,
+            })
+
+        return iter([{'teams': [{
+            'side': _('Bye'),
+            'team': debateteam.team,
+            'total': self._team_score,
+            'speakers': speakers,
+            'using_cross_examinations': False,
+        }]}])
 
 
 def is_integer_step(tournament: 'Tournament', ss: Union['SpeakerScore', 'SpeakerScoreByAdj']) -> bool:
@@ -116,11 +230,32 @@ def DebateResult(ballotsub, *args, **kwargs):  # noqa: N802 (factory function)
     of the returned instance. The caller can do so by checking the `.is_voting`
     attribute of the returned instance.
     """
+    if ballotsub.debate.is_bye:
+        return ByeDebateResult(ballotsub, *args, **kwargs)
+
     r = kwargs.pop('round', ballotsub.debate.round)
     tournament = kwargs.pop('tournament', r.tournament)
     result_class = get_result_class(ballotsub, r, tournament)
     if result_class.uses_speakers and 'criteria' not in kwargs:
         kwargs['criteria'] = tournament.scorecriterion_set.all()
+
+    crosses = []
+    if result_class.uses_speakers and tournament.pref('teams_in_debate') == 2:
+        if 'crosses' in kwargs:
+            crosses = list(kwargs['crosses'])
+        else:
+            crosses = list(tournament.crossexamination_set.order_by('seq'))
+
+    crosses_enabled = (
+        result_class.uses_speakers and
+        tournament.pref('teams_in_debate') == 2 and
+        tournament.pref('cross_examinations_enabled')
+    )
+    if result_class.uses_speakers and 'crosses' not in kwargs and crosses_enabled:
+        kwargs['crosses'] = crosses
+    if result_class.uses_speakers and 'using_cross_examinations' not in kwargs:
+        kwargs['using_cross_examinations'] = crosses_enabled
+
     return result_class(ballotsub, *args, **kwargs)
 
 
@@ -385,6 +520,18 @@ class BaseDebateResult:
 
             self.speakers_as_dicts(sheet, side_dict, side, pos_names)
 
+            if getattr(sheet, 'using_cross_examinations', False):
+                side_dict['using_cross_examinations'] = True
+                side_dict.setdefault('crosses', [])
+                for cross in getattr(sheet, 'crosses', []):
+                    side_dict['crosses'].append({
+                        'name': cross.name,
+                        'score': sheet.get_cross_score(side, cross),
+                    })
+                side_dict['cross_total'] = sheet.get_cross_total(side)
+            else:
+                side_dict.setdefault('using_cross_examinations', False)
+
             teams.append(side_dict)
         return teams
 
@@ -454,8 +601,12 @@ class DebateResultByAdjudicator(BaseDebateResult):
         self.scoresheets = {adj: self.scoresheet_class(
             sides=self.sides,
             positions=getattr(self, 'positions', None),
-            criteria=getattr(self, 'criteria', [])) for adj in self.debateadjs.keys()
-        }
+            criteria=getattr(self, 'criteria', []),
+            reply_position=self.tournament.reply_position,
+            using_replies=self.tournament.pref('reply_scores_enabled'),
+            crosses=getattr(self, 'crosses', []),
+            using_cross_examinations=getattr(self, 'using_cross_examinations', False),
+        ) for adj in self.debateadjs.keys()}
 
     def load_scoresheets(self):
         if not self.scoresheet_class.uses_declared_winners:
@@ -515,6 +666,24 @@ class DebateResultByAdjudicator(BaseDebateResult):
     def set_winners(self, adjudicator, winners):
         self.scoresheets[adjudicator].set_declared_winners(winners)
 
+    def _adj_weight(self, adj):
+        panel_size = len(self.debateadjs)
+
+        if panel_size == 1:
+            return 3
+
+        if panel_size == 2:
+            da = self.debateadjs[adj]
+            return 2 if da.type == DebateAdjudicator.TYPE_CHAIR else 1
+
+        return 1
+
+    def _weighted_votes(self, adjs):
+        return sum(self._adj_weight(adj) for adj in adjs)
+
+    def _weighted_sum(self, adjs, func):
+        return sum(self._adj_weight(adj) * func(adj) for adj in adjs)
+
     # --------------------------------------------------------------------------
     # Decision calculation
     # --------------------------------------------------------------------------
@@ -557,8 +726,8 @@ class DebateResultByAdjudicator(BaseDebateResult):
             winner = self.get_winner(adj)
             self._adjs_by_side[winner].add(adj)
 
-        votes_aff = len(self._adjs_by_side[DebateSide.AFF])
-        votes_neg = len(self._adjs_by_side[DebateSide.NEG])
+        votes_aff = self._weighted_votes(self._adjs_by_side[DebateSide.AFF])
+        votes_neg = self._weighted_votes(self._adjs_by_side[DebateSide.NEG])
 
         if votes_aff > votes_neg:
             self._winner = DebateSide.AFF
@@ -580,6 +749,9 @@ class DebateResultByAdjudicator(BaseDebateResult):
             return self.scoresheets.keys()
         else:
             return self.majority_adjudicators()
+
+    def scoring_adjudicators(self):
+        return self.scoresheets.keys()
 
     def winning_side(self):
         return self._winner
@@ -610,10 +782,10 @@ class DebateResultByAdjudicator(BaseDebateResult):
 
     @_requires_decision(None)
     def teamscore_field_votes_given(self, side):
-        return len(self._adjs_by_side[side])
+        return self._weighted_votes(self._adjs_by_side[side])
 
     def teamscore_field_votes_possible(self, side):
-        return len(self.scoresheets)
+        return self._weighted_votes(self.scoresheets.keys())
 
     def teamscore_field_has_ghost(self, side):
         return False
@@ -667,11 +839,16 @@ class DebateResultWithScoresMixin:
     uses_declared_winners = False
     uses_speakers = True
 
-    def __init__(self, ballotsub, load=True, criteria=[], **kwargs):
+    def __init__(self, ballotsub, load=True, criteria=None, crosses=None, **kwargs):
         super().__init__(ballotsub, load=False, **kwargs)
+        self.using_cross_examinations = kwargs.pop(
+            'using_cross_examinations',
+            self.tournament.pref('teams_in_debate') == 2 and self.tournament.pref('cross_examinations_enabled'),
+        )
 
         self.positions = self.tournament.positions
         self.criteria = criteria or []
+        self.crosses = list(crosses or [])
 
         if load:
             if self.ballotsub.id is None:
@@ -762,6 +939,16 @@ class DebateResultWithScoresMixin:
             self.speakers[ss.debate_team.side][ss.position] = ss.speaker
             self.ghosts[ss.debate_team.side][ss.position] = ss.ghost
 
+    def criteria_for_position(self, position):
+        return [
+            criterion for criterion in self.criteria
+            if not hasattr(criterion, 'applies_to_position') or criterion.applies_to_position(
+                position,
+                self.tournament.reply_position,
+                self.tournament.pref('reply_scores_enabled'),
+            )
+        ]
+
     def save(self):
         super().save()
 
@@ -770,7 +957,7 @@ class DebateResultWithScoresMixin:
             for pos in self.positions:
                 speaker_score, _ = self.ballotsub.speakerscore_set.update_or_create(debate_team=dt,
                     position=pos, defaults=self.get_defaults_fields('speakerscore', side, pos))
-                for criterion in self.criteria:
+                for criterion in self.criteria_for_position(pos):
                     speaker_score.speakercriterionscore_set.update_or_create(
                         criterion=criterion, defaults=self.get_defaults_fields('speakercriterionscore', side, pos, criterion))
 
@@ -845,12 +1032,20 @@ class DebateResultWithScoresMixin:
 
     def speakers_as_dicts(self, sheet, side_dict, side, pos_names):
         for pos, pos_name in zip(self.positions, pos_names):
+            criteria = []
+            for criterion in getattr(sheet, 'criteria_by_position', {}).get(pos, []):
+                criteria.append({
+                    "name": criterion.name,
+                    "score": sheet.get_criterion_score(side, pos, criterion),
+                })
+
             side_dict["speakers"].append({
                 "pos": pos,
                 "name": pos_name,
                 "speaker": self.get_speaker(side, pos),
                 "score": sheet.get_score(side, pos),
                 "rank": sheet.get_speaker_rank(side, pos),
+                "criteria": criteria,
             })
 
 
@@ -859,7 +1054,15 @@ class ConsensusDebateResult(BaseDebateResult):
 
     def init_blank_buffer(self):
         super().init_blank_buffer()
-        self.scoresheet = self.scoresheet_class(sides=self.sides, positions=getattr(self, 'positions', None), criteria=getattr(self, 'criteria', []))
+        self.scoresheet = self.scoresheet_class(
+            sides=self.sides,
+            positions=getattr(self, 'positions', None),
+            criteria=getattr(self, 'criteria', []),
+            reply_position=self.tournament.reply_position,
+            using_replies=self.tournament.pref('reply_scores_enabled'),
+            crosses=getattr(self, 'crosses', []),
+            using_cross_examinations=getattr(self, 'using_cross_examinations', False),
+        )
         if self.scoresheet_class is PolyEliminationScoresheet and self.debate.round.is_last:
             self.scoresheet.number_winners = 1
 
@@ -962,6 +1165,12 @@ class ConsensusDebateResult(BaseDebateResult):
             if key == 'scores':
                 self.set_score(side, pos, None)
 
+            if key == 'cross_scores':
+                self.set_cross_score(side, pos, None)
+
+            if key == 'cross_total':
+                self.set_cross_total(side, None)
+
             if key == 'speaker_ranks':
                 self.set_speaker_rank(side, pos, None)
 
@@ -1023,13 +1232,72 @@ class ConsensusDebateResultWithScores(DebateResultWithScoresMixin, ConsensusDeba
                 self.set_score(ss.debate_team.side, ss.position, score)
             self.set_speaker_rank(ss.debate_team.side, ss.position, ss.rank)
 
+        cross_scores = self.ballotsub.crossexaminationscore_set.filter(
+            debate_team__side__in=self.sides,
+            cross_examination__in=self.crosses,
+        ).select_related('debate_team', 'cross_examination')
+
+        for cross_score in cross_scores:
+            score = cross_score.score
+            if score is not None and int(score) == score:
+                score = int(score)
+            self.set_cross_score(cross_score.debate_team.side, cross_score.cross_examination, score)
+
+        if self.using_cross_examinations and not self.crosses:
+            self._load_cross_totals_from_team_scores()
+
     def set_score(self, side, position, score):
         self.scoresheet.set_score(side, position, score)
+
+    def get_cross_score(self, side, cross):
+        return self.scoresheet.get_cross_score(side, cross)
+
+    def set_cross_score(self, side, cross, score):
+        self.scoresheet.set_cross_score(side, cross, score)
+
+    def get_cross_total(self, side):
+        return self.scoresheet.get_cross_total(side)
+
+    def set_cross_total(self, side, score):
+        self.scoresheet.set_cross_total(side, score)
+
+    def _speech_total_component(self, side):
+        if self.tournament.pref('teamscore_includes_ghosts'):
+            positions = self.positions
+        else:
+            positions = [pos for pos in self.positions if not self.get_ghost(side, pos)]
+
+        speech_total = 0.0
+        for pos in positions:
+            score = self.get_score(side, pos)
+            if score is None:
+                return None
+            speech_total += float(score)
+        return speech_total
+
+    def _load_cross_totals_from_team_scores(self):
+        teamscores = self.ballotsub.teamscore_set.filter(
+            debate_team__side__in=self.sides,
+        ).select_related('debate_team')
+
+        for teamscore in teamscores:
+            if teamscore.score is None:
+                continue
+
+            side = teamscore.debate_team.side
+            speech_total = self._speech_total_component(side)
+            if speech_total is None:
+                continue
+
+            cross_total = teamscore.score - speech_total
+            if int(cross_total) == cross_total:
+                cross_total = int(cross_total)
+            self.set_cross_total(side, cross_total)
 
     def merge_speaker_result(self, result: BaseDebateResult) -> list[ResultError]:
         errors = self.merge_speaker_order(result)
         for side, pos in product(self.sides, self.positions):
-            for criterion in self.criteria:
+            for criterion in self.scoresheet.criteria_by_position.get(pos, []):
                 if self.get_criterion_score(side, pos, criterion) is None:
                     self.set_criterion_score(side, pos, criterion, result.get_criterion_score(side, pos, criterion))
                 elif self.get_criterion_score(side, pos, criterion) != result.get_criterion_score(side, pos, criterion):
@@ -1044,6 +1312,21 @@ class ConsensusDebateResultWithScores(DebateResultWithScoresMixin, ConsensusDeba
                 self.set_speaker_rank(side, pos, result.get_speaker_rank(side, pos))
             elif self.get_speaker_rank(side, pos) != result.get_speaker_rank(side, pos):
                 errors.append(ResultError(_('Speech ranks are not identical'), 'speaker_ranks', side, pos))
+
+        if self.crosses:
+            for side in self.sides:
+                for cross in self.crosses:
+                    if self.get_cross_score(side, cross) is None:
+                        self.set_cross_score(side, cross, result.get_cross_score(side, cross))
+                    elif self.get_cross_score(side, cross) != result.get_cross_score(side, cross):
+                        errors.append(ResultError(_('Cross-examination scores are not identical'), 'cross_scores', side, cross))
+        elif self.using_cross_examinations:
+            for side in self.sides:
+                if self.get_cross_total(side) is None:
+                    self.set_cross_total(side, result.get_cross_total(side))
+                elif self.get_cross_total(side) != result.get_cross_total(side):
+                    errors.append(ResultError(_('Cross-examination totals are not identical'), 'cross_total', side, None))
+
         return errors
 
     def get_speaker_rank(self, side: str, position: int) -> int:
@@ -1057,6 +1340,18 @@ class ConsensusDebateResultWithScores(DebateResultWithScoresMixin, ConsensusDeba
 
     def set_criterion_score(self, side, pos, criterion, score):
         self.scoresheet.set_criterion_score(side, pos, criterion, score)
+
+    def save(self):
+        super().save()
+
+        for side in self.sides:
+            dt = self.debateteams[side]
+            for cross in self.crosses:
+                self.ballotsub.crossexaminationscore_set.update_or_create(
+                    debate_team=dt,
+                    cross_examination=cross,
+                    defaults={'score': self.get_cross_score(side, cross)},
+                )
 
     # --------------------------------------------------------------------------
     # Model fields
@@ -1072,7 +1367,12 @@ class ConsensusDebateResultWithScores(DebateResultWithScoresMixin, ConsensusDeba
     def teamscore_field_score(self, side):
         if self.tournament.pref('teamscore_includes_ghosts'):
             return self.scoresheet.get_total(side)
-        return sum(self.get_score(side, pos) for pos in self.positions if not self.get_ghost(side, pos))
+
+        speech_total = sum(self.get_score(side, pos) for pos in self.positions if not self.get_ghost(side, pos))
+        cross_total = self.scoresheet.get_cross_total(side)
+        if cross_total is None:
+            return None
+        return speech_total + cross_total
 
     def teamscore_field_has_ghost(self, side):
         return any(self.ghosts[side].values())
@@ -1110,14 +1410,43 @@ class DebateResultByAdjudicatorWithScores(DebateResultWithScoresMixin, DebateRes
                 self.set_score(ssba.debate_adjudicator.adjudicator,
                                ssba.debate_team.side, ssba.position, score)
 
+        cross_scores_by_adj = self.ballotsub.crossexaminationscorebyadj_set.filter(
+            debate_adjudicator__in=self.debateadjs_query,
+            debate_team__side__in=self.sides,
+            cross_examination__in=self.crosses,
+        ).select_related('debate_adjudicator__adjudicator', 'debate_team', 'cross_examination')
+
+        for cross_score in cross_scores_by_adj:
+            score = cross_score.score
+            if score is not None and int(score) == score:
+                score = int(score)
+            self.set_cross_score(
+                cross_score.debate_adjudicator.adjudicator,
+                cross_score.debate_team.side,
+                cross_score.cross_examination,
+                score,
+            )
+
+        if self.using_cross_examinations and not self.crosses:
+            self._load_cross_totals_from_team_scores_by_adj()
+
     def merge_speaker_result(self, result: BaseDebateResult, adj: 'Adjudicator') -> list[ResultError]:
         errors = self.merge_speaker_order(result)
         for side, pos in product(self.sides, self.positions):
-            if self.criteria:
-                for criterion in self.criteria:
+            position_criteria = self.scoresheets[adj].criteria_by_position.get(pos, [])
+            if position_criteria:
+                for criterion in position_criteria:
                     self.set_criterion_score(adj, side, pos, criterion, result.get_criterion_score(side, pos, criterion))
             else:
                 self.set_score(adj, side, pos, result.get_score(side, pos))
+
+        for side in self.sides:
+            if self.crosses:
+                for cross in self.crosses:
+                    self.set_cross_score(adj, side, cross, result.get_cross_score(side, cross))
+            elif self.using_cross_examinations:
+                self.set_cross_total(adj, side, result.get_cross_total(side))
+
         return errors
 
     def save(self):
@@ -1131,9 +1460,17 @@ class DebateResultByAdjudicatorWithScores(DebateResultWithScoresMixin, DebateRes
                     speaker_score_by_adj, _ = self.ballotsub.speakerscorebyadj_set.update_or_create(
                         debate_team=dt, debate_adjudicator=da, position=pos,
                         defaults=self.get_defaults_fields('speakerscorebyadj', adj, side, pos))
-                    for criterion in self.criteria:
+                    for criterion in sheet.criteria_by_position.get(pos, []):
                         speaker_score_by_adj.speakercriterionscorebyadj_set.update_or_create(
                             criterion=criterion, defaults=self.get_defaults_fields('speakercriterionscorebyadj', adj, side, pos, criterion))
+
+                for cross in self.crosses:
+                    self.ballotsub.crossexaminationscorebyadj_set.update_or_create(
+                        debate_team=dt,
+                        debate_adjudicator=da,
+                        cross_examination=cross,
+                        defaults={'score': self.get_cross_score(adj, side, cross)},
+                    )
 
     def set_score(self, adjudicator, side, position, score):
         try:
@@ -1142,6 +1479,53 @@ class DebateResultByAdjudicatorWithScores(DebateResultWithScoresMixin, DebateRes
             logger.exception("Tried to set score by adjudicator %s, but this adjudicator "
                 "doesn't have a scoresheet.", adjudicator)
             return
+
+    def get_cross_score(self, adjudicator, side, cross):
+        return self.scoresheets[adjudicator].get_cross_score(side, cross)
+
+    def set_cross_score(self, adjudicator, side, cross, score):
+        self.scoresheets[adjudicator].set_cross_score(side, cross, score)
+
+    def get_cross_total(self, adjudicator, side):
+        return self.scoresheets[adjudicator].get_cross_total(side)
+
+    def set_cross_total(self, adjudicator, side, score):
+        self.scoresheets[adjudicator].set_cross_total(side, score)
+
+    def _speech_total_component(self, adjudicator, side):
+        if self.tournament.pref('teamscore_includes_ghosts'):
+            positions = self.positions
+        else:
+            positions = [pos for pos in self.positions if not self.get_ghost(side, pos)]
+
+        speech_total = 0.0
+        for pos in positions:
+            score = self.get_score(adjudicator, side, pos)
+            if score is None:
+                return None
+            speech_total += float(score)
+        return speech_total
+
+    def _load_cross_totals_from_team_scores_by_adj(self):
+        teamscores_by_adj = self.ballotsub.teamscorebyadj_set.filter(
+            debate_adjudicator__in=self.debateadjs_query,
+            debate_team__side__in=self.sides,
+        ).select_related('debate_adjudicator__adjudicator', 'debate_team')
+
+        for teamscore in teamscores_by_adj:
+            if teamscore.score is None:
+                continue
+
+            adjudicator = teamscore.debate_adjudicator.adjudicator
+            side = teamscore.debate_team.side
+            speech_total = self._speech_total_component(adjudicator, side)
+            if speech_total is None:
+                continue
+
+            cross_total = teamscore.score - speech_total
+            if int(cross_total) == cross_total:
+                cross_total = int(cross_total)
+            self.set_cross_total(adjudicator, side, cross_total)
 
     def get_speaker_rank(self, adjudicator: 'Adjudicator', side: str, position: int) -> int:
         return self.scoresheets[adjudicator].get_speaker_rank(side, position)
@@ -1161,7 +1545,29 @@ class DebateResultByAdjudicatorWithScores(DebateResultWithScoresMixin, DebateRes
     def _teamscore_score_component(self, adj, side):
         if self.tournament.pref('teamscore_includes_ghosts'):
             return self.scoresheets[adj].get_total(side)
-        return sum(self.get_score(adj, side, pos) for pos in self.positions if not self.get_ghost(side, pos))
+
+        speech_total = sum(self.get_score(adj, side, pos) for pos in self.positions if not self.get_ghost(side, pos))
+        cross_total = self.scoresheets[adj].get_cross_total(side)
+        if cross_total is None:
+            return None
+        return speech_total + cross_total
+
+    def _teamscore_margin_component(self, side):
+        if not self.is_complete():
+            return None
+        if not self._decision_calculated and len(self.sides) == 2:
+            self._calculate_decision()
+        return self._weighted_sum(
+            self.relevant_adjudicators(),
+            lambda adj: self._teamscore_score_component(adj, side),
+        )
+
+    def teamscore_field_margin(self, side):
+        if len(self.sides) > 2:
+            return None
+        aff_total = self._teamscore_margin_component(DebateSide.AFF)
+        neg_total = self._teamscore_margin_component(DebateSide.NEG)
+        return self.calculate_margin(side, aff_total, neg_total)
 
     def teamscore_field_score(self, side):
         # Should be decision-decorated
@@ -1169,7 +1575,10 @@ class DebateResultByAdjudicatorWithScores(DebateResultWithScoresMixin, DebateRes
             return None
         if not self._decision_calculated and len(self.sides) == 2:
             self._calculate_decision()
-        return mean(self._teamscore_score_component(adj, side) for adj in self.relevant_adjudicators())
+        return self._weighted_sum(
+            self.scoring_adjudicators(),
+            lambda adj: self._teamscore_score_component(adj, side),
+        )
 
     def teamscore_field_has_ghost(self, side):
         return any(self.ghosts[side].values())
@@ -1179,20 +1588,24 @@ class DebateResultByAdjudicatorWithScores(DebateResultWithScoresMixin, DebateRes
     get_score = speakerscorebyadj_field_score
 
     def speakerscore_field_score(self, side, position):
-        # Should be decision-decorated
         if not self.is_complete():
             return None
         if not self._decision_calculated and len(self.sides) == 2:
             self._calculate_decision()
-        return mean(self.scoresheets[adj].get_score(side, position) for adj in self.relevant_adjudicators())
+        return self._weighted_sum(
+            self.scoring_adjudicators(),
+            lambda adj: self.scoresheets[adj].get_score(side, position),
+        )
 
     def speakercriterionscore_field_score(self, side, pos, criterion):
-        # Should be decision-decorated
         if not self.is_complete():
             return None
         if not self._decision_calculated:
             self._calculate_decision()
-        return mean(self.scoresheets[adj].get_criterion_score(side, pos, criterion) for adj in self.relevant_adjudicators())
+        return self._weighted_sum(
+            self.scoring_adjudicators(),
+            lambda adj: self.scoresheets[adj].get_criterion_score(side, pos, criterion),
+        )
 
     def speakercriterionscorebyadj_field_score(self, adjudicator, side, pos, criterion):
         return self.scoresheets[adjudicator].get_criterion_score(side, pos, criterion)
@@ -1211,3 +1624,4 @@ class DebateResultByAdjudicatorWithScores(DebateResultWithScoresMixin, DebateRes
         aff_total = self.teamscorebyadj_field_score(adj, DebateSide.AFF)
         neg_total = self.teamscorebyadj_field_score(adj, DebateSide.NEG)
         self.calculate_margin(side, aff_total, neg_total)
+

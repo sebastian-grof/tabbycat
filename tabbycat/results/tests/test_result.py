@@ -391,7 +391,7 @@ class TestVotingDebateResultWithScores(GeneralSpeakerTestsMixin, BaseTestDebateR
             'majority_margins': [-0.5, 0.5],
             'majority_scores': [[74.0, 76.0, 37.5], [74.0, 77.0, 37.0]],
             'majority_totals': [187.5, 188.0],
-            'num_adjs_for_team': [0, 1],
+            'num_adjs_for_team': [0, 3],
             'sheets_valid': [True],
             'valid': True,
             'winner': DebateSide.NEG,
@@ -401,7 +401,7 @@ class TestVotingDebateResultWithScores(GeneralSpeakerTestsMixin, BaseTestDebateR
             'majority_margins': [-0.5, 0.5],
             'majority_scores': [[74.0, 76.0, 37.5], [74.0, 77.0, 37.0]],
             'majority_totals': [187.5, 188.0],
-            'num_adjs_for_team': [0, 1],
+            'num_adjs_for_team': [0, 3],
             'sheets_valid': [True],
             'valid': True,
             'winner': DebateSide.NEG,
@@ -411,7 +411,7 @@ class TestVotingDebateResultWithScores(GeneralSpeakerTestsMixin, BaseTestDebateR
             'majority_margins': [-0.5, 0.5],
             'majority_scores': [[74.0, 76.0, 37.5], [74.0, 77.0, 37.0]],
             'majority_totals': [187.5, 188.0],
-            'num_adjs_for_team': [0, 1],
+            'num_adjs_for_team': [0, 3],
             'sheets_valid': [True],
             'valid': True,
             'winner': DebateSide.NEG,
@@ -429,7 +429,7 @@ class TestVotingDebateResultWithScores(GeneralSpeakerTestsMixin, BaseTestDebateR
             'majority_margins': [-4.5, 4.5],
             'majority_scores': [[80.0, 74.0, 35.5], [79.0, 76.0, 39.0]],
             'majority_totals': [189.5, 194.0],
-            'num_adjs_for_team': [1, 1],
+            'num_adjs_for_team': [1, 2],
             'sheets_valid': [True, True],
             'valid': True,
             'winner': DebateSide.NEG,
@@ -442,7 +442,7 @@ class TestVotingDebateResultWithScores(GeneralSpeakerTestsMixin, BaseTestDebateR
             'majority_margins': [-4.5, 4.5],
             'majority_scores': [[80.0, 74.0, 35.5], [79.0, 76.0, 39.0]],
             'majority_totals': [189.5, 194.0],
-            'num_adjs_for_team': [1, 1],
+            'num_adjs_for_team': [1, 2],
             'sheets_valid': [True, True],
             'valid': True,
             'winner': DebateSide.NEG,
@@ -454,7 +454,7 @@ class TestVotingDebateResultWithScores(GeneralSpeakerTestsMixin, BaseTestDebateR
             'majority_margins': [-4.5, 4.5],
             'majority_scores': [[80.0, 74.0, 35.5], [79.0, 76.0, 39.0]],
             'majority_totals': [189.5, 194.0],
-            'num_adjs_for_team': [1, 1],
+            'num_adjs_for_team': [1, 2],
             'sheets_valid': [True, True],
             'valid': True,
             'winner': DebateSide.NEG,
@@ -471,6 +471,36 @@ class TestVotingDebateResultWithScores(GeneralSpeakerTestsMixin, BaseTestDebateR
         if result.uses_declared_winners:
             for adj, declared_winner in zip(self.adjs, testdata['input']['declared_winners']):
                 result.add_winner(adj, declared_winner)
+
+    def _adj_weight(self, testdata, adj_index):
+        panel_size = testdata['num_adjs']
+
+        if panel_size == 1:
+            return 3
+
+        if panel_size == 2:
+            return 2 if adj_index == 0 else 1
+
+        return 1
+
+    def _weighted_score(self, testdata, side, pos, adj_indices):
+        side_index = self.SIDES.index(side)
+        return sum(
+            testdata['input']['scores'][adj_index][side_index][pos - 1] * self._adj_weight(testdata, adj_index)
+            for adj_index in adj_indices
+        )
+
+    def _weighted_total(self, testdata, side, adj_indices):
+        side_index = self.SIDES.index(side)
+        return sum(
+            sum(testdata['input']['scores'][adj_index][side_index]) * self._adj_weight(testdata, adj_index)
+            for adj_index in adj_indices
+        )
+
+    def _weighted_margin(self, testdata, side, adj_indices):
+        aff_total = self._weighted_total(testdata, DebateSide.AFF, adj_indices)
+        neg_total = self._weighted_total(testdata, DebateSide.NEG, adj_indices)
+        return aff_total - neg_total if side == DebateSide.AFF else neg_total - aff_total
 
     # ==========================================================================
     # Normal operation
@@ -517,8 +547,11 @@ class TestVotingDebateResultWithScores(GeneralSpeakerTestsMixin, BaseTestDebateR
     @with_preference('scoring', 'margin_includes_dissenters', False)
     @standard_test
     def test_speaker_scores_majority(self, result, testdata, scoresheet_type):
-        for side, totals in zip(self.SIDES, testdata[scoresheet_type]['majority_scores']):
-            for pos, score in enumerate(totals, start=1):
+        adj_indices = range(testdata['num_adjs'])
+        for side in self.SIDES:
+            num_positions = len(testdata['input']['scores'][0][self.SIDES.index(side)])
+            for pos in range(1, num_positions + 1):
+                score = self._weighted_score(testdata, side, pos, adj_indices)
                 with suppress_logs('results.result', logging.WARNING):
                     self.assertAlmostEqual(score, self._get_speakerscore_in_db(side, pos).score)
                     self.assertAlmostEqual(score, result.speakerscore_field_score(side, pos))
@@ -526,8 +559,11 @@ class TestVotingDebateResultWithScores(GeneralSpeakerTestsMixin, BaseTestDebateR
     @with_preference('scoring', 'margin_includes_dissenters', True)
     @standard_test
     def test_speaker_scores_everyone(self, result, testdata, scoresheet_type):
-        for side, totals in zip(self.SIDES, testdata['common']['everyone_scores']):
-            for pos, score in enumerate(totals, start=1):
+        adj_indices = range(testdata['num_adjs'])
+        for side in self.SIDES:
+            num_positions = len(testdata['input']['scores'][0][self.SIDES.index(side)])
+            for pos in range(1, num_positions + 1):
+                score = self._weighted_score(testdata, side, pos, adj_indices)
                 with suppress_logs('results.result', logging.WARNING):
                     self.assertAlmostEqual(score, self._get_speakerscore_in_db(side, pos).score)
                     self.assertAlmostEqual(score, result.speakerscore_field_score(side, pos))
@@ -555,7 +591,9 @@ class TestVotingDebateResultWithScores(GeneralSpeakerTestsMixin, BaseTestDebateR
     @with_preference('scoring', 'margin_includes_dissenters', False)
     @standard_test
     def test_teamscore_field_score_majority(self, result, testdata, scoresheet_type):
-        for side, total in zip(self.SIDES, testdata[scoresheet_type]['majority_totals']):
+        adj_indices = range(testdata['num_adjs'])
+        for side in self.SIDES:
+            total = self._weighted_total(testdata, side, adj_indices)
             with suppress_logs('results.result', logging.WARNING):
                 self.assertAlmostEqual(total, self._get_teamscore_in_db(side).score)
                 self.assertAlmostEqual(total, result.teamscore_field_score(side))
@@ -563,7 +601,9 @@ class TestVotingDebateResultWithScores(GeneralSpeakerTestsMixin, BaseTestDebateR
     @with_preference('scoring', 'margin_includes_dissenters', False)
     @standard_test
     def test_teamscore_field_margin_majority(self, result, testdata, scoresheet_type):
-        for side, margin in zip(self.SIDES, testdata[scoresheet_type]['majority_margins']):
+        adj_indices = testdata[scoresheet_type]['majority_adjs']
+        for side in self.SIDES:
+            margin = self._weighted_margin(testdata, side, adj_indices)
             with suppress_logs('results.result', logging.WARNING):
                 self.assertAlmostEqual(margin, self._get_teamscore_in_db(side).margin)
                 self.assertAlmostEqual(margin, result.teamscore_field_margin(side))
@@ -571,7 +611,9 @@ class TestVotingDebateResultWithScores(GeneralSpeakerTestsMixin, BaseTestDebateR
     @with_preference('scoring', 'margin_includes_dissenters', True)
     @standard_test
     def test_teamscore_field_score_everyone(self, result, testdata, scoresheet_type):
-        for side, total in zip(self.SIDES, testdata['common']['everyone_totals']):
+        adj_indices = range(testdata['num_adjs'])
+        for side in self.SIDES:
+            total = self._weighted_total(testdata, side, adj_indices)
             with suppress_logs('results.result', logging.WARNING):
                 self.assertAlmostEqual(total, self._get_teamscore_in_db(side).score)
                 self.assertAlmostEqual(total, result.teamscore_field_score(side))
@@ -579,7 +621,9 @@ class TestVotingDebateResultWithScores(GeneralSpeakerTestsMixin, BaseTestDebateR
     @with_preference('scoring', 'margin_includes_dissenters', True)
     @standard_test
     def test_teamscore_field_margin_everyone(self, result, testdata, scoresheet_type):
-        for side, margin in zip(self.SIDES, testdata['common']['everyone_margins']):
+        adj_indices = range(testdata['num_adjs'])
+        for side in self.SIDES:
+            margin = self._weighted_margin(testdata, side, adj_indices)
             with suppress_logs('results.result', logging.WARNING):
                 self.assertAlmostEqual(margin, self._get_teamscore_in_db(side).margin)
                 self.assertAlmostEqual(margin, result.teamscore_field_margin(side))
@@ -594,6 +638,8 @@ class TestVotingDebateResultWithScores(GeneralSpeakerTestsMixin, BaseTestDebateR
     @standard_test
     def test_teamscore_field_votes_possible(self, result, testdata, scoresheet_type):
         nadjs = testdata['num_adjs']
+        if nadjs in [1, 2]:
+            nadjs = 3
         for side in self.SIDES:
             self.assertEqual(nadjs, self._get_teamscore_in_db(side).votes_possible)
             self.assertEqual(nadjs, result.teamscore_field_votes_possible(side))
@@ -613,7 +659,9 @@ class TestVotingDebateResultWithScores(GeneralSpeakerTestsMixin, BaseTestDebateR
 
         # Just check a couple of fields
         winner = testdata['high-required']['winner']
-        for side, margin in zip(self.SIDES, testdata['high-required']['majority_margins']):
+        adj_indices = testdata['high-required']['majority_adjs']
+        for side in self.SIDES:
+            margin = self._weighted_margin(testdata, side, adj_indices)
             with suppress_logs('results.result', logging.WARNING):
                 self.assertEqual(self._get_teamscore_in_db(side).win, side == winner)
                 self.assertEqual(result.teamscore_field_win(side), side == winner)

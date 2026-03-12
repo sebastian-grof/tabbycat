@@ -39,7 +39,10 @@ def readable_ballotsub_result(debateresult):
     use_codes = use_team_code_names(t, True)
 
     try:
-        if t.pref('teams_in_debate') == 2:
+        if debateresult.debate.is_bye:
+            result_winner = _("%(team)s received a bye") % {'team': debateresult.winning_team().code_name if use_codes else debateresult.winning_team().short_name}
+            result = ""
+        elif t.pref('teams_in_debate') == 2:
             result_winner = _("%(team)s (%(side)s) won") % get_display_name(debateresult.winning_dt(), t, use_codes)
             # Translators: The team here is the losing team
             result = _("vs %(team)s (%(side)s)") % get_display_name(debateresult.losing_dt(), t, use_codes)
@@ -155,8 +158,17 @@ def side_and_position_names(tournament):
             yield side, positions
 
     else:
-        for side in sides:
-            positions = [_("Reply") if pos == tournament.reply_position
+        for side_index, side in enumerate(sides):
+            side_abbr = get_side_name(tournament, side_index, 'abbr')
+            use_side_prefixed_positions = (
+                tournament.pref('teams_in_debate') == 2 and
+                isinstance(side_abbr, str) and
+                len(side_abbr) == 1
+            )
+            positions = [
+                _("Reply") if pos == tournament.reply_position
+                else f"{side_abbr}{pos}" if use_side_prefixed_positions
                 else ordinal(pos)
-                for pos in tournament.positions]
+                for pos in tournament.positions
+            ]
             yield side, positions

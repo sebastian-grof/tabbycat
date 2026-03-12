@@ -32,7 +32,7 @@ READTHEDOCS_VERSION = 'v2.12.0'
 
 USE_I18N = True
 USE_TZ = True
-LANGUAGE_CODE = 'en'
+LANGUAGE_CODE = 'sk'
 TIME_ZONE = os.environ.get('TIME_ZONE', 'Australia/Melbourne')
 
 LOCALE_PATHS = [
@@ -77,6 +77,7 @@ LANGUAGES = [
     ('pt', _('Portuguese')),
     ('ro', _('Romanian')),
     ('ru', _('Russian')),
+    ('sk', _('Slovak')),
     ('tr', _('Turkish')),
     ('vi', _('Vietnamese')),
     ('zh-hans', _('Simplified Chinese')),

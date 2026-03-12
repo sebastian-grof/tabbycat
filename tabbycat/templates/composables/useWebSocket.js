@@ -95,6 +95,7 @@ export function useWebSocket (options) {
   const bridges = reactive({})
   const lostConnections = ref(0)
   const componentId = Math.floor(Math.random() * 10000)
+  const isUnmounting = ref(false)
 
   const { showErrorAlert } = useModalError()
 
@@ -196,16 +197,19 @@ export function useWebSocket (options) {
         receiveFromSocket(socketLabel, payload.data)
       })
 
-      webSocketBridge.socket.addEventListener('open', (() => {
+      webSocketBridge.addEventListener('connected', (() => {
         logConnectionInfo('connected to', socketPath)
         dismissLostConnectionAlert()
       }).bind(socketPath))
 
-      webSocketBridge.socket.addEventListener('error', (() => {
+      webSocketBridge.addEventListener('error', (() => {
         logConnectionInfo('error in', socketPath)
       }).bind(socketPath))
 
-      webSocketBridge.socket.addEventListener('close', (() => {
+      webSocketBridge.addEventListener('disconnected', (() => {
+        if (isUnmounting.value) {
+          return
+        }
         lostConnections.value += 1
         logConnectionInfo('disconnected from', socketPath)
         showLostConnectionAlert()
@@ -216,6 +220,7 @@ export function useWebSocket (options) {
   })
 
   onBeforeUnmount(() => {
+    isUnmounting.value = true
     for (const [label, bridge] of Object.entries(bridges)) {
       try {
         bridge?.socket?.close()

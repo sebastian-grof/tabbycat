@@ -1,0 +1,199 @@
+{% extends "draw_subpage.html" %}
+{% load debate_tags i18n %}
+
+{% block page-subnav-sections %}
+  <a class="btn btn-outline-primary" href="{% roundurl 'availability-index' round %}">
+    <i data-feather="chevron-left"></i> {% trans "Return" %}
+  </a>
+{% endblock %}
+
+{% block page-subnav-actions %}{% endblock %}
+
+{% block page-alerts %}
+  {% if not two_team_sides %}
+    {% blocktrans trimmed asvar message %}
+      These tools are designed for two-team formats. The overview table below will still display saved allocations, but automatic generation is disabled.
+    {% endblocktrans %}
+    {% include "components/alert.html" with type="warning" %}
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+
+  {% blocktrans trimmed asvar explainer_text %}
+    Use this page to save explicit side allocations for preliminary rounds. Automatic generation and manual editing use the teams marked available for the selected round, and predicted bye teams are left unassigned.
+  {% endblocktrans %}
+  {% include "components/explainer-card.html" with type="info" p1=explainer_text %}
+
+  <div class="card mt-3">
+    <div class="list-group list-group-flush">
+      <div class="list-group-item pt-4 pb-3 d-flex flex-column flex-lg-row justify-content-between align-items-lg-center">
+        <div>
+          <h4 class="card-title mt-0 mb-1">{% trans "Manual editing" %}</h4>
+          {% if selected_round %}
+            <p class="text-muted mb-0">{{ selected_round.name }}</p>
+          {% endif %}
+        </div>
+        <form method="get" class="form-inline mt-3 mt-lg-0">
+          <label class="mr-2" for="selected-round-seq">{% trans "Round to edit" %}</label>
+          <select id="selected-round-seq" name="round_seq" class="custom-select" onchange="this.form.submit()">
+            {% for round in rounds %}
+              <option value="{{ round.seq }}" {% if selected_round and round.id == selected_round.id %}selected{% endif %}>{{ round.name }}</option>
+            {% endfor %}
+          </select>
+        </form>
+      </div>
+
+      {% if allocation_summary %}
+        <div class="list-group-item pt-3 pb-3">
+          <div class="row small text-muted">
+            <div class="col-md-4 mb-2 mb-md-0">
+              {% blocktrans trimmed with count=allocation_summary.assigned %}Assigned debating teams: {{ count }}{% endblocktrans %}
+            </div>
+            <div class="col-md-4 mb-2 mb-md-0">
+              {% blocktrans trimmed with count=allocation_summary.missing %}Unassigned debating teams: {{ count }}{% endblocktrans %}
+            </div>
+            <div class="col-md-4">
+              {% for item in allocation_summary.side_counts %}
+                {{ item.label }}: {{ item.count }}{% if not forloop.last %} | {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+          <div class="row small text-muted mt-2">
+            <div class="col-md-4 mb-2 mb-md-0">
+              {% blocktrans trimmed with count=draw_teams|length %}Debating teams this round: {{ count }}{% endblocktrans %}
+            </div>
+            <div class="col-md-4 mb-2 mb-md-0">
+              {% trans "Predicted byes" %}:
+              {% if bye_teams %}
+                {% for team in bye_teams %}{{ team.short_name }}{% if not forloop.last %}, {% endif %}{% endfor %}
+              {% else %}
+                {% trans "None" %}
+              {% endif %}
+            </div>
+            <div class="col-md-4">
+              {% trans "Unavailable teams" %}:
+              {% if unavailable_teams %}
+                {% for team in unavailable_teams %}{{ team.short_name }}{% if not forloop.last %}, {% endif %}{% endfor %}
+              {% else %}
+                {% trans "None" %}
+              {% endif %}
+            </div>
+          </div>
+          {% if allocation_summary.extra_assigned > 0 %}
+            <div class="small text-warning mt-2">
+              {% blocktrans trimmed with count=allocation_summary.extra_assigned %}There are {{ count }} saved allocations on teams that are currently unavailable or receiving byes; saving this form will clear them.{% endblocktrans %}
+            </div>
+          {% endif %}
+        </div>
+      {% endif %}
+
+      <div class="list-group-item pt-3 pb-3">
+        {% if manual_form and manual_rows %}
+          <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="manual">
+            {{ manual_form.selected_round }}
+            {% if manual_form.non_field_errors %}
+              <div class="alert alert-danger mb-3">{{ manual_form.non_field_errors }}</div>
+            {% endif %}
+            <div class="table-responsive">
+              <table class="table table-sm table-striped mb-3">
+                <thead>
+                  <tr>
+                    <th>{% trans "Team" %}</th>
+                    <th>{% trans "Side" %}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for row in manual_rows %}
+                    <tr>
+                      <td class="align-middle">{{ row.team.short_name }}</td>
+                      <td>
+                        {{ row.field }}
+                        {% if row.field.errors %}<div class="text-danger small mt-1">{{ row.field.errors }}</div>{% endif %}
+                      </td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            <button type="submit" class="btn btn-success">{% trans "Save manual allocations" %}</button>
+          </form>
+        {% elif manual_form %}
+          <p class="mb-0 text-muted">{% trans "There are no debating teams available to assign in this round right now." %}</p>
+        {% else %}
+          <p class="mb-0 text-muted">{% trans "There are no preliminary rounds to edit yet." %}</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <div class="card mt-3">
+    <div class="list-group list-group-flush">
+      <div class="list-group-item pt-4 pb-3">
+        <h4 class="card-title mt-0 mb-0">{% trans "Automatic generation" %}</h4>
+      </div>
+      <div class="list-group-item pt-3 pb-3">
+        <form method="post">
+          {% csrf_token %}
+          <input type="hidden" name="action" value="generate">
+          {% if generate_form.non_field_errors %}
+            <div class="alert alert-danger mb-3">{{ generate_form.non_field_errors }}</div>
+          {% endif %}
+          <div class="form-row">
+            <div class="form-group col-md-4 mb-3">
+              <label for="{{ generate_form.target_round.id_for_label }}">{{ generate_form.target_round.label }}</label>
+              {{ generate_form.target_round }}
+              {% if generate_form.target_round.errors %}<div class="text-danger small mt-1">{{ generate_form.target_round.errors }}</div>{% endif %}
+            </div>
+            <div class="form-group col-md-4 mb-3">
+              <label for="{{ generate_form.mode.id_for_label }}">{{ generate_form.mode.label }}</label>
+              {{ generate_form.mode }}
+              {% if generate_form.mode.errors %}<div class="text-danger small mt-1">{{ generate_form.mode.errors }}</div>{% endif %}
+            </div>
+            <div class="form-group col-md-4 mb-3">
+              <label for="{{ generate_form.source_round.id_for_label }}">{{ generate_form.source_round.label }}</label>
+              {{ generate_form.source_round }}
+              {% if generate_form.source_round.errors %}<div class="text-danger small mt-1">{{ generate_form.source_round.errors }}</div>{% endif %}
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary">{% trans "Generate allocations" %}</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="card mt-3">
+    <div class="list-group list-group-flush">
+      <div class="list-group-item pt-4 pb-3">
+        <h4 class="card-title mt-0 mb-0">{% trans "Current overview" %}</h4>
+      </div>
+      <div class="list-group-item pt-3 pb-3">
+        <div class="table-responsive">
+          <table class="table table-sm table-bordered mb-0">
+            <thead>
+              <tr>
+                <th>{% trans "Team" %}</th>
+                {% for round in rounds %}
+                  <th {% if selected_round and round.id == selected_round.id %}class="table-primary"{% endif %}>{{ round.abbreviation }}</th>
+                {% endfor %}
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in allocation_rows %}
+                <tr>
+                  <th scope="row">{{ row.team.short_name }}</th>
+                  {% for cell in row.cells %}
+                    <td {% if selected_round and cell.round.id == selected_round.id %}class="table-primary"{% endif %}>{{ cell.label }}</td>
+                  {% endfor %}
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

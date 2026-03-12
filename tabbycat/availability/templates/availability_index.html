@@ -35,60 +35,71 @@
 
 {% block page-subnav-actions %}
 
+  {% tournamenturl 'draw-side-allocations' as side_allocations_url %}
   {% if round.draw_status != round.Status.NONE %}
-    <a class="btn btn-outline-success " href="{% roundurl 'draw' round %}">
-      {% trans "View Draw" %} <i data-feather="chevron-right"></i>
-    </a>
+    <div class="d-flex flex-wrap align-items-start">
+      <a class="btn btn-outline-primary mr-2 mb-2" href="{{ side_allocations_url }}?round_seq={{ round.seq }}">
+        {% trans "Side Allocations" %} <i data-feather="sliders"></i>
+      </a>
+      <a class="btn btn-outline-success mb-2" href="{% roundurl 'draw' round %}">
+        {% trans "View Draw" %} <i data-feather="chevron-right"></i>
+      </a>
+    </div>
   {% else %}
-    <form id="createForm" action="{% roundurl 'draw-create' %}" method="POST">
-      {% csrf_token %}
-      {% if previous_unconfirmed %}
-        <button class="btn btn-warning" id="createDraw"
-          data-toggle="tooltip" title="{% blocktrans trimmed with round=round.prev.name %}{{ previous_unconfirmed }} debates from
-          {{ round }} do not have a completed ballot — this may lead to a draw that fails or is incorrect{% endblocktrans %}">
-          {% trans "Generate Draw" %} <i data-feather="chevron-right"></i>
-        </button>
-      {% elif availability_info.teams.in_now == 0 %}
-        <button class="btn btn-danger disabled"
-          data-toggle="tooltip" title="{% trans "The draw cannot be generated until some teams have been marked as available." %}">
-          {% trans "Generate Draw" %} <i data-feather="chevron-right"></i>
-        </button>
-      {% elif availability_info.adjs.in_now == 0 %}
-        <button class="btn btn-danger disabled"
-          data-toggle="tooltip" title="{% trans "The draw cannot be generated until some adjudicators have been marked as available." %}">
-          {% trans "Generate Draw" %} <i data-feather="chevron-right"></i>
-        </button>
-      {% elif availability_info.venues.in_now == 0 %}
-        <button class="btn btn-danger disabled"
-          data-toggle="tooltip" title="{% trans "The draw cannot be generated until some rooms have been marked as available." %}">
-          {% trans "Generate Draw" %} <i data-feather="chevron-right"></i>
-        </button>
-      {% elif min_venues > availability_info.venues.in_now %}
-        <button class="btn btn-warning" id="createDraw"
-          data-toggle="tooltip" title="{% trans "There aren't enough rooms marked as available for the number of debates — the draw may not generate properly." %}">
-          {% trans "Generate Draw" %} <i data-feather="chevron-right"></i>
-        </button>
-      {% elif min_adjudicators > availability_info.adjs.in_now %}
-        <button class="btn btn-warning" id="createDraw"
-          data-toggle="tooltip" title="{% trans "There aren't enough adjudicators marked as available for the number of debates — the draw may not generate properly." %}">
-          {% trans "Generate Draw" %} <i data-feather="chevron-right"></i>
-        </button>
-      {% elif pref.teams_in_debate == 2 and not availability_info.teams.in_now|divisibleby:2  %}
-        <button class="btn btn-warning" id="createDraw"
-          data-toggle="tooltip" title="{% trans "There is an uneven number of teams marked as available — the draw may not generate properly." %}">
-          {% trans "Generate Draw" %} <i data-feather="chevron-right"></i>
-        </button>
-      {% elif pref.teams_in_debate == 4 and not availability_info.teams.in_now|divisibleby:4  %}
-        <button class="btn btn-warning" id="createDraw"
-          data-toggle="tooltip" title="{% trans "The number of teams marked as available is not a multiple of 4 — the draw may not generate properly." %}">
-          {% trans "Generate Draw" %} <i data-feather="chevron-right"></i>
-        </button>
-      {% else %}
-        <button class="btn btn-success" id="createDraw">
-          {% trans "Generate Draw" %} <i data-feather="chevron-right"></i>
-        </button>
-      {% endif %}
-    </form>
+    <div class="d-flex flex-wrap align-items-start">
+      <a class="btn btn-outline-primary mr-2 mb-2" href="{{ side_allocations_url }}?round_seq={{ round.seq }}">
+        {% trans "Side Allocations" %} <i data-feather="sliders"></i>
+      </a>
+      <form id="createForm" action="{% roundurl 'draw-create' %}" method="POST" class="mr-2 mb-2">
+        {% csrf_token %}
+        {% if previous_unconfirmed %}
+          <button class="btn btn-warning" id="createDraw"
+            data-toggle="tooltip" title="{% blocktrans trimmed with round=round.prev.name %}{{ previous_unconfirmed }} debates from
+            {{ round }} do not have a completed ballot &mdash; this may lead to a draw that fails or is incorrect{% endblocktrans %}">
+            {% trans "Generate Draw" %} <i data-feather="chevron-right"></i>
+          </button>
+        {% elif availability_info.teams.in_now == 0 %}
+          <button class="btn btn-danger disabled"
+            data-toggle="tooltip" title="{% trans "The draw cannot be generated until some teams have been marked as available." %}">
+            {% trans "Generate Draw" %} <i data-feather="chevron-right"></i>
+          </button>
+        {% elif availability_info.adjs.in_now == 0 %}
+          <button class="btn btn-danger disabled"
+            data-toggle="tooltip" title="{% trans "The draw cannot be generated until some adjudicators have been marked as available." %}">
+            {% trans "Generate Draw" %} <i data-feather="chevron-right"></i>
+          </button>
+        {% elif availability_info.venues.in_now == 0 %}
+          <button class="btn btn-danger disabled"
+            data-toggle="tooltip" title="{% trans "The draw cannot be generated until some rooms have been marked as available." %}">
+            {% trans "Generate Draw" %} <i data-feather="chevron-right"></i>
+          </button>
+        {% elif min_venues > availability_info.venues.in_now %}
+          <button class="btn btn-warning" id="createDraw"
+            data-toggle="tooltip" title="{% trans "There aren't enough rooms marked as available for the number of debates &mdash; the draw may not generate properly." %}">
+            {% trans "Generate Draw" %} <i data-feather="chevron-right"></i>
+          </button>
+        {% elif min_adjudicators > availability_info.adjs.in_now %}
+          <button class="btn btn-warning" id="createDraw"
+            data-toggle="tooltip" title="{% trans "There aren't enough adjudicators marked as available for the number of debates &mdash; the draw may not generate properly." %}">
+            {% trans "Generate Draw" %} <i data-feather="chevron-right"></i>
+          </button>
+        {% elif pref.teams_in_debate == 2 and not availability_info.teams.in_now|divisibleby:2  %}
+          <button class="btn btn-warning" id="createDraw"
+            data-toggle="tooltip" title="{% trans "There is an uneven number of teams marked as available &mdash; the draw may not generate properly." %}">
+            {% trans "Generate Draw" %} <i data-feather="chevron-right"></i>
+          </button>
+        {% elif pref.teams_in_debate == 4 and not availability_info.teams.in_now|divisibleby:4  %}
+          <button class="btn btn-warning" id="createDraw"
+            data-toggle="tooltip" title="{% trans "The number of teams marked as available is not a multiple of 4 &mdash; the draw may not generate properly." %}">
+            {% trans "Generate Draw" %} <i data-feather="chevron-right"></i>
+          </button>
+        {% else %}
+          <button class="btn btn-success" id="createDraw">
+            {% trans "Generate Draw" %} <i data-feather="chevron-right"></i>
+          </button>
+        {% endif %}
+      </form>
+    </div>
   {% endif %}
 
 {% endblock %}
@@ -194,7 +205,7 @@
       <i data-feather="alert-circle"></i>
       {% blocktrans trimmed with break_category=round.break_category.name %}
         There's only one team breaking in the {{ break_category }} Break.
-        You can't generate an elimination round draw with only one team — you might
+        You can't generate an elimination round draw with only one team &mdash; you might
         like to
         <a href="{{ breakqual_teams_url }}" class="alert-link">
           review the break for the {{ break_category }} Break</a>.

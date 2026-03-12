@@ -1,6 +1,159 @@
 {% load add_field_css debate_tags i18n %}
 
-<div id="ballot_set">
+{% if pref.slider_ballot_ui %}
+<style>
+  #ballot_set.ballot-slider-mode .ballot-sliderized-target > .criterion,
+  #ballot_set.ballot-slider-mode .ballot-sliderized-target > .ballot-total-field {
+    display: none;
+  }
+
+  #ballot_set:not(.ballot-slider-mode) .ballot-slider-toggle,
+  #ballot_set:not(.ballot-slider-mode) .ballot-slider-panel {
+    display: none;
+  }
+
+  #ballot_set.ballot-slider-mode .ballot-slider-toggle {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    border: 0;
+    border-radius: .2rem;
+    background: #21d46e;
+    color: #fff;
+    font-weight: 400;
+    padding: .68rem 2.2rem .68rem 1rem;
+    margin-bottom: .9rem;
+    box-shadow: none;
+  }
+
+  #ballot_set.ballot-slider-mode .ballot-sliderized-target.is-open .ballot-slider-toggle {
+    background: #21d46e;
+  }
+
+  #ballot_set.ballot-slider-mode .ballot-slider-toggle.ballot-slider-error {
+    background: #dc3545;
+  }
+
+  #ballot_set.ballot-slider-mode .ballot-slider-panel {
+    display: none;
+    border: 1px solid #d8d8d8;
+    border-radius: .2rem;
+    background: #fff;
+    padding: 1.15rem 1.25rem;
+    margin-bottom: .9rem;
+  }
+
+  #ballot_set.ballot-slider-mode .ballot-sliderized-target.is-open .ballot-slider-panel {
+    display: block;
+  }
+
+  #ballot_set.ballot-slider-mode .ballot-slider-control + .ballot-slider-control,
+  #ballot_set.ballot-slider-mode .ballot-slider-panel .errorlist + .ballot-slider-control {
+    margin-top: .9rem;
+  }
+
+  #ballot_set.ballot-slider-mode .ballot-slider-meta {
+    display: block;
+    margin-bottom: .45rem;
+    font-weight: 400;
+    color: #222;
+  }
+
+  #ballot_set.ballot-slider-mode .ballot-slider-value {
+    display: inline;
+    font-variant-numeric: tabular-nums;
+  }
+
+  #ballot_set.ballot-slider-mode .ballot-slider-range {
+    -webkit-appearance: none;
+    appearance: none;
+    display: block;
+    width: 100%;
+    height: 20px;
+    margin: 0;
+    border: 0;
+    box-sizing: border-box;
+    padding: 0;
+    background: transparent;
+    outline: none;
+  }
+
+  #ballot_set.ballot-slider-mode .ballot-slider-range::-webkit-slider-runnable-track {
+    height: 7px;
+    background: #5f8f84;
+    border-radius: 999px;
+  }
+
+  #ballot_set.ballot-slider-mode .ballot-slider-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    margin-top: calc((7px - 20px) / 2);
+    transform: translateX(-1px);
+    border: 0;
+    border-radius: 50%;
+    background: #21d46e;
+    box-shadow: none;
+  }
+
+  #ballot_set.ballot-slider-mode .ballot-slider-range::-moz-range-track {
+    height: 7px;
+    background: #5f8f84;
+    border: 0;
+    border-radius: 999px;
+  }
+
+  #ballot_set.ballot-slider-mode .ballot-slider-range::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    transform: translateX(-1px);
+    border: 0;
+    border-radius: 50%;
+    background: #21d46e;
+    box-shadow: none;
+  }
+
+  #ballot_set.ballot-slider-mode .ballot-slider-errorlist,
+  #ballot_set.ballot-slider-mode .ballot-slider-panel .errorlist,
+  #ballot_set.ballot-slider-mode .ballot-slider-inline-error {
+    color: #dc3545;
+    margin: .45rem 0 0;
+    padding-left: 1rem;
+    font-size: .875rem;
+  }
+
+  #ballot_set.ballot-slider-mode .ballot-slider-inline-error[hidden] {
+    display: none;
+  }
+
+  #ballot_set.ballot-slider-mode .ballot-slider-summary {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    justify-content: center;
+    width: 100%;
+    font-weight: 400;
+  }
+
+  #ballot_set.ballot-slider-mode .ballot-slider-caret {
+    position: absolute;
+    right: .85rem;
+    top: 50%;
+    margin-left: 0;
+    font-size: .7rem;
+    transform: translateY(-50%);
+  }
+
+  .ballot-ui-toolbar .btn {
+    min-width: 13rem;
+  }
+</style>
+{% endif %}
+
+<div id="ballot_set" data-slider-ui-enabled="{{ pref.slider_ballot_ui|yesno:'true,false' }}">
 
   {% if form.errors %}
     {% trans "There are some problems with this scoresheet. Please review and correct them." as message %}
@@ -8,6 +161,18 @@
   {% endif %}
 
   {% include "ballot/ballot_debate_info.html" %}
+
+  {% if pref.slider_ballot_ui and form.has_scores %}
+  <div class="card mt-3 d-print-none ballot-ui-toolbar">
+    <div class="list-group-item py-2 text-right">
+      <button type="button" id="ballotUiModeToggle" class="btn btn-outline-secondary btn-sm"
+              data-slider-label="{% trans 'Use slider ballot UI' %}"
+              data-classic-label="{% trans 'Use classic ballot UI' %}">
+        {% trans "Use classic ballot UI" %}
+      </button>
+    </div>
+  </div>
+  {% endif %}
 
   {% for sheet in form.scoresheets %}
 
@@ -52,7 +217,6 @@
           {% for team in sheet.teams %}
             {% include "ballot/ballot_scoresheet.html" %}
           {% endfor %}
-
         {% else %}
 
           {% for checkbox in sheet.advancing %}

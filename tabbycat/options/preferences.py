@@ -86,6 +86,32 @@ class ReplyScoreStep(DecimalPreference):
 
 
 @tournament_preferences_registry.register
+class MinimumCrossExaminationScore(DecimalPreference):
+    help_text = _("Minimum allowed score for cross-examinations when using a single cross total")
+    verbose_name = _("Minimum cross-examination score")
+    section = scoring
+    name = 'cross_score_min'
+    default = Decimal('2.0')
+
+
+@tournament_preferences_registry.register
+class MaximumCrossExaminationScore(DecimalPreference):
+    help_text = _("Maximum allowed score for cross-examinations when using a single cross total")
+    verbose_name = _("Maximum cross-examination score")
+    section = scoring
+    name = 'cross_score_max'
+    default = Decimal('6.0')
+
+
+@tournament_preferences_registry.register
+class CrossExaminationScoreStep(DecimalPreference):
+    help_text = _("Score steps allowed for cross-examinations when using a single cross total, e.g. full points (1) or half points (0.5)")
+    verbose_name = _("Cross-examination score step")
+    section = scoring
+    name = 'cross_score_step'
+    default = Decimal('0.5')
+
+@tournament_preferences_registry.register
 class MarginIncludesDissent(BooleanPreference):
     help_text = _("If checked, a team's winning margin includes dissenting adjudicators")
     verbose_name = _("Margin includes dissenters")
@@ -424,6 +450,7 @@ class ByeTeamResults(ChoicePreference):
     choices = (
         ('none', _("Treat bye teams as absent")),
         ('points', _("Attribute a win to bye teams, without speaks")),
+        ('average', _("Attribute a win, ballots and running average scores to bye teams")),
     )
     default = 'none'
 
@@ -633,6 +660,15 @@ class ReplyScores(BooleanPreference):
     name = 'reply_scores_enabled'
     default = True
 
+
+
+@tournament_preferences_registry.register
+class CrossExaminationsEnabled(BooleanPreference):
+    help_text = _("Whether this style includes scored cross-examinations that contribute to team totals")
+    verbose_name = _("Cross-examination scores")
+    section = debate_rules
+    name = 'cross_examinations_enabled'
+    default = False
 
 @tournament_preferences_registry.register
 class RequireSubstantiveForReply(BooleanPreference):
@@ -925,6 +961,15 @@ class ParticipantFeedbackSubmissions(ChoicePreference):
         ('public', _("Use publicly accessible form")),
     )
     default = 'off'
+
+
+@tournament_preferences_registry.register
+class SliderBallotUI(BooleanPreference):
+    help_text = _("Use collapsible slider controls on online ballot entry pages while keeping the classic numeric inputs available as a fallback on the page")
+    verbose_name = _("Use slider ballot UI")
+    section = data_entry
+    name = 'slider_ballot_ui'
+    default = False
 
 
 @tournament_preferences_registry.register

@@ -42,7 +42,7 @@ from tournaments.mixins import (CurrentRoundMixin, DebateDragAndDropMixin,
 from tournaments.models import Round
 from tournaments.utils import get_side_name
 from users.permissions import Permission
-from utils.misc import reverse_round, reverse_tournament
+from utils.misc import add_query_string_parameter, reverse_round, reverse_tournament
 from utils.mixins import AdministratorMixin
 from utils.tables import TabbycatTableBuilder
 from utils.views import PostOnlyRedirectView, VueTableTemplateView
@@ -51,10 +51,18 @@ from venues.models import VenueConstraint
 from venues.utils import venue_conflicts_display
 
 from .dbutils import delete_round_draw
-from .forms import ConfirmDrawDeletionForm
+from .forms import ConfirmDrawDeletionForm, SideAllocationGenerateForm, SideAllocationManualForm
 from .generator import DrawFatalError, DrawUserError
 from .manager import DrawManager
 from .models import Debate, TeamSideAllocation
+from .side_allocations import (
+    SideAllocationError,
+    generate_opposite_allocations,
+    generate_random_allocations,
+    get_round_team_groups,
+    replace_round_allocations,
+    summarize_allocations,
+)
 from .prefetch import populate_history
 from .serializers import EditDebateTeamsDebateSerializer, EditDebateTeamsTeamSerializer
 from .tables import (AdminDrawTableBuilder, PositionBalanceReportDrawTableBuilder,
@@ -934,8 +942,195 @@ class BaseSideAllocationsView(TournamentMixin, VueTableTemplateView):
         return table
 
 
-class SideAllocationsView(AdministratorMixin, BaseSideAllocationsView):
+class SideAllocationsView(AdministratorMixin, TournamentMixin, TemplateView):
+    template_name = "side_allocations.html"
+    page_title = gettext_lazy("Side Pre-Allocations")
     view_permission = Permission.EDIT_ALLOCATESIDES
+
+    def _prelim_rounds(self):
+        return self.tournament.prelim_rounds()
+
+    def get_selected_round(self):
+        prelim_rounds = list(self._prelim_rounds())
+        if not prelim_rounds:
+            return None
+
+        round_seq = self.request.GET.get("round_seq")
+        if round_seq is None and self.request.method == "POST":
+            round_seq = self.request.POST.get("manual-selected_round") or self.request.POST.get("generate-target_round")
+        if round_seq:
+            try:
+                return next(round for round in prelim_rounds if str(round.seq) == str(round_seq))
+            except StopIteration:
+                pass
+        return prelim_rounds[0]
+
+    def get_generate_form(self):
+        return SideAllocationGenerateForm(
+            self.tournament,
+            selected_round=self.get_selected_round(),
+            data=self.request.POST if self.request.method == "POST" and self.request.POST.get("action") == "generate" else None,
+            prefix="generate",
+        )
+
+    def get_manual_form(self, selected_round, team_groups=None):
+        if selected_round is None:
+            return None
+        if team_groups is None:
+            team_groups = get_round_team_groups(selected_round)
+        return SideAllocationManualForm(
+            self.tournament,
+            selected_round,
+            teams=team_groups["draw_teams"],
+            data=self.request.POST if self.request.method == "POST" and self.request.POST.get("action") == "manual" else None,
+            prefix="manual",
+        )
+
+    def get_allocation_rows(self, rounds):
+        teams = list(self.tournament.team_set.order_by("short_name", "id"))
+        tsas = {}
+        for tsa in TeamSideAllocation.objects.filter(round__in=rounds):
+            tsas[(tsa.team_id, tsa.round_id)] = tsa.side
+
+        rows = []
+        for team in teams:
+            cells = []
+            for round in rounds:
+                side = tsas.get((team.id, round.id))
+                label = "?"
+                if side is not None:
+                    try:
+                        label = get_side_name(self.tournament, side, "abbr")
+                    except ValueError:
+                        label = str(side)
+                cells.append({"round": round, "label": label})
+            rows.append({"team": team, "cells": cells})
+        return rows
+
+    def get_context_data(self, **kwargs):
+        rounds = list(self._prelim_rounds())
+        selected_round = self.get_selected_round()
+        team_groups = get_round_team_groups(selected_round) if selected_round is not None else None
+        manual_form = kwargs.pop("manual_form", None) or self.get_manual_form(selected_round, team_groups=team_groups)
+        generate_form = kwargs.pop("generate_form", None) or self.get_generate_form()
+
+        if selected_round is None:
+            summary = None
+        else:
+            summary = summarize_allocations(selected_round)
+            summary["sides"] = [
+                get_side_name(self.tournament, side, "full").capitalize()
+                for side in self.tournament.sides
+            ]
+            summary["side_counts"] = [
+                {
+                    "label": get_side_name(self.tournament, side, "full").capitalize(),
+                    "count": summary["counts"].get(side, 0),
+                }
+                for side in self.tournament.sides
+            ]
+
+        manual_rows = []
+        if manual_form is not None:
+            for team in manual_form.teams:
+                manual_rows.append({"team": team, "field": manual_form[manual_form._field_name(team.id)]})
+
+        kwargs.update({
+            "rounds": rounds,
+            "round": selected_round or self.tournament.current_round,
+            "selected_round": selected_round,
+            "generate_form": generate_form,
+            "manual_form": manual_form,
+            "allocation_rows": self.get_allocation_rows(rounds),
+            "allocation_summary": summary,
+            "manual_rows": manual_rows,
+            "two_team_sides": len(self.tournament.sides) == 2,
+            "bye_teams": [] if team_groups is None else team_groups["bye_teams"],
+            "unavailable_teams": [] if team_groups is None else team_groups["unavailable_teams"],
+            "draw_teams": [] if team_groups is None else team_groups["draw_teams"],
+        })
+        return super().get_context_data(**kwargs)
+
+    def get_success_url(self, selected_round):
+        url = reverse_tournament("draw-side-allocations", self.tournament)
+        if selected_round is None:
+            return url
+        return add_query_string_parameter(url, "round_seq", selected_round.seq)
+
+    def _add_allocation_summary_message(self, round):
+        summary = summarize_allocations(round)
+        if summary["missing"] == 0 and summary["balanced"] and summary["extra_assigned"] == 0:
+            return
+
+        warning_bits = []
+        if summary["missing"] > 0:
+            warning_bits.append(ngettext(
+                "%(count)d debating team is unassigned.",
+                "%(count)d debating teams are unassigned.",
+                summary["missing"],
+            ) % {"count": summary["missing"]})
+        if summary["extra_assigned"] > 0:
+            warning_bits.append(ngettext(
+                "%(count)d saved allocation belongs to a team that is currently unavailable or receiving a bye.",
+                "%(count)d saved allocations belong to teams that are currently unavailable or receiving byes.",
+                summary["extra_assigned"],
+            ) % {"count": summary["extra_assigned"]})
+        if len(self.tournament.sides) == 2 and not summary["balanced"]:
+            side_names = [get_side_name(self.tournament, side, "full").capitalize() for side in self.tournament.sides]
+            counts = summary["counts"]
+            warning_bits.append(_("Current balance is %(left)s %(left_count)d / %(right)s %(right_count)d.") % {
+                "left": side_names[0],
+                "left_count": counts.get(self.tournament.sides[0], 0),
+                "right": side_names[1],
+                "right_count": counts.get(self.tournament.sides[1], 0),
+            })
+
+        if warning_bits:
+            messages.warning(self.request, " ".join(warning_bits) + " " + _("Pre-allocated draws work best when every debating team is assigned and the two sides are balanced."))
+
+    def post(self, request, *args, **kwargs):
+        action = request.POST.get("action")
+        selected_round = self.get_selected_round()
+
+        if action == "generate":
+            generate_form = self.get_generate_form()
+            manual_form = self.get_manual_form(selected_round)
+            if not generate_form.is_valid():
+                return self.render_to_response(self.get_context_data(generate_form=generate_form, manual_form=manual_form))
+
+            target_round = generate_form.cleaned_data["target_round"]
+            mode = generate_form.cleaned_data["mode"]
+            try:
+                if mode == SideAllocationGenerateForm.MODE_RANDOM:
+                    generate_random_allocations(target_round)
+                    messages.success(self.request, _("Random side allocations generated for %(round)s.") % {"round": target_round.name})
+                else:
+                    source_round = generate_form.cleaned_data["source_round"]
+                    generate_opposite_allocations(target_round, source_round)
+                    messages.success(self.request, _("Side allocations for %(target)s were copied as the opposite of %(source)s.") % {
+                        "target": target_round.name,
+                        "source": source_round.name,
+                    })
+                self._add_allocation_summary_message(target_round)
+                return HttpResponseRedirect(self.get_success_url(target_round))
+            except SideAllocationError as e:
+                messages.error(self.request, str(e))
+                return self.render_to_response(self.get_context_data(generate_form=generate_form, manual_form=manual_form))
+
+        if action == "manual":
+            manual_form = self.get_manual_form(selected_round)
+            generate_form = self.get_generate_form()
+            if not manual_form.is_valid():
+                return self.render_to_response(self.get_context_data(generate_form=generate_form, manual_form=manual_form))
+
+            target_round = manual_form.cleaned_data["selected_round"]
+            replace_round_allocations(target_round, manual_form.get_allocations())
+            messages.success(self.request, _("Saved side allocations for %(round)s.") % {"round": target_round.name})
+            self._add_allocation_summary_message(target_round)
+            return HttpResponseRedirect(self.get_success_url(target_round))
+
+        messages.error(self.request, _("Unrecognized side allocation action."))
+        return HttpResponseRedirect(self.get_success_url(selected_round))
 
 
 class PublicSideAllocationsView(PublicTournamentPageMixin, BaseSideAllocationsView):

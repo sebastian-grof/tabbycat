@@ -312,6 +312,14 @@ class BaseBallotSetView(LogActionMixin, TournamentMixin, FormView):
             'ConsensusDebateResultWithScores': SingleBallotSetForm,
         }[get_class_name(self.ballotsub, self.debate.round, self.tournament, True)]
 
+    def get_template_names(self):
+        names = super().get_template_names()
+        # The Vue ballot entry UI does not yet support all legacy ballot fields.
+        # Use the legacy ballot entry templates for assistant/admin entry pages.
+        if names and names[0] == 'ballot_entry.html':
+            return ['enter_results.html'] if self.for_admin else ['assistant_enter_results.html']
+        return names
+
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         kwargs['ballotsub'] = self.ballotsub
@@ -944,7 +952,13 @@ class BaseMergeLatestBallotsView(BaseNewBallotSetView):
     def get_form(self):
         form = super().get_form()
         for error in self.errors:
-            msg, t, side, pos = error.args
+            msg = error.args[0]
+            t = error.args[1] if len(error.args) > 1 else None
+            side = error.args[2] if len(error.args) > 2 else None
+            pos = error.args[3] if len(error.args) > 3 else None
+            extra = error.args[4] if len(error.args) > 4 else None
+
+            field = None
             if t == 'speaker':
                 field = form._fieldname_speaker(side, pos)
             elif t == 'ghost':
@@ -954,10 +968,29 @@ class BaseMergeLatestBallotsView(BaseNewBallotSetView):
                     field = form._fieldname_advancing()
                 else:
                     field = form._fieldname_declared_winner()
-            elif t == 'scores':
-                field = form._fieldname_score(side, pos)
-            elif t == 'speaker_ranks':
+            elif t == 'scores' and hasattr(form, '_fieldname_score'):
+                try:
+                    field = form._fieldname_score(side, pos)
+                except TypeError:
+                    field = None
+            elif t == 'speaker_ranks' and hasattr(form, '_fieldname_srank'):
                 field = form._fieldname_srank(side, pos)
+            elif t == 'criterion' and hasattr(form, '_fieldname_criterion_score'):
+                try:
+                    field = form._fieldname_criterion_score(side, pos, extra)
+                except TypeError:
+                    field = None
+            elif t == 'cross_scores' and hasattr(form, '_fieldname_cross_score'):
+                try:
+                    field = form._fieldname_cross_score(side, pos)
+                except TypeError:
+                    field = None
+            elif t == 'cross_total' and hasattr(form, '_fieldname_cross_total'):
+                try:
+                    field = form._fieldname_cross_total(side)
+                except TypeError:
+                    field = None
+
             form.cleaned_data = {}
             form.add_error(field, ValidationError(msg))
         return form
@@ -965,13 +998,13 @@ class BaseMergeLatestBallotsView(BaseNewBallotSetView):
     def populate_objects(self, prefill=True):
         super().populate_objects()
         self.round = self.debate.round
+        bses = BallotSubmission.objects.filter(
+            debate=self.debate, participant_submitter__isnull=False, discarded=False, single_adj=True,
+        ).annotate(ordering=Window(Rank(), partition_by="participant_submitter", order_by="-version")).filter(ordering=1).select_related('participant_submitter')
+        self.merged_ballots = bses
 
         if prefill:
-            bses = BallotSubmission.objects.filter(
-                debate=self.debate, participant_submitter__isnull=False, discarded=False, single_adj=True,
-            ).annotate(ordering=Window(Rank(), partition_by="participant_submitter", order_by="-version")).filter(ordering=1).select_related('participant_submitter')
             populate_results(bses, self.tournament)
-            self.merged_ballots = bses
 
         # Handle result conflicts
         criteria = ScoreCriterion.objects.filter(tournament=self.tournament)
@@ -1019,3 +1052,4 @@ class AssistantMergeLatestBallotsView(OldAssistantBallotSetMixin, BaseMergeLates
 
     def get_list_url(self):
         return reverse_tournament('results-assistant-round-list', self.tournament)
+

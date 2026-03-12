@@ -59,25 +59,72 @@ class ScoresMixin:
         super().__init__(*args, **kwargs)
         self.positions = positions
         self.criteria = kwargs.get('criteria', [])
+        self.reply_position = kwargs.get('reply_position')
+        self.using_replies = kwargs.get('using_replies', False)
+        self.crosses = kwargs.get('crosses', [])
+        self.using_cross_examinations = kwargs.get('using_cross_examinations', False)
+
+        self.criteria_by_position = {
+            pos: [criterion for criterion in self.criteria if self._criterion_applies_to_position(criterion, pos)]
+            for pos in self.positions
+        }
+
         self.scores = {side: dict.fromkeys(self.positions, None) for side in self.sides}
         self.speaker_ranks = {side: dict.fromkeys(self.positions, None) for side in self.sides}
-        self.criteria_scores = {side: {pos: dict.fromkeys(self.criteria, 0) for pos in self.positions} for side in self.sides}
+        self.criteria_scores = {
+            side: {pos: dict.fromkeys(self.criteria_by_position[pos], None) for pos in self.positions}
+            for side in self.sides
+        }
+        self.cross_scores = {
+            side: dict.fromkeys(self.crosses, None)
+            for side in self.sides
+        }
+        self.cross_total_scores = dict.fromkeys(self.sides, None)
+
+    def _criterion_applies_to_position(self, criterion, position):
+        if hasattr(criterion, 'applies_to_position'):
+            return criterion.applies_to_position(position, self.reply_position, self.using_replies)
+        return True
+
+    def _position_criteria(self, position):
+        return self.criteria_by_position.get(position, [])
 
     def is_complete(self):
-        if len(self.criteria) == 0:
-            scores_complete = all(self.scores[s][p] is not None for s in self.sides
-                    for p in self.positions)
+        scores_complete = all(
+            self.scores[s][p] is not None
+            for s in self.sides for p in self.positions
+            if len(self._position_criteria(p)) == 0
+        )
+        criteria_complete = all(
+            self.criteria_scores[s][p][criterion] is not None or not getattr(criterion, 'required', True)
+            for s in self.sides for p in self.positions for criterion in self._position_criteria(p)
+        )
+        if not self.using_cross_examinations:
+            crosses_complete = True
+        elif self.crosses:
+            crosses_complete = all(
+                self.cross_scores[s][cross] is not None or not getattr(cross, 'required', True)
+                for s in self.sides for cross in self.crosses
+            )
         else:
-            scores_complete = True
-        return super().is_complete() and scores_complete
+            crosses_complete = all(self.cross_total_scores[s] is not None for s in self.sides)
+
+        return super().is_complete() and scores_complete and criteria_complete and crosses_complete
 
     def set_score(self, side, position, score):
-        if len(self.criteria) == 0:
+        if len(self._position_criteria(position)) == 0:
             self.scores[side][position] = score
 
     def get_score(self, side: str, position: int):
-        if len(self.criteria) > 0:
-            return sum(score * type(score)(criterion.weight) for criterion, score in self.criteria_scores[side][position].items())
+        if len(self._position_criteria(position)) > 0:
+            total = 0
+            for criterion, score in self.criteria_scores[side][position].items():
+                if score is None:
+                    if getattr(criterion, 'required', True):
+                        return None
+                    continue
+                total += score * type(score)(criterion.weight)
+            return total
         return self.scores[side][position]
 
     def set_speaker_rank(self, side, position, score):
@@ -87,19 +134,59 @@ class ScoresMixin:
         return self.speaker_ranks[side][position]
 
     def set_criterion_score(self, side: str, position: int, criterion, score):
-        self.criteria_scores[side][position][criterion] = score
+        if criterion in self.criteria_scores[side][position]:
+            self.criteria_scores[side][position][criterion] = score
 
     def get_criterion_score(self, side: str, position: int, criterion):
-        return self.criteria_scores[side][position][criterion]
+        return self.criteria_scores[side][position].get(criterion)
+
+    def set_cross_score(self, side: str, cross, score):
+        if cross in self.cross_scores[side]:
+            self.cross_scores[side][cross] = score
+
+    def get_cross_score(self, side: str, cross):
+        return self.cross_scores[side].get(cross)
+
+    def set_cross_total(self, side: str, score):
+        if self.using_cross_examinations and not self.crosses:
+            self.cross_total_scores[side] = score
+
+    def get_cross_total(self, side):
+        if not self.using_cross_examinations:
+            return 0
+
+        if not self.crosses:
+            return self.cross_total_scores.get(side)
+
+        total = 0
+        for cross, score in self.cross_scores[side].items():
+            if score is None:
+                if getattr(cross, 'required', True):
+                    return None
+                continue
+            total += score * type(score)(getattr(cross, 'weight', 1))
+        return total
 
     def get_total(self, side):
         scores = [self.get_score(side, p) for p in self.positions]
         if None in scores:
             return None
-        return sum(scores)
+        speech_total = sum(scores)
+
+        cross_total = self.get_cross_total(side)
+        if cross_total is None:
+            return None
+
+        return speech_total + cross_total
 
     def identical(self, other):
-        return super().identical(other) and self.scores == other.scores and self.speaker_ranks == other.speaker_ranks
+        return (
+            super().identical(other) and
+            self.scores == other.scores and
+            self.speaker_ranks == other.speaker_ranks and
+            self.cross_scores == other.cross_scores and
+            self.cross_total_scores == other.cross_total_scores
+        )
 
 
 class DeclaredWinnersMixin:

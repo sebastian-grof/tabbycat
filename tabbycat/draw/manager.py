@@ -1,13 +1,12 @@
 import logging
 import random
-from operator import add
 from typing import List, Tuple, TYPE_CHECKING
 
 from django.utils.translation import gettext as _
 
 from draw.generator.powerpair import BasePowerPairedDrawGenerator
 from participants.utils import get_side_history
-from results.models import BallotSubmission, TeamScore
+from results.bye_scores import refresh_bye_ballots
 from standings.teams import TeamStandingsGenerator
 from tournaments.models import Round
 
@@ -98,17 +97,54 @@ class BaseDrawManager:
     def get_generator_type(self):
         return self.generator_type
 
-    def get_teams(self) -> Tuple[List['Team'], List['Team']]:
+    def _get_base_team_queryset(self):
         if self.active_only:
-            teams = self.round.active_teams.all()
-        else:
-            teams = self.round.tournament.team_set.all()
+            return self.round.active_teams.all()
+        return self.round.tournament.team_set.all()
 
-        teams = list(teams)
+    def _get_preallocated_split(self, teams: List['Team'], n_byes: int):
+        if n_byes == 0 or self.round.tournament.pref('draw_side_allocations') != 'preallocated':
+            return None
+
+        active_team_ids = [team.id for team in teams]
+        allocated_ids = set(self.round.teamsideallocation_set.filter(team_id__in=active_team_ids).values_list('team_id', flat=True))
+        if not allocated_ids:
+            return None
+
+        unallocated = [team for team in teams if team.id not in allocated_ids]
+        if not unallocated:
+            return None
+
+        if len(unallocated) > n_byes:
+            raise DrawUserError(_("There are too many active teams without side pre-allocations for %(round)s. Assign all debating teams, or leave exactly %(count)d team unassigned to receive the bye.") % {
+                'round': self.round.name,
+                'count': n_byes,
+            })
+
+        if len(unallocated) == n_byes:
+            unallocated_ids = {team.id for team in unallocated}
+            debating_teams = [team for team in teams if team.id not in unallocated_ids]
+            return debating_teams, unallocated
+
+        return None
+
+    def _split_teams_and_byes(self, teams: List['Team'], selector=None) -> Tuple[List['Team'], List['Team']]:
         n_byes = self.n_byes(len(teams))
-        if n_byes:
-            return teams[:-n_byes], teams[-n_byes:]
-        return teams, []
+        if not n_byes:
+            return teams, []
+
+        preallocated = self._get_preallocated_split(teams, n_byes)
+        if preallocated is not None:
+            return preallocated
+
+        if selector is not None:
+            return selector(list(teams), n_byes)
+
+        return teams[:-n_byes], teams[-n_byes:]
+
+    def get_teams(self) -> Tuple[List['Team'], List['Team']]:
+        teams = list(self._get_base_team_queryset())
+        return self._split_teams_and_byes(teams)
 
     def get_results(self):
         # Only needed for EliminationDrawManager
@@ -174,10 +210,9 @@ class BaseDrawManager:
             dt = DebateTeam(debate=debate, team=bye, side=DebateSide.BYE)
             dt.save()
 
-            if self.round.tournament.pref('bye_team_results') == 'points':
-                bs = BallotSubmission(submitter_type=BallotSubmission.Submitter.AUTOMATION, confirmed=True, debate=debate)
-                bs.save()
-                TeamScore.objects.create(ballot_submission=bs, debate_team=dt, points=1, win=True)
+        if debates:
+            refresh_bye_ballots(self.round.tournament, debates=debates)
+
         return debates
 
     def delete(self):
@@ -256,8 +291,7 @@ class PowerPairedDrawManager(BaseDrawManager):
 
     def get_teams(self) -> Tuple[List['Team'], List['Team']]:
         """Get teams in ranked order."""
-        teams = add(*super().get_teams())
-        teams = self.round.tournament.team_set.filter(id__in=[t.id for t in teams])
+        teams = self.round.tournament.team_set.filter(id__in=self._get_base_team_queryset().values('id'))
 
         metrics = self.round.tournament.pref('team_standings_precedence')
         pullup_metric = BasePowerPairedDrawGenerator.PULLUP_RESTRICTION_METRICS[self.round.tournament.pref('draw_pullup_restriction')]
@@ -288,19 +322,18 @@ class PowerPairedDrawManager(BaseDrawManager):
 
             ranked.append(team)
 
-        n_byes = self.n_byes(len(ranked))
-        if n_byes:
+        def select_byes(candidates, n_byes):
             if self.round.tournament.pref('bye_team_selection') == 'random':
                 byes = []
                 for i in range(n_byes):
-                    byes.append(ranked.pop(random.randrange(len(ranked))))
-                return ranked, byes
+                    byes.append(candidates.pop(random.randrange(len(candidates))))
+                return candidates, byes
             elif self.round.tournament.pref('bye_team_selection') == 'lowest':
-                return ranked[:-n_byes], ranked[-n_byes:]
+                return candidates[:-n_byes], candidates[-n_byes:]
             else:
                 raise RuntimeError("Bye team(s) created without recognized selection option")
 
-        return ranked, []
+        return self._split_teams_and_byes(ranked, selector=select_byes)
 
 
 class SeededDrawManager(BaseDrawManager):
@@ -316,18 +349,20 @@ class SeededDrawManager(BaseDrawManager):
 
     def get_teams(self) -> Tuple[List['Team'], List['Team']]:
         """Get teams in seeded order."""
-        teams = add(*super().get_teams())
+        teams = list(self._get_base_team_queryset())
         random.shuffle(teams)
         teams.sort(key=lambda t: -t.seed)
 
-        byes = []
-        n_byes = self.n_byes(len(teams))
-        if n_byes:
+        def select_byes(candidates, n_byes):
             if self.round.tournament.pref('bye_team_selection') == 'lowest':
-                teams, byes = teams[:-n_byes], teams[-n_byes:]
-            else:
-                for i in range(n_byes):
-                    byes.append(teams.pop(random.randrange(len(teams))))
+                return candidates[:-n_byes], candidates[-n_byes:]
+
+            byes = []
+            for i in range(n_byes):
+                byes.append(candidates.pop(random.randrange(len(candidates))))
+            return candidates, byes
+
+        teams, byes = self._split_teams_and_byes(teams, selector=select_byes)
 
         for team in teams:
             team.points = 0

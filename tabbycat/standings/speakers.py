@@ -1,15 +1,17 @@
 """Standings generator for speakers."""
 
+from collections import defaultdict
 import logging
 
-from django.db.models import Avg, Case, Count, F, FloatField, Max, Min, Q, StdDev, Sum, When
+from django.db.models import Case, Count, F, FloatField, Max, Min, Q, StdDev, Sum, When
 from django.db.models.functions import Cast, NullIf
 from django.utils.translation import gettext_lazy as _
 
+from results.models import SpeakerScore, TeamScore
 from tournaments.models import Round
 
 from .base import BaseStandingsGenerator
-from .metrics import QuerySetMetricAnnotator
+from .metrics import BaseMetricAnnotator, QuerySetMetricAnnotator
 from .ranking import BasicRankAnnotator
 
 logger = logging.getLogger(__name__)
@@ -72,12 +74,55 @@ class TotalSpeakerScoreMetricAnnotator(SpeakerScoreQuerySetMetricAnnotator):
     function = Sum
 
 
-class AverageSpeakerScoreMetricAnnotator(SpeakerScoreQuerySetMetricAnnotator):
+class AverageSpeakerScoreMetricAnnotator(BaseMetricAnnotator):
     """Metric annotator for average speaker score."""
     key = "average"
     name = _("average")
     abbr = _("Avg")
-    function = Avg
+
+    replies = False
+
+    def annotate(self, queryset, standings, round=None):
+        speakers = list(queryset)
+        speaker_ids = [speaker.id for speaker in speakers]
+        scores_by_speaker = defaultdict(list)
+
+        tournament = round.tournament if round is not None else (speakers[0].team.tournament if speakers else None)
+
+        if speaker_ids and tournament is not None:
+            annotation_filter = Q(
+                ballot_submission__confirmed=True,
+                debate_team__debate__round__stage=Round.Stage.PRELIMINARY,
+                ghost=False,
+                speaker_id__in=speaker_ids,
+            )
+            if round is not None:
+                annotation_filter &= Q(debate_team__debate__round__seq__lte=round.seq)
+            if self.replies:
+                annotation_filter &= Q(position=tournament.reply_position)
+            else:
+                annotation_filter &= Q(position__lte=tournament.last_substantive_position)
+
+            speaker_scores = list(SpeakerScore.objects.filter(annotation_filter).values_list(
+                'speaker_id', 'score', 'ballot_submission_id',
+            ))
+            ballot_submission_ids = {ballot_submission_id for _, _, ballot_submission_id in speaker_scores}
+
+            votes_possible_by_ballot = {}
+            if ballot_submission_ids:
+                for ballot_submission_id, votes_possible in TeamScore.objects.filter(
+                    ballot_submission_id__in=ballot_submission_ids,
+                ).values_list('ballot_submission_id', 'votes_possible'):
+                    if votes_possible is not None and ballot_submission_id not in votes_possible_by_ballot:
+                        votes_possible_by_ballot[ballot_submission_id] = votes_possible
+
+            for speaker_id, score, ballot_submission_id in speaker_scores:
+                divisor = votes_possible_by_ballot.get(ballot_submission_id) or 1
+                scores_by_speaker[speaker_id].append(score / divisor)
+
+        for speaker in speakers:
+            scores = scores_by_speaker.get(speaker.id)
+            standings.add_metric(speaker, self.key, (sum(scores) / len(scores)) if scores else None)
 
 
 class SpeakerTeamPointsMetricAnnotator(TeamMetricQuerySetMetricAnnotator):
@@ -183,12 +228,11 @@ class TotalReplyScoreMetricAnnotator(SpeakerScoreQuerySetMetricAnnotator):
     listed = False
 
 
-class AverageReplyScoreMetricAnnotator(SpeakerScoreQuerySetMetricAnnotator):
+class AverageReplyScoreMetricAnnotator(AverageSpeakerScoreMetricAnnotator):
     """Metric annotator for average reply score."""
     key = "replies_avg"
     name = _("average")
     abbr = _("Avg")
-    function = Avg
     replies = True
     listed = False
 

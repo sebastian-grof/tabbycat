@@ -6,12 +6,14 @@ from adjallocation.models import DebateAdjudicator
 from draw.models import Debate, DebateTeam
 from draw.types import DebateSide
 from participants.models import Adjudicator, Institution, Speaker, Team
+from results.bye_scores import refresh_bye_ballots
 from results.models import BallotSubmission, SpeakerScore, TeamScore
 from tournaments.models import Round, Tournament
 from utils.tests import suppress_logs
 from venues.models import Venue
 
 from ..base import StandingsError
+from ..speakers import SpeakerStandingsGenerator
 from ..teams import TeamStandingsGenerator
 
 
@@ -386,3 +388,200 @@ class TestMissingStandings(TestCase):
         standings = self.get_standings(generator)
         self.assertEqual(standings.get_standing(self.team1).metrics['num_adjs'], 0)
         self.assertEqual(standings.get_standing(self.team2).metrics['num_adjs'], 0)
+
+
+class TestSpeakerStandingsAverageMetric(TestCase):
+
+    def setUp(self):
+        self.tournament = Tournament.objects.create(slug="speakerstandingstest", name="Speaker standings test")
+        self.team1 = Team.objects.create(tournament=self.tournament, reference="1", use_institution_prefix=False)
+        self.team2 = Team.objects.create(tournament=self.tournament, reference="2", use_institution_prefix=False)
+        self.speaker1 = Speaker.objects.create(team=self.team1, name="Speaker 1")
+        self.speaker2 = Speaker.objects.create(team=self.team2, name="Speaker 2")
+
+    def tearDown(self):
+        self.tournament.delete()
+
+    def set_tournament_preference(self, section, name, value):
+        self.tournament.preferences[section + '__' + name] = value
+        if name in self.tournament._prefs:
+            del self.tournament._prefs[name]
+
+    def add_round_scores(self, seq, team1_score, team2_score, team1_votes, team2_votes, votes_possible=3):
+        rd = Round.objects.create(tournament=self.tournament, seq=seq)
+        debate = Debate.objects.create(round=rd)
+        dt1 = DebateTeam.objects.create(debate=debate, team=self.team1, side=DebateSide.AFF)
+        dt2 = DebateTeam.objects.create(debate=debate, team=self.team2, side=DebateSide.NEG)
+        ballotsub = BallotSubmission.objects.create(debate=debate, confirmed=True)
+        TeamScore.objects.create(
+            debate_team=dt1, ballot_submission=ballotsub, points=1, win=True, score=team1_score,
+            votes_given=team1_votes, votes_possible=votes_possible,
+        )
+        TeamScore.objects.create(
+            debate_team=dt2, ballot_submission=ballotsub, points=0, win=False, score=team2_score,
+            votes_given=team2_votes, votes_possible=votes_possible,
+        )
+        SpeakerScore.objects.create(
+            debate_team=dt1, ballot_submission=ballotsub, speaker=self.speaker1, position=1, score=team1_score,
+        )
+        SpeakerScore.objects.create(
+            debate_team=dt2, ballot_submission=ballotsub, speaker=self.speaker2, position=1, score=team2_score,
+        )
+
+    def get_standings(self):
+        generator = SpeakerStandingsGenerator(('average', 'total'), ())
+        with suppress_logs('standings.metrics', logging.INFO):
+            return generator.generate(Speaker.objects.filter(team__tournament=self.tournament), tournament=self.tournament, round=self.tournament.round_set.order_by('seq').last())
+
+    def test_average_normalizes_by_votes_possible_when_dissenters_are_included(self):
+        self.set_tournament_preference('scoring', 'margin_includes_dissenters', True)
+        self.add_round_scores(1, 60, 45, 3, 0)
+        self.add_round_scores(2, 72, 63, 2, 1)
+
+        standings = self.get_standings()
+
+        self.assertAlmostEqual(22, standings.get_standing(self.speaker1).metrics['average'])
+        self.assertAlmostEqual(18, standings.get_standing(self.speaker2).metrics['average'])
+        self.assertAlmostEqual(132, standings.get_standing(self.speaker1).metrics['total'])
+        self.assertAlmostEqual(108, standings.get_standing(self.speaker2).metrics['total'])
+
+    def test_average_normalizes_by_votes_possible_when_dissenters_are_excluded(self):
+        self.set_tournament_preference('scoring', 'margin_includes_dissenters', False)
+        self.add_round_scores(1, 40, 36, 2, 1)
+        self.add_round_scores(2, 50, 42, 2, 1)
+
+        standings = self.get_standings()
+
+        self.assertAlmostEqual(15, standings.get_standing(self.speaker1).metrics['average'])
+        self.assertAlmostEqual(13, standings.get_standing(self.speaker2).metrics['average'])
+        self.assertAlmostEqual(90, standings.get_standing(self.speaker1).metrics['total'])
+        self.assertAlmostEqual(78, standings.get_standing(self.speaker2).metrics['total'])
+
+
+class TestByeAverageScores(TestCase):
+
+    def setUp(self):
+        self.tournament = Tournament.objects.create(slug="byeaveragestest", name="Bye averages test")
+        self.tournament.preferences['draw_rules__bye_team_results'] = 'average'
+        self.tournament.preferences['debate_rules__ballots_per_debate_prelim'] = 'per-adj'
+        self.tournament.preferences['debate_rules__cross_examinations_enabled'] = True
+        for key in ('bye_team_results', 'ballots_per_debate_prelim', 'cross_examinations_enabled'):
+            self.tournament._prefs.pop(key, None)
+
+        self.team1 = Team.objects.create(tournament=self.tournament, reference="1", use_institution_prefix=False)
+        self.team2 = Team.objects.create(tournament=self.tournament, reference="2", use_institution_prefix=False)
+        self.team3 = Team.objects.create(tournament=self.tournament, reference="3", use_institution_prefix=False)
+
+        self.team1_speakers = [Speaker.objects.create(team=self.team1, name=f"Team 1 Speaker {i}") for i in range(1, 4)]
+        self.team2_speakers = [Speaker.objects.create(team=self.team2, name=f"Team 2 Speaker {i}") for i in range(1, 4)]
+        self.team3_speakers = [Speaker.objects.create(team=self.team3, name=f"Team 3 Speaker {i}") for i in range(1, 4)]
+
+    def tearDown(self):
+        self.tournament.delete()
+
+    def _add_real_debate(self, seq, aff_team, neg_team, aff_speakers, neg_speakers, aff_scores, neg_scores, aff_total, neg_total):
+        rd = Round.objects.create(tournament=self.tournament, seq=seq)
+        debate = Debate.objects.create(round=rd)
+        aff_dt = DebateTeam.objects.create(debate=debate, team=aff_team, side=DebateSide.AFF)
+        neg_dt = DebateTeam.objects.create(debate=debate, team=neg_team, side=DebateSide.NEG)
+        ballotsub = BallotSubmission.objects.create(debate=debate, confirmed=True)
+
+        TeamScore.objects.create(
+            debate_team=aff_dt, ballot_submission=ballotsub, points=1, win=True, score=aff_total,
+            votes_given=3, votes_possible=3, margin=1,
+        )
+        TeamScore.objects.create(
+            debate_team=neg_dt, ballot_submission=ballotsub, points=0, win=False, score=neg_total,
+            votes_given=0, votes_possible=3, margin=-1,
+        )
+
+        for position, score in aff_scores.items():
+            speaker = aff_speakers[0] if position == self.tournament.reply_position else aff_speakers[position - 1]
+            SpeakerScore.objects.create(
+                debate_team=aff_dt, ballot_submission=ballotsub, speaker=speaker, position=position, score=score,
+            )
+
+        for position, score in neg_scores.items():
+            speaker = neg_speakers[0] if position == self.tournament.reply_position else neg_speakers[position - 1]
+            SpeakerScore.objects.create(
+                debate_team=neg_dt, ballot_submission=ballotsub, speaker=speaker, position=position, score=score,
+            )
+
+        return debate, aff_dt, neg_dt
+
+    def _add_bye_debate(self, seq, team):
+        rd = Round.objects.create(tournament=self.tournament, seq=seq)
+        debate = Debate.objects.create(round=rd)
+        return debate, DebateTeam.objects.create(debate=debate, team=team, side=DebateSide.BYE)
+
+    def test_first_round_bye_uses_global_defaults(self):
+        debate, bye_dt = self._add_bye_debate(1, self.team1)
+
+        refresh_bye_ballots(self.tournament)
+
+        ballotsub = debate.ballotsubmission_set.get(confirmed=True)
+        teamscore = TeamScore.objects.get(ballot_submission=ballotsub, debate_team=bye_dt)
+        speakers = {
+            ss.position: ss.score
+            for ss in SpeakerScore.objects.filter(ballot_submission=ballotsub, debate_team=bye_dt)
+        }
+
+        self.assertEqual(276, teamscore.score)
+        self.assertEqual(3, teamscore.votes_given)
+        self.assertEqual(3, teamscore.votes_possible)
+        self.assertEqual(60, speakers[1])
+        self.assertEqual(60, speakers[2])
+        self.assertEqual(60, speakers[3])
+        self.assertEqual(48, speakers[self.tournament.reply_position])
+
+    def test_bye_scores_refresh_after_later_real_debates(self):
+        self._add_real_debate(
+            1,
+            self.team1,
+            self.team2,
+            self.team1_speakers,
+            self.team2_speakers,
+            {1: 60, 2: 57, 3: 54, 4: 48},
+            {1: 54, 2: 51, 3: 48, 4: 45},
+            267,
+            246,
+        )
+        bye_debate, bye_dt = self._add_bye_debate(2, self.team1)
+
+        refresh_bye_ballots(self.tournament)
+
+        ballotsub = bye_debate.ballotsubmission_set.get(confirmed=True)
+        self.assertEqual(267, TeamScore.objects.get(ballot_submission=ballotsub, debate_team=bye_dt).score)
+        self.assertEqual(60, SpeakerScore.objects.get(ballot_submission=ballotsub, debate_team=bye_dt, position=1).score)
+
+        self._add_real_debate(
+            3,
+            self.team1,
+            self.team3,
+            self.team1_speakers,
+            self.team3_speakers,
+            {1: 63, 2: 60, 3: 57, 4: 45},
+            {1: 57, 2: 54, 3: 51, 4: 48},
+            276,
+            258,
+        )
+
+        refresh_bye_ballots(self.tournament)
+
+        bye_teamscore = TeamScore.objects.get(ballot_submission=ballotsub, debate_team=bye_dt)
+        bye_pos1 = SpeakerScore.objects.get(ballot_submission=ballotsub, debate_team=bye_dt, position=1)
+
+        self.assertEqual(271.5, bye_teamscore.score)
+        self.assertEqual(61.5, bye_pos1.score)
+
+        standings_generator = SpeakerStandingsGenerator(('average', 'total'), ())
+        with suppress_logs('standings.metrics', logging.INFO):
+            standings = standings_generator.generate(
+                Speaker.objects.filter(team__tournament=self.tournament),
+                tournament=self.tournament,
+                round=self.tournament.round_set.order_by('seq').last(),
+            )
+
+        speaker_standing = standings.get_standing(self.team1_speakers[0])
+        self.assertAlmostEqual(20.5, speaker_standing.metrics['average'])
+        self.assertAlmostEqual(184.5, speaker_standing.metrics['total'])
