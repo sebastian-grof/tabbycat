@@ -51,15 +51,18 @@ from venues.models import VenueConstraint
 from venues.utils import venue_conflicts_display
 
 from .dbutils import delete_round_draw
-from .forms import ConfirmDrawDeletionForm, SideAllocationGenerateForm, SideAllocationManualForm
+from .forms import (ConfirmDrawDeletionForm, SideAllocationByeOverrideForm,
+    SideAllocationGenerateForm, SideAllocationManualForm)
 from .generator import DrawFatalError, DrawUserError
 from .manager import DrawManager
-from .models import Debate, TeamSideAllocation
+from .models import ByeTeamOverride, Debate, TeamSideAllocation
 from .side_allocations import (
     SideAllocationError,
     generate_opposite_allocations,
     generate_random_allocations,
+    get_bye_override_team,
     get_round_team_groups,
+    replace_bye_override,
     replace_round_allocations,
     summarize_allocations,
 )
@@ -931,12 +934,16 @@ class BaseSideAllocationsView(TournamentMixin, VueTableTemplateView):
                 tsas[(tsa.team.id, tsa.round.seq)] = get_side_name(self.tournament, tsa.side, 'abbr')
             except ValueError:
                 pass
+        bye_overrides = {
+            (override.team_id, override.round.seq): _("Bye")
+            for override in ByeTeamOverride.objects.filter(round__in=rounds).select_related("round")
+        }
 
         table = TabbycatTableBuilder(view=self)
         table.add_team_columns(teams)
 
         headers = [escape(round.abbreviation) for round in rounds]
-        data = [[tsas.get((team.id, round.seq), "—") for round in rounds] for team in teams]
+        data = [[tsas.get((team.id, round.seq), bye_overrides.get((team.id, round.seq), "—")) for round in rounds] for team in teams]
         table.add_columns(headers, data)
 
         return table
@@ -957,10 +964,14 @@ class SideAllocationsView(AdministratorMixin, TournamentMixin, TemplateView):
 
         round_seq = self.request.GET.get("round_seq")
         if round_seq is None and self.request.method == "POST":
-            round_seq = self.request.POST.get("manual-selected_round") or self.request.POST.get("generate-target_round")
+            round_seq = (
+                self.request.POST.get("bye-selected_round")
+                or self.request.POST.get("manual-selected_round")
+                or self.request.POST.get("generate-target_round")
+            )
         if round_seq:
             try:
-                return next(round for round in prelim_rounds if str(round.seq) == str(round_seq))
+                return next(round for round in prelim_rounds if str(round.seq) == str(round_seq) or str(round.id) == str(round_seq))
             except StopIteration:
                 pass
         return prelim_rounds[0]
@@ -971,6 +982,19 @@ class SideAllocationsView(AdministratorMixin, TournamentMixin, TemplateView):
             selected_round=self.get_selected_round(),
             data=self.request.POST if self.request.method == "POST" and self.request.POST.get("action") == "generate" else None,
             prefix="generate",
+        )
+
+    def get_bye_form(self, selected_round, team_groups=None):
+        if selected_round is None:
+            return None
+        if team_groups is None:
+            team_groups = get_round_team_groups(selected_round)
+        return SideAllocationByeOverrideForm(
+            self.tournament,
+            selected_round,
+            active_teams=team_groups["active_teams"],
+            data=self.request.POST if self.request.method == "POST" and self.request.POST.get("action") == "bye" else None,
+            prefix="bye",
         )
 
     def get_manual_form(self, selected_round, team_groups=None):
@@ -991,6 +1015,10 @@ class SideAllocationsView(AdministratorMixin, TournamentMixin, TemplateView):
         tsas = {}
         for tsa in TeamSideAllocation.objects.filter(round__in=rounds):
             tsas[(tsa.team_id, tsa.round_id)] = tsa.side
+        bye_overrides = {
+            (override.team_id, override.round_id)
+            for override in ByeTeamOverride.objects.filter(round__in=rounds)
+        }
 
         rows = []
         for team in teams:
@@ -998,6 +1026,8 @@ class SideAllocationsView(AdministratorMixin, TournamentMixin, TemplateView):
             for round in rounds:
                 side = tsas.get((team.id, round.id))
                 label = "?"
+                if (team.id, round.id) in bye_overrides:
+                    label = _("Bye")
                 if side is not None:
                     try:
                         label = get_side_name(self.tournament, side, "abbr")
@@ -1011,8 +1041,10 @@ class SideAllocationsView(AdministratorMixin, TournamentMixin, TemplateView):
         rounds = list(self._prelim_rounds())
         selected_round = self.get_selected_round()
         team_groups = get_round_team_groups(selected_round) if selected_round is not None else None
+        bye_form = kwargs.pop("bye_form", None) or self.get_bye_form(selected_round, team_groups=team_groups)
         manual_form = kwargs.pop("manual_form", None) or self.get_manual_form(selected_round, team_groups=team_groups)
         generate_form = kwargs.pop("generate_form", None) or self.get_generate_form()
+        bye_override_team = get_bye_override_team(selected_round) if selected_round is not None else None
 
         if selected_round is None:
             summary = None
@@ -1040,12 +1072,14 @@ class SideAllocationsView(AdministratorMixin, TournamentMixin, TemplateView):
             "round": selected_round or self.tournament.current_round,
             "selected_round": selected_round,
             "generate_form": generate_form,
+            "bye_form": bye_form,
             "manual_form": manual_form,
             "allocation_rows": self.get_allocation_rows(rounds),
             "allocation_summary": summary,
             "manual_rows": manual_rows,
             "two_team_sides": len(self.tournament.sides) == 2,
             "bye_teams": [] if team_groups is None else team_groups["bye_teams"],
+            "bye_override_team": bye_override_team,
             "unavailable_teams": [] if team_groups is None else team_groups["unavailable_teams"],
             "draw_teams": [] if team_groups is None else team_groups["draw_teams"],
         })
@@ -1094,9 +1128,10 @@ class SideAllocationsView(AdministratorMixin, TournamentMixin, TemplateView):
 
         if action == "generate":
             generate_form = self.get_generate_form()
+            bye_form = self.get_bye_form(selected_round)
             manual_form = self.get_manual_form(selected_round)
             if not generate_form.is_valid():
-                return self.render_to_response(self.get_context_data(generate_form=generate_form, manual_form=manual_form))
+                return self.render_to_response(self.get_context_data(generate_form=generate_form, bye_form=bye_form, manual_form=manual_form))
 
             target_round = generate_form.cleaned_data["target_round"]
             mode = generate_form.cleaned_data["mode"]
@@ -1115,13 +1150,34 @@ class SideAllocationsView(AdministratorMixin, TournamentMixin, TemplateView):
                 return HttpResponseRedirect(self.get_success_url(target_round))
             except SideAllocationError as e:
                 messages.error(self.request, str(e))
-                return self.render_to_response(self.get_context_data(generate_form=generate_form, manual_form=manual_form))
+                return self.render_to_response(self.get_context_data(generate_form=generate_form, bye_form=bye_form, manual_form=manual_form))
+
+        if action == "bye":
+            bye_form = self.get_bye_form(selected_round)
+            generate_form = self.get_generate_form()
+            manual_form = self.get_manual_form(selected_round)
+            if not bye_form.is_valid():
+                return self.render_to_response(self.get_context_data(generate_form=generate_form, bye_form=bye_form, manual_form=manual_form))
+
+            target_round = bye_form.cleaned_data["selected_round"]
+            team = bye_form.get_team()
+            replace_bye_override(target_round, team)
+            if team is None:
+                messages.success(self.request, _("Cleared the bye override for %(round)s. The tournament setting will be used.") % {"round": target_round.name})
+            else:
+                messages.success(self.request, _("Set %(team)s as the manual bye override for %(round)s.") % {
+                    "team": team.short_name,
+                    "round": target_round.name,
+                })
+            self._add_allocation_summary_message(target_round)
+            return HttpResponseRedirect(self.get_success_url(target_round))
 
         if action == "manual":
             manual_form = self.get_manual_form(selected_round)
+            bye_form = self.get_bye_form(selected_round)
             generate_form = self.get_generate_form()
             if not manual_form.is_valid():
-                return self.render_to_response(self.get_context_data(generate_form=generate_form, manual_form=manual_form))
+                return self.render_to_response(self.get_context_data(generate_form=generate_form, bye_form=bye_form, manual_form=manual_form))
 
             target_round = manual_form.cleaned_data["selected_round"]
             replace_round_allocations(target_round, manual_form.get_allocations())

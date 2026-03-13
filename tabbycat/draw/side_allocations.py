@@ -5,7 +5,7 @@ from django.utils.translation import gettext as _
 
 from .generator import DrawUserError
 from .manager import DrawManager
-from .models import TeamSideAllocation
+from .models import ByeTeamOverride, TeamSideAllocation
 
 
 class SideAllocationError(Exception):
@@ -59,6 +59,22 @@ def get_round_team_groups(round):
         "bye_teams": sorted((team for team in active_teams if team.id in bye_team_ids), key=_team_sort_key),
         "unavailable_teams": unavailable_teams,
     }
+
+
+def get_bye_override_team(round):
+    try:
+        return round.bye_team_override.team
+    except ByeTeamOverride.DoesNotExist:
+        return None
+
+
+def replace_bye_override(round, team):
+    if team is None:
+        ByeTeamOverride.objects.filter(round=round).delete()
+        return
+
+    ByeTeamOverride.objects.update_or_create(round=round, defaults={"team": team})
+    round.teamsideallocation_set.filter(team=team).delete()
 
 
 def get_round_allocations(round):

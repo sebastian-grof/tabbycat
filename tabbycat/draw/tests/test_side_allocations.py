@@ -1,9 +1,12 @@
+from django.contrib.auth import get_user_model
 from django.test import TestCase
 
 from availability.utils import set_availability
+from utils.misc import add_query_string_parameter, reverse_tournament
 from utils.tests import AdminTournamentViewSimpleLoadTestMixin, CompletedTournamentTestMixin
 
 from ..manager import DrawManager
+from ..models import ByeTeamOverride
 from ..side_allocations import generate_opposite_allocations, generate_random_allocations, replace_round_allocations
 
 
@@ -88,3 +91,61 @@ class SideAllocationServiceTest(CompletedTournamentTestMixin, TestCase):
 
         self.assertEqual([team.id for team in byes], [chosen_bye.id])
         self.assertNotIn(chosen_bye.id, {team.id for team in draw_teams})
+
+    def test_manual_bye_override_takes_precedence_over_random_selection(self):
+        available_teams = list(self.tournament.team_set.order_by('id')[:23])
+        set_availability(self.tournament.team_set.filter(id__in=[team.id for team in available_teams]), self.round1)
+        self.tournament.preferences['draw_rules__draw_side_allocations'] = 'preallocated'
+        self.tournament.preferences['draw_rules__bye_team_selection'] = 'random'
+
+        chosen_bye = available_teams[5]
+        ByeTeamOverride.objects.create(round=self.round1, team=chosen_bye)
+
+        draw_teams, byes = DrawManager(self.round1).get_teams()
+
+        self.assertEqual([team.id for team in byes], [chosen_bye.id])
+        self.assertNotIn(chosen_bye.id, {team.id for team in draw_teams})
+
+    def test_generate_random_allocations_respects_manual_bye_override(self):
+        available_teams = list(self.tournament.team_set.order_by('id')[:23])
+        set_availability(self.tournament.team_set.filter(id__in=[team.id for team in available_teams]), self.round1)
+        self.tournament.preferences['draw_rules__draw_side_allocations'] = 'preallocated'
+        self.tournament.preferences['draw_rules__bye_team_selection'] = 'random'
+
+        chosen_bye = available_teams[7]
+        ByeTeamOverride.objects.create(round=self.round1, team=chosen_bye)
+
+        allocations = generate_random_allocations(self.round1)
+        draw_teams, byes = DrawManager(self.round1).get_teams()
+
+        self.assertEqual(len(byes), 1)
+        self.assertEqual([team.id for team in byes], [chosen_bye.id])
+        self.assertEqual(len(allocations), len(draw_teams))
+        self.assertNotIn(chosen_bye.id, allocations)
+
+
+class SideAllocationByeOverrideViewTest(CompletedTournamentTestMixin, TestCase):
+
+    def setUp(self):
+        super().setUp()
+        self.round1 = self.tournament.round_set.get(seq=1)
+        user, _ = get_user_model().objects.get_or_create(username='test_admin', is_superuser=True)
+        self.client.force_login(user)
+
+    def test_post_sets_bye_override(self):
+        available_teams = list(self.tournament.team_set.order_by('id')[:23])
+        set_availability(self.tournament.team_set.filter(id__in=[team.id for team in available_teams]), self.round1)
+        self.tournament.preferences['draw_rules__draw_side_allocations'] = 'preallocated'
+        self.tournament.preferences['draw_rules__bye_team_selection'] = 'random'
+
+        chosen_bye = available_teams[3]
+        url = add_query_string_parameter(reverse_tournament('draw-side-allocations', self.tournament), 'round_seq', self.round1.seq)
+
+        response = self.client.post(url, {
+            'action': 'bye',
+            'bye-selected_round': self.round1.id,
+            'bye-team': chosen_bye.id,
+        })
+
+        self.assertRedirects(response, url)
+        self.assertEqual(self.round1.bye_team_override.team_id, chosen_bye.id)

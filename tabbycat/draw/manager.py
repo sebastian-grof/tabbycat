@@ -12,7 +12,7 @@ from tournaments.models import Round
 
 from .generator import BPEliminationResultPairing, DrawGenerator, DrawUserError, ResultPairing
 from .generator.utils import ispow2
-from .models import Debate, DebateTeam
+from .models import ByeTeamOverride, Debate, DebateTeam
 from .types import DebateSide
 
 if TYPE_CHECKING:
@@ -128,10 +128,30 @@ class BaseDrawManager:
 
         return None
 
+    def _get_manual_bye_override_split(self, teams: List['Team'], n_byes: int):
+        if n_byes != 1:
+            return None
+
+        try:
+            override_team_id = self.round.bye_team_override.team_id
+        except ByeTeamOverride.DoesNotExist:
+            return None
+
+        for team in teams:
+            if team.id == override_team_id:
+                debating_teams = [candidate for candidate in teams if candidate.id != override_team_id]
+                return debating_teams, [team]
+
+        return None
+
     def _split_teams_and_byes(self, teams: List['Team'], selector=None) -> Tuple[List['Team'], List['Team']]:
         n_byes = self.n_byes(len(teams))
         if not n_byes:
             return teams, []
+
+        manual_override = self._get_manual_bye_override_split(teams, n_byes)
+        if manual_override is not None:
+            return manual_override
 
         preallocated = self._get_preallocated_split(teams, n_byes)
         if preallocated is not None:

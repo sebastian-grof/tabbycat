@@ -365,3 +365,26 @@ class TeamSideAllocation(models.Model):
         constraints = [UniqueConstraint(fields=['round', 'team'])]
         verbose_name = _("team side allocation")
         verbose_name_plural = _("team side allocations")
+
+
+class ByeTeamOverride(models.Model):
+    """Optional per-round override for bye selection in side allocation flows."""
+
+    round = models.OneToOneField(
+        'tournaments.Round',
+        models.CASCADE,
+        related_name='bye_team_override',
+        verbose_name=_("round"),
+    )
+    team = models.ForeignKey(
+        'participants.Team',
+        models.CASCADE,
+        verbose_name=_("team"),
+    )
+
+    class Meta:
+        verbose_name = _("bye team override")
+        verbose_name_plural = _("bye team overrides")
+
+    def __str__(self):
+        return f"{self.team.short_name} bye override for {self.round.name}"
