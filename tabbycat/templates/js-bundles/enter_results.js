@@ -510,8 +510,7 @@ function initialize_slider_block(block) {
   inlineError.hidden = true;
 
   block.insertBefore(toggle, block.firstChild);
-  block.insertBefore(inlineError, toggle.nextSibling);
-  block.insertBefore(panel, inlineError.nextSibling);
+  block.insertBefore(panel, toggle.nextSibling);
 
   sourceRows.forEach(function(sourceRow) {
     const sourceInput = sourceRow.querySelector('input.js-slider-source-number');
@@ -536,6 +535,8 @@ function initialize_slider_block(block) {
       panel.appendChild(control);
     }
   });
+
+  panel.appendChild(inlineError);
 
   if (block.querySelector('.errorlist, .error')) {
     block.classList.add('is-open');
