@@ -114,7 +114,7 @@ class Exporter:
             debate_tag.set('motion', MOTION_PREFIX + str(motion.id))
 
         if debate.confirmed_ballot is not None:
-            result = DebateResult(debate.confirmed_ballot, tournament=self.t)
+            result = debate.confirmed_ballot.result
 
             for side in self.t.sides:
                 side_tag = SubElement(debate_tag, 'side', {
@@ -147,6 +147,7 @@ class Exporter:
 
                 if result.uses_speakers:
                     self.add_speakers(side_tag, debate, result, side)
+                    self.add_crosses(side_tag, debate, result, side)
 
     def add_team_ballots(self, side_tag, result, adj, scoresheet, side):
         ballot_tag = SubElement(side_tag, 'ballot')
@@ -187,10 +188,103 @@ class Exporter:
                         })
                         ballot_tag.text = str(scoresheet.get_score(side, pos))
                 else:
-                    ballot_tag = SubElement(speech_tag, 'ballot', {
-                        'adjudicators': " ".join([ADJ_PREFIX + str(d_adj.adjudicator_id) for d_adj in debate.debateadjudicator_set.all()]),
+                        ballot_tag = SubElement(speech_tag, 'ballot', {
+                            'adjudicators': " ".join([ADJ_PREFIX + str(d_adj.adjudicator_id) for d_adj in debate.debateadjudicator_set.all()]),
+                        })
+                        ballot_tag.text = str(result.scoresheet.get_score(side, pos))
+
+                self.add_speech_criteria(speech_tag, debate, result, side, pos)
+
+    def add_speech_criteria(self, speech_tag, debate, result, side, pos):
+        if not hasattr(result, 'criteria_for_position'):
+            return
+
+        for criterion in result.criteria_for_position(pos):
+            ballots = []
+            if result.is_voting:
+                for adj in result.scoresheets.keys():
+                    score = result.get_criterion_score(adj, side, pos, criterion)
+                    if score is not None:
+                        ballots.append((ADJ_PREFIX + str(adj.id), score))
+            else:
+                score = result.get_criterion_score(side, pos, criterion)
+                if score is not None:
+                    ballots.append((self._consensus_adjudicators(debate), score))
+
+            if not ballots:
+                continue
+
+            criterion_tag = SubElement(speech_tag, 'criterion', {
+                'name': criterion.name,
+                'seq': str(criterion.seq),
+                'weight': str(criterion.weight),
+                'required': str(criterion.required).lower(),
+            })
+            if hasattr(criterion, 'speech_type'):
+                criterion_tag.set('speech-type', criterion.speech_type)
+
+            for adjudicators, score in ballots:
+                ballot_tag = SubElement(criterion_tag, 'ballot', {
+                    'adjudicators': adjudicators,
+                })
+                ballot_tag.text = str(score)
+
+    def add_crosses(self, side_tag, debate, result, side):
+        if not getattr(result, 'using_cross_examinations', False):
+            return
+
+        if getattr(result, 'crosses', []):
+            for cross in result.crosses:
+                ballots = []
+                if result.is_voting:
+                    for adj in result.scoresheets.keys():
+                        score = result.get_cross_score(adj, side, cross)
+                        if score is not None:
+                            ballots.append((ADJ_PREFIX + str(adj.id), score))
+                else:
+                    score = result.get_cross_score(side, cross)
+                    if score is not None:
+                        ballots.append((self._consensus_adjudicators(debate), score))
+
+                if not ballots:
+                    continue
+
+                cross_tag = SubElement(side_tag, 'cross', {
+                    'name': cross.name,
+                    'seq': str(cross.seq),
+                    'weight': str(cross.weight),
+                    'required': str(cross.required).lower(),
+                })
+                for adjudicators, score in ballots:
+                    ballot_tag = SubElement(cross_tag, 'ballot', {
+                        'adjudicators': adjudicators,
                     })
-                    ballot_tag.text = str(result.scoresheet.get_score(side, pos))
+                    ballot_tag.text = str(score)
+            return
+
+        ballots = []
+        if result.is_voting:
+            for adj in result.scoresheets.keys():
+                score = result.get_cross_total(adj, side)
+                if score is not None:
+                    ballots.append((ADJ_PREFIX + str(adj.id), score))
+        else:
+            score = result.get_cross_total(side)
+            if score is not None:
+                ballots.append((self._consensus_adjudicators(debate), score))
+
+        if not ballots:
+            return
+
+        cross_total_tag = SubElement(side_tag, 'cross-total')
+        for adjudicators, score in ballots:
+            ballot_tag = SubElement(cross_total_tag, 'ballot', {
+                'adjudicators': adjudicators,
+            })
+            ballot_tag.text = str(score)
+
+    def _consensus_adjudicators(self, debate):
+        return " ".join([ADJ_PREFIX + str(d_adj.adjudicator_id) for d_adj in debate.debateadjudicator_set.all()])
 
     def add_participants(self):
         participants_tag = SubElement(self.root, 'participants')
