@@ -17,6 +17,7 @@ from participants.models import Speaker, Team
 from participants.templatetags.team_name_for_data_entry import team_name_for_data_entry
 from tournaments.utils import get_side_name
 
+from .bye_scores import sync_forfeit_ballot
 from .consumers import BallotResultConsumer, BallotStatusConsumer
 from .result import (ConsensusDebateResult, ConsensusDebateResultWithScores,
                      DebateResultByAdjudicator, DebateResultByAdjudicatorWithScores)
@@ -460,6 +461,8 @@ class BaseBallotSetForm(BaseResultForm):
     # --------------------------------------------------------------------------
 
     def save_ballot(self):
+        forfeit_side = self._selected_forfeit_side() if hasattr(self, '_selected_forfeit_side') else None
+
         # 4. Save the sides
         if self.choosing_sides:
             self.result.set_sides(*self.cleaned_data['choose_sides'])
@@ -486,6 +489,8 @@ class BaseBallotSetForm(BaseResultForm):
         self.save_participant_fields(self.result)
 
         self.result.save()
+        if forfeit_side is not None:
+            sync_forfeit_ballot(self.ballotsub, forfeit_side)
 
     # --------------------------------------------------------------------------
     # Template access methods
@@ -523,6 +528,14 @@ class ScoresMixin:
 
     def _has_forfeit_fields(self):
         return len(self.sides) == 2
+
+    def _selected_forfeit_side(self):
+        if not self._has_forfeit_fields():
+            return None
+        for side in self.sides:
+            if self.cleaned_data.get(self._fieldname_forfeit(side), False):
+                return side
+        return None
 
     def create_participant_fields(self):
         if self._has_forfeit_fields():
@@ -700,14 +713,15 @@ class ScoresMixin:
     # --------------------------------------------------------------------------
 
     def save_participant_fields(self, result):
-        for side in self.sides:
-            if self.cleaned_data.get(self._fieldname_forfeit(side), False):
-                self.ballotsub.forfeit = True
-                result = ConsensusDebateResult(self.ballotsub, criteria=self.criteria)
-                result.set_winners(set(self.sides) - {side})
+        self.ballotsub.forfeit = False
+        forfeit_side = self._selected_forfeit_side()
+        if forfeit_side is not None:
+            self.ballotsub.forfeit = True
+            result = ConsensusDebateResult(self.ballotsub, criteria=self.criteria)
+            result.set_winners(set(self.sides) - {forfeit_side})
 
-                self.result = result
-                return
+            self.result = result
+            return
 
         for side, pos in product(self.sides, self.positions):
             speaker = self.cleaned_data[self._fieldname_speaker(side, pos)]

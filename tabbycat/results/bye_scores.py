@@ -10,7 +10,7 @@ from draw.models import Debate, DebateTeam
 from draw.types import DebateSide
 from tournaments.models import Round
 
-from .models import BallotSubmission, SpeakerScore, TeamScore
+from .models import BallotSubmission, CrossExaminationScore, SpeakerScore, TeamScore
 
 logger = logging.getLogger(__name__)
 
@@ -111,32 +111,33 @@ def refresh_single_bye_ballot(
         reply_position=reply_position,
         using_replies=using_replies,
     )
+    cross_scores, cross_total = _calculate_running_cross_score_averages(
+        debateteam,
+        crosses=crosses,
+        derived_cross_total=averages['cross_raw_total'],
+    )
 
     ballot_multiplier = _bye_score_multiplier(debateteam.debate.round, tournament)
     speaker_scores = {
         position: score if averages['speaker_raw_scores'].get(position) is not None else None
         for position, score in averages['speaker_raw_scores'].items()
     }
-    team_total = averages['team_raw_total']
+    if crosses:
+        team_total = sum(float(score) for score in speaker_scores.values()) + cross_total
+    else:
+        team_total = averages['team_raw_total']
 
-    ballotsub.crossexaminationscore_set.all().delete()
-    ballotsub.crossexaminationscorebyadj_set.all().delete()
-    ballotsub.teamscorebyadj_set.all().delete()
-    ballotsub.speakerscorebyadj_set.all().delete()
-    ballotsub.speakerscore_set.all().delete()
+    _clear_auto_result_details(ballotsub)
 
-    TeamScore.objects.update_or_create(
-        ballot_submission=ballotsub,
-        debate_team=debateteam,
-        defaults={
-            'points': 1,
-            'win': True,
-            'margin': None,
-            'score': team_total,
-            'votes_given': BYE_BALLOTS,
-            'votes_possible': BYE_BALLOTS,
-            'has_ghost': False,
-        },
+    _sync_team_score(
+        ballotsub,
+        debateteam,
+        points=1,
+        win=True,
+        margin=None,
+        score=team_total,
+        votes_given=BYE_BALLOTS,
+        votes_possible=BYE_BALLOTS,
     )
 
     _set_debate_result_status(debateteam.debate, Debate.STATUS_CONFIRMED)
@@ -144,38 +145,143 @@ def refresh_single_bye_ballot(
     if not uses_speaker_scores:
         return ballotsub
 
-    for position in positions:
-        speaker = lineup.get(position)
-        if speaker is None:
-            logger.warning(
-                "Couldn't assign a speaker for bye debate %s, team %s, position %s",
-                debateteam.debate_id,
-                debateteam.team_id,
-                position,
-            )
-            continue
+    _sync_speaker_scores(
+        ballotsub,
+        debateteam,
+        lineup=lineup,
+        positions=positions,
+        scores_by_position=speaker_scores,
+        fallback=lambda position: float(_default_position_score(
+            tournament,
+            criteria,
+            position,
+            reply_position,
+            using_replies,
+        )) * ballot_multiplier,
+    )
+    _sync_cross_scores(
+        ballotsub,
+        debateteam,
+        crosses=crosses,
+        scores_by_cross_id=cross_scores,
+    )
 
-        raw_score = speaker_scores.get(position)
-        if raw_score is None:
-            normalized_default = _default_position_score(
-                tournament,
-                criteria,
-                position,
-                reply_position,
-                using_replies,
-            )
-            raw_score = float(normalized_default) * ballot_multiplier
+    return ballotsub
 
-        SpeakerScore.objects.update_or_create(
-            ballot_submission=ballotsub,
-            debate_team=debateteam,
-            position=position,
-            defaults={
-                'speaker': speaker,
-                'rank': None,
-                'score': raw_score,
-                'ghost': False,
-            },
+
+def sync_forfeit_ballot(ballotsub, forfeiting_side):
+    debate = ballotsub.debate
+    tournament = debate.round.tournament
+    debateteams = {
+        dt.side: dt for dt in debate.debateteam_set.select_related('team')
+    }
+
+    if forfeiting_side not in debateteams or len(debateteams) != 2:
+        logger.warning(
+            "Can't synthesize forfeit scores for debate %s with sides %s and forfeiter %s",
+            debate.id,
+            sorted(debateteams),
+            forfeiting_side,
+        )
+        return ballotsub
+
+    winning_side = next(side for side in debateteams if side != forfeiting_side)
+    winning_dt = debateteams[winning_side]
+    forfeiting_dt = debateteams[forfeiting_side]
+
+    criteria = list(tournament.scorecriterion_set.order_by('seq'))
+    crosses = list(tournament.crossexamination_set.order_by('seq'))
+    using_replies = tournament.pref('reply_scores_enabled')
+    reply_position = tournament.reply_position
+    positions = list(tournament.positions)
+    uses_speaker_scores = _round_uses_speaker_scores(debate.round, tournament)
+
+    winner_lineup = _existing_or_default_lineup(
+        ballotsub,
+        winning_dt,
+        positions,
+        reply_position,
+        using_replies,
+    )
+    forfeiting_lineup = _existing_or_default_lineup(
+        ballotsub,
+        forfeiting_dt,
+        positions,
+        reply_position,
+        using_replies,
+    )
+
+    winner_averages = _calculate_running_bye_averages(
+        winning_dt,
+        criteria=criteria,
+        crosses=crosses,
+        positions=positions,
+        reply_position=reply_position,
+        using_replies=using_replies,
+    )
+    winner_cross_scores, winner_cross_total = _calculate_running_cross_score_averages(
+        winning_dt,
+        crosses=crosses,
+        derived_cross_total=winner_averages['cross_raw_total'],
+    )
+
+    if crosses:
+        winner_team_total = sum(float(score) for score in winner_averages['speaker_raw_scores'].values()) + winner_cross_total
+    else:
+        winner_team_total = winner_averages['team_raw_total']
+
+    with transaction.atomic():
+        _clear_auto_result_details(ballotsub)
+
+        _sync_team_score(
+            ballotsub,
+            winning_dt,
+            points=1,
+            win=True,
+            margin=None,
+            score=winner_team_total,
+            votes_given=BYE_BALLOTS,
+            votes_possible=BYE_BALLOTS,
+        )
+        _sync_team_score(
+            ballotsub,
+            forfeiting_dt,
+            points=0,
+            win=False,
+            margin=None,
+            score=0,
+            votes_given=0,
+            votes_possible=BYE_BALLOTS,
+        )
+
+        if not uses_speaker_scores:
+            return ballotsub
+
+        _sync_speaker_scores(
+            ballotsub,
+            winning_dt,
+            lineup=winner_lineup,
+            positions=positions,
+            scores_by_position=winner_averages['speaker_raw_scores'],
+        )
+        _sync_speaker_scores(
+            ballotsub,
+            forfeiting_dt,
+            lineup=forfeiting_lineup,
+            positions=positions,
+            scores_by_position={position: 0 for position in positions},
+        )
+        _sync_cross_scores(
+            ballotsub,
+            winning_dt,
+            crosses=crosses,
+            scores_by_cross_id=winner_cross_scores,
+        )
+        _sync_cross_scores(
+            ballotsub,
+            forfeiting_dt,
+            crosses=crosses,
+            scores_by_cross_id={cross.id: 0 for cross in crosses},
         )
 
     return ballotsub
@@ -196,24 +302,17 @@ def _clear_auto_bye_ballot(debate):
 
 def _sync_points_only_bye_ballot(debateteam):
     ballotsub = _get_or_create_bye_ballot_submission(debateteam.debate)
-    ballotsub.speakerscore_set.all().delete()
-    ballotsub.crossexaminationscore_set.all().delete()
-    ballotsub.teamscorebyadj_set.all().delete()
-    ballotsub.speakerscorebyadj_set.all().delete()
-    ballotsub.crossexaminationscorebyadj_set.all().delete()
+    _clear_auto_result_details(ballotsub)
 
-    TeamScore.objects.update_or_create(
-        ballot_submission=ballotsub,
-        debate_team=debateteam,
-        defaults={
-            'points': 1,
-            'win': True,
-            'margin': None,
-            'score': None,
-            'votes_given': None,
-            'votes_possible': None,
-            'has_ghost': False,
-        },
+    _sync_team_score(
+        ballotsub,
+        debateteam,
+        points=1,
+        win=True,
+        margin=None,
+        score=None,
+        votes_given=None,
+        votes_possible=None,
     )
     _set_debate_result_status(debateteam.debate, Debate.STATUS_CONFIRMED)
 
@@ -262,6 +361,69 @@ def _bye_score_multiplier(round, tournament):
     return 1.0
 
 
+def _clear_auto_result_details(ballotsub):
+    ballotsub.crossexaminationscore_set.all().delete()
+    ballotsub.crossexaminationscorebyadj_set.all().delete()
+    ballotsub.teamscorebyadj_set.all().delete()
+    ballotsub.speakerscorebyadj_set.all().delete()
+    ballotsub.speakerscore_set.all().delete()
+
+
+def _sync_team_score(ballotsub, debateteam, *, points, win, margin, score, votes_given, votes_possible):
+    TeamScore.objects.update_or_create(
+        ballot_submission=ballotsub,
+        debate_team=debateteam,
+        defaults={
+            'points': points,
+            'win': win,
+            'margin': margin,
+            'score': score,
+            'votes_given': votes_given,
+            'votes_possible': votes_possible,
+            'has_ghost': False,
+        },
+    )
+
+
+def _sync_speaker_scores(ballotsub, debateteam, *, lineup, positions, scores_by_position, fallback=None):
+    for position in positions:
+        speaker = lineup.get(position)
+        if speaker is None:
+            logger.warning(
+                "Couldn't assign a speaker for debate %s, team %s, position %s",
+                debateteam.debate_id,
+                debateteam.team_id,
+                position,
+            )
+            continue
+
+        raw_score = scores_by_position.get(position)
+        if raw_score is None and fallback is not None:
+            raw_score = fallback(position)
+
+        SpeakerScore.objects.update_or_create(
+            ballot_submission=ballotsub,
+            debate_team=debateteam,
+            position=position,
+            defaults={
+                'speaker': speaker,
+                'rank': None,
+                'score': raw_score,
+                'ghost': False,
+            },
+        )
+
+
+def _sync_cross_scores(ballotsub, debateteam, *, crosses, scores_by_cross_id):
+    for cross in crosses:
+        CrossExaminationScore.objects.update_or_create(
+            ballot_submission=ballotsub,
+            debate_team=debateteam,
+            cross_examination=cross,
+            defaults={'score': scores_by_cross_id.get(cross.id)},
+        )
+
+
 def _default_position_score(tournament, criteria, position, reply_position, using_replies):
     applicable = [
         criterion for criterion in criteria
@@ -308,6 +470,17 @@ def _confirmed_real_team_scores(team, tournament):
     ).exclude(
         debate_team__side=DebateSide.BYE,
     ).select_related('ballot_submission', 'debate_team__debate__round')
+
+
+def _confirmed_real_cross_scores(team, tournament):
+    return CrossExaminationScore.objects.filter(
+        debate_team__team=team,
+        ballot_submission__confirmed=True,
+        debate_team__debate__round__tournament=tournament,
+        debate_team__debate__round__stage=Round.Stage.PRELIMINARY,
+    ).exclude(
+        debate_team__side=DebateSide.BYE,
+    )
 
 
 def _calculate_running_bye_averages(debateteam, *, criteria, crosses, positions, reply_position, using_replies):
@@ -361,6 +534,58 @@ def _calculate_running_bye_averages(debateteam, *, criteria, crosses, positions,
         'cross_raw_total': cross_raw_total,
         'team_raw_total': team_raw_total,
     }
+
+
+def _calculate_running_cross_score_averages(debateteam, *, crosses, derived_cross_total):
+    if not crosses:
+        return {}, float(0 if derived_cross_total is None else derived_cross_total)
+
+    tournament = debateteam.debate.round.tournament
+    ballot_multiplier = _bye_score_multiplier(debateteam.debate.round, tournament)
+    cross_scores = defaultdict(list)
+
+    real_cross_scores = _confirmed_real_cross_scores(debateteam.team, tournament).filter(
+        cross_examination__in=crosses,
+        score__isnull=False,
+    ).values_list('cross_examination_id', 'score')
+    for cross_id, score in real_cross_scores:
+        cross_scores[cross_id].append(float(score))
+
+    if any(cross_scores.values()):
+        cross_raw_scores = {}
+        for cross in crosses:
+            values = cross_scores.get(cross.id)
+            if values:
+                cross_raw_scores[cross.id] = mean(values)
+            else:
+                cross_raw_scores[cross.id] = _midpoint(cross.min_score, cross.max_score) * ballot_multiplier
+    else:
+        default_raw_scores = {
+            cross.id: _midpoint(cross.min_score, cross.max_score) * ballot_multiplier
+            for cross in crosses
+        }
+        default_weighted_total = sum(
+            default_raw_scores[cross.id] * float(cross.weight)
+            for cross in crosses
+        )
+        desired_total = float(derived_cross_total) if derived_cross_total is not None else 0.0
+        if derived_cross_total is None:
+            desired_total = _default_cross_total(tournament, crosses) * ballot_multiplier
+
+        if default_weighted_total:
+            scale = desired_total / default_weighted_total
+            cross_raw_scores = {
+                cross.id: default_raw_scores[cross.id] * scale
+                for cross in crosses
+            }
+        else:
+            cross_raw_scores = {cross.id: 0.0 for cross in crosses}
+
+    cross_raw_total = sum(
+        cross_raw_scores[cross.id] * float(cross.weight)
+        for cross in crosses
+    )
+    return cross_raw_scores, cross_raw_total
 
 
 def _existing_or_default_lineup(ballotsub, debateteam, positions, reply_position, using_replies):
