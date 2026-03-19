@@ -16,7 +16,7 @@ from options.presets import (AustralianEastersPreferences, AustralsPreferences, 
 from participants.emoji import EMOJI_BY_NAME
 from participants.models import Adjudicator, Institution, Region, Speaker, SpeakerCategory, Team
 from registration.models import Answer
-from results.models import BallotSubmission, Submission
+from results.models import BallotSubmission, CrossExamination, ScoreCriterion, Submission
 from results.prefetch import populate_confirmed_ballots, populate_wins
 from results.result import DebateResult
 from tournaments.models import Round, Tournament
@@ -219,6 +219,9 @@ class Exporter:
                 'seq': str(criterion.seq),
                 'weight': str(criterion.weight),
                 'required': str(criterion.required).lower(),
+                'min': str(criterion.min_score),
+                'max': str(criterion.max_score),
+                'step': str(criterion.step),
             })
             if hasattr(criterion, 'speech_type'):
                 criterion_tag.set('speech-type', criterion.speech_type)
@@ -254,6 +257,9 @@ class Exporter:
                     'seq': str(cross.seq),
                     'weight': str(cross.weight),
                     'required': str(cross.required).lower(),
+                    'min': str(cross.min_score),
+                    'max': str(cross.max_score),
+                    'step': str(cross.step),
                 })
                 for adjudicators, score in ballots:
                     ballot_tag = SubElement(cross_tag, 'ballot', {
@@ -445,6 +451,7 @@ class Importer:
         self.import_teams()
         self.import_speakers()
         self.import_adjudicators()
+        self.import_score_components()
         self.import_debates()
         self.import_motions()
         self.import_results()
@@ -490,12 +497,96 @@ class Importer:
             substantive_speakers = len(self.root.findall("round[1]/debate[1]/side[1]/speech[@reply='false']"))
             reply_scores_enabled = len(self.root.findall("round/debate/side/speech[@reply='true']")) != 0
             margin_includes_dissenters = len(self.root.findall("round/debate/side/ballot[@minority='true'][@ignored='true']")) == 0
+            cross_examinations_enabled = (
+                len(self.root.findall("round/debate/side/cross")) != 0 or
+                len(self.root.findall("round/debate/side/cross-total")) != 0
+            )
 
             self.tournament.preferences['debate_rules__substantive_speakers'] = substantive_speakers
             self.tournament.preferences['debate_rules__reply_scores_enabled'] = reply_scores_enabled
             self.tournament.preferences['debate_rules__ballots_per_debate_prelim'] = 'per-debate' if self.preliminary_consensus else 'per-adj'
             self.tournament.preferences['debate_rules__ballots_per_debate_elim'] = 'per-debate' if self.elimination_consensus else 'per-adj'
             self.tournament.preferences['scoring__margin_includes_dissenters'] = margin_includes_dissenters
+            self.tournament.preferences['debate_rules__cross_examinations_enabled'] = cross_examinations_enabled
+            self.tournament._prefs.pop('cross_examinations_enabled', None)
+
+    def import_score_components(self):
+        self.score_criteria = {}
+        self.cross_examinations = {}
+        cross_examinations_enabled = False
+
+        criterion_defs = {}
+        for criterion in self.root.findall('round/debate/side/speech/criterion'):
+            seq = int(criterion.get('seq'))
+            criterion_defs.setdefault(seq, {
+                'name': criterion.get('name'),
+                'speech_type': criterion.get('speech-type', ScoreCriterion.SpeechType.SUBSTANTIVE),
+                'weight': criterion.get('weight', 1),
+                'min_score': criterion.get('min', 2),
+                'max_score': criterion.get('max', 6),
+                'step': criterion.get('step', 0.5),
+                'required': criterion.get('required', 'true') == 'true',
+            })
+
+        if criterion_defs:
+            self.tournament.scorecriterion_set.all().delete()
+            for seq, data in sorted(criterion_defs.items()):
+                criterion_obj = ScoreCriterion.objects.create(
+                    tournament=self.tournament,
+                    seq=seq,
+                    name=data['name'],
+                    speech_type=data['speech_type'],
+                    weight=float(data['weight']),
+                    min_score=float(data['min_score']),
+                    max_score=float(data['max_score']),
+                    step=float(data['step']),
+                    required=data['required'],
+                )
+                self.score_criteria[seq] = criterion_obj
+        else:
+            self.score_criteria = {
+                criterion.seq: criterion
+                for criterion in self.tournament.scorecriterion_set.order_by('seq')
+            }
+
+        cross_defs = {}
+        for cross in self.root.findall('round/debate/side/cross'):
+            seq = int(cross.get('seq'))
+            cross_defs.setdefault(seq, {
+                'name': cross.get('name'),
+                'weight': cross.get('weight', 1),
+                'min_score': cross.get('min', 2),
+                'max_score': cross.get('max', 6),
+                'step': cross.get('step', 0.5),
+                'required': cross.get('required', 'true') == 'true',
+            })
+
+        if cross_defs:
+            cross_examinations_enabled = True
+            self.tournament.crossexamination_set.all().delete()
+            for seq, data in sorted(cross_defs.items()):
+                cross_obj = CrossExamination.objects.create(
+                    tournament=self.tournament,
+                    seq=seq,
+                    name=data['name'],
+                    weight=float(data['weight']),
+                    min_score=float(data['min_score']),
+                    max_score=float(data['max_score']),
+                    step=float(data['step']),
+                    required=data['required'],
+                )
+                self.cross_examinations[seq] = cross_obj
+        elif len(self.root.findall('round/debate/side/cross-total')) != 0:
+            cross_examinations_enabled = True
+            self.tournament.crossexamination_set.all().delete()
+        else:
+            self.cross_examinations = {
+                cross.seq: cross
+                for cross in self.tournament.crossexamination_set.order_by('seq')
+            }
+
+        self.tournament.preferences['debate_rules__cross_examinations_enabled'] = cross_examinations_enabled
+        self.tournament._prefs.pop('cross_examinations_enabled', None)
 
     def import_institutions(self):
         self.institutions = {}
@@ -739,12 +830,50 @@ class Importer:
                     for speech, pos in zip(side.findall('speech'), self.tournament.positions):
                         if numeric_scores:
                             dr.set_speaker(side_code, pos, self.speakers.get(speech.get('speaker')))
-                            if consensus:
+                            criterion_nodes = speech.findall('criterion')
+                            if criterion_nodes:
+                                for criterion_node in criterion_nodes:
+                                    criterion = self.score_criteria.get(int(criterion_node.get('seq')))
+                                    if criterion is None:
+                                        continue
+                                    if consensus:
+                                        ballot = criterion_node.find('ballot')
+                                        if ballot is not None and ballot.text is not None:
+                                            dr.set_criterion_score(side_code, pos, criterion, float(ballot.text))
+                                    else:
+                                        for ballot in criterion_node.findall('ballot'):
+                                            for adj in [self.adjudicators[a] for a in ballot.get('adjudicators', "").split(" ") if a]:
+                                                dr.set_criterion_score(adj, side_code, pos, criterion, float(ballot.text))
+                            elif consensus:
                                 dr.set_score(side_code, pos, float(speech.find('ballot').text))
                             else:
                                 for ballot in speech.findall('ballot'):
-                                    for adj in [self.adjudicators[a] for a in ballot.get('adjudicators', "").split(" ")]:
+                                    for adj in [self.adjudicators[a] for a in ballot.get('adjudicators', "").split(" ") if a]:
                                         dr.set_score(adj, side_code, pos, float(ballot.text))
+
+                    cross_nodes = side.findall('cross')
+                    if cross_nodes:
+                        for cross_node in cross_nodes:
+                            cross = self.cross_examinations.get(int(cross_node.get('seq')))
+                            if cross is None:
+                                continue
+                            if consensus:
+                                ballot = cross_node.find('ballot')
+                                if ballot is not None and ballot.text is not None:
+                                    dr.set_cross_score(side_code, cross, float(ballot.text))
+                            else:
+                                for ballot in cross_node.findall('ballot'):
+                                    for adj in [self.adjudicators[a] for a in ballot.get('adjudicators', "").split(" ") if a]:
+                                        dr.set_cross_score(adj, side_code, cross, float(ballot.text))
+                    elif side.find('cross-total') is not None:
+                        if consensus:
+                            ballot = side.find('cross-total/ballot')
+                            if ballot is not None and ballot.text is not None:
+                                dr.set_cross_total(side_code, float(ballot.text))
+                        else:
+                            for ballot in side.findall('cross-total/ballot'):
+                                for adj in [self.adjudicators[a] for a in ballot.get('adjudicators', "").split(" ") if a]:
+                                    dr.set_cross_total(adj, side_code, float(ballot.text))
                     # Note: Dependent on #1180
                     if consensus:
                         if int(side.find('ballot').get('rank')) == 1:
