@@ -5,7 +5,7 @@ from draw.models import DebateTeam
 from draw.types import DebateSide
 from tournaments.models import Tournament
 
-from .bye_scores import bye_average_results_enabled, refresh_bye_ballots
+from .bye_scores import bye_average_results_enabled, refresh_bye_ballots, refresh_forfeit_ballots
 from .models import BallotSubmission, CrossExamination, ScoreCriterion
 
 COMMON_CRITERIA = [
@@ -73,20 +73,24 @@ def create_default_score_criteria(sender, instance, created, **kwargs):
         ])
 
 
+def _refresh_auto_ballots(tournament, *, trigger_debate_is_bye):
+    if bye_average_results_enabled(tournament) and not trigger_debate_is_bye:
+        refresh_bye_ballots(tournament)
+
+    if tournament.pref('teams_in_debate') == 2:
+        refresh_forfeit_ballots(tournament)
+
+
 @receiver(post_save, sender=BallotSubmission)
 def refresh_byes_after_ballot_save(sender, instance, **kwargs):
     tournament = instance.debate.round.tournament
-    if instance.debate.is_bye or not bye_average_results_enabled(tournament):
-        return
-    refresh_bye_ballots(tournament)
+    _refresh_auto_ballots(tournament, trigger_debate_is_bye=instance.debate.is_bye)
 
 
 @receiver(post_delete, sender=BallotSubmission)
 def refresh_byes_after_ballot_delete(sender, instance, **kwargs):
     tournament = instance.debate.round.tournament
-    if instance.debate.is_bye or not bye_average_results_enabled(tournament):
-        return
-    refresh_bye_ballots(tournament)
+    _refresh_auto_ballots(tournament, trigger_debate_is_bye=instance.debate.is_bye)
 
 
 def _debate_might_need_bye_refresh(debate, debateteam_side=None):

@@ -6,7 +6,7 @@ from adjallocation.models import DebateAdjudicator
 from draw.models import Debate, DebateTeam
 from draw.types import DebateSide
 from participants.models import Adjudicator, Institution, Speaker, Team
-from results.bye_scores import refresh_bye_ballots, sync_forfeit_ballot
+from results.bye_scores import refresh_bye_ballots, refresh_forfeit_ballots, sync_forfeit_ballot
 from results.models import BallotSubmission, CrossExaminationScore, SpeakerScore, TeamScore
 from tournaments.models import Round, Tournament
 from utils.tests import suppress_logs
@@ -676,5 +676,60 @@ class TestByeAverageScores(TestCase):
         loser_standing = standings.get_standing(self.team3_speakers[0])
         self.assertAlmostEqual(20, winner_standing.metrics['average'])
         self.assertAlmostEqual(120, winner_standing.metrics['total'])
+        self.assertAlmostEqual(0, loser_standing.metrics['average'])
+        self.assertAlmostEqual(0, loser_standing.metrics['total'])
+
+    def test_forfeit_scores_refresh_after_later_real_debates(self):
+        self._add_real_debate(
+            1,
+            self.team1,
+            self.team2,
+            self.team1_speakers,
+            self.team2_speakers,
+            {1: 60, 2: 57, 3: 54, 4: 48},
+            {1: 54, 2: 51, 3: 48, 4: 45},
+            267,
+            246,
+        )
+        _, ballotsub, aff_dt, neg_dt = self._add_forfeit_debate(2, self.team1, self.team3, DebateSide.NEG)
+
+        self.assertEqual(267, TeamScore.objects.get(ballot_submission=ballotsub, debate_team=aff_dt).score)
+        self.assertEqual(60, SpeakerScore.objects.get(ballot_submission=ballotsub, debate_team=aff_dt, position=1).score)
+
+        self._add_real_debate(
+            3,
+            self.team1,
+            self.team2,
+            self.team1_speakers,
+            self.team2_speakers,
+            {1: 63, 2: 60, 3: 57, 4: 45},
+            {1: 57, 2: 54, 3: 51, 4: 48},
+            276,
+            258,
+        )
+
+        refresh_forfeit_ballots(self.tournament)
+
+        refreshed_winner = TeamScore.objects.get(ballot_submission=ballotsub, debate_team=aff_dt)
+        refreshed_loser = TeamScore.objects.get(ballot_submission=ballotsub, debate_team=neg_dt)
+        refreshed_pos1 = SpeakerScore.objects.get(ballot_submission=ballotsub, debate_team=aff_dt, position=1)
+
+        self.assertEqual(271.5, refreshed_winner.score)
+        self.assertEqual(0, refreshed_loser.score)
+        self.assertEqual(61.5, refreshed_pos1.score)
+        self.assertEqual(0, SpeakerScore.objects.get(ballot_submission=ballotsub, debate_team=neg_dt, position=1).score)
+
+        standings_generator = SpeakerStandingsGenerator(('average', 'total'), ())
+        with suppress_logs('standings.metrics', logging.INFO):
+            standings = standings_generator.generate(
+                Speaker.objects.filter(team__tournament=self.tournament),
+                tournament=self.tournament,
+                round=self.tournament.round_set.order_by('seq').last(),
+            )
+
+        winner_standing = standings.get_standing(self.team1_speakers[0])
+        loser_standing = standings.get_standing(self.team3_speakers[0])
+        self.assertAlmostEqual(20.5, winner_standing.metrics['average'])
+        self.assertAlmostEqual(184.5, winner_standing.metrics['total'])
         self.assertAlmostEqual(0, loser_standing.metrics['average'])
         self.assertAlmostEqual(0, loser_standing.metrics['total'])

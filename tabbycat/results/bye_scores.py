@@ -287,6 +287,30 @@ def sync_forfeit_ballot(ballotsub, forfeiting_side):
     return ballotsub
 
 
+def refresh_forfeit_ballots(tournament, ballotsubs=None):
+    ballotsubs_qs = BallotSubmission.objects.filter(
+        debate__round__tournament=tournament,
+        confirmed=True,
+        forfeit=True,
+    ).select_related('debate__round')
+
+    if ballotsubs is not None:
+        ballot_ids = [ballotsub.id for ballotsub in ballotsubs]
+        ballotsubs_qs = ballotsubs_qs.filter(id__in=ballot_ids)
+
+    ballotsubs_qs = list(ballotsubs_qs)
+    if not ballotsubs_qs:
+        return
+
+    with transaction.atomic():
+        for ballotsub in ballotsubs_qs:
+            forfeiting_side = _infer_forfeiting_side(ballotsub)
+            if forfeiting_side is None:
+                logger.warning("Couldn't infer forfeiting side for ballot submission %s", ballotsub.id)
+                continue
+            sync_forfeit_ballot(ballotsub, forfeiting_side)
+
+
 def _clear_bye_ballot(debate):
     debate.ballotsubmission_set.all().delete()
     _set_debate_result_status(debate, Debate.STATUS_NONE)
@@ -359,6 +383,26 @@ def _bye_score_multiplier(round, tournament):
     if round.ballots_per_debate == 'per-adj' and tournament.pref('teams_in_debate') == 2:
         return float(BYE_BALLOTS)
     return 1.0
+
+
+def _infer_forfeiting_side(ballotsub):
+    losing_side = ballotsub.teamscore_set.filter(
+        win=False,
+    ).values_list('debate_team__side', flat=True).first()
+    if losing_side is not None:
+        return losing_side
+
+    winning_side = ballotsub.teamscore_set.filter(
+        win=True,
+    ).values_list('debate_team__side', flat=True).first()
+    if winning_side is None:
+        return None
+
+    debate_sides = list(ballotsub.debate.debateteam_set.values_list('side', flat=True))
+    if len(debate_sides) != 2:
+        return None
+
+    return next((side for side in debate_sides if side != winning_side), None)
 
 
 def _clear_auto_result_details(ballotsub):
