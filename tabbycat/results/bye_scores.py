@@ -502,6 +502,8 @@ def _confirmed_real_speaker_scores(team, tournament):
         debate_team__debate__round__stage=Round.Stage.PRELIMINARY,
     ).exclude(
         debate_team__side=DebateSide.BYE,
+    ).exclude(
+        ballot_submission__forfeit=True,
     )
 
 
@@ -513,6 +515,8 @@ def _confirmed_real_team_scores(team, tournament):
         debate_team__debate__round__stage=Round.Stage.PRELIMINARY,
     ).exclude(
         debate_team__side=DebateSide.BYE,
+    ).exclude(
+        ballot_submission__forfeit=True,
     ).select_related('ballot_submission', 'debate_team__debate__round')
 
 
@@ -674,6 +678,8 @@ def _lineup_from_latest_real_debate(debateteam, positions, reply_position):
             debate_team__debate__round__seq__lt=debateteam.debate.round.seq,
         ).exclude(
             debate_team__side=DebateSide.BYE,
+        ).exclude(
+            ballot_submission__forfeit=True,
         ).select_related('speaker', 'ballot_submission__debate__round').order_by(
             '-ballot_submission__debate__round__seq',
             'position',

@@ -9,6 +9,7 @@ from participants.models import Adjudicator, Institution, Speaker, Team
 from results.bye_scores import refresh_bye_ballots, refresh_forfeit_ballots, sync_forfeit_ballot
 from results.models import BallotSubmission, CrossExaminationScore, SpeakerScore, TeamScore
 from tournaments.models import Round, Tournament
+from utils.tables import TabbycatTableBuilder
 from utils.tests import suppress_logs
 from venues.models import Venue
 
@@ -733,3 +734,54 @@ class TestByeAverageScores(TestCase):
         self.assertAlmostEqual(184.5, winner_standing.metrics['total'])
         self.assertAlmostEqual(0, loser_standing.metrics['average'])
         self.assertAlmostEqual(0, loser_standing.metrics['total'])
+
+    def test_bye_round_results_cell_shows_bye_score(self):
+        debate, bye_dt = self._add_bye_debate(1, self.team1)
+
+        refresh_bye_ballots(self.tournament)
+
+        ballotsub = debate.ballotsubmission_set.get(confirmed=True)
+        teamscore = TeamScore.objects.get(ballot_submission=ballotsub, debate_team=bye_dt)
+        table = TabbycatTableBuilder(tournament=self.tournament, admin=True)
+
+        cell = table._result_cell(teamscore, compress=True, show_score=True, show_ballots=True)
+
+        self.assertEqual('Bye', cell['text'])
+        self.assertIn('subtext', cell)
+        self.assertNotEqual(table.BLANK_TEXT, cell['text'])
+
+    def test_bye_averages_ignore_forfeit_awards(self):
+        self._add_real_debate(
+            1,
+            self.team1,
+            self.team2,
+            self.team1_speakers,
+            self.team2_speakers,
+            {1: 60, 2: 57, 3: 54, 4: 48},
+            {1: 54, 2: 51, 3: 48, 4: 45},
+            267,
+            246,
+        )
+        self._add_forfeit_debate(2, self.team1, self.team3, DebateSide.NEG)
+        self._add_real_debate(
+            3,
+            self.team1,
+            self.team3,
+            self.team1_speakers,
+            self.team3_speakers,
+            {1: 66, 2: 63, 3: 60, 4: 51},
+            {1: 57, 2: 54, 3: 51, 4: 48},
+            282,
+            258,
+        )
+        bye_debate, bye_dt = self._add_bye_debate(4, self.team1)
+
+        refresh_forfeit_ballots(self.tournament)
+        refresh_bye_ballots(self.tournament)
+
+        ballotsub = bye_debate.ballotsubmission_set.get(confirmed=True)
+        bye_teamscore = TeamScore.objects.get(ballot_submission=ballotsub, debate_team=bye_dt)
+        bye_pos1 = SpeakerScore.objects.get(ballot_submission=ballotsub, debate_team=bye_dt, position=1)
+
+        self.assertEqual(274.5, bye_teamscore.score)
+        self.assertEqual(63, bye_pos1.score)

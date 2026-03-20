@@ -382,7 +382,24 @@ class TabbycatTableBuilder(BaseTableBuilder):
             })
 
     def _result_cell_two(self, ts, compress=False, show_score=False, show_ballots=False):
-        if not hasattr(ts, 'debate_team') or not hasattr(ts.debate_team.opponent, 'team'):
+        if not hasattr(ts, 'debate_team'):
+            return {'text': self.BLANK_TEXT}
+
+        if ts.debate_team.side == DebateSide.BYE:
+            cell = {
+                'text': _("Bye"),
+                'popover': {'content': [], 'title': _("Team was given a bye")},
+                'class': "no-wrap",
+            }
+            cell = self._result_cell_class_two(ts.win, cell)
+            cell['popover']['title'] = _("Team was given a bye")
+
+            if show_score and ts.score is not None:
+                self._show_score(ts, cell)
+
+            return cell
+
+        if not hasattr(ts.debate_team.opponent, 'team'):
             return {'text': self.BLANK_TEXT}
 
         opp = ts.debate_team.opponent.team
