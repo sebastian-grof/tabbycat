@@ -12,7 +12,7 @@ from tournaments.models import Round
 
 from .generator import BPEliminationResultPairing, DrawGenerator, DrawUserError, ResultPairing
 from .generator.utils import ispow2
-from .models import ByeTeamOverride, Debate, DebateTeam, get_effective_side_allocation_mode
+from .models import ByeTeamOverride, Debate, DebateTeam, TeamSideAllocation, get_effective_side_allocation_mode
 from .side_allocation_pairings import apply_postallocated_sides
 from .types import DebateSide
 
@@ -201,6 +201,16 @@ class BaseDrawManager:
     def _apply_postallocated_sides(self, pairings: List['BasePairing']):
         apply_postallocated_sides(self.round, pairings)
 
+    def _save_pairing_side_allocations(self, pairings: List['BasePairing']):
+        sides = list(self.round.tournament.sides)
+        allocations = []
+        for pairing in pairings:
+            for team, side in zip(pairing.teams, sides):
+                allocations.append(TeamSideAllocation(round=self.round, team=team, side=side))
+
+        self.round.teamsideallocation_set.all().delete()
+        TeamSideAllocation.objects.bulk_create(allocations)
+
     def _make_debates(self, pairings: List['BasePairing']) -> list[Debate]:
         random.shuffle(pairings)  # to avoid IDs indicating room ranks
 
@@ -287,6 +297,7 @@ class BaseDrawManager:
         pairings = drawer.generate()
         if postallocate_sides:
             self._apply_postallocated_sides(pairings)
+            self._save_pairing_side_allocations(pairings)
         debates = self._make_debates(pairings)
 
         debates.extend(self._make_bye_debates(byes, max([p.room_rank for p in pairings], default=0)))

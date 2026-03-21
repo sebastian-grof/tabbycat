@@ -2,7 +2,6 @@ from types import SimpleNamespace
 import unittest
 
 from ..generator.pairing import Pairing
-from ..generator import DrawUserError
 from ..side_allocation_pairings import apply_postallocated_sides
 from ..tests.utils import TestTeam
 from ..types import DebateSide
@@ -45,14 +44,15 @@ class PostAllocatedSidesTest(unittest.TestCase):
 
         self.assertEqual(pairing.teams, [team2, team1])
 
-    def test_apply_postallocated_sides_raises_on_same_side_conflict(self):
-        team1 = TestTeam(1, "A")
-        team2 = TestTeam(2, "B")
+    def test_apply_postallocated_sides_balances_same_side_conflict(self):
+        team1 = TestTeam(1, "A", side_history=[2, 0])
+        team2 = TestTeam(2, "B", side_history=[0, 2])
         pairing = Pairing(teams=[team1, team2], bracket=0, room_rank=1)
         self.set_allocations({
             team1.id: DebateSide.AFF,
             team2.id: DebateSide.AFF,
         })
 
-        with self.assertRaises(DrawUserError):
-            apply_postallocated_sides(self.round, [pairing])
+        apply_postallocated_sides(self.round, [pairing])
+
+        self.assertEqual(pairing.teams, [team2, team1])

@@ -3,6 +3,18 @@ from django.utils.translation import gettext as _
 from .generator import DrawUserError
 
 
+def _balance_pairing(pairing):
+    if hasattr(pairing, "balance_sides"):
+        try:
+            pairing.balance_sides()
+            return
+        except AttributeError:
+            pass
+
+    if hasattr(pairing, "shuffle_sides"):
+        pairing.shuffle_sides()
+
+
 def apply_postallocated_sides(round, pairings, allocations=None):
     sides = list(round.tournament.sides)
     if len(sides) != 2:
@@ -20,18 +32,23 @@ def apply_postallocated_sides(round, pairings, allocations=None):
         right_side = allocations.get(right.id)
 
         if left_side is None and right_side is None:
+            _balance_pairing(pairing)
             continue
 
-        if left_side is not None and left_side == right_side:
-            raise DrawUserError(_(
-                "Saved side allocations for %(round)s can't be applied after pairing because %(team1)s and %(team2)s both require the same side."
-            ) % {
-                "round": round.name,
-                "team1": getattr(left, "short_name", str(left)),
-                "team2": getattr(right, "short_name", str(right)),
-            })
-
-        if left_side == sides[0] or right_side == sides[1]:
+        if left_side is not None and right_side is not None:
+            if left_side == right_side:
+                _balance_pairing(pairing)
+                continue
+            if left_side == sides[1] and right_side == sides[0]:
+                pairing.teams.reverse()
             continue
-        if left_side == sides[1] or right_side == sides[0]:
-            pairing.teams.reverse()
+
+        if left_side is not None:
+            if left_side == sides[1]:
+                pairing.teams.reverse()
+            continue
+
+        if right_side is not None:
+            if right_side == sides[0]:
+                pairing.teams.reverse()
+            continue
