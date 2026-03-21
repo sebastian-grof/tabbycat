@@ -132,6 +132,46 @@
   <div class="card mt-3">
     <div class="list-group list-group-flush">
       <div class="list-group-item pt-4 pb-3">
+        <h4 class="card-title mt-0 mb-1">{% trans "When Sides Apply" %}</h4>
+        <p class="text-muted mb-0">
+          {% if side_allocation_mode == 'postallocated' %}
+            {% trans "This round will pair debates first, then apply saved side allocations inside each debate." %}
+          {% else %}
+            {% trans "This round will use saved side allocations during pairing." %}
+          {% endif %}
+        </p>
+      </div>
+      <div class="list-group-item pt-3 pb-3">
+        {% if timing_form %}
+          <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="timing">
+            {{ timing_form.selected_round }}
+            {% if timing_form.non_field_errors %}
+              <div class="alert alert-danger mb-3">{{ timing_form.non_field_errors }}</div>
+            {% endif %}
+            <div class="form-row align-items-end">
+              <div class="form-group col-md-8 mb-3">
+                <label for="{{ timing_form.timing.id_for_label }}">{{ timing_form.timing.label }}</label>
+                {{ timing_form.timing }}
+                {% if timing_form.timing.errors %}<div class="text-danger small mt-1">{{ timing_form.timing.errors }}</div>{% endif %}
+              </div>
+              <div class="form-group col-md-4 mb-3">
+                <button type="submit" class="btn btn-primary btn-block">{% trans "Save timing" %}</button>
+              </div>
+            </div>
+            <div class="small text-muted">
+              {% trans "Use Before pairing when saved sides should constrain the draw. Use After pairing when standings and pullups should be resolved first." %}
+            </div>
+          </form>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <div class="card mt-3">
+    <div class="list-group list-group-flush">
+      <div class="list-group-item pt-4 pb-3">
         <h4 class="card-title mt-0 mb-0">{% trans "Automatic generation" %}</h4>
       </div>
       <div class="list-group-item pt-3 pb-3">

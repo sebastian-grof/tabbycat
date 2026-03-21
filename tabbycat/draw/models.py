@@ -388,3 +388,45 @@ class ByeTeamOverride(models.Model):
 
     def __str__(self):
         return f"{self.team.short_name} bye override for {self.round.name}"
+
+
+class SideAllocationTimingOverride(models.Model):
+
+    class Timing(models.TextChoices):
+        BEFORE = 'before', _("Before pairing")
+        AFTER = 'after', _("After pairing")
+
+    round = models.OneToOneField(
+        'tournaments.Round',
+        models.CASCADE,
+        related_name='side_allocation_timing_override',
+        verbose_name=_("round"),
+    )
+    timing = models.CharField(
+        max_length=16,
+        choices=Timing.choices,
+        default=Timing.BEFORE,
+        verbose_name=_("timing"),
+    )
+
+    class Meta:
+        verbose_name = _("side allocation timing override")
+        verbose_name_plural = _("side allocation timing overrides")
+
+    def __str__(self):
+        return f"{self.round.name}: {self.get_timing_display()}"
+
+
+def get_effective_side_allocation_mode(round):
+    mode = round.tournament.pref('draw_side_allocations')
+    if mode != 'preallocated':
+        return mode
+
+    try:
+        timing = round.side_allocation_timing_override.timing
+    except SideAllocationTimingOverride.DoesNotExist:
+        return 'preallocated'
+
+    if timing == SideAllocationTimingOverride.Timing.AFTER:
+        return 'postallocated'
+    return 'preallocated'

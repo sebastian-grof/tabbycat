@@ -115,6 +115,27 @@ class TestPowerPairedDrawGeneratorParts(unittest.TestCase):
             self.assertEqual([i in b2[2] for i in [10, 11, 12, 13, 14]].count(True), 4)
             self.assertEqual([15, 16], b2[1])
 
+    def test_middle_bracket_bye_team(self):
+        teams = [
+            TestTeam(1, 'A', points=4),
+            TestTeam(2, 'B', points=4),
+            TestTeam(3, 'C', points=4),
+            TestTeam(4, 'D', points=4),
+            TestTeam(5, 'E', points=4),
+            TestTeam(6, 'F', points=3),
+            TestTeam(7, 'G', points=3),
+            TestTeam(8, 'H', points=3),
+            TestTeam(9, 'I', points=3),
+            TestTeam(10, 'J', points=2),
+            TestTeam(11, 'K', points=2),
+            TestTeam(12, 'L', points=2),
+            TestTeam(13, 'M', points=2),
+        ]
+
+        ppd = DrawGenerator(2, "power_paired", teams, None, odd_bracket="pullup_top", allow_odd_teams=True)
+
+        self.assertEqual(ppd.get_bye_team().id, 12)
+
     def brackets_intermediate_bubble_up_down(self, brackets, expected):
         b2 = copy.deepcopy(brackets)
         expected_team_flags = dict()

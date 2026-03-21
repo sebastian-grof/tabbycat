@@ -121,6 +121,63 @@ class BasePowerPairedDrawGenerator(BasePairDrawGenerator):
         self.annotate_team_flags(self._draw)  # operates in-place
         return self._draw
 
+    def get_bye_team(self):
+        if len(self.teams) % 2 == 0:
+            raise DrawUserError(_("Middle-bracket bye selection requires an odd number of teams."))
+
+        brackets = self._make_raw_brackets()
+        odd_bracket = self._get_final_odd_bracket(brackets)
+        if not odd_bracket:
+            raise DrawUserError(_("Couldn't determine a final odd bracket for bye selection."))
+        return odd_bracket[len(odd_bracket) // 2]
+
+    def _get_final_odd_bracket(self, brackets):
+        odd_bracket = self.options["odd_bracket"]
+        if odd_bracket in {"pullup_top", "pullup_bottom", "pullup_middle", "pullup_random"}:
+            selector = {
+                "pullup_top": lambda eligible: eligible[0],
+                "pullup_bottom": lambda eligible: eligible[-1],
+                "pullup_middle": lambda eligible: eligible[len(eligible) // 2 - (random.randrange(2) if len(eligible) % 2 == 0 else 0)],
+                "pullup_random": lambda eligible: eligible[random.randrange(len(eligible))],
+            }[odd_bracket]
+            return self._get_final_odd_pullup_bracket(brackets, selector)
+        if odd_bracket in {"intermediate", "intermediate_bubble_up_down"}:
+            return self._get_final_odd_intermediate_bracket(brackets)
+        raise DrawUserError(_("Middle-bracket bye selection isn't supported with the odd-bracket setting '%(setting)s'.") % {
+            "setting": odd_bracket,
+        })
+
+    def _get_final_odd_pullup_bracket(self, brackets, selector):
+        pullup_needed_for = None
+
+        for teams in brackets.values():
+            if pullup_needed_for:
+                pullup_eligible_teams = self._pullup_filter(teams)
+                pullup_team = selector(pullup_eligible_teams)
+                teams.remove(pullup_team)
+                pullup_needed_for.append(pullup_team)
+                pullup_needed_for = None
+
+            if len(teams) % 2 != 0:
+                pullup_needed_for = teams
+
+        return pullup_needed_for
+
+    @staticmethod
+    def _get_final_odd_intermediate_bracket(brackets):
+        odd_team = None
+        for teams in brackets.values():
+            if odd_team:
+                if teams:
+                    teams.pop(0)
+                odd_team = None
+            if len(teams) % 2 != 0:
+                odd_team = teams.pop()
+
+        if odd_team is None:
+            return None
+        return [odd_team]
+
     def _make_raw_brackets(self):
         """Returns an OrderedDict mapping bracket names (normally numbers)
         to lists."""

@@ -12,7 +12,8 @@ from tournaments.models import Round
 
 from .generator import BPEliminationResultPairing, DrawGenerator, DrawUserError, ResultPairing
 from .generator.utils import ispow2
-from .models import ByeTeamOverride, Debate, DebateTeam
+from .models import ByeTeamOverride, Debate, DebateTeam, get_effective_side_allocation_mode
+from .side_allocation_pairings import apply_postallocated_sides
 from .types import DebateSide
 
 if TYPE_CHECKING:
@@ -94,6 +95,9 @@ class BaseDrawManager:
             return n_teams % len(self.round.tournament.sides)
         return 0
 
+    def get_side_allocation_mode(self):
+        return get_effective_side_allocation_mode(self.round)
+
     def get_generator_type(self):
         return self.generator_type
 
@@ -103,7 +107,7 @@ class BaseDrawManager:
         return self.round.tournament.team_set.all()
 
     def _get_preallocated_split(self, teams: List['Team'], n_byes: int):
-        if n_byes == 0 or self.round.tournament.pref('draw_side_allocations') != 'preallocated':
+        if n_byes == 0 or self.get_side_allocation_mode() != 'preallocated':
             return None
 
         active_team_ids = [team.id for team in teams]
@@ -194,6 +198,9 @@ class BaseDrawManager:
             if team in tsas:
                 team.allocated_side = tsas[team]
 
+    def _apply_postallocated_sides(self, pairings: List['BasePairing']):
+        apply_postallocated_sides(self.round, pairings)
+
     def _make_debates(self, pairings: List['BasePairing']) -> list[Debate]:
         random.shuffle(pairings)  # to avoid IDs indicating room ranks
 
@@ -251,8 +258,19 @@ class BaseDrawManager:
         for key in self.get_relevant_options():
             if key not in options:
                 options[key] = self.round.tournament.preferences[OPTIONS_TO_CONFIG_MAPPING[key]]
+
+        if "side_allocations" in options:
+            options["side_allocations"] = self.get_side_allocation_mode()
+
+        postallocate_sides = options.get("side_allocations") == "postallocated"
+        if postallocate_sides and options.get("odd_bracket") in {"intermediate1", "intermediate2"}:
+            raise DrawUserError(_("The odd-bracket method %(method)s requires side allocations before pairing.") % {
+                "method": options["odd_bracket"],
+            })
         if options.get("side_allocations") == "manual-ballot":
             options["side_allocations"] = "balance"
+        elif postallocate_sides:
+            options["side_allocations"] = "none"
 
         teams, byes = self.get_teams()
         results = self.get_results()
@@ -267,6 +285,8 @@ class BaseDrawManager:
         drawer = DrawGenerator(self.teams_in_debate, generator_type, teams,
                 results=results, rrseq=rrseq, **options)
         pairings = drawer.generate()
+        if postallocate_sides:
+            self._apply_postallocated_sides(pairings)
         debates = self._make_debates(pairings)
 
         debates.extend(self._make_bye_debates(byes, max([p.room_rank for p in pairings], default=0)))
@@ -341,6 +361,52 @@ class PowerPairedDrawManager(BaseDrawManager):
                 team.draw_strength_rank = standing.metrics.get('draw_strength_rank')
 
             ranked.append(team)
+
+        n_byes = self.n_byes(len(ranked))
+        if n_byes:
+            manual_override = self._get_manual_bye_override_split(ranked, n_byes)
+            if manual_override is not None:
+                return manual_override
+
+            preallocated = self._get_preallocated_split(ranked, n_byes)
+            if preallocated is not None:
+                return preallocated
+
+            if self.round.tournament.pref('bye_team_selection') == 'middle_odd_bracket':
+                if self.teams_in_debate != 2 or n_byes != 1:
+                    raise DrawUserError(_("Middle-bracket bye selection is only supported for one bye in two-team preliminary draws."))
+
+                if self.round.tournament.pref('draw_avoid_conflicts') == 'graph_one':
+                    raise DrawUserError(_("Middle-bracket bye selection isn't supported with the conflict-avoidance method that determines pullups itself."))
+
+                side_mode = self.get_side_allocation_mode()
+                if side_mode == 'preallocated':
+                    raise DrawUserError(_("Middle-bracket bye selection can't be combined with before-pairing side allocations. Use a manual bye override or switch that round to after pairing."))
+
+                bye_drawer = DrawGenerator(
+                    self.teams_in_debate,
+                    self.get_generator_type(),
+                    ranked,
+                    results=None,
+                    rrseq=None,
+                    avoid_conflicts=self.round.tournament.pref('draw_avoid_conflicts'),
+                    odd_bracket=self.round.tournament.pref('draw_odd_bracket'),
+                    pairing_method=self.round.tournament.pref('draw_pairing_method'),
+                    pullup_restriction=self.round.tournament.pref('draw_pullup_restriction'),
+                    side_allocations='none',
+                    max_times_on_one_side=self.round.tournament.pref('max_times_on_one_side'),
+                    pullup_penalty=self.round.tournament.pref('draw_pullup_penalty'),
+                    avoid_institution=self.round.tournament.pref('avoid_same_institution'),
+                    avoid_history=self.round.tournament.pref('avoid_team_history'),
+                    history_penalty=self.round.tournament.pref('team_history_penalty'),
+                    institution_penalty=self.round.tournament.pref('team_institution_penalty'),
+                    pullup_debates_penalty=self.round.tournament.pref('pullup_debates_penalty'),
+                    side_penalty=self.round.tournament.pref('side_penalty'),
+                    pairing_penalty=self.round.tournament.pref('pairing_penalty'),
+                    allow_odd_teams=True,
+                )
+                bye_team = bye_drawer.get_bye_team()
+                return [team for team in ranked if team.id != bye_team.id], [bye_team]
 
         def select_byes(candidates, n_byes):
             if self.round.tournament.pref('bye_team_selection') == 'random':
