@@ -4,8 +4,6 @@ from django.utils.translation import gettext as _
 
 from tournaments.utils import get_side_name
 
-from .models import SideAllocationTimingOverride
-
 
 class ConfirmDrawDeletionForm(forms.Form):
     round_name = forms.CharField(label=_("Full round name"), required=True)
@@ -26,12 +24,14 @@ class ConfirmDrawDeletionForm(forms.Form):
 class SideAllocationGenerateForm(forms.Form):
     MODE_RANDOM = "random"
     MODE_OPPOSITE = "opposite"
+    MODE_CLEAR = "clear"
 
     mode = forms.ChoiceField(
         label=_("Generation mode"),
         choices=(
             (MODE_RANDOM, _("Random")),
             (MODE_OPPOSITE, _("Opposite of round")),
+            (MODE_CLEAR, _("Clear selection")),
         ),
         widget=forms.Select(attrs={"class": "custom-select form-control"}),
     )
@@ -123,46 +123,6 @@ class SideAllocationByeOverrideForm(forms.Form):
 
     def get_team(self):
         return self.cleaned_data.get("team")
-
-
-class SideAllocationTimingForm(forms.Form):
-
-    def __init__(self, tournament, selected_round, *args, **kwargs):
-        self.tournament = tournament
-        self.selected_round = selected_round
-        super().__init__(*args, **kwargs)
-
-        self.fields["selected_round"] = forms.ModelChoiceField(
-            queryset=tournament.prelim_rounds(),
-            initial=selected_round,
-            widget=forms.HiddenInput,
-        )
-        self.fields["timing"] = forms.ChoiceField(
-            label=_("When to apply saved side allocations"),
-            choices=SideAllocationTimingOverride.Timing.choices,
-            widget=forms.Select(attrs={"class": "custom-select form-control"}),
-        )
-
-        try:
-            override = selected_round.side_allocation_timing_override
-        except ObjectDoesNotExist:
-            override = None
-
-        self.initial["timing"] = (
-            override.timing if override is not None else SideAllocationTimingOverride.Timing.BEFORE
-        )
-
-    def get_timing(self):
-        return self.cleaned_data["timing"]
-
-    def clean(self):
-        cleaned_data = super().clean()
-        timing = cleaned_data.get("timing")
-
-        if timing == SideAllocationTimingOverride.Timing.AFTER and self.tournament.pref("draw_odd_bracket") in {"intermediate1", "intermediate2"}:
-            self.add_error("timing", _("This tournament's odd-bracket method requires before-pairing side allocations."))
-
-        return cleaned_data
 
 
 class SideAllocationManualForm(forms.Form):

@@ -52,11 +52,10 @@ from venues.utils import venue_conflicts_display
 
 from .dbutils import delete_round_draw
 from .forms import (ConfirmDrawDeletionForm, SideAllocationByeOverrideForm,
-    SideAllocationGenerateForm, SideAllocationManualForm, SideAllocationTimingForm)
+    SideAllocationGenerateForm, SideAllocationManualForm)
 from .generator import DrawFatalError, DrawUserError
 from .manager import DrawManager
-from .models import (ByeTeamOverride, Debate, SideAllocationTimingOverride,
-    TeamSideAllocation, get_effective_side_allocation_mode)
+from .models import ByeTeamOverride, Debate, TeamSideAllocation, get_effective_side_allocation_mode
 from .side_allocations import (
     SideAllocationError,
     generate_opposite_allocations,
@@ -967,7 +966,6 @@ class SideAllocationsView(AdministratorMixin, TournamentMixin, TemplateView):
         if round_seq is None and self.request.method == "POST":
             round_seq = (
                 self.request.POST.get("bye-selected_round")
-                or self.request.POST.get("timing-selected_round")
                 or self.request.POST.get("manual-selected_round")
                 or self.request.POST.get("generate-target_round")
             )
@@ -997,16 +995,6 @@ class SideAllocationsView(AdministratorMixin, TournamentMixin, TemplateView):
             active_teams=team_groups["active_teams"],
             data=self.request.POST if self.request.method == "POST" and self.request.POST.get("action") == "bye" else None,
             prefix="bye",
-        )
-
-    def get_timing_form(self, selected_round):
-        if selected_round is None:
-            return None
-        return SideAllocationTimingForm(
-            self.tournament,
-            selected_round,
-            data=self.request.POST if self.request.method == "POST" and self.request.POST.get("action") == "timing" else None,
-            prefix="timing",
         )
 
     def get_manual_form(self, selected_round, team_groups=None):
@@ -1054,7 +1042,6 @@ class SideAllocationsView(AdministratorMixin, TournamentMixin, TemplateView):
         selected_round = self.get_selected_round()
         team_groups = get_round_team_groups(selected_round) if selected_round is not None else None
         bye_form = kwargs.pop("bye_form", None) or self.get_bye_form(selected_round, team_groups=team_groups)
-        timing_form = kwargs.pop("timing_form", None) or self.get_timing_form(selected_round)
         manual_form = kwargs.pop("manual_form", None) or self.get_manual_form(selected_round, team_groups=team_groups)
         generate_form = kwargs.pop("generate_form", None) or self.get_generate_form()
         bye_override_team = get_bye_override_team(selected_round) if selected_round is not None else None
@@ -1086,7 +1073,6 @@ class SideAllocationsView(AdministratorMixin, TournamentMixin, TemplateView):
             "selected_round": selected_round,
             "generate_form": generate_form,
             "bye_form": bye_form,
-            "timing_form": timing_form,
             "manual_form": manual_form,
             "allocation_rows": self.get_allocation_rows(rounds),
             "allocation_summary": summary,
@@ -1108,11 +1094,14 @@ class SideAllocationsView(AdministratorMixin, TournamentMixin, TemplateView):
 
     def _add_allocation_summary_message(self, round):
         summary = summarize_allocations(round)
-        if summary["missing"] == 0 and summary["balanced"] and summary["extra_assigned"] == 0:
+        mode = get_effective_side_allocation_mode(round)
+        strict_preallocation = mode == "preallocated"
+
+        if ((not strict_preallocation) or summary["missing"] == 0) and ((not strict_preallocation) or summary["balanced"]) and summary["extra_assigned"] == 0:
             return
 
         warning_bits = []
-        if summary["missing"] > 0:
+        if strict_preallocation and summary["missing"] > 0:
             warning_bits.append(ngettext(
                 "%(count)d debating team is unassigned.",
                 "%(count)d debating teams are unassigned.",
@@ -1124,7 +1113,7 @@ class SideAllocationsView(AdministratorMixin, TournamentMixin, TemplateView):
                 "%(count)d saved allocations belong to teams that are currently unavailable or receiving byes.",
                 summary["extra_assigned"],
             ) % {"count": summary["extra_assigned"]})
-        if len(self.tournament.sides) == 2 and not summary["balanced"]:
+        if strict_preallocation and len(self.tournament.sides) == 2 and not summary["balanced"]:
             side_names = [get_side_name(self.tournament, side, "full").capitalize() for side in self.tournament.sides]
             counts = summary["counts"]
             warning_bits.append(_("Current balance is %(left)s %(left_count)d / %(right)s %(right_count)d.") % {
@@ -1144,10 +1133,9 @@ class SideAllocationsView(AdministratorMixin, TournamentMixin, TemplateView):
         if action == "generate":
             generate_form = self.get_generate_form()
             bye_form = self.get_bye_form(selected_round)
-            timing_form = self.get_timing_form(selected_round)
             manual_form = self.get_manual_form(selected_round)
             if not generate_form.is_valid():
-                return self.render_to_response(self.get_context_data(generate_form=generate_form, bye_form=bye_form, timing_form=timing_form, manual_form=manual_form))
+                return self.render_to_response(self.get_context_data(generate_form=generate_form, bye_form=bye_form, manual_form=manual_form))
 
             target_round = generate_form.cleaned_data["target_round"]
             mode = generate_form.cleaned_data["mode"]
@@ -1155,26 +1143,30 @@ class SideAllocationsView(AdministratorMixin, TournamentMixin, TemplateView):
                 if mode == SideAllocationGenerateForm.MODE_RANDOM:
                     generate_random_allocations(target_round)
                     messages.success(self.request, _("Random side allocations generated for %(round)s.") % {"round": target_round.name})
-                else:
+                elif mode == SideAllocationGenerateForm.MODE_OPPOSITE:
                     source_round = generate_form.cleaned_data["source_round"]
                     generate_opposite_allocations(target_round, source_round)
                     messages.success(self.request, _("Side allocations for %(target)s were copied as the opposite of %(source)s.") % {
                         "target": target_round.name,
                         "source": source_round.name,
                     })
+                else:
+                    replace_round_allocations(target_round, {})
+                    messages.success(self.request, _("Cleared saved side allocations for %(round)s. This round will pair first and assign sides afterwards.") % {
+                        "round": target_round.name,
+                    })
                 self._add_allocation_summary_message(target_round)
                 return HttpResponseRedirect(self.get_success_url(target_round))
             except SideAllocationError as e:
                 messages.error(self.request, str(e))
-                return self.render_to_response(self.get_context_data(generate_form=generate_form, bye_form=bye_form, timing_form=timing_form, manual_form=manual_form))
+                return self.render_to_response(self.get_context_data(generate_form=generate_form, bye_form=bye_form, manual_form=manual_form))
 
         if action == "bye":
             bye_form = self.get_bye_form(selected_round)
-            timing_form = self.get_timing_form(selected_round)
             generate_form = self.get_generate_form()
             manual_form = self.get_manual_form(selected_round)
             if not bye_form.is_valid():
-                return self.render_to_response(self.get_context_data(generate_form=generate_form, bye_form=bye_form, timing_form=timing_form, manual_form=manual_form))
+                return self.render_to_response(self.get_context_data(generate_form=generate_form, bye_form=bye_form, manual_form=manual_form))
 
             target_round = bye_form.cleaned_data["selected_round"]
             team = bye_form.get_team()
@@ -1189,39 +1181,12 @@ class SideAllocationsView(AdministratorMixin, TournamentMixin, TemplateView):
             self._add_allocation_summary_message(target_round)
             return HttpResponseRedirect(self.get_success_url(target_round))
 
-        if action == "timing":
-            timing_form = self.get_timing_form(selected_round)
-            bye_form = self.get_bye_form(selected_round)
-            generate_form = self.get_generate_form()
-            manual_form = self.get_manual_form(selected_round)
-            if not timing_form.is_valid():
-                return self.render_to_response(self.get_context_data(generate_form=generate_form, bye_form=bye_form, timing_form=timing_form, manual_form=manual_form))
-
-            target_round = timing_form.cleaned_data["selected_round"]
-            timing = timing_form.get_timing()
-            if timing == SideAllocationTimingOverride.Timing.AFTER:
-                SideAllocationTimingOverride.objects.update_or_create(
-                    round=target_round,
-                    defaults={"timing": timing},
-                )
-                messages.success(self.request, _("Saved side allocations for %(round)s will be applied after pairing.") % {
-                    "round": target_round.name,
-                })
-            else:
-                SideAllocationTimingOverride.objects.filter(round=target_round).delete()
-                messages.success(self.request, _("Saved side allocations for %(round)s will be applied before pairing.") % {
-                    "round": target_round.name,
-                })
-            self._add_allocation_summary_message(target_round)
-            return HttpResponseRedirect(self.get_success_url(target_round))
-
         if action == "manual":
             manual_form = self.get_manual_form(selected_round)
             bye_form = self.get_bye_form(selected_round)
-            timing_form = self.get_timing_form(selected_round)
             generate_form = self.get_generate_form()
             if not manual_form.is_valid():
-                return self.render_to_response(self.get_context_data(generate_form=generate_form, bye_form=bye_form, timing_form=timing_form, manual_form=manual_form))
+                return self.render_to_response(self.get_context_data(generate_form=generate_form, bye_form=bye_form, manual_form=manual_form))
 
             target_round = manual_form.cleaned_data["selected_round"]
             replace_round_allocations(target_round, manual_form.get_allocations())

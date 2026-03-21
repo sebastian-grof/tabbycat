@@ -6,7 +6,7 @@ from utils.misc import add_query_string_parameter, reverse_tournament
 from utils.tests import AdminTournamentViewSimpleLoadTestMixin, CompletedTournamentTestMixin
 
 from ..manager import DrawManager
-from ..models import ByeTeamOverride, SideAllocationTimingOverride, get_effective_side_allocation_mode
+from ..models import ByeTeamOverride, get_effective_side_allocation_mode
 from ..side_allocations import generate_opposite_allocations, generate_random_allocations, replace_round_allocations
 
 
@@ -123,17 +123,17 @@ class SideAllocationServiceTest(CompletedTournamentTestMixin, TestCase):
         self.assertEqual(len(allocations), len(draw_teams))
         self.assertNotIn(chosen_bye.id, allocations)
 
-    def test_timing_override_switches_effective_mode(self):
+    def test_round_without_active_allocations_uses_postallocated_mode(self):
         self.tournament.preferences['draw_rules__draw_side_allocations'] = 'preallocated'
 
-        self.assertEqual(get_effective_side_allocation_mode(self.round1), 'preallocated')
-
-        SideAllocationTimingOverride.objects.create(
-            round=self.round1,
-            timing=SideAllocationTimingOverride.Timing.AFTER,
-        )
-
         self.assertEqual(get_effective_side_allocation_mode(self.round1), 'postallocated')
+
+    def test_round_with_active_allocations_uses_preallocated_mode(self):
+        self.tournament.preferences['draw_rules__draw_side_allocations'] = 'preallocated'
+        allocations = {team.id: self.sides[index % 2] for index, team in enumerate(self.tournament.team_set.order_by('id')[:4])}
+        replace_round_allocations(self.round1, allocations)
+
+        self.assertEqual(get_effective_side_allocation_mode(self.round1), 'preallocated')
 
 
 class SideAllocationByeOverrideViewTest(CompletedTournamentTestMixin, TestCase):
@@ -162,15 +162,17 @@ class SideAllocationByeOverrideViewTest(CompletedTournamentTestMixin, TestCase):
         self.assertRedirects(response, url)
         self.assertEqual(self.round1.bye_team_override.team_id, chosen_bye.id)
 
-    def test_post_sets_timing_override(self):
+    def test_post_clear_generation_removes_allocations(self):
         self.tournament.preferences['draw_rules__draw_side_allocations'] = 'preallocated'
+        allocations = {team.id: self.round1.tournament.sides[index % 2] for index, team in enumerate(self.tournament.team_set.order_by('id')[:4])}
+        replace_round_allocations(self.round1, allocations)
         url = add_query_string_parameter(reverse_tournament('draw-side-allocations', self.tournament), 'round_seq', self.round1.seq)
 
         response = self.client.post(url, {
-            'action': 'timing',
-            'timing-selected_round': self.round1.id,
-            'timing-timing': SideAllocationTimingOverride.Timing.AFTER,
+            'action': 'generate',
+            'generate-target_round': self.round1.id,
+            'generate-mode': 'clear',
         })
 
         self.assertRedirects(response, url)
-        self.assertEqual(self.round1.side_allocation_timing_override.timing, SideAllocationTimingOverride.Timing.AFTER)
+        self.assertEqual(self.round1.teamsideallocation_set.count(), 0)

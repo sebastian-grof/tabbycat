@@ -21,7 +21,7 @@
 {% block content %}
 
   {% blocktrans trimmed asvar explainer_text %}
-    Use this page to save explicit side allocations for preliminary rounds. Automatic generation and manual editing use the teams marked available for the selected round, and predicted bye teams are left unassigned.
+    Use this page to save explicit side allocations for preliminary rounds. Automatic generation and manual editing use the teams marked available for the selected round, and predicted bye teams are left unassigned. If a round has no saved allocations, Tabbycat will pair the draw first and then assign sides afterwards.
   {% endblocktrans %}
   {% include "components/explainer-card.html" with type="info" p1=explainer_text %}
 
@@ -80,6 +80,11 @@
               {% endif %}
             </div>
           </div>
+          {% if side_allocation_mode == 'postallocated' %}
+            <div class="small text-muted mt-2">
+              {% trans "This round has no active saved side allocations, so the draw will be paired first and sides will be assigned afterwards." %}
+            </div>
+          {% endif %}
           {% if allocation_summary.extra_assigned > 0 %}
             <div class="small text-warning mt-2">
               {% blocktrans trimmed with count=allocation_summary.extra_assigned %}There are {{ count }} saved allocations on teams that are currently unavailable or receiving byes; saving this form will clear them.{% endblocktrans %}
@@ -124,46 +129,6 @@
           <p class="mb-0 text-muted">{% trans "There are no debating teams available to assign in this round right now." %}</p>
         {% else %}
           <p class="mb-0 text-muted">{% trans "There are no preliminary rounds to edit yet." %}</p>
-        {% endif %}
-      </div>
-    </div>
-  </div>
-
-  <div class="card mt-3">
-    <div class="list-group list-group-flush">
-      <div class="list-group-item pt-4 pb-3">
-        <h4 class="card-title mt-0 mb-1">{% trans "When Sides Apply" %}</h4>
-        <p class="text-muted mb-0">
-          {% if side_allocation_mode == 'postallocated' %}
-            {% trans "This round will pair debates first, then apply saved side allocations inside each debate." %}
-          {% else %}
-            {% trans "This round will use saved side allocations during pairing." %}
-          {% endif %}
-        </p>
-      </div>
-      <div class="list-group-item pt-3 pb-3">
-        {% if timing_form %}
-          <form method="post">
-            {% csrf_token %}
-            <input type="hidden" name="action" value="timing">
-            {{ timing_form.selected_round }}
-            {% if timing_form.non_field_errors %}
-              <div class="alert alert-danger mb-3">{{ timing_form.non_field_errors }}</div>
-            {% endif %}
-            <div class="form-row align-items-end">
-              <div class="form-group col-md-8 mb-3">
-                <label for="{{ timing_form.timing.id_for_label }}">{{ timing_form.timing.label }}</label>
-                {{ timing_form.timing }}
-                {% if timing_form.timing.errors %}<div class="text-danger small mt-1">{{ timing_form.timing.errors }}</div>{% endif %}
-              </div>
-              <div class="form-group col-md-4 mb-3">
-                <button type="submit" class="btn btn-primary btn-block">{% trans "Save timing" %}</button>
-              </div>
-            </div>
-            <div class="small text-muted">
-              {% trans "Use Before pairing when saved sides should constrain the draw. Use After pairing when standings and pullups should be resolved first." %}
-            </div>
-          </form>
         {% endif %}
       </div>
     </div>
