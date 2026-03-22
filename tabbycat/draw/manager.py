@@ -107,7 +107,7 @@ class BaseDrawManager:
             self._populate_team_side_allocations(teams)
 
         options = {
-            option: self.round.tournament.pref(OPTIONS_TO_CONFIG_MAPPING[option])
+            option: self.round.tournament.preferences[OPTIONS_TO_CONFIG_MAPPING[option]]
             for option in self.get_relevant_options()
             if option in OPTIONS_TO_CONFIG_MAPPING
         }
