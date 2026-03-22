@@ -126,10 +126,51 @@ class BasePowerPairedDrawGenerator(BasePairDrawGenerator):
             raise DrawUserError(_("Middle-bracket bye selection requires an odd number of teams."))
 
         brackets = self._make_raw_brackets()
+        top_bracket = len(brackets) == 1
         odd_bracket = self._get_final_odd_bracket(brackets)
         if not odd_bracket:
             raise DrawUserError(_("Couldn't determine a final odd bracket for bye selection."))
-        return odd_bracket[len(odd_bracket) // 2]
+        return self._get_unpaired_team(odd_bracket, top_bracket=top_bracket)
+
+    def _effective_pairing_method_for_bye(self, *, top_bracket):
+        pairing_method = self.options["pairing_method"]
+        if callable(pairing_method):
+            raise DrawUserError(_("Middle-bracket bye selection isn't supported with a custom pairing method."))
+        if pairing_method == "fold_top_adjacent_rest":
+            return "fold" if top_bracket else "adjacent"
+        return pairing_method
+
+    def _get_unpaired_team(self, odd_bracket, *, top_bracket):
+        teams = list(odd_bracket)
+        if len(teams) == 1:
+            return teams[0]
+
+        pairing_method = self._effective_pairing_method_for_bye(top_bracket=top_bracket)
+        if pairing_method == "slide":
+            top = teams[:len(teams) // 2]
+            bottom = teams[len(teams) // 2:]
+        elif pairing_method == "fold":
+            top = teams[:len(teams) // 2]
+            bottom = teams[len(teams) // 2:]
+            bottom.reverse()
+        elif pairing_method == "random":
+            shuffled = list(teams)
+            random.shuffle(shuffled)
+            top = shuffled[:len(shuffled) // 2]
+            bottom = shuffled[len(shuffled) // 2:]
+        elif pairing_method == "adjacent":
+            top = teams[0::2]
+            bottom = teams[1::2]
+        else:
+            raise DrawUserError(_("Middle-bracket bye selection isn't supported with the pairing method '%(method)s'.") % {
+                "method": pairing_method,
+            })
+
+        if len(top) > len(bottom):
+            return top[len(bottom)]
+        if len(bottom) > len(top):
+            return bottom[len(top)]
+        raise DrawUserError(_("Couldn't determine an unmatched team in the final odd bracket."))
 
     def _get_final_odd_bracket(self, brackets):
         odd_bracket = self.options["odd_bracket"]
@@ -702,18 +743,17 @@ class PowerPairedWithAllocatedSidesDrawGenerator(BasePowerPairedDrawGenerator):
             raise DrawUserError(_("Middle-bracket bye selection requires an odd number of teams."))
 
         brackets = self._make_raw_brackets()
+        top_bracket = len(brackets) == 1
         odd_bracket = self._get_final_odd_bracket(brackets)
         if not odd_bracket:
             raise DrawUserError(_("Couldn't determine a final odd bracket for bye selection."))
-
-        aff_count = len(odd_bracket[DebateSide.AFF])
-        neg_count = len(odd_bracket[DebateSide.NEG])
-        if abs(aff_count - neg_count) != 1:
-            raise DrawUserError(_("Saved side allocations didn't leave a single removable team in the final odd bracket."))
-
-        surplus_side = DebateSide.AFF if aff_count > neg_count else DebateSide.NEG
-        surplus_pool = odd_bracket[surplus_side]
-        return surplus_pool[len(surplus_pool) // 2]
+        team_ids = {
+            team.id
+            for side in (DebateSide.AFF, DebateSide.NEG)
+            for team in odd_bracket[side]
+        }
+        ordered_odd_bracket = [team for team in self.teams if team.id in team_ids]
+        return super()._get_unpaired_team(ordered_odd_bracket, top_bracket=top_bracket)
 
     def _get_final_odd_bracket(self, brackets):
         odd_bracket = self.options["odd_bracket"]
