@@ -31,6 +31,7 @@ OPTIONS_TO_CONFIG_MAPPING = {
     "pullup_debates_penalty": "draw_rules__pullup_debates_penalty",
     "side_penalty"          : "draw_rules__side_penalty",
     "pairing_penalty"       : "draw_rules__pairing_penalty",
+    "graph_canonical_tiebreak": "draw_rules__graph_canonical_tiebreak",
     "side_allocations"      : "draw_rules__draw_side_allocations",
     "avoid_conflicts"       : "draw_rules__draw_avoid_conflicts",
     "odd_bracket"           : "draw_rules__draw_odd_bracket",
@@ -86,6 +87,7 @@ class BaseDrawManager:
                 "pullup_debates_penalty",
                 "side_penalty",
                 "pairing_penalty",
+                "graph_canonical_tiebreak",
                 "avoid_conflicts",
             ]
         return []

@@ -1,7 +1,7 @@
 import unittest
 
 from .utils import TestTeam
-from ..generator.powerpair import GraphCostMixin, GraphPowerPairedDrawGenerator
+from ..generator.powerpair import GraphCostMixin, GraphPowerPairedDrawGenerator, GraphPowerPairedWithAllocatedSidesDrawGenerator
 from ..types import DebateSide
 
 DUMMY_TEAMS = [TestTeam(1, 'A', allocated_side=DebateSide.AFF), TestTeam(2, 'B', allocated_side=DebateSide.NEG)]
@@ -145,3 +145,31 @@ class TestPowerPairedDrawGeneratorParts(unittest.TestCase):
                        'avoid_history': False, 'avoid_institution': False, 'side_penalty': 1, 'pairing_method': 'fold', 'pairing_penalty': 1, 'pullup_debates_penalty': 1}
         cost = gcm.assignment_cost(*teams, 2)
         self.assertEqual(cost, None)
+
+    def test_preallocated_graph_canonical_tiebreak_prefers_fold_order(self):
+        teams = [
+            TestTeam(1, 'A', points=2, subrank=1, allocated_side=DebateSide.AFF),
+            TestTeam(2, 'B', points=2, subrank=5, allocated_side=DebateSide.AFF),
+            TestTeam(3, 'C', points=1, subrank=6, allocated_side=DebateSide.AFF),
+            TestTeam(4, 'D', points=2, subrank=2, allocated_side=DebateSide.NEG),
+            TestTeam(5, 'E', points=2, subrank=3, allocated_side=DebateSide.NEG),
+            TestTeam(6, 'F', points=2, subrank=4, allocated_side=DebateSide.NEG),
+        ]
+        gcm = GraphPowerPairedWithAllocatedSidesDrawGenerator(
+            teams,
+            side_allocations="preallocated",
+            avoid_history=False,
+            avoid_institution=False,
+            pairing_method="fold",
+            pairing_penalty=1,
+            graph_canonical_tiebreak=True,
+        )
+
+        pool = {
+            DebateSide.AFF: teams[:3],
+            DebateSide.NEG: teams[3:],
+        }
+
+        matching, _ = gcm._compute_bipartite_matching(pool, bracket=0)
+
+        self.assertEqual(sorted(matching), [(0, 2), (1, 1), (2, 0)])

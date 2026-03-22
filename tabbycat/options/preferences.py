@@ -245,6 +245,15 @@ class PairingPenalty(IntegerPreference):
 
 
 @tournament_preferences_registry.register
+class GraphCanonicalTiebreak(BooleanPreference):
+    help_text = _("If checked, pre-allocated minimum cost matching will break equal-cost ties by preferring the direct order implied by the pairing method (for example, fold order).")
+    verbose_name = _("Prefer canonical pairing order in minimum-cost ties")
+    section = draw_rules
+    name = 'graph_canonical_tiebreak'
+    default = False
+
+
+@tournament_preferences_registry.register
 class MaxTimesPerSide(IntegerPreference):
     help_text = _("Hard preference applied by minimum cost matching to disallow pairings where a team would debate\
                    more than this many times on the same side. WARNING: if you set this to a low value, the draw\
