@@ -4,6 +4,7 @@ from .common import BasePairDrawGenerator, DrawFatalError, DrawUserError, Manual
 from .pairing import ResultPairing, BPEliminationResultPairing
 from .elimination import FirstEliminationDrawGenerator, SubsequentEliminationDrawGenerator
 from .powerpair import (AustralsPowerPairedDrawGenerator, AustralsPowerPairedWithAllocatedSidesDrawGenerator,
+    FoldAfterPullupsPowerPairedDrawGenerator, FoldAfterPullupsPowerPairedWithAllocatedSidesDrawGenerator,
     GraphPowerPairedDrawGenerator, GraphPowerPairedWithAllocatedSidesDrawGenerator, SingleGraphPowerPairedDrawGenerator)
 from .random import (RandomBPDrawGenerator, RandomPolyDrawGenerator, GraphRandomDrawGenerator,
     GraphRandomWithAllocatedSidesDrawGenerator, SwapRandomDrawGenerator, SwapRandomWithAllocatedSidesDrawGenerator)
@@ -33,6 +34,11 @@ def get_two_team_generator(draw_type, avoid_conflicts='australs', side_allocatio
         return FirstEliminationDrawGenerator
     elif draw_type == "elimination":
         return SubsequentEliminationDrawGenerator
+    elif avoid_conflicts == 'fold_after_pullups':
+        if draw_type == "power_paired":
+            if side_allocations == "preallocated":
+                return FoldAfterPullupsPowerPairedWithAllocatedSidesDrawGenerator
+            return FoldAfterPullupsPowerPairedDrawGenerator
     elif avoid_conflicts.startswith('graph'):
         if draw_type == "random":
             if side_allocations == "preallocated":

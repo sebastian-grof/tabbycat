@@ -965,6 +965,99 @@ class TestPowerPairedWithAllocatedSidesDrawGeneratorPartOddBrackets(unittest.Tes
 
         self.assertRaises(DrawUserError, ppd.generate_pairings, copy.deepcopy(self.brackets[99]))
 
+    def test_fold_after_pullups_with_preallocated_sides_uses_strict_fold(self):
+        teams = [
+            TestTeam(1, 'A', 2, allocated_side=DebateSide.AFF),
+            TestTeam(2, 'B', 2, allocated_side=DebateSide.NEG),
+            TestTeam(3, 'C', 2, allocated_side=DebateSide.NEG),
+            TestTeam(4, 'D', 2, allocated_side=DebateSide.NEG),
+            TestTeam(5, 'E', 2, allocated_side=DebateSide.AFF),
+            TestTeam(6, 'F', 1, allocated_side=DebateSide.AFF),
+        ]
+
+        ppd = DrawGenerator(
+            2,
+            "power_paired",
+            teams,
+            None,
+            side_allocations="preallocated",
+            odd_bracket="pullup_top",
+            pairing_method="fold",
+            avoid_conflicts="fold_after_pullups",
+        )
+
+        draw = ppd.generate()
+
+        self.assertEqual([tuple(team.id for team in pairing.teams) for pairing in draw], [
+            (1, 4),
+            (5, 3),
+            (6, 2),
+        ])
+
+    def test_fold_after_pullups_without_preallocated_sides_pairs_then_assigns_later(self):
+        teams = [
+            TestTeam(1, 'A', 2),
+            TestTeam(2, 'B', 2),
+            TestTeam(3, 'C', 2),
+            TestTeam(4, 'D', 1),
+            TestTeam(5, 'E', 1),
+            TestTeam(6, 'F', 1),
+        ]
+
+        ppd = DrawGenerator(
+            2,
+            "power_paired",
+            teams,
+            None,
+            side_allocations="none",
+            odd_bracket="pullup_top",
+            pairing_method="fold",
+            avoid_conflicts="fold_after_pullups",
+        )
+
+        draw = ppd.generate()
+
+        self.assertEqual([tuple(team.id for team in pairing.teams) for pairing in draw], [
+            (1, 4),
+            (2, 3),
+            (5, 6),
+        ])
+
+    def test_fold_after_pullups_with_preallocated_sides_makes_local_history_swap_if_needed(self):
+        teams = [
+            TestTeam(1, 'A', 2, allocated_side=DebateSide.AFF),
+            TestTeam(2, 'B', 2, hist=[5], allocated_side=DebateSide.AFF),
+            TestTeam(3, 'C', 2, allocated_side=DebateSide.AFF),
+            TestTeam(4, 'D', 2, allocated_side=DebateSide.NEG),
+            TestTeam(5, 'E', 2, allocated_side=DebateSide.NEG),
+            TestTeam(6, 'F', 2, allocated_side=DebateSide.NEG),
+        ]
+
+        ppd = DrawGenerator(
+            2,
+            "power_paired",
+            teams,
+            None,
+            side_allocations="preallocated",
+            odd_bracket="pullup_top",
+            pairing_method="fold",
+            avoid_conflicts="fold_after_pullups",
+            avoid_history=True,
+            avoid_institution=True,
+            history_penalty=1000,
+            institution_penalty=1,
+        )
+
+        draw = ppd.generate()
+
+        self.assertEqual([tuple(team.id for team in pairing.teams) for pairing in draw], [
+            (1, 5),
+            (2, 6),
+            (3, 4),
+        ])
+        self.assertEqual(draw[0].flags, ["1u1d_other"])
+        self.assertEqual(draw[1].flags, ["1u1d_hist"])
+
 
 class TestPartialBreakRoundSplit(unittest.TestCase):
 

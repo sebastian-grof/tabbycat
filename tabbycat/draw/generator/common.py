@@ -170,7 +170,6 @@ class BasePairDrawGenerator(BaseDrawGenerator):
         "side_penalty"          : 0,
         "pullup_debates_penalty": 0,
         "pairing_penalty"       : 0,
-        "graph_canonical_tiebreak": False,
         "avoid_conflicts"       : "off",
         "max_times_on_one_side" : 0,
     }

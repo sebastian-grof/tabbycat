@@ -31,7 +31,6 @@ OPTIONS_TO_CONFIG_MAPPING = {
     "pullup_debates_penalty": "draw_rules__pullup_debates_penalty",
     "side_penalty"          : "draw_rules__side_penalty",
     "pairing_penalty"       : "draw_rules__pairing_penalty",
-    "graph_canonical_tiebreak": "draw_rules__graph_canonical_tiebreak",
     "side_allocations"      : "draw_rules__draw_side_allocations",
     "avoid_conflicts"       : "draw_rules__draw_avoid_conflicts",
     "odd_bracket"           : "draw_rules__draw_odd_bracket",
@@ -87,15 +86,22 @@ class BaseDrawManager:
                 "pullup_debates_penalty",
                 "side_penalty",
                 "pairing_penalty",
-                "graph_canonical_tiebreak",
                 "avoid_conflicts",
             ]
         return []
 
     def n_byes(self, n_teams):
-        if self.round.tournament.pref('bye_team_selection') != 'off':
+        if self.get_bye_selection_mode() != 'off':
             return n_teams % len(self.round.tournament.sides)
         return 0
+
+    def get_bye_selection_mode(self):
+        selection = self.round.tournament.pref('bye_team_selection')
+        if selection == 'unmatched_team':
+            # Backward compatibility for tournaments that still have the old value saved.
+            self.round.tournament.preferences['draw_rules__bye_team_selection'] = 'middle_odd_bracket'
+            return 'middle_odd_bracket'
+        return selection
 
     def get_side_allocation_mode(self):
         return get_effective_side_allocation_mode(self.round)
@@ -349,20 +355,10 @@ class RandomDrawManager(BaseDrawManager):
         return options
 
     def _special_bye_selection(self, teams: List['Team'], n_byes: int):
-        selection = self.round.tournament.pref('bye_team_selection')
-        if selection == 'middle_odd_bracket':
-            raise DrawUserError(_("Middle-bracket bye selection isn't supported for random draws."))
-        if selection != 'unmatched_team':
+        selection = self.get_bye_selection_mode()
+        if selection != 'middle_odd_bracket':
             return None
-        if self.teams_in_debate != 2 or n_byes != 1:
-            raise DrawUserError(_("Unmatched-team bye selection is only supported for one bye in two-team preliminary draws."))
-
-        drawer = self._make_bye_selection_drawer(teams)
-        if not hasattr(drawer, 'get_unmatched_bye_team'):
-            raise DrawUserError(_("Unmatched-team bye selection requires a minimum-cost matching conflict method."))
-
-        bye_team = drawer.get_unmatched_bye_team()
-        return [team for team in teams if team.id != bye_team.id], [bye_team]
+        raise DrawUserError(_("This bye-selection method isn't supported for random draws."))
 
 
 class ManualDrawManager(BaseDrawManager):
@@ -435,12 +431,13 @@ class PowerPairedDrawManager(BaseDrawManager):
                 return special
 
         def select_byes(candidates, n_byes):
-            if self.round.tournament.pref('bye_team_selection') == 'random':
+            selection = self.get_bye_selection_mode()
+            if selection == 'random':
                 byes = []
                 for i in range(n_byes):
                     byes.append(candidates.pop(random.randrange(len(candidates))))
                 return candidates, byes
-            elif self.round.tournament.pref('bye_team_selection') == 'lowest':
+            elif selection == 'lowest':
                 return candidates[:-n_byes], candidates[-n_byes:]
             else:
                 raise RuntimeError("Bye team(s) created without recognized selection option")
@@ -448,27 +445,20 @@ class PowerPairedDrawManager(BaseDrawManager):
         return self._split_teams_and_byes(ranked, selector=select_byes)
 
     def _special_bye_selection(self, teams: List['Team'], n_byes: int):
-        selection = self.round.tournament.pref('bye_team_selection')
-        if selection not in {'middle_odd_bracket', 'unmatched_team'}:
+        selection = self.get_bye_selection_mode()
+        if selection != 'middle_odd_bracket':
             return None
 
         if self.teams_in_debate != 2 or n_byes != 1:
-            if selection == 'middle_odd_bracket':
-                raise DrawUserError(_("Middle-bracket bye selection is only supported for one bye in two-team preliminary draws."))
-            raise DrawUserError(_("Unmatched-team bye selection is only supported for one bye in two-team preliminary draws."))
+            raise DrawUserError(_("This bye-selection method is only supported for one bye in two-team preliminary draws."))
 
-        if selection == 'middle_odd_bracket' and self.round.tournament.pref('draw_avoid_conflicts') == 'graph_one':
-            raise DrawUserError(_("Middle-bracket bye selection isn't supported with the conflict-avoidance method that determines pullups itself."))
+        if self.round.tournament.pref('draw_avoid_conflicts') == 'graph_one':
+            raise DrawUserError(_("This bye-selection method isn't supported with the conflict-avoidance method that determines pullups itself."))
 
         bye_drawer = self._make_bye_selection_drawer(teams)
-        if selection == 'unmatched_team':
-            if not hasattr(bye_drawer, 'get_unmatched_bye_team'):
-                raise DrawUserError(_("Unmatched-team bye selection requires a minimum-cost matching conflict method."))
-            bye_team = bye_drawer.get_unmatched_bye_team()
-        else:
-            if not hasattr(bye_drawer, 'get_bye_team'):
-                raise DrawUserError(_("Middle-bracket bye selection isn't supported for this draw configuration."))
-            bye_team = bye_drawer.get_bye_team()
+        if not hasattr(bye_drawer, 'get_bye_team'):
+            raise DrawUserError(_("This bye-selection method isn't supported for this draw configuration."))
+        bye_team = bye_drawer.get_bye_team()
         return [team for team in teams if team.id != bye_team.id], [bye_team]
 
 
@@ -484,7 +474,7 @@ class SeededDrawManager(BaseDrawManager):
         return options
 
     def _special_bye_selection(self, teams: List['Team'], n_byes: int):
-        if self.round.tournament.pref('bye_team_selection') in {'middle_odd_bracket', 'unmatched_team'}:
+        if self.get_bye_selection_mode() == 'middle_odd_bracket':
             raise DrawUserError(_("This bye-selection method isn't supported for seeded draws."))
         return None
 
@@ -495,7 +485,7 @@ class SeededDrawManager(BaseDrawManager):
         teams.sort(key=lambda t: -t.seed)
 
         def select_byes(candidates, n_byes):
-            if self.round.tournament.pref('bye_team_selection') == 'lowest':
+            if self.get_bye_selection_mode() == 'lowest':
                 return candidates[:-n_byes], candidates[-n_byes:]
 
             byes = []

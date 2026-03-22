@@ -245,15 +245,6 @@ class PairingPenalty(IntegerPreference):
 
 
 @tournament_preferences_registry.register
-class GraphCanonicalTiebreak(BooleanPreference):
-    help_text = _("If checked, pre-allocated minimum cost matching will break equal-cost ties by preferring the direct order implied by the pairing method (for example, fold order).")
-    verbose_name = _("Prefer canonical pairing order in minimum-cost ties")
-    section = draw_rules
-    name = 'graph_canonical_tiebreak'
-    default = False
-
-
-@tournament_preferences_registry.register
 class MaxTimesPerSide(IntegerPreference):
     help_text = _("Hard preference applied by minimum cost matching to disallow pairings where a team would debate\
                    more than this many times on the same side. WARNING: if you set this to a low value, the draw\
@@ -326,6 +317,7 @@ class DrawAvoidConflicts(ChoicePreference):
     choices = (
         ('off', _("Off")),
         ('one_up_one_down', _("One-up-one-down")),
+        ('fold_after_pullups', _("Fold after pullups")),
         ('graph', _("Minimum cost matching (pullups determined beforehand)")),
         ('graph_one', _("Minimum cost matching (including pullups)")),
     )
@@ -475,8 +467,7 @@ class ByeTeamSelection(ChoicePreference):
         ('off', _("Don't choose bye teams")),
         ('random', _("Choose bye teams randomly")),
         ('lowest', _("Choose lowest ranking teams")),
-        ('middle_odd_bracket', _("Choose the middle team in the final odd bracket")),
-        ('unmatched_team', _("Choose the unmatched team in the minimum-cost pairing")),
+        ('middle_odd_bracket', _("Choose the unmatched team in the final odd bracket")),
     )
     default = 'off'
 

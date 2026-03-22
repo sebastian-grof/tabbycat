@@ -134,22 +134,6 @@ class GraphAllocatedSidesMixin(GraphGeneratorMixin):
             return munkres.DISALLOWED
         return penalty
 
-    def _get_canonical_tiebreak_cost(self, aff_index, neg_index, pool_size, bracket=None):
-        if not self.options.get("graph_canonical_tiebreak"):
-            return 0
-
-        pairing_method = self.options.get("pairing_method")
-        if callable(pairing_method) or pairing_method == "random":
-            return 0
-        if pairing_method == "fold_top_adjacent_rest":
-            pairing_method = "fold" if bracket == 0 else "adjacent"
-
-        if pairing_method == "fold":
-            return abs(aff_index + neg_index - (pool_size - 1))
-        if pairing_method in {"slide", "adjacent"}:
-            return abs(aff_index - neg_index)
-        return 0
-
     def _compute_bipartite_matching(self, pool, bracket=None):
         aff_pool = list(pool[DebateSide.AFF])
         neg_pool = list(pool[DebateSide.NEG])
@@ -165,16 +149,7 @@ class GraphAllocatedSidesMixin(GraphGeneratorMixin):
             })
 
         n_teams = aff_count + neg_count
-        tiebreak_scale = aff_count * aff_count + 1
-        matrix = []
-        for i_aff, aff in enumerate(aff_pool):
-            row = []
-            for i_neg, neg in enumerate(neg_pool):
-                cost = self.assignment_cost(aff, neg, n_teams, bracket)
-                if cost != munkres.DISALLOWED and self.options.get("graph_canonical_tiebreak"):
-                    cost = cost * tiebreak_scale + self._get_canonical_tiebreak_cost(i_aff, i_neg, aff_count, bracket)
-                row.append(cost)
-            matrix.append(row)
+        matrix = [[self.assignment_cost(aff, neg, n_teams, bracket) for neg in neg_pool] for aff in aff_pool]
         matching = munkres.Munkres().compute(matrix)
 
         total_cost = 0

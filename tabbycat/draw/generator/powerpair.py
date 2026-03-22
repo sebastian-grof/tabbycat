@@ -123,7 +123,7 @@ class BasePowerPairedDrawGenerator(BasePairDrawGenerator):
 
     def get_bye_team(self):
         if len(self.teams) % 2 == 0:
-            raise DrawUserError(_("Middle-bracket bye selection requires an odd number of teams."))
+            raise DrawUserError(_("This bye-selection method requires an odd number of teams."))
 
         brackets = self._make_raw_brackets()
         top_bracket = len(brackets) == 1
@@ -146,7 +146,7 @@ class BasePowerPairedDrawGenerator(BasePairDrawGenerator):
     def _effective_pairing_method_for_bye(self, *, top_bracket):
         pairing_method = self.options["pairing_method"]
         if callable(pairing_method):
-            raise DrawUserError(_("Middle-bracket bye selection isn't supported with a custom pairing method."))
+            raise DrawUserError(_("This bye-selection method isn't supported with a custom pairing method."))
         if pairing_method == "fold_top_adjacent_rest":
             return "fold" if top_bracket else "adjacent"
         return pairing_method
@@ -173,7 +173,7 @@ class BasePowerPairedDrawGenerator(BasePairDrawGenerator):
             top = teams[0::2]
             bottom = teams[1::2]
         else:
-            raise DrawUserError(_("Middle-bracket bye selection isn't supported with the pairing method '%(method)s'.") % {
+            raise DrawUserError(_("This bye-selection method isn't supported with the pairing method '%(method)s'.") % {
                 "method": pairing_method,
             })
 
@@ -195,7 +195,7 @@ class BasePowerPairedDrawGenerator(BasePairDrawGenerator):
             return self._get_final_odd_pullup_bracket(brackets, selector)
         if odd_bracket in {"intermediate", "intermediate_bubble_up_down"}:
             return self._get_final_odd_intermediate_bracket(brackets)
-        raise DrawUserError(_("Middle-bracket bye selection isn't supported with the odd-bracket setting '%(setting)s'.") % {
+        raise DrawUserError(_("This bye-selection method isn't supported with the odd-bracket setting '%(setting)s'.") % {
             "setting": odd_bracket,
         })
 
@@ -734,6 +734,12 @@ class AustralsPowerPairedDrawGenerator(AustralsPairingMixin, BasePowerPairedDraw
     pass
 
 
+class FoldAfterPullupsPowerPairedDrawGenerator(AustralsPowerPairedDrawGenerator):
+    def avoid_conflicts(self, pairings):
+        """Apply only local 1u1d repairs, keeping fold-after-pullups as the baseline."""
+        return self._one_up_one_down(pairings)
+
+
 class PowerPairedWithAllocatedSidesDrawGenerator(BasePowerPairedDrawGenerator):
     """Power-paired draw with allocated sides.
     Override functions of PowerPairedDrawGenerator where sides need to be constrained.
@@ -772,7 +778,7 @@ class PowerPairedWithAllocatedSidesDrawGenerator(BasePowerPairedDrawGenerator):
 
     def get_bye_team(self):
         if len(self.teams) % 2 == 0:
-            raise DrawUserError(_("Middle-bracket bye selection requires an odd number of teams."))
+            raise DrawUserError(_("This bye-selection method requires an odd number of teams."))
 
         brackets = self._make_raw_brackets()
         top_bracket = len(brackets) == 1
@@ -799,7 +805,7 @@ class PowerPairedWithAllocatedSidesDrawGenerator(BasePowerPairedDrawGenerator):
             return self._get_final_odd_intermediate_bracket_1(brackets)
         if odd_bracket == "intermediate2":
             return self._get_final_odd_intermediate_bracket_2(brackets)
-        raise DrawUserError(_("Middle-bracket bye selection isn't supported with the odd-bracket setting '%(setting)s'.") % {
+        raise DrawUserError(_("This bye-selection method isn't supported with the odd-bracket setting '%(setting)s'.") % {
             "setting": odd_bracket,
         })
 
@@ -1206,3 +1212,9 @@ class AustralsPowerPairedWithAllocatedSidesDrawGenerator(AustralsPairingMixin, P
             random.shuffle(pool[DebateSide.AFF])
             random.shuffle(pool[DebateSide.NEG])
         return cls._pairings(brackets, shuffle)
+
+
+class FoldAfterPullupsPowerPairedWithAllocatedSidesDrawGenerator(AustralsPowerPairedWithAllocatedSidesDrawGenerator):
+    def avoid_conflicts(self, pairings):
+        """Apply only local 1u1d repairs, keeping fold-after-pullups as the baseline."""
+        return self._one_up_one_down(pairings)
