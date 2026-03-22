@@ -392,7 +392,7 @@ class PowerPairedDrawManager(BaseDrawManager):
 
                 side_mode = self.get_side_allocation_mode()
                 if side_mode == 'preallocated':
-                    raise DrawUserError(_("Middle-bracket bye selection can't be combined with before-pairing side allocations. Use a manual bye override or switch that round to after pairing."))
+                    self._populate_team_side_allocations(ranked)
 
                 bye_drawer = DrawGenerator(
                     self.teams_in_debate,
@@ -404,7 +404,7 @@ class PowerPairedDrawManager(BaseDrawManager):
                     odd_bracket=self.round.tournament.pref('draw_odd_bracket'),
                     pairing_method=self.round.tournament.pref('draw_pairing_method'),
                     pullup_restriction=self.round.tournament.pref('draw_pullup_restriction'),
-                    side_allocations='none',
+                    side_allocations='preallocated' if side_mode == 'preallocated' else 'none',
                     max_times_on_one_side=self.round.tournament.pref('max_times_on_one_side'),
                     pullup_penalty=self.round.tournament.pref('draw_pullup_penalty'),
                     avoid_institution=self.round.tournament.pref('avoid_same_institution'),

@@ -135,6 +135,28 @@ class SideAllocationServiceTest(CompletedTournamentTestMixin, TestCase):
 
         self.assertEqual(get_effective_side_allocation_mode(self.round1), 'preallocated')
 
+    def test_middle_odd_bracket_works_with_active_preallocations(self):
+        available_teams = list(self.tournament.team_set.order_by('id')[:23])
+        set_availability(self.tournament.team_set.filter(id__in=[team.id for team in available_teams]), self.round2)
+        self.tournament.preferences['draw_rules__draw_side_allocations'] = 'preallocated'
+        self.tournament.preferences['draw_rules__bye_team_selection'] = 'middle_odd_bracket'
+        self.tournament.preferences['draw_rules__draw_odd_bracket'] = 'pullup_top'
+        self.tournament.preferences['draw_rules__draw_pairing_method'] = 'fold'
+        self.tournament.preferences['draw_rules__draw_avoid_conflicts'] = 'one_up_one_down'
+
+        allocations = {}
+        for team in available_teams[:12]:
+            allocations[team.id] = self.sides[0]
+        for team in available_teams[12:]:
+            allocations[team.id] = self.sides[1]
+        replace_round_allocations(self.round2, allocations)
+
+        draw_teams, byes = DrawManager(self.round2).get_teams()
+
+        self.assertEqual(len(byes), 1)
+        self.assertEqual(len(draw_teams), 22)
+        self.assertNotIn(byes[0].id, {team.id for team in draw_teams})
+
 
 class SideAllocationByeOverrideViewTest(CompletedTournamentTestMixin, TestCase):
 

@@ -794,6 +794,50 @@ class TestPowerPairedWithAllocatedSidesDrawGeneratorPartOddBrackets(unittest.Tes
             self.assertEqual([i in b2[1][DebateSide.NEG] for i in [20, 21, 22, 23, 24]].count(True), 3)
             self.assertEqual(b2[0], [[], []])
 
+    def test_middle_bye_preallocated_single_bracket_uses_surplus_middle(self):
+        teams = [
+            TestTeam(1, 'A', 3, allocated_side=DebateSide.AFF),
+            TestTeam(2, 'B', 3, allocated_side=DebateSide.NEG),
+            TestTeam(3, 'C', 3, allocated_side=DebateSide.AFF),
+            TestTeam(4, 'D', 3, allocated_side=DebateSide.NEG),
+            TestTeam(5, 'E', 3, allocated_side=DebateSide.AFF),
+        ]
+
+        ppd = DrawGenerator(
+            2,
+            "power_paired",
+            teams,
+            None,
+            side_allocations="preallocated",
+            odd_bracket="pullup_top",
+            pairing_method="fold",
+            avoid_conflicts="off",
+        )
+
+        self.assertEqual(ppd.get_bye_team().id, 3)
+
+    def test_middle_bye_preallocated_accounts_for_side_constrained_pullups(self):
+        teams = [
+            TestTeam(1, 'A', 3, allocated_side=DebateSide.AFF),
+            TestTeam(2, 'B', 3, allocated_side=DebateSide.NEG),
+            TestTeam(3, 'C', 3, allocated_side=DebateSide.AFF),
+            TestTeam(4, 'D', 2, allocated_side=DebateSide.NEG),
+            TestTeam(5, 'E', 2, allocated_side=DebateSide.AFF),
+        ]
+
+        ppd = DrawGenerator(
+            2,
+            "power_paired",
+            teams,
+            None,
+            side_allocations="preallocated",
+            odd_bracket="pullup_top",
+            pairing_method="fold",
+            avoid_conflicts="off",
+        )
+
+        self.assertEqual(ppd.get_bye_team().id, 5)
+
 
 class TestPartialBreakRoundSplit(unittest.TestCase):
 

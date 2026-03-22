@@ -697,6 +697,166 @@ class PowerPairedWithAllocatedSidesDrawGenerator(BasePowerPairedDrawGenerator):
         super(PowerPairedWithAllocatedSidesDrawGenerator, self).__init__(*args, **kwargs)
         self.check_teams_for_attribute("allocated_side", choices=[DebateSide.AFF, DebateSide.NEG])
 
+    def get_bye_team(self):
+        if len(self.teams) % 2 == 0:
+            raise DrawUserError(_("Middle-bracket bye selection requires an odd number of teams."))
+
+        brackets = self._make_raw_brackets()
+        odd_bracket = self._get_final_odd_bracket(brackets)
+        if not odd_bracket:
+            raise DrawUserError(_("Couldn't determine a final odd bracket for bye selection."))
+
+        aff_count = len(odd_bracket[DebateSide.AFF])
+        neg_count = len(odd_bracket[DebateSide.NEG])
+        if abs(aff_count - neg_count) != 1:
+            raise DrawUserError(_("Saved side allocations didn't leave a single removable team in the final odd bracket."))
+
+        surplus_side = DebateSide.AFF if aff_count > neg_count else DebateSide.NEG
+        surplus_pool = odd_bracket[surplus_side]
+        return surplus_pool[len(surplus_pool) // 2]
+
+    def _get_final_odd_bracket(self, brackets):
+        odd_bracket = self.options["odd_bracket"]
+        if odd_bracket == "pullup_top":
+            return self._get_final_odd_pullup_bracket(brackets, lambda size, count: range(0, count))
+        if odd_bracket == "pullup_bottom":
+            return self._get_final_odd_pullup_bracket(brackets, lambda size, count: range(size - count, size))
+        if odd_bracket == "pullup_random":
+            return self._get_final_odd_pullup_bracket(brackets, lambda size, count: random.sample(list(range(size)), count))
+        if odd_bracket == "intermediate1":
+            return self._get_final_odd_intermediate_bracket_1(brackets)
+        if odd_bracket == "intermediate2":
+            return self._get_final_odd_intermediate_bracket_2(brackets)
+        raise DrawUserError(_("Middle-bracket bye selection isn't supported with the odd-bracket setting '%(setting)s'.") % {
+            "setting": odd_bracket,
+        })
+
+    @staticmethod
+    def _copy_pool(pool):
+        return {
+            DebateSide.AFF: list(pool[DebateSide.AFF]),
+            DebateSide.NEG: list(pool[DebateSide.NEG]),
+        }
+
+    def _get_final_odd_pullup_bracket(self, brackets, indices):
+        pullups_needed_for = []
+
+        for pool in brackets.values():
+            new_pullups_needed_for = []
+            for needed_pool, side, number_needed in pullups_needed_for:
+                if len(pool[side]) < number_needed:
+                    pullup_indices = range(len(pool[side]))
+                    new_pullups_needed_for.append((needed_pool, side, number_needed - len(pool[side])))
+                else:
+                    pullup_indices = indices(len(pool[side]), number_needed)
+
+                pullup_teams = [pool[side][i] for i in pullup_indices]
+                for team in pullup_teams:
+                    pool[side].remove(team)
+                needed_pool[side].extend(pullup_teams)
+
+            aff_surplus = len(pool[DebateSide.AFF]) - len(pool[DebateSide.NEG])
+            if aff_surplus > 0:
+                new_pullups_needed_for.append((self._copy_pool(pool), DebateSide.NEG, aff_surplus))
+            elif aff_surplus < 0:
+                new_pullups_needed_for.append((self._copy_pool(pool), DebateSide.AFF, -aff_surplus))
+
+            pullups_needed_for = new_pullups_needed_for
+
+        if not pullups_needed_for:
+            return None
+        if len(pullups_needed_for) != 1:
+            raise DrawUserError(_("Saved side allocations left more than one odd bracket after pullups."))
+        return pullups_needed_for[0][0]
+
+    @classmethod
+    def _get_final_odd_intermediate_bracket_1(cls, brackets):
+        unfilled = OrderedDict()
+
+        for points, pool in brackets.items():
+            to_delete_from_unfilled = []
+
+            for unfilled_points, unfilled_pool in unfilled.items():
+                aff_surplus = len(unfilled_pool[DebateSide.AFF]) - len(unfilled_pool[DebateSide.NEG])
+                if aff_surplus > 0:
+                    unfilled_pool[DebateSide.NEG].extend(pool[DebateSide.NEG][:aff_surplus])
+                    del pool[DebateSide.NEG][:aff_surplus]
+                elif aff_surplus < 0:
+                    unfilled_pool[DebateSide.AFF].extend(pool[DebateSide.AFF][:-aff_surplus])
+                    del pool[DebateSide.AFF][:-aff_surplus]
+                if len(unfilled_pool[DebateSide.AFF]) == len(unfilled_pool[DebateSide.NEG]):
+                    to_delete_from_unfilled.append(unfilled_points)
+
+            for unfilled_points in to_delete_from_unfilled:
+                del unfilled[unfilled_points]
+
+            nums_teams = list(map(len, pool))
+            n = min(nums_teams)
+            m = max(nums_teams)
+
+            if m > n:
+                unfilled[points - 0.5] = {
+                    DebateSide.AFF: list(pool[DebateSide.AFF][n:]),
+                    DebateSide.NEG: list(pool[DebateSide.NEG][n:]),
+                }
+
+        if not unfilled:
+            return None
+        if len(unfilled) != 1:
+            raise DrawUserError(_("Saved side allocations left more than one odd bracket after pullups."))
+        return list(unfilled.values())[-1]
+
+    @classmethod
+    def _get_final_odd_intermediate_bracket_2(cls, brackets):
+        unfilled = OrderedDict()
+        intermediates = OrderedDict()
+
+        for points, pool in brackets.items():
+            to_delete_from_unfilled = []
+
+            for unfilled_points, unfilled_pool in unfilled.items():
+                intermediates.setdefault(unfilled_points, list())
+                if unfilled_pool[DebateSide.AFF] and unfilled_pool[DebateSide.NEG]:
+                    raise DrawFatalError("An unfilled pool unexpectedly had both affirmative and negative teams.")
+                elif unfilled_pool[DebateSide.AFF]:
+                    num_teams = min(len(unfilled_pool[DebateSide.AFF]), len(pool[DebateSide.NEG]))
+                    intermediates[unfilled_points].append([
+                        list(unfilled_pool[DebateSide.AFF][:num_teams]),
+                        list(pool[DebateSide.NEG][:num_teams]),
+                    ])
+                    del unfilled_pool[DebateSide.AFF][:num_teams]
+                    del pool[DebateSide.NEG][:num_teams]
+                elif unfilled_pool[DebateSide.NEG]:
+                    num_teams = min(len(unfilled_pool[DebateSide.NEG]), len(pool[DebateSide.AFF]))
+                    intermediates[unfilled_points].append([
+                        list(pool[DebateSide.AFF][:num_teams]),
+                        list(unfilled_pool[DebateSide.NEG][:num_teams]),
+                    ])
+                    del pool[DebateSide.AFF][:num_teams]
+                    del unfilled_pool[DebateSide.NEG][:num_teams]
+
+                if not unfilled_pool[DebateSide.AFF] and not unfilled_pool[DebateSide.NEG]:
+                    to_delete_from_unfilled.append(unfilled_points)
+
+            for unfilled_points in to_delete_from_unfilled:
+                del unfilled[unfilled_points]
+
+            nums_teams = list(map(len, pool))
+            n = min(nums_teams)
+            m = max(nums_teams)
+
+            if m > n:
+                unfilled[points] = {
+                    DebateSide.AFF: list(pool[DebateSide.AFF][n:]),
+                    DebateSide.NEG: list(pool[DebateSide.NEG][n:]),
+                }
+
+        if not unfilled:
+            return None
+        if len(unfilled) != 1:
+            raise DrawUserError(_("Saved side allocations left more than one odd bracket after pullups."))
+        return list(unfilled.values())[-1]
+
     def _make_raw_brackets(self):
         """Returns an OrderedDict mapping bracket names (normally numbers)
         to (unordered) dicts. Each unordered dict has an 'aff' and a 'neg' key,
