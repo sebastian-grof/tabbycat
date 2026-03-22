@@ -61,6 +61,7 @@ from .side_allocations import (
     generate_opposite_allocations,
     generate_random_allocations,
     get_bye_override_team,
+    get_round_allocations,
     get_round_team_groups,
     replace_bye_override,
     replace_round_allocations,
@@ -1109,8 +1110,8 @@ class SideAllocationsView(AdministratorMixin, TournamentMixin, TemplateView):
             ) % {"count": summary["missing"]})
         if summary["extra_assigned"] > 0:
             warning_bits.append(ngettext(
-                "%(count)d saved allocation belongs to a team that is currently unavailable or receiving a bye.",
-                "%(count)d saved allocations belong to teams that are currently unavailable or receiving byes.",
+                "%(count)d saved allocation belongs to a team that is currently unavailable.",
+                "%(count)d saved allocations belong to teams that are currently unavailable.",
                 summary["extra_assigned"],
             ) % {"count": summary["extra_assigned"]})
         if strict_preallocation and len(self.tournament.sides) == 2 and not summary["balanced"]:
@@ -1189,7 +1190,12 @@ class SideAllocationsView(AdministratorMixin, TournamentMixin, TemplateView):
                 return self.render_to_response(self.get_context_data(generate_form=generate_form, bye_form=bye_form, manual_form=manual_form))
 
             target_round = manual_form.cleaned_data["selected_round"]
-            replace_round_allocations(target_round, manual_form.get_allocations())
+            allocations = manual_form.get_allocations()
+            existing_allocations = get_round_allocations(target_round)
+            for team in get_round_team_groups(target_round)["bye_teams"]:
+                if team.id not in allocations and existing_allocations.get(team.id) is not None:
+                    allocations[team.id] = existing_allocations[team.id]
+            replace_round_allocations(target_round, allocations)
             messages.success(self.request, _("Saved side allocations for %(round)s.") % {"round": target_round.name})
             self._add_allocation_summary_message(target_round)
             return HttpResponseRedirect(self.get_success_url(target_round))

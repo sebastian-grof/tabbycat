@@ -89,6 +89,8 @@ def summarize_allocations(round, allocations=None):
     groups = get_round_team_groups(round)
     sides = list(round.tournament.sides)
     draw_team_ids = {team.id for team in groups["draw_teams"]}
+    bye_team_ids = {team.id for team in groups["bye_teams"]}
+    relevant_team_ids = draw_team_ids | bye_team_ids
 
     counts = Counter(
         side for team_id, side in allocations.items()
@@ -98,7 +100,7 @@ def summarize_allocations(round, allocations=None):
     missing = len(groups["draw_teams"]) - assigned
     extra_assigned = sum(
         1 for team_id, side in allocations.items()
-        if side is not None and team_id not in draw_team_ids
+        if side is not None and team_id not in relevant_team_ids
     )
     balanced = len(sides) == 2 and counts.get(sides[0], 0) == counts.get(sides[1], 0)
 
@@ -125,21 +127,64 @@ def replace_round_allocations(round, allocations):
     ])
 
 
+def _get_generation_target_teams(round):
+    active_teams = list(round.active_teams.order_by("short_name", "id"))
+    bye_override_team = get_bye_override_team(round)
+    if bye_override_team is None:
+        return active_teams
+    return [team for team in active_teams if team.id != bye_override_team.id]
+
+
+def _candidate_side_counts(total_teams, sides):
+    base = total_teams // 2
+    if total_teams % 2 == 0:
+        return [{sides[0]: base, sides[1]: base}]
+    return [
+        {sides[0]: base + 1, sides[1]: base},
+        {sides[0]: base, sides[1]: base + 1},
+    ]
+
+
+def _choose_target_side_counts(total_teams, sides, existing_counts=None):
+    existing_counts = Counter(existing_counts or {})
+    candidates = [
+        counts
+        for counts in _candidate_side_counts(total_teams, sides)
+        if all(existing_counts.get(side, 0) <= counts[side] for side in sides)
+    ]
+    if not candidates:
+        raise SideAllocationError(_("The available teams can't be split into valid saved side allocations for this round."))
+
+    if len(candidates) > 1 and existing_counts.get(sides[0], 0) != existing_counts.get(sides[1], 0):
+        preferred_side = sides[0] if existing_counts[sides[0]] > existing_counts[sides[1]] else sides[1]
+        preferred = [
+            counts for counts in candidates
+            if counts[preferred_side] > counts[sides[0] if preferred_side == sides[1] else sides[1]]
+        ]
+        if preferred:
+            candidates = preferred
+
+    return random.choice(candidates)
+
+
 def generate_random_allocations(round):
     sides = _get_two_team_sides(round.tournament)
-    groups = get_round_team_groups(round)
-    teams = groups["draw_teams"]
+    teams = _get_generation_target_teams(round)
 
     if not teams:
-        raise SideAllocationError(_("There are no available debating teams for this round yet."))
-    if len(teams) % 2 != 0:
+        raise SideAllocationError(_("There are no available teams for this round yet."))
+    if round.tournament.pref('bye_team_selection') == 'off' and len(teams) % 2 != 0:
         raise SideAllocationError(_("The round still has an odd number of debating teams after accounting for byes. Check availability or bye settings before generating side allocations."))
 
     shuffled_team_ids = [team.id for team in teams]
     random.shuffle(shuffled_team_ids)
-    halfway = len(shuffled_team_ids) // 2
-    allocations = {team_id: sides[0] for team_id in shuffled_team_ids[:halfway]}
-    allocations.update({team_id: sides[1] for team_id in shuffled_team_ids[halfway:]})
+    target_counts = _choose_target_side_counts(len(shuffled_team_ids), sides)
+    remaining_slots = []
+    for side in sides:
+        remaining_slots.extend([side] * target_counts[side])
+    random.shuffle(remaining_slots)
+
+    allocations = {team_id: side for team_id, side in zip(shuffled_team_ids, remaining_slots)}
     replace_round_allocations(round, allocations)
     return allocations
 
@@ -151,12 +196,10 @@ def generate_opposite_allocations(round, source_round):
         raise SideAllocationError(_("The source round must be different from the target round."))
 
     sides = _get_two_team_sides(round.tournament)
-    target_groups = get_round_team_groups(round)
-    target_teams = target_groups["draw_teams"]
+    target_teams = _get_generation_target_teams(round)
     source_allocations = get_round_allocations(source_round)
     opposite_by_side = {sides[0]: sides[1], sides[1]: sides[0]}
 
-    target_side_count = len(target_teams) // 2
     allocations = {}
     missing_teams = []
 
@@ -172,9 +215,10 @@ def generate_opposite_allocations(round, source_round):
         allocations[team.id] = opposite_by_side[current_side]
 
     counts = Counter(allocations.values())
+    target_counts = _choose_target_side_counts(len(target_teams), sides, counts)
     remaining_slots = []
     for side in sides:
-        remaining = target_side_count - counts.get(side, 0)
+        remaining = target_counts[side] - counts.get(side, 0)
         if remaining < 0:
             raise SideAllocationError(_("Round %(round)s does not have usable side allocations for the teams debating there.") % {
                 "round": source_round.name,

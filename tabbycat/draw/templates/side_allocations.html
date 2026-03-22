@@ -21,7 +21,7 @@
 {% block content %}
 
   {% blocktrans trimmed asvar explainer_text %}
-    Use this page to save explicit side allocations for preliminary rounds. Automatic generation and manual editing use the teams marked available for the selected round, and predicted bye teams are left unassigned. If a round has no saved allocations, Tabbycat will pair the draw first and then assign sides afterwards.
+    Use this page to save explicit side allocations for preliminary rounds. Automatic generation and manual editing use the teams marked available for the selected round. If a manual bye override is set, that team is left unassigned; otherwise saved side allocations can be used to recalculate the predicted bye. If a round has no saved allocations, Tabbycat will pair the draw first and then assign sides afterwards.
   {% endblocktrans %}
   {% include "components/explainer-card.html" with type="info" p1=explainer_text %}
 
@@ -87,7 +87,7 @@
           {% endif %}
           {% if allocation_summary.extra_assigned > 0 %}
             <div class="small text-warning mt-2">
-              {% blocktrans trimmed with count=allocation_summary.extra_assigned %}There are {{ count }} saved allocations on teams that are currently unavailable or receiving byes; saving this form will clear them.{% endblocktrans %}
+              {% blocktrans trimmed with count=allocation_summary.extra_assigned %}There are {{ count }} saved allocations on teams that are currently unavailable; saving this form will clear them.{% endblocktrans %}
             </div>
           {% endif %}
         </div>

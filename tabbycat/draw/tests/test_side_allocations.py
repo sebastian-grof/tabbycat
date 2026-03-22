@@ -59,18 +59,21 @@ class SideAllocationServiceTest(CompletedTournamentTestMixin, TestCase):
             sum(1 for side in target_allocations.values() if side == self.sides[1]),
         )
 
-    def test_generate_random_allocations_uses_only_debating_teams(self):
+    def test_generate_random_allocations_assigns_all_active_teams_when_bye_is_automatic(self):
         available_teams = self.tournament.team_set.order_by('id')[:23]
-        set_availability(available_teams, self.round1)
+        set_availability(available_teams, self.round2)
         self.tournament.preferences['draw_rules__draw_side_allocations'] = 'preallocated'
+        self.tournament.preferences['draw_rules__bye_team_selection'] = 'middle_odd_bracket'
+        self.tournament.preferences['draw_rules__draw_odd_bracket'] = 'pullup_top'
+        self.tournament.preferences['draw_rules__draw_pairing_method'] = 'fold'
 
-        allocations = generate_random_allocations(self.round1)
-        draw_teams, byes = DrawManager(self.round1).get_teams()
+        allocations = generate_random_allocations(self.round2)
+        draw_teams, byes = DrawManager(self.round2).get_teams()
 
         self.assertEqual(len(byes), 1)
-        self.assertEqual(len(allocations), len(draw_teams))
-        self.assertEqual(set(allocations.keys()), {team.id for team in draw_teams})
-        self.assertNotIn(byes[0].id, allocations)
+        self.assertEqual(len(allocations), len(available_teams))
+        self.assertEqual(set(allocations.keys()), {team.id for team in available_teams})
+        self.assertIn(byes[0].id, allocations)
 
     def test_preallocated_unassigned_active_team_becomes_bye(self):
         available_teams = list(self.tournament.team_set.order_by('id')[:23])
@@ -122,6 +125,30 @@ class SideAllocationServiceTest(CompletedTournamentTestMixin, TestCase):
         self.assertEqual([team.id for team in byes], [chosen_bye.id])
         self.assertEqual(len(allocations), len(draw_teams))
         self.assertNotIn(chosen_bye.id, allocations)
+
+    def test_generate_opposite_allocations_assigns_all_active_teams_when_bye_is_automatic(self):
+        available_teams = list(self.tournament.team_set.order_by('id')[:23])
+        set_availability(self.tournament.team_set.filter(id__in=[team.id for team in available_teams]), self.round1)
+        set_availability(self.tournament.team_set.filter(id__in=[team.id for team in available_teams]), self.round2)
+        self.tournament.preferences['draw_rules__draw_side_allocations'] = 'preallocated'
+        self.tournament.preferences['draw_rules__bye_team_selection'] = 'middle_odd_bracket'
+        self.tournament.preferences['draw_rules__draw_odd_bracket'] = 'pullup_top'
+        self.tournament.preferences['draw_rules__draw_pairing_method'] = 'fold'
+
+        source_allocations = {}
+        for team in available_teams[:12]:
+            source_allocations[team.id] = self.sides[0]
+        for team in available_teams[12:]:
+            source_allocations[team.id] = self.sides[1]
+        replace_round_allocations(self.round1, source_allocations)
+
+        target_allocations = generate_opposite_allocations(self.round2, self.round1)
+        draw_teams, byes = DrawManager(self.round2).get_teams()
+
+        self.assertEqual(len(byes), 1)
+        self.assertEqual(len(target_allocations), len(available_teams))
+        self.assertEqual(set(target_allocations.keys()), {team.id for team in available_teams})
+        self.assertIn(byes[0].id, target_allocations)
 
     def test_round_without_active_allocations_uses_postallocated_mode(self):
         self.tournament.preferences['draw_rules__draw_side_allocations'] = 'preallocated'
