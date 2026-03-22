@@ -12,7 +12,7 @@
   <div class="col-lg-8 ml-lg-auto mr-md-auto">
 
     <div class="card">
-      <form action="." method="POST">
+      <form action="." method="POST" enctype="multipart/form-data">
       {% csrf_token %}
 
       {% trans "Import Tournament Archive" context "page title" as title %}

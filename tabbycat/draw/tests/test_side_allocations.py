@@ -184,6 +184,20 @@ class SideAllocationServiceTest(CompletedTournamentTestMixin, TestCase):
         self.assertEqual(len(draw_teams), 22)
         self.assertNotIn(byes[0].id, {team.id for team in draw_teams})
 
+    def test_unmatched_team_bye_works_with_graph_one(self):
+        available_teams = list(self.tournament.team_set.order_by('id')[:23])
+        set_availability(self.tournament.team_set.filter(id__in=[team.id for team in available_teams]), self.round2)
+        self.tournament.preferences['draw_rules__bye_team_selection'] = 'unmatched_team'
+        self.tournament.preferences['draw_rules__draw_avoid_conflicts'] = 'graph_one'
+        self.tournament.preferences['draw_rules__draw_odd_bracket'] = 'pullup_top'
+        self.tournament.preferences['draw_rules__draw_pairing_method'] = 'fold'
+
+        draw_teams, byes = DrawManager(self.round2).get_teams()
+
+        self.assertEqual(len(byes), 1)
+        self.assertEqual(len(draw_teams), 22)
+        self.assertNotIn(byes[0].id, {team.id for team in draw_teams})
+
 
 class SideAllocationByeOverrideViewTest(CompletedTournamentTestMixin, TestCase):
 

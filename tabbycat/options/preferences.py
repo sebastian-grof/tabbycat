@@ -467,6 +467,7 @@ class ByeTeamSelection(ChoicePreference):
         ('random', _("Choose bye teams randomly")),
         ('lowest', _("Choose lowest ranking teams")),
         ('middle_odd_bracket', _("Choose the middle team in the final odd bracket")),
+        ('unmatched_team', _("Choose the unmatched team in the minimum-cost pairing")),
     )
     default = 'off'
 

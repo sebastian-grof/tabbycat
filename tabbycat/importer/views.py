@@ -1,7 +1,5 @@
 import logging
 from xml.etree import ElementTree
-
-from defusedxml.ElementTree import fromstring
 from django.contrib import messages
 from django.core import management
 from django.forms import modelformset_factory
@@ -264,7 +262,7 @@ class TournamentImportArchiveView(AdministratorMixin, FormView):
     view_role = ""
 
     def form_valid(self, form):
-        self.importer = Importer(fromstring(form.cleaned_data['xml']))
+        self.importer = Importer(form.cleaned_data['xml_root'])
         self.importer.import_tournament()
 
         messages.success(self.request, _("Tournament archive has been imported."))

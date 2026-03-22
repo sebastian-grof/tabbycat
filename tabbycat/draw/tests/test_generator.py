@@ -858,7 +858,7 @@ class TestPowerPairedWithAllocatedSidesDrawGeneratorPartOddBrackets(unittest.Tes
             avoid_conflicts="off",
         )
 
-        self.assertEqual(ppd.get_bye_team().id, 5)
+        self.assertEqual(ppd.get_unmatched_bye_team().id, 5)
 
     def test_middle_bye_preallocated_uses_ordered_fold_leftover(self):
         teams = [
@@ -885,6 +885,85 @@ class TestPowerPairedWithAllocatedSidesDrawGeneratorPartOddBrackets(unittest.Tes
         )
 
         self.assertEqual(ppd.get_bye_team().id, 8)
+
+    def test_unmatched_bye_single_graph_prefers_lowest_ranked_optimal_leftover(self):
+        teams = [
+            TestTeam(1, 'A', 3, subrank=1),
+            TestTeam(2, 'B', 3, subrank=2),
+            TestTeam(3, 'C', 3, subrank=3),
+            TestTeam(4, 'D', 3, subrank=4),
+            TestTeam(5, 'E', 3, subrank=5),
+        ]
+
+        ppd = DrawGenerator(
+            2,
+            "power_paired",
+            teams,
+            None,
+            side_allocations="none",
+            odd_bracket="pullup_top",
+            pairing_method="fold",
+            avoid_conflicts="graph_one",
+            allow_odd_teams=True,
+        )
+
+        self.assertEqual(ppd.get_unmatched_bye_team().id, 5)
+
+    def test_unmatched_bye_preallocated_graph_prefers_lowest_ranked_optimal_leftover(self):
+        teams = [
+            TestTeam(1, 'A', 3, subrank=1, allocated_side=DebateSide.AFF),
+            TestTeam(2, 'B', 3, subrank=2, allocated_side=DebateSide.NEG),
+            TestTeam(3, 'C', 3, subrank=3, allocated_side=DebateSide.AFF),
+            TestTeam(4, 'D', 3, subrank=4, allocated_side=DebateSide.NEG),
+            TestTeam(5, 'E', 3, subrank=5, allocated_side=DebateSide.AFF),
+        ]
+
+        ppd = DrawGenerator(
+            2,
+            "power_paired",
+            teams,
+            None,
+            side_allocations="preallocated",
+            odd_bracket="pullup_top",
+            pairing_method="fold",
+            avoid_conflicts="graph",
+            allow_odd_teams=True,
+        )
+
+        self.assertEqual(ppd.get_unmatched_bye_team().id, 5)
+
+    def test_graph_preallocated_pairings_skip_empty_brackets(self):
+        ppd = DrawGenerator(
+            2,
+            "power_paired",
+            DUMMY_TEAMS,
+            None,
+            side_allocations="preallocated",
+            odd_bracket="pullup_top",
+            pairing_method="fold",
+            avoid_conflicts="graph",
+        )
+
+        brackets = copy.deepcopy(self.expecteds["pullup_top"][3])
+        pairings = ppd.generate_pairings(brackets)
+
+        self.assertIn(2, pairings)
+        self.assertEqual(pairings[2], [])
+        self.assertEqual(pairings[0], [])
+
+    def test_graph_preallocated_pairings_raise_user_error_for_unbalanced_bracket(self):
+        ppd = DrawGenerator(
+            2,
+            "power_paired",
+            DUMMY_TEAMS,
+            None,
+            side_allocations="preallocated",
+            odd_bracket="pullup_top",
+            pairing_method="fold",
+            avoid_conflicts="graph",
+        )
+
+        self.assertRaises(DrawUserError, ppd.generate_pairings, copy.deepcopy(self.brackets[99]))
 
 
 class TestPartialBreakRoundSplit(unittest.TestCase):

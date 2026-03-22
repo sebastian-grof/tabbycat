@@ -127,10 +127,21 @@ class BasePowerPairedDrawGenerator(BasePairDrawGenerator):
 
         brackets = self._make_raw_brackets()
         top_bracket = len(brackets) == 1
-        odd_bracket = self._get_final_odd_bracket(brackets)
+        odd_bracket, _ = self._get_final_odd_bracket_details(brackets)
         if not odd_bracket:
             raise DrawUserError(_("Couldn't determine a final odd bracket for bye selection."))
         return self._get_unpaired_team(odd_bracket, top_bracket=top_bracket)
+
+    def _get_final_odd_bracket_details(self, brackets):
+        odd_bracket = self._get_final_odd_bracket(brackets)
+        if odd_bracket is None:
+            return None, None
+
+        for index, teams in enumerate(brackets.values()):
+            if teams is odd_bracket:
+                return odd_bracket, index
+
+        return odd_bracket, None
 
     def _effective_pairing_method_for_bye(self, *, top_bracket):
         pairing_method = self.options["pairing_method"]
@@ -582,7 +593,17 @@ class AustralsPairingMixin:
 
 
 class GraphPowerPairedDrawGenerator(GraphCostMixin, GraphGeneratorMixin, BasePowerPairedDrawGenerator):
-    pass
+    def get_unmatched_bye_team(self):
+        if len(self.teams) % 2 == 0:
+            raise DrawUserError(_("Unmatched-team bye selection requires an odd number of teams."))
+
+        brackets = self._make_raw_brackets()
+        odd_bracket, bracket_index = self._get_final_odd_bracket_details(brackets)
+        if not odd_bracket:
+            raise DrawUserError(_("Couldn't determine a final odd bracket for bye selection."))
+        if len(odd_bracket) == 1:
+            return odd_bracket[0]
+        return self.get_unmatched_team(odd_bracket, bracket=bracket_index)
 
 
 class SingleGraphPowerPairedDrawGenerator(GraphCostMixin, GraphGeneratorMixin, BasePowerPairedDrawGenerator):
@@ -613,6 +634,17 @@ class SingleGraphPowerPairedDrawGenerator(GraphCostMixin, GraphGeneratorMixin, B
         self.allocate_sides(draw)  # operates in-place
         self.annotate_team_flags(draw)  # operates in-place
         return draw
+
+    def get_unmatched_bye_team(self):
+        if len(self.teams) % 2 == 0:
+            raise DrawUserError(_("Unmatched-team bye selection requires an odd number of teams."))
+        if 'intermediate' in self.options['odd_bracket']:
+            raise DrawUserError(_("Intermediate-type pullups require 'One-up-one-down' as the conflict avoidance method"))
+
+        max_points = max([t.points for t in self.teams if t.points is not None], default=0)
+        self.n_teams_per_points = {i: len([t for t in self.teams if t.points == i]) for i in range(max_points+1)}
+        self.annotate_team_pullup_precedence(self.teams)
+        return self.get_unmatched_team(list(self.teams), bracket=0)
 
     def assignment_cost(self, t1, t2, size, bracket=None) -> Optional[int]:
         min_points = min(t1.points, t2.points)
@@ -744,7 +776,7 @@ class PowerPairedWithAllocatedSidesDrawGenerator(BasePowerPairedDrawGenerator):
 
         brackets = self._make_raw_brackets()
         top_bracket = len(brackets) == 1
-        odd_bracket = self._get_final_odd_bracket(brackets)
+        odd_bracket, _ = self._get_final_odd_bracket_details(brackets)
         if not odd_bracket:
             raise DrawUserError(_("Couldn't determine a final odd bracket for bye selection."))
         team_ids = {
@@ -1125,7 +1157,18 @@ class PowerPairedWithAllocatedSidesDrawGenerator(BasePowerPairedDrawGenerator):
 
 
 class GraphPowerPairedWithAllocatedSidesDrawGenerator(GraphCostMixin, GraphAllocatedSidesMixin, PowerPairedWithAllocatedSidesDrawGenerator):
-    pass
+    def get_unmatched_bye_team(self):
+        if len(self.teams) % 2 == 0:
+            raise DrawUserError(_("Unmatched-team bye selection requires an odd number of teams."))
+
+        brackets = self._make_raw_brackets()
+        odd_bracket = self._get_final_odd_bracket(brackets)
+        if not odd_bracket:
+            raise DrawUserError(_("Couldn't determine a final odd bracket for bye selection."))
+        total_teams = len(odd_bracket[DebateSide.AFF]) + len(odd_bracket[DebateSide.NEG])
+        if total_teams == 1:
+            return next(team for side in (DebateSide.AFF, DebateSide.NEG) for team in odd_bracket[side])
+        return self.get_unmatched_team(odd_bracket)
 
 
 class AustralsPowerPairedWithAllocatedSidesDrawGenerator(AustralsPairingMixin, PowerPairedWithAllocatedSidesDrawGenerator):

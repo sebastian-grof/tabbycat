@@ -1,9 +1,11 @@
 from django.test import TestCase
+from django.core.files.uploadedfile import SimpleUploadedFile
 
 from adjallocation.models import DebateAdjudicator
 from draw.models import Debate, DebateTeam
 from draw.types import DebateSide
 from importer.archive import Exporter, Importer
+from importer.forms import ArchiveImportForm
 from participants.models import Adjudicator, Institution, Speaker, Team
 from results.models import BallotSubmission, CrossExaminationScore, SpeakerScore, TeamScore
 from results.result import ConsensusDebateResultWithScores
@@ -262,3 +264,18 @@ class TestArchiveExporter(TestCase):
         self.assertAlmostEqual(imported_result.get_score(DebateSide.BYE, 1), 81.0)
         self.assertAlmostEqual(imported_result.get_score(DebateSide.BYE, imported_tournament.reply_position), 93.0)
         self.assertAlmostEqual(imported_result.get_cross_score(DebateSide.BYE, imported_cross), 4.0)
+
+
+class TestArchiveImportForm(TestCase):
+
+    def test_accepts_uploaded_xml_file(self):
+        upload = SimpleUploadedFile(
+            "archive.xml",
+            b"<tournament name='Archive Test' short='archive-test'></tournament>",
+            content_type="text/xml",
+        )
+
+        form = ArchiveImportForm(data={'xml': ''}, files={'xml_file': upload})
+
+        self.assertTrue(form.is_valid(), form.errors)
+        self.assertEqual(form.cleaned_data['xml_root'].tag, 'tournament')

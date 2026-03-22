@@ -1,7 +1,9 @@
 import csv
 import logging
 from itertools import zip_longest
+from xml.etree.ElementTree import ParseError
 
+from defusedxml.ElementTree import fromstring
 from django import forms
 from django.conf import settings
 from django.core.exceptions import ValidationError
@@ -426,5 +428,30 @@ class ImportAdjudicatorsNumbersForm(BaseNumberForEachInstitutionForm):
 
 class ArchiveImportForm(forms.Form):
 
-    xml = forms.CharField(required=True, label=_("XML"),
-        widget=forms.Textarea(), help_text=_("The Debate XML archive to parse")) # attrs={'rows': 20}
+    xml = forms.CharField(required=False, label=_("XML"),
+        widget=forms.Textarea(), help_text=_("Paste the Debate XML archive here."))
+    xml_file = forms.FileField(required=False, label=_("XML file"),
+        help_text=_("Or upload the exported Debate XML archive file."))
+
+    def clean(self):
+        cleaned_data = super().clean()
+        xml_text = cleaned_data.get('xml')
+        xml_file = cleaned_data.get('xml_file')
+
+        xml_payload = None
+        if xml_file is not None:
+            xml_payload = xml_file.read()
+        elif xml_text:
+            xml_payload = xml_text.strip()
+
+        if not xml_payload:
+            raise ValidationError(_("Provide XML text or upload an XML file."))
+
+        try:
+            xml_root = fromstring(xml_payload)
+        except (ParseError, TypeError, ValueError):
+            raise ValidationError(_("The provided file does not contain valid Debate XML."))
+
+        cleaned_data['xml'] = xml_payload
+        cleaned_data['xml_root'] = xml_root
+        return cleaned_data
