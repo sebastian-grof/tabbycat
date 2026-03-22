@@ -117,10 +117,17 @@ class ByeDebateResult:
         self.tournament = self.debate.round.tournament
         self.sides = [DebateSide.BYE]
         self.positions = list(self.tournament.positions)
+        self.crosses = list(self.tournament.crossexamination_set.order_by('seq'))
+        self.using_cross_examinations = (
+            self.tournament.pref('teams_in_debate') == 2 and
+            self.tournament.pref('cross_examinations_enabled')
+        )
         self.debateteams = {DebateSide.BYE: None}
         self.speakers = {DebateSide.BYE: dict.fromkeys(self.positions, None)}
         self.ghosts = {DebateSide.BYE: dict.fromkeys(self.positions, False)}
         self.scores = {DebateSide.BYE: dict.fromkeys(self.positions, None)}
+        self.cross_scores = {DebateSide.BYE: {}}
+        self.cross_totals = {DebateSide.BYE: None}
         self._team_score = None
 
         if load:
@@ -148,6 +155,18 @@ class ByeDebateResult:
             debate_team=debateteam,
         ).values_list('score', flat=True).first()
 
+        if self.using_cross_examinations:
+            cross_scores = self.ballotsub.crossexaminationscore_set.filter(
+                debate_team=debateteam,
+            ).select_related('cross_examination')
+            for cross_score in cross_scores:
+                self.cross_scores[DebateSide.BYE][cross_score.cross_examination_id] = cross_score.score
+
+            if not self.crosses and self._team_score is not None:
+                speech_scores = [score for score in self.scores[DebateSide.BYE].values()]
+                if all(score is not None for score in speech_scores):
+                    self.cross_totals[DebateSide.BYE] = self._team_score - sum(float(score) for score in speech_scores)
+
     def is_complete(self):
         return self.debateteams[DebateSide.BYE] is not None
 
@@ -161,6 +180,8 @@ class ByeDebateResult:
             getattr(other, 'speakers', None) == self.speakers and
             getattr(other, 'ghosts', None) == self.ghosts and
             getattr(other, 'scores', None) == self.scores and
+            getattr(other, 'cross_scores', None) == self.cross_scores and
+            getattr(other, 'cross_totals', None) == self.cross_totals and
             getattr(other, '_team_score', None) == self._team_score
         )
 
@@ -186,6 +207,17 @@ class ByeDebateResult:
     def get_score(self, side, position):
         return self.scores[side].get(position)
 
+    def get_cross_score(self, side, cross):
+        return self.cross_scores[side].get(cross.id)
+
+    def get_cross_total(self, side):
+        if self.crosses:
+            scores = [self.get_cross_score(side, cross) for cross in self.crosses]
+            if any(score is None for score in scores):
+                return None
+            return sum(float(score) for score in scores)
+        return self.cross_totals[side]
+
     def as_dicts(self):
         debateteam = self.winning_dt()
         if debateteam is None:
@@ -206,7 +238,7 @@ class ByeDebateResult:
             'team': debateteam.team,
             'total': self._team_score,
             'speakers': speakers,
-            'using_cross_examinations': False,
+            'using_cross_examinations': self.using_cross_examinations,
         }]}])
 
 
@@ -1649,4 +1681,3 @@ class DebateResultByAdjudicatorWithScores(DebateResultWithScoresMixin, DebateRes
         aff_total = self.teamscorebyadj_field_score(adj, DebateSide.AFF)
         neg_total = self.teamscorebyadj_field_score(adj, DebateSide.NEG)
         self.calculate_margin(side, aff_total, neg_total)
-

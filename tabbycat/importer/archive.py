@@ -16,7 +16,8 @@ from options.presets import (AustralianEastersPreferences, AustralsPreferences, 
 from participants.emoji import EMOJI_BY_NAME
 from participants.models import Adjudicator, Institution, Region, Speaker, SpeakerCategory, Team
 from registration.models import Answer
-from results.models import BallotSubmission, CrossExamination, ScoreCriterion, Submission
+from results.models import (BallotSubmission, CrossExamination, CrossExaminationScore, ScoreCriterion, SpeakerScore,
+    Submission, TeamScore)
 from results.prefetch import populate_confirmed_ballots, populate_wins
 from results.result import DebateResult
 from tournaments.models import Round, Tournament
@@ -94,6 +95,8 @@ class Exporter:
         debate_tag = SubElement(round_tag, 'debate', {
             'id': DEBATE_PREFIX + str(debate.id),
         })
+        if debate.is_bye:
+            debate_tag.set('bye', 'true')
 
         # Add list of motions as attribute
         adjs = " ".join([ADJ_PREFIX + str(d_adj.adjudicator_id) for d_adj in debate.debateadjudicator_set.all()])
@@ -115,8 +118,9 @@ class Exporter:
 
         if debate.confirmed_ballot is not None:
             result = debate.confirmed_ballot.result
+            sides = result.sides if debate.is_bye else self.t.sides
 
-            for side in self.t.sides:
+            for side in sides:
                 side_tag = SubElement(debate_tag, 'side', {
                     'team': TEAM_PREFIX + str(debate.get_team(side).id),
                 })
@@ -137,13 +141,16 @@ class Exporter:
                     })
                     ballot_tag.text = str(adv)
                 else:
-                    self.add_team_ballots(
-                        side_tag,
-                        result,
-                        adjs,
-                        result.scoresheet,
-                        side,
-                    )
+                    if debate.is_bye:
+                        self.add_bye_team_ballot(side_tag, result, adjs, side)
+                    else:
+                        self.add_team_ballots(
+                            side_tag,
+                            result,
+                            adjs,
+                            result.scoresheet,
+                            side,
+                        )
 
                 if result.uses_speakers:
                     self.add_speakers(side_tag, debate, result, side)
@@ -171,6 +178,27 @@ class Exporter:
         else:
             ballot_tag.text = str(side in scoresheet.winners())
 
+    def add_bye_team_ballot(self, side_tag, result, adjs, side):
+        teamscore = result.ballotsub.teamscore_set.filter(
+            debate_team=result.winning_dt(),
+        ).first()
+        ballot_tag = SubElement(side_tag, 'ballot', {
+            'adjudicators': adjs,
+            'rank': str(1 if side == result.winning_side() else 2),
+            'ignored': 'false',
+        })
+        if teamscore is not None:
+            if teamscore.points is not None:
+                ballot_tag.set('points', str(teamscore.points))
+            if teamscore.win is not None:
+                ballot_tag.set('win', str(teamscore.win).lower())
+            if teamscore.votes_given is not None:
+                ballot_tag.set('votes-given', str(teamscore.votes_given))
+            if teamscore.votes_possible is not None:
+                ballot_tag.set('votes-possible', str(teamscore.votes_possible))
+        if result._team_score is not None:
+            ballot_tag.text = str(result._team_score)
+
     def add_speakers(self, side_tag, debate, result, side):
         for pos in self.t.positions:
             speaker = result.get_speaker(side, pos)
@@ -191,7 +219,7 @@ class Exporter:
                         ballot_tag = SubElement(speech_tag, 'ballot', {
                             'adjudicators': " ".join([ADJ_PREFIX + str(d_adj.adjudicator_id) for d_adj in debate.debateadjudicator_set.all()]),
                         })
-                        ballot_tag.text = str(result.scoresheet.get_score(side, pos))
+                        ballot_tag.text = str(result.get_score(side, pos))
 
                 self.add_speech_criteria(speech_tag, debate, result, side, pos)
 
@@ -764,20 +792,73 @@ class Importer:
                 self.debates[debate.get('id')] = debate_obj
 
                 # Debate-teams
+                is_bye = self._debate_is_bye(debate)
                 for j, side in enumerate(debate.findall('side')):
-                    debateteam_obj = DebateTeam(debate=debate_obj, team=self.teams[side.get('team')], side=j)
+                    side_code = DebateSide.BYE if is_bye else j
+                    debateteam_obj = DebateTeam(debate=debate_obj, team=self.teams[side.get('team')], side=side_code)
                     debateteam_obj.save()
                     self.debateteams[(debate.get('id'), side.get('team'))] = debateteam_obj
 
                 # Debate-adjudicators
                 voting_adjs = self._get_voting_adjs(debate)
-                for adj in debate.get('adjudicators').split():
+                for adj in (debate.get('adjudicators') or "").split():
                     adj_type = DebateAdjudicator.TYPE_PANEL if adj in voting_adjs else DebateAdjudicator.TYPE_TRAINEE
                     if debate.get('chair') == adj:
                         adj_type = DebateAdjudicator.TYPE_CHAIR
                     adj_obj = DebateAdjudicator(debate=debate_obj, adjudicator=self.adjudicators[adj], type=adj_type)
                     adj_obj.save()
                     self.debateadjudicators[(debate.get('id'), adj)] = adj_obj
+
+    def _debate_is_bye(self, debate):
+        return debate.get('bye') == 'true' or len(debate.findall('side')) == 1
+
+    def _import_bye_result(self, bs_obj, debate):
+        side = debate.find('side')
+        if side is None:
+            return
+
+        debateteam = self.debateteams[(debate.get('id'), side.get('team'))]
+        ballot = side.find('ballot')
+        if ballot is not None:
+            TeamScore.objects.create(
+                ballot_submission=bs_obj,
+                debate_team=debateteam,
+                points=int(ballot.get('points', '1')),
+                win=ballot.get('win', 'true') == 'true',
+                margin=None,
+                score=float(ballot.text) if ballot.text is not None else None,
+                votes_given=int(ballot.get('votes-given')) if ballot.get('votes-given') is not None else None,
+                votes_possible=int(ballot.get('votes-possible')) if ballot.get('votes-possible') is not None else None,
+                has_ghost=False,
+            )
+
+        for speech, pos in zip(side.findall('speech'), self.tournament.positions):
+            ballot = speech.find('ballot')
+            if ballot is None or ballot.text is None:
+                continue
+            SpeakerScore.objects.create(
+                ballot_submission=bs_obj,
+                debate_team=debateteam,
+                speaker=self.speakers.get(speech.get('speaker')),
+                rank=None,
+                score=float(ballot.text),
+                position=pos,
+                ghost=False,
+            )
+
+        for cross_node in side.findall('cross'):
+            cross = self.cross_examinations.get(int(cross_node.get('seq')))
+            if cross is None:
+                continue
+            ballot = cross_node.find('ballot')
+            if ballot is None or ballot.text is None:
+                continue
+            CrossExaminationScore.objects.create(
+                ballot_submission=bs_obj,
+                debate_team=debateteam,
+                cross_examination=cross,
+                score=float(ballot.text),
+            )
 
     def import_motions(self):
         # Can cause data consistency problems if motions are re-used between rounds: See #645
@@ -812,6 +893,9 @@ class Importer:
                     version=1, submitter_type=Submission.Submitter.TABROOM, confirmed=True,
                     debate=self.debates[debate.get('id')], motion=self.motions.get(debate.get('motion')))
                 bs_obj.save()
+                if self.debates[debate.get('id')].is_bye:
+                    self._import_bye_result(bs_obj, debate)
+                    continue
                 dr = DebateResult(bs_obj)
 
                 numeric_scores = True

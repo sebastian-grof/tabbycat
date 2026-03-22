@@ -5,7 +5,7 @@ from draw.models import Debate, DebateTeam
 from draw.types import DebateSide
 from importer.archive import Exporter, Importer
 from participants.models import Adjudicator, Institution, Speaker, Team
-from results.models import BallotSubmission
+from results.models import BallotSubmission, CrossExaminationScore, SpeakerScore, TeamScore
 from results.result import ConsensusDebateResultWithScores
 from tournaments.models import Round, Tournament
 
@@ -152,3 +152,113 @@ class TestArchiveExporter(TestCase):
             imported_result.get_cross_score(DebateSide.NEG, imported_first_cross),
             3.0,
         )
+
+    def test_export_handles_bye_ballots_with_speaker_scores(self):
+        bye_team = Team.objects.create(
+            tournament=self.tournament,
+            institution=self.institution,
+            reference="Bye",
+            use_institution_prefix=False,
+        )
+        bye_speakers = [Speaker.objects.create(team=bye_team, name=f"Bye {i}") for i in range(1, 4)]
+        bye_debate = Debate.objects.create(round=self.round)
+        bye_dt = DebateTeam.objects.create(debate=bye_debate, team=bye_team, side=DebateSide.BYE)
+        ballotsub = BallotSubmission.objects.create(debate=bye_debate, confirmed=True)
+
+        TeamScore.objects.create(
+            ballot_submission=ballotsub,
+            debate_team=bye_dt,
+            points=1,
+            win=True,
+            margin=None,
+            score=243.0,
+            votes_given=3,
+            votes_possible=3,
+            has_ghost=False,
+        )
+
+        for position in self.tournament.positions:
+            speaker = bye_speakers[0] if position == self.tournament.reply_position else bye_speakers[position - 1]
+            SpeakerScore.objects.create(
+                ballot_submission=ballotsub,
+                debate_team=bye_dt,
+                speaker=speaker,
+                position=position,
+                score=81.0,
+                rank=None,
+                ghost=False,
+            )
+
+        root = Exporter(self.tournament).create_all()
+        bye_debate_tag = root.find(f"./round/debate[@id='D{bye_debate.id}']")
+        bye_sides = bye_debate_tag.findall("side")
+
+        self.assertEqual(bye_debate_tag.get('bye'), 'true')
+        self.assertEqual(len(bye_sides), 1)
+        self.assertEqual(bye_sides[0].get('team'), f"T{bye_team.id}")
+        self.assertEqual(bye_sides[0].find('ballot').get('rank'), '1')
+        self.assertAlmostEqual(float(bye_sides[0].find('ballot').text), 243.0)
+        self.assertEqual(len(bye_sides[0].findall('speech')), len(self.tournament.positions))
+        self.assertAlmostEqual(float(bye_sides[0].find('speech/ballot').text), 81.0)
+
+    def test_round_trip_import_preserves_bye_ballot_scores(self):
+        bye_team = Team.objects.create(
+            tournament=self.tournament,
+            institution=self.institution,
+            reference="Bye",
+            use_institution_prefix=False,
+        )
+        bye_speakers = [Speaker.objects.create(team=bye_team, name=f"Bye {i}") for i in range(1, 4)]
+        bye_debate = Debate.objects.create(round=self.round)
+        bye_dt = DebateTeam.objects.create(debate=bye_debate, team=bye_team, side=DebateSide.BYE)
+        ballotsub = BallotSubmission.objects.create(debate=bye_debate, confirmed=True)
+
+        TeamScore.objects.create(
+            ballot_submission=ballotsub,
+            debate_team=bye_dt,
+            points=1,
+            win=True,
+            margin=None,
+            score=255.0,
+            votes_given=3,
+            votes_possible=3,
+            has_ghost=False,
+        )
+
+        for position in self.tournament.positions:
+            speaker = bye_speakers[0] if position == self.tournament.reply_position else bye_speakers[position - 1]
+            SpeakerScore.objects.create(
+                ballot_submission=ballotsub,
+                debate_team=bye_dt,
+                speaker=speaker,
+                position=position,
+                score=81.0 if position != self.tournament.reply_position else 93.0,
+                rank=None,
+                ghost=False,
+            )
+
+        for cross in self.tournament.crossexamination_set.order_by('seq'):
+            CrossExaminationScore.objects.create(
+                ballot_submission=ballotsub,
+                debate_team=bye_dt,
+                cross_examination=cross,
+                score=4.0,
+            )
+
+        root = Exporter(self.tournament).create_all()
+        self.tournament.delete()
+
+        importer = Importer(root)
+        importer.import_tournament()
+
+        imported_tournament = importer.tournament
+        imported_bye_debate = imported_tournament.round_set.get(seq=1).debate_set.get(debateteam__side=DebateSide.BYE)
+        imported_ballot = imported_bye_debate.confirmed_ballot
+        imported_result = imported_ballot.result
+        imported_cross = imported_tournament.crossexamination_set.order_by('seq').first()
+
+        self.assertTrue(imported_bye_debate.is_bye)
+        self.assertEqual(imported_ballot.teamscore_set.get().votes_given, 3)
+        self.assertAlmostEqual(imported_result.get_score(DebateSide.BYE, 1), 81.0)
+        self.assertAlmostEqual(imported_result.get_score(DebateSide.BYE, imported_tournament.reply_position), 93.0)
+        self.assertAlmostEqual(imported_result.get_cross_score(DebateSide.BYE, imported_cross), 4.0)
