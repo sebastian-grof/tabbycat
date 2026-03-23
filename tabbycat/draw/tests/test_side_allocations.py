@@ -2,12 +2,14 @@ from django.contrib.auth import get_user_model
 from django.test import TestCase
 
 from availability.utils import set_availability
+from tournaments.models import Round
 from utils.misc import add_query_string_parameter, reverse_tournament
 from utils.tests import AdminTournamentViewSimpleLoadTestMixin, CompletedTournamentTestMixin
 
 from ..manager import DrawManager
-from ..models import ByeTeamOverride, get_effective_side_allocation_mode
+from ..models import ByeTeamOverride, Debate, DebateTeam, get_effective_side_allocation_mode
 from ..side_allocations import generate_opposite_allocations, generate_random_allocations, replace_round_allocations
+from ..types import DebateSide
 
 
 class SideAllocationsViewTest(AdminTournamentViewSimpleLoadTestMixin, TestCase):
@@ -149,6 +151,46 @@ class SideAllocationServiceTest(CompletedTournamentTestMixin, TestCase):
         self.assertEqual(len(target_allocations), len(available_teams))
         self.assertEqual(set(target_allocations.keys()), {team.id for team in available_teams})
         self.assertIn(byes[0].id, target_allocations)
+
+    def test_generate_opposite_allocations_ignores_source_round_bye_team_side(self):
+        source_round = Round.objects.create(tournament=self.tournament, seq=98, abbreviation='RS')
+        target_round = Round.objects.create(tournament=self.tournament, seq=99, abbreviation='RT')
+        teams = list(self.tournament.team_set.order_by('id')[:5])
+        set_availability(self.tournament.team_set.filter(id__in=[team.id for team in teams]), source_round)
+        set_availability(self.tournament.team_set.filter(id__in=[team.id for team in teams]), target_round)
+
+        debate_one = Debate.objects.create(round=source_round, bracket=2, room_rank=1)
+        DebateTeam.objects.create(debate=debate_one, team=teams[0], side=DebateSide.AFF)
+        DebateTeam.objects.create(debate=debate_one, team=teams[1], side=DebateSide.NEG)
+
+        debate_two = Debate.objects.create(round=source_round, bracket=1, room_rank=2)
+        DebateTeam.objects.create(debate=debate_two, team=teams[2], side=DebateSide.AFF)
+        DebateTeam.objects.create(debate=debate_two, team=teams[3], side=DebateSide.NEG)
+
+        bye_debate = Debate.objects.create(round=source_round, bracket=0, room_rank=3)
+        DebateTeam.objects.create(debate=bye_debate, team=teams[4], side=DebateSide.BYE)
+
+        base_allocations = {
+            teams[0].id: self.sides[0],
+            teams[1].id: self.sides[1],
+            teams[2].id: self.sides[0],
+            teams[3].id: self.sides[1],
+            teams[4].id: self.sides[0],
+        }
+        replace_round_allocations(source_round, base_allocations)
+
+        import random
+        random.seed(17)
+        first = generate_opposite_allocations(target_round, source_round)
+
+        replace_round_allocations(target_round, {})
+        base_allocations[teams[4].id] = self.sides[1]
+        replace_round_allocations(source_round, base_allocations)
+
+        random.seed(17)
+        second = generate_opposite_allocations(target_round, source_round)
+
+        self.assertEqual(first, second)
 
     def test_round_without_active_allocations_uses_postallocated_mode(self):
         self.tournament.preferences['draw_rules__draw_side_allocations'] = 'preallocated'

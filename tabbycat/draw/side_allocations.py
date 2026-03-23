@@ -6,6 +6,7 @@ from django.utils.translation import gettext as _
 from .generator import DrawUserError
 from .manager import DrawManager
 from .models import ByeTeamOverride, TeamSideAllocation
+from .types import DebateSide
 
 
 class SideAllocationError(Exception):
@@ -198,13 +199,20 @@ def generate_opposite_allocations(round, source_round):
     sides = _get_two_team_sides(round.tournament)
     target_teams = _get_generation_target_teams(round)
     source_allocations = get_round_allocations(source_round)
+    source_actual_sides = {
+        debateteam.team_id: debateteam.side
+        for debate in source_round.debate_set.prefetch_related('debateteam_set')
+        for debateteam in debate.debateteam_set.all()
+        if debateteam.side != DebateSide.BYE
+    }
+    source_has_draw = source_round.debate_set.exists()
     opposite_by_side = {sides[0]: sides[1], sides[1]: sides[0]}
 
     allocations = {}
     missing_teams = []
 
     for team in target_teams:
-        current_side = source_allocations.get(team.id)
+        current_side = source_actual_sides.get(team.id) if source_has_draw else source_allocations.get(team.id)
         if current_side is None:
             missing_teams.append(team)
             continue
