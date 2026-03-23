@@ -1,5 +1,7 @@
 from collections import Counter
+from itertools import combinations
 import random
+from types import SimpleNamespace
 
 from django.utils.translation import gettext as _
 
@@ -166,6 +168,223 @@ def _choose_target_side_counts(total_teams, sides, existing_counts=None):
     return random.choice(candidates)
 
 
+def _ordered_target_side_counts(total_teams, sides, existing_counts=None):
+    existing_counts = Counter(existing_counts or {})
+    candidates = [
+        counts
+        for counts in _candidate_side_counts(total_teams, sides)
+        if all(existing_counts.get(side, 0) <= counts[side] for side in sides)
+    ]
+    if not candidates:
+        raise SideAllocationError(_("The available teams can't be split into valid saved side allocations for this round."))
+
+    if len(candidates) == 1:
+        return candidates
+
+    if existing_counts.get(sides[0], 0) != existing_counts.get(sides[1], 0):
+        preferred_side = sides[0] if existing_counts[sides[0]] > existing_counts[sides[1]] else sides[1]
+        candidates.sort(
+            key=lambda counts: (
+                counts[preferred_side] == counts[sides[0] if preferred_side == sides[1] else sides[1]],
+                -counts[preferred_side],
+            )
+        )
+        return candidates
+
+    return sorted(candidates, key=lambda counts: counts[sides[1]], reverse=True)
+
+
+def _get_ranked_target_brackets(round, target_teams):
+    team_map = {team.id: team for team in target_teams}
+    manager = DrawManager(round, active_only=True)
+
+    try:
+        if hasattr(manager, "_get_ranked_teams"):
+            ranked = manager._get_ranked_teams()
+        else:
+            ranked = [
+                SimpleNamespace(id=team.id, points=0, short_name=team.short_name)
+                for team in target_teams
+            ]
+    except DrawUserError:
+        ranked = [
+            SimpleNamespace(id=team.id, points=0, short_name=team.short_name)
+            for team in target_teams
+        ]
+
+    ranked = [team for team in ranked if team.id in team_map]
+    brackets = []
+    last_points = object()
+    for team in ranked:
+        points = getattr(team, "points", 0)
+        if not brackets or points != last_points:
+            brackets.append([])
+            last_points = points
+        brackets[-1].append(team_map[team.id])
+    return brackets
+
+
+def _assign_missing_opposite_sides_by_bracket(round, target_teams, allocations, missing_teams, sides):
+    if not missing_teams:
+        return allocations
+
+    selector = _get_preallocated_pullup_selector(round)
+    if selector is None:
+        return _assign_missing_opposite_sides_by_static_bracket_balance(round, target_teams, allocations, missing_teams, sides)
+
+    existing_counts = Counter(allocations.values())
+    brackets = _get_ranked_target_brackets(round, target_teams)
+    global_targets = _ordered_target_side_counts(len(target_teams), sides, existing_counts)
+    best_choice = None
+
+    for target_index, target_counts in enumerate(global_targets):
+        required_aff = target_counts[sides[0]] - existing_counts.get(sides[0], 0)
+        if required_aff < 0 or required_aff > len(missing_teams):
+            continue
+
+        for aff_indices in combinations(range(len(missing_teams)), required_aff):
+            aff_index_set = set(aff_indices)
+            candidate = dict(allocations)
+            for index, team in enumerate(missing_teams):
+                candidate[team.id] = sides[0] if index in aff_index_set else sides[1]
+
+            penalties = _simulate_sequential_pullup_penalties(brackets, candidate, sides, selector)
+            if penalties is None:
+                continue
+
+            key = penalties + (target_index,)
+            if best_choice is None or key < best_choice[0]:
+                best_choice = (key, candidate)
+
+    if best_choice is None:
+        return _assign_missing_opposite_sides_by_static_bracket_balance(round, target_teams, allocations, missing_teams, sides)
+
+    return best_choice[1]
+
+
+def _get_preallocated_pullup_selector(round):
+    odd_bracket = round.tournament.pref('draw_odd_bracket')
+    if odd_bracket == 'pullup_top':
+        return lambda pool, count: pool[:count]
+    if odd_bracket == 'pullup_bottom':
+        return lambda pool, count: pool[-count:]
+    if odd_bracket == 'pullup_random':
+        def random_selector(pool, count):
+            selected = set(random.sample(range(len(pool)), count))
+            return [team for index, team in enumerate(pool) if index in selected]
+        return random_selector
+    return None
+
+
+def _simulate_sequential_pullup_penalties(brackets, allocations, sides, selector):
+    needed_side = None
+    needed_count = 0
+    penalties = []
+
+    for bracket in brackets:
+        remaining = list(bracket)
+        if needed_count:
+            matching_side = [team for team in remaining if allocations.get(team.id) == needed_side]
+            if len(matching_side) < needed_count:
+                return None
+            pulled = selector(matching_side, needed_count)
+            pulled_ids = {team.id for team in pulled}
+            remaining = [team for team in remaining if team.id not in pulled_ids]
+
+        aff_count = sum(1 for team in remaining if allocations.get(team.id) == sides[0])
+        neg_count = sum(1 for team in remaining if allocations.get(team.id) == sides[1])
+        penalties.append(abs(abs(aff_count - neg_count) - (len(remaining) % 2)))
+
+        if aff_count > neg_count:
+            needed_side = sides[1]
+            needed_count = aff_count - neg_count
+        elif neg_count > aff_count:
+            needed_side = sides[0]
+            needed_count = neg_count - aff_count
+        else:
+            needed_side = None
+            needed_count = 0
+
+    return tuple(penalties)
+
+
+def _assign_missing_opposite_sides_by_static_bracket_balance(round, target_teams, allocations, missing_teams, sides):
+    if not missing_teams:
+        return allocations
+
+    missing_ids = {team.id for team in missing_teams}
+    existing_counts = Counter(allocations.values())
+    brackets = _get_ranked_target_brackets(round, target_teams)
+    bracket_options = []
+
+    for bracket in brackets:
+        bracket_missing = [team for team in bracket if team.id in missing_ids]
+        if not bracket_missing:
+            bracket_options.append([{"aff_assigned": 0, "penalty": 0, "teams": []}])
+            continue
+
+        fixed_counts = Counter(
+            allocations[team.id]
+            for team in bracket
+            if allocations.get(team.id) is not None
+        )
+        options = []
+        for aff_assigned in range(len(bracket_missing) + 1):
+            neg_assigned = len(bracket_missing) - aff_assigned
+            final_aff = fixed_counts.get(sides[0], 0) + aff_assigned
+            final_neg = fixed_counts.get(sides[1], 0) + neg_assigned
+            ideal_diff = len(bracket) % 2
+            penalty = abs(abs(final_aff - final_neg) - ideal_diff)
+            options.append({
+                "aff_assigned": aff_assigned,
+                "penalty": penalty,
+                "teams": bracket_missing,
+            })
+        bracket_options.append(options)
+
+    global_targets = _ordered_target_side_counts(len(target_teams), sides, existing_counts)
+    best_choice = None
+
+    for target_index, target_counts in enumerate(global_targets):
+        required_aff = target_counts[sides[0]] - existing_counts.get(sides[0], 0)
+        states = {0: ((), [])}
+
+        for options in bracket_options:
+            next_states = {}
+            for used_aff, (penalties, choices) in states.items():
+                for option in options:
+                    new_aff = used_aff + option["aff_assigned"]
+                    new_penalties = penalties + (option["penalty"],)
+                    new_choices = choices + [option]
+                    current = next_states.get(new_aff)
+                    if current is None or new_penalties < current[0]:
+                        next_states[new_aff] = (new_penalties, new_choices)
+            states = next_states
+
+        if required_aff not in states:
+            continue
+
+        penalties, choices = states[required_aff]
+        key = penalties + (target_index,)
+        if best_choice is None or key < best_choice[0]:
+            best_choice = (key, choices)
+
+    if best_choice is None:
+        raise SideAllocationError(_("Round %(round)s does not have usable side allocations for the teams debating there.") % {
+            "round": round.name,
+        })
+
+    resolved = dict(allocations)
+    for option in best_choice[1]:
+        bracket_missing = sorted(option["teams"], key=lambda team: getattr(team, "subrank", 0) or 0)
+        for team in bracket_missing[:option["aff_assigned"]]:
+            resolved[team.id] = sides[0]
+        for team in bracket_missing[option["aff_assigned"]:]:
+            resolved[team.id] = sides[1]
+
+    return resolved
+
+
 def generate_random_allocations(round):
     sides = _get_two_team_sides(round.tournament)
     teams = _get_generation_target_teams(round)
@@ -220,25 +439,7 @@ def generate_opposite_allocations(round, source_round):
             })
         allocations[team.id] = opposite_by_side[current_side]
 
-    counts = Counter(allocations.values())
-    target_counts = _choose_target_side_counts(len(target_teams), sides, counts)
-    remaining_slots = []
-    for side in sides:
-        remaining = target_counts[side] - counts.get(side, 0)
-        if remaining < 0:
-            raise SideAllocationError(_("Round %(round)s does not have usable side allocations for the teams debating there.") % {
-                "round": source_round.name,
-            })
-        remaining_slots.extend([side] * remaining)
-
-    if len(remaining_slots) != len(missing_teams):
-        raise SideAllocationError(_("Round %(round)s does not have usable side allocations for the teams debating there.") % {
-            "round": source_round.name,
-        })
-
-    random.shuffle(remaining_slots)
-    for team, side in zip(missing_teams, remaining_slots):
-        allocations[team.id] = side
+    allocations = _assign_missing_opposite_sides_by_bracket(round, target_teams, allocations, missing_teams, sides)
 
     replace_round_allocations(round, allocations)
     return allocations

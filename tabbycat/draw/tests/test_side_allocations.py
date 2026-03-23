@@ -1,3 +1,5 @@
+from unittest.mock import patch
+
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 
@@ -8,7 +10,12 @@ from utils.tests import AdminTournamentViewSimpleLoadTestMixin, CompletedTournam
 
 from ..manager import DrawManager
 from ..models import ByeTeamOverride, Debate, DebateTeam, get_effective_side_allocation_mode
-from ..side_allocations import generate_opposite_allocations, generate_random_allocations, replace_round_allocations
+from ..side_allocations import (
+    _assign_missing_opposite_sides_by_bracket,
+    generate_opposite_allocations,
+    generate_random_allocations,
+    replace_round_allocations,
+)
 from ..types import DebateSide
 
 
@@ -191,6 +198,27 @@ class SideAllocationServiceTest(CompletedTournamentTestMixin, TestCase):
         second = generate_opposite_allocations(target_round, source_round)
 
         self.assertEqual(first, second)
+
+    def test_assign_missing_opposite_sides_prefers_balancing_target_bracket(self):
+        teams = list(self.tournament.team_set.order_by('id')[:6])
+        allocations = {
+            teams[0].id: self.sides[0],
+            teams[1].id: self.sides[1],
+            teams[2].id: self.sides[0],
+            teams[3].id: self.sides[1],
+            teams[4].id: self.sides[0],
+        }
+
+        with patch('tabbycat.draw.side_allocations._get_ranked_target_brackets', return_value=[teams[:2], teams[2:]]):
+            result = _assign_missing_opposite_sides_by_bracket(
+                self.round2,
+                teams,
+                allocations,
+                [teams[5]],
+                self.sides,
+            )
+
+        self.assertEqual(result[teams[5].id], self.sides[1])
 
     def test_round_without_active_allocations_uses_postallocated_mode(self):
         self.tournament.preferences['draw_rules__draw_side_allocations'] = 'preallocated'
