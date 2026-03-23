@@ -75,7 +75,6 @@ def replace_bye_override(round, team):
         return
 
     ByeTeamOverride.objects.update_or_create(round=round, defaults={"team": team})
-    round.teamsideallocation_set.filter(team=team).delete()
 
 
 def get_round_allocations(round):
@@ -89,30 +88,33 @@ def summarize_allocations(round, allocations=None):
     allocations = allocations if allocations is not None else get_round_allocations(round)
     groups = get_round_team_groups(round)
     sides = list(round.tournament.sides)
-    draw_team_ids = {team.id for team in groups["draw_teams"]}
-    bye_team_ids = {team.id for team in groups["bye_teams"]}
-    relevant_team_ids = draw_team_ids | bye_team_ids
+    active_team_ids = {team.id for team in groups["active_teams"]}
 
     counts = Counter(
         side for team_id, side in allocations.items()
-        if team_id in draw_team_ids and side is not None
+        if team_id in active_team_ids and side is not None
     )
-    assigned = sum(1 for team in groups["draw_teams"] if allocations.get(team.id) is not None)
-    missing = len(groups["draw_teams"]) - assigned
+    assigned = sum(1 for team in groups["active_teams"] if allocations.get(team.id) is not None)
+    missing = len(groups["active_teams"]) - assigned
     extra_assigned = sum(
         1 for team_id, side in allocations.items()
-        if side is not None and team_id not in relevant_team_ids
+        if side is not None and team_id not in active_team_ids
     )
-    balanced = len(sides) == 2 and counts.get(sides[0], 0) == counts.get(sides[1], 0)
+    balanced = False
+    if len(sides) == 2 and missing == 0:
+        balanced = any(
+            all(counts.get(side, 0) == candidate[side] for side in sides)
+            for candidate in _candidate_side_counts(len(groups["active_teams"]), sides)
+        )
 
     return {
         "assigned": assigned,
         "missing": missing,
         "counts": counts,
         "balanced": balanced,
-        "draw_team_count": len(groups["draw_teams"]),
-        "bye_team_count": len(groups["bye_teams"]),
-        "bye_teams": groups["bye_teams"],
+        "active_team_count": len(groups["active_teams"]),
+        "simulated_bye_team_count": len(groups["bye_teams"]),
+        "simulated_bye_teams": groups["bye_teams"],
         "unavailable_team_count": len(groups["unavailable_teams"]),
         "unavailable_teams": groups["unavailable_teams"],
         "extra_assigned": extra_assigned,
@@ -129,11 +131,7 @@ def replace_round_allocations(round, allocations):
 
 
 def _get_generation_target_teams(round):
-    active_teams = list(round.active_teams.order_by("short_name", "id"))
-    bye_override_team = get_bye_override_team(round)
-    if bye_override_team is None:
-        return active_teams
-    return [team for team in active_teams if team.id != bye_override_team.id]
+    return list(round.active_teams.order_by("short_name", "id"))
 
 
 def _candidate_side_counts(total_teams, sides):

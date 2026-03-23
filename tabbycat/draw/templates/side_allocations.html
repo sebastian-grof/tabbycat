@@ -21,7 +21,7 @@
 {% block content %}
 
   {% blocktrans trimmed asvar explainer_text %}
-    Use this page to save explicit side allocations for preliminary rounds. Automatic generation and manual editing use the teams marked available for the selected round. If a manual bye override is set, that team is left unassigned; otherwise saved side allocations can be used to recalculate the predicted bye. If a round has no saved allocations, Tabbycat will pair the draw first and then assign sides afterwards.
+    Use this page to save explicit side allocations for preliminary rounds. Automatic generation and manual editing use all teams marked available for the selected round. The simulated bye preview is informational only and does not remove a team from the allocation table. If a round has no saved allocations, Tabbycat will pair the draw first and then assign sides afterwards.
   {% endblocktrans %}
   {% include "components/explainer-card.html" with type="info" p1=explainer_text %}
 
@@ -48,10 +48,10 @@
         <div class="list-group-item pt-3 pb-3">
           <div class="row small text-muted">
             <div class="col-md-4 mb-2 mb-md-0">
-              {% blocktrans trimmed with count=allocation_summary.assigned %}Assigned debating teams: {{ count }}{% endblocktrans %}
+              {% blocktrans trimmed with count=allocation_summary.assigned %}Assigned active teams: {{ count }}{% endblocktrans %}
             </div>
             <div class="col-md-4 mb-2 mb-md-0">
-              {% blocktrans trimmed with count=allocation_summary.missing %}Unassigned debating teams: {{ count }}{% endblocktrans %}
+              {% blocktrans trimmed with count=allocation_summary.missing %}Unassigned active teams: {{ count }}{% endblocktrans %}
             </div>
             <div class="col-md-4">
               {% for item in allocation_summary.side_counts %}
@@ -61,10 +61,10 @@
           </div>
           <div class="row small text-muted mt-2">
             <div class="col-md-4 mb-2 mb-md-0">
-              {% blocktrans trimmed with count=draw_teams|length %}Debating teams this round: {{ count }}{% endblocktrans %}
+              {% blocktrans trimmed with count=active_teams|length %}Active teams this round: {{ count }}{% endblocktrans %}
             </div>
             <div class="col-md-4 mb-2 mb-md-0">
-              {% trans "Predicted byes" %}:
+              {% trans "Simulated bye if generated now" %}:
               {% if bye_teams %}
                 {% for team in bye_teams %}{{ team.short_name }}{% if not forloop.last %}, {% endif %}{% endfor %}
               {% else %}

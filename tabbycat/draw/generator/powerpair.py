@@ -1,5 +1,6 @@
+import copy
 import random
-from collections import OrderedDict
+from collections import Counter, OrderedDict
 from itertools import groupby
 from operator import attrgetter
 from typing import Optional, TYPE_CHECKING
@@ -124,13 +125,7 @@ class BasePowerPairedDrawGenerator(BasePairDrawGenerator):
     def get_bye_team(self):
         if len(self.teams) % 2 == 0:
             raise DrawUserError(_("This bye-selection method requires an odd number of teams."))
-
-        brackets = self._make_raw_brackets()
-        top_bracket = len(brackets) == 1
-        odd_bracket, _ = self._get_final_odd_bracket_details(brackets)
-        if not odd_bracket:
-            raise DrawUserError(_("Couldn't determine a final odd bracket for bye selection."))
-        return self._get_unpaired_team(odd_bracket, top_bracket=top_bracket)
+        return self.generate_with_bye()[1]
 
     def _get_final_odd_bracket_details(self, brackets):
         odd_bracket = self._get_final_odd_bracket(brackets)
@@ -182,6 +177,119 @@ class BasePowerPairedDrawGenerator(BasePairDrawGenerator):
         if len(bottom) > len(top):
             return bottom[len(top)]
         raise DrawUserError(_("Couldn't determine an unmatched team in the final odd bracket."))
+
+    @staticmethod
+    def _pair_indices_for_even_list(size, pairing_method):
+        if pairing_method == "slide":
+            top = list(range(size // 2))
+            bottom = list(range(size // 2, size))
+        elif pairing_method == "fold":
+            top = list(range(size // 2))
+            bottom = list(range(size // 2, size))
+            bottom.reverse()
+        elif pairing_method == "adjacent":
+            top = list(range(0, size, 2))
+            bottom = list(range(1, size, 2))
+        else:
+            raise DrawUserError(_("This bye-selection method isn't supported with the pairing method '%(method)s'.") % {
+                "method": pairing_method,
+            })
+
+        return list(zip(top, bottom))
+
+    @staticmethod
+    def _bye_pairing_cost(pairing_method, original_positions, pair_indices, total_size):
+        cost = 0
+        if pairing_method == "fold":
+            target_sum = total_size - 1
+            for left_idx, right_idx in pair_indices:
+                cost += abs((original_positions[left_idx] + original_positions[right_idx]) - target_sum)
+            return cost
+
+        if pairing_method == "slide":
+            target_gap = len(original_positions) // 2
+            for left_idx, right_idx in pair_indices:
+                cost += abs((original_positions[right_idx] - original_positions[left_idx]) - target_gap)
+            return cost
+
+        if pairing_method == "adjacent":
+            for left_idx, right_idx in pair_indices:
+                cost += abs((original_positions[right_idx] - original_positions[left_idx]) - 1)
+            return cost
+
+        raise DrawUserError(_("This bye-selection method isn't supported with the pairing method '%(method)s'.") % {
+            "method": pairing_method,
+        })
+
+    def _get_bye_candidates(self, odd_bracket):
+        return list(enumerate(odd_bracket))
+
+    def _get_bye_tie_break_key(self, odd_bracket, index, *, top_bracket):
+        pairing_method = self._effective_pairing_method_for_bye(top_bracket=top_bracket)
+        if pairing_method == "random":
+            return (0, -index)
+
+        pair_indices = self._pair_indices_for_even_list(len(odd_bracket) - 1, pairing_method)
+        original_positions = [pos for pos in range(len(odd_bracket)) if pos != index]
+        return (
+            self._bye_pairing_cost(pairing_method, original_positions, pair_indices, len(odd_bracket)),
+            -index,  # In ties, choose the lower-ranked leftover.
+        )
+
+    def _generate_draw_without_team(self, bye_team):
+        remaining = [copy.copy(team) for team in self.teams if team.id != bye_team.id]
+        drawer = self.__class__(remaining, self.results, self.rrseq, **self.options)
+        return drawer.generate()
+
+    def _score_simulated_draw(self, draw):
+        history_conflicts = sum(pairing.conflict_hist for pairing in draw) if self.options["avoid_history"] else 0
+        institution_conflicts = sum(1 for pairing in draw if pairing.conflict_inst) if self.options["avoid_institution"] else 0
+        adjustment_flags = sum(len(pairing.flags) for pairing in draw)
+        return history_conflicts, institution_conflicts, adjustment_flags
+
+    def _select_bye_candidate(self, odd_bracket, *, top_bracket):
+        teams = list(odd_bracket)
+        if len(teams) == 1:
+            draw = self._generate_draw_without_team(teams[0])
+            return teams[0], draw
+
+        best_team = None
+        best_draw = None
+        best_key = None
+
+        for index, team in self._get_bye_candidates(teams):
+            tie_break_key = self._get_bye_tie_break_key(teams, index, top_bracket=top_bracket)
+            if tie_break_key is None:
+                continue
+
+            try:
+                draw = self._generate_draw_without_team(team)
+            except DrawUserError:
+                continue
+
+            simulation_key = self._score_simulated_draw(draw)
+            key = simulation_key + tie_break_key
+            if best_key is None or key < best_key:
+                best_team = team
+                best_draw = draw
+                best_key = key
+
+        if best_team is None:
+            raise DrawUserError(_("Couldn't determine an unmatched team in the final odd bracket."))
+        return best_team, best_draw
+
+    def generate_with_bye(self):
+        if len(self.teams) % 2 == 0:
+            raise DrawUserError(_("This bye-selection method requires an odd number of teams."))
+
+        brackets = self._make_raw_brackets()
+        top_bracket = len(brackets) == 1
+        odd_bracket, _ = self._get_final_odd_bracket_details(brackets)
+        if not odd_bracket:
+            raise DrawUserError(_("Couldn't determine a final odd bracket for bye selection."))
+
+        bye_team, draw = self._select_bye_candidate(list(odd_bracket), top_bracket=top_bracket)
+        return draw, bye_team
 
     def _get_final_odd_bracket(self, brackets):
         odd_bracket = self.options["odd_bracket"]
@@ -779,6 +887,11 @@ class PowerPairedWithAllocatedSidesDrawGenerator(BasePowerPairedDrawGenerator):
     def get_bye_team(self):
         if len(self.teams) % 2 == 0:
             raise DrawUserError(_("This bye-selection method requires an odd number of teams."))
+        return self.generate_with_bye()[1]
+
+    def generate_with_bye(self):
+        if len(self.teams) % 2 == 0:
+            raise DrawUserError(_("This bye-selection method requires an odd number of teams."))
 
         brackets = self._make_raw_brackets()
         top_bracket = len(brackets) == 1
@@ -791,7 +904,32 @@ class PowerPairedWithAllocatedSidesDrawGenerator(BasePowerPairedDrawGenerator):
             for team in odd_bracket[side]
         }
         ordered_odd_bracket = [team for team in self.teams if team.id in team_ids]
-        return super()._get_unpaired_team(ordered_odd_bracket, top_bracket=top_bracket)
+        bye_team, draw = self._select_bye_candidate(ordered_odd_bracket, top_bracket=top_bracket)
+        return draw, bye_team
+
+    def _get_bye_candidates(self, odd_bracket):
+        side_counts = Counter(team.allocated_side for team in odd_bracket)
+        aff_count = side_counts[DebateSide.AFF]
+        neg_count = side_counts[DebateSide.NEG]
+        if abs(aff_count - neg_count) != 1:
+            raise DrawUserError(_("Couldn't determine an unmatched team in the final odd bracket."))
+
+        surplus_side = DebateSide.AFF if aff_count > neg_count else DebateSide.NEG
+        return [
+            (index, team) for index, team in enumerate(odd_bracket)
+            if team.allocated_side == surplus_side
+        ]
+
+    def _get_bye_tie_break_key(self, odd_bracket, index, *, top_bracket):
+        pairing_method = self._effective_pairing_method_for_bye(top_bracket=top_bracket)
+        if pairing_method == "random":
+            return super()._get_bye_tie_break_key(odd_bracket, index, top_bracket=top_bracket)
+
+        remaining = odd_bracket[:index] + odd_bracket[index + 1:]
+        pair_indices = self._pair_indices_for_even_list(len(remaining), pairing_method)
+        if any(remaining[left_idx].allocated_side == remaining[right_idx].allocated_side for left_idx, right_idx in pair_indices):
+            return None
+        return super()._get_bye_tie_break_key(odd_bracket, index, top_bracket=top_bracket)
 
     def _get_final_odd_bracket(self, brackets):
         odd_bracket = self.options["odd_bracket"]

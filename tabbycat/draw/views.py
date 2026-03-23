@@ -1006,7 +1006,7 @@ class SideAllocationsView(AdministratorMixin, TournamentMixin, TemplateView):
         return SideAllocationManualForm(
             self.tournament,
             selected_round,
-            teams=team_groups["draw_teams"],
+            teams=team_groups["active_teams"],
             data=self.request.POST if self.request.method == "POST" and self.request.POST.get("action") == "manual" else None,
             prefix="manual",
         )
@@ -1082,6 +1082,7 @@ class SideAllocationsView(AdministratorMixin, TournamentMixin, TemplateView):
             "bye_teams": [] if team_groups is None else team_groups["bye_teams"],
             "bye_override_team": bye_override_team,
             "side_allocation_mode": None if selected_round is None else get_effective_side_allocation_mode(selected_round),
+            "active_teams": [] if team_groups is None else team_groups["active_teams"],
             "unavailable_teams": [] if team_groups is None else team_groups["unavailable_teams"],
             "draw_teams": [] if team_groups is None else team_groups["draw_teams"],
         })
@@ -1104,8 +1105,8 @@ class SideAllocationsView(AdministratorMixin, TournamentMixin, TemplateView):
         warning_bits = []
         if strict_preallocation and summary["missing"] > 0:
             warning_bits.append(ngettext(
-                "%(count)d debating team is unassigned.",
-                "%(count)d debating teams are unassigned.",
+                "%(count)d active team is unassigned.",
+                "%(count)d active teams are unassigned.",
                 summary["missing"],
             ) % {"count": summary["missing"]})
         if summary["extra_assigned"] > 0:
@@ -1114,10 +1115,10 @@ class SideAllocationsView(AdministratorMixin, TournamentMixin, TemplateView):
                 "%(count)d saved allocations belong to teams that are currently unavailable.",
                 summary["extra_assigned"],
             ) % {"count": summary["extra_assigned"]})
-        if strict_preallocation and len(self.tournament.sides) == 2 and not summary["balanced"]:
+        if strict_preallocation and len(self.tournament.sides) == 2 and summary["missing"] == 0 and not summary["balanced"]:
             side_names = [get_side_name(self.tournament, side, "full").capitalize() for side in self.tournament.sides]
             counts = summary["counts"]
-            warning_bits.append(_("Current balance is %(left)s %(left_count)d / %(right)s %(right_count)d.") % {
+            warning_bits.append(_("Current split is %(left)s %(left_count)d / %(right)s %(right_count)d, which doesn't match a valid split for the active teams in this round.") % {
                 "left": side_names[0],
                 "left_count": counts.get(self.tournament.sides[0], 0),
                 "right": side_names[1],
@@ -1125,7 +1126,7 @@ class SideAllocationsView(AdministratorMixin, TournamentMixin, TemplateView):
             })
 
         if warning_bits:
-            messages.warning(self.request, " ".join(warning_bits) + " " + _("Pre-allocated draws work best when every debating team is assigned and the two sides are balanced."))
+            messages.warning(self.request, " ".join(warning_bits) + " " + _("Pre-allocated draws work best when every active team is assigned and the saved side split is valid for the current field."))
 
     def post(self, request, *args, **kwargs):
         action = request.POST.get("action")
@@ -1191,10 +1192,6 @@ class SideAllocationsView(AdministratorMixin, TournamentMixin, TemplateView):
 
             target_round = manual_form.cleaned_data["selected_round"]
             allocations = manual_form.get_allocations()
-            existing_allocations = get_round_allocations(target_round)
-            for team in get_round_team_groups(target_round)["bye_teams"]:
-                if team.id not in allocations and existing_allocations.get(team.id) is not None:
-                    allocations[team.id] = existing_allocations[team.id]
             replace_round_allocations(target_round, allocations)
             messages.success(self.request, _("Saved side allocations for %(round)s.") % {"round": target_round.name})
             self._add_allocation_summary_message(target_round)

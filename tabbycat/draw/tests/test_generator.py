@@ -886,6 +886,84 @@ class TestPowerPairedWithAllocatedSidesDrawGeneratorPartOddBrackets(unittest.Tes
 
         self.assertEqual(ppd.get_bye_team().id, 8)
 
+    def test_middle_bye_preallocated_prefers_lowest_ranked_surplus_side_when_outer_fold_is_illegal(self):
+        teams = [
+            TestTeam(1, 'A', 3, allocated_side=DebateSide.NEG),
+            TestTeam(2, 'B', 3, allocated_side=DebateSide.AFF),
+            TestTeam(3, 'C', 3, allocated_side=DebateSide.NEG),
+        ]
+
+        ppd = DrawGenerator(
+            2,
+            "power_paired",
+            teams,
+            None,
+            side_allocations="preallocated",
+            odd_bracket="pullup_top",
+            pairing_method="fold",
+            avoid_conflicts="off",
+            allow_odd_teams=True,
+        )
+
+        self.assertEqual(ppd.get_bye_team().id, 3)
+
+    def test_middle_bye_preallocated_simulates_one_up_one_down_before_selecting_bye(self):
+        teams = [
+            TestTeam(1, 'A', 3, hist=[4, 5], allocated_side=DebateSide.AFF),
+            TestTeam(2, 'B', 3, allocated_side=DebateSide.NEG),
+            TestTeam(3, 'C', 3, hist=[2, 5], allocated_side=DebateSide.AFF),
+            TestTeam(4, 'D', 3, allocated_side=DebateSide.NEG),
+            TestTeam(5, 'E', 3, allocated_side=DebateSide.NEG),
+        ]
+
+        ppd = DrawGenerator(
+            2,
+            "power_paired",
+            teams,
+            None,
+            side_allocations="preallocated",
+            odd_bracket="pullup_top",
+            pairing_method="fold",
+            avoid_conflicts="fold_after_pullups",
+            avoid_history=True,
+            avoid_institution=True,
+            history_penalty=1000,
+            institution_penalty=1,
+            allow_odd_teams=True,
+        )
+
+        self.assertEqual(ppd.get_bye_team().id, 5)
+
+    def test_generate_with_bye_returns_draw_and_matching_bye_for_preallocated_fold_after_pullups(self):
+        teams = [
+            TestTeam(1, 'A', 3, hist=[4, 5], allocated_side=DebateSide.AFF),
+            TestTeam(2, 'B', 3, allocated_side=DebateSide.NEG),
+            TestTeam(3, 'C', 3, hist=[2, 5], allocated_side=DebateSide.AFF),
+            TestTeam(4, 'D', 3, allocated_side=DebateSide.NEG),
+            TestTeam(5, 'E', 3, allocated_side=DebateSide.NEG),
+        ]
+
+        ppd = DrawGenerator(
+            2,
+            "power_paired",
+            teams,
+            None,
+            side_allocations="preallocated",
+            odd_bracket="pullup_top",
+            pairing_method="fold",
+            avoid_conflicts="fold_after_pullups",
+            avoid_history=True,
+            avoid_institution=True,
+            history_penalty=1000,
+            institution_penalty=1,
+            allow_odd_teams=True,
+        )
+
+        draw, bye = ppd.generate_with_bye()
+
+        self.assertEqual(bye.id, 5)
+        self.assertNotIn(bye.id, {team.id for pairing in draw for team in pairing.teams})
+
     def test_unmatched_bye_single_graph_prefers_lowest_ranked_optimal_leftover(self):
         teams = [
             TestTeam(1, 'A', 3, subrank=1),

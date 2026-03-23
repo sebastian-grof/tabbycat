@@ -125,8 +125,8 @@ class SideAllocationServiceTest(CompletedTournamentTestMixin, TestCase):
 
         self.assertEqual(len(byes), 1)
         self.assertEqual([team.id for team in byes], [chosen_bye.id])
-        self.assertEqual(len(allocations), len(draw_teams))
-        self.assertNotIn(chosen_bye.id, allocations)
+        self.assertEqual(len(allocations), len(available_teams))
+        self.assertIn(chosen_bye.id, allocations)
 
     def test_generate_opposite_allocations_assigns_all_active_teams_when_bye_is_automatic(self):
         available_teams = list(self.tournament.team_set.order_by('id')[:23])
@@ -282,3 +282,22 @@ class SideAllocationByeOverrideViewTest(CompletedTournamentTestMixin, TestCase):
 
         self.assertRedirects(response, url)
         self.assertEqual(self.round1.teamsideallocation_set.count(), 0)
+
+    def test_get_keeps_simulated_bye_team_in_manual_allocation_table(self):
+        available_teams = list(self.tournament.team_set.order_by('id')[:23])
+        set_availability(self.tournament.team_set.filter(id__in=[team.id for team in available_teams]), self.round1)
+        self.tournament.preferences['draw_rules__draw_side_allocations'] = 'preallocated'
+        self.tournament.preferences['draw_rules__bye_team_selection'] = 'middle_odd_bracket'
+        self.tournament.preferences['draw_rules__draw_odd_bracket'] = 'pullup_top'
+        self.tournament.preferences['draw_rules__draw_pairing_method'] = 'fold'
+        self.tournament.preferences['draw_rules__draw_avoid_conflicts'] = 'fold_after_pullups'
+
+        _, byes = DrawManager(self.round1).get_teams()
+        simulated_bye = byes[0]
+        url = add_query_string_parameter(reverse_tournament('draw-side-allocations', self.tournament), 'round_seq', self.round1.seq)
+
+        response = self.client.get(url)
+
+        self.assertContains(response, "Simulated bye if generated now")
+        self.assertContains(response, simulated_bye.short_name)
+        self.assertContains(response, f'name="manual-team_{simulated_bye.id}"', html=False)

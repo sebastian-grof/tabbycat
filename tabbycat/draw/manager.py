@@ -131,6 +131,38 @@ class BaseDrawManager:
             **options,
         )
 
+    def _build_draw_options(self, options: dict | None = None) -> dict:
+        resolved = dict(options or {})
+        for key in self.get_relevant_options():
+            if key not in resolved:
+                resolved[key] = self.round.tournament.preferences[OPTIONS_TO_CONFIG_MAPPING[key]]
+
+        if "side_allocations" in resolved:
+            resolved["side_allocations"] = self.get_side_allocation_mode()
+
+        postallocate_sides = resolved.get("side_allocations") == "postallocated"
+        if postallocate_sides and resolved.get("odd_bracket") in {"intermediate1", "intermediate2"}:
+            raise DrawUserError(_("The odd-bracket method %(method)s requires side allocations before pairing.") % {
+                "method": resolved["odd_bracket"],
+            })
+        if resolved.get("side_allocations") == "manual-ballot":
+            resolved["side_allocations"] = "balance"
+        elif postallocate_sides:
+            resolved["side_allocations"] = "none"
+
+        return resolved
+
+    def _make_drawer(self, teams, options, results=None, rrseq=None, allow_odd_teams=False):
+        return DrawGenerator(
+            self.teams_in_debate,
+            self.get_generator_type(),
+            teams,
+            results=results,
+            rrseq=rrseq,
+            allow_odd_teams=allow_odd_teams,
+            **options,
+        )
+
     def _special_bye_selection(self, teams: List['Team'], n_byes: int):
         return None
 
@@ -300,24 +332,8 @@ class BaseDrawManager:
 
         self.delete()
 
-        if options is None:
-            options = dict()
-        for key in self.get_relevant_options():
-            if key not in options:
-                options[key] = self.round.tournament.preferences[OPTIONS_TO_CONFIG_MAPPING[key]]
-
-        if "side_allocations" in options:
-            options["side_allocations"] = self.get_side_allocation_mode()
-
-        postallocate_sides = options.get("side_allocations") == "postallocated"
-        if postallocate_sides and options.get("odd_bracket") in {"intermediate1", "intermediate2"}:
-            raise DrawUserError(_("The odd-bracket method %(method)s requires side allocations before pairing.") % {
-                "method": options["odd_bracket"],
-            })
-        if options.get("side_allocations") == "manual-ballot":
-            options["side_allocations"] = "balance"
-        elif postallocate_sides:
-            options["side_allocations"] = "none"
+        options = self._build_draw_options(options)
+        postallocate_sides = options.get("side_allocations") == "none" and self.get_side_allocation_mode() == "postallocated"
 
         teams, byes = self.get_teams()
         results = self.get_results()
@@ -329,8 +345,7 @@ class BaseDrawManager:
 
         generator_type = self.get_generator_type()
         logger.debug("Using generator type: %s", generator_type)
-        drawer = DrawGenerator(self.teams_in_debate, generator_type, teams,
-                results=results, rrseq=rrseq, **options)
+        drawer = self._make_drawer(teams, options, results=results, rrseq=rrseq)
         pairings = drawer.generate()
         if postallocate_sides:
             self._apply_postallocated_sides(pairings)
@@ -383,7 +398,7 @@ class PowerPairedDrawManager(BaseDrawManager):
             options.extend(["pullup", "position_cost", "assignment_method", "renyi_order", "exponent"])
         return options
 
-    def get_teams(self) -> Tuple[List['Team'], List['Team']]:
+    def _get_ranked_teams(self) -> List['Team']:
         """Get teams in ranked order."""
         teams = self.round.tournament.team_set.filter(id__in=self._get_base_team_queryset().values('id'))
 
@@ -416,11 +431,50 @@ class PowerPairedDrawManager(BaseDrawManager):
 
             ranked.append(team)
 
+        return ranked
+
+    def _can_generate_bye_from_draw(self, n_byes: int, options: dict | None = None) -> bool:
+        if self.get_bye_selection_mode() != 'middle_odd_bracket':
+            return False
+        if self.teams_in_debate != 2 or n_byes != 1:
+            return False
+
+        resolved = self._build_draw_options(options)
+        if resolved.get("avoid_conflicts") == 'graph_one':
+            return False
+        return True
+
+    def _generate_pairings_and_byes_from_draw(self, teams: List['Team'], options: dict | None = None):
+        resolved = self._build_draw_options(options)
+        results = self.get_results()
+        rrseq = self.get_rrseq()
+
+        self._populate_side_history(teams)
+        if resolved.get("side_allocations") == "preallocated":
+            self._populate_team_side_allocations(teams)
+            missing_allocations = [team for team in teams if not hasattr(team, "allocated_side")]
+            if missing_allocations:
+                raise DrawUserError(_("Assign saved sides for every active team before using this bye-selection method with pre-allocated sides."))
+
+        drawer = self._make_drawer(teams, resolved, results=results, rrseq=rrseq, allow_odd_teams=True)
+        if not hasattr(drawer, 'generate_with_bye'):
+            raise DrawUserError(_("This bye-selection method isn't supported for this draw configuration."))
+
+        pairings, bye_team = drawer.generate_with_bye()
+        return pairings, [bye_team], resolved
+
+    def get_teams(self) -> Tuple[List['Team'], List['Team']]:
+        ranked = self._get_ranked_teams()
         n_byes = self.n_byes(len(ranked))
         if n_byes:
             manual_override = self._get_manual_bye_override_split(ranked, n_byes)
             if manual_override is not None:
                 return manual_override
+
+            if self._can_generate_bye_from_draw(n_byes):
+                _, byes, _ = self._generate_pairings_and_byes_from_draw(ranked)
+                bye_ids = {team.id for team in byes}
+                return [team for team in ranked if team.id not in bye_ids], byes
 
             preallocated = self._get_preallocated_split(ranked, n_byes)
             if preallocated is not None:
@@ -443,6 +497,56 @@ class PowerPairedDrawManager(BaseDrawManager):
                 raise RuntimeError("Bye team(s) created without recognized selection option")
 
         return self._split_teams_and_byes(ranked, selector=select_byes)
+
+    def create(self, options: dict | None = None) -> list[Debate]:
+        if self.round.draw_status != Round.Status.NONE:
+            raise RuntimeError("Tried to create a draw on round that already has a draw")
+
+        self.delete()
+
+        resolved = self._build_draw_options(options)
+        postallocate_sides = resolved.get("side_allocations") == "none" and self.get_side_allocation_mode() == "postallocated"
+        ranked = self._get_ranked_teams()
+        n_byes = self.n_byes(len(ranked))
+
+        pairings = None
+        byes: List['Team'] = []
+
+        if n_byes:
+            manual_override = self._get_manual_bye_override_split(ranked, n_byes)
+            if manual_override is not None:
+                teams, byes = manual_override
+            elif self._can_generate_bye_from_draw(n_byes, resolved):
+                pairings, byes, resolved = self._generate_pairings_and_byes_from_draw(ranked, resolved)
+                teams = [team for team in ranked if team.id not in {bye.id for bye in byes}]
+            else:
+                teams, byes = self.get_teams()
+        else:
+            teams = ranked
+
+        if pairings is None:
+            results = self.get_results()
+            rrseq = self.get_rrseq()
+            self._populate_side_history(teams)
+            if resolved.get("side_allocations") == "preallocated":
+                self._populate_team_side_allocations(teams)
+
+            generator_type = self.get_generator_type()
+            logger.debug("Using generator type: %s", generator_type)
+            drawer = self._make_drawer(teams, resolved, results=results, rrseq=rrseq)
+            pairings = drawer.generate()
+
+        if postallocate_sides:
+            self._apply_postallocated_sides(pairings)
+            self._save_pairing_side_allocations(pairings)
+
+        debates = self._make_debates(pairings)
+        debates.extend(self._make_bye_debates(byes, max([p.room_rank for p in pairings], default=0)))
+
+        self.round.draw_status = Round.Status.DRAFT
+        self.round.save()
+
+        return debates
 
     def _special_bye_selection(self, teams: List['Team'], n_byes: int):
         selection = self.get_bye_selection_mode()
