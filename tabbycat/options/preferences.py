@@ -317,7 +317,6 @@ class DrawAvoidConflicts(ChoicePreference):
     choices = (
         ('off', _("Off")),
         ('one_up_one_down', _("One-up-one-down")),
-        ('fold_after_pullups', _("Fold after pullups")),
         ('graph', _("Minimum cost matching (pullups determined beforehand)")),
         ('graph_one', _("Minimum cost matching (including pullups)")),
     )

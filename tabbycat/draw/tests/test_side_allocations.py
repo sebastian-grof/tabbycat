@@ -12,10 +12,12 @@ from ..manager import DrawManager
 from ..models import ByeTeamOverride, Debate, DebateTeam, get_effective_side_allocation_mode
 from ..side_allocations import (
     _assign_missing_opposite_sides_by_bracket,
+    _get_ranked_target_brackets,
     generate_opposite_allocations,
     generate_random_allocations,
     replace_round_allocations,
 )
+from ..generator import DrawUserError
 from ..types import DebateSide
 
 
@@ -220,6 +222,16 @@ class SideAllocationServiceTest(CompletedTournamentTestMixin, TestCase):
 
         self.assertEqual(result[teams[5].id], self.sides[1])
 
+    def test_get_ranked_target_brackets_falls_back_to_alphabetical_order(self):
+        teams = list(self.tournament.team_set.order_by('short_name', 'id')[:4])
+        fake_manager = type("FakeManager", (), {})()
+        fake_manager._get_ranked_teams = lambda: (_ for _ in ()).throw(DrawUserError("boom"))
+
+        with patch('tabbycat.draw.side_allocations.DrawManager', return_value=fake_manager):
+            brackets = _get_ranked_target_brackets(self.round2, teams)
+
+        self.assertEqual(brackets, [teams])
+
     def test_round_without_active_allocations_uses_postallocated_mode(self):
         self.tournament.preferences['draw_rules__draw_side_allocations'] = 'preallocated'
 
@@ -254,7 +266,7 @@ class SideAllocationServiceTest(CompletedTournamentTestMixin, TestCase):
         self.assertEqual(len(draw_teams), 22)
         self.assertNotIn(byes[0].id, {team.id for team in draw_teams})
 
-    def test_legacy_unmatched_team_value_maps_to_final_odd_bracket_selection(self):
+    def test_legacy_unmatched_team_and_fold_after_pullups_values_are_mapped(self):
         available_teams = list(self.tournament.team_set.order_by('id')[:23])
         set_availability(self.tournament.team_set.filter(id__in=[team.id for team in available_teams]), self.round2)
         self.tournament.preferences['draw_rules__bye_team_selection'] = 'unmatched_team'
@@ -268,6 +280,7 @@ class SideAllocationServiceTest(CompletedTournamentTestMixin, TestCase):
         self.assertEqual(len(draw_teams), 22)
         self.assertNotIn(byes[0].id, {team.id for team in draw_teams})
         self.assertEqual(self.tournament.preferences['draw_rules__bye_team_selection'], 'middle_odd_bracket')
+        self.assertEqual(self.tournament.preferences['draw_rules__draw_avoid_conflicts'], 'one_up_one_down')
 
 
 class SideAllocationByeOverrideViewTest(CompletedTournamentTestMixin, TestCase):
@@ -318,7 +331,7 @@ class SideAllocationByeOverrideViewTest(CompletedTournamentTestMixin, TestCase):
         self.tournament.preferences['draw_rules__bye_team_selection'] = 'middle_odd_bracket'
         self.tournament.preferences['draw_rules__draw_odd_bracket'] = 'pullup_top'
         self.tournament.preferences['draw_rules__draw_pairing_method'] = 'fold'
-        self.tournament.preferences['draw_rules__draw_avoid_conflicts'] = 'fold_after_pullups'
+        self.tournament.preferences['draw_rules__draw_avoid_conflicts'] = 'one_up_one_down'
 
         _, byes = DrawManager(self.round1).get_teams()
         simulated_bye = byes[0]

@@ -841,13 +841,6 @@ class SingleGraphPowerPairedDrawGenerator(GraphCostMixin, GraphGeneratorMixin, B
 class AustralsPowerPairedDrawGenerator(AustralsPairingMixin, BasePowerPairedDrawGenerator):
     pass
 
-
-class FoldAfterPullupsPowerPairedDrawGenerator(AustralsPowerPairedDrawGenerator):
-    def avoid_conflicts(self, pairings):
-        """Apply only local 1u1d repairs, keeping fold-after-pullups as the baseline."""
-        return self._one_up_one_down(pairings)
-
-
 class PowerPairedWithAllocatedSidesDrawGenerator(BasePowerPairedDrawGenerator):
     """Power-paired draw with allocated sides.
     Override functions of PowerPairedDrawGenerator where sides need to be constrained.
@@ -1350,9 +1343,3 @@ class AustralsPowerPairedWithAllocatedSidesDrawGenerator(AustralsPairingMixin, P
             random.shuffle(pool[DebateSide.AFF])
             random.shuffle(pool[DebateSide.NEG])
         return cls._pairings(brackets, shuffle)
-
-
-class FoldAfterPullupsPowerPairedWithAllocatedSidesDrawGenerator(AustralsPowerPairedWithAllocatedSidesDrawGenerator):
-    def avoid_conflicts(self, pairings):
-        """Apply only local 1u1d repairs, keeping fold-after-pullups as the baseline."""
-        return self._one_up_one_down(pairings)

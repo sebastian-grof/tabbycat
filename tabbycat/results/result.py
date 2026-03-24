@@ -207,6 +207,11 @@ class ByeDebateResult:
     def get_score(self, side, position):
         return self.scores[side].get(position)
 
+    def get_team_total(self, side):
+        if side != DebateSide.BYE:
+            return None
+        return self._team_score
+
     def get_cross_score(self, side, cross):
         return self.cross_scores[side].get(cross.id)
 

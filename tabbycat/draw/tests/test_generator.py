@@ -924,7 +924,7 @@ class TestPowerPairedWithAllocatedSidesDrawGeneratorPartOddBrackets(unittest.Tes
             side_allocations="preallocated",
             odd_bracket="pullup_top",
             pairing_method="fold",
-            avoid_conflicts="fold_after_pullups",
+            avoid_conflicts="one_up_one_down",
             avoid_history=True,
             avoid_institution=True,
             history_penalty=1000,
@@ -934,7 +934,7 @@ class TestPowerPairedWithAllocatedSidesDrawGeneratorPartOddBrackets(unittest.Tes
 
         self.assertEqual(ppd.get_bye_team().id, 5)
 
-    def test_generate_with_bye_returns_draw_and_matching_bye_for_preallocated_fold_after_pullups(self):
+    def test_generate_with_bye_returns_draw_and_matching_bye_for_preallocated_fold_pairing(self):
         teams = [
             TestTeam(1, 'A', 3, hist=[4, 5], allocated_side=DebateSide.AFF),
             TestTeam(2, 'B', 3, allocated_side=DebateSide.NEG),
@@ -951,7 +951,7 @@ class TestPowerPairedWithAllocatedSidesDrawGeneratorPartOddBrackets(unittest.Tes
             side_allocations="preallocated",
             odd_bracket="pullup_top",
             pairing_method="fold",
-            avoid_conflicts="fold_after_pullups",
+            avoid_conflicts="one_up_one_down",
             avoid_history=True,
             avoid_institution=True,
             history_penalty=1000,
@@ -1043,7 +1043,7 @@ class TestPowerPairedWithAllocatedSidesDrawGeneratorPartOddBrackets(unittest.Tes
 
         self.assertRaises(DrawUserError, ppd.generate_pairings, copy.deepcopy(self.brackets[99]))
 
-    def test_fold_after_pullups_with_preallocated_sides_uses_strict_fold(self):
+    def test_fold_pairing_with_preallocated_sides_uses_strict_fold(self):
         teams = [
             TestTeam(1, 'A', 2, allocated_side=DebateSide.AFF),
             TestTeam(2, 'B', 2, allocated_side=DebateSide.NEG),
@@ -1061,7 +1061,7 @@ class TestPowerPairedWithAllocatedSidesDrawGeneratorPartOddBrackets(unittest.Tes
             side_allocations="preallocated",
             odd_bracket="pullup_top",
             pairing_method="fold",
-            avoid_conflicts="fold_after_pullups",
+            avoid_conflicts="one_up_one_down",
         )
 
         draw = ppd.generate()
@@ -1072,7 +1072,7 @@ class TestPowerPairedWithAllocatedSidesDrawGeneratorPartOddBrackets(unittest.Tes
             (6, 2),
         ])
 
-    def test_fold_after_pullups_without_preallocated_sides_pairs_then_assigns_later(self):
+    def test_fold_pairing_without_preallocated_sides_pairs_then_assigns_later(self):
         teams = [
             TestTeam(1, 'A', 2),
             TestTeam(2, 'B', 2),
@@ -1090,7 +1090,7 @@ class TestPowerPairedWithAllocatedSidesDrawGeneratorPartOddBrackets(unittest.Tes
             side_allocations="none",
             odd_bracket="pullup_top",
             pairing_method="fold",
-            avoid_conflicts="fold_after_pullups",
+            avoid_conflicts="one_up_one_down",
         )
 
         draw = ppd.generate()
@@ -1101,7 +1101,7 @@ class TestPowerPairedWithAllocatedSidesDrawGeneratorPartOddBrackets(unittest.Tes
             (5, 6),
         ])
 
-    def test_fold_after_pullups_with_preallocated_sides_makes_local_history_swap_if_needed(self):
+    def test_fold_pairing_with_preallocated_sides_makes_local_history_swap_if_needed(self):
         teams = [
             TestTeam(1, 'A', 2, allocated_side=DebateSide.AFF),
             TestTeam(2, 'B', 2, hist=[5], allocated_side=DebateSide.AFF),
@@ -1119,7 +1119,7 @@ class TestPowerPairedWithAllocatedSidesDrawGeneratorPartOddBrackets(unittest.Tes
             side_allocations="preallocated",
             odd_bracket="pullup_top",
             pairing_method="fold",
-            avoid_conflicts="fold_after_pullups",
+            avoid_conflicts="one_up_one_down",
             avoid_history=True,
             avoid_institution=True,
             history_penalty=1000,

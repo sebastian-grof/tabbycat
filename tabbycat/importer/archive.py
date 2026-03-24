@@ -196,8 +196,9 @@ class Exporter:
                 ballot_tag.set('votes-given', str(teamscore.votes_given))
             if teamscore.votes_possible is not None:
                 ballot_tag.set('votes-possible', str(teamscore.votes_possible))
-        if result._team_score is not None:
-            ballot_tag.text = str(result._team_score)
+        team_total = result.get_team_total(side)
+        if team_total is not None:
+            ballot_tag.text = str(team_total)
 
     def add_speakers(self, side_tag, debate, result, side):
         for pos in self.t.positions:

@@ -1,7 +1,7 @@
+import logging
 from collections import Counter
 from itertools import combinations
 import random
-from types import SimpleNamespace
 
 from django.utils.translation import gettext as _
 
@@ -9,6 +9,8 @@ from .generator import DrawUserError
 from .manager import DrawManager
 from .models import ByeTeamOverride, TeamSideAllocation
 from .types import DebateSide
+
+logger = logging.getLogger(__name__)
 
 
 class SideAllocationError(Exception):
@@ -194,29 +196,36 @@ def _ordered_target_side_counts(total_teams, sides, existing_counts=None):
     return sorted(candidates, key=lambda counts: counts[sides[1]], reverse=True)
 
 
+def _fallback_target_brackets(target_teams):
+    ordered = sorted(target_teams, key=_team_sort_key)
+    return [ordered] if ordered else []
+
+
 def _get_ranked_target_brackets(round, target_teams):
     team_map = {team.id: team for team in target_teams}
     manager = DrawManager(round, active_only=True)
 
+    if not hasattr(manager, "_get_ranked_teams"):
+        return _fallback_target_brackets(target_teams)
+
     try:
-        if hasattr(manager, "_get_ranked_teams"):
-            ranked = manager._get_ranked_teams()
-        else:
-            ranked = [
-                SimpleNamespace(id=team.id, points=0, short_name=team.short_name)
-                for team in target_teams
-            ]
-    except DrawUserError:
-        ranked = [
-            SimpleNamespace(id=team.id, points=0, short_name=team.short_name)
-            for team in target_teams
-        ]
+        ranked = manager._get_ranked_teams()
+    except DrawUserError as exc:
+        logger.warning(
+            "Falling back to alphabetical target brackets for side allocation generation in round %s: %s",
+            round.id,
+            exc,
+        )
+        return _fallback_target_brackets(target_teams)
 
     ranked = [team for team in ranked if team.id in team_map]
+    if not ranked:
+        return _fallback_target_brackets(target_teams)
+
     brackets = []
     last_points = object()
     for team in ranked:
-        points = getattr(team, "points", 0)
+        points = team.points
         if not brackets or points != last_points:
             brackets.append([])
             last_points = points
