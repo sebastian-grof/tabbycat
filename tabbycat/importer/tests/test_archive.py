@@ -265,6 +265,97 @@ class TestArchiveExporter(TestCase):
         self.assertAlmostEqual(imported_result.get_score(DebateSide.BYE, imported_tournament.reply_position), 93.0)
         self.assertAlmostEqual(imported_result.get_cross_score(DebateSide.BYE, imported_cross), 4.0)
 
+    def test_export_includes_forfeit_team_scores(self):
+        ballotsub = BallotSubmission.objects.create(debate=self.debate, confirmed=True, forfeit=True)
+        aff_dt = self.debate.get_dt(DebateSide.AFF)
+        neg_dt = self.debate.get_dt(DebateSide.NEG)
+
+        TeamScore.objects.create(
+            ballot_submission=ballotsub,
+            debate_team=aff_dt,
+            points=1,
+            win=True,
+            margin=None,
+            score=243.5,
+            votes_given=3,
+            votes_possible=3,
+            has_ghost=False,
+        )
+        TeamScore.objects.create(
+            ballot_submission=ballotsub,
+            debate_team=neg_dt,
+            points=0,
+            win=False,
+            margin=None,
+            score=0.0,
+            votes_given=0,
+            votes_possible=3,
+            has_ghost=False,
+        )
+
+        root = Exporter(self.tournament).create_all()
+        debate_tag = root.find(f"./round/debate[@id='D{self.debate.id}']")
+        aff_ballot = root.find(f"./round/debate/side[@team='T{self.aff_team.id}']/ballot")
+        neg_ballot = root.find(f"./round/debate/side[@team='T{self.neg_team.id}']/ballot")
+
+        self.assertEqual(debate_tag.get('forfeit'), 'true')
+        self.assertEqual(aff_ballot.text, 'True')
+        self.assertEqual(aff_ballot.get('score'), '243.5')
+        self.assertEqual(aff_ballot.get('votes-given'), '3')
+        self.assertEqual(neg_ballot.text, 'False')
+        self.assertEqual(float(neg_ballot.get('score')), 0.0)
+        self.assertEqual(neg_ballot.get('points'), '0')
+
+    def test_round_trip_import_preserves_forfeit_team_scores(self):
+        ballotsub = BallotSubmission.objects.create(debate=self.debate, confirmed=True, forfeit=True)
+        aff_dt = self.debate.get_dt(DebateSide.AFF)
+        neg_dt = self.debate.get_dt(DebateSide.NEG)
+
+        TeamScore.objects.create(
+            ballot_submission=ballotsub,
+            debate_team=aff_dt,
+            points=1,
+            win=True,
+            margin=None,
+            score=251.0,
+            votes_given=3,
+            votes_possible=3,
+            has_ghost=False,
+        )
+        TeamScore.objects.create(
+            ballot_submission=ballotsub,
+            debate_team=neg_dt,
+            points=0,
+            win=False,
+            margin=None,
+            score=0.0,
+            votes_given=0,
+            votes_possible=3,
+            has_ghost=False,
+        )
+
+        root = Exporter(self.tournament).create_all()
+        self.tournament.delete()
+
+        importer = Importer(root)
+        importer.import_tournament()
+
+        imported_tournament = importer.tournament
+        imported_debate = imported_tournament.round_set.get(seq=1).debate_set.get()
+        imported_ballot = imported_debate.confirmed_ballot
+        imported_aff_dt = imported_debate.get_dt(DebateSide.AFF)
+        imported_neg_dt = imported_debate.get_dt(DebateSide.NEG)
+        imported_aff_ts = imported_ballot.teamscore_set.get(debate_team=imported_aff_dt)
+        imported_neg_ts = imported_ballot.teamscore_set.get(debate_team=imported_neg_dt)
+
+        self.assertTrue(imported_ballot.forfeit)
+        self.assertAlmostEqual(imported_aff_ts.score, 251.0)
+        self.assertEqual(imported_aff_ts.votes_given, 3)
+        self.assertEqual(imported_aff_ts.votes_possible, 3)
+        self.assertAlmostEqual(imported_neg_ts.score, 0.0)
+        self.assertEqual(imported_neg_ts.points, 0)
+        self.assertEqual(imported_neg_ts.votes_given, 0)
+
 
 class TestArchiveImportForm(TestCase):
 

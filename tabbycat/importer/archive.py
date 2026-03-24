@@ -97,6 +97,8 @@ class Exporter:
         })
         if debate.is_bye:
             debate_tag.set('bye', 'true')
+        if debate.confirmed_ballot is not None and debate.confirmed_ballot.forfeit:
+            debate_tag.set('forfeit', 'true')
 
         # Add list of motions as attribute
         adjs = " ".join([ADJ_PREFIX + str(d_adj.adjudicator_id) for d_adj in debate.debateadjudicator_set.all()])
@@ -140,6 +142,7 @@ class Exporter:
                         'ignored': 'false',
                     })
                     ballot_tag.text = str(adv)
+                    self.add_team_score_metadata(ballot_tag, self.get_teamscore(result, side))
                 else:
                     if debate.is_bye:
                         self.add_bye_team_ballot(side_tag, result, adjs, side)
@@ -178,27 +181,49 @@ class Exporter:
         else:
             ballot_tag.text = str(side in scoresheet.winners())
 
+        if not result.is_voting:
+            self.add_team_score_metadata(ballot_tag, self.get_teamscore(result, side))
+
     def add_bye_team_ballot(self, side_tag, result, adjs, side):
-        teamscore = result.ballotsub.teamscore_set.filter(
-            debate_team=result.winning_dt(),
-        ).first()
+        teamscore = self.get_teamscore(result, side)
         ballot_tag = SubElement(side_tag, 'ballot', {
             'adjudicators': adjs,
             'rank': str(1 if side == result.winning_side() else 2),
             'ignored': 'false',
         })
-        if teamscore is not None:
-            if teamscore.points is not None:
-                ballot_tag.set('points', str(teamscore.points))
-            if teamscore.win is not None:
-                ballot_tag.set('win', str(teamscore.win).lower())
-            if teamscore.votes_given is not None:
-                ballot_tag.set('votes-given', str(teamscore.votes_given))
-            if teamscore.votes_possible is not None:
-                ballot_tag.set('votes-possible', str(teamscore.votes_possible))
+        self.add_team_score_metadata(ballot_tag, teamscore)
         team_total = result.get_team_total(side)
         if team_total is not None:
             ballot_tag.text = str(team_total)
+
+    def get_teamscore(self, result, side):
+        debateteam = result.debateteams.get(side)
+        if debateteam is None:
+            return None
+
+        for teamscore in result.ballotsub.teamscore_set.all():
+            if teamscore.debate_team_id == debateteam.id:
+                return teamscore
+        return None
+
+    def add_team_score_metadata(self, ballot_tag, teamscore):
+        if teamscore is None:
+            return
+
+        if teamscore.points is not None:
+            ballot_tag.set('points', str(teamscore.points))
+        if teamscore.win is not None:
+            ballot_tag.set('win', str(teamscore.win).lower())
+        if teamscore.margin is not None:
+            ballot_tag.set('margin', str(teamscore.margin))
+        if teamscore.score is not None:
+            ballot_tag.set('score', str(teamscore.score))
+        if teamscore.votes_given is not None:
+            ballot_tag.set('votes-given', str(teamscore.votes_given))
+        if teamscore.votes_possible is not None:
+            ballot_tag.set('votes-possible', str(teamscore.votes_possible))
+        if teamscore.has_ghost is not None:
+            ballot_tag.set('has-ghost', str(teamscore.has_ghost).lower())
 
     def add_speakers(self, side_tag, debate, result, side):
         for pos in self.t.positions:
@@ -826,11 +851,11 @@ class Importer:
                 debate_team=debateteam,
                 points=int(ballot.get('points', '1')),
                 win=ballot.get('win', 'true') == 'true',
-                margin=None,
-                score=float(ballot.text) if ballot.text is not None else None,
+                margin=float(ballot.get('margin')) if ballot.get('margin') is not None else None,
+                score=self._parse_ballot_score(ballot),
                 votes_given=int(ballot.get('votes-given')) if ballot.get('votes-given') is not None else None,
                 votes_possible=int(ballot.get('votes-possible')) if ballot.get('votes-possible') is not None else None,
-                has_ghost=False,
+                has_ghost=ballot.get('has-ghost', 'false') == 'true',
             )
 
         for speech, pos in zip(side.findall('speech'), self.tournament.positions):
@@ -892,7 +917,8 @@ class Importer:
             for debate in round.findall('debate'):
                 bs_obj = BallotSubmission(
                     version=1, submitter_type=Submission.Submitter.TABROOM, confirmed=True,
-                    debate=self.debates[debate.get('id')], motion=self.motions.get(debate.get('motion')))
+                    debate=self.debates[debate.get('id')], motion=self.motions.get(debate.get('motion')),
+                    forfeit=debate.get('forfeit', 'false') == 'true')
                 bs_obj.save()
                 if self.debates[debate.get('id')].is_bye:
                     self._import_bye_result(bs_obj, debate)
@@ -969,6 +995,53 @@ class Importer:
                                 if int(ballot.get('rank')) == 1:
                                     dr.add_winner(adj, side_code)
                 dr.save()
+                self._apply_imported_team_score_metadata(bs_obj, debate)
+
+    def _parse_ballot_score(self, ballot):
+        if ballot is None:
+            return None
+        if ballot.get('score') is not None:
+            return float(ballot.get('score'))
+        if ballot.text is None:
+            return None
+        try:
+            return float(ballot.text)
+        except (TypeError, ValueError):
+            return None
+
+    def _apply_imported_team_score_metadata(self, bs_obj, debate):
+        for side in debate.findall('side'):
+            ballot = side.find('ballot')
+            if ballot is None:
+                continue
+
+            defaults = {}
+            if ballot.get('points') is not None:
+                defaults['points'] = int(ballot.get('points'))
+            if ballot.get('win') is not None:
+                defaults['win'] = ballot.get('win') == 'true'
+            if ballot.get('margin') is not None:
+                defaults['margin'] = float(ballot.get('margin'))
+
+            score = self._parse_ballot_score(ballot)
+            if score is not None:
+                defaults['score'] = score
+
+            if ballot.get('votes-given') is not None:
+                defaults['votes_given'] = int(ballot.get('votes-given'))
+            if ballot.get('votes-possible') is not None:
+                defaults['votes_possible'] = int(ballot.get('votes-possible'))
+            if ballot.get('has-ghost') is not None:
+                defaults['has_ghost'] = ballot.get('has-ghost') == 'true'
+
+            if not defaults:
+                continue
+
+            TeamScore.objects.update_or_create(
+                ballot_submission=bs_obj,
+                debate_team=self.debateteams[(debate.get('id'), side.get('team'))],
+                defaults=defaults,
+            )
 
     def import_feedback(self):
         for adj in self.root.findall('participants/adjudicator'):
