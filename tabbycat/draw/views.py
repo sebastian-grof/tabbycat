@@ -111,6 +111,7 @@ class BaseDisplayDrawTableView(TournamentMixin, VueTableTemplateView):
 
     def populate_table(self, debates, table, highlight=[], round=None):
         table.add_debate_venue_columns(debates)
+        table.add_debate_scheduled_at_column_if_needed(debates)
         table.add_debate_team_columns(debates, highlight)
         table.add_debate_adjudicators_column(debates, show_splits=False)
 
@@ -204,6 +205,7 @@ class PublicDrawMixin(PublicTournamentPageMixin):
 
     def populate_table(self, debates, table, highlight=[], round=None):
         table.add_debate_venue_columns(debates)
+        table.add_debate_scheduled_at_column_if_needed(debates)
         table.add_debate_team_columns(debates, highlight)
 
         if getattr(round, 'draw_status', None) == Round.Status.RELEASED or (len(self.rounds) > 0 and all(r.draw_status == Round.Status.RELEASED for r in self.rounds)):
@@ -500,6 +502,7 @@ class AdminDrawView(RoundMixin, AdministratorMixin, AdminDrawUtilitiesMixin, Vue
             table.add_debate_bracket_columns(draw)
 
         table.add_debate_venue_columns(draw, for_admin=True)
+        table.add_debate_scheduled_at_column_if_needed(draw)
         table.add_debate_team_columns(draw)
 
         # For draw details and draw draft pages
