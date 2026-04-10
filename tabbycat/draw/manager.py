@@ -381,7 +381,11 @@ class RandomDrawManager(BaseDrawManager):
         selection = self.get_bye_selection_mode()
         if selection != 'middle_odd_bracket':
             return None
-        raise DrawUserError(_("This bye-selection method isn't supported for random draws."))
+        candidates = list(teams)
+        byes = []
+        for i in range(n_byes):
+            byes.append(candidates.pop(random.randrange(len(candidates))))
+        return candidates, byes
 
 
 class ManualDrawManager(BaseDrawManager):
