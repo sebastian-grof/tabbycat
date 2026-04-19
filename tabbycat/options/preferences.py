@@ -606,6 +606,19 @@ class BallotsPerDebateElimination(ChoicePreference):
 
 
 @tournament_preferences_registry.register
+class AdjudicatorWeighting(ChoicePreference):
+    help_text = _("How adjudicator votes and aggregated scores are weighted in per-adjudicator ballots.")
+    verbose_name = _("Adjudicator weighting")
+    section = debate_rules
+    name = 'adjudicator_weighting'
+    choices = (
+        ('tabbycat-default', _("Tabbycat default")),
+        ('weighted-to-three', _("Weighted to three votes")),
+    )
+    default = 'tabbycat-default'
+
+
+@tournament_preferences_registry.register
 class BallotMustConfirmWinner(ChoicePreference):
     help_text = _("Whether adjudicator(s) must select the winning team in their ballot, and how it should be treated. Note: Not supported in BP.")
     verbose_name = _("Winner Declaration in ballot(s)")

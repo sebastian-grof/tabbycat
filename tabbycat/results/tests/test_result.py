@@ -1,4 +1,5 @@
 import logging
+from statistics import mean
 
 from django.test import TestCase
 
@@ -502,6 +503,25 @@ class TestVotingDebateResultWithScores(GeneralSpeakerTestsMixin, BaseTestDebateR
         neg_total = self._weighted_total(testdata, DebateSide.NEG, adj_indices)
         return aff_total - neg_total if side == DebateSide.AFF else neg_total - aff_total
 
+    def _plain_score(self, testdata, side, pos, adj_indices):
+        side_index = self.SIDES.index(side)
+        return mean(
+            testdata['input']['scores'][adj_index][side_index][pos - 1]
+            for adj_index in adj_indices
+        )
+
+    def _plain_total(self, testdata, side, adj_indices):
+        side_index = self.SIDES.index(side)
+        return mean(
+            sum(testdata['input']['scores'][adj_index][side_index])
+            for adj_index in adj_indices
+        )
+
+    def _plain_margin(self, testdata, side, adj_indices):
+        aff_total = self._plain_total(testdata, DebateSide.AFF, adj_indices)
+        neg_total = self._plain_total(testdata, DebateSide.NEG, adj_indices)
+        return aff_total - neg_total if side == DebateSide.AFF else neg_total - aff_total
+
     # ==========================================================================
     # Normal operation
     # ==========================================================================
@@ -544,6 +564,7 @@ class TestVotingDebateResultWithScores(GeneralSpeakerTestsMixin, BaseTestDebateR
     # Speaker scores
     # --------------------------------------------------------------------------
 
+    @with_preference('debate_rules', 'adjudicator_weighting', 'weighted-to-three')
     @with_preference('scoring', 'margin_includes_dissenters', False)
     @standard_test
     def test_speaker_scores_majority(self, result, testdata, scoresheet_type):
@@ -556,6 +577,7 @@ class TestVotingDebateResultWithScores(GeneralSpeakerTestsMixin, BaseTestDebateR
                     self.assertAlmostEqual(score, self._get_speakerscore_in_db(side, pos).score)
                     self.assertAlmostEqual(score, result.speakerscore_field_score(side, pos))
 
+    @with_preference('debate_rules', 'adjudicator_weighting', 'weighted-to-three')
     @with_preference('scoring', 'margin_includes_dissenters', True)
     @standard_test
     def test_speaker_scores_everyone(self, result, testdata, scoresheet_type):
@@ -564,6 +586,19 @@ class TestVotingDebateResultWithScores(GeneralSpeakerTestsMixin, BaseTestDebateR
             num_positions = len(testdata['input']['scores'][0][self.SIDES.index(side)])
             for pos in range(1, num_positions + 1):
                 score = self._weighted_score(testdata, side, pos, adj_indices)
+                with suppress_logs('results.result', logging.WARNING):
+                    self.assertAlmostEqual(score, self._get_speakerscore_in_db(side, pos).score)
+                    self.assertAlmostEqual(score, result.speakerscore_field_score(side, pos))
+
+    @with_preference('debate_rules', 'adjudicator_weighting', 'tabbycat-default')
+    @with_preference('scoring', 'margin_includes_dissenters', False)
+    @standard_test
+    def test_default_weighting_speaker_scores_majority(self, result, testdata, scoresheet_type):
+        adj_indices = testdata[scoresheet_type]['majority_adjs']
+        for side in self.SIDES:
+            num_positions = len(testdata['input']['scores'][0][self.SIDES.index(side)])
+            for pos in range(1, num_positions + 1):
+                score = self._plain_score(testdata, side, pos, adj_indices)
                 with suppress_logs('results.result', logging.WARNING):
                     self.assertAlmostEqual(score, self._get_speakerscore_in_db(side, pos).score)
                     self.assertAlmostEqual(score, result.speakerscore_field_score(side, pos))
@@ -588,6 +623,7 @@ class TestVotingDebateResultWithScores(GeneralSpeakerTestsMixin, BaseTestDebateR
                 self.assertEqual(win, self._get_teamscore_in_db(side).win)
                 self.assertEqual(win, result.teamscore_field_win(side))
 
+    @with_preference('debate_rules', 'adjudicator_weighting', 'weighted-to-three')
     @with_preference('scoring', 'margin_includes_dissenters', False)
     @standard_test
     def test_teamscore_field_score_majority(self, result, testdata, scoresheet_type):
@@ -598,6 +634,7 @@ class TestVotingDebateResultWithScores(GeneralSpeakerTestsMixin, BaseTestDebateR
                 self.assertAlmostEqual(total, self._get_teamscore_in_db(side).score)
                 self.assertAlmostEqual(total, result.teamscore_field_score(side))
 
+    @with_preference('debate_rules', 'adjudicator_weighting', 'weighted-to-three')
     @with_preference('scoring', 'margin_includes_dissenters', False)
     @standard_test
     def test_teamscore_field_margin_majority(self, result, testdata, scoresheet_type):
@@ -608,6 +645,7 @@ class TestVotingDebateResultWithScores(GeneralSpeakerTestsMixin, BaseTestDebateR
                 self.assertAlmostEqual(margin, self._get_teamscore_in_db(side).margin)
                 self.assertAlmostEqual(margin, result.teamscore_field_margin(side))
 
+    @with_preference('debate_rules', 'adjudicator_weighting', 'weighted-to-three')
     @with_preference('scoring', 'margin_includes_dissenters', True)
     @standard_test
     def test_teamscore_field_score_everyone(self, result, testdata, scoresheet_type):
@@ -618,6 +656,7 @@ class TestVotingDebateResultWithScores(GeneralSpeakerTestsMixin, BaseTestDebateR
                 self.assertAlmostEqual(total, self._get_teamscore_in_db(side).score)
                 self.assertAlmostEqual(total, result.teamscore_field_score(side))
 
+    @with_preference('debate_rules', 'adjudicator_weighting', 'weighted-to-three')
     @with_preference('scoring', 'margin_includes_dissenters', True)
     @standard_test
     def test_teamscore_field_margin_everyone(self, result, testdata, scoresheet_type):
@@ -628,6 +667,29 @@ class TestVotingDebateResultWithScores(GeneralSpeakerTestsMixin, BaseTestDebateR
                 self.assertAlmostEqual(margin, self._get_teamscore_in_db(side).margin)
                 self.assertAlmostEqual(margin, result.teamscore_field_margin(side))
 
+    @with_preference('debate_rules', 'adjudicator_weighting', 'tabbycat-default')
+    @with_preference('scoring', 'margin_includes_dissenters', False)
+    @standard_test
+    def test_default_weighting_teamscore_field_score_majority(self, result, testdata, scoresheet_type):
+        adj_indices = testdata[scoresheet_type]['majority_adjs']
+        for side in self.SIDES:
+            total = self._plain_total(testdata, side, adj_indices)
+            with suppress_logs('results.result', logging.WARNING):
+                self.assertAlmostEqual(total, self._get_teamscore_in_db(side).score)
+                self.assertAlmostEqual(total, result.teamscore_field_score(side))
+
+    @with_preference('debate_rules', 'adjudicator_weighting', 'tabbycat-default')
+    @with_preference('scoring', 'margin_includes_dissenters', False)
+    @standard_test
+    def test_default_weighting_teamscore_field_margin_majority(self, result, testdata, scoresheet_type):
+        adj_indices = testdata[scoresheet_type]['majority_adjs']
+        for side in self.SIDES:
+            margin = self._plain_margin(testdata, side, adj_indices)
+            with suppress_logs('results.result', logging.WARNING):
+                self.assertAlmostEqual(margin, self._get_teamscore_in_db(side).margin)
+                self.assertAlmostEqual(margin, result.teamscore_field_margin(side))
+
+    @with_preference('debate_rules', 'adjudicator_weighting', 'weighted-to-three')
     @standard_test
     def test_teamscore_field_votes_given(self, result, testdata, scoresheet_type):
         for side, votes in zip(self.SIDES, testdata[scoresheet_type]['num_adjs_for_team']):
@@ -635,6 +697,7 @@ class TestVotingDebateResultWithScores(GeneralSpeakerTestsMixin, BaseTestDebateR
                 self.assertEqual(votes, self._get_teamscore_in_db(side).votes_given)
                 self.assertEqual(votes, result.teamscore_field_votes_given(side))
 
+    @with_preference('debate_rules', 'adjudicator_weighting', 'weighted-to-three')
     @standard_test
     def test_teamscore_field_votes_possible(self, result, testdata, scoresheet_type):
         nadjs = testdata['num_adjs']
@@ -644,10 +707,27 @@ class TestVotingDebateResultWithScores(GeneralSpeakerTestsMixin, BaseTestDebateR
             self.assertEqual(nadjs, self._get_teamscore_in_db(side).votes_possible)
             self.assertEqual(nadjs, result.teamscore_field_votes_possible(side))
 
+    @with_preference('debate_rules', 'adjudicator_weighting', 'tabbycat-default')
+    @standard_test
+    def test_default_weighting_teamscore_field_votes_given(self, result, testdata, scoresheet_type):
+        for side in self.SIDES:
+            votes = sum(1 for winner in testdata[scoresheet_type]['winner_by_adj'] if winner == side)
+            with suppress_logs('results.result', logging.WARNING):
+                self.assertEqual(votes, self._get_teamscore_in_db(side).votes_given)
+                self.assertEqual(votes, result.teamscore_field_votes_given(side))
+
+    @with_preference('debate_rules', 'adjudicator_weighting', 'tabbycat-default')
+    @standard_test
+    def test_default_weighting_teamscore_field_votes_possible(self, result, testdata, scoresheet_type):
+        for side in self.SIDES:
+            self.assertEqual(testdata['num_adjs'], self._get_teamscore_in_db(side).votes_possible)
+            self.assertEqual(testdata['num_adjs'], result.teamscore_field_votes_possible(side))
+
     # ==========================================================================
     # Irregular operation
     # ==========================================================================
 
+    @with_preference('debate_rules', 'adjudicator_weighting', 'weighted-to-three')
     @with_preference('scoring', 'margin_includes_dissenters', False)
     # @with_preference('scoring', 'scoresheet_type', 'high-required')
     def test_initially_unknown_sides(self):

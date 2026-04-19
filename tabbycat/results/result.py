@@ -703,7 +703,13 @@ class DebateResultByAdjudicator(BaseDebateResult):
     def set_winners(self, adjudicator, winners):
         self.scoresheets[adjudicator].set_declared_winners(winners)
 
+    def uses_weighted_adjudicator_weighting(self):
+        return self.tournament.pref('adjudicator_weighting') == 'weighted-to-three'
+
     def _adj_weight(self, adj):
+        if not self.uses_weighted_adjudicator_weighting():
+            return 1
+
         panel_size = len(self.debateadjs)
 
         if panel_size == 1:
@@ -720,6 +726,23 @@ class DebateResultByAdjudicator(BaseDebateResult):
 
     def _weighted_sum(self, adjs, func):
         return sum(self._adj_weight(adj) * func(adj) for adj in adjs)
+
+    def _aggregate_scores(self, adjs, func):
+        adjudicators = list(adjs)
+        values = [func(adj) for adj in adjudicators]
+
+        if any(value is None for value in values):
+            return None
+
+        if self.uses_weighted_adjudicator_weighting():
+            return sum(self._adj_weight(adj) * value for adj, value in zip(adjudicators, values))
+
+        return mean(values)
+
+    def score_aggregation_adjudicators(self):
+        if self.uses_weighted_adjudicator_weighting():
+            return self.scoring_adjudicators()
+        return self.relevant_adjudicators()
 
     # --------------------------------------------------------------------------
     # Decision calculation
@@ -819,10 +842,14 @@ class DebateResultByAdjudicator(BaseDebateResult):
 
     @_requires_decision(None)
     def teamscore_field_votes_given(self, side):
-        return self._weighted_votes(self._adjs_by_side[side])
+        if self.uses_weighted_adjudicator_weighting():
+            return self._weighted_votes(self._adjs_by_side[side])
+        return len(self._adjs_by_side[side])
 
     def teamscore_field_votes_possible(self, side):
-        return self._weighted_votes(self.scoresheets.keys())
+        if self.uses_weighted_adjudicator_weighting():
+            return self._weighted_votes(self.scoresheets.keys())
+        return len(self.scoresheets)
 
     def teamscore_field_has_ghost(self, side):
         return False
@@ -1616,12 +1643,14 @@ class DebateResultByAdjudicatorWithScores(DebateResultWithScoresMixin, DebateRes
             return None
         if not self._decision_calculated and len(self.sides) == 2:
             self._calculate_decision()
-        return self._weighted_sum(
+        return self._aggregate_scores(
             self.relevant_adjudicators(),
             lambda adj: self._teamscore_score_component(adj, side),
         )
 
     def teamscore_field_margin(self, side):
+        if not self.uses_weighted_adjudicator_weighting():
+            return self.calculate_full_margin(side)
         if len(self.sides) > 2:
             return None
         aff_total = self._teamscore_margin_component(DebateSide.AFF)
@@ -1634,8 +1663,8 @@ class DebateResultByAdjudicatorWithScores(DebateResultWithScoresMixin, DebateRes
             return None
         if not self._decision_calculated and len(self.sides) == 2:
             self._calculate_decision()
-        return self._weighted_sum(
-            self.scoring_adjudicators(),
+        return self._aggregate_scores(
+            self.score_aggregation_adjudicators(),
             lambda adj: self._teamscore_score_component(adj, side),
         )
 
@@ -1652,8 +1681,8 @@ class DebateResultByAdjudicatorWithScores(DebateResultWithScoresMixin, DebateRes
             return None
         if not self._decision_calculated and len(self.sides) == 2:
             self._calculate_decision()
-        return self._weighted_sum(
-            self.scoring_adjudicators(),
+        return self._aggregate_scores(
+            self.score_aggregation_adjudicators(),
             lambda adj: self.scoresheets[adj].get_score(side, position),
         )
 
@@ -1662,8 +1691,8 @@ class DebateResultByAdjudicatorWithScores(DebateResultWithScoresMixin, DebateRes
             return None
         if not self._decision_calculated:
             self._calculate_decision()
-        return self._weighted_sum(
-            self.scoring_adjudicators(),
+        return self._aggregate_scores(
+            self.score_aggregation_adjudicators(),
             lambda adj: self.scoresheets[adj].get_criterion_score(side, pos, criterion),
         )
 

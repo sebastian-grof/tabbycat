@@ -344,7 +344,7 @@ class WSDCPreferences(AustralsPreferences):
     ui_options__show_adjudicator_institutions  = False
 
 
-class SDAOpenPreferences(PreferencesPreset):
+class SDLFormatPreferences(PreferencesPreset):
     name         = _("SDL Format")
     show_in_list = True
     description  = _("3 vs 3 with replies and cross-examinations, pre-allocated "
@@ -406,6 +406,7 @@ class SDAOpenPreferences(PreferencesPreset):
     debate_rules__teams_in_debate              = 2
     debate_rules__ballots_per_debate_prelim    = 'per-adj'
     debate_rules__ballots_per_debate_elim      = 'per-adj'
+    debate_rules__adjudicator_weighting        = 'weighted-to-three'
     debate_rules__winners_in_ballots           = 'high-points'
     debate_rules__speakers_in_ballots          = 'always'
     debate_rules__substantive_speakers         = 3
@@ -479,8 +480,8 @@ class SDAOpenPreferences(PreferencesPreset):
     motions__enable_motions                    = False
 
 
-class JDLFormatPreferences(SDAOpenPreferences):
-    name         = _("JDL Format (2. kategória)")
+class JDLFormatPreferences(SDLFormatPreferences):
+    name         = _("JDL Format")
     description  = _("2 vs 2 with replies, no cross-examinations, pre-allocated "
         "sides, private URL ballot entry, and JDL-style standings and draw rules.")
 
@@ -598,3 +599,4 @@ class PublicForms(PreferencesPreset):
 
     data_entry__participant_ballots            = 'public'
     data_entry__participant_feedback           = 'public'
+

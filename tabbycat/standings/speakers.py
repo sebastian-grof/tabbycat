@@ -88,6 +88,10 @@ class AverageSpeakerScoreMetricAnnotator(BaseMetricAnnotator):
         scores_by_speaker = defaultdict(list)
 
         tournament = round.tournament if round is not None else (speakers[0].team.tournament if speakers else None)
+        normalize_weighted_scores = (
+            tournament is not None and
+            tournament.pref('adjudicator_weighting') == 'weighted-to-three'
+        )
 
         if speaker_ids and tournament is not None:
             annotation_filter = Q(
@@ -117,7 +121,7 @@ class AverageSpeakerScoreMetricAnnotator(BaseMetricAnnotator):
                         votes_possible_by_ballot[ballot_submission_id] = votes_possible
 
             for speaker_id, score, ballot_submission_id in speaker_scores:
-                divisor = votes_possible_by_ballot.get(ballot_submission_id) or 1
+                divisor = (votes_possible_by_ballot.get(ballot_submission_id) or 1) if normalize_weighted_scores else 1
                 scores_by_speaker[speaker_id].append(score / divisor)
 
         for speaker in speakers:
