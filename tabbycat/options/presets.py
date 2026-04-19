@@ -344,6 +344,172 @@ class WSDCPreferences(AustralsPreferences):
     ui_options__show_adjudicator_institutions  = False
 
 
+class SDAOpenPreferences(PreferencesPreset):
+    name         = _("SDL Format")
+    show_in_list = True
+    description  = _("3 vs 3 with replies and cross-examinations, pre-allocated "
+        "sides, private URL ballot entry, and SDA standings and draw rules.")
+
+    # Score Rules
+    scoring__score_min                         = Decimal('10')
+    scoring__score_max                         = Decimal('30')
+    scoring__score_step                        = Decimal('1')
+    scoring__reply_score_min                   = Decimal('8')
+    scoring__reply_score_max                   = Decimal('24')
+    scoring__reply_score_step                  = Decimal('1')
+    scoring__cross_score_min                   = Decimal('8')
+    scoring__cross_score_max                   = Decimal('24')
+    scoring__cross_score_step                  = Decimal('1')
+    scoring__maximum_margin                    = 0.0
+    scoring__margin_includes_dissenters        = False
+    scoring__teamscore_includes_ghosts         = True
+    scoring__ballot_introduction               = (
+        '<p><b><span style="font-size: 24px;">'
+        'OTOČTE SI MOBIL NA ŠÍRKU, PRE JEDNODUCHŠIE VYPĹŇANIE!!!!'
+        '</span></b><span style="font-size: 18px;">﻿</span></p>'
+    )
+
+    # Draw Rules
+    draw_rules__adj_min_voting_score           = 3.0
+    draw_rules__adj_conflict_penalty           = 1000000
+    draw_rules__adj_history_penalty            = 10000
+    draw_rules__preformed_panel_mismatch_penalty = 10000000
+    draw_rules__team_institution_penalty       = 1
+    draw_rules__team_history_penalty           = 9999999999999
+    draw_rules__avoid_same_institution         = False
+    draw_rules__avoid_team_history             = True
+    draw_rules__pullup_debates_penalty         = 0
+    draw_rules__side_penalty                   = 1000000000000000000
+    draw_rules__pairing_penalty                = 10000000000000
+    draw_rules__max_times_per_side             = 2
+    draw_rules__draw_odd_bracket               = 'pullup_top'
+    draw_rules__draw_side_allocations          = 'preallocated'
+    draw_rules__draw_pairing_method            = 'fold'
+    draw_rules__draw_avoid_conflicts           = 'one_up_one_down'
+    draw_rules__draw_pullup_restriction        = 'none'
+    draw_rules__draw_pullup_penalty            = 5
+    draw_rules__bp_pullup_distribution         = 'anywhere'
+    draw_rules__bp_position_cost               = 'entropy'
+    draw_rules__bp_renyi_order                 = 1.0
+    draw_rules__bp_position_cost_exponent      = 4.0
+    draw_rules__bp_assignment_method           = 'hungarian_preshuffled'
+    draw_rules__draw_skip_adj_checkins         = False
+    draw_rules__no_panellist_position          = False
+    draw_rules__no_trainee_position            = False
+    draw_rules__bye_team_results               = 'average'
+    draw_rules__bye_team_selection             = 'middle_odd_bracket'
+    draw_rules__max_times_on_one_side          = 0
+
+    # Feedback
+    feedback__adj_min_score                    = 0.0
+    feedback__adj_max_score                    = 9.0
+    feedback__feedback_paths                   = 'with-p-on-c'
+    feedback__feedback_from_teams              = 'orallist'
+    feedback__show_unexpected_feedback         = True
+    feedback__show_unaccredited                = False
+
+    # Debate Rules
+    debate_rules__teams_in_debate              = 2
+    debate_rules__ballots_per_debate_prelim    = 'per-adj'
+    debate_rules__ballots_per_debate_elim      = 'per-adj'
+    debate_rules__winners_in_ballots           = 'high-points'
+    debate_rules__speakers_in_ballots          = 'always'
+    debate_rules__substantive_speakers         = 3
+    debate_rules__reply_scores_enabled         = True
+    debate_rules__cross_examinations_enabled   = True
+    debate_rules__require_substantive_for_reply = True
+    debate_rules__speaker_ranks                = 'none'
+    debate_rules__preparation_time             = -1
+    debate_rules__enable_forfeits              = True
+    debate_rules__side_names                   = 'aff-neg'
+
+    # Standings
+    standings__standings_missed_debates        = 2
+    standings__standings_missed_replies        = 2
+    standings__team_standings_precedence       = ['wins', 'num_adjs', 'speaks_sum']
+    standings__team_standings_extra_metrics    = []
+    standings__speaker_standings_precedence    = ['average', 'trimmed_mean']
+    standings__speaker_standings_extra_metrics = []
+
+    # Tab Release / Public Features
+    public_features__public_schedule           = False
+    public_features__feedback_progress         = False
+    public_features__public_breaking_adjs      = False
+    public_features__public_break_metrics_to_show = -1
+    public_features__public_breaking_teams     = False
+    public_features__public_record             = True
+    public_features__public_team_standings     = False
+    public_features__public_motions            = False
+    public_features__public_results            = False
+    public_features__public_draw               = 'current'
+    public_features__public_side_allocations   = False
+    public_features__public_break_categories   = False
+    public_features__public_checkins           = False
+    public_features__public_diversity          = False
+    public_features__public_institutions_list  = False
+    public_features__public_participants       = True
+    public_features__search_engine_indexing    = 'all'
+
+    # Data Entry
+    data_entry__ballots_hide_motions           = False
+    data_entry__individual_ballots             = True
+    data_entry__enable_postponements           = False
+    data_entry__feedback_return_location       = 'TBA'
+    data_entry__score_return_location          = 'TBA'
+    data_entry__ballots_confirm_digits         = True
+    data_entry__checkin_window_venues          = 2.0
+    data_entry__checkin_window_people          = 12.0
+    data_entry__public_checkins_submit         = False
+    data_entry__assistant_access               = 'all_areas'
+    data_entry__enable_blind_checks            = False
+    data_entry__disable_ballot_confirms        = False
+    data_entry__slider_ballot_ui               = True
+    data_entry__participant_feedback           = 'off'
+    data_entry__participant_ballots            = 'private-urls'
+
+    # UI Options
+    ui_options__show_seed_in_importer          = 'off'
+    ui_options__show_speakers_in_draw          = True
+    ui_options__show_adjudicator_institutions  = True
+    ui_options__show_team_institutions         = False
+    ui_options__show_emoji                     = True
+    ui_options__participant_code_names         = 'off'
+    ui_options__team_code_names                = 'off'
+    ui_options__show_splitting_adjudicators    = False
+
+    # Motions
+    motions__enable_motion_reuse               = True
+    motions__public_motions_order              = 'reverse'
+    motions__show_motions_in_results           = True
+    motions__motion_vetoes_enabled             = False
+    motions__enable_motions                    = False
+
+    # Registration
+    registration__registration_confirmation    = 'never'
+    registration__code_name_generator          = 'emoji'
+    registration__open_adj_registration        = False
+    registration__open_team_registration       = False
+    registration__reg_institution_slot_transfers = False
+    registration__reg_institution_slots        = False
+    registration__institution_participant_registration = False
+    registration__institution_registration     = False
+    registration__reg_adjudicator_fields       = ('email',)
+    registration__reg_speaker_fields           = ('email',)
+    registration__reg_institution_fields       = ()
+    registration__reg_team_fields              = ('emoji', 'use_institution_prefix')
+    registration__team_name_generator          = 'user'
+    registration__speakers_in_team             = 3
+
+
+class JDLFormatPreferences(SDAOpenPreferences):
+    name         = _("JDL Format")
+    description  = _("2 vs 2 with replies, no cross-examinations, pre-allocated "
+        "sides, private URL ballot entry, and SDL-style standings and draw rules.")
+
+    debate_rules__substantive_speakers         = 2
+    debate_rules__cross_examinations_enabled   = False
+
+
 class APDAPreferences(PreferencesPreset):
     name = _("APDA Rules")
     show_in_list = True
