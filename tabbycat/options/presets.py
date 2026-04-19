@@ -348,7 +348,7 @@ class SDAOpenPreferences(PreferencesPreset):
     name         = _("SDL Format")
     show_in_list = True
     description  = _("3 vs 3 with replies and cross-examinations, pre-allocated "
-        "sides, private URL ballot entry, and SDA standings and draw rules.")
+        "sides, private URL ballot entry, and SDL standings and draw rules.")
 
     # Score Rules
     scoring__score_min                         = Decimal('10')
@@ -360,14 +360,8 @@ class SDAOpenPreferences(PreferencesPreset):
     scoring__cross_score_min                   = Decimal('8')
     scoring__cross_score_max                   = Decimal('24')
     scoring__cross_score_step                  = Decimal('1')
-    scoring__maximum_margin                    = 0.0
     scoring__margin_includes_dissenters        = False
     scoring__teamscore_includes_ghosts         = True
-    scoring__ballot_introduction               = (
-        '<p><b><span style="font-size: 24px;">'
-        'OTOČTE SI MOBIL NA ŠÍRKU, PRE JEDNODUCHŠIE VYPĹŇANIE!!!!'
-        '</span></b><span style="font-size: 18px;">﻿</span></p>'
-    )
 
     # Draw Rules
     draw_rules__adj_min_voting_score           = 3.0
@@ -484,27 +478,11 @@ class SDAOpenPreferences(PreferencesPreset):
     motions__motion_vetoes_enabled             = False
     motions__enable_motions                    = False
 
-    # Registration
-    registration__registration_confirmation    = 'never'
-    registration__code_name_generator          = 'emoji'
-    registration__open_adj_registration        = False
-    registration__open_team_registration       = False
-    registration__reg_institution_slot_transfers = False
-    registration__reg_institution_slots        = False
-    registration__institution_participant_registration = False
-    registration__institution_registration     = False
-    registration__reg_adjudicator_fields       = ('email',)
-    registration__reg_speaker_fields           = ('email',)
-    registration__reg_institution_fields       = ()
-    registration__reg_team_fields              = ('emoji', 'use_institution_prefix')
-    registration__team_name_generator          = 'user'
-    registration__speakers_in_team             = 3
-
 
 class JDLFormatPreferences(SDAOpenPreferences):
-    name         = _("JDL Format")
+    name         = _("JDL Format (2. kategória)")
     description  = _("2 vs 2 with replies, no cross-examinations, pre-allocated "
-        "sides, private URL ballot entry, and SDL-style standings and draw rules.")
+        "sides, private URL ballot entry, and JDL-style standings and draw rules.")
 
     debate_rules__substantive_speakers         = 2
     debate_rules__cross_examinations_enabled   = False
