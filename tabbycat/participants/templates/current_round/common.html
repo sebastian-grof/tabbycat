@@ -70,7 +70,7 @@
             {% endif %}
         {% endwith %}
       {% else %}
-        <h6>Motions</h6>
+        <h6>{% trans "Motions" %}</h6>
         <ol>
         {% for rm in debate.round.roundmotion_set.all %}
           <li value="{{ rm.seq }}">

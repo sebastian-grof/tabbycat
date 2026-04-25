@@ -46,6 +46,7 @@
     "Click to undo a check-in": "Kliknite pre zvr\u00e1tenie registr\u00e1cie",
     "Confirmed": "Potvrden\u00e9",
     "Debated": "Debatovan\u00e9",
+    "Find in Table": "H\u013eada\u0165 v tabu\u013eke",
     "Gender": "Pohlavie",
     "IMPORTANT: Check and explicitly note if a speaker gives multiple speeches": "D\u00d4LE\u017dIT\u00c9: Skontrolujte a explicitne zazna\u010dte, \u010di re\u010dn\u00edk prednesie viacero re\u010d\u00ed.",
     "If you want to view this page without the sidebar (i.e. for displaying to an auditorium) you can use the assistant version.": "Ak chcete zobrazi\u0165 t\u00fato str\u00e1nku bez bo\u010dn\u00e9ho panela (napr. pre zobrazenie v predn\u00e1\u0161kovej s\u00e1le), m\u00f4\u017eete pou\u017ei\u0165 \"assitenciu\".",

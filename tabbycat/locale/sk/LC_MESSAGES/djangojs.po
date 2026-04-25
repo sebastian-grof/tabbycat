@@ -348,7 +348,7 @@ msgstr ""
 
 #: templates/tables/TablesContainer.vue:8
 msgid "Find in Table"
-msgstr ""
+msgstr "Hľadať v tabuľke"
 
 #: templates/tables/CheckboxTables.vue:30
 msgid "Set All Breaking as Available"
