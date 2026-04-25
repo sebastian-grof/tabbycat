@@ -85,22 +85,22 @@ msgstr ""
 #: utils/tables.py
 #, python-format
 msgid "View %(a)s's %(d)s Record"
-msgstr ""
+msgstr "Zobraziť záznam: %(a)s %(d)s"
 
 #: utils/tables.py
 #, python-format
 msgid "View %(team)s's Record"
-msgstr ""
+msgstr "Zobraziť záznam tímu %(team)s"
 
 #: utils/tables.py
 #, python-format
 msgid "Code name: <strong>%(name)s</strong>"
-msgstr ""
+msgstr "Kódové meno: <strong>%(name)s</strong>"
 
 #: utils/tables.py
 #, python-format
 msgid "Real name: <strong>%(name)s</strong>"
-msgstr ""
+msgstr "Skutočný názov: <strong>%(name)s</strong>"
 
 #: utils/tables.py
 #, python-format
