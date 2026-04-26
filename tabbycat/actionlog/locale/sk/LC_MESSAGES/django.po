@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: tabbycat\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-07-06 09:38+1000\n"
-"PO-Revision-Date: 2026-04-26 11:34+0200\n"
+"PO-Revision-Date: 2026-04-26 23:06+0200\n"
 "Last-Translator: \n"
 "Language-Team: Slovak\n"
 "Language: sk\n"
@@ -23,7 +23,7 @@ msgstr "Záznam akcií"
 
 #: actionlog/models.py
 msgid "Changed adjudicator breaking status"
-msgstr "Zmenený breakový status rozhodcu/rozhodkyne"
+msgstr "Zmenený postupový stav rozhodcu/rozhodkyne"
 
 #: actionlog/models.py
 msgid "Created adjudicator"
@@ -63,71 +63,71 @@ msgstr "Upravená dostupnosť miestností"
 
 #: actionlog/models.py
 msgid "Checked in ballot set"
-msgstr "skontrolovan?v sada hlasovan?"
+msgstr "Sada ballotov označená ako prijatá"
 
 #: actionlog/models.py
 msgid "Confirmed ballot set"
-msgstr "potvrden?sada hlasovan?"
+msgstr "Potvrdený set ballotov"
 
 #: actionlog/models.py
 msgid "Created ballot set"
-msgstr "vytvoren?sada hlasovan?"
+msgstr "Vytvorený set ballotov"
 
 #: actionlog/models.py
 msgid "Discarded ballot set"
-msgstr "zahoden?sada hlasovan?"
+msgstr "Set ballotov bol zahodený"
 
 #: actionlog/models.py
 msgid "Edited ballot set"
-msgstr "Edited sada hlasovan?"
+msgstr "Set ballotov bol upravený"
 
 #: actionlog/models.py
 msgid "Submitted ballot set from the public form"
-msgstr "odoslan?sada hlasovan?od verejn?form"
+msgstr "Sada hlasovacích lístkov odoslaná z verejného formulára"
 
 #: actionlog/models.py
 msgid "Edited break categories"
-msgstr "Upravené breakové kategórie"
+msgstr "Upravené postupové kategórie"
 
 #: actionlog/models.py
 msgid "Deleted team break for category"
-msgstr "Deleted t?mov?postup pre kateg?ria"
+msgstr "Vymazaný postup tímu v kategórii"
 
 #: actionlog/models.py
 msgid "Edited breaking team remarks"
-msgstr "Upravené poznámky k breakujúcim tímom"
+msgstr "Upravené poznámky k postupujúcim tímom"
 
 #: actionlog/models.py
 msgid "Edited break eligibility"
-msgstr "Upravená breaková oprávnenosť"
+msgstr "Upravená oprávnenosť na postup"
 
 #: actionlog/models.py
 msgid "Generated the team break for all categories"
-msgstr "vygenerovan?t?mov?postup pre v?etky kateg?rie"
+msgstr "Vygenerovaný postup tímov pre všetky kategórie"
 
 #: actionlog/models.py
 msgid "Generated the team break for one category"
-msgstr "vygenerovan?t?mov?postup pre jeden/jedna kateg?ria"
+msgstr "Vygenerovaný postup tímov pre jednu kategóriu"
 
 #: actionlog/models.py
 msgid "Edited breaking team remarks and updated all team breaks"
-msgstr "Upravené poznámky k breakujúcim tímom a aktualizované všetky tímové breaky"
+msgstr "Upravené poznámky k postupujúcim tímom a aktualizované všetky tímové postupy"
 
 #: actionlog/models.py
 msgid "Edited breaking team remarks and updated this team break"
-msgstr "Edited postupuj?ci t?m pozn?mky a aktualizovan?toto t?mov?postup"
+msgstr "Upravené poznámky k postupujúcim tímom a aktualizovaný tento tímový postup"
 
 #: actionlog/models.py
 msgid "Generated check in identifiers for adjudicators"
-msgstr "Vygenerované check-in identifikátory pre rozhodcov/rozhodkyne"
+msgstr "Vygenerované identifikátory kontroly prítomnosti pre rozhodcov/rozhodkyne"
 
 #: actionlog/models.py
 msgid "Generated check in identifiers for speakers"
-msgstr "Vygenerované check-in identifikátory pre rečníkov/rečníčky"
+msgstr "Vygenerované identifikátory kontroly prítomnosti pre rečníkov/rečníčky"
 
 #: actionlog/models.py
 msgid "Generated check in identifiers for rooms"
-msgstr "Vygenerované check-in identifikátory pre miestnosti"
+msgstr "Vygenerované identifikátory kontroly prítomnosti pre miestnosti"
 
 #: actionlog/models.py
 msgid "Edited adjudicator-adjudicator conflicts"
@@ -167,19 +167,19 @@ msgstr "Uložené divízie"
 
 #: actionlog/models.py
 msgid "Confirmed draw"
-msgstr "Pairing potvrdený"
+msgstr "Potvrdený pairing"
 
 #: actionlog/models.py
 msgid "Created draw"
-msgstr "Pairing vytvorený"
+msgstr "Vytvorený pairing"
 
 #: actionlog/models.py
 msgid "Regenerated draw"
-msgstr "Pairing pregenerovaný"
+msgstr "Znovu vygenerovaný pairing"
 
 #: actionlog/models.py
 msgid "Released draw"
-msgstr "Pairing zverejnený"
+msgstr "Zverejnený pairing"
 
 #: actionlog/models.py
 msgid "Unreleased draw"
@@ -211,7 +211,7 @@ msgstr "Upravená inštitúcia"
 
 #: actionlog/models.py
 msgid "Saved a matchup manual edit"
-msgstr "Uložená manuálna úprava matchup-u"
+msgstr "Uložená manuálna úprava párovania"
 
 #: actionlog/models.py
 msgid "Added/edited motion"
@@ -219,7 +219,7 @@ msgstr "Pridaná/upravená téza"
 
 #: actionlog/models.py
 msgid "Released motions"
-msgstr "Tézy zverejnené"
+msgstr "Zverejnené tézy"
 
 #: actionlog/models.py
 msgid "Unreleased motions"
@@ -279,7 +279,7 @@ msgstr "Nastavený čas začiatku"
 
 #: actionlog/models.py
 msgid "Saved the sides status of a matchup"
-msgstr "Uložený stav strán matchup-u"
+msgstr "Uložený stav strán v párovaní"
 
 #: actionlog/models.py
 msgid "Imported adjudicators using the simple importer"
