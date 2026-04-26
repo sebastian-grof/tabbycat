@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: tabbycat\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-07-06 09:38+1000\n"
-"PO-Revision-Date: 2025-07-05 23:47\n"
+"PO-Revision-Date: 2026-04-26 09:02+0200\n"
 "Last-Translator: philip_tc\n"
 "Language-Team: Slovak\n"
 "Language: sk\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 3;\n"
-"X-Generator: crowdin.com\n"
+"X-Generator: Poedit 3.7\n"
 "X-Crowdin-Project: tabbycat\n"
 "X-Crowdin-Language: sk\n"
 "X-Crowdin-File: /develop/tabbycat/privateurls/locale/en/LC_MESSAGES/django.po\n"
@@ -39,12 +39,12 @@ msgstr ""
 #: privateurls/templates/private_url_landing.html
 #, python-format
 msgid "Your team has an incomplete number of speakers. Please share the registration link with your partner(s): <a href=\"%(link)s\">%(link)s</a>"
-msgstr ""
+msgstr "Váš tím nemá kompletný počet rečníkov. Prosím, pošlite odkaz na registráciu svojim partnerom: <a href=\"%(link)s\">%(link)s</a>"
 
 #: privateurls/templates/private_url_landing.html
 #, python-format
 msgid "The URL of this page is personalised to you, %(name)s. <strong>Do not share it with anyone;</strong> anyone who knows this URL can submit results and/or feedback for your debates. You may bookmark this page and return here after each debate for the available actions."
-msgstr "URL tejto stránky je prispôsobená tebe, %(name)s. <strong>Nezdieľaj ju s nikým;</strong> ktokoľvek, kto pozná túto URL, môže odosielať výsledky a/alebo spätnú väzbu za tvoje debaty. Túto stránku si môžeš uložiť a po každej debate sa sem vrátiť pre dostupné akcie."
+msgstr "URL z T?na str?nka je personalised na ty, %(name)s. <strong>Do nie share to s anyone;</strong> anyone who knows toto URL m??e submit v?sledky a/alebo sp?tn?v?zba pre tvoj/tvoja debaty. ty m??e bookmark T?na str?nka a return here po ka?d?/ka?d?debata pre dostupn?akcie."
 
 #: privateurls/templates/private_url_landing.html
 #, python-format
@@ -72,7 +72,7 @@ msgstr "Zobraziť čiarový kód na check-in"
 #: privateurls/templates/private_url_landing.html
 #, python-format
 msgid "Submit Ballot for %(round)s"
-msgstr "Odoslať ballot pre %(round)s"
+msgstr "Submit hlasovanie pre %(round)s"
 
 #: privateurls/templates/private_url_landing.html
 msgid "Submit Feedback"
@@ -89,20 +89,20 @@ msgstr "Súkromné URL"
 
 #: privateurls/templates/private_urls.html
 msgid "The private URLs for ballot and/or feedback submission from participants are given below."
-msgstr ""
+msgstr "Nižšie sú uvedené súkromné URL adresy pre odosielanie ballotov a/alebo spätnej väzby od účastníkov."
 
 #: privateurls/templates/private_urls.html
 msgid "Private URLs are used to allow participants to submit ballots and/or feedback online. You should use them if you have a means of distributing crazy-looking URLs to participants, and are too worried about fraud to use a publicly accessible page where <em>anyone</em> can enter <em>any</em> submission. The URLs will look something like this:"
-msgstr ""
+msgstr "s?kromn?URL s?used na allow??astn?ci/??astn??ky na submit hlasovania a/alebo sp?tn?v?zba online. ty m?use ich ak ty maj?a means z distributing crazy-looking URLs na??astn?ci/??astn??ky, a s?too worried about fraud na use a publicly accessible page kde <em>anyone</em> m??e enter <em>ak?ko?vek</em> odoslanie. URLs bude look something like toto:"
 
 #: privateurls/templates/private_urls.html
 msgid "Anyone with the URL can access the relevant data entry page. The idea is that it's hard to guess another key (the random-looking string), so you should make each URL accessible only to the participant in question. <a href=\"https://tabbycat.readthedocs.io/en/latest/features/data-entry.html#private-urls\"> Read more about private URLs.</a>"
-msgstr ""
+msgstr "K stránke na zadávanie údajov má prístup každý, kto pozná príslušnú URL adresu. Myšlienka spočíva v tom, že je ťažké uhádnuť kľúč URL adresy (náhodne vyzerajúci reťazec), preto by ste mali zabezpečiť, aby každá URL adresa bola prístupná len príslušnému účastníkovi. <a href=\"https://tabbycat.readthedocs.io/en/latest/features/data-entry.html#private-urls\"> Prečítajte si viac o súkromných URL adresách.</a>"
 
 #: privateurls/templates/private_urls.html
 #, python-format
 msgid "Neither <strong>participant ballot submissions</strong>, <strong>participant feedback submissions</strong>, nor <strong>participant self-checkins</strong> are configured to be from private URLs. Any generated URLs will not be useful unless you configure those settings accordingly on the <a href=\"%(data_entry_options_url)s\">tournament configuration page</a>."
-msgstr ""
+msgstr "Ani <strong>odovzdané balloty účastníkov</strong>, <strong>spätná väzba od účastníkov</strong>, ani <strong>samostatné príchody účastníkov</strong> nie sú nastavené tak, aby využívali súkromné URL adries. Žiadne vygenerované URL adresy nebudú funkčné, pokiaľ tieto nastavenia zodpovedajúcim spôsobom nenastavíte na <a href=\"%(data_entry_options_url)s\">konfiguračnej stránke turnaja</a>."
 
 #: privateurls/templates/private_urls.html
 msgid "There are no private URLs assigned."
@@ -134,7 +134,7 @@ msgstr "Poslať URL e-mailom"
 
 #: privateurls/templates/private_urls_nav.html
 msgid "This button only generates private URLs for participants who do not already have one."
-msgstr ""
+msgstr "Toto tlačidlo generuje súkromné URL adresy len pre účastníkov, ktorí ešte žiadnu nemajú."
 
 #: privateurls/templates/private_urls_nav.html
 msgid "Generate URLs"
@@ -162,7 +162,7 @@ msgstr "Rozhodcovia"
 
 #: privateurls/views.py
 msgid "All participants already have private URLs. If you want to delete them, use the Edit Database area."
-msgstr ""
+msgstr "Všetci používatelia už majú svoju súkromnú URL. Ak si ich želáte vymazať, upravte databázu."
 
 #: privateurls/views.py
 #, python-format
@@ -220,7 +220,7 @@ msgstr "Server vrátil"
 
 #: manually-added-sda
 msgid "Successfully subscribed to push notifications!"
-msgstr "Odber push notifikácií bol úspešne zapnutý."
+msgstr "Odber push notifikácií bol úspešne zapnutý!"
 
 #: manually-added-sda
 msgid "Error subscribing to push notifications:"

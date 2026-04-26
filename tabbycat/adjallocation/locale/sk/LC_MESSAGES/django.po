@@ -1,0 +1,465 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: tabbycat\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-01-28 12:44-0400\n"
+"PO-Revision-Date: 2026-04-26 13:20+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: sk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n>=2 && n<=4 ? 1 : 2);\n"
+"posledné-Translator: \n"
+"Language-tím: Slovak\n"
+"Plural-formulárs: nplurals=4; plural=(n==1) ? 0: (n>=2 && n<=4) ? 1: 3;\n"
+"X-Criadokdin-Project: tabbycat\n"
+"X-Criadokdin-Project-ID: 364715\n"
+"X-Criadokdin-Language: sk\n"
+"X-Criadokdin-File: /develop/tabbycat/adjallocation/locale/en/LC_správaS/django.po\n"
+"X-Generator: Poedit 3.7\n"
+
+#: adjallocation/allocators/base.py
+msgid "There are no available adjudicators. Ensure there are adjudicators who have been marked as available for this round before auto-allocating."
+msgstr "Nie sú dostupní žiadni rozhodcovia/rozhodkyne. Pred automatickou alokáciou sa uisti, že niektorí rozhodcovia/rozhodkyne sú v tomto kole označení ako dostupní."
+
+#: adjallocation/allocators/hungarian.py
+#, python-format
+msgid "%(count)s score is larger than the maximum permitted adjudicator score (%(score).1f)."
+msgid_plural "%(count)s scores are larger than the maximum permitted adjudicator score (%(score).1f)."
+msgstr[0] "%(count)s skóre je vyššie ako maximálne povolené skóre rozhodcu/rozhodkyne (%(score).1f)."
+msgstr[1] "%(count)s skóre sú vyššie ako maximálne povolené skóre rozhodcu/rozhodkyne (%(score).1f)."
+msgstr[2] "%(count)s skóre sú vyššie ako maximálne povolené skóre rozhodcu/rozhodkyne (%(score).1f)."
+
+#: adjallocation/allocators/hungarian.py
+#, python-format
+msgid "%(count)s score is smaller than the minimum permitted adjudicator score (%(score).1f)."
+msgid_plural "%(count)s scores are smaller than the minimum permitted adjudicator score (%(score).1f)."
+msgstr[0] "%(count)s skóre je nižšie ako minimálne povolené skóre rozhodcu/rozhodkyne (%(score).1f)."
+msgstr[1] "%(count)s skóre sú nižšie ako minimálne povolené skóre rozhodcu/rozhodkyne (%(score).1f)."
+msgstr[2] "%(count)s skóre sú nižšie ako minimálne povolené skóre rozhodcu/rozhodkyne (%(score).1f)."
+
+#: adjallocation/allocators/hungarian.py
+msgid "There are no adjudicators eligible to be a chair or panellist. Try changing the \"Minimum feedback score required to be allocated as chair or panellist\" setting to something lower than at least some adjudicators' current scores, and try again."
+msgstr "Žiaden z rozhodcov nespĺňa podmienky na to, aby bol chairom alebo panelistom. Skúste zmeniť nastavenie „Minimálne skóre spätnej väzby potrebné na pridelenie funkcie chaira alebo člena panelistu“ na hodnotu nižšiu, ako sú aktuálne skóre aspoň niektorých rozhodcov, a skúste to znova."
+
+#: adjallocation/allocators/hungarian.py
+msgid "There are no debates for this round. Maybe you haven't created a draw yet?"
+msgstr "Nie sú žiadne debaty pre toto kolo. Možno si žiadne ešte nevytvoril?"
+
+#: adjallocation/allocators/hungarian.py
+#, python-format
+msgid "There are %(debate_count)s debates but only %(adj_count)s voting adjudicators."
+msgstr "Je tu %(debate_count)s debát, ale iba %(adj_count)s hlasujúcich rozhodcov/rozhodkýň."
+
+#: adjallocation/allocators/hungarian.py
+#, python-format
+msgid "There are %(panel_debates)s panel debates but only %(panellists)s available panellists (less than %(needed)s)."
+msgstr "Je tu %(panel_debates)s panelových debát, ale iba %(panellists)s dostupných panelistov/panelistiek (menej ako %(needed)s)."
+
+#: adjallocation/allocators/hungarian.py
+#, python-format
+msgid "There are %(debates_count)s debates but only %(voting_count)s voting adjudicators."
+msgstr "Je tu %(debates_count)s debát, ale iba %(voting_count)s hlasujúcich rozhodcov/rozhodkýň."
+
+#: adjallocation/apps.py
+msgid "Adjudicator Allocation"
+msgstr "Alokácia rozhodcov/rozhodkýň"
+
+#: adjallocation/consumers.py
+msgid "Draw is already released, unrelease draw to redo auto-allocations."
+msgstr "Pairing je už zverejnený, zruš zverejnenie pairingu, aby si prerobil auto-priradenie."
+
+#: adjallocation/consumers.py
+msgid "Draw is not confirmed, confirm draw to run auto-allocations."
+msgstr "Pairing nie je potvrdený, potvrď pairing, aby ste mohli spustiť auto-priradenie."
+
+#: adjallocation/consumers.py
+msgid "There are no preformed panels available to allocate."
+msgstr "Nie sú dostupné žiadne predpripravené panely na alokáciu."
+
+#: adjallocation/consumers.py
+msgid "Successfully auto-allocated preformed panels to debates."
+msgstr "Úspešne automaticky pridelené predpripravené panely na debaty."
+
+#: adjallocation/consumers.py
+#, python-format
+msgid "Successfully auto-allocated adjudicators to debates. However, there was a warning:"
+msgid_plural "Successfully auto-allocated adjudicators to debates. However, there were %(count)d warnings:"
+msgstr[0] "Úspešne automaticky pridelené rozhodcovia/rozhodkyne na debaty. avšak, there bolo upozornenie:"
+msgstr[1] "Úspešne automaticky pridelené rozhodcovia/rozhodkyne na debaty. avšak, there boli %(count)d upozornenies:"
+msgstr[2] "Úspešne automaticky pridelené rozhodcovia/rozhodkyne na debaty. avšak, there boli %(count)d upozornenies:"
+
+#: adjallocation/consumers.py
+msgid "Successfully auto-allocated adjudicators to debates."
+msgstr "Úspešne automaticky pridelené rozhodcovia/rozhodkyne na debaty."
+
+#: adjallocation/consumers.py
+msgid "There aren't any panels to fill. Create panels first."
+msgstr "Nie sú žiadne panely na doplnenie. Najprv vytvor panely."
+
+#: adjallocation/consumers.py
+#, python-format
+msgid "Successfully auto-allocated adjudicators to preformed panels. However, there was a warning:"
+msgid_plural "Successfully auto-allocated adjudicators to preformed panels. However, there were %(count)d warnings:"
+msgstr[0] "Úspešne automaticky pridelené rozhodcovia/rozhodkyne na preformuláred panels. avšak, there bolo upozornenie:"
+msgstr[1] "Úspešne automaticky pridelené rozhodcovia/rozhodkyne na preformuláred panels. avšak, there boli %(count)d upozornenies:"
+msgstr[2] "Úspešne automaticky pridelené rozhodcovia/rozhodkyne na preformuláred panels. avšak, there boli %(count)d upozornenies:"
+
+#: adjallocation/consumers.py
+msgid "Successfully auto-allocated adjudicators to preformed panels."
+msgstr "Úspešne automaticky pridelené rozhodcovia/rozhodkyne na predpripravené panely."
+
+#: adjallocation/consumers.py
+msgid "You have no break category set as 'is general' so debate importances can't be calculated."
+msgstr "Žiadna breaková kategória nemá nastavené „je všeobecná“, preto sa nedá vypočítať dôležitosť debát."
+
+#: adjallocation/consumers.py
+msgid "Succesfully auto-prioritised debates."
+msgstr "Úspešne auto-prioritised debaty."
+
+#: adjallocation/consumers.py
+msgid "You have no break category set as 'is general' so panel importances can't be calculated."
+msgstr "Žiadna breaková kategória nemá nastavené „je všeobecná“, preto sa nedá vypočítať dôležitosť panelov."
+
+#: adjallocation/consumers.py
+msgid "Succesfully auto-prioritised preformed panels."
+msgstr "Úspešne auto-prioritised predpripravené panely."
+
+#: adjallocation/consumers.py
+msgid "Since this is the first round, the preformed panels aren't annotated with brackets and liveness."
+msgstr "Keďže ide o prvé kolo, predpripravené panely nemajú anotované koše ani liveness."
+
+#: adjallocation/consumers.py
+msgid "The previous round's draw doesn't exist, so preformed panels can't be annotated with brackets and liveness."
+msgstr "Pairing z predchádzajúceho kola neexistuje, preto sa nemôžu predpripravené panely anotovať košmi, alebo liveliness."
+
+#: adjallocation/consumers.py
+msgid "Succesfully created new preformed panels for this round."
+msgstr "Úspešne vytvorené nové predpripravené panely pre toto kolo."
+
+#: adjallocation/models.py
+msgid "chair"
+msgstr "chair"
+
+#: adjallocation/models.py
+msgid "panellist"
+msgstr "panelista"
+
+#: adjallocation/models.py
+msgid "trainee"
+msgstr "shadow"
+
+#: adjallocation/models.py
+msgid "debate"
+msgstr "debata"
+
+#: adjallocation/models.py
+msgid "adjudicator"
+msgstr "rozhodca"
+
+#: adjallocation/models.py
+msgid "type"
+msgstr "typ"
+
+#: adjallocation/models.py
+msgid "available?"
+msgstr "dostupné?"
+
+#: adjallocation/models.py
+msgid "debate adjudicator"
+msgstr "rozhodca debaty"
+
+#: adjallocation/models.py
+msgid "debate adjudicators"
+msgstr "debata rozhodcovia/rozhodkyne"
+
+#: adjallocation/models.py
+msgid "team"
+msgstr "tím"
+
+#: adjallocation/models.py
+msgid "adjudicator-team conflict"
+msgstr "rozhodca/rozhodkyňa-tím konflikt"
+
+#: adjallocation/models.py
+msgid "adjudicator-team conflicts"
+msgstr "konflikty rozhodca-tím"
+
+#: adjallocation/models.py
+msgid "adjudicator 1"
+msgstr "rozhodca/rozhodkyňa 1"
+
+#: adjallocation/models.py
+msgid "adjudicator 2"
+msgstr "rozhodca/rozhodkyňa 2"
+
+#: adjallocation/models.py
+msgid "adjudicator-adjudicator conflict"
+msgstr "rozhodca/rozhodkyňa-rozhodca/rozhodkyňa konflikt"
+
+#: adjallocation/models.py
+msgid "adjudicator-adjudicator conflicts"
+msgstr "konflikty rozhodca-rozhodca"
+
+#: adjallocation/models.py
+msgid "institution"
+msgstr "debatný klub"
+
+#: adjallocation/models.py
+msgid "adjudicator-institution conflict"
+msgstr "rozhodca/rozhodkyňa-inštitúcia konflikt"
+
+#: adjallocation/models.py
+msgid "adjudicator-institution conflicts"
+msgstr "konflikty rozhodca-inštitúcia"
+
+#: adjallocation/models.py
+msgid "team-institution conflict"
+msgstr "tím-inštitúcia konflikt"
+
+#: adjallocation/models.py
+msgid "team-institution conflicts"
+msgstr "konflikty tím-inštitúcia"
+
+#: adjallocation/models.py
+msgid "round"
+msgstr "kolo"
+
+#: adjallocation/models.py
+msgid "importance"
+msgstr "dôležitosť"
+
+#: adjallocation/models.py
+msgid "minimum bracket"
+msgstr "minimálny kôš"
+
+#: adjallocation/models.py
+msgid "Estimate of the lowest bracket for which this panel might be"
+msgstr "Odhad najnižšieho koša, v ktorom môže tento panel byť"
+
+#: adjallocation/models.py
+msgid "maximum bracket"
+msgstr "maximálny kôš"
+
+#: adjallocation/models.py
+msgid "Estimate of the highest bracket for which this panel might be"
+msgstr "Odhad najvyššieho koša, v ktorom môže tento panel byť"
+
+#: adjallocation/models.py
+msgid "room rank"
+msgstr "poradie miestnosti"
+
+#: adjallocation/models.py
+msgid "Sequential number of panel, not used in any algorithms"
+msgstr "Poradové číslo panelu; nepoužíva sa v algoritmoch"
+
+#: adjallocation/models.py
+msgid "liveness"
+msgstr "liveness"
+
+#: adjallocation/models.py
+msgid "Number of categories this room is expected to be live for"
+msgstr "Počet kategórií, v ktorých sa očakáva, že táto miestnosť bude live"
+
+#: adjallocation/models.py
+msgid "preformed panel"
+msgstr "predpripravený panel"
+
+#: adjallocation/models.py
+msgid "preformed panels"
+msgstr "predpripravené panely"
+
+#: adjallocation/models.py
+msgid "panel"
+msgstr "panel"
+
+#: adjallocation/models.py
+msgid "preformed panel adjudicator"
+msgstr "rozhodca/rozhodkyňa v predpripravenom paneli"
+
+#: adjallocation/models.py
+msgid "preformed panel adjudicators"
+msgstr "rozhodcovia/rozhodkyne v predpripravených paneloch"
+
+#: adjallocation/preformed/base.py
+msgid "There are no preformed panels to use. Have you allocated preformed panels for this round? If not, try just auto-allocating adjudicators instead."
+msgstr "Nie sú dostupné žiadne predpripravené panely. Alokoval/a si predpripravené panely pre toto kolo? Ak nie, skús namiesto toho iba automaticky alokovať rozhodcov."
+
+#: adjallocation/templates/preformed_index.html adjallocation/views.py
+msgid "Preformed Panels"
+msgstr "Predformulárované panely"
+
+#: adjallocation/templates/preformed_index.html
+msgid "A preformed panel is a defined group of adjudicators that is specified for a round before its draw has been generated. You can then manually or automatically apply these panels during the normal adjudicator allocation process. This can make allocations faster or allow you to create more considered panels of adjudicators."
+msgstr "A preformed panel je a defined group z rozhodcovia/rozhodkyne?e je specified pre a kolo pred jeho?reb bolo vygenerovan?. ty m??e potom manually alebo automatically apply tieto panels during normal rozhodca/rozhodky?a alok?cia process. toto m??e make allocations faster alebo allow ty na create more considered panels z rozhodcovia/rozhodkyne."
+
+#: adjallocation/templates/preformed_index.html
+msgid "Note that only adjudicators who have been marked as 'available' for that round will be able to be allocated for that round, so you may need to set their availability in advance."
+msgstr "Pozor: pre dané kolo môžu byť alokovaní iba rozhodcovia/rozhodkyne označení ako dostupní, takže dostupnosť možno bude potrebné nastaviť vopred."
+
+#: adjallocation/templates/preformed_index.html
+#, python-format
+msgid "Edit Preformed Panels for %(round)s"
+msgstr "Upraviť predpripravené panely pre %(round)s"
+
+#: adjallocation/utils.py
+#, python-format
+msgid "Conflict: <strong>%(adjudicator)s</strong> & <strong>%(team)s</strong> (personal)"
+msgstr "Konflikt: <strong>%(adjudicator)s</strong> <strong>%(team)s</strong> (osobný)"
+
+#: adjallocation/utils.py
+#, python-format
+msgid "Conflict: <strong>%(adjudicator)s</strong> & <strong>%(team)s</strong> via institution <strong>%(institution)s</strong>"
+msgstr "Konflikt: <strong>%(adjudicator)s</strong> <strong>%(team)s</strong> cez inštitúciu <strong>%(institution)s</strong>"
+
+#: adjallocation/utils.py
+#, python-format
+msgid "Conflict: <strong>%(adjudicator1)s</strong> & <strong>%(adjudicator2)s</strong> (personal)"
+msgstr "Konflikt: <strong>%(adjudicator1)s</strong> <strong>%(adjudicator2)s</strong> (osobný)"
+
+#: adjallocation/utils.py
+#, python-format
+msgid "Conflict: <strong>%(adjudicator1)s</strong> & <strong>%(adjudicator2)s</strong> via institution <strong>%(institution)s</strong>"
+msgstr "Konflikt: <strong>%(adjudicator1)s</strong> <strong>%(adjudicator2)s</strong> cez inštitúciu <strong>%(institution)s</strong>"
+
+#: adjallocation/views.py
+msgid "Male"
+msgstr "Muž"
+
+#: adjallocation/views.py
+msgid "Female"
+msgstr "Žena"
+
+#: adjallocation/views.py
+msgid "Other"
+msgstr "Iné"
+
+#: adjallocation/views.py
+msgid "Unknown"
+msgstr "Neznáme"
+
+#: adjallocation/views.py
+msgid "Edit Allocation"
+msgstr "Upraviť alokáciu"
+
+#: adjallocation/views.py
+msgid "Edit Panels"
+msgstr "Úprava panelov"
+
+#: adjallocation/views.py
+msgid "Return to Panels Overview"
+msgstr "Vrátiť sa na Panels Overview"
+
+#: adjallocation/views.py
+msgid "Adjudicator-Team Conflicts"
+msgstr "Konflikty rozhodca-tím"
+
+#: adjallocation/views.py
+msgid "Save Adjudicator-Team Conflicts"
+msgstr "Uložiť bloky rozhodca-tím"
+
+#: adjallocation/views.py
+#, python-format
+msgid "Saved %(count)d adjudicator-team conflict."
+msgid_plural "Saved %(count)d adjudicator-team conflicts."
+msgstr[0] "Uložené %(count)d rozhodca/rozhodkyňa-tím konflikt."
+msgstr[1] "Uložené %(count)d rozhodca/rozhodkyňa-tím konflikty."
+msgstr[2] "Uložené %(count)d rozhodca/rozhodkyňa-tím konflikty."
+
+#: adjallocation/views.py
+#, python-format
+msgid "Deleted %(count)d adjudicator-team conflict."
+msgid_plural "Deleted %(count)d adjudicator-team conflicts."
+msgstr[0] "Vymazané %(count)d rozhodca/rozhodkyňa-tím konflikt."
+msgstr[1] "Vymazané %(count)d rozhodca/rozhodkyňa-tím konflikty."
+msgstr[2] "Vymazané %(count)d rozhodca/rozhodkyňa-tím konflikty."
+
+#: adjallocation/views.py
+msgid "No changes were made to adjudicator-team conflicts."
+msgstr "Žiadne zmeny neboli spravené pre tieto konflikty."
+
+#: adjallocation/views.py
+msgid "Adjudicator-Adjudicator Conflicts"
+msgstr "Konflikty rozhodca-rozhodca"
+
+#: adjallocation/views.py
+msgid "Save Adjudicator-Adjudicator Conflicts"
+msgstr "Uložiť konflikty rozhodca-rozhodca"
+
+#: adjallocation/views.py
+#, python-format
+msgid "Saved %(count)d adjudicator-adjudicator conflict."
+msgid_plural "Saved %(count)d adjudicator-adjudicator conflicts."
+msgstr[0] "Uložené %(count)d rozhodca/rozhodkyňa-rozhodca/rozhodkyňa konflikt."
+msgstr[1] "Uložené %(count)d rozhodca/rozhodkyňa-rozhodca/rozhodkyňa konflikty."
+msgstr[2] "Uložené %(count)d rozhodca/rozhodkyňa-rozhodca/rozhodkyňa konflikty."
+
+#: adjallocation/views.py
+#, python-format
+msgid "Deleted %(count)d adjudicator-adjudicator conflict."
+msgid_plural "Deleted %(count)d adjudicator-adjudicator conflicts."
+msgstr[0] "Vymazané %(count)d rozhodca/rozhodkyňa-rozhodca/rozhodkyňa konflikt."
+msgstr[1] "Vymazané %(count)d rozhodca/rozhodkyňa-rozhodca/rozhodkyňa konflikty."
+msgstr[2] "Vymazané %(count)d rozhodca/rozhodkyňa-rozhodca/rozhodkyňa konflikty."
+
+#: adjallocation/views.py
+msgid "No changes were made to adjudicator-adjudicator conflicts."
+msgstr "Žiadne zmeny neboli spravené pre tieto konflikty."
+
+#: adjallocation/views.py
+msgid "Adjudicator-Institution Conflicts"
+msgstr "Konflikty rozhodca-inštitúcia"
+
+#: adjallocation/views.py
+msgid "Save Adjudicator-Institution Conflicts"
+msgstr "Uložiť konflikty rozhodca-klub"
+
+#: adjallocation/views.py
+#, python-format
+msgid "Saved %(count)d adjudicator-institution conflict."
+msgid_plural "Saved %(count)d adjudicator-institution conflicts."
+msgstr[0] "Uložené %(count)d rozhodca/rozhodkyňa-inštitúcia konflikt."
+msgstr[1] "Uložené %(count)d rozhodca/rozhodkyňa-inštitúcia konflikty."
+msgstr[2] "Uložené %(count)d rozhodca/rozhodkyňa-inštitúcia konflikty."
+
+#: adjallocation/views.py
+#, python-format
+msgid "Deleted %(count)d adjudicator-institution conflict."
+msgid_plural "Deleted %(count)d adjudicator-institution conflicts."
+msgstr[0] "Vymazané %(count)d rozhodca/rozhodkyňa-inštitúcia konflikt."
+msgstr[1] "Vymazané %(count)d rozhodca/rozhodkyňa-inštitúcia konflikty."
+msgstr[2] "Vymazané %(count)d rozhodca/rozhodkyňa-inštitúcia konflikty."
+
+#: adjallocation/views.py
+msgid "No changes were made to adjudicator-institution conflicts."
+msgstr "Žiadne zmeny neboli spravené pre tieto konflikty."
+
+#: adjallocation/views.py
+msgid "Team-Institution Conflicts"
+msgstr "Konflikty tím-klub"
+
+#: adjallocation/views.py
+msgid "Save Team-Institution Conflicts"
+msgstr "Uložiť konflikty Tím-Klub"
+
+#: adjallocation/views.py
+#, python-format
+msgid "Saved %(count)d team-institution conflict."
+msgid_plural "Saved %(count)d team-institution conflicts."
+msgstr[0] "Uložené %(count)d tím-inštitúcia konflikt."
+msgstr[1] "Uložené %(count)d tím-inštitúcia konflikty."
+msgstr[2] "Uložené %(count)d tím-inštitúcia konflikty."
+
+#: adjallocation/views.py
+#, python-format
+msgid "Deleted %(count)d team-institution conflict."
+msgid_plural "Deleted %(count)d team-institution conflicts."
+msgstr[0] "Vymazané %(count)d tím-inštitúcia konflikt."
+msgstr[1] "Vymazané %(count)d tím-inštitúcia konflikty."
+msgstr[2] "Vymazané %(count)d tím-inštitúcia konflikty."
+
+#: adjallocation/views.py
+msgid "No changes were made to team-institution conflicts."
+msgstr "Žiadne zmeny neboli spravené pre tieto konflikty."

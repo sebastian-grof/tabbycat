@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: tabbycat\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-01-14 04:50+1100\n"
-"PO-Revision-Date: 2026-03-10 17:21+0100\n"
+"PO-Revision-Date: 2026-04-26 10:49+0200\n"
 "Last-Translator: \n"
 "Language-Team: Slovak\n"
 "Language: sk\n"
@@ -42,7 +42,7 @@ msgstr "Všetky"
 #. Translators: %1: Option name
 #: checkins/templates/CheckInStatusContainer.vue:
 msgid "By %1"
-msgstr ""
+msgstr "Od %1"
 
 #: checkins/templates/CheckInStatusContainer.vue:
 msgid "No matching rooms found."
@@ -90,43 +90,43 @@ msgstr "Kliknite pre zvrátenie registrácie"
 
 #: checkins/templates/PeopleStatusMixin.vue:
 msgid "%1, a %2 of no institutional affiliation with identifier of %3"
-msgstr ""
+msgstr "%1, %2 bez klubovej príslušnosti s identifikátorom %3"
 
 #: checkins/templates/PeopleStatusMixin.vue:
 msgid "%1, a %2 of no institutional affiliation with no assigned identifier"
-msgstr ""
+msgstr "%1, %2 bez klubovej príslušnosti bez priradeného identifikátora"
 
 #: checkins/templates/PeopleStatusMixin.vue:
 msgid "%1, a %2 from %3 with identifier of %4"
-msgstr ""
+msgstr "%1, %2 z %3 s identifikátorom %4"
 
 #: checkins/templates/PeopleStatusMixin.vue:
 msgid "%1, a %2 from %3 with no assigned identifier"
-msgstr ""
+msgstr "%1, %2 z %3 bez priradeného identifikátora"
 
 #: checkins/templates/PeopleStatusMixin.vue:
 msgid "%1 (Present; id=%2)"
-msgstr ""
+msgstr "%1 (prítomný/á; id=%2)"
 
 #: checkins/templates/PeopleStatusMixin.vue:
 msgid "%1 (Absent; id=%2)"
-msgstr ""
+msgstr "%1 (neprítomný/á; id=%2)"
 
 #: checkins/templates/PeopleStatusMixin.vue:
 msgid "%1, a team with speakers %2"
-msgstr ""
+msgstr "%1, tím s rečníkmi %2"
 
 #: checkins/templates/PeopleStatusMixin.vue:
 msgid "%1, a %2"
-msgstr ""
+msgstr "%1, %2"
 
 #: checkins/templates/PeopleStatusMixin.vue:
 msgid "Anonymous (due to team codes)"
-msgstr ""
+msgstr "Anonymné (kvôli tímovým kódom)"
 
 #: checkins/templates/PeopleStatusMixin.vue:
 msgid "Anon"
-msgstr ""
+msgstr "Anon"
 
 #: checkins/templates/PeopleStatusMixin.vue:
 msgid "Independent"
@@ -134,19 +134,19 @@ msgstr "Nezávislý"
 
 #: checkins/templates/VenuesStatusMixin.vue:
 msgid "%1 (%2) with identifier of %3"
-msgstr ""
+msgstr "%1 (%2) s identifikátorom %3"
 
 #: checkins/templates/VenuesStatusMixin.vue:
 msgid "%1 (no category) with identifier of %2"
-msgstr ""
+msgstr "%1 (bez kategórie) s identifikátorom %2"
 
 #: checkins/templates/VenuesStatusMixin.vue:
 msgid "%1 (%2) with no assigned identifier"
-msgstr ""
+msgstr "%1 (%2) bez priradeného identifikátora"
 
 #: checkins/templates/VenuesStatusMixin.vue:
 msgid "%1 (no category) with no assigned identifier"
-msgstr ""
+msgstr "%1 (bez kategórie) bez priradeného identifikátora"
 
 #: checkins/templates/VenuesStatusMixin.vue:
 msgid "Uncategorised"
@@ -178,11 +178,11 @@ msgstr "%1 %2 od %3 on %4 (Panellista)"
 
 #: printing/templates/PrintableBallotHeader.vue:
 msgid "%1 %2 from %3 on %4 (Trainee)"
-msgstr "%1 %2 from %3 on %4 (Shadow)"
+msgstr "%1 %2 od %3 na %4 (trainee rozhodca/rozhodky?a)"
 
 #: printing/templates/PrintableBallotHeader.vue:
 msgid "ID %1,"
-msgstr ""
+msgstr "ID %1,"
 
 #: printing/templates/PrintableBallotHeader.vue:
 msgid "Room:"
@@ -221,7 +221,7 @@ msgstr "Oboduj záverečné reči od %1 až %2; <strong>%3</strong>."
 
 #: printing/templates/PrintableDebateInfo.vue:
 msgid "Return ballots to %1."
-msgstr "Vrátiť ballot %1."
+msgstr "Return hlasovania na %1."
 
 #: printing/templates/PrintableDebateInfo.vue:
 msgid "The motion is <em>%1</em>"
@@ -233,19 +233,19 @@ msgstr "Debatované"
 
 #: printing/templates/PrintableDebateInfo.vue:
 msgid "Circle %1"
-msgstr ""
+msgstr "Zakrúžkuj %1"
 
 #: printing/templates/PrintableDebateInfo.vue:
 msgid "<strong>%1</strong>: %2"
-msgstr ""
+msgstr "<strong>%1</strong>: %2"
 
 #: printing/templates/PrintableDebateInfo.vue:
 msgid "Aff Veto"
-msgstr ""
+msgstr "Veto súhlasu"
 
 #: printing/templates/PrintableDebateInfo.vue:
 msgid "Neg Veto"
-msgstr ""
+msgstr "Veto nesúhlasu"
 
 #: printing/templates/PrintableDebateInfo.vue:
 #: printing/templates/PrintableTeamScores.vue:
@@ -254,11 +254,11 @@ msgstr "%1:"
 
 #: printing/templates/PrintableDebateInfo.vue:
 msgid "tab entry"
-msgstr ""
+msgstr "zadanie tabu"
 
 #: printing/templates/PrintableDebateInfo.vue:
 msgid "tab check"
-msgstr ""
+msgstr "kontrola tabu"
 
 #: printing/templates/PrintableDebateInfo.vue:
 #: checkins/templates/PeopleStatusMixin.vue:
@@ -267,19 +267,19 @@ msgstr "Nezávislý"
 
 #: printing/templates/PrintableDebateInfo.vue:
 msgid "no ½ marks"
-msgstr ""
+msgstr "bez polbodov"
 
 #: printing/templates/PrintableDebateInfo.vue:
 msgid "½ marks are allowed"
-msgstr ""
+msgstr "polbody sú povolené"
 
 #: printing/templates/PrintableDebateInfo.vue:
 msgid "decimal marks are allowed"
-msgstr ""
+msgstr "desatinné body sú povolené"
 
 #: printing/templates/PrintableDebateInfo.vue:
 msgid "%1 (%2, %3)"
-msgstr ""
+msgstr "%1 (%2, %3)"
 
 #: printing/templates/PrintableDebateInfo.vue:
 msgid "Adjudicating with %1."
@@ -287,11 +287,11 @@ msgstr "Rozhoduješ s %1."
 
 #: printing/templates/PrintableDebateInfo.vue:
 msgid "; "
-msgstr ""
+msgstr "; "
 
 #: printing/templates/PrintableFeedback.vue:
 msgid "Did %1 deliver the adjudication?"
-msgstr ""
+msgstr "Dával/a %1 oral adjudication?"
 
 #: printing/templates/PrintableFeedback.vue:
 #: printing/templates/PrintableFeedbackQuestion.vue:
@@ -300,11 +300,11 @@ msgstr "Ano"
 
 #: printing/templates/PrintableFeedback.vue:
 msgid "No, I am submitting feedback on:"
-msgstr ""
+msgstr "Nie, odosielam spätnú väzbu na:"
 
 #: printing/templates/PrintableFeedbackQuestion.vue:
 msgid "Unsure"
-msgstr ""
+msgstr "Nie som si istý/á"
 
 #: printing/templates/PrintableFeedbackQuestion.vue:
 msgid "No"
@@ -320,7 +320,7 @@ msgstr "O koľko bodov vyhrali:"
 
 #: printing/templates/PrintableTeamScores.vue:
 msgid "%1, %2"
-msgstr ""
+msgstr "%1, %2"
 
 #: printing/templates/PrintableTeamScores.vue:
 msgid "IMPORTANT: Check and explicitly note if a speaker gives multiple speeches"
@@ -332,11 +332,11 @@ msgstr "Skóre:"
 
 #: printing/templates/PrintableTeamScores.vue:
 msgid "Circle the last digit of the %1's score:"
-msgstr ""
+msgstr "Zakrúžkuj poslednú číslicu skóre pre %1:"
 
 #: printing/templates/PrintableTeamScores.vue:
 msgid "Circle Rank:"
-msgstr ""
+msgstr "Zakrúžkuj poradie:"
 
 #: printing/templates/PrintableTeamScores.vue:
 msgid "Total:"
@@ -344,7 +344,7 @@ msgstr "Celkovo:"
 
 #: printing/templates/PrintableTeamScores.vue:
 msgid "Circle the last digit of the team's total:"
-msgstr ""
+msgstr "Zakrúžkuj poslednú číslicu tímového súčtu:"
 
 #: templates/tables/TablesContainer.vue:8
 msgid "Find in Table"
@@ -352,15 +352,15 @@ msgstr "Hľadať v tabuľke"
 
 #: templates/tables/CheckboxTables.vue:30
 msgid "Set All Breaking as Available"
-msgstr ""
+msgstr "Nastaviť všetkých breakujúcich ako dostupných"
 
 #: templates/tables/CheckboxTables.vue:36
 msgid "Set all the availabilities to exactly match what they were in the previous round."
-msgstr ""
+msgstr "Nastaví všetku dostupnosť presne podľa predchádzajúceho kola."
 
 #: templates/tables/CheckboxTables.vue:37
 msgid "Match"
-msgstr ""
+msgstr "Zhodovať"
 
 #: templates/tables/CheckboxTables.vue:41
 msgid "Set all availabilities to exactly match check-ins."
@@ -368,15 +368,15 @@ msgstr "Nastavte všetky dostupné termíny tak, aby presne zodpovedali registr�
 
 #: templates/tables/CheckboxTables.vue:44
 msgid "Match Check-Ins"
-msgstr ""
+msgstr "Zhodovať s check-inmi"
 
 #: templates/tables/CheckboxTables.vue:
 msgid "Set people as available only if they have a check-in and are currently unavailable — i.e. it will not overwrite any existing availabilities."
-msgstr ""
+msgstr "Nastaví ľudí ako dostupných iba vtedy, ak majú check-in a momentálne sú nedostupní, teda neprepíše existujúcu dostupnosť."
 
 #: templates/tables/CheckboxTables.vue:47
 msgid "Copy From Check-Ins"
-msgstr ""
+msgstr "Kopírovať z check-inov"
 
 #: tournaments/templates/TournamentOverviewContainer.vue:
 msgid "Ballots Status"
@@ -384,31 +384,31 @@ msgstr "Status ballotov"
 
 #: tournaments/templates/TournamentOverviewContainer.vue:
 msgid "Latest Actions"
-msgstr ""
+msgstr "Najnovšie akcie"
 
 #: tournaments/templates/TournamentOverviewContainer.vue:
 msgid "No Actions Yet"
-msgstr ""
+msgstr "Zatiaľ žiadne akcie"
 
 #: tournaments/templates/TournamentOverviewContainer.vue:
 msgid "Latest Results"
-msgstr ""
+msgstr "Najnovšie výsledky"
 
 #: tournaments/templates/TournamentOverviewContainer.vue:
 msgid "No Confirmed Results Yet"
-msgstr ""
+msgstr "Zatiaľ žiadne potvrdené výsledky"
 
 #: participants/templates/DiversityContainer.vue:6
 msgid "Speaker Demographics"
-msgstr ""
+msgstr "Demografia rečníkov"
 
 #: participants/templates/DiversityContainer.vue:11
 msgid "No Gender Information"
-msgstr ""
+msgstr "Žiadne informácie o rode"
 
 #: participants/templates/DiversityContainer.vue:18
 msgid "No Speaker Categories Information"
-msgstr ""
+msgstr "Žiadne informácie o kategóriách rečníkov"
 
 #: participants/templates/DiversityContainer.vue:33
 msgid "Speaker Results"
@@ -424,15 +424,15 @@ msgstr "celkové skóre rečníka"
 
 #: participants/templates/DiversityContainer.vue:49
 msgid "No Region Information"
-msgstr ""
+msgstr "Žiadne informácie o regióne"
 
 #: participants/templates/DiversityContainer.vue:56
 msgid "Adjudicator Demographics"
-msgstr ""
+msgstr "Demografia rozhodcov"
 
 #: participants/templates/DiversityContainer.vue:68
 msgid "No Position Information"
-msgstr ""
+msgstr "Žiadne informácie o pozícii"
 
 #: participants/templates/DiversityContainer.vue:83
 msgid "Adjudicator Results"
@@ -440,19 +440,19 @@ msgstr "Výsledky rozhodcu"
 
 #: participants/templates/DiversityContainer.vue:86
 msgid "adjudicators with gender data"
-msgstr ""
+msgstr "rozhodcovia s údajmi o rode"
 
 #: participants/templates/DiversityContainer.vue:88
 msgid "feedback scores total"
-msgstr ""
+msgstr "celkové skóre spätnej väzby"
 
 #: participants/templates/DiversityContainer.vue:94
 msgid "No Adjudicator Ratings Information"
-msgstr ""
+msgstr "Žiadne informácie o hodnoteniach rozhodcov"
 
 #: participants/templates/DiversityContainer.vue:99
 msgid "No Adjudicator-Adjudicator Feedback Information"
-msgstr ""
+msgstr "Žiadne informácie o spätnej väzbe rozhodca-rozhodca"
 
 #: results/templates/ResultsStats.vue:10
 msgid "Checked-In"
@@ -484,11 +484,11 @@ msgstr "Status Ballotov"
 
 #: results/templates/BallotsCell.vue:18
 msgid "You cannot confirm this ballot because you entered it"
-msgstr "Tento ballot nemôžete potvrdiť, pretože ste ho vyplnili"
+msgstr "ty nem??e potvrdi?toto hlasovanie preto?e ty zadan?to"
 
 #: results/templates/BallotsCell.vue:34
 msgid "Add Ballot"
-msgstr "Pridať ballot"
+msgstr "prida?hlasovanie"
 
 #: results/templates/BallotsCell.vue:79
 msgid "Re-Edit"
@@ -504,11 +504,11 @@ msgstr "Bez zmeny"
 
 #: utils/templates/DragAndDropActions.vue:8
 msgid "Return to Draw"
-msgstr ""
+msgstr "Return na?reb"
 
 #: utils/templates/DragAndDropActions.vue:15
 msgid "Auto-Prioritise"
-msgstr ""
+msgstr "Automaticky prioritizovať"
 
 #: utils/templates/DragAndDropActions.vue:17
 msgid "Auto-Allocate"
@@ -516,7 +516,7 @@ msgstr "Automatické prideľovanie"
 
 #: utils/templates/DragAndDropActions.vue:65
 msgid "Break"
-msgstr ""
+msgstr "Postup"
 
 #: utils/templates/DragAndDropActions.vue:65
 msgid "Gender"
@@ -537,27 +537,27 @@ msgstr "Kategória"
 
 #: utils/templates/DragAndDropDebate.vue:5
 msgid "The debate's bracket"
-msgstr ""
+msgstr "Bracket debaty"
 
 #: utils/templates/DragAndDropDebate.vue:9
 msgid "The bracket range of the hypothetical debate"
-msgstr ""
+msgstr "Rozsah bracketu hypotetickej debaty"
 
 #: utils/templates/DragAndDropDebate.vue:20
 msgid "The total number of live break categories across all teams"
-msgstr ""
+msgstr "s??et po?et z live postupov?kateg?rie across v?etky t?my"
 
 #: utils/templates/DragAndDropDebate.vue:26
 msgid "The estimated total number of live break categories across all teams of the hypothetical debate"
-msgstr ""
+msgstr "estimated s??et po?et z live postupov?kateg?rie across v?etky t?my z hypothetical debata"
 
 #: utils/templates/DragAndDropDebate.vue:33
 msgid "This debate's priority"
-msgstr ""
+msgstr "Priorita tejto debaty"
 
 #: draw/templates/InlineTeam.vue:41
 msgid "No code name set"
-msgstr ""
+msgstr "Nie je nastavené kódové meno"
 
 #: templates/js-bundles/enter_results.js:253
 msgid "The total score for this block must be a whole number."
@@ -571,7 +571,7 @@ msgstr "Prosím zadajte všetky skóre pre túto sekciu."
 #: templates/js-bundles/enter_results.js:329
 #: templates/js-bundles/enter_results.js:443
 msgid "Not set"
-msgstr ""
+msgstr "Nenastavené"
 
 #. Used to build labels such as "Total for Reply" and "Total for Cross-examinations".
 #: templates/js-bundles/enter_results.js:442

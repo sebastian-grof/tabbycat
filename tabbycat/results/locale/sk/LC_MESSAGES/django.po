@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: tabbycat\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-07-06 09:38+1000\n"
-"PO-Revision-Date: 2025-07-05 23:47\n"
+"PO-Revision-Date: 2026-04-26 10:07+0200\n"
 "Last-Translator: philip_tc\n"
 "Language-Team: Slovak\n"
 "Language: sk\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 3;\n"
-"X-Generator: crowdin.com\n"
+"X-Generator: Poedit 3.7\n"
 "X-Crowdin-Project: tabbycat\n"
 "X-Crowdin-Language: sk\n"
 "X-Crowdin-File: /develop/tabbycat/results/locale/en/LC_MESSAGES/django.po\n"
@@ -20,20 +20,20 @@ msgstr ""
 
 #: results/admin.py
 msgid "Resave results"
-msgstr ""
+msgstr "Znovu uložiť výsledky"
 
 #: results/admin.py
 #, python-format
 msgid "Resaved results for %(count)d ballot submission."
 msgid_plural "Resaved results for %(count)d ballot submissions."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Resaved v?sledky pre %(count)d hlasovanie odoslanie."
+msgstr[1] "Resaved v?sledky pre %(count)d hlasovanie odoslania."
+msgstr[2] "Resaved v?sledky pre %(count)d hlasovanie odoslania."
+msgstr[3] "Resaved v?sledky pre %(count)d hlasovanie odoslania."
 
 #: results/admin.py
 msgid "Speaker"
-msgstr "Mluvčí"
+msgstr "Rečník"
 
 #: results/apps.py results/templates/public_results_index.html results/views.py
 msgid "Results"
@@ -41,33 +41,33 @@ msgstr "Výsledky"
 
 #: results/forms.py
 msgid "Tournament password"
-msgstr ""
+msgstr "Heslo pre turnaj"
 
 #: results/forms.py
 msgid "That password isn't correct."
-msgstr ""
+msgstr "Heslo je nesprávne."
 
 #: results/forms.py
 msgid "The ballot set can't be both discarded and confirmed."
-msgstr ""
+msgstr "Set ballotov nemôže byť naraz potvrdený aj zahodený."
 
 #: results/forms.py
 msgid "The debate status can't be confirmed unless one of the ballot sets is confirmed."
-msgstr ""
+msgstr "Status debaty nemôže byť potvrdený, pokiaľ nie je aspoň jeden set ballotov potvrdený."
 
 #: results/forms.py
 msgid "---------"
-msgstr ""
+msgstr "---------"
 
 #: results/forms.py
 #, python-format
 msgid "%(aff_team)s affirmed, %(neg_team)s negated"
-msgstr "%(aff_team)s afirmoval, %(neg_team)s negoval"
+msgstr "%(aff_team)s debatoval súhlas, %(neg_team)s debatoval nesúhlas"
 
 #: results/forms.py
 #, python-format
 msgid "%(side)s's motion veto"
-msgstr ""
+msgstr "Veto tézy strany %(side)s"
 
 #: results/forms.py
 #, python-format
@@ -76,155 +76,155 @@ msgstr "%(team)s (%(side)s)"
 
 #: results/forms.py
 msgid "Winner"
-msgstr "Vítěz"
+msgstr "Víťaz"
 
 #: results/forms.py
 msgid "Mark as a duplicate speech"
-msgstr ""
+msgstr "Označiť reč ako duplicitnú"
 
 #: results/forms.py
 msgid "Only one team can forfeit"
-msgstr ""
+msgstr "Iba jeden tím sa môže vzdať"
 
 #: results/forms.py
 msgid "This field is required."
-msgstr ""
+msgstr "Toto pole je povinné."
 
 #: results/forms.py
 #, python-format
 msgid "The speaker %(speaker)s doesn't appear to be on team %(team)s."
-msgstr "Mluvčí %(speaker)s nevypadá, že je v týmu %(team)s."
+msgstr "Rečník %(speaker)s nevyzerá, že je v tíme %(team)s."
 
 #: results/forms.py
 #, python-format
 msgid "%(speaker)s appears to have given %(count)d substantive speech."
 msgid_plural "%(speaker)s appears to have given %(count)d substantive speeches."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Zdá sa, že %(speaker)s mal/a %(count)d substantívnu reč."
+msgstr[1] "Zdá sa, že %(speaker)s mal/a %(count)d substantívne reči."
+msgstr[2] "Zdá sa, že %(speaker)s mal/a %(count)d substantívnych rečí."
+msgstr[3] "Zdá sa, že %(speaker)s mal/a %(count)d substantívnych rečí."
 
 #: results/forms.py
 msgid "The last substantive speaker and reply speaker can't be the same."
-msgstr ""
+msgstr "posledn?substantive re?n?k/re?n??ka a z?vere?n?re?re?n?k/re?n??ka nem??e by?same."
 
 #: results/forms.py
 msgid "The reply speaker for this team did not give a substantive speech."
-msgstr ""
+msgstr "z?vere?n?re?re?n?k/re?n??ka pre tento t?m did nie give a substantive re?."
 
 #: results/forms.py
 msgid "The total scores for the teams are the same (i.e. a draw)."
-msgstr ""
+msgstr "Celkové body tímov sú rovnaké (t. j. remiza)."
 
 #: results/forms.py
 msgid "The declared winner does not correspond to the team with the highest score."
-msgstr ""
+msgstr "Oznaceny víťaz nezodpoveda tímu s najvyšším skóre."
 
 #: results/forms.py
 #, python-format
 msgid "The total scores for the following teams are the same: %(teams)s"
-msgstr ""
+msgstr "Celkové body nasledujucich tímov sú rovnaké: %(teams)s"
 
 #: results/forms.py
 #, python-format
 msgid "The margin (%(margin).1f) exceeds the maximum allowable margin (%(max_margin).1f)."
-msgstr ""
+msgstr "margin (%(margin).1f) exceeds maximum allowable margin (%(max_margin).1f)."
 
 #: results/forms.py
 msgid "Ranks cannot be tied."
-msgstr ""
+msgstr "Poradia nemôžu byt zhodne."
 
 #: results/forms.py
 msgid "Ranks must correspond to speaker scores"
-msgstr ""
+msgstr "Poradia musía zodpovedat rečníčkym bodom"
 
 #: results/forms.py
 #, python-format
 msgid "The total scores for the teams are the same (i.e. a draw) for adjudicator %(adjudicator)s."
-msgstr ""
+msgstr "Celkové body tímov sú rovnaké (t. j. remiza) pri rozhodcovi %(adjudicator)s."
 
 #: results/forms.py
 #, python-format
 msgid "The declared winner does not correspond to the team with the highest score for adjudicator %(adjudicator)s."
-msgstr ""
+msgstr "Oznaceny víťaz nezodpoveda tímu s najvyšším skóre pri rozhodcovi %(adjudicator)s."
 
 #: results/forms.py
 #, python-format
 msgid "The margin (%(margin).1f) in the ballot of adjudicator %(adjudicator)s exceeds the maximum allowable margin (%(max_margin).1f)."
-msgstr ""
+msgstr "margin (%(margin).1f) v hlasovanie z rozhodca/rozhodky?a %(adjudicator)s exceeds maximum allowable margin (%(max_margin).1f)."
 
 #: results/forms.py
 msgid "Sides for this debate are not confirmed. You can't save a result for this debate until the sides have been confirmed in the draw."
-msgstr ""
+msgstr "strany pre t?na debata nie s?potvrden?. Nem??e?save a v?sledok pre t?na debata until strany boli potvrden?v?reb."
 
 #: results/forms.py
 #, python-format
 msgid "There must be exactly %(n)d team advancing."
 msgid_plural "There must be exactly %(n)d teams advancing."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Musí postupovať presne %(n)d tím."
+msgstr[1] "Musía postupovať presne %(n)d tímy."
+msgstr[2] "Musí postupovať presne %(n)d tímov."
+msgstr[3] "Musí postupovať presne %(n)d tímov."
 
 #: results/forms.py
 msgid "There must be exactly 1 team advancing."
-msgstr ""
+msgstr "Musí postupit presne 1 tím."
 
 #: results/models.py
 msgid "Tab room"
-msgstr ""
+msgstr "Tab room"
 
 #: results/models.py
 msgid "Public"
-msgstr ""
+msgstr "Verejne"
 
 #: results/models.py
 msgid "Automation"
-msgstr ""
+msgstr "Automatizacia"
 
 #: results/models.py
 msgid "timestamp"
-msgstr ""
+msgstr "časová pečiatka"
 
 #: results/models.py
 msgid "version"
-msgstr ""
+msgstr "verzia"
 
 #: results/models.py
 msgid "submitter type"
-msgstr ""
+msgstr "typ odosielateľa"
 
 #: results/models.py
 msgid "confirmed"
-msgstr ""
+msgstr "potvrdené"
 
 #: results/models.py
 msgid "from private URL"
-msgstr ""
+msgstr "zo súkromnej URL"
 
 #: results/models.py
 msgid "from participant"
-msgstr ""
+msgstr "od účastníka"
 
 #: results/models.py
 msgid "submitter"
-msgstr ""
+msgstr "odosielateľ"
 
 #: results/models.py
 msgid "confirmer"
-msgstr ""
+msgstr "potvrdil/a"
 
 #: results/models.py
 msgid "confirm timestamp"
-msgstr ""
+msgstr "čas potvrdenia"
 
 #: results/models.py
 msgid "IP address"
-msgstr ""
+msgstr "IP adresa"
 
 #: results/models.py
 msgid "A tab room ballot must have a user associated."
-msgstr ""
+msgstr "A tab room hlasovanie mus?maj?a user associated."
 
 #: results/models.py
 msgid "debate"
@@ -232,60 +232,60 @@ msgstr "debata"
 
 #: results/models.py
 msgid "motion"
-msgstr "teze"
+msgstr "téza"
 
 #: results/models.py
 msgid "discarded"
-msgstr ""
+msgstr "zahodené"
 
 #: results/models.py
 msgid "single adjudicator"
-msgstr ""
+msgstr "samostatny rozhodca"
 
 #: results/models.py
 msgid "Whether this submission represents only the submitting adjudicator on a panel, when individual adjudicator ballots are enabled."
-msgstr ""
+msgstr "Určuje, či toto odovzdanie reprezentuje iba odosielajúceho rozhodcu v paneli, ked sú zapnute individuálne balloty rozhodcov."
 
 #: results/models.py
 msgid "forfeit"
-msgstr ""
+msgstr "kontumácia"
 
 #: results/models.py
 msgid "Whether a team had forfeited the debate and so speaker scores were exceptionally not attributed."
-msgstr ""
+msgstr "Určuje, či sa tím vzdal debaty, a preto mu výnimočne neboli priradené rečnícke body."
 
 #: results/models.py
 msgid "ballot submission"
-msgstr ""
+msgstr "odovzdanie ballotu"
 
 #: results/models.py
 msgid "ballot submissions"
-msgstr ""
+msgstr "odovzdania ballotov"
 
 #: results/models.py
 #, python-format
 msgid "Debate is in %(round)s but motion (%(motion)s) is not in round"
-msgstr ""
+msgstr "Debata je v kole %(round)s, ale téza (%(motion)s) nie je v tomto kole"
 
 #: results/models.py
 msgid "A ballot can't be both confirmed and discarded!"
-msgstr ""
+msgstr "A hlasovanie nem??e by?both potvrden?a zahoden?!"
 
 #: results/models.py
 msgid "debate adjudicator"
-msgstr ""
+msgstr "rozhodca debaty"
 
 #: results/models.py
 msgid "debate team"
-msgstr ""
+msgstr "tím debaty"
 
 #: results/models.py
 msgid "win"
-msgstr ""
+msgstr "výhra"
 
 #: results/models.py
 msgid "margin"
-msgstr ""
+msgstr "margin"
 
 #: results/models.py
 msgid "score"
@@ -293,27 +293,27 @@ msgstr "skóre"
 
 #: results/models.py
 msgid "team score by adjudicator"
-msgstr ""
+msgstr "tímové body od rozhodcu"
 
 #: results/models.py
 msgid "team scores by adjudicator"
-msgstr ""
+msgstr "tímové body od rozhodcov"
 
 #: results/models.py
 msgid "The debate team, debate adjudicator and ballot submission must all relate to the same debate."
-msgstr ""
+msgstr "debata t?m, debata rozhodca/rozhodky?a a hlasovanie odoslanie mus?v?etky relate na same debata."
 
 #: results/models.py
 msgid "position"
-msgstr ""
+msgstr "pozicia"
 
 #: results/models.py
 msgid "speaker score by adjudicator"
-msgstr ""
+msgstr "rečnícke body od rozhodcu"
 
 #: results/models.py
 msgid "speaker scores by adjudicator"
-msgstr ""
+msgstr "rečnícke body od rozhodcov"
 
 #: results/models.py
 msgid "points"
@@ -321,55 +321,55 @@ msgstr "body"
 
 #: results/models.py
 msgid "votes given"
-msgstr ""
+msgstr "udelené hlasy"
 
 #: results/models.py
 msgid "votes possible"
-msgstr ""
+msgstr "možné hlasy"
 
 #: results/models.py
 msgid "has ghost score"
-msgstr ""
+msgstr "ma ghost score"
 
 #: results/models.py
 msgid "team score"
-msgstr ""
+msgstr "tímové body"
 
 #: results/models.py
 msgid "team scores"
-msgstr ""
+msgstr "tímové body"
 
 #: results/models.py
 msgid "speaker"
-msgstr ""
+msgstr "rečník/rečníčka"
 
 #: results/models.py
 msgid "rank"
-msgstr ""
+msgstr "poradie"
 
 #: results/models.py
 msgid "ghost"
-msgstr ""
+msgstr "ghost"
 
 #: results/models.py
 msgid "If checked, this score does not count towards the speaker tab. This is typically checked for speeches where someone spoke twice to make up for an absent teammate (sometimes known as \"iron-person\" or \"iron-man\" speeches)."
-msgstr ""
+msgstr "ak skontrolovan?, toto sk?re does nie count towards re?n?k/re?n??ka tab. toto je typically skontrolovan?pre re?i kde someone spoke twice na make up pre an absent teammate (sometimes known ako \"iron-person\" alebo \"iron-man\" re?i)."
 
 #: results/models.py
 msgid "speaker score"
-msgstr ""
+msgstr "rečnícke body"
 
 #: results/models.py
 msgid "speaker scores"
-msgstr ""
+msgstr "rečnícke body"
 
 #: results/models.py
 msgid "The debate team and speaker must be from the same team."
-msgstr ""
+msgstr "Tím debaty a rečník musía patrit do rovnakého tímu."
 
 #: results/models.py
 msgid "The ballot submission and debate team must relate to the same debate."
-msgstr ""
+msgstr "hlasovanie odoslanie a debata t?m mus?relate na same debata."
 
 #: results/models.py
 msgid "tournament"
@@ -377,823 +377,826 @@ msgstr "turnaje"
 
 #: results/models.py
 msgid "sequence"
-msgstr ""
+msgstr "poradie"
 
 #: results/models.py
 msgid "weight"
-msgstr ""
+msgstr "váha"
 
 #: results/models.py
 msgid "minimum score"
-msgstr ""
+msgstr "minimálne skóre"
 
 #: results/models.py
 msgid "maximum score"
-msgstr ""
+msgstr "maximálne skóre"
 
 #: results/models.py
 msgid "step"
-msgstr ""
+msgstr "krok"
 
 #: results/models.py
 msgid "score criterion"
-msgstr ""
+msgstr "bodovacie kritérium"
 
 #: results/models.py
 msgid "score criteria"
-msgstr ""
+msgstr "bodovacie kritériá"
 
 #: results/models.py
 msgid "speaker score for criterion"
-msgstr ""
+msgstr "rečnícke body za kritérium"
 
 #: results/models.py
 msgid "speaker scores for criteria"
-msgstr ""
+msgstr "rečnícke body za kritériá"
 
 #: results/models.py
 msgid "speaker score for criterion by adjudicator"
-msgstr ""
+msgstr "rečnícke body za kritérium od rozhodcu"
 
 #: results/models.py
 msgid "speaker scores for criteria by adjudicator"
-msgstr ""
+msgstr "rečnícke body za kritériá od rozhodcov"
 
 #: results/result.py
 msgid "Inconsistent speaker order"
-msgstr ""
+msgstr "Nekonzistentne poradie rečníkov"
 
 #: results/result.py
 msgid "Inconsistent marking of duplicate (iron-person) speeches"
-msgstr ""
+msgstr "Nekonzistentne oznacenie duplicitnych iron-person rečí"
 
 #: results/result.py
 msgid "Winners are not identical"
-msgstr ""
+msgstr "Víťazi nie sú zhodni"
 
 #: results/result.py
 msgid "Criterion scores are not identical"
-msgstr ""
+msgstr "Body za kritériá nie sú zhodne"
 
 #: results/result.py
 msgid "Scores are not identical"
-msgstr ""
+msgstr "Body nie sú zhodne"
 
 #: results/result.py
 msgid "Speech ranks are not identical"
-msgstr ""
+msgstr "Poradia rečí nie sú zhodne"
 
 #: results/tables.py
 msgid "Whether this debate's ballot has been checked in"
-msgstr ""
+msgstr "Whether t?na debata's hlasovanie bolo skontrolovan?v"
 
 #: results/tables.py
 msgid "Status of this debate's ballot"
-msgstr ""
+msgstr "Status ballotu tejto debaty"
 
 #: results/templates/admin_results.html
 msgid "Display Draw"
-msgstr ""
+msgstr "zobrazi??reb"
 
 #: results/templates/admin_results.html
 msgid "Check-In Ballots"
-msgstr ""
+msgstr "Check-in ballotov"
 
 #: results/templates/admin_results.html
 msgid "Recent 'Iron-Persons'"
-msgstr ""
+msgstr "Nedavne iron-person rečí"
 
 #: results/templates/admin_results.html
 msgid "Teams who have recently missed a speaker"
-msgstr ""
+msgstr "Tímy, ktorym nedavno chybal rečník"
 
 #: results/templates/admin_results.html
 #, python-format
 msgid "A speaker from %(team)s gave multiple speeches in the previous round"
-msgstr ""
+msgstr "Rečník z tímu %(team)s mal v predchádzajúcom kole viac rečí"
 
 #: results/templates/admin_results.html
 #, python-format
 msgid "A speaker from %(team)s gave multiple speeches in the current round"
-msgstr ""
+msgstr "Rečník z tímu %(team)s mal v aktuálnom kole viac rečí"
 
 #: results/templates/admin_results.html
 msgid "No known cases in the current or previous round"
-msgstr ""
+msgstr "Žiadne známe pripady v aktuálnom ani predchádzajúcom kole"
 
 #: results/templates/admin_results.html
 msgid "Complete Round"
-msgstr ""
+msgstr "Dokončiť kolo"
 
 #: results/templates/admin_results.html
 msgid "This page automatically updates with the new ballot entries and checkins as they occur. You will, however, need to reload it once all ballots are completed in order to advance the round."
-msgstr ""
+msgstr "Táto stránka sa automaticky aktualizuje pri nových ballotoch a check-inoch."
 
 #: results/templates/admin_results.html
 #, python-format
 msgid "The following debate appears to have scoresheets from trainees: %(debates_list)s."
 msgid_plural "The following %(ndebates)s debates appear to have scoresheets from trainees: %(debates_list)s."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Zdá sa, že nasledujúca debata má scoresheety od trainees: %(debates_list)s."
+msgstr[1] "Zdá sa, že nasledujúce %(ndebates)s debaty majú scoresheety od trainees: %(debates_list)s."
+msgstr[2] "Zdá sa, že nasledujúcich %(ndebates)s debát má scoresheety od trainees: %(debates_list)s."
+msgstr[3] "Zdá sa, že nasledujúcich %(ndebates)s debát má scoresheety od trainees: %(debates_list)s."
 
 #: results/templates/admin_results.html
 #, python-format
 msgid "This can happen if you demote a panellist to trainee after a result has been submitted for that debate. This may indicate that there is an inconsistency in results data, which may cause unexpected results (or crashes). Please consider going to the Edit Database area and deleting the offending <a href=\"%(editdb_speakerscorebyadj_url)s?debate_adjudicator__type__exact=T\" class=\"alert-link\">\"speaker scores by adj\" objects</a>, and then opening and resaving the result here."
-msgstr ""
+msgstr "toto m??e happen ak ty demote a panelista/panelistka na trainee rozhodca/rozhodky?a po a v?sledok bolo odoslan?pre?e debata. toto m??e indicate?e Je an inconsistency v v?sledky data, which m??e cause unexpected v?sledky (alebo crashes). Please consider going na Upravi?datab?zu area a deleting offending <a href=\"%(editdb_speakerscorebyadj_url)s?debate_adjudicator__type__exact=T\" class=\"alert-link\">\"re?n?k/re?n??ka sk?re pod?a adj\" objects</a>, a potom opening a resaving v?sledok here."
 
 #: results/templates/admin_results.html
 msgid "One or more debates in this round appear to have more than one confirmed ballot submission. This can cause unexpected results (or crashes), because Tabbycat assumes that each debate has at most one confirmed ballot submission. This inconsistency can generally only arise if you manipulate the database with SQL queries directly. You'll need to find the offending debate(s) and ballot submissions yourself in the Edit Database area, or if that doesn't work, you might need to find them using SQL queries directly."
-msgstr ""
+msgstr "jeden/jedna alebo more debaty v toto kolo appear na maj?viac ako jeden/jedna potvrden?hlasovanie odoslanie. toto m??e cause unexpected v?sledky (alebo crashes), preto?e Tabbycat assumes?e ka?d?/ka?d?debata m?najviac jeden/jedna potvrden?hlasovanie odoslanie. toto inconsistency m??e generally iba arise ak ty manipulate database s SQL queries directly. Bude?need na find offending debata(s) a hlasovanie odoslania yourself v Upravi?datab?zu area, alebo ak?e nem?work, ty might need na find ich using SQL queries directly."
 
 #: results/templates/admin_results.html
 #, python-format
 msgid "This tournament's configuration is set to <strong>British Parliamentary</strong> with <strong>one ballot per voting adjudicator</strong>. This combination isn't allowed: BP tournaments must use consensus ballots. Results can't be entered while this configuration is in place. Please <a href=\"%(debate_rules_url)s\">revise this tournament's configuration</a> before you try to enter results."
-msgstr ""
+msgstr "Konfigurácia tohto turnaja je nastavená na <strong>British Parliamentary</strong> s <strong>ballotom na každého rozhodcu</strong>. Táto kombinácia nie je povolená: turnaje BP musia používať konsenzuálne balloty. Pri tejto konfigurácii nie je možné zadávať výsledky. Pred pokusom o zadanie výsledkov prosím <a href=\"%(debate_rules_url)s\">upravte konfiguráciu tohto turnaja</a>."
 
 #: results/templates/admin_results.html
 #, python-format
 msgid "Currently there are no motions entered for this round, so debate results cannot be entered. <a href=\"%(motions_url)s\" class=\"alert-link\">Add Motions.</a>"
-msgstr ""
+msgstr "Pre toto kolo momentálne nie sú zadané žiadne tézy, preto nie je možné zadať výsledky debát. <a href=\"%(motions_url)s\" class=\"alert-link\">Pridať tézu.</a>"
 
 #: results/templates/admin_results.html
 #, python-format
 msgid "Your tournament configuration allows ballots to be submitted online by adjudicators. The draw <a href=\"%(display_url)s\" class=\"alert-link\">must be released</a> before they can do so for this round."
-msgstr ""
+msgstr "tvoj/tvoja turnaj configuration allows hlasovania na by?odoslan?online pod?a rozhodcovia/rozhodkyne.?reb <a href=\"%(display_url)s\" class=\"alert-link\">mus?pod?a?zverejnen?</a> pred oni m??e do tak?e pre toto kolo."
 
 #: results/templates/admin_results.html
 #, python-format
 msgid "Your tournament configuration allows feedback to be submitted online by participants. The draw <a href=\"%(display_url)s\" class=\"alert-link\">must be released</a> before they can do so for this round."
-msgstr ""
+msgstr "tvoj/tvoja turnaj configuration allows sp?tn?v?zba na by?odoslan?online pod?a??astn?ci/??astn??ky.?reb <a href=\"%(display_url)s\" class=\"alert-link\">mus?pod?a?zverejnen?</a> pred oni m??e do tak?e pre toto kolo."
 
 #: results/templates/assistant_enter_results.html
 #: results/templates/ballot_entry_base.html
 msgid "Back to All Results"
-msgstr ""
+msgstr "Späť na všetky výsledky"
 
 #: results/templates/assistant_enter_results.html
 #: results/templates/ballot_entry_base.html
 msgid "Create a new ballot set for this debate"
-msgstr ""
+msgstr "Vytvorit novy set ballotov pre tuto debatu"
 
 #: results/templates/assistant_enter_results.html
 msgid "You can't confirm this ballot set because you entered it."
-msgstr ""
+msgstr "Tento set ballotov nemôžeš potvrdit, pretoze si ho zadal/a ty."
 
 #: results/templates/assistant_enter_results.html
 msgid "You can't confirm this ballot set because it is for a single adjudicator. Use the merge function."
-msgstr ""
+msgstr "Tento set ballotov nemôžeš potvrdit, pretoze je pre jedneho rozhodcu. Pouzi funkciu merge."
 
 #: results/templates/assistant_enter_results.html
 msgid "Confirm results"
-msgstr ""
+msgstr "Potvrdit výsledky"
 
 #: results/templates/assistant_enter_results.html
 msgid "Results are incorrect"
-msgstr ""
+msgstr "Výsledky sú nesprávne"
 
 #: results/templates/assistant_enter_results.html
 #: results/templates/enter_results.html
 #: results/templates/public_enter_results.html
 msgid "Emails will be sent to adjudicators when the ballot is confirmed."
-msgstr ""
+msgstr "Po potvrdeni ballotu budu rozhodcom odoslané e-maily."
 
 #: results/templates/assistant_results.html results/views.py
 msgid "Enter Results"
-msgstr ""
+msgstr "Zadať výsledky"
 
 #: results/templates/assistant_results.html
 msgid "This page automatically updates with the new ballot entries and checkins as they occur."
-msgstr ""
+msgstr "Táto stránka sa automaticky aktualizuje pri nových ballotoch a check-inoch."
 
 #: results/templates/assistant_results.html
 msgid "Currently there are no motions entered for this round, so debate results cannot be entered. Please ask an administrator to add motions."
-msgstr ""
+msgstr "Pre toto kolo momentálne nie sú zadané žiadne tézy, preto nie je možné zadať výsledky debát."
 
 #: results/templates/assistant_results.html
 #, python-format
 msgid "One debate does not have its sides confirmed. Results for this debate cannot be entered until its side allocations are marked as confirmed."
 msgid_plural "%(ndebates)s debate do not have their sides confirmed. Results for these debates cannot be entered until their side allocations are marked as confirmed."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Jedna debata nemá potvrdené strany. Výsledky pre túto debatu nie je možné zadať, kým jej pridelenie strán nebude označené ako potvrdené."
+msgstr[1] "%(ndebates)s debaty nemájú potvrdené strany. Výsledky pre tieto debaty nie je možné zadať, kým ich pridelenia strán nebudú označené ako potvrdené."
+msgstr[2] "%(ndebates)s debát nemá potvrdené strany. Výsledky pre tieto debaty nie je možné zadať, kým ich pridelenia strán nebudú označené ako potvrdené."
+msgstr[3] "%(ndebates)s debát nemá potvrdené strany. Výsledky pre tieto debaty nie je možné zadať, kým ich pridelenia strán nebudú označené ako potvrdené."
 
 #: results/templates/assistant_results.html
 #, python-format
 msgid "One debate has a panel with an even number of voting adjudicators. If the adjudicators split evenly, the debate will be awarded to the team for which the chair voted."
 msgid_plural "%(num_even_panel)s debates have panels with an even number of voting adjudicators. If the adjudicators split evenly, the debate will be awarded to the team for which the chair voted."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Jedna debata má panel s párnym počtom hlasujúcich rozhodcov. Ak sa rozhodcovia rozdelia rovnomerne, debatu vyhrá tím, za ktorý hlasoval chair."
+msgstr[1] "%(num_even_panel)s debaty majú panel s párnym počtom hlasujúcich rozhodcov. Ak sa rozhodcovia rozdelia rovnomerne, debatu vyhrá tím, za ktorý hlasoval chair."
+msgstr[2] "%(num_even_panel)s debát má panel s párnym počtom hlasujúcich rozhodcov. Ak sa rozhodcovia rozdelia rovnomerne, debatu vyhrá tím, za ktorý hlasoval chair."
+msgstr[3] "%(num_even_panel)s debát má panel s párnym počtom hlasujúcich rozhodcov. Ak sa rozhodcovia rozdelia rovnomerne, debatu vyhrá tím, za ktorý hlasoval chair."
 
 #: results/templates/ballot/ballot_debate_info.html
 msgid "Debate Information"
-msgstr ""
+msgstr "debata Information"
 
 #: results/templates/ballot/ballot_debate_info.html
 msgid "No speakers spoke twice (no 'iron-person' speeches)"
-msgstr ""
+msgstr "Žiadny rečník nehovoril dvakrat (žiadne iron-person rečí)"
 
 #: results/templates/ballot/ballot_debate_info.html
 msgid "A speaker spoke twice (an 'iron-person' speech)"
-msgstr ""
+msgstr "Rečník hovoril dvakrat (iron-person rec)"
 
 #: results/templates/ballot/ballot_scoresheet.html
 msgid "Result"
-msgstr "Výsledek"
+msgstr "Výsledok"
 
 #: results/templates/ballot/ballot_scoresheet.html
 msgid "Rank"
-msgstr ""
+msgstr "Poradie"
 
 #: results/templates/ballot/ballot_scoresheet.html
 msgid "Margin"
-msgstr ""
+msgstr "Rozdiel"
 
 #: results/templates/ballot/ballot_set.html
 msgid "There are some problems with this scoresheet. Please review and correct them."
-msgstr ""
+msgstr "V tomto ballote sa vyskytli chyby. Prosím, skontrolujte ho a opravte ich."
 
 #: results/templates/ballot/ballot_set.html
 #: results/templates/ballot_entry_form.html
 #, python-format
 msgid "Ballot from %(name)s (%(institution)s)"
-msgstr ""
+msgstr "hlasovanie od %(name)s (%(institution)s)"
 
 #: results/templates/ballot/ballot_set.html
 #: results/templates/ballot_entry_form.html
 #, python-format
 msgid "Ballot from %(name)s"
-msgstr ""
+msgstr "hlasovanie od %(name)s"
 
 #: results/templates/ballot/ballot_set.html
 #: results/templates/public_ballot_set.html
 msgid "Scoresheet"
-msgstr ""
+msgstr "Scoresheet"
 
 #: results/templates/ballot/ballot_set.html
 msgid "Solo Chair"
-msgstr ""
+msgstr "Jednopanel"
 
 #: results/templates/ballot/ballot_set.html
 #: results/templates/ballot_entry_form.html
 msgid "Chair"
-msgstr ""
+msgstr "Chair"
 
 #: results/templates/ballot/ballot_set.html
 #: results/templates/ballot_entry_form.html
 msgid "Panellist"
-msgstr ""
+msgstr "Panelista"
 
 #: results/templates/ballot/ballot_set.html
 msgid "Trainee"
-msgstr ""
+msgstr "Shadow"
 
 #: results/templates/ballot/ballot_set.html
 msgid "Assign sides before entering scores"
-msgstr ""
+msgstr "Priraď strany, pred tým, než zadáš body"
 
 #: results/templates/ballot/ballot_speaks.html
 msgid "Duplicate speeches are hidden from the speaker tab. If a speaker is 'iron-personing' you would typically mark only the lesser of their scores as a duplicate."
-msgstr ""
+msgstr "Duplicate re?i s?hidden od re?n?k/re?n??ka tab. ak a re?n?k/re?n??ka je 'iron-personing' ty would typically mark iba lesser z ich sk?re ako a duplicate."
 
 #: results/templates/ballot/other_ballots_list.html
 #, python-format
 msgid "There is %(number)s existing ballot set for this debate."
 msgid_plural "There are %(number)s existing ballot sets for this debate."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Pre túto debatu bol odovzdaný %(number)s set ballotov."
+msgstr[1] "Pre túto debatu boli odovzdané %(number)s sety ballotov."
+msgstr[2] "Pre túto debatu bolo odovzdaných %(number)s setov ballotov."
+msgstr[3] "Pre túto debatu bolo odovzdaných %(number)s setov ballotov."
 
 #: results/templates/ballot/other_ballots_list.html
 msgid "This ballot set is <strong>confirmed</strong>."
-msgstr ""
+msgstr "Tento set ballotov je <strong>potvrdený</strong>."
 
 #: results/templates/ballot/other_ballots_list.html
 msgid "This ballot set is <strong>discarded</strong>."
-msgstr ""
+msgstr "Tento set ballotov je <strong>zahodený</strong>."
 
 #: results/templates/ballot/other_ballots_list.html
 msgid "CURRENTLY VIEWING"
-msgstr ""
+msgstr "AKTUALNE ZOBRAZENÉ"
 
 #: results/templates/ballot/other_ballots_list.html
 msgid "MERGING"
-msgstr ""
+msgstr "MERGE"
 
 #: results/templates/ballot/other_ballots_list.html
 #, python-format
 msgid "Version <strong>%(version)s</strong>,"
-msgstr ""
+msgstr "Verzia <strong>%(version)s</strong>,"
 
 #: results/templates/ballot/other_ballots_list.html
 #, python-format
 msgid "entered by <strong>%(submitter)s</strong>,"
-msgstr ""
+msgstr "zadané používateľom <strong>%(submitter)s</strong>,"
 
 #: results/templates/ballot/other_ballots_list.html
 #, python-format
 msgid "submitted from <strong>%(adjudicator)s</strong>'s private URL,"
-msgstr ""
+msgstr "odoslané zo súkromnej URL rozhodcu <strong>%(adjudicator)s</strong>,"
 
 #: results/templates/ballot/other_ballots_list.html
 #, python-format
 msgid "submitted from the public form on %(ip_address)s,"
-msgstr ""
+msgstr "odoslané z verejneho formulára z IP %(ip_address)s,"
 
 #: results/templates/ballot/other_ballots_list.html
 #, python-format
 msgid "%(timestamp)s (%(timeago)s ago),"
-msgstr ""
+msgstr "%(timestamp)s (pred %(timeago)s),"
 
 #: results/templates/ballot/other_ballots_list.html
 msgid "unknown"
-msgstr ""
+msgstr "neznáme"
 
 #: results/templates/ballot/other_ballots_list.html
 #, python-format
 msgid "confirmed by <strong>%(confirmer)s</strong>"
-msgstr ""
+msgstr "potvrdené používateľom <strong>%(confirmer)s</strong>"
 
 #: results/templates/ballot/other_ballots_list.html
 msgid "unconfirmed"
-msgstr ""
+msgstr "nepotvrdené"
 
 #: results/templates/ballot/other_ballots_list.html
 msgid "(discarded)"
-msgstr ""
+msgstr "(zahodené)"
 
 #: results/templates/ballot/other_ballots_list.html
 #, python-format
 msgid "<em>(identical to version %(others)s)</em>"
 msgid_plural "<em>(identical to versions %(others)s)</em>"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "<em>(zhodné s verziou %(others)s)</em>"
+msgstr[1] "<em>(zhodné s verziami %(others)s)</em>"
+msgstr[2] "<em>(zhodné s verziami %(others)s)</em>"
+msgstr[3] "<em>(zhodné s verziami %(others)s)</em>"
 
 #: results/templates/ballot_entry.html
 #, python-format
 msgid "This ballot entry interface is in beta, if you encounter any problems the older version of the interface is <a href=\"%(old_url)s\" class=\"alert-link\">available here</a>."
-msgstr ""
+msgstr "Toto rozhranie na zadávanie ballotov je v beta verzii. Ak narazíš na problém, staršia verzia rozhrania je dostupná cez <a href=\"%(old_url)s\" class=\"alert-link\">uvedený odkaz</a>."
 
 #: results/templates/ballot_entry_base.html
 msgid "This debate has a panel with an even number of voting adjudicators. If the adjudicators split evenly, the debate will be awarded to the team for which the chair voted."
-msgstr ""
+msgstr "Táto debata má panel s párnym počtom hlasujúcich rozhodcov. Ak sa rozhodcovia rozdelia rovnomerne, debatu vyhrá tím, za ktorý hlasoval chair."
 
 #: results/templates/ballot_entry_base.html
 #, python-format
 msgid "%(team)s had speakers who spoke multiple times in the last round — i.e. an 'iron' person speech. Please carefully check the ballot to see if that is still the case for this round. If it is, ensure the speakers selected below reflect this."
-msgstr ""
+msgstr "%(team)s mal/a re?n?ci/re?n??ky who spoke multiple times v posledn?kolo — i.e. an 'iron' person re?. Please carefully check hlasovanie na see ak?e je still case pre toto kolo. ak to je, ensure re?n?ci/re?n??ky vybran?ni??ie ako reflect toto."
 
 #: results/templates/ballot_entry_form.html
 #, python-format
 msgid "Scoresheet from chair %(chair)s"
-msgstr ""
+msgstr "Scoresheet od chaira %(chair)s"
 
 #: results/templates/ballot_entry_form.html
 msgid "Scoresheet, no chair set"
-msgstr ""
+msgstr "Scoresheet, chair nie je nastaveny"
 
 #: results/templates/ballot_entry_form.html
 #, python-format
 msgid "Error with %(pos)s's speaker field: %(error)s"
-msgstr ""
+msgstr "Chyba v poli rečníka pre %(pos)s: %(error)s"
 
 #: results/templates/ballot_entry_form.html
 #, python-format
 msgid "Error with %(pos)s's duplicate speaker field: %(error)s"
-msgstr ""
+msgstr "Chyba v poli duplicitneho rečníka pre %(pos)s: %(error)s"
 
 #: results/templates/ballot_entry_form.html
 #, python-format
 msgid "Error with %(pos)s's score field: %(error)s"
-msgstr ""
+msgstr "Chyba v poli bodov pre %(pos)s: %(error)s"
 
 #: results/templates/debate_postponement_form.html
 msgid "Postponed"
-msgstr ""
+msgstr "Odložené"
 
 #: results/templates/debate_postponement_form.html
 msgid "Postpone"
-msgstr ""
+msgstr "Odlozit"
 
 #: results/templates/enter_results.html
 msgid "Ballot Status"
-msgstr ""
+msgstr "Status ballotu"
 
 #: results/templates/enter_results.html
 msgid "only the confirmed ballot set will affect this debate's result"
-msgstr ""
+msgstr "iba potvrdený set ballotov ovplyvni výsledok tejto debaty"
 
 #: results/templates/enter_results.html
 msgid "Debate Status"
-msgstr ""
+msgstr "Status debaty"
 
 #: results/templates/enter_results.html
 msgid "all debates must be confirmed to complete the round"
-msgstr ""
+msgstr "na dokoncenie kola musía byt potvrdené všetky debaty"
 
 #: results/templates/enter_results.html
 msgid "Save Ballot"
-msgstr ""
+msgstr "Save hlasovanie"
 
 #: results/templates/enter_results.html
 msgid "Cancel Entry"
-msgstr ""
+msgstr "Zrušiť zadavanie"
 
 #: results/templates/includes/public_enter_results_info.html
 #, python-format
 msgid "The URL of this page is personalised to you, %(name)s. <strong>Do not share it with anyone;</strong> anyone who knows this URL can submit results and/or feedback for your debates. You may bookmark this page and return here after each debate for the available actions."
-msgstr "URL tejto stránky je prispôsobená tebe, %(name)s. <strong>Nezdieľaj ju s nikým;</strong> ktokoľvek, kto pozná túto URL, môže odosielať výsledky a/alebo spätnú väzbu za tvoje debaty. Túto stránku si môžeš uložiť a po každej debate sa sem vrátiť pre dostupné akcie."
+msgstr "URL z T?na str?nka je personalised na ty, %(name)s. <strong>Do nie share to s anyone;</strong> anyone who knows toto URL m??e submit v?sledky a/alebo sp?tn?v?zba pre tvoj/tvoja debaty. ty m??e bookmark T?na str?nka a return here po ka?d?/ka?d?debata pre dostupn?akcie."
 
 #: results/templates/privateurl_ballot_set.html
 #: results/templates/privateurl_ballot_set_error.html
 #, python-format
 msgid "The page is provided to allow you, <strong>%(name)s</strong>, to verify your own scoresheet. <strong>You must not share this URL with anyone.</strong> Sharing the URL will allow others to access <strong>all</strong> actions from your personal landing page."
-msgstr ""
+msgstr "page je provided na allow ty, <strong>%(name)s</strong>, na verify tvoj/tvoja own scoresheet. <strong>ty mus?nie share toto URL s anyone.</strong> Sharing URL bude allow others na access <strong>v?etky</strong> actions od tvoj/tvoja personal landing page."
 
 #: results/templates/privateurl_ballot_set_error.html
 #: results/templates/public_ballot_set_error.html
 msgid "Ballot Not Available"
-msgstr ""
+msgstr "hlasovanie nie dostupn?"
 
 #: results/templates/privateurl_ballot_set_error.html
 #, python-format
 msgid "<a href=\"%(url)s\">Back to your private landing page.</a>"
-msgstr ""
+msgstr "<a href=\"%(url)s\">Späť na tvoju súkromnú landing page.</a>"
 
 #: results/templates/public_add_ballot.html
 #: results/templates/public_add_ballot_unreleased.html
 msgid "Enter Ballot"
-msgstr ""
+msgstr "Enter hlasovanie"
 
 #: results/templates/public_add_ballot.html
 msgid "Who are you?"
-msgstr ""
+msgstr "Kto si?"
 
 #: results/templates/public_add_ballot.html
 msgid "(click your name on this list)"
-msgstr ""
+msgstr "(klikni na svoje meno v zoznáme)"
 
 #: results/templates/public_add_ballot_unreleased.html
 #, python-format
 msgid "The draw and/or motions for %(round)s have yet to be released."
-msgstr ""
+msgstr "?reb a/alebo t?zy pre %(round)s maj?yet na by?zverejnen?."
 
 #: results/templates/public_ballot_set.html
 #, python-format
 msgid "Ballot for %(matchup)s"
-msgstr ""
+msgstr "hlasovanie pre %(matchup)s"
 
 #: results/templates/public_ballot_set.html
 #, python-format
 msgid "%(round)s @ %(room)s"
-msgstr ""
+msgstr "%(round)s @ %(room)s"
 
 #: results/templates/public_ballot_set.html
 msgid "Return to landing page"
-msgstr ""
+msgstr "Vrátiť sa na landing page"
 
 #: results/templates/public_ballot_set.html
 #, python-format
 msgid "Return to Results for %(round)s"
-msgstr ""
+msgstr "Vrátiť sa na výsledky pre %(round)s"
 
 #: results/templates/public_ballot_set.html
 msgid "Motion"
-msgstr "Teze"
+msgstr "Téza"
 
 #: results/templates/public_ballot_set.html
 #, python-format
 msgid "From %(name)s (%(institution)s)"
-msgstr ""
+msgstr "Od %(name)s (%(institution)s)"
 
 #: results/templates/public_ballot_set.html
 #, python-format
 msgid "<em>Total for %(name)s (%(side)s)</em>"
-msgstr ""
+msgstr "<em>Spolu pre %(name)s (%(side)s)</em>"
 
 #: results/templates/public_ballot_set.html
 #, python-format
 msgid "<em>%(name)s (%(side)s)</em>"
-msgstr ""
+msgstr "<em>%(name)s (%(side)s)</em>"
 
 #: results/templates/public_ballot_set.html
 msgid "Won"
-msgstr ""
+msgstr "Výhral/a"
 
 #: results/templates/public_ballot_set.html
 msgid "Lost"
-msgstr ""
+msgstr "Prehral/a"
 
 #: results/templates/public_ballot_set_error.html
 #, python-format
 msgid "<a href=\"%(url)s\">Back to the tournament home page.</a>"
-msgstr ""
+msgstr "<a href=\"%(url)s\">Späť na domovsku stránku turnaja.</a>"
 
 #: results/templates/public_enter_results.html
 #, python-format
 msgid "%(adjudicator)s, note that you must enter <strong>all of the ballots</strong> from your panel, not just your own!"
-msgstr ""
+msgstr "%(adjudicator)s, pozor: musís zadať <strong>všetky balloty</strong> zo svojho panelu, nielen svoj vlastny!"
 
 #: results/templates/public_enter_results.html
 msgid "Some information, such as speaker order, shown is based on a previous ballot. If anything is incorrect, please correct it and contact the tab team."
-msgstr ""
+msgstr "niektor?information, such ako re?n?k/re?n??ka order, shown je based na a predch?dzaj?ce hlasovanie. ak anything je incorrect, please correct to a contact tab t?m."
 
 #: results/templates/public_enter_results.html
 #, python-format
 msgid "This form has already been submitted <strong>once</strong>. Please contact a tab official after submitting your form."
 msgid_plural "This form has already been submitted <strong>%(nsubmissions)s</strong> times. Please contact a tab official after submitting your form."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Tento formulár už bol odoslaný <strong>raz</strong>. Po odoslaní kontaktuj tab tím."
+msgstr[1] "Tento formulár už bol odoslaný <strong>%(nsubmissions)s</strong>-krát. Po odoslaní kontaktuj tab tím."
+msgstr[2] "Tento formulár už bol odoslaný <strong>%(nsubmissions)s</strong>-krát. Po odoslaní kontaktuj tab tím."
+msgstr[3] "Tento formulár už bol odoslaný <strong>%(nsubmissions)s</strong>-krát. Po odoslaní kontaktuj tab tím."
 
 #: results/templates/public_enter_results.html
 msgid "Submit Ballot"
 msgid_plural "Submit Ballots"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr "Odoslať ballot"
+msgstr[0] "Submit hlasovanie"
+msgstr[1] "Submit hlasovania"
+msgstr[2] "Submit hlasovania"
+msgstr[3] "Submit hlasovania"
 
 #: results/templates/public_enter_results.html
 msgid "When submitting this form your IP address will be stored for logging purposes."
-msgstr ""
+msgstr "Pri odoslani tohto formulára sa pre účely logovania uloží tvoja IP adresa."
 
 #: results/templates/public_enter_results_error.html
 #, python-format
 msgid "No Result to Enter (%(adjudicator)s)"
-msgstr ""
+msgstr "Žiadny výsledok na zadanie (%(adjudicator)s)"
 
 #: results/templates/public_enter_results_error.html
 msgid "No Result to Enter"
-msgstr ""
+msgstr "Žiadny výsledok na zadanie"
 
 #: results/templates/public_results_for_round.html
 msgid "View by Team"
-msgstr ""
+msgstr "Zobraziť podla tímu"
 
 #: results/templates/public_results_for_round.html
 msgid "View by Debate"
-msgstr ""
+msgstr "Zobraziť podla debaty"
 
 #: results/templates/public_results_index.html
 #, python-format
 msgid "Results for %(round)s"
-msgstr ""
+msgstr "Výsledky pre %(round)s"
 
 #: results/templates/public_results_not_available.html
 #: results/templates/public_results_silent.html
 msgid "Results Not Available"
-msgstr ""
+msgstr "Výsledky nie sú dostupné"
 
 #: results/templates/public_results_not_available.html
 #, python-format
 msgid "The results for %(round)s aren't yet available."
-msgstr ""
+msgstr "Výsledky pre %(round)s este nie sú dostupné."
 
 #: results/templates/public_results_silent.html
 #, python-format
 msgid "%(round)s is a silent round."
-msgstr ""
+msgstr "%(round)s je a silent kolo."
 
 #: results/utils.py
 msgid "No Ballot"
-msgstr ""
+msgstr "?iadne hlasovanie"
 
 #: results/utils.py
 msgid "Debate was Postponed"
-msgstr ""
+msgstr "Debata bola odlozena"
 
 #: results/utils.py
 msgid "Ballot is Unconfirmed"
-msgstr ""
+msgstr "hlasovanie je Unconfirmed"
 
 #: results/utils.py
 msgid "Ballot is Confirmed"
-msgstr ""
+msgstr "hlasovanie je potvrden?"
 
 #. Translators: e.g. "{Melbourne 1} as {OG}", "{Cape Town 1} as {CO}"
 #: results/utils.py
 #, python-format
 msgid "%(team)s as %(side)s"
-msgstr ""
+msgstr "%(team)s ako %(side)s"
 
 #: results/utils.py
 #, python-format
 msgid "%(team)s (%(side)s) won"
-msgstr ""
+msgstr "%(team)s (%(side)s) výhral"
 
 #. Translators: The team here is the losing team
 #: results/utils.py
 #, python-format
 msgid "vs %(team)s (%(side)s)"
-msgstr ""
+msgstr "vs %(team)s (%(side)s)"
 
 #: results/utils.py
 #, python-format
 msgid "Advancing: %(advancing_list)s<br>"
-msgstr ""
+msgstr "Postupuju: %(advancing_list)s<br>"
 
 #: results/utils.py
 #, python-format
 msgid "Eliminated: %(eliminated_list)s"
-msgstr ""
+msgstr "Vypadli: %(eliminated_list)s"
 
 #: results/utils.py
 #, python-format
 msgid "1st: %(first_team)s<br>"
-msgstr ""
+msgstr "1.: %(first_team)s<br>"
 
 #: results/utils.py
 #, python-format
-msgid "2nd: %(second_team)s<br>\n"
+msgid ""
+"2nd: %(second_team)s<br>\n"
 "3rd: %(third_team)s<br>\n"
 "4th: %(fourth_team)s"
 msgstr ""
+"2.: %(second_team)s<br>\n"
+"3.: %(third_team)s<br>\n"
+"4.: %(fourth_team)s"
 
 #: results/utils.py
 #, python-format
 msgid "Error with result for %(debate)s"
-msgstr ""
+msgstr "Chyba vo výsledku pre %(debate)s"
 
 #. Translators: Abbreviation for Prime Minister
 #: results/utils.py
 msgid "PM"
-msgstr ""
+msgstr "PM"
 
 #. Translators: Abbreviation for Deputy Prime Minister
 #: results/utils.py
 msgid "DPM"
-msgstr ""
+msgstr "DPM"
 
 #. Translators: Abbreviation for Leader of the Opposition
 #: results/utils.py
 msgid "LO"
-msgstr ""
+msgstr "LO"
 
 #. Translators: Abbreviation for Deputy Leader of the Opposition
 #: results/utils.py
 msgid "DLO"
-msgstr ""
+msgstr "DLO"
 
 #. Translators: Abbreviation for Member for the Government
 #: results/utils.py
 msgid "MG"
-msgstr ""
+msgstr "MG"
 
 #. Translators: Abbreviation for Government Whip
 #: results/utils.py
 msgid "GW"
-msgstr ""
+msgstr "GW"
 
 #. Translators: Abbreviation for Member for the Opposition
 #: results/utils.py
 msgid "MO"
-msgstr ""
+msgstr "MO"
 
 #. Translators: Abbreviation for Opposition Whip
 #: results/utils.py
 msgid "OW"
-msgstr ""
+msgstr "OW"
 
 #: results/utils.py
 msgid "Reply"
-msgstr ""
+msgstr "Záverečná reč"
 
 #: results/views.py
 msgid " vs "
-msgstr ""
+msgstr " vs "
 
 #: results/views.py
 #, python-format
 msgid "%(matchup)s: %(round)s @ %(room)s"
-msgstr ""
+msgstr "%(matchup)s: %(round)s @ %(room)s"
 
 #: results/views.py
 msgid "N/A"
-msgstr ""
+msgstr "N/A"
 
 #: results/views.py
 msgid "New Ballot Set"
-msgstr ""
+msgstr "Novy set ballotov"
 
 #: results/views.py
 #, python-format
 msgid "Ballot set for %(debate)s added."
-msgstr ""
+msgstr "Set ballotov pre %(debate)s bol pridaný."
 
 #: results/views.py
 msgid " Email receipts queued to be sent."
-msgstr ""
+msgstr " E-mailove potvrdenia boli zaradene na odoslanie."
 
 #: results/views.py
 #, python-format
 msgid "Whoops! The debate %(debate)s doesn't have a chair, so you can't enter results for it."
-msgstr ""
+msgstr "Ups! Debata %(debate)s nemá chaira, takze pre nu nemôžeš zadať výsledky."
 
 #: results/views.py
 #, python-format
 msgid "Whoops! The debate %(debate)s doesn't have its sides confirmed, so you can't enter results for it."
-msgstr ""
+msgstr "Ups! Debata %(debate)s nemá potvrdené strany, takze pre nu nemôžeš zadať výsledky."
 
 #: results/views.py
 msgid "Edit Ballot Set"
-msgstr ""
+msgstr "Upraviť set ballotov"
 
 #: results/views.py
 #, python-format
 msgid "Ballot set for %(matchup)s discarded."
-msgstr ""
+msgstr "Set ballotov pre %(matchup)s bol zahodený."
 
 #: results/views.py
 #, python-format
 msgid "Ballot set for %(matchup)s confirmed."
-msgstr ""
+msgstr "Set ballotov pre %(matchup)s bol potvrdený."
 
 #: results/views.py
 #, python-format
 msgid "Edits to ballot set for %(matchup)s saved."
-msgstr ""
+msgstr "Upravy setu ballotov pre %(matchup)s boli uložené."
 
 #: results/views.py
 #, python-format
 msgid "Thanks, %(user)s! Your ballot for %(debate)s has been recorded."
-msgstr ""
+msgstr "Thanks, %(user)s! tvoj/tvoja hlasovanie pre %(debate)s bolo recorded."
 
 #: results/views.py
 msgid "The draw for this round hasn't been released yet."
-msgstr ""
+msgstr "?reb pre toto kolo nem?bolo zverejnen?yet."
 
 #: results/views.py
 msgid "The motions for this round haven't been released yet."
-msgstr ""
+msgstr "Tézy pre toto kolo este neboli zverejnené."
 
 #: results/views.py
 msgid "It looks like you don't have a debate this round."
-msgstr ""
+msgstr "Vyzer?na,?e ty nemaj?maj?a debata toto kolo."
 
 #: results/views.py
 msgid "It looks like you're assigned to two or more debates this round. Please contact a tab room official."
-msgstr ""
+msgstr "Vyzer?na,?e si pridelen?na dva alebo more debaty toto kolo. Please contact a tab room official."
 
 #: results/views.py
 msgid "Your debate doesn't have a chair, so you can't enter results for it. Please contact a tab room official."
-msgstr ""
+msgstr "Tvoja debata nemá chaira, takze pre nu nemôžeš zadať výsledky. Kontaktuj prosim tab room."
 
 #: results/views.py
 msgid "It looks like the sides for this debate haven't yet been confirmed, so you can't enter results for it. Please contact a tab room official."
-msgstr ""
+msgstr "Vyzer?na,?e strany pre t?na debata nem??yet bolo potvrden?, tak?e nem??e?enter v?sledky pre to. Please contact a tab room official."
 
 #: results/views.py
 msgid "It looks like you were assigned to two or more debates. Please contact a tab room official."
-msgstr ""
+msgstr "Vyzer?na,?e ty were pridelen?na dva alebo more debaty. Please contact a tab room official."
 
 #: results/views.py
 #, python-format
 msgid "This debate is in %s, which is a silent round."
-msgstr ""
+msgstr "Tato debata je v kole %s, ktore je uzavreté."
 
 #: results/views.py
 #, python-format
 msgid "This debate is in %s, the results for which aren't available yet."
-msgstr ""
+msgstr "Tato debata je v kole %s, ktoreho výsledky este nie sú dostupné."
 
 #: results/views.py
 #, python-format
 msgid "The result for debate %s is not confirmed."
-msgstr ""
+msgstr "Výsledok debaty %s nie je potvrdený."
 
 #: results/views.py
 #, python-format
 msgid "The debate %s does not have a confirmed ballot."
-msgstr ""
+msgstr "debata %s nem?a potvrden?hlasovanie."
 
 #: results/views.py
 #, python-format
 msgid "There is no result yet for debate %s."
-msgstr ""
+msgstr "Pre debatu %s este nie je výsledok."
 
 #: results/views.py
 #, python-format
 msgid "Add result from %(adjudicator)s"
-msgstr ""
+msgstr "Pridať výsledok od %(adjudicator)s"
 
 #: results/views.py
 msgid "Adjudicator"
-msgstr "Rozhodčí"
+msgstr "Rozhodca"
 
 #: results/views.py
 msgid "Merge Ballots"
-msgstr ""
+msgstr "Merge ballotov"
 
 #: manually-added-sda
 msgid "View Ballot"
-msgstr "Zobraziť ballot"
+msgstr "Zobrazi? hlasovanie"
