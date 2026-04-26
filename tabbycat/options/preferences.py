@@ -565,6 +565,15 @@ class FeedbackIntroduction(LongStringPreference):
     field_kwargs = {'required': False}
 
 
+@tournament_preferences_registry.register
+class FeedbackAffectsAdjudicatorScores(BooleanPreference):
+    help_text = _("If enabled, feedback forms ask for an overall adjudicator score and confirmed feedback ratings are included in adjudicator score calculations. If disabled, feedback can still be submitted but will not affect adjudicator scores.")
+    verbose_name = _("Feedback affects adjudicator scores")
+    section = feedback
+    name = 'feedback_affects_adjudicator_scores'
+    default = True
+
+
 # ==============================================================================
 debate_rules = Section('debate_rules', verbose_name=_("Debate Rules"))
 # ==============================================================================

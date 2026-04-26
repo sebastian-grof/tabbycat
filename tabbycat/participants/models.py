@@ -518,6 +518,11 @@ class Adjudicator(Person):
         return self.institution.region if self.institution else None
 
     def weighted_score(self, feedback_weight):
+        if feedback_weight <= 0:
+            return self.base_score
+        if self.tournament_id and not self.tournament.pref('feedback_affects_adjudicator_scores'):
+            return self.base_score
+
         feedback_score = self._feedback_score()
         if feedback_score is None:
             feedback_score = 0

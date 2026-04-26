@@ -21,16 +21,23 @@
       </div>
     {% endif %}
     <div class="list-group-item h5">
-      <span class="badge float-right
-            {% if feedback.score <= score_thresholds.low_score %}badge-danger
-            {% elif feedback.score <= score_thresholds.medium_score %}badge-warning
-            {% elif feedback.score > score_thresholds.high_score %}badge-success
-            {% else %}badge-primary{% endif %}" data-toggle="tooltip"
-            title="{% trans "The score given in this piece of feedback." %}">
-        {% blocktrans trimmed with score=feedback.score round=feedback.round.abbreviation %}
-          {{ round }} {{ score }}
-        {% endblocktrans %}
-      </span>
+      {% if pref.feedback_affects_adjudicator_scores %}
+        <span class="badge float-right
+              {% if feedback.score <= score_thresholds.low_score %}badge-danger
+              {% elif feedback.score <= score_thresholds.medium_score %}badge-warning
+              {% elif feedback.score > score_thresholds.high_score %}badge-success
+              {% else %}badge-primary{% endif %}" data-toggle="tooltip"
+              title="{% trans "The score given in this piece of feedback." %}">
+          {% blocktrans trimmed with score=feedback.score round=feedback.round.abbreviation %}
+            {{ round }} {{ score }}
+          {% endblocktrans %}
+        </span>
+      {% else %}
+        <span class="badge float-right badge-secondary" data-toggle="tooltip"
+              title="{% trans 'Feedback ratings are disabled and this feedback does not affect adjudicator scores.' %}">
+          {% trans "Rating disabled" %}
+        </span>
+      {% endif %}
       {% person_display_name feedback.adjudicator as adjudicator %}
       {% blocktrans trimmed with adjudicator=adjudicator %}
         On {{ adjudicator }}

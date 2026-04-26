@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: tabbycat\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-07-06 09:38+1000\n"
-"PO-Revision-Date: 2026-04-26 23:30+0200\n"
+"PO-Revision-Date: 2026-04-26 23:45+0200\n"
 "Last-Translator: \n"
 "Language-Team: Slovak\n"
 "Language: sk\n"
@@ -718,7 +718,7 @@ msgstr "Registrovať open rozhodcu/rozhodkyňu"
 
 #: tournaments/templates/public_tournament_index.html
 msgid "Tournament Staff"
-msgstr "Tím turnaja"
+msgstr "Organizátori turnaja"
 
 #: tournaments/templates/public_tournament_schedule.html
 #, python-format

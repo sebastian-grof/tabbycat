@@ -55,6 +55,9 @@ class BaseFeedbackOverview(TournamentMixin, VueTableTemplateView):
         t = self.tournament
         adjudicators = self.get_adjudicators()
         weight = t.current_round.feedback_weight
+        feedback_affects_scores = t.pref('feedback_affects_adjudicator_scores')
+        if not feedback_affects_scores:
+            weight = 0
         scores = [a.weighted_score(weight) for a in adjudicators]
 
         kwargs['c_breaking'] = adjudicators.filter(breaking=True).count()
@@ -102,6 +105,7 @@ class BaseFeedbackOverview(TournamentMixin, VueTableTemplateView):
             'nadjs_outside_range': noutside_range,
             'test_percent': (1.0 - weight) * 100,
             'feedback_percent': weight * 100,
+            'feedback_affects_scores': feedback_affects_scores,
         })
 
         return super().get_context_data(**kwargs)

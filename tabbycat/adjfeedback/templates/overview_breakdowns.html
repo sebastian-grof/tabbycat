@@ -50,12 +50,20 @@
         </div>
       </div>
       <h6 class="pt-2 text-secondary" data-toggle="tooltip"
+        {% if feedback_affects_scores %}
           title="{% blocktrans trimmed with round=current_round.abbreviation %}
             The proportion of an adjudicator's score determined by feedback vs the
-            base score is set on a per-round basis. Click to edit the feedback weight for {{ round }}.{% endblocktrans %}">
-        <a href="#" class="edit-feedback-weight" data-weight="{{ current_round.feedback_weight }}">
-          {{ current_round.abbreviation }} {% trans "Score Ratio" %}
-        </a>
+            base score is set on a per-round basis. Click to edit the feedback weight for {{ round }}.{% endblocktrans %}"
+        {% else %}
+          title="{% trans 'Feedback ratings are disabled, so adjudicator scores are currently based only on base scores.' %}"
+        {% endif %}>
+        {% if feedback_affects_scores %}
+          <a href="#" class="edit-feedback-weight" data-weight="{{ current_round.feedback_weight }}">
+            {{ current_round.abbreviation }} {% trans "Score Ratio" %}
+          </a>
+        {% else %}
+          {{ current_round.abbreviation }} {% trans "Feedback Disabled" %}
+        {% endif %}
       </h6>
     </div>
   </div>

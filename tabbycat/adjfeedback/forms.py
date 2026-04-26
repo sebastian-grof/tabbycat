@@ -77,11 +77,12 @@ class BaseFeedbackForm(CustomQuestionsFormMixin, forms.Form):
     def _create_fields(self):
         """Creates dynamic fields in the form."""
         # Feedback questions defined for the tournament
-        adj_min_score = self._tournament.pref('adj_min_score')
-        adj_max_score = self._tournament.pref('adj_max_score')
-        score_label = mark_safe(_("Overall score (%(min)d=worst; %(max)d=best)*") % {
-                'min': int(adj_min_score), 'max': int(adj_max_score)})
-        self.fields['score'] = forms.FloatField(min_value=adj_min_score, max_value=adj_max_score, label=score_label)
+        if self._tournament.pref('feedback_affects_adjudicator_scores'):
+            adj_min_score = self._tournament.pref('adj_min_score')
+            adj_max_score = self._tournament.pref('adj_max_score')
+            score_label = mark_safe(_("Overall score (%(min)d=worst; %(max)d=best)*") % {
+                    'min': int(adj_min_score), 'max': int(adj_max_score)})
+            self.fields['score'] = forms.FloatField(min_value=adj_min_score, max_value=adj_max_score, label=score_label)
 
         self.add_question_fields()
 
@@ -101,10 +102,19 @@ class BaseFeedbackForm(CustomQuestionsFormMixin, forms.Form):
         if af.confirmed:
             af.confirm_timestamp = timezone.now()
             af.confirmer = kwargs.get('submitter')
-        af.score = self.cleaned_data['score']
+
+        if self._tournament.pref('feedback_affects_adjudicator_scores'):
+            af.score = self.cleaned_data['score']
+        else:
+            # The database requires a score, but feedback submitted while this
+            # feature is disabled should never influence adjudicator ratings.
+            af.score = af.adjudicator.base_score
+            af.ignored = True
 
         if self._ignored_option:
             af.ignored = self.cleaned_data['ignored']
+        if not self._tournament.pref('feedback_affects_adjudicator_scores'):
+            af.ignored = True
 
         af.save()
         self.save_answers(af)

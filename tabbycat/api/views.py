@@ -984,6 +984,8 @@ class AdjudicatorStandingsView(TournamentAPIMixin, TournamentPublicAPIMixin, Lis
 
     def get_queryset(self):
         feedback_weight = self.tournament.current_round.feedback_weight
+        if not self.tournament.pref('feedback_affects_adjudicator_scores'):
+            feedback_weight = 0
         adjs = self.tournament.adjudicator_set.select_related('tournament').prefetch_related(
             'debateadjudicator_set__debate__round__tournament',
         ).all()

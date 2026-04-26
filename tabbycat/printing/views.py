@@ -38,14 +38,15 @@ class BasePrintFeedbackFormsView(RoundMixin, TemplateView):
             )
             default_questions.append(default_scale_info.serialize())
 
-        default_scale_question = AdjudicatorFeedbackQuestion(
-            text=_("Overall Score"), seq=0,
-            answer_type=AdjudicatorFeedbackQuestion.AnswerType.INTEGER_SCALE,
-            required=True, from_team=True, from_adj=True,
-            min_value=self.tournament.pref('adj_min_score'),
-            max_value=self.tournament.pref('adj_max_score'),
-        )
-        default_questions.append(default_scale_question.serialize())
+        if self.tournament.pref('feedback_affects_adjudicator_scores'):
+            default_scale_question = AdjudicatorFeedbackQuestion(
+                text=_("Overall Score"), seq=0,
+                answer_type=AdjudicatorFeedbackQuestion.AnswerType.INTEGER_SCALE,
+                required=True, from_team=True, from_adj=True,
+                min_value=self.tournament.pref('adj_min_score'),
+                max_value=self.tournament.pref('adj_max_score'),
+            )
+            default_questions.append(default_scale_question.serialize())
 
         return default_questions
 

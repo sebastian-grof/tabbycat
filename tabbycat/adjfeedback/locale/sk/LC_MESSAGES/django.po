@@ -10,10 +10,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n>=2 && n<=4 ? 1 : 2);\n"
+"Plural-Forms: nplurals=4; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 3;\n"
 "posledné-Translator: \n"
 "Language-tím: Slovak\n"
-"Plural-formulárs: nplurals=4; plural=(n==1) ? 0: (n>=2 && n<=4) ? 1: 3;\n"
 "X-Criadokdin-Project: tabbycat\n"
 "X-Criadokdin-Project-ID: 364715\n"
 "X-Criadokdin-Language: sk\n"
@@ -51,6 +50,7 @@ msgid_plural "%(count)d feedback submissions were marked as confirmed. Note that
 msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
+msgstr[3] ""
 
 #: adjfeedback/admin.py
 #, python-format
@@ -59,6 +59,7 @@ msgid_plural "%(count)d feedback submissions were not marked as confirmed, proba
 msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
+msgstr[3] ""
 
 #: adjfeedback/admin.py
 #, python-format
@@ -67,6 +68,7 @@ msgid_plural "%(count)d feedback submissions were marked as unconfirmed."
 msgstr[0] "1 odoslanie spätnej väzby bolo označené as nepotvrdené."
 msgstr[1] "%(count)d odoslania spätnej väzby boli označené as nepotvrdené."
 msgstr[2] "%(count)d odoslania spätnej väzby boli označené as nepotvrdené."
+msgstr[3] "%(count)d odoslania spätnej väzby boli označené as nepotvrdené."
 
 #: adjfeedback/admin.py
 #, python-format
@@ -75,6 +77,7 @@ msgid_plural "%(count)d feedback submissions are now ignored."
 msgstr[0] "1 odoslanie spätnej väzby je now ignorované."
 msgstr[1] "%(count)d odoslania spätnej väzby sú now ignorované."
 msgstr[2] "%(count)d odoslania spätnej väzby sú now ignorované."
+msgstr[3] "%(count)d odoslania spätnej väzby sú now ignorované."
 
 #: adjfeedback/admin.py
 #, python-format
@@ -83,6 +86,7 @@ msgid_plural "%(count)d feedback submissions are now recognized."
 msgstr[0] "1 odoslanie spätnej väzby je now uznané."
 msgstr[1] "%(count)d odoslania spätnej väzby sú now uznané."
 msgstr[2] "%(count)d odoslania spätnej väzby sú now uznané."
+msgstr[3] "%(count)d odoslania spätnej väzby sú now uznané."
 
 #: adjfeedback/apps.py
 msgid "Adjudicator Feedback"
@@ -336,6 +340,7 @@ msgid_plural "View %(count)s<br>feedbacks"
 msgstr[0] "Zobraziť %(count)s<br> spätnú väzbu"
 msgstr[1] "Zobraziť %(count)s<br> spätné väzby"
 msgstr[2] "Zobraziť %(count)s<br> spätných väzieb"
+msgstr[3] "Zobraziť %(count)s<br> spätných väzieb"
 
 #: adjfeedback/tables.py
 msgid "Unsubmitted feedback ballots"
@@ -568,6 +573,7 @@ msgid_plural "There are <strong>%(nadjs_outside_range)s adjudicators</strong> wi
 msgstr[0] "Je <strong>%(nadjs_outside_range)s rozhodca/rozhodky?a</strong> tak?e sk?re <strong>mimo povolen?ho rozsahu</strong> z sk?re rozhodcov/rozhodk??, which je currently set ako %(min_score)s na %(max_score)s. toto m??e cause rozhodca/rozhodky?a automatick?alok?cia na behave v unexpected ways. ak you'd like na use a wider sk?re range, ty m??e configure toto v <a href=\"%(feedback_settings_url)s\" class=\"alert-link\"> sp?tn?v?zba nastavenia</a>."
 msgstr[1] "S?<strong>%(nadjs_outside_range)s rozhodcovia/rozhodkyne</strong> s sk?re <strong>mimo povolen?ho rozsahu</strong> z sk?re rozhodcov/rozhodk??, which je currently set ako %(min_score)s na %(max_score)s. toto m??e cause rozhodca/rozhodky?a automatick?alok?cia na behave v unexpected ways. ak you'd like na use a wider sk?re range, ty m??e configure toto v <a href=\"%(feedback_settings_url)s\" class=\"alert-link\"> sp?tn?v?zba nastavenia</a>."
 msgstr[2] "S?<strong>%(nadjs_outside_range)s rozhodcovia/rozhodkyne</strong> s sk?re <strong>mimo povolen?ho rozsahu</strong> z sk?re rozhodcov/rozhodk??, which je currently set ako %(min_score)s na %(max_score)s. toto m??e cause rozhodca/rozhodky?a automatick?alok?cia na behave v unexpected ways. ak you'd like na use a wider sk?re range, ty m??e configure toto v <a href=\"%(feedback_settings_url)s\" class=\"alert-link\"> sp?tn?v?zba nastavenia</a>."
+msgstr[3] "S?<strong>%(nadjs_outside_range)s rozhodcovia/rozhodkyne</strong> s sk?re <strong>mimo povolen?ho rozsahu</strong> z sk?re rozhodcov/rozhodk??, which je currently set ako %(min_score)s na %(max_score)s. toto m??e cause rozhodca/rozhodky?a automatick?alok?cia na behave v unexpected ways. ak you'd like na use a wider sk?re range, ty m??e configure toto v <a href=\"%(feedback_settings_url)s\" class=\"alert-link\"> sp?tn?v?zba nastavenia</a>."
 
 #: adjfeedback/templates/overview_breakdowns.html
 #, python-format
@@ -576,6 +582,7 @@ msgid_plural "%(count)s adjudicators currently have a score equal to or above %(
 msgstr[0] "%(count)s rozhodca/rozhodky?a currently m?sk?re rovn?alebo vy??ie ako %(min)s a ni??ie ako %(max)s.?e je %(percent)s%% z rozhodca/rozhodky?a pool."
 msgstr[1] "%(count)s rozhodcovia/rozhodkyne currently maj?a sk?re rovn?alebo vy??ie ako %(min)s a ni??ie ako %(max)s.?e je %(percent)s%% z rozhodca/rozhodky?a pool."
 msgstr[2] "%(count)s rozhodcovia/rozhodkyne currently maj?a sk?re rovn?alebo vy??ie ako %(min)s a ni??ie ako %(max)s.?e je %(percent)s%% z rozhodca/rozhodky?a pool."
+msgstr[3] "%(count)s rozhodcovia/rozhodkyne currently maj?a sk?re rovn?alebo vy??ie ako %(min)s a ni??ie ako %(max)s.?e je %(percent)s%% z rozhodca/rozhodky?a pool."
 
 #: adjfeedback/templates/overview_breakdowns.html
 #, python-format
@@ -606,6 +613,7 @@ msgid_plural "There are %(c_chairs)s debates per round, so there need to be %(c_
 msgstr[0] "Je tu %(c_chairs)s debát na kolo, čiže musí byť %(c_chairs)s chair."
 msgstr[1] "Sú %(c_chairs)s debát na kolo, čiže musia byť %(c_chairs)s chairovia."
 msgstr[2] "Je %(c_chairs)s debát na kolo, čiže musí byť %(c_chairs)s chairov."
+msgstr[3] "Je %(c_chairs)s debát na kolo, čiže musí byť %(c_chairs)s chairov."
 
 #: adjfeedback/templates/overview_breakdowns.html
 #, python-format
@@ -614,6 +622,7 @@ msgid_plural "There are %(c_debates)s debates per round, but only %(c_chairs)s a
 msgstr[0] "Je %(c_debates)s debata, ale iba %(c_chairs)s chair nad minimálnym potrebným skóre."
 msgstr[1] "Sú %(c_debates)s debaty na kolo, ale iba %(c_chairs)s vyššie ako minimálne hlasovacie skóre."
 msgstr[2] "Je %(c_debates)s debát na kolo, ale iba %(c_chairs)s vyššie ako minimálne hlasovacie skóre."
+msgstr[3] "Je %(c_debates)s debát na kolo, ale iba %(c_chairs)s vyššie ako minimálne hlasovacie skóre."
 
 #: adjfeedback/templates/overview_breakdowns.html
 #, python-format
@@ -622,6 +631,7 @@ msgid_plural "%(c_chairs)s chairs"
 msgstr[0] "%(c_chairs)s chair"
 msgstr[1] "%(c_chairs)s chairovia"
 msgstr[2] "%(c_chairs)s chairov"
+msgstr[3] "%(c_chairs)s chairov"
 
 #: adjfeedback/templates/overview_breakdowns.html
 msgid "All adjudicators with a score high enough to vote, but who aren't allocated as chairs, are allocated as panellists by the auto-allocator."
@@ -634,6 +644,7 @@ msgid_plural "%(c_panellists)s panellists"
 msgstr[0] "%(c_panellists)s panelista/panelistka"
 msgstr[1] "%(c_panellists)s panelisti/panelistky"
 msgstr[2] "%(c_panellists)s panelistov/panelistiek"
+msgstr[3] "%(c_panellists)s panelistov/panelistiek"
 
 #: adjfeedback/templates/overview_breakdowns.html
 #, python-format
@@ -647,6 +658,7 @@ msgid_plural "%(c_trainees)s trainees"
 msgstr[0] "%(c_trainees)s shadow"
 msgstr[1] "%(c_trainees)s shadows"
 msgstr[2] "%(c_trainees)s shadows"
+msgstr[3] "%(c_trainees)s shadows"
 
 #: adjfeedback/templates/overview_breakdowns.html
 #, python-format
@@ -724,6 +736,7 @@ msgid_plural "%(count)d feedbacks"
 msgstr[0] "%(count)d spätná väzba"
 msgstr[1] "%(count)d spätné väzby"
 msgstr[2] "%(count)d spätné väzby"
+msgstr[3] "%(count)d spätné väzby"
 
 #: adjfeedback/views.py
 msgid "Feedbacks"
@@ -815,6 +828,7 @@ msgid_plural "%(nmissing)d missing feedback submissions (%(fulfilled).1f%% retur
 msgstr[0] "%(nmissing)d ch?baj?ce odoslanie sp?tnej v?zby (%(fulfilled).1f%% returned)"
 msgstr[1] "%(nmissing)d ch?baj?ce odoslania sp?tnej v?zby (%(fulfilled).1f%% returned)"
 msgstr[2] "%(nmissing)d ch?baj?ce odoslania sp?tnej v?zby (%(fulfilled).1f%% returned)"
+msgstr[3] "%(nmissing)d ch?baj?ce odoslania sp?tnej v?zby (%(fulfilled).1f%% returned)"
 
 #: adjfeedback/views.py
 #, python-format
@@ -840,7 +854,24 @@ msgid_plural "Updated base scores for %(count)d adjudicators."
 msgstr[0] "Aktualizované základné skóre pre %(count)d rozhodcu/rozhodkyňu."
 msgstr[1] "Aktualizované základné skóre pre %(count)d rozhodcov/rozhodkyne."
 msgstr[2] "Aktualizované základné skóre pre %(count)d rozhodcov/rozhodkýň."
+msgstr[3] "Aktualizované základné skóre pre %(count)d rozhodcov/rozhodkýň."
 
 #: adjfeedback/views.py
 msgid "Custom Feedback Questions"
 msgstr "Vlastné otázky spätnej väzby"
+
+#: added manually for SDA feedback score toggle
+msgid "Feedback ratings are disabled, so adjudicator scores are currently based only on base scores."
+msgstr "Hodnotenia zo spätnej väzby sú vypnuté, takže skóre rozhodcov/rozhodkýň je momentálne založené iba na základnom skóre."
+
+#: added manually for SDA feedback score toggle
+msgid "Feedback Disabled"
+msgstr "Spätná väzba bez skóre"
+
+#: added manually for SDA feedback score toggle
+msgid "Feedback ratings are disabled and this feedback does not affect adjudicator scores."
+msgstr "Hodnotenia zo spätnej väzby sú vypnuté a táto spätná väzba neovplyvňuje skóre rozhodcov/rozhodkýň."
+
+#: added manually for SDA feedback score toggle
+msgid "Rating disabled"
+msgstr "Hodnotenie vypnuté"

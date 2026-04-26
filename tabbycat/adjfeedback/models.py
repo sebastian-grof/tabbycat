@@ -130,6 +130,8 @@ class AdjudicatorFeedback(Submission):
     @cached_property
     def feedback_weight(self):
         if self.round:
+            if not self.round.tournament.pref('feedback_affects_adjudicator_scores'):
+                return 0
             return self.round.feedback_weight
         return 1
 
