@@ -1,5 +1,23 @@
 msgid ""
-msgstr "Project-Id-Version: tabbycat\nReport-Msgid-Bugs-To: \nPOT-Creation-Date: 2025-07-06 09:38+1000\nPO-Revision-Date: 2026-04-26 11:54+0200\nposledné-Translator: \nLanguage-tím: Slovak\nLanguage: sk\nMIME-Version: 1.0\nContent-Type: text/plain; charnastaviť=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-formulárs: nplurals=4; plural=(n==1) ? 0: (n>=2 && n<=4) ? 1: 3;\nX-Criadokdin-Project: tabbycat\nX-Criadokdin-Project-ID: 364715\nX-Criadokdin-Language: sk\nX-Criadokdin-File: /develop/tabbycat/standings/locale/en/LC_správaS/django.po\nX-Generator: Poedto 3.7\n"
+msgstr ""
+"Project-Id-Version: tabbycat\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-07-06 09:38+1000\n"
+"PO-Revision-Date: 2026-04-26 13:46+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: sk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"posledné-Translator: \n"
+"Language-tím: Slovak\n"
+"Plural-formulárs: nplurals=4; plural=(n==1) ? 0: (n>=2 && n<=4) ? 1: 3;\n"
+"X-Criadokdin-Project: tabbycat\n"
+"X-Criadokdin-Project-ID: 364715\n"
+"X-Criadokdin-Language: sk\n"
+"X-Criadokdin-File: /develop/tabbycat/standings/locale/en/LC_správaS/django.po\n"
+"X-Generator: Poedit 3.7\n"
 
 #: standings/base.py
 msgid "The same metric would be added twice:"
@@ -37,11 +55,11 @@ msgstr "IA"
 
 #: standings/diversity.py
 msgid "Chairs"
-msgstr "chairovia"
+msgstr "Chairovia"
 
 #: standings/diversity.py
 msgid "Panellists"
-msgstr "Panezoznami/panezoznamky"
+msgstr "Panelisti"
 
 #: standings/diversity.py
 msgid "Trainees"
@@ -73,7 +91,7 @@ msgstr "Priemerné hodnotenie od chairov"
 
 #: standings/diversity.py
 msgid "Average Rating From Panellists"
-msgstr "Priemerné hodnotenie od panezoznamov/panezoznamiek"
+msgstr "Priemerné hodnotenie od panelistov"
 
 #: standings/diversity.py
 msgid "Average Rating From Trainees"
@@ -162,11 +180,11 @@ msgstr "3."
 
 #: standings/speakers.py standings/teams.py
 msgid "number of adjudicators who voted for this team"
-msgstr "počet rozhodcov/rozhodkýň, ktorí hlasovali za tento tím"
+msgstr "počet ballotov získaných na tomto turnaji"
 
 #: standings/speakers.py standings/teams.py
 msgid "Ballots"
-msgstr "balloty"
+msgstr "Balloty"
 
 #: standings/speakers.py standings/teams.py
 msgid "votes/ballots carried"
@@ -182,7 +200,7 @@ msgstr "Odchýlka"
 
 #: standings/speakers.py
 msgid "number of speeches given"
-msgstr "počet rečí, zarátaných do výsledkov"
+msgstr "počet rečí"
 
 #: standings/speakers.py
 msgid "Num"
@@ -357,7 +375,7 @@ msgstr "Rečníci môžu vynechať až %(count)s záverečných rečí, kým neb
 
 #: standings/templates/reply_standings.html
 msgid "All reply speakers appear in these standings, no matter how many replies they've missed."
-msgstr "v?etky z?vere?n?re?re?n?ci/re?n??ky appear v tieto poradie,?iadne matter ako ve?a replies they've missed."
+msgstr ""
 
 #: standings/templates/reply_standings.html
 #: standings/templates/speaker_standings.html
@@ -368,7 +386,7 @@ msgstr "Tieto nastavenia je možné zmeniť v sekcii <a href=\"%(standings_confi
 #: standings/templates/speaker_standings.html
 #, python-format
 msgid "The speaker standings precedence is empty. This means that speakers aren't ranked according to any metrics, so everyone is first equal. If this isn't what you intended, set the speaker standings precedence in the <a href=\"%(standings_config_url)s\" class=\"alert-link\">Standings section of this tournament's configuration</a>. In most tournaments, the first metric should be total or average."
-msgstr "poradie metr?k re?n?ckeho poradia je pr?zdne. toto means?e re?n?ci/re?n??ky nie s?ranked according na ak?ko?vek metriky, tak?e everyone je prv?equal. ak toto nie je?o ty intended, set poradie metr?k re?n?ckeho poradia v <a href=\"%(standings_config_url)s\" class=\"alert-link\">sekcii poradia z tento turnaj's configuration</a>. v most turnaje, prv?metrika m?pod?a?s??et alebo priemer."
+msgstr ""
 
 #: standings/templates/speaker_standings.html
 msgid "Speakers are ranked by their <strong>average score</strong>."
@@ -385,7 +403,7 @@ msgstr "Rečníci môžu vynechať až %(count)s debát, kým nebudú vyradení 
 
 #: standings/templates/speaker_standings.html
 msgid "All speakers appear in these standings, no matter how many debates they've missed."
-msgstr "v?etky re?n?ci/re?n??ky appear v tieto poradie,?iadne matter ako ve?a debaty they've missed."
+msgstr ""
 
 #: standings/templates/speaker_standings.html
 #, python-format
@@ -522,7 +540,7 @@ msgstr "Diverzita"
 #: standings/templates/team_standings.html
 #, python-format
 msgid "The team standings precedence is empty. This means that teams aren't ranked according to any metrics, so everyone is first equal. If this isn't what you intended, set the team standings precedence in the <a href=\"%(standings_config_url)s\" class=\"alert-link\">Standings section of this tournament's configuration</a>. In most tournaments, the first metric should be points or wins."
-msgstr "poradie metr?k t?mov?ho poradia je pr?zdne. toto means?e t?my nie s?ranked according na ak?ko?vek metriky, tak?e everyone je prv?equal. ak toto nie je?o ty intended, set poradie metr?k t?mov?ho poradia v <a href=\"%(standings_config_url)s\" class=\"alert-link\">sekcii poradia z tento turnaj's configuration</a>. v most turnaje, prv?metrika m?pod?a?points alebo v?hry."
+msgstr ""
 
 #: standings/views.py
 #, python-format
