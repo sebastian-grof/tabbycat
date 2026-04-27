@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: tabbycat\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-07-06 09:38+1000\n"
-"PO-Revision-Date: 2026-04-26 10:38+0200\n"
+"PO-Revision-Date: 2026-04-27 09:52+0200\n"
 "Last-Translator: philip_tc\n"
 "Language-Team: Slovak\n"
 "Language: sk\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 3;\n"
-"X-Generator: Poedit 3.7\n"
+"X-Generator: Poedit 3.9\n"
 "X-Crowdin-Project: tabbycat\n"
 "X-Crowdin-Language: sk\n"
 "X-Crowdin-File: /develop/tabbycat/participants/locale/en/LC_MESSAGES/django.po\n"
@@ -21,7 +21,7 @@ msgstr ""
 #: participants/admin.py
 #, python-format
 msgid "The team can't be in a break category of a different tournament. Please remove: %(category)s"
-msgstr "t?m nem??e by?v a postupov?kateg?ria z a different turnaj. Please odstr?ni?: %(category)s"
+msgstr "Tím nemôže byť zaradený do kategórie prestávky iného turnaja. Prosím, odstráňte: %(category)s"
 
 #: participants/admin.py
 msgid "Emoji & Code"
@@ -277,7 +277,7 @@ msgstr "celý názov/prípona"
 
 #: participants/models.py
 msgid "Do not include institution name (see \"uses institutional prefix\" below)"
-msgstr "Neuvádzaj názov klubu"
+msgstr "Neuvádzajte názov inštitúcie (pozri „používa predponu inštitúcie“ nižšie)"
 
 #: participants/models.py
 msgid "short name/suffix"
@@ -285,7 +285,7 @@ msgstr "krátky názov/prípona"
 
 #: participants/models.py
 msgid "The decoded name shown in the draw, not including institution name (see \"uses institutional prefix\" below)"
-msgstr "Dekódovaný názov zobrazený v drawe"
+msgstr "V pairingu sa zobrazuje dekódované meno bez názvu inštitúcie (pozri nižšie „používa predponu inštitúcie“)"
 
 #: participants/models.py
 msgid "Name used to obscure institutional identity on public-facing pages"
@@ -429,7 +429,7 @@ msgstr "Points po t?na debata"
 
 #: participants/tables.py
 msgid "Wins after this debate"
-msgstr "v?hry po t?na debata"
+msgstr "Výhry po tejto debate"
 
 #: participants/tables.py
 msgid "Speaker scores<br>(in speaking order)"
@@ -533,7 +533,7 @@ msgstr "<strong>upozornenie:</strong> ak S?“debata t?m” objects v vy??ie ako
 #. Translators: This follows the above sentence in the same paragraph.
 #: participants/templates/admin/participants/delete_debateteam_warning.html
 msgid "This is especially the case if any team that would be deleted has already participated in a debate. If a team already has a result entered for it, deleting the team also deletes those results, <strong>which normally breaks the tab</strong>, even if you think you don't need those results anymore. If a team has debated and is withdrawing from the tournament, you should <strong>not</strong> delete it. Just mark the team inactive under the “Availability” section of the Tabbycat admin area."
-msgstr "toto je especially case ak ak?ko?vek t?m?e bolo pod?a deleted m?already participated v a debata. ak a t?m already m?a v?sledok zadan?pre to, deleting t?m also deletes tie v?sledky, <strong>which normally postupy tab</strong>, even ak ty think ty nemaj?need tie v?sledky anymore. ak a t?m m?debated a je withdrawing od turnaj, ty m?<strong>nie</strong> vymaza?to. Just mark t?m inactive under “Availability” section z Tabbycat admin area."
+msgstr "To platí najmä v prípade, ak sa niektorý z tímov, ktorý by mal byť vymazaný, už zúčastnil debaty. Ak má tím už zaznamenaný výsledok, jeho vymazaním sa vymažú aj tieto výsledky, <strong>čo zvyčajne naruší fungovanie tabu</strong>, aj keď si myslíte, že tieto výsledky už nepotrebujete. Ak tím absolvoval debatu a stahuje sa z turnaja, nemali by ste ho <strong>vymazať</strong>. Stačí označiť tím ako neaktívny v sekcii „Dostupnosť“ v administrátorskej oblasti Tabbycat."
 
 #: participants/templates/admin/participants/delete_debateteam_warning.html
 msgid "Note that deleting an institution also deletes all teams from that institution."
@@ -542,12 +542,12 @@ msgstr "Pozor, vymazanie debatného klubu vymaže aj všetky tímy z tohto klubu
 #: participants/templates/admin/participants/delete_debateteam_warning.html
 #, python-format
 msgid "If you're very sure about deleting this %(object_name)s, please delete the above objects first, and be sure to heed the warning that you will see on the “debate team” objects page before proceeding."
-msgstr "ak si very sure about deleting toto %(object_name)s, please vymaza?vy??ie ako objects prv?, a by?sure na heed upozornenie?e ty bude see na “debata t?m” objects page pred proceeding."
+msgstr "Ak si ste naozaj istí, že chcete tento objekt %(object_name)s odstrániť, najskôr odstráňte uvedené objekty a pred pokračovaním si pozorne prečítajte varovanie, ktoré sa zobrazí na stránke objektov „debate team“."
 
 #: participants/templates/admin/participants/delete_debateteam_warning.html
 #, python-format
 msgid "If you're very sure about deleting these %(objects_name)s, please delete the above objects first, and be sure to heed the warning that you will see on the “debate team” objects page before proceeding."
-msgstr "ak si very sure about deleting tieto %(objects_name)s, please vymaza?vy??ie ako objects prv?, a by?sure na heed upozornenie?e ty bude see na “debata t?m” objects page pred proceeding."
+msgstr "Ak si ste naozaj istí, že chcete tieto %(objects_name)s odstrániť, najskôr odstráňte uvedené objekty a pred pokračovaním si pozorne prečítajte varovanie, ktoré sa zobrazí na stránke objektov „debate team“."
 
 #: participants/templates/admin/participants/team/change_form.html
 msgid "<strong>Don't forget:</strong> If this team should be conflicted against its own institution, you should add this conflict <strong>now</strong> in the <strong>Team-institution conflicts</strong> tab above, because the own-institution conflict is <strong>not</strong> automatically created when using this form."
@@ -845,7 +845,7 @@ msgstr[3] "Vyzer?na,?e %(team)s je competing v %(ndebates)s debaty toto kolo."
 
 #: participants/templates/in_this_round.html
 msgid "If this is an error, please contact a tab director immediately."
-msgstr "ak toto je an chyba, please contact a tab director okam?ite."
+msgstr "Ak ide o chybu, okamžite kontaktujte metodický dozor."
 
 #: participants/templates/in_this_round.html
 #, python-format
@@ -896,7 +896,7 @@ msgstr "Kategórie rečníkov umožňujú vytvoriť kategóriové taby rečníko
 #: participants/templates/speaker_categories_edit.html
 #, python-format
 msgid "If you want to delete speaker categories, use the <a href=\"%(edit_db_url)s\" class=\"alert-link\">Edit Database</a> area."
-msgstr "ak ty want na vymaza?re?n?k/re?n??ka kateg?rie, use <a href=\"%(edit_db_url)s\" class=\"alert-link\">Upravi?datab?zu</a> area."
+msgstr "Ak chcete odstrániť kategórie rečníkov, použite sekciu <a href=\"%(edit_db_url)s\" class=\"alert-link\">Upraviť databázu</a>."
 
 #: participants/templates/speaker_categories_edit.html
 msgid "Save Speaker Categories"
@@ -936,7 +936,7 @@ msgstr "Rečníci/rečníčky:"
 
 #: participants/templates/team_registration_card.html
 msgid "Eligible for break categories:"
-msgstr "opr?vnen?pre postupov?kateg?rie:"
+msgstr "Oprávnený/á pre postupové kategórie:"
 
 #: participants/templates/team_registration_card.html
 msgid "Speaker categories:"
