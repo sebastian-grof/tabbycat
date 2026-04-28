@@ -4,6 +4,7 @@ from threading import Lock
 from django.contrib import messages
 from django.contrib.auth import get_user_model, login
 from django.contrib.auth.views import PasswordResetConfirmView, PasswordResetView
+from django.db.models import Q
 from django.http.response import Http404
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
@@ -134,8 +135,8 @@ class RoleManagementView(AdministratorMixin, TournamentMixin, TemplateView):
             return AssignUserRolesForm(self.tournament, self.request.POST)
         return AssignUserRolesForm(self.tournament, user_instance=self.get_selected_user())
 
-    def get_permission_groups(self, form):
-        selected = set(form['permissions'].value() or [])
+    def get_permission_groups(self, form, field_name='permissions', id_prefix='permissions'):
+        selected = set(form[field_name].value() or [])
         groups = []
         for title, permissions in PERMISSION_GROUPS:
             groups.append({
@@ -144,16 +145,20 @@ class RoleManagementView(AdministratorMixin, TournamentMixin, TemplateView):
                     'value': permission.value,
                     'label': permission.label,
                     'checked': permission.value in selected,
-                    'id': 'id_permissions_%s' % slugify(permission.value),
+                    'id': 'id_%s_%s' % (id_prefix, slugify(permission.value)),
                 } for permission in permissions],
             })
         return groups
 
     def get_user_rows(self):
-        users = User.objects.filter(group_set__tournament=self.tournament).distinct().order_by('username', 'email')
+        users = User.objects.filter(
+            Q(group_set__tournament=self.tournament) | Q(userpermission__tournament=self.tournament),
+        ).distinct()
+        users = users.order_by('username', 'email')
         return [{
             'user': user,
             'roles': user.group_set.filter(tournament=self.tournament).order_by('name'),
+            'direct_permissions_count': user.userpermission_set.filter(tournament=self.tournament).count(),
         } for user in users]
 
     def get_context_data(self, **kwargs):
@@ -163,8 +168,13 @@ class RoleManagementView(AdministratorMixin, TournamentMixin, TemplateView):
             'role_form': role_form,
             'assignment_form': assignment_form,
             'permission_groups': self.get_permission_groups(role_form),
+            'direct_permission_groups': self.get_permission_groups(
+                assignment_form, field_name='direct_permissions', id_prefix='direct_permissions'),
             'roles': self.tournament.group_set.prefetch_related('users').order_by('name'),
             'user_rows': self.get_user_rows(),
+            'users_count': User.objects.filter(
+                Q(group_set__tournament=self.tournament) | Q(userpermission__tournament=self.tournament),
+            ).distinct().count(),
             'selected_role': self.get_selected_role(),
             'selected_user': self.get_selected_user(),
         })
@@ -188,7 +198,7 @@ class RoleManagementView(AdministratorMixin, TournamentMixin, TemplateView):
             assignment_form = self.get_assignment_form()
             if assignment_form.is_valid():
                 user = assignment_form.save()
-                messages.success(request, _("Roles for %(user)s saved.") % {'user': user})
+                messages.success(request, _("Access for %(user)s saved.") % {'user': user})
                 return redirect(reverse_tournament('user-role-management', self.tournament))
             return self.render_to_response(self.get_context_data(
                 role_form=role_form, assignment_form=assignment_form))

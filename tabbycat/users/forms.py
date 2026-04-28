@@ -5,7 +5,7 @@ from django.core.cache import cache
 from django.db import transaction
 from django.utils.translation import gettext_lazy as _
 
-from .models import Group, Membership
+from .models import Group, Membership, UserPermission
 from .permissions import PERM_CACHE_KEY, Permission
 
 
@@ -276,6 +276,13 @@ class AssignUserRolesForm(forms.Form):
         required=False,
         label=_("Roles"),
     )
+    direct_permissions = forms.MultipleChoiceField(
+        choices=Permission.choices,
+        widget=forms.CheckboxSelectMultiple,
+        required=False,
+        label=_("Individual permissions"),
+        help_text=_("Optional permissions granted directly to this user, in addition to their roles."),
+    )
 
     def __init__(self, tournament, *args, user_instance=None, **kwargs):
         self.tournament = tournament
@@ -285,7 +292,9 @@ class AssignUserRolesForm(forms.Form):
             initial = {
                 **initial,
                 'user': user_instance.pk,
-                'roles': user_instance.group_set.filter(tournament=tournament).values_list('pk', flat=True),
+                'roles': list(user_instance.group_set.filter(tournament=tournament).values_list('pk', flat=True)),
+                'direct_permissions': list(user_instance.userpermission_set.filter(
+                    tournament=tournament).values_list('permission', flat=True)),
             }
         super().__init__(*args, initial=initial, **kwargs)
         self.fields['user'].queryset = get_user_model().objects.order_by('username', 'email')
@@ -295,14 +304,36 @@ class AssignUserRolesForm(forms.Form):
     def save(self):
         user = self.cleaned_data['user']
         selected_roles = list(self.cleaned_data['roles'])
-        current_memberships = Membership.objects.filter(user=user, group__tournament=self.tournament)
+        selected_permissions = set(self.cleaned_data['direct_permissions'])
+        current_memberships = list(Membership.objects.filter(
+            user=user, group__tournament=self.tournament).select_related('group'))
+        current_permissions = set(UserPermission.objects.filter(
+            user=user, tournament=self.tournament).values_list('permission', flat=True))
 
         selected_role_ids = {role.pk for role in selected_roles}
-        current_memberships.exclude(group_id__in=selected_role_ids).delete()
+        current_role_ids = {membership.group_id for membership in current_memberships}
+        affected_permissions = (
+            set().union(*(membership.group.permissions for membership in current_memberships)) |
+            set().union(*(role.permissions for role in selected_roles)) |
+            current_permissions |
+            selected_permissions
+        )
 
-        existing_role_ids = set(current_memberships.values_list('group_id', flat=True))
+        Membership.objects.filter(
+            user=user, group__tournament=self.tournament).exclude(group_id__in=selected_role_ids).delete()
         for role in selected_roles:
-            if role.pk not in existing_role_ids:
+            if role.pk not in current_role_ids:
                 Membership.objects.create(user=user, group=role)
+
+        UserPermission.objects.filter(
+            user=user, tournament=self.tournament).exclude(permission__in=selected_permissions).delete()
+        for permission in selected_permissions - current_permissions:
+            UserPermission.objects.create(user=user, tournament=self.tournament, permission=permission)
+
+        if affected_permissions:
+            cache.delete_many([
+                PERM_CACHE_KEY % (user.pk, self.tournament.slug, permission)
+                for permission in affected_permissions
+            ])
 
         return user
