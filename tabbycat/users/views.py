@@ -135,6 +135,13 @@ class RoleManagementView(AdministratorMixin, TournamentMixin, TemplateView):
             return AssignUserRolesForm(self.tournament, self.request.POST)
         return AssignUserRolesForm(self.tournament, user_instance=self.get_selected_user())
 
+    def get_active_panel(self):
+        if self.request.method == 'POST' and self.request.POST.get('action') == 'save_role':
+            return 'roles'
+        if self.request.GET.get('panel') == 'roles' or self.request.GET.get('role'):
+            return 'roles'
+        return 'users'
+
     def get_permission_groups(self, form, field_name='permissions', id_prefix='permissions'):
         selected = set(form[field_name].value() or [])
         groups = []
@@ -175,6 +182,7 @@ class RoleManagementView(AdministratorMixin, TournamentMixin, TemplateView):
             'users_count': User.objects.filter(
                 Q(group_set__tournament=self.tournament) | Q(userpermission__tournament=self.tournament),
             ).distinct().count(),
+            'active_panel': self.get_active_panel(),
             'selected_role': self.get_selected_role(),
             'selected_user': self.get_selected_user(),
         })
@@ -189,7 +197,8 @@ class RoleManagementView(AdministratorMixin, TournamentMixin, TemplateView):
             if role_form.is_valid():
                 role = role_form.save()
                 messages.success(request, _("Role '%(role)s' saved.") % {'role': role.name})
-                return redirect(reverse_tournament('user-role-management', self.tournament))
+                return redirect("%s?panel=roles&role=%s" % (
+                    reverse_tournament('user-role-management', self.tournament), role.pk))
             return self.render_to_response(self.get_context_data(
                 role_form=role_form, assignment_form=assignment_form))
 
@@ -199,7 +208,8 @@ class RoleManagementView(AdministratorMixin, TournamentMixin, TemplateView):
             if assignment_form.is_valid():
                 user = assignment_form.save()
                 messages.success(request, _("Access for %(user)s saved.") % {'user': user})
-                return redirect(reverse_tournament('user-role-management', self.tournament))
+                return redirect("%s?user=%s" % (
+                    reverse_tournament('user-role-management', self.tournament), user.pk))
             return self.render_to_response(self.get_context_data(
                 role_form=role_form, assignment_form=assignment_form))
 

@@ -6,26 +6,6 @@
 
 {% block extra-css %}
   <style>
-    .role-control-hero {
-      border: 0;
-      overflow: hidden;
-      background: linear-gradient(135deg, rgba(102, 61, 160, 0.95), rgba(29, 145, 154, 0.92));
-      color: #fff;
-      box-shadow: 0 1rem 2rem rgba(46, 34, 78, 0.16);
-    }
-
-    .role-control-hero .text-muted,
-    .role-control-hero a {
-      color: rgba(255, 255, 255, 0.78) !important;
-    }
-
-    .role-metric {
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      border-radius: 0.75rem;
-      background: rgba(255, 255, 255, 0.12);
-      backdrop-filter: blur(6px);
-    }
-
     .access-card {
       border: 0;
       border-radius: 0.85rem;
@@ -116,240 +96,114 @@
 
 {% block content %}
 
-  <div class="card role-control-hero mb-3">
-    <div class="card-body p-4">
-      <div class="row align-items-center">
-        <div class="col-lg-7 col-12 mb-3 mb-lg-0">
-          <span class="badge badge-light text-primary mb-2">{% trans "Superusers only" %}</span>
-          <h3 class="mb-2">{% trans "Tournament access control" %}</h3>
-          <p class="mb-0 text-muted">
-            {% trans "Create role templates, grant direct user permissions, and keep tournament access in one place." %}
+  <div class="card access-card mb-3 d-print-none">
+    <div class="card-body d-lg-flex justify-content-between align-items-center">
+      <div class="mb-3 mb-lg-0">
+        {% if active_panel == 'roles' %}
+          <h4 class="mb-1">{% trans "Role Editor" %}</h4>
+          <p class="text-muted mb-0">
+            {% trans "Create reusable role templates and edit their permissions." %}
           </p>
-        </div>
-        <div class="col-lg-5 col-12">
-          <div class="row">
-            <div class="col-6">
-              <div class="role-metric p-3 text-center">
-                <div class="h3 mb-0">{{ roles|length }}</div>
-                <small class="text-muted">{% trans "roles" %}</small>
-              </div>
-            </div>
-            <div class="col-6">
-              <div class="role-metric p-3 text-center">
-                <div class="h3 mb-0">{{ users_count }}</div>
-                <small class="text-muted">{% trans "users with access" %}</small>
-              </div>
-            </div>
-          </div>
-        </div>
+        {% else %}
+          <h4 class="mb-1">{% trans "User Access" %}</h4>
+          <p class="text-muted mb-0">
+            {% trans "Assign existing users to roles, with optional individual permission overrides." %}
+          </p>
+        {% endif %}
+      </div>
+      <div class="btn-group flex-wrap" role="group">
+        {% if active_panel == 'roles' %}
+          {% tournamenturl 'user-role-management' as access_url %}
+          <a class="btn btn-outline-primary" href="{{ access_url }}">{% trans "Back to User Access" %}</a>
+          <a class="btn btn-primary" href="?panel=roles">{% trans "New Role" %}</a>
+        {% else %}
+          {% tournamenturl 'invite-user' as invite_url %}
+          <a class="btn btn-outline-primary" href="{{ invite_url }}">{% trans "Invite User" %}</a>
+          <a class="btn btn-primary" href="?panel=roles">{% trans "Manage Roles" %}</a>
+        {% endif %}
       </div>
     </div>
   </div>
 
-  <div class="row">
+  {% if active_panel == 'roles' %}
 
-    <div class="col-xl-4 col-lg-5 col-12 mb-3">
-
-      <div class="card access-card mb-3">
-        <div class="card-header d-flex justify-content-between align-items-center">
-          <div>
-            <h4 class="mb-0">{% trans "Role Library" %}</h4>
-            <small class="text-muted">{% trans "Reusable permission sets for this tournament." %}</small>
+    <div class="row">
+      <div class="col-xl-4 col-lg-5 col-12 mb-3">
+        <div class="card access-card">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <div>
+              <h4 class="mb-0">{% trans "Role Library" %}</h4>
+              <small class="text-muted">{% trans "Reusable permission sets for this tournament." %}</small>
+            </div>
+            <a class="btn btn-sm btn-outline-primary" href="?panel=roles">{% trans "New" %}</a>
           </div>
-          <a class="btn btn-sm btn-outline-primary" href="?">{% trans "New role" %}</a>
-        </div>
-        <div class="list-group list-group-flush">
-          {% for role in roles %}
-            <a class="list-group-item list-group-item-action role-list-item {% if selected_role.pk == role.pk %}active-soft{% endif %}" href="?role={{ role.pk }}">
-              <div class="d-flex justify-content-between align-items-start">
-                <strong>{{ role.name }}</strong>
-                <span class="badge badge-light">{{ role.permissions|length }}</span>
-              </div>
-              <small class="text-muted">
-                {% blocktrans count count=role.users.count trimmed %}
-                  {{ count }} user assigned
-                {% plural %}
-                  {{ count }} users assigned
-                {% endblocktrans %}
-              </small>
-            </a>
-          {% empty %}
-            <div class="list-group-item text-muted">
-              {% trans "No roles yet. Start by creating one on the right." %}
-            </div>
-          {% endfor %}
-        </div>
-      </div>
-
-      <div class="card access-card">
-        <div class="card-header">
-          <h4 class="mb-0">{% trans "User Access Directory" %}</h4>
-          <small class="text-muted">{% trans "Open a user to edit roles and individual permissions." %}</small>
-        </div>
-        <div class="list-group list-group-flush">
-          {% for row in user_rows %}
-            <a class="list-group-item list-group-item-action role-list-item {% if selected_user.pk == row.user.pk %}active-soft{% endif %}" href="?user={{ row.user.pk }}">
-              <div class="d-flex justify-content-between align-items-start">
-                <strong>{{ row.user }}</strong>
-                <span class="text-muted small">{% trans "Edit" %}</span>
-              </div>
-              <small class="text-muted d-block">
-                {% for role in row.roles %}
-                  {{ role.name }}{% if not forloop.last %}, {% endif %}
-                {% empty %}
-                  {% trans "No roles" %}
-                {% endfor %}
-              </small>
-              {% if row.direct_permissions_count %}
-                <span class="badge badge-info mt-2">
-                  {% blocktrans count count=row.direct_permissions_count trimmed %}
-                    {{ count }} direct permission
-                  {% plural %}
-                    {{ count }} direct permissions
-                  {% endblocktrans %}
-                </span>
-              {% endif %}
-            </a>
-          {% empty %}
-            <div class="list-group-item text-muted">
-              {% trans "No users have tournament access yet." %}
-            </div>
-          {% endfor %}
-        </div>
-      </div>
-
-    </div>
-
-    <div class="col-xl-8 col-lg-7 col-12 mb-3">
-
-      <div class="card access-card mb-3">
-        <div class="card-header">
-          <h4 class="mb-1">
-            {% if selected_role %}
-              {% trans "Edit Role" %}
-            {% else %}
-              {% trans "Create Role" %}
-            {% endif %}
-          </h4>
-          <small class="text-muted">
-            {% trans "Role permissions apply to every user assigned to that role." %}
-          </small>
-        </div>
-
-        <form method="post">
-          {% csrf_token %}
-          <input type="hidden" name="action" value="save_role">
-          {{ role_form.role_id }}
-
-          <div class="card-body">
-            {{ role_form.non_field_errors }}
-            <div class="form-group">
-              <label for="{{ role_form.name.id_for_label }}">{{ role_form.name.label }}</label>
-              {{ role_form.name|addcss:"form-control form-control-lg" }}
-              {{ role_form.name.errors }}
-            </div>
-
-            <div class="d-flex justify-content-between align-items-center mb-2">
-              <h5 class="mb-0">{% trans "Role permissions" %}</h5>
-              <span class="badge badge-light">{% trans "Grouped by admin area" %}</span>
-            </div>
-            {{ role_form.permissions.errors }}
-
-            {% for group in permission_groups %}
-              <details class="permission-panel" {% if forloop.first %}open{% endif %}>
-                <summary>
-                  <span>{{ group.title }}</span>
-                </summary>
-                <div class="permission-grid">
-                  {% for permission in group.options %}
-                    <div class="form-check permission-option">
-                      <input class="form-check-input" type="checkbox" name="permissions"
-                             id="{{ permission.id }}" value="{{ permission.value }}"
-                             {% if permission.checked %}checked{% endif %}>
-                      <label class="form-check-label" for="{{ permission.id }}">
-                        {{ permission.label }}
-                      </label>
-                    </div>
-                  {% endfor %}
+          <div class="list-group list-group-flush">
+            {% for role in roles %}
+              <a class="list-group-item list-group-item-action role-list-item {% if selected_role.pk == role.pk %}active-soft{% endif %}" href="?panel=roles&role={{ role.pk }}">
+                <div class="d-flex justify-content-between align-items-start">
+                  <strong>{{ role.name }}</strong>
+                  <span class="badge badge-light">{{ role.permissions|length }}</span>
                 </div>
-              </details>
+                <small class="text-muted">
+                  {% blocktrans count count=role.users.count trimmed %}
+                    {{ count }} user assigned
+                  {% plural %}
+                    {{ count }} users assigned
+                  {% endblocktrans %}
+                </small>
+              </a>
+            {% empty %}
+              <div class="list-group-item text-muted">
+                {% trans "No roles yet. Start by creating one on the right." %}
+              </div>
             {% endfor %}
           </div>
-
-          <div class="card-footer bg-white d-flex justify-content-between align-items-center">
-            <small class="text-muted">
-              {% trans "Changing a role updates everyone using it." %}
-            </small>
-            <button type="submit" class="btn btn-success">
-              {% if selected_role %}{% trans "Save Role" %}{% else %}{% trans "Create Role" %}{% endif %}
-            </button>
-          </div>
-        </form>
+        </div>
       </div>
 
-      <div class="card access-card">
-        <div class="card-header d-flex justify-content-between align-items-start">
-          <div>
-            <h4 class="mb-1">{% trans "User Access" %}</h4>
+      <div class="col-xl-8 col-lg-7 col-12 mb-3">
+        <div class="card access-card">
+          <div class="card-header">
+            <h4 class="mb-1">
+              {% if selected_role %}
+                {% trans "Edit Role" %}
+              {% else %}
+                {% trans "Create Role" %}
+              {% endif %}
+            </h4>
             <small class="text-muted">
-              {% trans "Assign roles first, then add direct permissions only for exceptions." %}
+              {% trans "Role permissions apply to every user assigned to that role." %}
             </small>
           </div>
-          {% tournamenturl 'invite-user' as invite_url %}
-          <a class="btn btn-sm btn-outline-primary" href="{{ invite_url }}">{% trans "Invite user" %}</a>
-        </div>
 
-        <form method="post">
-          {% csrf_token %}
-          <input type="hidden" name="action" value="assign_user_roles">
+          <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="save_role">
+            {{ role_form.role_id }}
 
-          <div class="card-body">
-            {{ assignment_form.non_field_errors }}
-            <div class="form-group">
-              <label for="{{ assignment_form.user.id_for_label }}">{{ assignment_form.user.label }}</label>
-              {{ assignment_form.user|addcss:"form-control form-control-lg" }}
-              {{ assignment_form.user.errors }}
-            </div>
+            <div class="card-body">
+              {{ role_form.non_field_errors }}
+              <div class="form-group">
+                <label for="{{ role_form.name.id_for_label }}">{{ role_form.name.label }}</label>
+                {{ role_form.name|addcss:"form-control form-control-lg" }}
+                {{ role_form.name.errors }}
+              </div>
 
-            <div class="mb-4">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <h5 class="mb-0">{{ assignment_form.roles.label }}</h5>
-                <span class="badge badge-light">{% trans "Recommended" %}</span>
+                <h5 class="mb-0">{% trans "Role permissions" %}</h5>
+                <span class="badge badge-light">{% trans "Grouped by admin area" %}</span>
               </div>
-              {{ assignment_form.roles.errors }}
-              <div class="role-chip-grid">
-                {% for role in assignment_form.roles %}
-                  <label class="role-chip mb-0" for="{{ role.id_for_label }}">
-                    <span class="form-check mb-0">
-                      {{ role.tag }}
-                      <span class="form-check-label ml-1">{{ role.choice_label }}</span>
-                    </span>
-                  </label>
-                {% empty %}
-                  <p class="text-muted mb-0">{% trans "No roles exist yet. Create one first." %}</p>
-                {% endfor %}
-              </div>
-            </div>
+              {{ role_form.permissions.errors }}
 
-            <div>
-              <div class="d-flex justify-content-between align-items-center mb-2">
-                <h5 class="mb-0">{{ assignment_form.direct_permissions.label }}</h5>
-                <span class="badge badge-warning">{% trans "Exception access" %}</span>
-              </div>
-              <p class="text-muted small mb-3">
-                {{ assignment_form.direct_permissions.help_text }}
-              </p>
-              {{ assignment_form.direct_permissions.errors }}
-
-              {% for group in direct_permission_groups %}
-                <details class="permission-panel">
+              {% for group in permission_groups %}
+                <details class="permission-panel" {% if forloop.first %}open{% endif %}>
                   <summary>
                     <span>{{ group.title }}</span>
                   </summary>
                   <div class="permission-grid">
                     {% for permission in group.options %}
                       <div class="form-check permission-option">
-                        <input class="form-check-input" type="checkbox" name="direct_permissions"
+                        <input class="form-check-input" type="checkbox" name="permissions"
                                id="{{ permission.id }}" value="{{ permission.value }}"
                                {% if permission.checked %}checked{% endif %}>
                         <label class="form-check-label" for="{{ permission.id }}">
@@ -361,19 +215,152 @@
                 </details>
               {% endfor %}
             </div>
-          </div>
 
-          <div class="card-footer bg-white d-flex justify-content-between align-items-center">
-            <small class="text-muted">
-              {% trans "Direct permissions are added on top of selected roles." %}
-            </small>
-            <button type="submit" class="btn btn-success">{% trans "Save User Access" %}</button>
-          </div>
-        </form>
+            <div class="card-footer bg-white d-flex justify-content-between align-items-center">
+              <small class="text-muted">
+                {% trans "Changing a role updates everyone using it." %}
+              </small>
+              <button type="submit" class="btn btn-success">
+                {% if selected_role %}{% trans "Save Role" %}{% else %}{% trans "Create Role" %}{% endif %}
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
-
     </div>
 
-  </div>
+  {% else %}
+
+    <div class="row">
+      <div class="col-xl-8 col-lg-7 col-12 mb-3">
+        <div class="card access-card">
+          <div class="card-header d-flex justify-content-between align-items-start">
+            <div>
+              <h4 class="mb-1">{% trans "Edit User Access" %}</h4>
+              <small class="text-muted">
+                {% trans "Use roles for normal access, then direct permissions only for exceptions." %}
+              </small>
+            </div>
+            <a class="btn btn-sm btn-outline-primary" href="?panel=roles">{% trans "Manage Roles" %}</a>
+          </div>
+
+          <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="assign_user_roles">
+
+            <div class="card-body">
+              {{ assignment_form.non_field_errors }}
+              <div class="form-group">
+                <label for="{{ assignment_form.user.id_for_label }}">{{ assignment_form.user.label }}</label>
+                {{ assignment_form.user|addcss:"form-control form-control-lg" }}
+                {{ assignment_form.user.errors }}
+              </div>
+
+              <div class="mb-4">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <h5 class="mb-0">{{ assignment_form.roles.label }}</h5>
+                  <span class="badge badge-light">{% trans "Recommended" %}</span>
+                </div>
+                {{ assignment_form.roles.errors }}
+                <div class="role-chip-grid">
+                  {% for role in assignment_form.roles %}
+                    <label class="role-chip mb-0" for="{{ role.id_for_label }}">
+                      <span class="form-check mb-0">
+                        {{ role.tag }}
+                        <span class="form-check-label ml-1">{{ role.choice_label }}</span>
+                      </span>
+                    </label>
+                  {% empty %}
+                    <div class="text-muted mb-0">
+                      {% trans "No roles exist yet." %}
+                      <a href="?panel=roles">{% trans "Create one first." %}</a>
+                    </div>
+                  {% endfor %}
+                </div>
+              </div>
+
+              <div>
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <h5 class="mb-0">{{ assignment_form.direct_permissions.label }}</h5>
+                  <span class="badge badge-warning">{% trans "Exception access" %}</span>
+                </div>
+                <p class="text-muted small mb-3">
+                  {{ assignment_form.direct_permissions.help_text }}
+                </p>
+                {{ assignment_form.direct_permissions.errors }}
+
+                {% for group in direct_permission_groups %}
+                  <details class="permission-panel">
+                    <summary>
+                      <span>{{ group.title }}</span>
+                    </summary>
+                    <div class="permission-grid">
+                      {% for permission in group.options %}
+                        <div class="form-check permission-option">
+                          <input class="form-check-input" type="checkbox" name="direct_permissions"
+                                 id="{{ permission.id }}" value="{{ permission.value }}"
+                                 {% if permission.checked %}checked{% endif %}>
+                          <label class="form-check-label" for="{{ permission.id }}">
+                            {{ permission.label }}
+                          </label>
+                        </div>
+                      {% endfor %}
+                    </div>
+                  </details>
+                {% endfor %}
+              </div>
+            </div>
+
+            <div class="card-footer bg-white d-flex justify-content-between align-items-center">
+              <small class="text-muted">
+                {% trans "Direct permissions are added on top of selected roles." %}
+              </small>
+              <button type="submit" class="btn btn-success">{% trans "Save User Access" %}</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="col-xl-4 col-lg-5 col-12 mb-3">
+        <div class="card access-card">
+          <div class="card-header">
+            <h4 class="mb-0">{% trans "User Access Directory" %}</h4>
+            <small class="text-muted">{% trans "Open a user to edit roles and individual permissions." %}</small>
+          </div>
+          <div class="list-group list-group-flush">
+            {% for row in user_rows %}
+              <a class="list-group-item list-group-item-action role-list-item {% if selected_user.pk == row.user.pk %}active-soft{% endif %}" href="?user={{ row.user.pk }}">
+                <div class="d-flex justify-content-between align-items-start">
+                  <strong>{{ row.user }}</strong>
+                  <span class="text-muted small">{% trans "Edit" %}</span>
+                </div>
+                <small class="text-muted d-block">
+                  {% for role in row.roles %}
+                    {{ role.name }}{% if not forloop.last %}, {% endif %}
+                  {% empty %}
+                    {% trans "No roles" %}
+                  {% endfor %}
+                </small>
+                {% if row.direct_permissions_count %}
+                  <span class="badge badge-info mt-2">
+                    {% blocktrans count count=row.direct_permissions_count trimmed %}
+                      {{ count }} direct permission
+                    {% plural %}
+                      {{ count }} direct permissions
+                    {% endblocktrans %}
+                  </span>
+                {% endif %}
+              </a>
+            {% empty %}
+              <div class="list-group-item text-muted">
+                {% trans "No users have tournament access yet." %}
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+  {% endif %}
 
 {% endblock content %}
