@@ -36,6 +36,8 @@ from utils.views import ModelFormSetView, PostOnlyRedirectView, VueTableTemplate
 
 from .forms import (
     AdjudicatorForm,
+    AdminAdjudicatorEditForm,
+    AdminTeamRegistrationEditForm,
     InstitutionCoachForm,
     InstitutionEditForm,
     ParticipantAllocationForm,
@@ -45,7 +47,12 @@ from .forms import (
     TournamentInstitutionForm,
 )
 from .models import Invitation, Question, SlotTransferRequest
-from .utils import add_confirm_button_column, add_slot_transfer_status_column, populate_invitation_url_keys
+from .utils import (
+    add_confirm_button_column,
+    add_edit_button_column,
+    add_slot_transfer_status_column,
+    populate_invitation_url_keys,
+)
 
 
 class CustomQuestionFormMixin:
@@ -635,6 +642,89 @@ class AdminEditInstitutionFormView(TournamentMixin, AdministratorMixin, FormView
         return super().form_valid(form)
 
 
+class AdminEditTeamRegistrationView(LogActionMixin, TournamentMixin, AdministratorMixin, FormView):
+    form_class = AdminTeamRegistrationEditForm
+    template_name = 'registration/team_edit.html'
+    page_emoji = '👯'
+    page_title = gettext_lazy("Edit team registration")
+    view_permission = Permission.VIEW_REGISTRATION
+    edit_permission = Permission.EDIT_REGISTRATION
+    action_log_type = ActionLogEntry.ActionType.TEAM_EDIT
+    action_log_content_object_attr = 'object'
+
+    def get_object(self):
+        return get_object_or_404(
+            Team.objects.all_with_unconfirmed.select_related('institution').prefetch_related(
+                'answers__question',
+                'speaker_set__answers__question',
+                'speaker_set__categories',
+                'break_categories',
+            ),
+            tournament=self.tournament,
+            pk=self.kwargs['pk'],
+        )
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['tournament'] = self.tournament
+        kwargs['team'] = self.get_object()
+        return kwargs
+
+    def get_success_url(self):
+        return reverse_tournament('reg-team-list', self.tournament)
+
+    def get_context_data(self, **kwargs):
+        team = self.get_object()
+        kwargs['team'] = team
+        kwargs['page_subtitle'] = team.short_name
+        return super().get_context_data(**kwargs)
+
+    def form_valid(self, form):
+        self.object = form.save()
+        messages.success(self.request, _("Team %s updated.") % self.object.short_name)
+        return super().form_valid(form)
+
+
+class AdminEditAdjudicatorRegistrationView(LogActionMixin, TournamentMixin, AdministratorMixin, FormView):
+    form_class = AdminAdjudicatorEditForm
+    template_name = 'registration/adjudicator_edit.html'
+    page_emoji = '👂'
+    page_title = gettext_lazy("Edit adjudicator registration")
+    view_permission = Permission.VIEW_REGISTRATION
+    edit_permission = Permission.EDIT_REGISTRATION
+    action_log_type = ActionLogEntry.ActionType.ADJUDICATOR_EDIT
+    action_log_content_object_attr = 'object'
+
+    def get_object(self):
+        return get_object_or_404(
+            Adjudicator.objects.all_with_unconfirmed.select_related('institution').prefetch_related(
+                'answers__question',
+            ),
+            tournament=self.tournament,
+            pk=self.kwargs['pk'],
+        )
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['tournament'] = self.tournament
+        kwargs['instance'] = self.get_object()
+        return kwargs
+
+    def get_success_url(self):
+        return reverse_tournament('reg-adjudicator-list', self.tournament)
+
+    def get_context_data(self, **kwargs):
+        adjudicator = self.get_object()
+        kwargs['adjudicator'] = adjudicator
+        kwargs['page_subtitle'] = adjudicator.name
+        return super().get_context_data(**kwargs)
+
+    def form_valid(self, form):
+        self.object = form.save()
+        messages.success(self.request, _("Adjudicator %s updated.") % self.object.name)
+        return super().form_valid(form)
+
+
 class CoachViewResponseFormView(PublicTournamentPageMixin, InstitutionalRegistrationMixin, FormView):
     # This form is read-only: coaches can view their institution and primary contact response but cannot edit.
     form_class = InstitutionEditForm
@@ -883,6 +973,7 @@ class TeamRegistrationTableView(TournamentMixin, AdministratorMixin, VueTableTem
 
         table = TabbycatTableBuilder(view=self, title=_('Responses'), sort_key='team')
         table.add_team_columns(teams)
+        add_edit_button_column(table, teams, 'reg-team-edit')
         add_confirm_button_column(table, teams, 'reg-team-confirm', self.request)
 
         handle_question_columns(table, teams)
@@ -909,6 +1000,7 @@ class AdjudicatorRegistrationTableView(TournamentMixin, AdministratorMixin, VueT
         table = TabbycatTableBuilder(view=self, title=_('Responses'), sort_key='name')
         table.add_adjudicator_columns(adjudicators, show_metadata=False)
         table.add_column({'key': 'email', 'title': _("Email")}, [adj.email for adj in adjudicators])
+        add_edit_button_column(table, adjudicators, 'reg-adjudicator-edit')
         add_confirm_button_column(table, adjudicators, 'reg-adjudicator-confirm', self.request)
 
         handle_question_columns(table, adjudicators)

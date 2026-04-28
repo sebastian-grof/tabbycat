@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load add_field_css debate_tags i18n %}
+
+{% block extra-css %}
+<style>
+  .registration-edit-shell { max-width: 960px; }
+  .registration-edit-hero {
+    border: 0;
+    overflow: hidden;
+    background: linear-gradient(135deg, #f7fbff 0%, #f1f7ff 48%, #fff7ef 100%);
+  }
+  .registration-edit-hero .display-emoji {
+    font-size: 3.2rem;
+    line-height: 1;
+    filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.12));
+  }
+  .registration-edit-card {
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 10px 24px rgba(25, 42, 70, 0.06);
+  }
+  .registration-edit-card .card-header {
+    background: #fff;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="registration-edit-shell mx-auto">
+  <form action="." method="POST" class="d-flex flex-column gap-3">
+    {% csrf_token %}
+    {{ form.media }}
+
+    <div class="card registration-edit-hero registration-edit-card">
+      <div class="card-body d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+        <div class="d-flex align-items-center mb-3 mb-md-0">
+          <div class="display-emoji mr-3">👂</div>
+          <div>
+            <div class="text-uppercase small text-muted font-weight-bold mb-1">{% trans "Adjudicator registration" %}</div>
+            <h3 class="mb-1">{{ adjudicator.name }}</h3>
+            <div class="text-muted">
+              {% if adjudicator.institution %}{{ adjudicator.institution.name }}{% else %}{% trans "Independent / no institution" %}{% endif %}
+              · {{ adjudicator.get_registration_status_display }}
+            </div>
+          </div>
+        </div>
+        <a class="btn btn-outline-secondary" href="{% tournamenturl 'reg-adjudicator-list' %}">{% trans "Back to adjudicators" %}</a>
+      </div>
+    </div>
+
+    <div class="card registration-edit-card">
+      <div class="card-header">
+        <h5 class="mb-0">{% trans "Adjudicator details" %}</h5>
+        <small class="text-muted">{% trans "Edit contact details, institution, tab settings, score and registration status. Feedback is managed separately." %}</small>
+      </div>
+      {% include "components/form-main.html" with form=form double=True %}
+    </div>
+
+    <div class="card registration-edit-card">
+      {% trans "Save adjudicator" context "button" as title %}
+      {% trans "Back to adjudicator registration" as subtitle %}
+      {% tournamenturl 'reg-adjudicator-list' as suburl %}
+      {% include "components/form-submit.html" %}
+    </div>
+  </form>
+</div>
+{% endblock %}

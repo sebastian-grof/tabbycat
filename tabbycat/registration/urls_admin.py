@@ -23,6 +23,7 @@ urlpatterns = [
     ])),
     path('teams/', include([
         path('', views.TeamRegistrationTableView.as_view(), name='reg-team-list'),
+        path('<int:pk>/edit/', views.AdminEditTeamRegistrationView.as_view(), name='reg-team-edit'),
         path('<int:pk>/confirm/', views.ConfirmTeamRegistrationView.as_view(), name='reg-team-confirm'),
         path('questions/',
             views.CustomQuestionFormsetView.as_view(question_model=Team, success_url='reg-team-list'),
@@ -30,6 +31,7 @@ urlpatterns = [
     ])),
     path('adjudicators/', include([
         path('', views.AdjudicatorRegistrationTableView.as_view(), name='reg-adjudicator-list'),
+        path('<int:pk>/edit/', views.AdminEditAdjudicatorRegistrationView.as_view(), name='reg-adjudicator-edit'),
         path('<int:pk>/confirm/', views.ConfirmAdjudicatorRegistrationView.as_view(), name='reg-adjudicator-confirm'),
         path('questions/',
             views.CustomQuestionFormsetView.as_view(question_model=Adjudicator, success_url='reg-adjudicator-list'),

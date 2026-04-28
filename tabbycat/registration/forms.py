@@ -1,8 +1,12 @@
 import random
 
 from django import forms
+from django.core.exceptions import ValidationError
+from django.forms import modelformset_factory
 from django.utils.translation import gettext_lazy as _
 
+from adjallocation.models import AdjudicatorInstitutionConflict, TeamInstitutionConflict
+from breakqual.models import BreakCategory
 from participants.emoji import EMOJI_RANDOM_FIELD_CHOICES, pick_unused_emoji
 from participants.models import Adjudicator, Coach, Institution, Region, RegistrationStatus, Speaker, Team, TournamentInstitution
 from privateurls.utils import populate_url_keys
@@ -308,6 +312,161 @@ class AdjudicatorForm(CustomQuestionsFormMixin, forms.ModelForm):
 
         if obj.institution:
             obj.adjudicatorinstitutionconflict_set.create(institution=obj.institution)
+        return obj
+
+
+class AdminTeamEditForm(CustomQuestionsFormMixin, forms.ModelForm):
+    _enforce_required = False
+
+    def __init__(self, tournament, *args, **kwargs):
+        self.tournament = tournament
+        super().__init__(*args, **kwargs)
+        self.original_institution_id = self.instance.institution_id
+        self.fields['institution'].queryset = Institution.objects.order_by('name')
+        self.fields['break_categories'].queryset = BreakCategory.objects.filter(tournament=tournament).order_by('seq')
+        self.add_question_fields()
+        if self.instance.pk:
+            self.initial.update(get_answers_initial(self.instance))
+
+    class Meta:
+        model = Team
+        fields = (
+            'reference', 'short_reference', 'code_name', 'emoji', 'institution',
+            'use_institution_prefix', 'break_categories', 'seed', 'type',
+            'registration_status',
+        )
+        labels = {
+            'reference': _("Full team name/suffix"),
+            'short_reference': _("Short team name/suffix"),
+        }
+
+    def clean_break_categories(self):
+        categories = self.cleaned_data['break_categories']
+        for category in categories:
+            if category.tournament != self.tournament:
+                raise ValidationError(
+                    _("The team can't be in a break category of a different tournament. Please remove: %(category)s"),
+                    code='invalid_break_category', params={'category': str(category)},
+                )
+        return categories
+
+    def save(self, commit=True):
+        self.instance.tournament = self.tournament
+        obj = super().save(commit=commit)
+        if commit:
+            self.save_m2m()
+            self.save_answers(obj, replace_existing=True)
+            if self.original_institution_id and self.original_institution_id != obj.institution_id:
+                TeamInstitutionConflict.objects.filter(team=obj, institution_id=self.original_institution_id).delete()
+            if obj.institution_id:
+                TeamInstitutionConflict.objects.get_or_create(team=obj, institution=obj.institution)
+        return obj
+
+
+class AdminSpeakerEditForm(CustomQuestionsFormMixin, forms.ModelForm):
+    _enforce_required = False
+
+    def __init__(self, team, *args, **kwargs):
+        self.team = team
+        self.tournament = team.tournament
+        super().__init__(*args, **kwargs)
+        self.fields['categories'].queryset = self.tournament.speakercategory_set.order_by('seq')
+        self.add_question_fields()
+        if self.instance.pk:
+            self.initial.update(get_answers_initial(self.instance))
+
+    class Meta:
+        model = Speaker
+        fields = (
+            'name', 'last_name', 'email', 'phone', 'gender', 'pronoun',
+            'anonymous', 'code_name', 'categories',
+        )
+        labels = {
+            'name': _("Full name for tab"),
+        }
+
+    def save(self, commit=True):
+        self.instance.team = self.team
+        obj = super().save(commit=commit)
+        if commit:
+            self.save_m2m()
+            if not obj.url_key:
+                populate_url_keys([obj])
+            self.save_answers(obj, replace_existing=True)
+        return obj
+
+
+class AdminTeamRegistrationEditForm(forms.Form):
+
+    speaker_formset_class = modelformset_factory(
+        Speaker, form=AdminSpeakerEditForm, can_delete=True, extra=1,
+    )
+
+    def __init__(self, tournament, team, data=None, *args, **kwargs):
+        super().__init__(data=data, *args, **kwargs)
+        self.tournament = tournament
+        self.team = team
+        self.team_form = AdminTeamEditForm(
+            tournament, data=data, instance=team, prefix='team',
+        )
+        self.speaker_formset = self.speaker_formset_class(
+            data=data,
+            queryset=team.speaker_set.order_by('id'),
+            prefix='speakers',
+            form_kwargs={'team': team},
+        )
+
+    def is_valid(self):
+        return self.team_form.is_valid() and self.speaker_formset.is_valid()
+
+    def save(self):
+        team = self.team_form.save()
+        deleted_forms = set(self.speaker_formset.deleted_forms)
+        for form in self.speaker_formset.forms:
+            if form in deleted_forms:
+                if form.instance.pk:
+                    form.instance.delete()
+                continue
+            if form.has_changed():
+                form.save()
+        return team
+
+
+class AdminAdjudicatorEditForm(CustomQuestionsFormMixin, forms.ModelForm):
+    _enforce_required = False
+
+    def __init__(self, tournament, *args, **kwargs):
+        self.tournament = tournament
+        super().__init__(*args, **kwargs)
+        self.original_institution_id = self.instance.institution_id
+        self.fields['institution'].queryset = Institution.objects.order_by('name')
+        self.add_question_fields()
+        if self.instance.pk:
+            self.initial.update(get_answers_initial(self.instance))
+
+    class Meta:
+        model = Adjudicator
+        fields = (
+            'name', 'institution', 'email', 'phone', 'gender', 'pronoun',
+            'anonymous', 'code_name', 'base_score', 'trainee', 'breaking',
+            'independent', 'adj_core', 'registration_status',
+        )
+        labels = {
+            'name': _("Full name for tab"),
+        }
+
+    def save(self, commit=True):
+        self.instance.tournament = self.tournament
+        obj = super().save(commit=commit)
+        if commit:
+            if not obj.url_key:
+                populate_url_keys([obj])
+            self.save_answers(obj, replace_existing=True)
+            if self.original_institution_id and self.original_institution_id != obj.institution_id:
+                AdjudicatorInstitutionConflict.objects.filter(
+                    adjudicator=obj, institution_id=self.original_institution_id).delete()
+            if obj.institution_id:
+                AdjudicatorInstitutionConflict.objects.get_or_create(adjudicator=obj, institution=obj.institution)
         return obj
 
 

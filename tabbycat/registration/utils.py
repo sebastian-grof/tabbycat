@@ -41,6 +41,11 @@ confirm_html = """
     </button>
 </form>"""
 
+edit_html = """
+<a class="btn btn-sm btn-outline-primary" href="{}">
+    {}
+</a>"""
+
 
 def add_confirm_button_column(table: 'TabbycatTableBuilder', instances: list, url_name: str, request: 'HttpRequest') -> None:
     csrf_token = get_token(request)
@@ -55,6 +60,17 @@ def add_confirm_button_column(table: 'TabbycatTableBuilder', instances: list, ur
         else:
             confirm_buttons.append({'icon': 'check', 'sort': 1, 'class': 'text-success'})
     table.add_column({'key': 'confirm', 'title': _("Confirm")}, confirm_buttons)
+
+
+def add_edit_button_column(table: 'TabbycatTableBuilder', instances: list, url_name: str) -> None:
+    edit_buttons = []
+    for instance in instances:
+        edit_url = reverse_tournament(url_name, table.tournament, kwargs={'pk': instance.pk})
+        edit_buttons.append({
+            'text': format_html(edit_html, edit_url, _("Edit")),
+            'sort': 0,
+        })
+    table.add_column({'key': 'edit', 'title': _("Edit")}, edit_buttons)
 
 
 slot_transfer_approve_html = """
