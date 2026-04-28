@@ -1,0 +1,64 @@
+{% extends "seasonbreaks/base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <div class="card mb-3">
+    <div class="card-header"><h4 class="mb-0">{% trans "Tournaments" %}</h4></div>
+    <table class="table table-sm mb-0">
+      <thead><tr><th>{% trans "Seq" %}</th><th>{% trans "Tournament" %}</th><th>{% trans "Region" %}</th><th>{% trans "Frozen" %}</th><th></th></tr></thead>
+      <tbody>
+        {% for bt in tournaments %}
+          <tr>
+            <td>{{ bt.seq }}</td>
+            <td>{{ bt.tournament }}</td>
+            <td>{{ bt.region.name }}</td>
+            <td>{% if bt.frozen_at %}{{ bt.frozen_at }}{% else %}<span class="text-muted">{% trans "Not frozen" %}</span>{% endif %}</td>
+            <td class="text-right">
+              {% if can_edit_breaks %}
+                <form method="post" class="d-inline">
+                  {% csrf_token %}
+                  <input type="hidden" name="action" value="freeze">
+                  <input type="hidden" name="break_tournament" value="{{ bt.id }}">
+                  <button class="btn btn-sm btn-outline-primary" type="submit">{% trans "Freeze / Update results" %}</button>
+                </form>
+              {% endif %}
+            </td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="5" class="text-muted">{% trans "No tournaments are assigned to this season yet." %}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  {% if can_edit_breaks %}
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header"><h4 class="mb-0">{% trans "Add region" %}</h4></div>
+          <form method="post" class="card-body">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="add_region">
+            {% include "components/form-field.html" with field=region_form.name %}
+            {% include "components/form-field.html" with field=region_form.source_region %}
+            {% include "components/form-field.html" with field=region_form.seq %}
+            <button class="btn btn-primary" type="submit">{% trans "Add region" %}</button>
+          </form>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header"><h4 class="mb-0">{% trans "Add tournament" %}</h4></div>
+          <form method="post" class="card-body">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="add_tournament">
+            {% include "components/form-field.html" with field=tournament_form.tournament %}
+            {% include "components/form-field.html" with field=tournament_form.region %}
+            {% include "components/form-field.html" with field=tournament_form.seq %}
+            <button class="btn btn-primary" type="submit">{% trans "Add tournament" %}</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+{% endblock %}

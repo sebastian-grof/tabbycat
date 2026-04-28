@@ -1,0 +1,27 @@
+{% extends "seasonbreaks/base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <div class="alert alert-info">
+    {% blocktrans trimmed with slots=season.effective_regional_slots invited=season.invited_teams %}
+      Regional slots used for quota calculation: {{ slots }}. Invited teams: {{ invited }}.
+    {% endblocktrans %}
+  </div>
+  <table class="table table-sm">
+    <thead><tr><th>{% trans "Region" %}</th><th>{% trans "Participations" %}</th><th>{% trans "Raw quota" %}</th><th>{% trans "Floor" %}</th><th>{% trans "Remainder" %}</th><th>{% trans "Allocated" %}</th></tr></thead>
+    <tbody>
+      {% for quota in quotas %}
+        <tr>
+          <td>{{ quota.region.name }}</td>
+          <td>{{ quota.participations }}</td>
+          <td>{{ quota.raw_quota|floatformat:3 }}</td>
+          <td>{{ quota.floor_quota }}</td>
+          <td>{{ quota.remainder|floatformat:3 }}</td>
+          <td><strong>{{ quota.allocated }}</strong></td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="6" class="text-muted">{% trans "No regions yet." %}</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

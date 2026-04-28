@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block page-subnav-sections %}
+  {% if season_tabs %}
+    <div class="btn-group flex-wrap">
+      {% for label, href, key in season_tabs %}
+        {% if key != 'access' or can_manage_breaks_access %}
+          <a class="btn btn-outline-primary {% if active_tab == key %}active disabled{% endif %}" href="{{ href }}">{{ label }}</a>
+        {% endif %}
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endblock %}

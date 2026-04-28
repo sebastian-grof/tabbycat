@@ -1,0 +1,71 @@
+{% extends "seasonbreaks/base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <div class="card mb-3">
+    <div class="card-header"><h4 class="mb-0">{% trans "Season teams" %}</h4></div>
+    <table class="table table-sm mb-0">
+      <thead><tr><th>{% trans "Season team" %}</th><th>{% trans "Institution" %}</th><th>{% trans "Region" %}</th><th>{% trans "Linked tournament teams" %}</th></tr></thead>
+      <tbody>
+        {% for team in teams %}
+          <tr>
+            <td>{{ team.name }}</td>
+            <td>{% if team.institution %}{{ team.institution.code }}{% endif %}</td>
+            <td>{% if team.region %}{{ team.region.name }}{% endif %}</td>
+            <td>{% for link in team.links.all %}{{ link.team.tournament }}: {{ link.team.short_name }}{% if not forloop.last %}<br>{% endif %}{% empty %}<span class="text-muted">{% trans "No links" %}</span>{% endfor %}</td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="4" class="text-muted">{% trans "Freeze a tournament to create team mappings." %}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  {% if can_edit_breaks %}
+    <div class="row">
+      <div class="col-md-5">
+        <div class="card mb-3">
+          <div class="card-header"><h4 class="mb-0">{% trans "Create season team" %}</h4></div>
+          <form method="post" class="card-body">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="create_team">
+            {% include "components/form-field.html" with field=team_form.name %}
+            {% include "components/form-field.html" with field=team_form.institution %}
+            {% include "components/form-field.html" with field=team_form.region %}
+            <button class="btn btn-primary" type="submit">{% trans "Create" %}</button>
+          </form>
+        </div>
+      </div>
+      <div class="col-md-7">
+        <div class="card mb-3">
+          <div class="card-header"><h4 class="mb-0">{% trans "Repair team links" %}</h4></div>
+          <table class="table table-sm mb-0">
+            <thead><tr><th>{% trans "Tournament team" %}</th><th>{% trans "Season identity" %}</th><th></th></tr></thead>
+            <tbody>
+              {% for link in team_links %}
+                <tr>
+                  <td>{{ link.team.tournament }}: {{ link.team.short_name }}</td>
+                  <td>
+                    <form method="post" class="form-inline">
+                      {% csrf_token %}
+                      <input type="hidden" name="action" value="update_team_link">
+                      <input type="hidden" name="link" value="{{ link.id }}">
+                      <select name="break_team" class="form-control form-control-sm mr-2">
+                        {% for team in teams %}
+                          <option value="{{ team.id }}" {% if team.id == link.break_team_id %}selected{% endif %}>{{ team.name }}</option>
+                        {% endfor %}
+                      </select>
+                      <button class="btn btn-sm btn-outline-primary" type="submit">{% trans "Save" %}</button>
+                    </form>
+                  </td>
+                </tr>
+              {% empty %}
+                <tr><td colspan="3" class="text-muted">{% trans "No team links yet." %}</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+{% endblock %}

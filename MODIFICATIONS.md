@@ -17,6 +17,7 @@ As of 2026-04-12, the fork includes changes in areas such as:
 - archive export/import for byes and forfeits
 - changes is vote distribution behavior
 - cross-examination support
+- global Breaks/qualification tools for SDA seasonal qualification tracking
 - UI changes in ballots
 - tournament-specific workflow and deployment adjustments
 - footer source-code link for hosted instances

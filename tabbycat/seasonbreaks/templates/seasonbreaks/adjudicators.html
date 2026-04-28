@@ -1,0 +1,26 @@
+{% extends "seasonbreaks/base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <table class="table table-sm">
+    <thead><tr><th>{% trans "Adjudicator" %}</th><th>{% trans "Chair" %}</th><th>{% trans "Panellist" %}</th><th>{% trans "Trainee" %}</th><th>{% trans "Total" %}</th><th>{% trans "Tournament detail" %}</th></tr></thead>
+    <tbody>
+      {% for row in rows %}
+        <tr>
+          <td>{{ row.adjudicator.name }}</td>
+          <td>{{ row.chair_count }}</td>
+          <td>{{ row.panellist_count }}</td>
+          <td>{{ row.trainee_count }}</td>
+          <td><strong>{{ row.total_count }}</strong></td>
+          <td>
+            {% for detail in row.details %}
+              {{ detail.break_tournament.tournament }}: {{ detail.total_count }}{% if not forloop.last %}<br>{% endif %}
+            {% endfor %}
+          </td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="6" class="text-muted">{% trans "Freeze tournaments to calculate adjudicator stats." %}</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

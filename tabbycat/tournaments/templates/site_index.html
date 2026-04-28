@@ -67,6 +67,13 @@
     {% include "components/item-action.html" with icon="archive" %}
 
   {% endif %}
+
+  {% if can_view_global_breaks %}
+
+    {% trans "Breaks" as text %}{% url 'seasonbreaks-index' as url %}
+    {% include "components/item-action.html" with icon="award" %}
+
+  {% endif %}
 </div>
 
 <div class="list-group mt-2">

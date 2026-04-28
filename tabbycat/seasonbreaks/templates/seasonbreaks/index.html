@@ -1,0 +1,44 @@
+{% extends "seasonbreaks/base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <div class="list-group mb-3">
+    {% for season in seasons %}
+      {% url 'seasonbreaks-season-overview' season_slug=season.slug as url %}
+      {% blocktrans trimmed with league=season.league slots=season.effective_regional_slots asvar subtext %}{{ league }} · {{ slots }} regional slots{% endblocktrans %}
+      {% include "components/item-action.html" with text=season.name subtext=subtext icon="award" %}
+    {% empty %}
+      {% trans "No break seasons have been created yet." as p1 %}
+      {% include "components/explainer-card.html" with type="info" %}
+    {% endfor %}
+  </div>
+
+  {% if can_manage_breaks_access %}
+    <div class="list-group mb-3">
+      {% trans "Manage Breaks Access" as text %}{% url 'seasonbreaks-access' as url %}
+      {% include "components/item-action.html" with icon="lock" %}
+    </div>
+  {% endif %}
+
+  {% if can_edit_breaks %}
+    <div class="card mt-3">
+      <div class="card-header">
+        <h4 class="mb-0">{% trans "Create break season" %}</h4>
+      </div>
+      <form method="post" class="card-body">
+        {% csrf_token %}
+        <div class="form-row">
+          {% include "components/form-field.html" with field=season_form.name double=True %}
+          {% include "components/form-field.html" with field=season_form.slug double=True %}
+          {% include "components/form-field.html" with field=season_form.league triple=True %}
+          {% include "components/form-field.html" with field=season_form.regional_slots triple=True %}
+          {% include "components/form-field.html" with field=season_form.invited_teams triple=True %}
+          <div class="col-12">
+            {{ season_form.active }} <label for="{{ season_form.active.id_for_label }}">{{ season_form.active.label }}</label>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary">{% trans "Create" %}</button>
+      </form>
+    </div>
+  {% endif %}
+{% endblock %}

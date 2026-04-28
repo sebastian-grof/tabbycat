@@ -73,6 +73,10 @@ urlpatterns = [
     path('archive/',
         include('importer.urls_archive')),
 
+    # Cross-tournament qualification breaks
+    path('breaks/',
+        include('seasonbreaks.urls')),
+
     # Tournament URLs
     path('<slug:tournament_slug>/',
         include('tournaments.urls')),

@@ -1,0 +1,69 @@
+{% extends "seasonbreaks/base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <div class="card mb-3">
+    <div class="card-header"><h4 class="mb-0">{% trans "Season speakers" %}</h4></div>
+    <table class="table table-sm mb-0">
+      <thead><tr><th>{% trans "Season speaker" %}</th><th>{% trans "Email" %}</th><th>{% trans "Linked speakers" %}</th></tr></thead>
+      <tbody>
+        {% for speaker in speakers %}
+          <tr>
+            <td>{{ speaker.name }}</td>
+            <td>{{ speaker.email|default:"" }}</td>
+            <td>{% for link in speaker.links.all %}{{ link.speaker.team.tournament }}: {{ link.speaker.name }} ({{ link.speaker.team.short_name }}){% if not forloop.last %}<br>{% endif %}{% empty %}<span class="text-muted">{% trans "No links" %}</span>{% endfor %}</td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="3" class="text-muted">{% trans "Freeze a tournament to create speaker mappings." %}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  {% if can_edit_breaks %}
+    <div class="row">
+      <div class="col-md-5">
+        <div class="card mb-3">
+          <div class="card-header"><h4 class="mb-0">{% trans "Create season speaker" %}</h4></div>
+          <form method="post" class="card-body">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="create_speaker">
+            {% include "components/form-field.html" with field=speaker_form.name %}
+            {% include "components/form-field.html" with field=speaker_form.email %}
+            <button class="btn btn-primary" type="submit">{% trans "Create" %}</button>
+          </form>
+        </div>
+      </div>
+      <div class="col-md-7">
+        <div class="card mb-3">
+          <div class="card-header"><h4 class="mb-0">{% trans "Repair speaker links" %}</h4></div>
+          <table class="table table-sm mb-0">
+            <thead><tr><th>{% trans "Tournament speaker" %}</th><th>{% trans "Season identity" %}</th></tr></thead>
+            <tbody>
+              {% for link in speaker_links %}
+                <tr>
+                  <td>{{ link.speaker.team.tournament }}: {{ link.speaker.name }} ({{ link.speaker.team.short_name }})</td>
+                  <td>
+                    <form method="post" class="form-inline">
+                      {% csrf_token %}
+                      <input type="hidden" name="action" value="update_speaker_link">
+                      <input type="hidden" name="link" value="{{ link.id }}">
+                      <select name="break_speaker" class="form-control form-control-sm mr-2">
+                        {% for speaker in speakers %}
+                          <option value="{{ speaker.id }}" {% if speaker.id == link.break_speaker_id %}selected{% endif %}>{{ speaker.name }}</option>
+                        {% endfor %}
+                      </select>
+                      <button class="btn btn-sm btn-outline-primary" type="submit">{% trans "Save" %}</button>
+                    </form>
+                  </td>
+                </tr>
+              {% empty %}
+                <tr><td colspan="2" class="text-muted">{% trans "No speaker links yet." %}</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+{% endblock %}

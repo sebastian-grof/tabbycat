@@ -137,6 +137,7 @@ TABBYCAT_APPS = (
     'notifications',
     'importer',
     'registration',
+    'seasonbreaks',
 )
 
 INSTALLED_APPS = (
