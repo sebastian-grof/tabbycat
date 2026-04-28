@@ -85,16 +85,6 @@ class TabAssistant(BaseGroup):
     permissions = list(ASSISTANT_INTERFACE_PERMISSIONS)
 
 
-class Language(BaseGroup):
-    name = _("Language")
-    permissions = [
-        Permission.EDIT_BREAK_ELIGIBILITY,
-        Permission.EDIT_SPEAKER_CATEGORIES,
-        Permission.VIEW_PARTICIPANTS,
-        Permission.VIEW_TEAMS,
-    ]
-
-
 class Registration(BaseGroup):
     name = _("Registration")
     permissions = [
@@ -113,40 +103,4 @@ class Registration(BaseGroup):
         Permission.DELETE_QUESTIONS,
         Permission.VIEW_CUSTOM_ANSWERS,
         Permission.VIEW_REGISTRATION,
-    ]
-
-
-class Access(BaseGroup):
-    name = _("Access")
-    permissions = [
-        Permission.EDIT_ROOMCONSTRAINTS,
-        Permission.EDIT_ROOMCATEGORIES,
-        Permission.VIEW_ROOMCATEGORIES,
-        Permission.VIEW_ROOMCONSTRAINTS,
-        Permission.VIEW_ROOMALLOCATIONS,
-        Permission.VIEW_ACTIONLOGENTRIES,
-        Permission.VIEW_TEAMS,
-        Permission.VIEW_ADJUDICATORS,
-        Permission.VIEW_ROOMS,
-        Permission.VIEW_PARTICIPANTS,
-        Permission.VIEW_ROUNDAVAILABILITIES,
-    ]
-
-
-class Tabmaster(BaseGroup):
-    name = _("Tab master")
-    permissions = [
-        Permission.EDIT_BREAK_ELIGIBILITY,
-        Permission.EDIT_SPEAKER_CATEGORIES,
-        Permission.VIEW_PARTICIPANTS,
-        Permission.VIEW_TEAMS,
-    ]
-
-class JuniorAssistant(BaseGroup):
-    name = _("Junior Assistant")
-    permissions = [
-        Permission.EDIT_BREAK_ELIGIBILITY,
-        Permission.EDIT_SPEAKER_CATEGORIES,
-        Permission.VIEW_PARTICIPANTS,
-        Permission.VIEW_TEAMS,
     ]
