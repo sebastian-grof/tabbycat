@@ -4,11 +4,22 @@ from django.utils.translation import gettext_lazy as _
 
 from options.presets import _all_subclasses
 
-from .permissions import Permission
+from .permissions import ASSISTANT_INTERFACE_PERMISSIONS, Permission
 
 
 def all_groups():
     yield from _all_subclasses(BaseGroup)
+
+
+ADJUDICATION_CORE_FEEDBACK_VIEW_PERMISSIONS = frozenset({
+    Permission.VIEW_FEEDBACK_OVERVIEW,
+    Permission.EDIT_BASEJUDGESCORES_IND,
+    Permission.VIEW_FEEDBACK,
+    Permission.EDIT_FEEDBACK_IGNORE,
+    Permission.EDIT_FEEDBACK_CONFIRM,
+    Permission.VIEW_FEEDBACK_UNSUBMITTED,
+    Permission.EDIT_FEEDBACKQUESTION,
+})
 
 
 class BaseGroup:
@@ -53,50 +64,12 @@ class Equity(BaseGroup):
 
 
 class AdjudicationCore(BaseGroup):
-    # Permissions to make [preformed] allocations, view feedback, and create motions
+    # All tournament permissions except feedback viewing/admin feedback controls.
+    # Adjudication core may enter feedback, matching the assistant interface.
     name = _("Adjudication Core")
     permissions = [
-        Permission.EDIT_FEEDBACK_IGNORE,
-        Permission.EDIT_FEEDBACKQUESTION,
-        Permission.VIEW_FEEDBACK_UNSUBMITTED,
-        Permission.VIEW_FEEDBACK_OVERVIEW,
-        Permission.VIEW_FEEDBACK,
-
-        # Judging and scoring
-        Permission.EDIT_BASEJUDGESCORES_IND,
-        Permission.EDIT_ADJ_BREAK,
-        Permission.VIEW_ADJ_BREAK,
-
-        # Motions
-        Permission.EDIT_MOTION,
-        Permission.RELEASE_MOTION,
-        Permission.UNRELEASE_MOTION,
-
-        # Adjudicator allocations
-        Permission.EDIT_DEBATEADJUDICATORS,
-        Permission.EDIT_PREFORMEDPANELS,
-        Permission.VIEW_DEBATEADJUDICATORS,
-
-        # Standings and tabs
-        Permission.VIEW_BREAK,
-        Permission.VIEW_BREAK_OVERVIEW,
-        Permission.VIEW_TEAMSTANDINGS,
-        Permission.VIEW_SPEAKERSSTANDINGS,
-        Permission.VIEW_REPLIESSTANDINGS,
-        Permission.VIEW_STANDINGS_OVERVIEW,
-        Permission.VIEW_MOTIONSTAB,
-        Permission.VIEW_DIVERSITYTAB,
-
-        # Supporting context
-        Permission.VIEW_PARTICIPANTS,
-        Permission.VIEW_TEAMS,
-        Permission.VIEW_ADJUDICATORS,
-        Permission.VIEW_ROOMS,
-        Permission.VIEW_INSTITUTIONS,
-        Permission.VIEW_DECODED_TEAMS,
-        Permission.VIEW_ANONYMOUS,
-        Permission.VIEW_ADMIN_DRAW,
-        Permission.VIEW_DEBATE,
+        permission for permission in Permission
+        if permission not in ADJUDICATION_CORE_FEEDBACK_VIEW_PERMISSIONS
     ]
 
 
@@ -109,18 +82,7 @@ class TabDirector(BaseGroup):
 class TabAssistant(BaseGroup):
     # Permissions to match the Assistant interface
     name = _("Tabulation Assistant")
-    permissions = [
-        Permission.ADD_BALLOTSUBMISSIONS,
-        Permission.MARK_OTHERS_BALLOTSUBMISSIONS,
-        Permission.VIEW_BALLOTSUBMISSION_GRAPH,
-        Permission.ADD_FEEDBACK,
-        Permission.VIEW_INSTITUTIONS,
-        Permission.VIEW_PARTICIPANTS,
-        Permission.EDIT_PARTICIPANT_CHECKIN,
-        Permission.EDIT_ROOM_CHECKIN,
-        Permission.VIEW_BRIEFING_DRAW,
-        Permission.DISPLAY_MOTION,
-    ]
+    permissions = list(ASSISTANT_INTERFACE_PERMISSIONS)
 
 
 class Language(BaseGroup):
@@ -168,4 +130,23 @@ class Access(BaseGroup):
         Permission.VIEW_ROOMS,
         Permission.VIEW_PARTICIPANTS,
         Permission.VIEW_ROUNDAVAILABILITIES,
+    ]
+
+
+class Tabmaster(BaseGroup):
+    name = _("Tab master")
+    permissions = [
+        Permission.EDIT_BREAK_ELIGIBILITY,
+        Permission.EDIT_SPEAKER_CATEGORIES,
+        Permission.VIEW_PARTICIPANTS,
+        Permission.VIEW_TEAMS,
+    ]
+
+class JuniorAssistant(BaseGroup):
+    name = _("Junior Assistant")
+    permissions = [
+        Permission.EDIT_BREAK_ELIGIBILITY,
+        Permission.EDIT_SPEAKER_CATEGORIES,
+        Permission.VIEW_PARTICIPANTS,
+        Permission.VIEW_TEAMS,
     ]

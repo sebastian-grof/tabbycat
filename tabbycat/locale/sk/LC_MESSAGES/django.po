@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: tabbycat\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-07-06 09:40+1000\n"
-"PO-Revision-Date: 2026-04-26 10:54+0200\n"
+"PO-Revision-Date: 2026-04-28 13:00+0200\n"
 "Last-Translator: \n"
 "Language-Team: Slovak\n"
 "Language: sk\n"
@@ -16,7 +16,7 @@ msgstr ""
 "X-Crowdin-Language: sk\n"
 "X-Crowdin-File: /develop/tabbycat/locale/en/LC_MESSAGES/django.po\n"
 "X-Crowdin-File-ID: 934\n"
-"X-Generator: Poedit 3.7\n"
+"X-Generator: Poedit 3.9\n"
 
 #: api/apps.py
 msgid "Application Programming Interface"
@@ -37,7 +37,7 @@ msgstr "Príchody"
 
 #: checkins/consumers.py
 msgid "Sent checkin identifier doesn't exist"
-msgstr "Odoslaný check-in identifikátor neexistuje"
+msgstr "Odoslaný identifikátor príchodu neexistuje"
 
 #: checkins/consumers.py
 msgid "Checkins"
@@ -45,7 +45,7 @@ msgstr "Príchody"
 
 #: checkins/consumers.py
 msgid "No checkin identifiers exist for sent barcodes"
-msgstr "Pre odoslané čiarové kódy neexistujú žiadne check-in identifikátory"
+msgstr "Pre odoslané čiarové kódy neexistujú žiadne identifikátory príchodu"
 
 #: checkins/models.py
 msgid "The barcode must contain exactly six digits."
@@ -102,7 +102,7 @@ msgstr "identifikátor"
 
 #: checkins/models.py
 msgid "check-in time"
-msgstr "čas check-inu"
+msgstr "čas príchodu"
 
 #: checkins/models.py registration/models.py users/models.py
 msgid "tournament"
@@ -110,11 +110,11 @@ msgstr "turnaj"
 
 #: checkins/models.py
 msgid "check-in event"
-msgstr "check-in udalosť"
+msgstr "udalosť príchodu"
 
 #: checkins/models.py
 msgid "check-in events"
-msgstr "check-in udalosti"
+msgstr "udalosti príchodu"
 
 #: checkins/templates/checkin_ids.html
 msgid "With identifiers"
@@ -138,7 +138,7 @@ msgstr "Nie sú dostupné žiadne identifikátory na zobrazenie. Administrátor 
 
 #: checkins/templates/checkin_printables.html
 msgid "Each of the barcodes below is also an image file that can be downloaded individually. If you want to download them all at once try using a 'bulk downloader' extension/plugin for your browser, such as <a href=\"https://chrome.google.com/webstore/detail/svg-export/naeaaedieihlkmdajjefioajbbdbdjgp?hl=en-GB\">this one (for Chrome)</a>. To download them as a list you can go to Check-Ins section of the Edit Database area and copy/paste from the relevant table."
-msgstr "ka?d?/ka?d?z barcodes ni??ie ako je also an image s?bor?e m??e pod?a?downloaded individually. ak ty want na download ich v?etky na once try using a 'bulk downloader' extension/plugin pre tvoj/tvoja browser, such ako <a href=\"https://chrome.google.com/webstore/detail/svg-export/naeaaedieihlkmdajjefioajbbdbdjgp?hl=en-GB\">toto jeden/jedna (pre Chrome)</a>. na download ich ako a list ty m??e go na Check-Ins section z Upravi?datab?zu area a copy/paste od relevant table."
+msgstr "Každý z čiarových kódov nižšie je aj samostatný obrázkový súbor, ktorý si môžeš stiahnuť osobitne. Ak ich chceš stiahnuť všetky naraz, skús použiť rozšírenie alebo doplnok prehliadača na hromadné sťahovanie, napríklad <a href=\"https://chrome.google.com/webstore/detail/svg-export/naeaaedieihlkmdajjefioajbbdbdjgp?hl=en-GB\">toto rozšírenie pre Chrome</a>. Ak ich chceš stiahnuť ako zoznam, prejdi do sekcie Príchody v časti Upraviť databázu a skopíruj ich z príslušnej tabuľky."
 
 #: checkins/templates/checkin_printables.html
 msgid "You can use Ctrl+P for printing or saving the barcodes PDF. Be sure to set the appropriate <strong>page orientation</strong>, to turn off <strong>headers/footers</strong> and turn on <strong>background graphics</strong>. Works best in Chrome."
@@ -151,21 +151,21 @@ msgstr "Na naskenovanie identifikátora napíš číslo nižšie (odošle sa aut
 #: checkins/utils.py
 #, python-format
 msgid "Not checked in (barcode %(barcode)s)"
-msgstr "Nie ste zaregistrovaný (barcode %(barcode)s)"
+msgstr "Prítomnosť nie je potvrdená (čiarový kód %(barcode)s)"
 
 #: checkins/utils.py
 msgid "Not checked in; no barcode assigned"
-msgstr "Nie ste zaregistrovaný; nebol Vám priradený žiadny čiarový kód"
+msgstr "Prítomnosť nie je potvrdená; nebol priradený žiadny čiarový kód"
 
 #: checkins/utils.py
 #, python-format
 msgid "checked in at %(time)s"
-msgstr "vaša prítomnosť bola potvrdená o %(time)s"
+msgstr "prítomnosť potvrdená o %(time)s"
 
 #: checkins/utils.py
 #, python-format
 msgid "%(speaker)s checked in at %(time)s."
-msgstr "%(speaker)s mal/a check-in o %(time)s."
+msgstr "%(speaker)s má potvrdenú prítomnosť o %(time)s."
 
 #: checkins/utils.py
 #, python-format
@@ -179,11 +179,11 @@ msgstr "Skenovať identifikátory"
 
 #: checkins/views.py
 msgid "People's Check-In Statuses"
-msgstr "Status registrovania ľudí"
+msgstr "Stav príchodov osôb"
 
 #: checkins/views.py
 msgid "Rooms' Check-In Statuses"
-msgstr "Status registrovania miestností"
+msgstr "Stav príchodov miestností"
 
 #: checkins/views.py templates/nav/admin_nav.html
 msgid "Make Identifiers"
@@ -214,19 +214,19 @@ msgstr "Identifikátory"
 
 #: checkins/views.py
 msgid "Could not check you in as you do not have an identifying code — your tab director may need to make you an identifier."
-msgstr "Nepodarilo sa ťa checknúť, pretože nemáš identifikačný kód. Tab director ti možno musí vytvoriť identifikátor."
+msgstr "Nepodarilo sa potvrdiť tvoju prítomnosť, pretože nemáš identifikačný kód. Vedúci tabu ti možno musí vytvoriť identifikátor."
 
 #: checkins/views.py
 msgid "You have revoked your check-in."
-msgstr "ty maj?revoked tvoj/tvoja check-in."
+msgstr "Zrušil/a si svoje potvrdenie prítomnosti."
 
 #: checkins/views.py
 msgid "Whoops! Looks like your check-in was already revoked."
-msgstr "Whoops! vyzer?,?e tvoj/tvoja check-in was already revoked."
+msgstr "Ups! Vyzerá to, že tvoje potvrdenie prítomnosti už bolo zrušené."
 
 #: checkins/views.py
 msgid "Whoops! Looks like you're already checked in."
-msgstr "Whoops! vyzer?,?e si already skontrolovan?v."
+msgstr "Ups! Vyzerá to, že už máš potvrdenú prítomnosť."
 
 #: checkins/views.py
 msgid "You are now checked in."
@@ -249,7 +249,7 @@ msgstr "Toto pole je povinné."
 
 #: registration/forms.py
 msgid "Coach name"
-msgstr "Meno kouča"
+msgstr "Meno trénera"
 
 #: registration/forms.py
 msgid "Unseeded"
@@ -269,7 +269,7 @@ msgstr "Plný seed"
 
 #: registration/forms.py
 msgid "Full name for tab"
-msgstr "Celé meno pre tab"
+msgstr "Celé meno do tabu"
 
 #: registration/models.py
 msgid "content type"
@@ -297,7 +297,7 @@ msgstr "zaškrtávacie políčko"
 
 #: registration/models.py
 msgid "yes/no (dropdown)"
-msgstr "áno/nie (dropdown)"
+msgstr "áno/nie (rozbaľovacie menu)"
 
 #: registration/models.py
 msgid "integer (textbox)"
@@ -337,7 +337,7 @@ msgstr "pre typ obsahu"
 
 #: registration/models.py
 msgid "sequence number"
-msgstr "poradove cislo"
+msgstr "poradové číslo"
 
 #: registration/models.py
 msgid "The question displayed to participants, e.g., \"Did you agree with the decision?\""
@@ -365,7 +365,7 @@ msgstr "typ odpovede"
 
 #: registration/models.py
 msgid "required"
-msgstr "toto pole je povinné"
+msgstr "povinné"
 
 #: registration/models.py
 msgid "Whether participants are required to fill out this field"
@@ -377,7 +377,7 @@ msgstr "minimálna hodnota"
 
 #: registration/models.py
 msgid "Minimum allowed value for numeric fields (ignored for text or boolean fields)"
-msgstr "Minimálna povolená hodnota pre číselné polia (ignoruje sa pre textové alebo boolean polia)"
+msgstr "Minimálna povolená hodnota pre číselné polia (ignoruje sa pre textové alebo logické polia)"
 
 #: registration/models.py
 msgid "maximum value"
@@ -385,7 +385,7 @@ msgstr "maximálna hodnota"
 
 #: registration/models.py
 msgid "Maximum allowed value for numeric fields (ignored for text or boolean fields)"
-msgstr "Maximálna povolená hodnota pre číselné polia (ignoruje sa pre textové alebo boolean polia)"
+msgstr "Maximálna povolená hodnota pre číselné polia (ignoruje sa pre textové alebo logické polia)"
 
 #: registration/models.py
 msgid "choices"
@@ -505,7 +505,7 @@ msgstr "pre %(name)s (%(institution)s)"
 #: registration/templates/coach_private_url.html
 #, python-format
 msgid "The URL of this page is personalised to you, %(name)s. <strong>Do not share it with anyone;</strong> anyone who knows this URL can manage participants for %(institution)s. You may bookmark this page and return here after each debate for the available actions."
-msgstr "URL z T?na str?nka je personalised na ty, %(name)s. <strong>Do nie share to s anyone;</strong> anyone who knows toto URL m??e manage??astn?ci/??astn??ky pre %(institution)s. ty m??e bookmark T?na str?nka a return here po ka?d?/ka?d?debata pre dostupn?akcie."
+msgstr "URL tejto stránky je osobná pre teba, %(name)s. <strong>Nikomu ju nezdieľaj;</strong> ktokoľvek, kto pozná túto URL, môže spravovať účastníkov za %(institution)s. Túto stránku si môžeš uložiť do záložiek a vrátiť sa sem po každej debate pre dostupné akcie."
 
 #: registration/templates/coach_private_url.html registration/views.py
 msgid "Register Adjudicator"
@@ -538,7 +538,7 @@ msgstr "Tieto otázky sa zobrazia ako dodatočné polia pre účastníkov vo for
 #: registration/templates/questions_edit.html
 #, python-format
 msgid "If you want to delete questions (and their associated answers), use the <a href=\"%(edit_db_url)s\" class=\"alert-link\">Edit Database</a> area."
-msgstr "ak ty want na vymaza?questions (a ich associated answers), use <a href=\"%(edit_db_url)s\" class=\"alert-link\">Upravi?datab?zu</a> area."
+msgstr "Ak chceš vymazať otázky aj ich súvisiace odpovede, použi časť <a href=\"%(edit_db_url)s\" class=\"alert-link\">Upraviť databázu</a>."
 
 #: registration/templates/questions_edit.html
 msgid "Save Questions"
@@ -621,7 +621,7 @@ msgstr "Meno"
 
 #: registration/views.py
 msgid "Coach"
-msgstr "Kouč"
+msgstr "Tréner"
 
 #: registration/views.py
 msgid "Teams Requested"
@@ -629,11 +629,11 @@ msgstr "Požadované tímy"
 
 #: registration/views.py
 msgid "Teams Allocated"
-msgstr "Tím priradený"
+msgstr "Pridelené tímy"
 
 #: registration/views.py
 msgid "Teams Registered"
-msgstr "Tím zaregistrovaný"
+msgstr "Registrované tímy"
 
 #: registration/views.py
 msgid "Adjudicators Requested"
@@ -649,16 +649,16 @@ msgstr "Registrovaní rozhodcovia"
 
 #: registration/views.py
 msgid "Successfully modified institution allocations"
-msgstr "Alokácie debatného klubu boli úspešne upravené"
+msgstr "Pridelenia debatného klubu boli úspešne upravené"
 
 #: registration/views.py
 msgid "Team Registration"
-msgstr "Registracia tímov"
+msgstr "Registrácia tímov"
 
 #: registration/views.py
 #, python-format
 msgid "Speaker %d"
-msgstr "Rečník/Rečníčka %d"
+msgstr "Rečník/rečníčka %d"
 
 #: registration/views.py
 msgid "Email"
@@ -815,11 +815,11 @@ msgstr "Tabbycat"
 #: templates/base.html
 #, python-format
 msgid "The tab for %(tournament)s runs on Tabbycat, a source-available tab system for a variety of parliamentary debating formats"
-msgstr "tab pre %(tournament)s runs na Tabbycat, a source-available tab system pre a variety z parliamentary debating form?ty"
+msgstr "Tab pre %(tournament)s beží na Tabbycate, tabovacom systéme s dostupným zdrojovým kódom pre rôzne formáty parlamentnej debaty"
 
 #: templates/base.html
 msgid "This tab runs on Tabbycat, a source-available tab system for a variety of parliamentary debating formats"
-msgstr "toto tab runs na Tabbycat, a source-available tab system pre a variety z parliamentary debating form?ty"
+msgstr "Tento tab beží na Tabbycate, tabovacom systéme s dostupným zdrojovým kódom pre rôzne formáty parlamentnej debaty"
 
 #: templates/components/form-errors.html
 msgid "Whoops! There was an error with one or more fields."
@@ -836,7 +836,7 @@ msgstr "Prístup zamietnutý (403)"
 #: templates/errors/assistant_403.html
 #, python-format
 msgid "This assistant page isn't enabled for this tournament. <a href=\"%(url)s\">Back to the assistant home page.</a>"
-msgstr "Táto assistant stránka nie je pre tento turnaj zapnutá. <a href=\"%(url)s\">Späť na assistant domovskú stránku.</a>"
+msgstr "Táto stránka pre asistentov nie je pre tento turnaj zapnutá. <a href=\"%(url)s\">Späť na domovskú stránku asistencie.</a>"
 
 #: templates/errors/database_limit_warning.html
 #, python-format
@@ -849,7 +849,7 @@ msgstr[3] "Momentálne používaš %(nrows)s riadkov v databáze. Ak si Heroku d
 
 #: templates/errors/legacy_sendgrid_warning.html
 msgid "It looks like you're using the old SendGrid config vars on Heroku, <code>SENDGRID_USERNAME</code> and <code>SENDGRID_PASSWORD</code>. These are now deprecated (as of version 2.6), and will stop working in a future version of Tabbycat. Please change your config vars to use <code>SENDGRID_API_KEY</code> instead. For more information, please see <a href=\"https://tabbycat.readthedocs.io/en/stable/features/notifications.html#configuring-an-email-provider\"> our documentation on this topic</a>."
-msgstr "Vyzer?na,?e si using old SendGrid config vars na Heroku, <code>SENDGRID_USERNAME</code> a <code>SENDGRID_PASSWORD</code>. tieto s?now deprecated (ako z version 2.6), a bude stop working v a future version z Tabbycat. Please change tvoj/tvoja config vars na use <code>SENDGRID_API_KEY</code> instead. pre more information, please see <a href=\"https://tabbycat.readthedocs.io/en/stable/features/notifications.html#configuring-an-email-provider\"> our documentation na toto topic</a>."
+msgstr "Vyzerá to, že na Heroku používaš staré konfiguračné premenné SendGridu, <code>SENDGRID_USERNAME</code> a <code>SENDGRID_PASSWORD</code>. Od verzie 2.6 sú zastarané a v budúcej verzii Tabbycatu prestanú fungovať. Zmeň konfiguráciu tak, aby používala <code>SENDGRID_API_KEY</code>. Viac informácií nájdeš v <a href=\"https://tabbycat.readthedocs.io/en/stable/features/notifications.html#configuring-an-email-provider\">našej dokumentácii k tejto téme</a>."
 
 #: templates/errors/public_403.html
 #, python-format
@@ -877,7 +877,7 @@ msgstr "Táto hostovaná verzia bola upravená. Pozrite si <a href=\"https://git
 
 #: templates/footer.html
 msgid "Tabbycat is an open-source project developed by volunteers and is free to use."
-msgstr "Tabbycat je open-source projekt vyvinutý dobrovoľníkmi a je zadarmo."
+msgstr "Tabbycat je projekt s otvoreným zdrojovým kódom, vyvíjaný dobrovoľníkmi a dostupný zadarmo."
 
 #: templates/footer.html
 #, python-format
@@ -907,7 +907,7 @@ msgstr "Naša organizácia"
 
 #: templates/footer.html
 msgid "Tabbycat is supported by the <a href=\"https://tabbycat-debate.org/\">Tabbycat Debate Association</a>, a non-profit for advancing open debate technology."
-msgstr "Tabbycat je supported pod?a <a href=\"https://tabbycat-debate.org/\">Tabbycat debata Association</a>, a non-profit pre advancing open debata technology."
+msgstr "Tabbycat podporuje <a href=\"https://tabbycat-debate.org/\">Tabbycat Debate Association</a>, nezisková organizácia rozvíjajúca otvorené debatné technológie."
 
 #: templates/footer.html users/groups.py
 msgid "Language"
@@ -935,7 +935,7 @@ msgstr "Vytvoriť kópiu"
 
 #: templates/footer.html
 msgid "Change Language"
-msgstr "Zmeniť Jazyk"
+msgstr "Zmeniť jazyk"
 
 #: templates/footer.html
 msgid "Use this language"
@@ -1020,11 +1020,11 @@ msgstr "Registrácia"
 
 #: templates/nav/admin_nav.html templates/nav/assistant_nav.html
 msgid "People's Status"
-msgstr "Status Ľudí"
+msgstr "Stav osôb"
 
 #: templates/nav/admin_nav.html
 msgid "Rooms' Status"
-msgstr "Status Miestností"
+msgstr "Stav miestností"
 
 #: templates/nav/admin_nav.html
 msgid "Feedback"
@@ -1044,11 +1044,11 @@ msgstr "Komentáre"
 
 #: templates/nav/admin_nav.html
 msgid "Find by Source"
-msgstr "Vyhľadávať podľa zdroja"
+msgstr "Hľadať podľa autora"
 
 #: templates/nav/admin_nav.html
 msgid "Find by Target"
-msgstr "Vyhľadávanie podľa cieľa"
+msgstr "Hľadať podľa adresáta"
 
 #: templates/nav/admin_nav.html
 msgid "Unsubmitted"
@@ -1077,16 +1077,16 @@ msgstr "Všetky tímy"
 #: templates/nav/admin_nav.html templates/nav/public_nav.html
 #, python-format
 msgid "%(category)s Teams"
-msgstr "%(category)s Tímy"
+msgstr "%(category)s tímy"
 
 #: templates/nav/admin_nav.html
 msgid "All Speakers"
-msgstr "Všetci Rečníci"
+msgstr "Všetci rečníci"
 
 #: templates/nav/admin_nav.html templates/nav/public_nav.html
 #, python-format
 msgid "%(category)s Speakers"
-msgstr "%(category)s Rečníci"
+msgstr "%(category)s rečníci"
 
 #: templates/nav/admin_nav.html
 msgid "Replies"
@@ -1102,7 +1102,7 @@ msgstr "Diverzita"
 
 #: templates/nav/admin_nav.html
 msgid "Breaks"
-msgstr "Breaky"
+msgstr "Postupy"
 
 #: templates/nav/admin_nav.html
 #, python-format
@@ -1139,7 +1139,7 @@ msgstr "Zoznam účastníkov"
 
 #: templates/nav/assistant_nav.html
 msgid "Code Names"
-msgstr "Kódové mena"
+msgstr "Kódové mená"
 
 #: templates/nav/assistant_nav.html
 msgid "View Identifiers"
@@ -1147,11 +1147,11 @@ msgstr "Zobraziť identifikátory"
 
 #: templates/nav/assistant_nav.html
 msgid "Room's Status"
-msgstr "Stav miestností"
+msgstr "Stav miestnosti"
 
 #: templates/nav/assistant_nav.html
 msgid "Display/Print Draw"
-msgstr "Zobraziť/Tlačiť Pairing"
+msgstr "Zobraziť/tlačiť pairing"
 
 #: templates/nav/public_nav.html
 msgid "Team Tab"
@@ -1171,7 +1171,7 @@ msgstr "Rozhodcovia"
 
 #: templates/nav/public_nav.html
 msgid "Motions Tab"
-msgstr "Šťatistiky téz"
+msgstr "Štatistiky téz"
 
 #: templates/nav/public_nav.html
 msgid "By round"
@@ -1183,11 +1183,11 @@ msgstr "Globálne"
 
 #: templates/nav/public_nav.html
 msgid "Draws"
-msgstr "Pairing"
+msgstr "Pairingy"
 
 #: templates/nav/public_nav.html
 msgid "No Draws Available"
-msgstr "Žiadny pairing nie je dostupný"
+msgstr "Nie sú dostupné žiadne pairingy"
 
 #: templates/nav/public_nav.html
 #, python-format
@@ -1196,7 +1196,7 @@ msgstr "Pairing pre %(round)s"
 
 #: templates/nav/public_nav.html
 msgid "Current Draws"
-msgstr "Aktuálny pairing"
+msgstr "Aktuálne pairingy"
 
 #: templates/nav/public_nav.html templates/nav/round_panel.html
 msgid "Results"
@@ -1212,7 +1212,7 @@ msgstr "Progres spätnej väzby"
 
 #: templates/nav/public_nav.html
 msgid "Enter Ballot"
-msgstr "Enter hlasovanie"
+msgstr "Zadať ballot"
 
 #: templates/nav/round_panel.html
 msgid "Availability"
@@ -1252,7 +1252,7 @@ msgstr "Dovidenia"
 #: templates/registration/logged_out.html
 #, python-format
 msgid "You have been logged out. <a href=\"%(login_url)s\">Log in again?</a>"
-msgstr "Boli ste odhlásený. <a href=\"%(login_url)s\">Prihlásiť sa znovu?</a>"
+msgstr "Boli ste odhlásení. <a href=\"%(login_url)s\">Prihlásiť sa znovu?</a>"
 
 #: templates/registration/login.html
 msgctxt "page title"
@@ -1301,7 +1301,7 @@ msgstr "API token: <samp>%(api_token)s</samp>"
 
 #: templates/registration/password_change_form.html
 msgid "The API token will allow you to authorize external applications to access the site as staff."
-msgstr "Token API vám umožní autorizovať externé aplikácie, aby mali prístup na stránku ako zamestnanci."
+msgstr "API token umožní externým aplikáciám pristupovať na stránku s oprávneniami personálu."
 
 #: templates/registration/password_change_form.html
 msgid "Please enter your old password, then enter a new one."
@@ -1320,7 +1320,7 @@ msgstr "Zmena hesla úspešná"
 
 #: templates/registration/password_reset_complete.html
 msgid "Your password has been reset."
-msgstr "Vaše heslo bolo zmenené."
+msgstr "Vaše heslo bolo obnovené."
 
 #: templates/registration/password_reset_complete.html
 #: templates/registration/password_reset_done.html
@@ -1367,7 +1367,7 @@ msgstr "Ahoj, %(user)s!"
 #: templates/registration/password_reset_email.html
 #, python-format
 msgid "Your username is: %(user)s"
-msgstr "Vaše používateľské meno je: %(user)s"
+msgstr "Tvoje používateľské meno je: %(user)s"
 
 #: templates/registration/password_reset_email.html
 #, python-format
@@ -1376,12 +1376,12 @@ msgstr "Niekto požiadal o resetovanie hesla pre e-mailovú adresu %(email)s na 
 
 #: templates/registration/password_reset_email.html
 msgid "If this was you, follow the link below to reset your password:"
-msgstr "ak toto was ty, follow link ni??ie ako na reset tvoj/tvoja password:"
+msgstr "Ak si to bol/a ty, klikni na odkaz nižšie a obnov si heslo:"
 
 #: templates/registration/password_reset_email.html
 #, python-format
 msgid "If this wasn't you, that probably means someone else typed your email address into the password reset form on the Tabbycat site at %(protocol)s://%(domain)s."
-msgstr "ak toto wasn't ty,?e probably means someone else typed tvoj/tvoja email address into password reset form na Tabbycat site na %(protocol)s://%(domain)s."
+msgstr "Ak si to nebol/a ty, pravdepodobne niekto iný zadal tvoju e-mailovú adresu do formulára na obnovenie hesla na stránke Tabbycat na adrese %(protocol)s://%(domain)s."
 
 #: templates/registration/password_reset_form.html
 msgid "Password Reset"
@@ -1403,7 +1403,7 @@ msgstr "Späť na prihlasovaciu stránku"
 #: templates/registration/password_reset_subject.txt
 #, python-format
 msgid "Password reset on Tabbycat site at %(domain)s"
-msgstr "Obnovenie hesla na stránke Tabbycat na %(domain)s"
+msgstr "Obnovenie hesla na stránke Tabbycat na adrese %(domain)s"
 
 #: urls.py
 #, python-format
@@ -1412,11 +1412,11 @@ msgstr "Ahoj, %(user)s — práve si sa prihlásil!"
 
 #: urls.py
 msgid "Welcome! You just logged in!"
-msgstr "Vaša prítomnosť bola potvrdená!"
+msgstr "Vitajte! Práve ste sa prihlásili!"
 
 #: users/admin.py
 msgid "Users with staff status can view and edit the Edit Database area. This is potentially dangerous and should be reserved for the actual tab director(s)."
-msgstr "Users s staff status m??e zobrazi?a upravi?Upravi?datab?zu area. toto je potentially dangerous a m?pod?a?reserved pre actual tab director(s)."
+msgstr "Používatelia s príznakom personálu môžu zobrazovať a upravovať časť Upraviť databázu. Je to potenciálne nebezpečné a malo by to byť vyhradené iba skutočným vedúcim tabu."
 
 #: users/admin.py
 msgid "Personal info"
@@ -1440,19 +1440,19 @@ msgstr "Používateľské meno"
 
 #: users/groups.py
 msgid "Equity"
-msgstr "Equity"
+msgstr "Equity tím"
 
 #: users/groups.py
 msgid "Adjudication Core"
-msgstr "Adjudication Core"
+msgstr "Adjudikačný tím"
 
 #: users/groups.py
 msgid "Tabulation Director"
-msgstr "Tabulation Director"
+msgstr "Vedúci tabu"
 
 #: users/groups.py
 msgid "Tabulation Assistant"
-msgstr "Tabulation Assistant"
+msgstr "Asistent tabu"
 
 #: users/models.py
 msgid "user"
@@ -1524,7 +1524,7 @@ msgstr "upraviť tím-klub konflikty (bloky)"
 
 #: users/permissions.py
 msgid "view action log entries"
-msgstr "zobraziť záznamy action logu"
+msgstr "zobraziť záznamy denníka akcií"
 
 #: users/permissions.py
 msgid "view teams"
@@ -1564,7 +1564,7 @@ msgstr "zobraziť debatné kluby"
 
 #: users/permissions.py
 msgid "add institutions"
-msgstr "pridať debatný klub"
+msgstr "pridať debatné kluby"
 
 #: users/permissions.py
 msgid "view participants"
@@ -1596,7 +1596,7 @@ msgstr "zobraziť dostupnosť rozhodcov pre kolo"
 
 #: users/permissions.py
 msgid "view round availabilities for rooms"
-msgstr "upraviť dostupnosť miestnosti pre kolo"
+msgstr "zobraziť dostupnosť miestností pre kolo"
 
 #: users/permissions.py
 msgid "edit round availabilities for teams"
@@ -1608,7 +1608,7 @@ msgstr "upraviť dostupnosť rozhodcov pre kolo"
 
 #: users/permissions.py
 msgid "edit round availabilities for rooms"
-msgstr "upraviť dostupnosť miestnosti pre kolo"
+msgstr "upraviť dostupnosť miestností pre kolo"
 
 #: users/permissions.py
 msgid "view round availabilities"
@@ -1620,7 +1620,7 @@ msgstr "upraviť dostupnosť pre kolo"
 
 #: users/permissions.py
 msgid "view room constraints"
-msgstr "upraviť obmedzenia miestnosti"
+msgstr "zobraziť obmedzenia miestností"
 
 #: users/permissions.py
 msgid "view room categories"
@@ -1628,7 +1628,7 @@ msgstr "zobraziť kategórie miestností"
 
 #: users/permissions.py
 msgid "edit room constraints"
-msgstr "upraviť obmedzenia miestnosti"
+msgstr "upraviť obmedzenia miestností"
 
 #: users/permissions.py
 msgid "edit room categories"
@@ -1652,15 +1652,15 @@ msgstr "vymazať debaty (pairing)"
 
 #: users/permissions.py
 msgid "edit debate teams (pairings)"
-msgstr "upraviť debatné tímy (pairings)"
+msgstr "upraviť tímy v debate (pairingy)"
 
 #: users/permissions.py
 msgid "view debate adjudicators (allocations)"
-msgstr "zobraziť rozhodcov diskusie (allocations)"
+msgstr "zobraziť rozhodcov debát (alokácie)"
 
 #: users/permissions.py
 msgid "edit debate adjudicators (allocations)"
-msgstr "upraviť rozhodcov debát (allocations)"
+msgstr "upraviť rozhodcov debát (alokácie)"
 
 #: users/permissions.py
 msgid "view room allocations"
@@ -1680,15 +1680,15 @@ msgstr "zobraziť potvrdené balloty"
 
 #: users/permissions.py
 msgid "edit non-confirmed ballots"
-msgstr "upraviť nepotrvdené balloty"
+msgstr "upraviť nepotvrdené balloty"
 
 #: users/permissions.py
 msgid "view any ballot"
-msgstr "zobrazi?ak?ko?vek hlasovanie"
+msgstr "zobraziť akýkoľvek ballot"
 
 #: users/permissions.py
 msgid "edit any ballot"
-msgstr "upravi?ak?ko?vek hlasovanie"
+msgstr "upraviť akýkoľvek ballot"
 
 #: users/permissions.py
 msgid "create ballots"
@@ -1696,7 +1696,7 @@ msgstr "vytvoriť balloty"
 
 #: users/permissions.py
 msgid "confirm/discard any ballot"
-msgstr "potvrdiť/zahodiť akýkoľvek ballotov"
+msgstr "potvrdiť/zahodiť akýkoľvek ballot"
 
 #: users/permissions.py
 msgid "confirm/discard others' ballots"
@@ -1704,7 +1704,7 @@ msgstr "potvrdiť/zahodiť balloty iných"
 
 #: users/permissions.py
 msgid "view ballot graph"
-msgstr "zobraziť graf ballotu"
+msgstr "zobraziť graf ballotov"
 
 #: users/permissions.py
 msgid "view results entry page"
@@ -1740,11 +1740,11 @@ msgstr "pridať čas začiatku debaty"
 
 #: users/permissions.py
 msgid "view draws (for the briefing room)"
-msgstr "zobrazi?draws (pre briefing room)"
+msgstr "zobraziť pairingy (pre briefingovú miestnosť)"
 
 #: users/permissions.py
 msgid "display motion (for the briefing room)"
-msgstr "zobraziť tézu (pre párovaciu miestnosť)"
+msgstr "zobraziť tézu (pre briefingovú miestnosť)"
 
 #: users/permissions.py
 msgid "view existing preformed panels"
@@ -1776,7 +1776,7 @@ msgstr "zobraziť najnovšie tézy"
 
 #: users/permissions.py
 msgid "view the diversity tab"
-msgstr "zobraziť tab diverzity"
+msgstr "zobraziť prehľad diverzity"
 
 #: users/permissions.py
 msgid "view overview of judge feedback"
@@ -1800,7 +1800,7 @@ msgstr "prepnúť potvrdenie spätnej väzby"
 
 #: users/permissions.py
 msgid "view feedback unsubmitted tab"
-msgstr "zobraziť tab s neodoslanými spätnými väzbami"
+msgstr "zobraziť neodoslanú spätnú väzbu"
 
 #: users/permissions.py
 msgid "add feedback"
@@ -1808,11 +1808,11 @@ msgstr "pridať spätnú väzbu"
 
 #: users/permissions.py
 msgid "view adjudicator break"
-msgstr "zobrazi?rozhodca/rozhodky?a postup"
+msgstr "zobraziť postup rozhodcov"
 
 #: users/permissions.py
 msgid "edit adjudicator break"
-msgstr "upravi?rozhodca/rozhodky?a postup"
+msgstr "upraviť postup rozhodcov"
 
 #: users/permissions.py
 msgid "edit feedback questions"
@@ -1820,19 +1820,19 @@ msgstr "upraviť otázky spätnej väzby"
 
 #: users/permissions.py
 msgid "edit break eligibility"
-msgstr "upravi?postup opr?vnenos?"
+msgstr "upraviť oprávnenosť na postup"
 
 #: users/permissions.py
 msgid "view break eligibility"
-msgstr "zobrazi?postup opr?vnenos?"
+msgstr "zobraziť oprávnenosť na postup"
 
 #: users/permissions.py
 msgid "edit break categories"
-msgstr "upravi?postupov?kateg?rie"
+msgstr "upraviť postupové kategórie"
 
 #: users/permissions.py
 msgid "view break categories"
-msgstr "zobrazi?postupov?kateg?rie"
+msgstr "zobraziť postupové kategórie"
 
 #: users/permissions.py
 msgid "view speaker categories"
@@ -1852,23 +1852,23 @@ msgstr "upraviť oprávnenie rečníka"
 
 #: users/permissions.py
 msgid "view break overview"
-msgstr "zobraziť prehľad breaku"
+msgstr "zobraziť prehľad postupu"
 
 #: users/permissions.py
 msgid "view breaks"
-msgstr "zobraziť breaky"
+msgstr "zobraziť postupy"
 
 #: users/permissions.py
 msgid "generate all breaks"
-msgstr "vygenerovať všetky breaky"
+msgstr "vygenerovať všetky postupy"
 
 #: users/permissions.py
 msgid "view private urls"
-msgstr "zobraziť súkromné urls"
+msgstr "zobraziť súkromné URL"
 
 #: users/permissions.py
 msgid "generate private URLs"
-msgstr "vytvoriť súkromné URLs"
+msgstr "vytvoriť súkromné URL"
 
 #: users/permissions.py
 msgid "view checkins"
@@ -1876,11 +1876,11 @@ msgstr "zobraziť registrácie"
 
 #: users/permissions.py
 msgid "edit participant check-in"
-msgstr "upraviť check-in účastníka"
+msgstr "upraviť príchod účastníka"
 
 #: users/permissions.py
 msgid "edit room check-in"
-msgstr "upraviť check-in miestnosti"
+msgstr "upraviť príchod miestnosti"
 
 #: users/permissions.py
 msgid "edit round attributes"
@@ -1888,7 +1888,7 @@ msgstr "upraviť atribúty kola"
 
 #: users/permissions.py
 msgid "delete rounds"
-msgstr "vytvoriť kolá"
+msgstr "vymazať kolá"
 
 #: users/permissions.py
 msgid "create rounds"
@@ -1900,7 +1900,7 @@ msgstr "potvrdiť kolá"
 
 #: users/permissions.py
 msgid "silence rounds"
-msgstr "nastaviť kolá ako silent"
+msgstr "stíšiť kolá"
 
 #: users/permissions.py
 msgid "view email statuses"
@@ -1936,7 +1936,7 @@ msgstr "zobraziť odpovede na všeobecné otázky"
 
 #: users/permissions.py
 msgid "edit events"
-msgstr "upraviť události"
+msgstr "upraviť udalosti"
 
 #: users/permissions.py
 msgid "view events"
@@ -1996,7 +1996,7 @@ msgstr "Vytvoriť účet"
 
 #: users/views.py
 msgid "Whoops! It looks like someone's already created the first user account. Please log in."
-msgstr "Whoops! Vyzer?na,?e someone's already vytvoren?prv?user account. Please log v."
+msgstr "Ups! Vyzerá to, že niekto už vytvoril prvý používateľský účet. Prihláste sa."
 
 #: users/views.py
 #, python-format
@@ -2009,7 +2009,7 @@ msgstr "Pozvať používateľa"
 
 #: users/views.py
 msgid "Successfully invited user to create an account for the tournament."
-msgstr "Úspešne si pozval používateľa, aby si vytvoril účet pre turnaj."
+msgstr "Používateľ bol úspešne pozvaný, aby si vytvoril účet pre turnaj."
 
 #: users/views.py
 msgid "Accept Invitation"
@@ -2033,11 +2033,11 @@ msgstr "Maximálny počet bodov za krížový výsluch"
 
 #: options/preferences.py:108
 msgid "Score steps allowed for cross-examinations when using a single cross total, e.g. full points (1) or half points (0.5)"
-msgstr "Body udelené za krížové výsluchy pri použití crossov bez natavených kritérií, napr. plný počet bodov (1) alebo polovičný počet bodov (0,5)"
+msgstr "Povolené kroky bodovania krížových výsluchov pri použití jedného celkového skóre, napr. celé body (1) alebo polovičné body (0,5)"
 
 #: options/preferences.py:109
 msgid "Cross-examination score step"
-msgstr "Step krížových výsluchov"
+msgstr "Krok bodovania krížových výsluchov"
 
 #: options/preferences.py:667
 msgid "Whether this style includes scored cross-examinations that contribute to team totals"
@@ -2049,11 +2049,11 @@ msgstr "Zapnúť krížové výsluchy"
 
 #: options/preferences.py:968
 msgid "Use collapsible slider controls on online ballot entry pages while keeping the classic numeric inputs available as a fallback on the page"
-msgstr "Použiť slider pri ballotoch namiesto manuálneho zadávania bodov"
+msgstr "Použiť rozbaľovacie posuvníky na online stránkach zadávania ballotov a zároveň ponechať klasické číselné vstupy ako záložnú možnosť"
 
 #: options/preferences.py:969 results/templates/ballot/ballot_set.html:169
 msgid "Use slider ballot UI"
-msgstr "Použiť slider UI pri ballotoch"
+msgstr "Použiť ballotové rozhranie s posuvníkmi"
 
 #: results/forms.py:801 results/models.py:504
 #: results/templates/public_ballot_set.html:97
@@ -2078,11 +2078,11 @@ msgstr "body za krížový výsluch"
 
 #: results/models.py:437
 msgid "cross-examination scores"
-msgstr "body za krížový výsluchy"
+msgstr "body za krížové výsluchy"
 
 #: results/models.py:453 results/models.py:494
 msgid "Cross-examination must be from the same tournament as this ballot submission."
-msgstr "Cross-examination mus?pod?a?od same turnaj ako toto hlasovanie odoslanie."
+msgstr "Krížový výsluch musí patriť do rovnakého turnaja ako tento odoslaný ballot."
 
 #: results/models.py:474
 msgid "cross-examination score by adjudicator"
@@ -2102,11 +2102,11 @@ msgstr "Súčty krížových výsluchov nie sú identické"
 
 #: results/templates/ballot/ballot_set.html:159
 msgid "There are some problems with this scoresheet. Please review and correct them."
-msgstr "V tomto ballote sú chyby. Prosím, skontrolujte ich a opravte."
+msgstr "V tomto hlasovacom hárku sú chyby. Skontrolujte ich a opravte."
 
 #: results/templates/ballot/ballot_set.html:170
 msgid "Use classic ballot UI"
-msgstr "Použiť klasické UI ballotu"
+msgstr "Použiť klasické ballotové rozhranie"
 
 #: results/utils.py:162
 msgid "Reply"
@@ -2122,27 +2122,27 @@ msgstr "Rozdiel"
 
 #: results/templates/enter_results.html:15
 msgid "Ballot Status"
-msgstr "Status ballotu"
+msgstr "Stav ballotu"
 
 #: results/templates/enter_results.html:16
 msgid "only the confirmed ballot set will affect this debate's result"
-msgstr "iba potvrdené balloty môžu ovplyvniť výsledok debaty"
+msgstr "výsledok debaty ovplyvní iba potvrdená sada ballotov"
 
 #: results/templates/enter_results.html:33
 msgid "Debate Status"
-msgstr "Status debaty"
+msgstr "Stav debaty"
 
 #: results/templates/enter_results.html:35
 msgid "all debates must be confirmed to complete the round"
-msgstr "všetky debaty musia byť potvrdené aby bolo možné ukončiť kolo"
+msgstr "na ukončenie kola musia byť potvrdené všetky debaty"
 
 #: results/templates/enter_results.html:45
 msgid "Save Ballot"
-msgstr "Save hlasovanie"
+msgstr "Uložiť ballot"
 
 #: results/templates/enter_results.html:48
 msgid "Cancel Entry"
-msgstr "Zrušiť vstup"
+msgstr "Zrušiť zadávanie"
 
 #: results/models.py:44
 msgid "confirmed"
@@ -2154,39 +2154,39 @@ msgstr "zahodené"
 
 #: results/forms.py:209
 msgid "The ballot set can't be both discarded and confirmed."
-msgstr "sada hlasovan?nem??e by?both zahoden?a potvrden?."
+msgstr "Sada ballotov nemôže byť zároveň zahodená aj potvrdená."
 
 #: results/forms.py:216
 msgid "The debate status can't be confirmed unless one of the ballot sets is confirmed."
-msgstr "Status debaty nemôže byť potvrdený ak aspoň jeden set ballotov nie je potvrdený."
+msgstr "Stav debaty nemôže byť potvrdený, kým nie je potvrdená aspoň jedna sada ballotov."
 
 #: results/models.py:154
 msgid "A ballot can't be both confirmed and discarded!"
-msgstr "A hlasovanie nem??e by?both potvrden?a zahoden?!"
+msgstr "Ballot nemôže byť zároveň potvrdený aj zahodený!"
 
 #: actionlog/models.py:36
 msgid "Confirmed ballot set"
-msgstr "potvrden?sada hlasovan?"
+msgstr "Potvrdená sada ballotov"
 
 #: actionlog/models.py:38
 msgid "Discarded ballot set"
-msgstr "zahoden?sada hlasovan?"
+msgstr "Zahodená sada ballotov"
 
 #: tournaments/utils.py
 msgid "affirmative"
-msgstr "súhlas"
+msgstr "afirmácia"
 
 #: tournaments/utils.py
 msgid "negative"
-msgstr "nesúhlas"
+msgstr "negácia"
 
 #: tournaments/utils.py
 msgid "affirmative team"
-msgstr "súhlasný tím"
+msgstr "afirmačný tím"
 
 #: tournaments/utils.py
 msgid "negative team"
-msgstr "nesúhlasný tím"
+msgstr "negačný tím"
 
 #: tournaments/utils.py
 msgid "Aff"

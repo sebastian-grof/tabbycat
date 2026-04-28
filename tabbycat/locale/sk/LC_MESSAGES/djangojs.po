@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: tabbycat\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-01-14 04:50+1100\n"
-"PO-Revision-Date: 2026-04-26 10:49+0200\n"
+"PO-Revision-Date: 2026-04-28 12:55+0200\n"
 "Last-Translator: \n"
 "Language-Team: Slovak\n"
 "Language: sk\n"
@@ -16,7 +16,7 @@ msgstr ""
 "X-Crowdin-Language: sk\n"
 "X-Crowdin-File: /develop/tabbycat/locale/en/LC_MESSAGES/djangojs.po\n"
 "X-Crowdin-File-ID: 962\n"
-"X-Generator: Poedit 3.7\n"
+"X-Generator: Poedit 3.9\n"
 
 #: checkins/templates/CheckInScanContainer.vue:
 msgid "Scan Using Camera"
@@ -178,7 +178,7 @@ msgstr "%1 %2 od %3 on %4 (Panellista)"
 
 #: printing/templates/PrintableBallotHeader.vue:
 msgid "%1 %2 from %3 on %4 (Trainee)"
-msgstr "%1 %2 od %3 na %4 (trainee rozhodca/rozhodky?a)"
+msgstr "%1 %2 od %3 na %4 (Shadow)"
 
 #: printing/templates/PrintableBallotHeader.vue:
 msgid "ID %1,"
@@ -484,11 +484,11 @@ msgstr "Status Ballotov"
 
 #: results/templates/BallotsCell.vue:18
 msgid "You cannot confirm this ballot because you entered it"
-msgstr "ty nem??e potvrdi?toto hlasovanie preto?e ty zadan?to"
+msgstr "Nemôžeš potvrdiť ballot, ktorý ste zadali vy"
 
 #: results/templates/BallotsCell.vue:34
 msgid "Add Ballot"
-msgstr "prida?hlasovanie"
+msgstr "Pridať Ballot"
 
 #: results/templates/BallotsCell.vue:79
 msgid "Re-Edit"
@@ -545,11 +545,11 @@ msgstr "Rozsah bracketu hypotetickej debaty"
 
 #: utils/templates/DragAndDropDebate.vue:20
 msgid "The total number of live break categories across all teams"
-msgstr "s??et po?et z live postupov?kateg?rie across v?etky t?my"
+msgstr "Súčet všetkých break kategórií napireč všetkými tímami"
 
 #: utils/templates/DragAndDropDebate.vue:26
 msgid "The estimated total number of live break categories across all teams of the hypothetical debate"
-msgstr "estimated s??et po?et z live postupov?kateg?rie across v?etky t?my z hypothetical debata"
+msgstr "Predpokladané celé číslo live break kategórií naprieč všetkými tímami v hypotetickej debate"
 
 #: utils/templates/DragAndDropDebate.vue:33
 msgid "This debate's priority"

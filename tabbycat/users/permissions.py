@@ -162,6 +162,22 @@ class Permission(TextChoices):
     CONFIRM_REGISTRATION = 'confirm.registration', _("confirm registration responses")
 
 
+ASSISTANT_INTERFACE_PERMISSIONS = (
+    Permission.ADD_BALLOTSUBMISSIONS,
+    Permission.MARK_OTHERS_BALLOTSUBMISSIONS,
+    Permission.VIEW_BALLOTSUBMISSION_GRAPH,
+    Permission.ADD_FEEDBACK,
+    Permission.VIEW_INSTITUTIONS,
+    Permission.VIEW_PARTICIPANTS,
+    Permission.EDIT_PARTICIPANT_CHECKIN,
+    Permission.EDIT_ROOM_CHECKIN,
+    Permission.VIEW_BRIEFING_DRAW,
+    Permission.DISPLAY_MOTION,
+)
+
+ASSISTANT_INTERFACE_PERMISSION_SET = frozenset(ASSISTANT_INTERFACE_PERMISSIONS)
+
+
 permission_type = Union[Permission, bool]
 
 
@@ -197,6 +213,23 @@ def has_permission(user: 'settings.AUTH_USER_MODEL', permission: permission_type
         user._permissions[tournament.slug].add(permission)
         cache.set(PERM_CACHE_KEY % (user.pk, tournament.slug, str(permission)), perm)
     return perm
+
+
+def has_admin_access(user: 'settings.AUTH_USER_MODEL', tournament: 'Tournament') -> bool:
+    if user.is_anonymous:
+        return False
+    if user.is_superuser:
+        return True
+
+    if user.userpermission_set.filter(tournament=tournament).exists():
+        return True
+
+    return any(
+        frozenset(membership.group.permissions) != ASSISTANT_INTERFACE_PERMISSION_SET
+        for membership in user.membership_set.filter(
+            group__tournament=tournament,
+        ).select_related('group')
+    )
 
 
 def get_permissions(user: 'settings.AUTH_USER_MODEL') -> List['Tournament']:

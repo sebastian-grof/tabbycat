@@ -10,7 +10,7 @@ from django.template.defaulttags import URLNode
 
 from draw.types import DebateSide
 from tournaments.utils import get_side_name
-from users.permissions import has_permission
+from users.permissions import has_admin_access, has_permission
 
 register = template.Library()
 STATIC_PATH = settings.MEDIA_ROOT
@@ -255,3 +255,8 @@ def prep_time():
 def haspermission(context, permission):
     # If returned directly from the object it will have to lookup tournament
     return has_permission(context['user'], permission, context['tournament'])
+
+
+@register.simple_tag
+def hasadminaccess(user, tournament):
+    return has_admin_access(user, tournament)

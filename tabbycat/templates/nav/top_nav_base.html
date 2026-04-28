@@ -23,7 +23,8 @@
 
         {% for tournament in all_tournaments %}
 
-          {% if user.is_superuser %}
+          {% hasadminaccess user tournament as can_access_admin %}
+          {% if can_access_admin %}
             <a class="dropdown-item px-2" href="{% url 'tournament-admin-home' tournament_slug=tournament.slug %}">
               <i data-feather="settings"></i>
               {% blocktrans trimmed %}

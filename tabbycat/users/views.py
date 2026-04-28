@@ -5,10 +5,11 @@ from django.contrib import messages
 from django.contrib.auth import get_user_model, login
 from django.contrib.auth.views import PasswordResetConfirmView, PasswordResetView
 from django.http.response import Http404
-from django.shortcuts import redirect
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
+from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
-from django.views.generic import FormView
+from django.views.generic import FormView, TemplateView
 
 from actionlog.mixins import LogActionMixin
 from actionlog.models import ActionLogEntry
@@ -16,7 +17,12 @@ from tournaments.mixins import TournamentMixin
 from utils.misc import reverse_tournament
 from utils.mixins import AdministratorMixin
 
-from .forms import AcceptInvitationForm, InviteUserForm, SuperuserCreationForm
+from .forms import (
+    AcceptInvitationForm, AssignUserRolesForm, InviteUserForm, PERMISSION_GROUPS, RoleForm,
+    SuperuserCreationForm,
+)
+from .models import Group
+from .permissions import Permission
 
 User = get_user_model()
 logger = logging.getLogger(__name__)
@@ -94,3 +100,97 @@ class AcceptInvitationView(TournamentMixin, PasswordResetConfirmView):
         if not self.validlink:
             raise Http404
         return super().get_context_data(**kwargs)
+
+
+class RoleManagementView(AdministratorMixin, TournamentMixin, TemplateView):
+    template_name = "role_management.html"
+    page_title = _("User Roles")
+    page_emoji = '👥'
+    view_permission = Permission.VIEW_SETTINGS
+    edit_permission = Permission.EDIT_SETTINGS
+
+    def test_func(self):
+        return self.request.user.is_authenticated and self.request.user.is_superuser
+
+    def get_selected_role(self):
+        role_id = self.request.GET.get('role') or self.request.POST.get('role_id')
+        if not role_id:
+            return None
+        return get_object_or_404(Group, pk=role_id, tournament=self.tournament)
+
+    def get_selected_user(self):
+        user_id = self.request.GET.get('user') or self.request.POST.get('user')
+        if not user_id:
+            return None
+        return get_object_or_404(User, pk=user_id)
+
+    def get_role_form(self):
+        if self.request.method == 'POST' and self.request.POST.get('action') == 'save_role':
+            return RoleForm(self.tournament, self.request.POST, instance=self.get_selected_role())
+        return RoleForm(self.tournament, instance=self.get_selected_role())
+
+    def get_assignment_form(self):
+        if self.request.method == 'POST' and self.request.POST.get('action') == 'assign_user_roles':
+            return AssignUserRolesForm(self.tournament, self.request.POST)
+        return AssignUserRolesForm(self.tournament, user_instance=self.get_selected_user())
+
+    def get_permission_groups(self, form):
+        selected = set(form['permissions'].value() or [])
+        groups = []
+        for title, permissions in PERMISSION_GROUPS:
+            groups.append({
+                'title': title,
+                'options': [{
+                    'value': permission.value,
+                    'label': permission.label,
+                    'checked': permission.value in selected,
+                    'id': 'id_permissions_%s' % slugify(permission.value),
+                } for permission in permissions],
+            })
+        return groups
+
+    def get_user_rows(self):
+        users = User.objects.filter(group_set__tournament=self.tournament).distinct().order_by('username', 'email')
+        return [{
+            'user': user,
+            'roles': user.group_set.filter(tournament=self.tournament).order_by('name'),
+        } for user in users]
+
+    def get_context_data(self, **kwargs):
+        role_form = kwargs.pop('role_form', self.get_role_form())
+        assignment_form = kwargs.pop('assignment_form', self.get_assignment_form())
+        kwargs.update({
+            'role_form': role_form,
+            'assignment_form': assignment_form,
+            'permission_groups': self.get_permission_groups(role_form),
+            'roles': self.tournament.group_set.prefetch_related('users').order_by('name'),
+            'user_rows': self.get_user_rows(),
+            'selected_role': self.get_selected_role(),
+            'selected_user': self.get_selected_user(),
+        })
+        return super().get_context_data(**kwargs)
+
+    def post(self, request, *args, **kwargs):
+        action = request.POST.get('action')
+
+        if action == 'save_role':
+            role_form = self.get_role_form()
+            assignment_form = self.get_assignment_form()
+            if role_form.is_valid():
+                role = role_form.save()
+                messages.success(request, _("Role '%(role)s' saved.") % {'role': role.name})
+                return redirect(reverse_tournament('user-role-management', self.tournament))
+            return self.render_to_response(self.get_context_data(
+                role_form=role_form, assignment_form=assignment_form))
+
+        if action == 'assign_user_roles':
+            role_form = self.get_role_form()
+            assignment_form = self.get_assignment_form()
+            if assignment_form.is_valid():
+                user = assignment_form.save()
+                messages.success(request, _("Roles for %(user)s saved.") % {'user': user})
+                return redirect(reverse_tournament('user-role-management', self.tournament))
+            return self.render_to_response(self.get_context_data(
+                role_form=role_form, assignment_form=assignment_form))
+
+        raise Http404

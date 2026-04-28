@@ -104,6 +104,13 @@
       {% trans "Invite User to Create an Account" as text %}
       {% trans "Users can be created through an invitation link sent to their email, with associated permissions." as extra %}
       {% include "components/item-action.html" with type="primary" icon="user-plus" %}
+
+      {% if request.user.is_superuser %}
+        {% tournamenturl 'user-role-management' as url %}
+        {% trans "User Roles and Permissions" as text %}
+        {% trans "Create tournament roles, choose their permissions, and assign users to them." as extra %}
+        {% include "components/item-action.html" with type="primary" icon="users" %}
+      {% endif %}
     </ul>
 
     <div class="card mt-3">

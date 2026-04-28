@@ -9,7 +9,7 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from django.views.generic.base import ContextMixin
 
-from users.permissions import has_permission
+from users.permissions import has_admin_access, has_permission
 
 if TYPE_CHECKING:
     from users.permissions import permission_type
@@ -73,6 +73,8 @@ class AdministratorMixin(UserPassesTestMixin, ContextMixin):
     def test_func(self) -> bool:
         if not hasattr(self, 'tournament'):
             return self.request.user.is_superuser
+        if not has_admin_access(self.request.user, self.tournament):
+            return False
 
         view_perm = False
         if self.request.method == 'GET' and self.get_view_permission() is not None:
