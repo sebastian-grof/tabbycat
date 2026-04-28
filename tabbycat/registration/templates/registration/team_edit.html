@@ -5,23 +5,28 @@
 <style>
   .registration-edit-shell { max-width: 1180px; }
   .registration-edit-hero {
-    border: 0;
+    border: 1px solid rgba(0, 0, 0, 0.08);
     overflow: hidden;
-    background: linear-gradient(135deg, #f5fbff 0%, #eef7f2 52%, #fff8ed 100%);
+    background: #fff;
   }
   .registration-edit-hero .display-emoji {
     font-size: 3.4rem;
     line-height: 1;
-    filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.12));
   }
   .registration-edit-card {
     border: 1px solid rgba(0, 0, 0, 0.08);
-    box-shadow: 0 10px 24px rgba(25, 42, 70, 0.06);
+    box-shadow: 0 10px 24px rgba(25, 42, 70, 0.05);
   }
   .registration-edit-card .card-header {
     background: #fff;
     border-bottom: 1px solid rgba(0, 0, 0, 0.06);
   }
+  .participant-edit-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+  }
+  .participant-edit-grid .form-group { margin-bottom: 0; }
   .speaker-edit-card {
     border: 1px solid rgba(0, 0, 0, 0.08);
     border-radius: .75rem;
@@ -33,6 +38,11 @@
     background: #f8fafc;
     border-bottom: 1px solid rgba(0, 0, 0, 0.06);
   }
+  .speaker-empty-state {
+    border: 1px dashed rgba(0, 0, 0, 0.18);
+    border-radius: .75rem;
+    background: #fbfcfe;
+  }
 </style>
 {% endblock %}
 
@@ -43,7 +53,7 @@
     {{ form.team_form.media }}
     {{ form.speaker_formset.media }}
 
-    <div class="card registration-edit-hero registration-edit-card">
+    <div class="card registration-edit-hero">
       <div class="card-body d-flex flex-column flex-md-row align-items-md-center justify-content-between">
         <div class="d-flex align-items-center mb-3 mb-md-0">
           <div class="display-emoji mr-3">{{ team.emoji|default:"👯" }}</div>
@@ -64,40 +74,72 @@
       <div class="card-header d-flex align-items-center justify-content-between">
         <div>
           <h5 class="mb-0">{% trans "Team details" %}</h5>
-          <small class="text-muted">{% trans "Name, institution, emoji, break categories, seed and registration status." %}</small>
+          <small class="text-muted">{% trans "Edit the team name, institution, emoji, categories and registration status." %}</small>
         </div>
       </div>
       {% include "components/form-main.html" with form=form.team_form double=True %}
     </div>
 
     <div class="card registration-edit-card">
-      <div class="card-header d-flex align-items-center justify-content-between">
-        <div>
+      <div class="card-header d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+        <div class="mb-2 mb-md-0">
           <h5 class="mb-0">{% trans "Speakers" %}</h5>
-          <small class="text-muted">{% trans "Edit names, emails and speaker metadata. Use the blank card to add another speaker." %}</small>
+          <small class="text-muted">{% trans "Name and email stay visible; less common fields are tucked away." %}</small>
         </div>
-        <span class="badge badge-light">{{ form.speaker_formset|length }} {% trans "rows" %}</span>
+        <button class="btn btn-outline-primary" type="button" id="add-speaker-button">
+          {% trans "Add speaker" %}
+        </button>
       </div>
       <div class="card-body">
         {% if form.speaker_formset.non_form_errors %}
           {% include "components/form-errors.html" with errors=form.speaker_formset.non_form_errors %}
         {% endif %}
         {{ form.speaker_formset.management_form }}
-        {% for speaker_form in form.speaker_formset %}
-          <div class="speaker-edit-card">
-            <div class="speaker-edit-heading px-3 py-2 d-flex align-items-center justify-content-between">
-              <strong>
-                {% if speaker_form.instance.pk %}
-                  {% if speaker_form.instance.name %}{{ speaker_form.instance.name }}{% else %}{% trans "Existing speaker" %}{% endif %}
-                {% else %}
-                  {% trans "Add speaker" %}
+        <div id="speaker-formset">
+          {% for speaker_form in form.speaker_formset %}
+            <div class="speaker-edit-card">
+              <div class="speaker-edit-heading px-3 py-2 d-flex align-items-center justify-content-between">
+                <strong>
+                  {% if speaker_form.instance.name %}{{ speaker_form.instance.name }}{% else %}{% trans "Speaker" %} {{ forloop.counter }}{% endif %}
+                </strong>
+                <button class="btn btn-sm btn-link" type="button" data-toggle="collapse" data-target="#speaker-extra-{{ forloop.counter0 }}" aria-expanded="false" aria-controls="speaker-extra-{{ forloop.counter0 }}">
+                  {% trans "Additional settings" %}
+                </button>
+              </div>
+              <div class="p-3">
+                {% if speaker_form.non_field_errors %}
+                  {% include "components/form-errors.html" with errors=speaker_form.non_field_errors %}
                 {% endif %}
-              </strong>
-              <span class="text-muted small">{% trans "Speaker" %} {{ forloop.counter }}</span>
+                <div class="participant-edit-grid">
+                  {% include "components/form-field.html" with field=speaker_form.id %}
+                  {% include "components/form-field.html" with field=speaker_form.name %}
+                  {% include "components/form-field.html" with field=speaker_form.email %}
+                </div>
+                <div class="collapse mt-3" id="speaker-extra-{{ forloop.counter0 }}">
+                  <div class="participant-edit-grid">
+                    {% include "components/form-field.html" with field=speaker_form.last_name %}
+                    {% include "components/form-field.html" with field=speaker_form.phone %}
+                    {% include "components/form-field.html" with field=speaker_form.gender %}
+                    {% include "components/form-field.html" with field=speaker_form.pronoun %}
+                    {% include "components/form-field.html" with field=speaker_form.anonymous %}
+                    {% include "components/form-field.html" with field=speaker_form.code_name %}
+                    {% include "components/form-field.html" with field=speaker_form.categories %}
+                    {% if speaker_form.DELETE %}{% include "components/form-field.html" with field=speaker_form.DELETE %}{% endif %}
+                  </div>
+                </div>
+                <div hidden>
+                  {% for hidden in speaker_form.hidden_fields %}
+                    {% if hidden.name != "id" %}{{ hidden }}{% endif %}
+                  {% endfor %}
+                </div>
+              </div>
             </div>
-            {% include "components/form-main.html" with form=speaker_form double=True %}
-          </div>
-        {% endfor %}
+          {% empty %}
+            <div class="speaker-empty-state p-4 text-center text-muted" id="speaker-empty-state">
+              {% trans "No speakers are listed yet. Add the first speaker when you need one." %}
+            </div>
+          {% endfor %}
+        </div>
       </div>
     </div>
 
@@ -109,4 +151,61 @@
     </div>
   </form>
 </div>
+
+<template id="speaker-empty-form-template">
+  <div class="speaker-edit-card">
+    <div class="speaker-edit-heading px-3 py-2 d-flex align-items-center justify-content-between">
+      <strong>{% trans "New speaker" %}</strong>
+      <button class="btn btn-sm btn-link" type="button" data-toggle="collapse" data-target="#speaker-extra-__prefix__" aria-expanded="false" aria-controls="speaker-extra-__prefix__">
+        {% trans "Additional settings" %}
+      </button>
+    </div>
+    <div class="p-3">
+      <div class="participant-edit-grid">
+        {% include "components/form-field.html" with field=form.speaker_formset.empty_form.id %}
+        {% include "components/form-field.html" with field=form.speaker_formset.empty_form.name %}
+        {% include "components/form-field.html" with field=form.speaker_formset.empty_form.email %}
+      </div>
+      <div class="collapse mt-3" id="speaker-extra-__prefix__">
+        <div class="participant-edit-grid">
+          {% include "components/form-field.html" with field=form.speaker_formset.empty_form.last_name %}
+          {% include "components/form-field.html" with field=form.speaker_formset.empty_form.phone %}
+          {% include "components/form-field.html" with field=form.speaker_formset.empty_form.gender %}
+          {% include "components/form-field.html" with field=form.speaker_formset.empty_form.pronoun %}
+          {% include "components/form-field.html" with field=form.speaker_formset.empty_form.anonymous %}
+          {% include "components/form-field.html" with field=form.speaker_formset.empty_form.code_name %}
+          {% include "components/form-field.html" with field=form.speaker_formset.empty_form.categories %}
+        </div>
+      </div>
+      <div hidden>
+        {% for hidden in form.speaker_formset.empty_form.hidden_fields %}
+          {% if hidden.name != "id" %}{{ hidden }}{% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</template>
+{% endblock %}
+
+{% block js %}
+{{ block.super }}
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var addButton = document.getElementById('add-speaker-button');
+    var formset = document.getElementById('speaker-formset');
+    var totalForms = document.getElementById('id_speakers-TOTAL_FORMS');
+    var template = document.getElementById('speaker-empty-form-template');
+    var emptyState = document.getElementById('speaker-empty-state');
+
+    if (!addButton || !formset || !totalForms || !template) return;
+
+    addButton.addEventListener('click', function () {
+      var index = parseInt(totalForms.value, 10);
+      var html = template.innerHTML.replace(/__prefix__/g, index);
+      if (emptyState) emptyState.remove();
+      formset.insertAdjacentHTML('beforeend', html);
+      totalForms.value = index + 1;
+    });
+  });
+</script>
 {% endblock %}

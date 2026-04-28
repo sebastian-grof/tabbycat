@@ -352,8 +352,9 @@ class AdminTeamEditForm(CustomQuestionsFormMixin, forms.ModelForm):
 
     def save(self, commit=True):
         self.instance.tournament = self.tournament
-        obj = super().save(commit=commit)
+        obj = super().save(commit=False)
         if commit:
+            obj.save()
             self.save_m2m()
             self.save_answers(obj, replace_existing=True)
             if self.original_institution_id and self.original_institution_id != obj.institution_id:
@@ -387,8 +388,9 @@ class AdminSpeakerEditForm(CustomQuestionsFormMixin, forms.ModelForm):
 
     def save(self, commit=True):
         self.instance.team = self.team
-        obj = super().save(commit=commit)
+        obj = super().save(commit=False)
         if commit:
+            obj.save()
             self.save_m2m()
             if not obj.url_key:
                 populate_url_keys([obj])
@@ -399,7 +401,7 @@ class AdminSpeakerEditForm(CustomQuestionsFormMixin, forms.ModelForm):
 class AdminTeamRegistrationEditForm(forms.Form):
 
     speaker_formset_class = modelformset_factory(
-        Speaker, form=AdminSpeakerEditForm, can_delete=True, extra=1,
+        Speaker, form=AdminSpeakerEditForm, can_delete=True, extra=0,
     )
 
     def __init__(self, tournament, team, data=None, *args, **kwargs):

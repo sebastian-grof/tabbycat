@@ -5,23 +5,28 @@
 <style>
   .registration-edit-shell { max-width: 960px; }
   .registration-edit-hero {
-    border: 0;
+    border: 1px solid rgba(0, 0, 0, 0.08);
     overflow: hidden;
-    background: linear-gradient(135deg, #f7fbff 0%, #f1f7ff 48%, #fff7ef 100%);
+    background: #fff;
   }
   .registration-edit-hero .display-emoji {
     font-size: 3.2rem;
     line-height: 1;
-    filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.12));
   }
   .registration-edit-card {
     border: 1px solid rgba(0, 0, 0, 0.08);
-    box-shadow: 0 10px 24px rgba(25, 42, 70, 0.06);
+    box-shadow: 0 10px 24px rgba(25, 42, 70, 0.05);
   }
   .registration-edit-card .card-header {
     background: #fff;
     border-bottom: 1px solid rgba(0, 0, 0, 0.06);
   }
+  .participant-edit-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+  }
+  .participant-edit-grid .form-group { margin-bottom: 0; }
 </style>
 {% endblock %}
 
@@ -31,7 +36,7 @@
     {% csrf_token %}
     {{ form.media }}
 
-    <div class="card registration-edit-hero registration-edit-card">
+    <div class="card registration-edit-hero">
       <div class="card-body d-flex flex-column flex-md-row align-items-md-center justify-content-between">
         <div class="d-flex align-items-center mb-3 mb-md-0">
           <div class="display-emoji mr-3">👂</div>
@@ -49,11 +54,48 @@
     </div>
 
     <div class="card registration-edit-card">
-      <div class="card-header">
-        <h5 class="mb-0">{% trans "Adjudicator details" %}</h5>
-        <small class="text-muted">{% trans "Edit contact details, institution, tab settings, score and registration status. Feedback is managed separately." %}</small>
+      <div class="card-header d-flex align-items-center justify-content-between">
+        <div>
+          <h5 class="mb-0">{% trans "Adjudicator details" %}</h5>
+          <small class="text-muted">{% trans "Common tab fields stay visible. Feedback is managed separately." %}</small>
+        </div>
+        <button class="btn btn-sm btn-link" type="button" data-toggle="collapse" data-target="#adjudicator-extra" aria-expanded="false" aria-controls="adjudicator-extra">
+          {% trans "Additional settings" %}
+        </button>
       </div>
-      {% include "components/form-main.html" with form=form double=True %}
+      <div class="p-3">
+        {% if form.non_field_errors %}
+          {% include "components/form-errors.html" with errors=form.non_field_errors %}
+        {% endif %}
+        <div class="participant-edit-grid">
+          {% include "components/form-field.html" with field=form.name %}
+          {% include "components/form-field.html" with field=form.email %}
+          {% include "components/form-field.html" with field=form.institution %}
+          {% include "components/form-field.html" with field=form.base_score %}
+          {% include "components/form-field.html" with field=form.trainee %}
+        </div>
+        <div class="collapse mt-3" id="adjudicator-extra">
+          <div class="participant-edit-grid">
+            {% include "components/form-field.html" with field=form.phone %}
+            {% include "components/form-field.html" with field=form.gender %}
+            {% include "components/form-field.html" with field=form.pronoun %}
+            {% include "components/form-field.html" with field=form.anonymous %}
+            {% include "components/form-field.html" with field=form.code_name %}
+            {% include "components/form-field.html" with field=form.breaking %}
+            {% include "components/form-field.html" with field=form.independent %}
+            {% include "components/form-field.html" with field=form.adj_core %}
+            {% include "components/form-field.html" with field=form.registration_status %}
+            {% for field in form.visible_fields %}
+              {% if field.name|slice:":1" == "q" %}
+                {% include "components/form-field.html" %}
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+        <div hidden>
+          {% for hidden in form.hidden_fields %}{{ hidden }}{% endfor %}
+        </div>
+      </div>
     </div>
 
     <div class="card registration-edit-card">
