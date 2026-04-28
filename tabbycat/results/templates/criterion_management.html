@@ -79,9 +79,14 @@
         </div>
 
         <div class="card criterion-card mb-3">
-          <div class="card-header">
-            <h5 class="mb-1">{% trans "Substantive Speeches" %}</h5>
-            <small class="text-muted">{% trans "Criteria shown for non-reply speeches." %}</small>
+          <div class="card-header d-flex justify-content-between align-items-start">
+            <div>
+              <h5 class="mb-1">{% trans "Substantive Speeches" %}</h5>
+              <small class="text-muted">{% trans "Criteria shown for non-reply speeches." %}</small>
+            </div>
+            <button type="button" class="btn btn-sm btn-outline-primary js-add-criterion-row" data-prefix="substantive">
+              {% trans "Add Criterion" %}
+            </button>
           </div>
           <div class="table-responsive">
             {{ formsets.substantive.management_form }}
@@ -98,7 +103,7 @@
                   <th>{% trans "Delete" %}</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody id="substantive-criteria-body">
                 {% for form in formsets.substantive %}
                   <tr>
                     <td>{{ form.item_id }}{{ form.order|addcss:"form-control form-control-sm" }}{{ form.order.errors }}</td>
@@ -116,13 +121,30 @@
                 {% endfor %}
               </tbody>
             </table>
+            <template id="empty-substantive-row">
+              <tr>
+                <td>{{ formsets.substantive.empty_form.item_id }}{{ formsets.substantive.empty_form.order|addcss:"form-control form-control-sm" }}</td>
+                <td>{{ formsets.substantive.empty_form.name|addcss:"form-control form-control-sm criterion-name-input" }}</td>
+                <td>{{ formsets.substantive.empty_form.weight|addcss:"form-control form-control-sm" }}</td>
+                <td>{{ formsets.substantive.empty_form.min_score|addcss:"form-control form-control-sm" }}</td>
+                <td>{{ formsets.substantive.empty_form.max_score|addcss:"form-control form-control-sm" }}</td>
+                <td>{{ formsets.substantive.empty_form.step|addcss:"form-control form-control-sm" }}</td>
+                <td class="text-center">{{ formsets.substantive.empty_form.required }}</td>
+                <td class="text-center">{{ formsets.substantive.empty_form.delete }}</td>
+              </tr>
+            </template>
           </div>
         </div>
 
         <div class="card criterion-card mb-3">
-          <div class="card-header">
-            <h5 class="mb-1">{% trans "Reply Speeches" %}</h5>
-            <small class="text-muted">{% trans "Criteria shown for reply speeches when reply scores are enabled." %}</small>
+          <div class="card-header d-flex justify-content-between align-items-start">
+            <div>
+              <h5 class="mb-1">{% trans "Reply Speeches" %}</h5>
+              <small class="text-muted">{% trans "Criteria shown for reply speeches when reply scores are enabled." %}</small>
+            </div>
+            <button type="button" class="btn btn-sm btn-outline-primary js-add-criterion-row" data-prefix="reply">
+              {% trans "Add Criterion" %}
+            </button>
           </div>
           <div class="table-responsive">
             {{ formsets.reply.management_form }}
@@ -139,7 +161,7 @@
                   <th>{% trans "Delete" %}</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody id="reply-criteria-body">
                 {% for form in formsets.reply %}
                   <tr>
                     <td>{{ form.item_id }}{{ form.order|addcss:"form-control form-control-sm" }}{{ form.order.errors }}</td>
@@ -157,13 +179,30 @@
                 {% endfor %}
               </tbody>
             </table>
+            <template id="empty-reply-row">
+              <tr>
+                <td>{{ formsets.reply.empty_form.item_id }}{{ formsets.reply.empty_form.order|addcss:"form-control form-control-sm" }}</td>
+                <td>{{ formsets.reply.empty_form.name|addcss:"form-control form-control-sm criterion-name-input" }}</td>
+                <td>{{ formsets.reply.empty_form.weight|addcss:"form-control form-control-sm" }}</td>
+                <td>{{ formsets.reply.empty_form.min_score|addcss:"form-control form-control-sm" }}</td>
+                <td>{{ formsets.reply.empty_form.max_score|addcss:"form-control form-control-sm" }}</td>
+                <td>{{ formsets.reply.empty_form.step|addcss:"form-control form-control-sm" }}</td>
+                <td class="text-center">{{ formsets.reply.empty_form.required }}</td>
+                <td class="text-center">{{ formsets.reply.empty_form.delete }}</td>
+              </tr>
+            </template>
           </div>
         </div>
 
         <div class="card criterion-card mb-3">
-          <div class="card-header">
-            <h5 class="mb-1">{% trans "Cross-Examinations" %}</h5>
-            <small class="text-muted">{% trans "Criteria shown in the cross-examination section of the ballot." %}</small>
+          <div class="card-header d-flex justify-content-between align-items-start">
+            <div>
+              <h5 class="mb-1">{% trans "Cross-Examinations" %}</h5>
+              <small class="text-muted">{% trans "Criteria shown in the cross-examination section of the ballot." %}</small>
+            </div>
+            <button type="button" class="btn btn-sm btn-outline-primary js-add-criterion-row" data-prefix="cross">
+              {% trans "Add Criterion" %}
+            </button>
           </div>
           <div class="table-responsive">
             {{ formsets.cross.management_form }}
@@ -180,7 +219,7 @@
                   <th>{% trans "Delete" %}</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody id="cross-criteria-body">
                 {% for form in formsets.cross %}
                   <tr>
                     <td>{{ form.item_id }}{{ form.order|addcss:"form-control form-control-sm" }}{{ form.order.errors }}</td>
@@ -198,6 +237,18 @@
                 {% endfor %}
               </tbody>
             </table>
+            <template id="empty-cross-row">
+              <tr>
+                <td>{{ formsets.cross.empty_form.item_id }}{{ formsets.cross.empty_form.order|addcss:"form-control form-control-sm" }}</td>
+                <td>{{ formsets.cross.empty_form.name|addcss:"form-control form-control-sm criterion-name-input" }}</td>
+                <td>{{ formsets.cross.empty_form.weight|addcss:"form-control form-control-sm" }}</td>
+                <td>{{ formsets.cross.empty_form.min_score|addcss:"form-control form-control-sm" }}</td>
+                <td>{{ formsets.cross.empty_form.max_score|addcss:"form-control form-control-sm" }}</td>
+                <td>{{ formsets.cross.empty_form.step|addcss:"form-control form-control-sm" }}</td>
+                <td class="text-center">{{ formsets.cross.empty_form.required }}</td>
+                <td class="text-center">{{ formsets.cross.empty_form.delete }}</td>
+              </tr>
+            </template>
           </div>
         </div>
 
@@ -264,6 +315,36 @@
         </form>
       </div>
 
+      <div class="card criterion-card mb-3">
+        <div class="card-header">
+          <h4 class="mb-1">{% trans "Remove Preset" %}</h4>
+          <small class="text-muted">
+            {% trans "Delete a custom global preset. The default preset is protected." %}
+          </small>
+        </div>
+        {% if deletable_presets %}
+          <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="delete_preset">
+            <div class="card-body">
+              {{ delete_preset_form.non_field_errors }}
+              <div class="form-group mb-0">
+                <label for="{{ delete_preset_form.preset_id.id_for_label }}">{{ delete_preset_form.preset_id.label }}</label>
+                {{ delete_preset_form.preset_id|addcss:"form-control" }}
+                {{ delete_preset_form.preset_id.errors }}
+              </div>
+            </div>
+            <div class="card-footer bg-white">
+              <button type="submit" class="btn btn-outline-danger btn-block">{% trans "Remove Preset" %}</button>
+            </div>
+          </form>
+        {% else %}
+          <div class="card-body text-muted">
+            {% trans "There are no custom presets to remove yet." %}
+          </div>
+        {% endif %}
+      </div>
+
       <div class="card criterion-card">
         <div class="card-header">
           <h4 class="mb-1">{% trans "Global Presets" %}</h4>
@@ -306,3 +387,39 @@
   </div>
 
 {% endblock content %}
+
+{% block js %}
+  {{ block.super }}
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      function addCriterionRow(prefix) {
+        var totalForms = document.getElementById('id_' + prefix + '-TOTAL_FORMS');
+        var template = document.getElementById('empty-' + prefix + '-row');
+        var tbody = document.getElementById(prefix + '-criteria-body');
+        if (!totalForms || !template || !tbody) {
+          return;
+        }
+
+        var index = parseInt(totalForms.value, 10);
+        var html = template.innerHTML.replace(/__prefix__/g, index);
+        var wrapper = document.createElement('tbody');
+        wrapper.innerHTML = html.trim();
+        var row = wrapper.firstElementChild;
+
+        tbody.appendChild(row);
+        totalForms.value = index + 1;
+
+        var nameInput = row.querySelector('[name="' + prefix + '-' + index + '-name"]');
+        if (nameInput) {
+          nameInput.focus();
+        }
+      }
+
+      document.querySelectorAll('.js-add-criterion-row').forEach(function (button) {
+        button.addEventListener('click', function () {
+          addCriterionRow(button.dataset.prefix);
+        });
+      });
+    });
+  </script>
+{% endblock js %}

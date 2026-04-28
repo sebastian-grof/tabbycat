@@ -81,6 +81,7 @@ class CriterionManagementView(AdministratorMixin, TournamentMixin, TemplateView)
         kwargs.setdefault('save_preset_form', self.get_save_preset_form())
         kwargs.setdefault('delete_preset_form', self.get_delete_preset_form())
         kwargs['presets'] = CriterionPreset.objects.prefetch_related('items').order_by('-builtin', 'name')
+        kwargs['deletable_presets'] = CriterionPreset.objects.filter(builtin=False).order_by('name')
         kwargs['has_ballots'] = BallotSubmission.objects.filter(debate__round__tournament=self.tournament).exists()
         return super().get_context_data(**kwargs)
 

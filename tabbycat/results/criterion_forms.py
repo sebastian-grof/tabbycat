@@ -71,8 +71,8 @@ class CrossCriterionEntryForm(CriterionEntryForm):
     name_max_length = 40
 
 
-ScoreCriterionFormSet = formset_factory(ScoreCriterionEntryForm, extra=3)
-CrossCriterionFormSet = formset_factory(CrossCriterionEntryForm, extra=3)
+ScoreCriterionFormSet = formset_factory(ScoreCriterionEntryForm, extra=0)
+CrossCriterionFormSet = formset_factory(CrossCriterionEntryForm, extra=0)
 
 
 class ApplyCriterionPresetForm(forms.Form):
@@ -105,8 +105,8 @@ class SaveCriterionPresetForm(forms.Form):
 class DeleteCriterionPresetForm(forms.Form):
     preset_id = forms.ModelChoiceField(
         queryset=CriterionPreset.objects.none(),
-        label=_("Preset"),
-        widget=forms.HiddenInput,
+        label=_("Preset to remove"),
+        empty_label=_("Choose a preset"),
     )
 
     def __init__(self, *args, **kwargs):

@@ -1,5 +1,5 @@
 import logging
-from decimal import Decimal
+from decimal import Decimal, ROUND_HALF_UP
 from itertools import product
 from typing import TYPE_CHECKING
 
@@ -703,10 +703,24 @@ class ScoresMixin:
             code='whole_number_total',
         ))
 
-    def _default_criterion_initial(self):
-        if self.ballotsub.id is None and (not self.filled or self.allow_default_criteria_on_prefill):
-            return Decimal("4")
-        return None
+    def _default_criterion_initial(self, min_score, max_score, step):
+        if not self.tournament.pref('slider_ballot_ui'):
+            return None
+        if self.ballotsub.id is not None:
+            return None
+        if self.filled and not self.allow_default_criteria_on_prefill:
+            return None
+
+        min_score = Decimal(str(min_score))
+        max_score = Decimal(str(max_score))
+        step = Decimal(str(step))
+        midpoint = (min_score + max_score) / Decimal("2")
+        if step <= 0:
+            return midpoint
+
+        steps = ((midpoint - min_score) / step).to_integral_value(rounding=ROUND_HALF_UP)
+        initial = min_score + (steps * step)
+        return min(max(initial, min_score), max_score)
 
     # --------------------------------------------------------------------------
     # Saving
@@ -873,7 +887,8 @@ class SingleBallotSetForm(ScoresMixin, BaseBallotSetForm):
                     required=False,
                 )
             for criterion in position_criteria:
-                criterion_initial = self._default_criterion_initial()
+                criterion_initial = self._default_criterion_initial(
+                    criterion.min_score, criterion.max_score, criterion.step)
                 criterion_kwargs = {
                     'min_value': Decimal(str(criterion.min_score)),
                     'max_value': Decimal(str(criterion.max_score)),
@@ -907,7 +922,8 @@ class SingleBallotSetForm(ScoresMixin, BaseBallotSetForm):
                         required=False,
                     )
                 for cross in self.crosses:
-                    criterion_initial = self._default_criterion_initial()
+                    criterion_initial = self._default_criterion_initial(
+                        cross.min_score, cross.max_score, cross.step)
                     cross_kwargs = {
                         'min_value': Decimal(str(cross.min_score)),
                         'max_value': Decimal(str(cross.max_score)),
@@ -1223,7 +1239,8 @@ class PerAdjudicatorBallotSetForm(ScoresMixin, BaseBallotSetForm):
                         required=False,
                     )
                 for criterion in position_criteria:
-                    criterion_initial = self._default_criterion_initial()
+                    criterion_initial = self._default_criterion_initial(
+                        criterion.min_score, criterion.max_score, criterion.step)
                     criterion_kwargs = {
                         'min_value': Decimal(str(criterion.min_score)),
                         'max_value': Decimal(str(criterion.max_score)),
@@ -1255,7 +1272,8 @@ class PerAdjudicatorBallotSetForm(ScoresMixin, BaseBallotSetForm):
                             required=False,
                         )
                     for cross in self.crosses:
-                        criterion_initial = self._default_criterion_initial()
+                        criterion_initial = self._default_criterion_initial(
+                            cross.min_score, cross.max_score, cross.step)
                         cross_kwargs = {
                             'min_value': Decimal(str(cross.min_score)),
                             'max_value': Decimal(str(cross.max_score)),
