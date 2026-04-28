@@ -100,6 +100,11 @@
       {% trans "Rounds can be weighted so that certain rounds are worth more team points." as extra %}
       {% include "components/item-action.html" with type="primary" icon="anchor" %}
 
+      {% tournamenturl 'criterion-management' as url %}
+      {% trans "Criterion Management" as text %}
+      {% trans "Create and edit ballot criteria for substantives, replies, and cross-examinations." as extra %}
+      {% include "components/item-action.html" with type="primary" icon="sliders" %}
+
       {% tournamenturl 'invite-user' as url %}
       {% trans "Invite User to Create an Account" as text %}
       {% trans "Users can be created through an invitation link sent to their email, with associated permissions." as extra %}

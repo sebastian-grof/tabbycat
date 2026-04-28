@@ -7,7 +7,7 @@ from django.utils.translation import gettext_lazy as _, ngettext_lazy
 from draw.models import DebateTeam
 from utils.admin import ModelAdmin, TabbycatModelAdminFieldsMixin
 
-from .models import BallotSubmission, CrossExamination, CrossExaminationScore, CrossExaminationScoreByAdj, ScoreCriterion, SpeakerCriterionScore, SpeakerCriterionScoreByAdj, SpeakerScore, SpeakerScoreByAdj, TeamScore, TeamScoreByAdj
+from .models import BallotSubmission, CriterionPreset, CriterionPresetItem, CrossExamination, CrossExaminationScore, CrossExaminationScoreByAdj, ScoreCriterion, SpeakerCriterionScore, SpeakerCriterionScoreByAdj, SpeakerScore, SpeakerScoreByAdj, TeamScore, TeamScoreByAdj
 from .prefetch import populate_results
 
 
@@ -200,3 +200,17 @@ class CrossExaminationScoreByAdjAdmin(TabbycatModelAdminFieldsMixin, ModelAdmin)
 class ScoreCriterionAdmin(TabbycatModelAdminFieldsMixin, ModelAdmin):
     list_display = ('id', 'tournament', 'name', 'speech_type', 'seq')
     search_fields = ('tournament', 'name')
+
+
+@admin.register(CriterionPreset)
+class CriterionPresetAdmin(TabbycatModelAdminFieldsMixin, ModelAdmin):
+    list_display = ('id', 'name', 'builtin', 'created_at', 'updated_at')
+    search_fields = ('name',)
+    list_filter = ('builtin',)
+
+
+@admin.register(CriterionPresetItem)
+class CriterionPresetItemAdmin(TabbycatModelAdminFieldsMixin, ModelAdmin):
+    list_display = ('id', 'preset', 'section', 'seq', 'name', 'weight', 'min_score', 'max_score', 'step', 'required')
+    search_fields = ('preset__name', 'name')
+    list_filter = ('preset', 'section')

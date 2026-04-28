@@ -546,6 +546,54 @@ class ScoreCriterion(models.Model):
         return True
 
 
+class CriterionPreset(models.Model):
+    """Global reusable preset for tournament score criteria."""
+
+    name = models.CharField(max_length=100, unique=True, verbose_name=_("name"))
+    description = models.TextField(blank=True, verbose_name=_("description"))
+    builtin = models.BooleanField(default=False, verbose_name=_("built-in"))
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("created at"))
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=_("updated at"))
+
+    class Meta:
+        ordering = ['name']
+        verbose_name = _("criterion preset")
+        verbose_name_plural = _("criterion presets")
+
+    def __str__(self):
+        return self.name
+
+
+class CriterionPresetItem(models.Model):
+    """One criterion entry within a reusable preset."""
+
+    class Section(models.TextChoices):
+        SUBSTANTIVE = 'substantive', _("Substantive speeches")
+        REPLY = 'reply', _("Reply speeches")
+        CROSS = 'cross', _("Cross-examinations")
+
+    preset = models.ForeignKey(CriterionPreset, models.CASCADE, related_name='items',
+        verbose_name=_("preset"))
+    section = models.CharField(max_length=20, choices=Section.choices,
+        verbose_name=_("section"))
+    seq = models.IntegerField(verbose_name=_("sequence"))
+    name = models.CharField(max_length=40, verbose_name=_("name"))
+    weight = models.FloatField(default=1.0, verbose_name=_("weight"))
+    min_score = ScoreField(default=2, verbose_name=_("minimum score"))
+    max_score = ScoreField(default=6, verbose_name=_("maximum score"))
+    step = models.FloatField(default=0.5, verbose_name=_("step"))
+    required = models.BooleanField(default=True, verbose_name=_("required"))
+
+    class Meta:
+        constraints = [UniqueConstraint(fields=['preset', 'section', 'seq'])]
+        ordering = ['preset', 'section', 'seq']
+        verbose_name = _("criterion preset item")
+        verbose_name_plural = _("criterion preset items")
+
+    def __str__(self):
+        return "%s: %s" % (self.preset, self.name)
+
+
 class SpeakerCriterionScore(models.Model):
 
     score = ScoreField(verbose_name=_("score"))

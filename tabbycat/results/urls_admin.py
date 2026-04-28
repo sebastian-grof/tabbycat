@@ -1,8 +1,13 @@
 from django.urls import path
 
-from . import views
+from . import criterion_views, views
 
 urlpatterns = [
+    # Criteria
+    path('criteria/',
+        criterion_views.CriterionManagementView.as_view(),
+        name='criterion-management'),
+
     # Viewing
     path('round/<int:round_seq>/',
         views.AdminResultsEntryForRoundView.as_view(),

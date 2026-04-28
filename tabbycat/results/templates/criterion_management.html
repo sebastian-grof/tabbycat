@@ -1,0 +1,308 @@
+{% extends "base.html" %}
+{% load add_field_css debate_tags i18n %}
+
+{% block page-title %}{% trans "Criterion Management" %}{% endblock %}
+{% block head-title %}<span class="emoji">🧮</span> {% trans "Criterion Management" %}{% endblock %}
+
+{% block page-subnav-actions %}
+  <a class="btn btn-outline-primary" href="{% tournamenturl 'options-tournament-index' %}">
+    <i data-feather="chevron-left"></i> {% trans "Back to Configuration" %}
+  </a>
+{% endblock %}
+
+{% block extra-css %}
+  <style>
+    .criterion-card {
+      border: 0;
+      border-radius: 0.85rem;
+      box-shadow: 0 0.5rem 1.5rem rgba(34, 42, 66, 0.08);
+    }
+
+    .criterion-card .card-header {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+      background: linear-gradient(180deg, #fff, #fafbfc);
+    }
+
+    .criterion-table th {
+      border-top: 0;
+      color: #6c757d;
+      font-size: 0.78rem;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    .criterion-table td {
+      vertical-align: middle;
+    }
+
+    .criterion-table .form-control-sm {
+      min-width: 4.5rem;
+    }
+
+    .criterion-table .criterion-name-input {
+      min-width: 9rem;
+    }
+
+    .preset-list-item.active-soft {
+      border-left: 0.35rem solid #663da0;
+      background: rgba(102, 61, 160, 0.06);
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+
+  {% if has_ballots %}
+    <div class="alert alert-warning">
+      {% blocktrans trimmed %}
+        This tournament already has ballot submissions. Changing or replacing criteria can remove existing criterion score breakdowns.
+      {% endblocktrans %}
+    </div>
+  {% endif %}
+
+  <div class="row">
+    <div class="col-xl-8 col-lg-7 col-12 mb-3">
+      <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="save_criteria">
+
+        <div class="card criterion-card mb-3">
+          <div class="card-header d-flex justify-content-between align-items-start">
+            <div>
+              <h4 class="mb-1">{% trans "Tournament Criteria" %}</h4>
+              <small class="text-muted">
+                {% trans "Edit the criteria used on ballots for this tournament." %}
+              </small>
+            </div>
+            <button type="submit" class="btn btn-success">{% trans "Save Criteria" %}</button>
+          </div>
+        </div>
+
+        <div class="card criterion-card mb-3">
+          <div class="card-header">
+            <h5 class="mb-1">{% trans "Substantive Speeches" %}</h5>
+            <small class="text-muted">{% trans "Criteria shown for non-reply speeches." %}</small>
+          </div>
+          <div class="table-responsive">
+            {{ formsets.substantive.management_form }}
+            <table class="table criterion-table mb-0">
+              <thead>
+                <tr>
+                  <th>{% trans "Order" %}</th>
+                  <th>{% trans "Name" %}</th>
+                  <th>{% trans "Weight" %}</th>
+                  <th>{% trans "Min" %}</th>
+                  <th>{% trans "Max" %}</th>
+                  <th>{% trans "Step" %}</th>
+                  <th>{% trans "Required" %}</th>
+                  <th>{% trans "Delete" %}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for form in formsets.substantive %}
+                  <tr>
+                    <td>{{ form.item_id }}{{ form.order|addcss:"form-control form-control-sm" }}{{ form.order.errors }}</td>
+                    <td>{{ form.name|addcss:"form-control form-control-sm criterion-name-input" }}{{ form.name.errors }}</td>
+                    <td>{{ form.weight|addcss:"form-control form-control-sm" }}{{ form.weight.errors }}</td>
+                    <td>{{ form.min_score|addcss:"form-control form-control-sm" }}{{ form.min_score.errors }}</td>
+                    <td>{{ form.max_score|addcss:"form-control form-control-sm" }}{{ form.max_score.errors }}</td>
+                    <td>{{ form.step|addcss:"form-control form-control-sm" }}{{ form.step.errors }}</td>
+                    <td class="text-center">{{ form.required }}</td>
+                    <td class="text-center">{{ form.delete }}</td>
+                  </tr>
+                  {% if form.non_field_errors %}
+                    <tr><td colspan="8">{{ form.non_field_errors }}</td></tr>
+                  {% endif %}
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card criterion-card mb-3">
+          <div class="card-header">
+            <h5 class="mb-1">{% trans "Reply Speeches" %}</h5>
+            <small class="text-muted">{% trans "Criteria shown for reply speeches when reply scores are enabled." %}</small>
+          </div>
+          <div class="table-responsive">
+            {{ formsets.reply.management_form }}
+            <table class="table criterion-table mb-0">
+              <thead>
+                <tr>
+                  <th>{% trans "Order" %}</th>
+                  <th>{% trans "Name" %}</th>
+                  <th>{% trans "Weight" %}</th>
+                  <th>{% trans "Min" %}</th>
+                  <th>{% trans "Max" %}</th>
+                  <th>{% trans "Step" %}</th>
+                  <th>{% trans "Required" %}</th>
+                  <th>{% trans "Delete" %}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for form in formsets.reply %}
+                  <tr>
+                    <td>{{ form.item_id }}{{ form.order|addcss:"form-control form-control-sm" }}{{ form.order.errors }}</td>
+                    <td>{{ form.name|addcss:"form-control form-control-sm criterion-name-input" }}{{ form.name.errors }}</td>
+                    <td>{{ form.weight|addcss:"form-control form-control-sm" }}{{ form.weight.errors }}</td>
+                    <td>{{ form.min_score|addcss:"form-control form-control-sm" }}{{ form.min_score.errors }}</td>
+                    <td>{{ form.max_score|addcss:"form-control form-control-sm" }}{{ form.max_score.errors }}</td>
+                    <td>{{ form.step|addcss:"form-control form-control-sm" }}{{ form.step.errors }}</td>
+                    <td class="text-center">{{ form.required }}</td>
+                    <td class="text-center">{{ form.delete }}</td>
+                  </tr>
+                  {% if form.non_field_errors %}
+                    <tr><td colspan="8">{{ form.non_field_errors }}</td></tr>
+                  {% endif %}
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card criterion-card mb-3">
+          <div class="card-header">
+            <h5 class="mb-1">{% trans "Cross-Examinations" %}</h5>
+            <small class="text-muted">{% trans "Criteria shown in the cross-examination section of the ballot." %}</small>
+          </div>
+          <div class="table-responsive">
+            {{ formsets.cross.management_form }}
+            <table class="table criterion-table mb-0">
+              <thead>
+                <tr>
+                  <th>{% trans "Order" %}</th>
+                  <th>{% trans "Name" %}</th>
+                  <th>{% trans "Weight" %}</th>
+                  <th>{% trans "Min" %}</th>
+                  <th>{% trans "Max" %}</th>
+                  <th>{% trans "Step" %}</th>
+                  <th>{% trans "Required" %}</th>
+                  <th>{% trans "Delete" %}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for form in formsets.cross %}
+                  <tr>
+                    <td>{{ form.item_id }}{{ form.order|addcss:"form-control form-control-sm" }}{{ form.order.errors }}</td>
+                    <td>{{ form.name|addcss:"form-control form-control-sm criterion-name-input" }}{{ form.name.errors }}</td>
+                    <td>{{ form.weight|addcss:"form-control form-control-sm" }}{{ form.weight.errors }}</td>
+                    <td>{{ form.min_score|addcss:"form-control form-control-sm" }}{{ form.min_score.errors }}</td>
+                    <td>{{ form.max_score|addcss:"form-control form-control-sm" }}{{ form.max_score.errors }}</td>
+                    <td>{{ form.step|addcss:"form-control form-control-sm" }}{{ form.step.errors }}</td>
+                    <td class="text-center">{{ form.required }}</td>
+                    <td class="text-center">{{ form.delete }}</td>
+                  </tr>
+                  {% if form.non_field_errors %}
+                    <tr><td colspan="8">{{ form.non_field_errors }}</td></tr>
+                  {% endif %}
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="text-right mb-3">
+          <button type="submit" class="btn btn-success btn-lg">{% trans "Save Criteria" %}</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="col-xl-4 col-lg-5 col-12 mb-3">
+      <div class="card criterion-card mb-3">
+        <div class="card-header">
+          <h4 class="mb-1">{% trans "Apply Preset" %}</h4>
+          <small class="text-muted">
+            {% trans "Replace this tournament's criteria with a reusable global preset." %}
+          </small>
+        </div>
+        <form method="post">
+          {% csrf_token %}
+          <input type="hidden" name="action" value="apply_preset">
+          <div class="card-body">
+            {{ apply_form.non_field_errors }}
+            <div class="form-group">
+              <label for="{{ apply_form.preset.id_for_label }}">{{ apply_form.preset.label }}</label>
+              {{ apply_form.preset|addcss:"form-control" }}
+              {{ apply_form.preset.errors }}
+            </div>
+            <p class="text-muted small mb-0">
+              {% trans "Applying a preset replaces all substantive, reply, and cross-examination criteria in this tournament." %}
+            </p>
+          </div>
+          <div class="card-footer bg-white">
+            <button type="submit" class="btn btn-primary btn-block">{% trans "Apply Preset" %}</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="card criterion-card mb-3">
+        <div class="card-header">
+          <h4 class="mb-1">{% trans "Save as Preset" %}</h4>
+          <small class="text-muted">
+            {% trans "Create a global preset from this tournament's current criteria." %}
+          </small>
+        </div>
+        <form method="post">
+          {% csrf_token %}
+          <input type="hidden" name="action" value="save_preset">
+          <div class="card-body">
+            {{ save_preset_form.non_field_errors }}
+            <div class="form-group">
+              <label for="{{ save_preset_form.name.id_for_label }}">{{ save_preset_form.name.label }}</label>
+              {{ save_preset_form.name|addcss:"form-control" }}
+              {{ save_preset_form.name.errors }}
+            </div>
+            <div class="form-group mb-0">
+              <label for="{{ save_preset_form.description.id_for_label }}">{{ save_preset_form.description.label }}</label>
+              {{ save_preset_form.description|addcss:"form-control" }}
+              {{ save_preset_form.description.errors }}
+            </div>
+          </div>
+          <div class="card-footer bg-white">
+            <button type="submit" class="btn btn-outline-primary btn-block">{% trans "Save Global Preset" %}</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="card criterion-card">
+        <div class="card-header">
+          <h4 class="mb-1">{% trans "Global Presets" %}</h4>
+          <small class="text-muted">{% trans "Reusable across all tournaments." %}</small>
+        </div>
+        <div class="list-group list-group-flush">
+          {% for preset in presets %}
+            <div class="list-group-item preset-list-item {% if preset.builtin %}active-soft{% endif %}">
+              <div class="d-flex justify-content-between align-items-start">
+                <div>
+                  <strong>{{ preset.name }}</strong>
+                  {% if preset.builtin %}<span class="badge badge-light ml-1">{% trans "Default" %}</span>{% endif %}
+                  {% if preset.description %}
+                    <div class="small text-muted mt-1">{{ preset.description }}</div>
+                  {% endif %}
+                  <div class="small text-muted mt-1">
+                    {% blocktrans count count=preset.items.count trimmed %}
+                      {{ count }} criterion
+                    {% plural %}
+                      {{ count }} criteria
+                    {% endblocktrans %}
+                  </div>
+                </div>
+                {% if not preset.builtin %}
+                  <form method="post" class="ml-2">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="delete_preset">
+                    <input type="hidden" name="preset_id" value="{{ preset.pk }}">
+                    <button type="submit" class="btn btn-sm btn-outline-danger">{% trans "Delete" %}</button>
+                  </form>
+                {% endif %}
+              </div>
+            </div>
+          {% empty %}
+            <div class="list-group-item text-muted">{% trans "No global presets exist yet." %}</div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock content %}
