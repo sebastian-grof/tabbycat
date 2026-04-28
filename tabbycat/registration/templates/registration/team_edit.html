@@ -111,7 +111,6 @@
                   {% include "components/form-errors.html" with errors=speaker_form.non_field_errors %}
                 {% endif %}
                 <div class="participant-edit-grid">
-                  {% include "components/form-field.html" with field=speaker_form.id %}
                   {% include "components/form-field.html" with field=speaker_form.name %}
                   {% include "components/form-field.html" with field=speaker_form.email %}
                 </div>
@@ -129,7 +128,7 @@
                 </div>
                 <div hidden>
                   {% for hidden in speaker_form.hidden_fields %}
-                    {% if hidden.name != "id" %}{{ hidden }}{% endif %}
+                    {{ hidden }}
                   {% endfor %}
                 </div>
               </div>
@@ -162,7 +161,6 @@
     </div>
     <div class="p-3">
       <div class="participant-edit-grid">
-        {% include "components/form-field.html" with field=form.speaker_formset.empty_form.id %}
         {% include "components/form-field.html" with field=form.speaker_formset.empty_form.name %}
         {% include "components/form-field.html" with field=form.speaker_formset.empty_form.email %}
       </div>
@@ -179,7 +177,7 @@
       </div>
       <div hidden>
         {% for hidden in form.speaker_formset.empty_form.hidden_fields %}
-          {% if hidden.name != "id" %}{{ hidden }}{% endif %}
+          {{ hidden }}
         {% endfor %}
       </div>
     </div>
