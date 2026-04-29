@@ -3,6 +3,7 @@ from dataclasses import dataclass
 from math import floor
 
 from django.db import transaction
+from django.db.models import Count
 
 from adjallocation.models import DebateAdjudicator
 from draw.types import DebateSide
@@ -106,6 +107,51 @@ def get_or_create_break_adjudicator(season: BreakSeason, adjudicator: Adjudicato
     return break_adjudicator
 
 
+def prune_unused_break_identities(
+        season: BreakSeason, team_ids=None, speaker_ids=None, adjudicator_ids=None) -> dict:
+    """Delete candidate season identities that no longer point at any frozen or linked data."""
+    deleted = {'teams': 0, 'speakers': 0, 'adjudicators': 0}
+
+    team_ids = set(team_ids or [])
+    if team_ids:
+        unused_teams = BreakTeam.objects.filter(season=season, id__in=team_ids).annotate(
+            link_count=Count('links', distinct=True),
+            result_count=Count('tournament_results', distinct=True),
+            participation_count=Count('speaker_participations', distinct=True),
+        ).filter(link_count=0, result_count=0, participation_count=0)
+        deleted['teams'] = unused_teams.count()
+        unused_teams.delete()
+
+    speaker_ids = set(speaker_ids or [])
+    if speaker_ids:
+        unused_speakers = BreakSpeaker.objects.filter(season=season, id__in=speaker_ids).annotate(
+            link_count=Count('links', distinct=True),
+            participation_count=Count('tournament_participations', distinct=True),
+        ).filter(link_count=0, participation_count=0)
+        deleted['speakers'] = unused_speakers.count()
+        unused_speakers.delete()
+
+    adjudicator_ids = set(adjudicator_ids or [])
+    if adjudicator_ids:
+        unused_adjudicators = BreakAdjudicator.objects.filter(season=season, id__in=adjudicator_ids).annotate(
+            link_count=Count('links', distinct=True),
+            stats_count=Count('tournament_stats', distinct=True),
+        ).filter(link_count=0, stats_count=0)
+        deleted['adjudicators'] = unused_adjudicators.count()
+        unused_adjudicators.delete()
+
+    return deleted
+
+
+def prune_all_unused_break_identities(season: BreakSeason) -> dict:
+    return prune_unused_break_identities(
+        season,
+        team_ids=BreakTeam.objects.filter(season=season).values_list('id', flat=True),
+        speaker_ids=BreakSpeaker.objects.filter(season=season).values_list('id', flat=True),
+        adjudicator_ids=BreakAdjudicator.objects.filter(season=season).values_list('id', flat=True),
+    )
+
+
 @transaction.atomic
 def freeze_break_tournament(break_tournament: BreakTournament) -> dict:
     tournament = break_tournament.tournament
@@ -190,8 +236,17 @@ def freeze_break_tournament(break_tournament: BreakTournament) -> dict:
             )
 
     else:
+        team_identity_ids = list(BreakTeamLink.objects.filter(
+            season=season, team__tournament=tournament,
+        ).values_list('break_team_id', flat=True).distinct())
+        speaker_identity_ids = list(BreakSpeakerLink.objects.filter(
+            season=season, speaker__team__tournament=tournament,
+        ).values_list('break_speaker_id', flat=True).distinct())
         BreakTeamLink.objects.filter(season=season, team__tournament=tournament).delete()
         BreakSpeakerLink.objects.filter(season=season, speaker__team__tournament=tournament).delete()
+        prune_unused_break_identities(
+            season, team_ids=team_identity_ids, speaker_ids=speaker_identity_ids,
+        )
 
     confirmed_debate_ids = set(BallotSubmission.objects.filter(
         confirmed=True,

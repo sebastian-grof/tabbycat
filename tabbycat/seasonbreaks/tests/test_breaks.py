@@ -15,7 +15,7 @@ from ..models import (
     BreaksPermission,
     GlobalBreaksPermission,
 )
-from ..services import calculate_rankings, calculate_region_quotas
+from ..services import calculate_rankings, calculate_region_quotas, prune_unused_break_identities
 
 
 class BreaksPermissionTests(TestCase):
@@ -110,3 +110,31 @@ class BreaksCalculationTests(TestCase):
         self.assertEqual(rankings[0]['wins'], 1)
         self.assertEqual(rankings[0]['participations'], 2)
         self.assertEqual(rankings[0]['required_tournaments'], 1)
+
+    def test_prune_unused_break_identities_removes_only_unused_candidates(self):
+        unused_team = BreakTeam.objects.create(season=self.season, name='Unused Team', region=self.west)
+        used_team = BreakTeam.objects.create(season=self.season, name='Used Team', region=self.west)
+        unused_speaker = BreakSpeaker.objects.create(season=self.season, name='Unused Speaker')
+        used_speaker = BreakSpeaker.objects.create(season=self.season, name='Used Speaker')
+
+        BreakTeamTournamentResult.objects.create(
+            break_tournament=self.bt_w1, break_team=used_team, wins=1, ballots=3,
+            speaker_score=500, rounds_debated=3, majority_debated=True,
+        )
+        BreakSpeakerTournamentParticipation.objects.create(
+            break_tournament=self.bt_w1, break_speaker=used_speaker, break_team=used_team,
+            speeches=2, rounds=2,
+        )
+
+        deleted = prune_unused_break_identities(
+            self.season,
+            team_ids=[unused_team.id, used_team.id],
+            speaker_ids=[unused_speaker.id, used_speaker.id],
+        )
+
+        self.assertEqual(deleted['teams'], 1)
+        self.assertEqual(deleted['speakers'], 1)
+        self.assertFalse(BreakTeam.objects.filter(id=unused_team.id).exists())
+        self.assertTrue(BreakTeam.objects.filter(id=used_team.id).exists())
+        self.assertFalse(BreakSpeaker.objects.filter(id=unused_speaker.id).exists())
+        self.assertTrue(BreakSpeaker.objects.filter(id=used_speaker.id).exists())

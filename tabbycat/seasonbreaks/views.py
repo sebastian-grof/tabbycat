@@ -30,7 +30,14 @@ from .models import (
     GlobalBreaksPermission,
 )
 from .permissions import has_breaks_permission
-from .services import calculate_rankings, calculate_region_quotas, freeze_break_tournament, season_summary
+from .services import (
+    calculate_rankings,
+    calculate_region_quotas,
+    freeze_break_tournament,
+    prune_all_unused_break_identities,
+    prune_unused_break_identities,
+    season_summary,
+)
 
 
 class BreaksPermissionMixin(UserPassesTestMixin):
@@ -194,6 +201,12 @@ class SeasonTournamentsView(SeasonMixin, TemplateView):
             break_tournament.counts_for_break = request.POST.get('counts_for_break') == '1'
             break_tournament.save(update_fields=['counts_for_break'])
             if not break_tournament.counts_for_break:
+                team_identity_ids = list(BreakTeamLink.objects.filter(
+                    season=self.season, team__tournament=break_tournament.tournament,
+                ).values_list('break_team_id', flat=True).distinct())
+                speaker_identity_ids = list(BreakSpeakerLink.objects.filter(
+                    season=self.season, speaker__team__tournament=break_tournament.tournament,
+                ).values_list('break_speaker_id', flat=True).distinct())
                 break_tournament.team_results.all().delete()
                 break_tournament.speaker_participations.all().delete()
                 BreakTeamLink.objects.filter(
@@ -202,15 +215,31 @@ class SeasonTournamentsView(SeasonMixin, TemplateView):
                 BreakSpeakerLink.objects.filter(
                     season=self.season, speaker__team__tournament=break_tournament.tournament,
                 ).delete()
+                prune_unused_break_identities(
+                    self.season, team_ids=team_identity_ids, speaker_ids=speaker_identity_ids,
+                )
             messages.success(request, _("Tournament type was updated."))
             return redirect('seasonbreaks-tournaments', season_slug=self.season.slug)
         if action == 'remove_tournament':
             break_tournament = get_object_or_404(BreakTournament, id=request.POST.get('break_tournament'), season=self.season)
             tournament = break_tournament.tournament
+            team_identity_ids = list(BreakTeamLink.objects.filter(
+                season=self.season, team__tournament=tournament,
+            ).values_list('break_team_id', flat=True).distinct())
+            speaker_identity_ids = list(BreakSpeakerLink.objects.filter(
+                season=self.season, speaker__team__tournament=tournament,
+            ).values_list('break_speaker_id', flat=True).distinct())
+            adjudicator_identity_ids = list(BreakAdjudicatorLink.objects.filter(
+                season=self.season, adjudicator__tournament=tournament,
+            ).values_list('break_adjudicator_id', flat=True).distinct())
             BreakTeamLink.objects.filter(season=self.season, team__tournament=tournament).delete()
             BreakSpeakerLink.objects.filter(season=self.season, speaker__team__tournament=tournament).delete()
             BreakAdjudicatorLink.objects.filter(season=self.season, adjudicator__tournament=tournament).delete()
             break_tournament.delete()
+            prune_unused_break_identities(
+                self.season, team_ids=team_identity_ids, speaker_ids=speaker_identity_ids,
+                adjudicator_ids=adjudicator_identity_ids,
+            )
             messages.success(request, _("Tournament %(tournament)s was removed from this Breaks season.") % {'tournament': tournament})
             return redirect('seasonbreaks-tournaments', season_slug=self.season.slug)
         if action == 'freeze':
@@ -276,6 +305,16 @@ class SeasonIdentitiesView(SeasonMixin, TemplateView):
         kwargs['adjudicator_link_count'] = BreakAdjudicatorLink.objects.filter(season=self.season).count()
         kwargs['active_tab'] = 'identities'
         return super().get_context_data(**kwargs)
+
+    def post(self, request, *args, **kwargs):
+        if not has_breaks_permission(request.user, BreaksPermission.EDIT):
+            return self.handle_no_permission()
+        if request.POST.get('action') == 'cleanup_orphan_identities':
+            deleted = prune_all_unused_break_identities(self.season)
+            messages.success(request, _(
+                "Cleaned stale identities: %(teams)d teams, %(speakers)d speakers, %(adjudicators)d adjudicators."
+            ) % deleted)
+        return redirect('seasonbreaks-identities', season_slug=self.season.slug)
 
 
 class SeasonTeamIdentitiesView(SeasonMixin, TemplateView):
