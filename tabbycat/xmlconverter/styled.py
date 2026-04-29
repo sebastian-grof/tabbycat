@@ -15,6 +15,7 @@ from .converter_core import (
     DebateResult,
     build_aggregates,
     build_output_path,
+    adjudicator_short,
     format_number,
     parse_debatexml,
     safe_stdev,
@@ -153,6 +154,38 @@ def copy_row_styles(sheet_root: ET.Element, source_row: int, target_row: int, st
     for col_no in range(start_col, end_col + 1):
         col = col_ref(col_no)
         copy_cell_style(sheet_root, f"{col}{source_row}", f"{col}{target_row}")
+
+
+def snapshot_styles(sheet_root: ET.Element) -> dict[str, str]:
+    styles: dict[str, str] = {}
+    for row in get_sheet_data(sheet_root).findall(q("row")):
+        for cell in row.findall(q("c")):
+            ref = cell.attrib.get("r")
+            style = cell.attrib.get("s")
+            if ref and style:
+                styles[ref] = style
+    return styles
+
+
+def copy_cell_style_from_snapshot(style_map: dict[str, str], sheet_root: ET.Element, source_ref: str, target_ref: str) -> None:
+    target_cell = ensure_cell(sheet_root, target_ref)
+    if source_ref in style_map:
+        target_cell.attrib["s"] = style_map[source_ref]
+    else:
+        target_cell.attrib.pop("s", None)
+
+
+def copy_row_styles_from_snapshot(style_map: dict[str, str], sheet_root: ET.Element, source_row: int, target_row: int, start_col: int, end_col: int) -> None:
+    for col_no in range(start_col, end_col + 1):
+        col = col_ref(col_no)
+        copy_cell_style_from_snapshot(style_map, sheet_root, f"{col}{source_row}", f"{col}{target_row}")
+
+
+def copy_style_block_from_snapshot(style_map: dict[str, str], sheet_root: ET.Element, source_row: int, target_row: int, source_start_col: int, target_start_col: int, width: int) -> None:
+    for offset in range(width):
+        source_col = col_ref(source_start_col + offset)
+        target_col = col_ref(target_start_col + offset)
+        copy_cell_style_from_snapshot(style_map, sheet_root, f"{source_col}{source_row}", f"{target_col}{target_row}")
 
 
 def remove_row_cells(sheet_root: ET.Element, row_no: int, start_col: int, end_col: int) -> None:
@@ -317,7 +350,7 @@ def load_template(template_path: Path) -> tuple[dict[str, bytes], list[ET.Elemen
 
 
 def adjudicator_pairs(adjudicator_ids: list[str], adjudicators: dict[str, AdjudicatorInfo]) -> tuple[str, str]:
-    names = [adj.name for adj_id in adjudicator_ids if (adj := adjudicators.get(adj_id)) is not None]
+    names = [adjudicator_short(adj.name) for adj_id in adjudicator_ids if (adj := adjudicators.get(adj_id)) is not None]
     if not names:
         return "", ""
     if len(names) == 1:
@@ -346,6 +379,7 @@ def round_slot_counts(rounds: list[str], debates: list[DebateResult]) -> dict[in
 
 
 def fill_codes_sheet(sheet_root: ET.Element, title: str, subtitle: str, teams: dict[str, TeamInfo], adjudicators: dict[str, AdjudicatorInfo]) -> None:
+    style_map = snapshot_styles(sheet_root)
     clear_range(sheet_root, 8, 200, "A", "F")
     set_cell_value(sheet_root, "A8", title)
     set_cell_value(sheet_root, "A9", "")
@@ -362,6 +396,15 @@ def fill_codes_sheet(sheet_root: ET.Element, title: str, subtitle: str, teams: d
         speakers = team.speakers or [("", "")]
         start = row
         for index, (_speaker_id, speaker_name) in enumerate(speakers):
+            if len(speakers) == 1:
+                source_row = 15
+            elif index == 0:
+                source_row = 15
+            elif index == len(speakers) - 1:
+                source_row = 17
+            else:
+                source_row = 16
+            copy_row_styles_from_snapshot(style_map, sheet_root, source_row, row, 1, 4)
             if index == 0:
                 set_cell_value(sheet_root, f"A{row}", ordinal)
                 set_cell_value(sheet_root, f"B{row}", team_display(team))
@@ -372,7 +415,9 @@ def fill_codes_sheet(sheet_root: ET.Element, title: str, subtitle: str, teams: d
         ordinal += 1
 
     adj_row = 15
-    for adj in sorted(adjudicators.values(), key=lambda item: (-(item.score or -1), item.name.lower())):
+    for adj_index, adj in enumerate(sorted(adjudicators.values(), key=lambda item: (-(item.score or -1), item.name.lower()))):
+        source_row = 15 if adj_index == 0 else 16
+        copy_row_styles_from_snapshot(style_map, sheet_root, source_row, adj_row, 5, 6)
         set_cell_value(sheet_root, f"E{adj_row}", adj.name)
         set_cell_value(sheet_root, f"F{adj_row}", format_number(adj.score, 2))
         adj_row += 1
@@ -383,6 +428,7 @@ def fill_codes_sheet(sheet_root: ET.Element, title: str, subtitle: str, teams: d
 
 
 def fill_debaty_sheet(sheet_root: ET.Element, title: str, subtitle: str, rounds: list[str], motions: dict[str, str], debates: list[DebateResult], teams: dict[str, TeamInfo], adjudicators: dict[str, AdjudicatorInfo]) -> None:
+    style_map = snapshot_styles(sheet_root)
     clear_range(sheet_root, 8, 220, "A", "O")
     set_cell_value(sheet_root, "A8", title)
     set_cell_value(sheet_root, "A9", "")
@@ -409,10 +455,10 @@ def fill_debaty_sheet(sheet_root: ET.Element, title: str, subtitle: str, rounds:
         prototype_round_row = 13 if group_start == 0 else 32
         prototype_header_row = 14 if group_start == 0 else 33
         prototype_data_row = 15 if group_start == 0 else 34
-        copy_row_styles(sheet_root, prototype_round_row, current_round_row, 1, max_col)
-        copy_row_styles(sheet_root, prototype_header_row, header_row, 1, max_col)
+        copy_row_styles_from_snapshot(style_map, sheet_root, prototype_round_row, current_round_row, 1, max_col)
+        copy_row_styles_from_snapshot(style_map, sheet_root, prototype_header_row, header_row, 1, max_col)
         for offset in range(data_rows):
-            copy_row_styles(sheet_root, prototype_data_row, data_start_row + offset, 1, max_col)
+            copy_row_styles_from_snapshot(style_map, sheet_root, prototype_data_row, data_start_row + offset, 1, max_col)
 
         block_specs = [
             {"round_no": round_numbers[0], "round_col": "A", "motion_col": "B", "cols": ["B", "C", "D", "E", "F", "G"]},
@@ -475,6 +521,7 @@ def fill_debaty_sheet(sheet_root: ET.Element, title: str, subtitle: str, rounds:
 
 
 def fill_body_sheet(sheet_root: ET.Element, title: str, subtitle: str, rounds: list[str], team_stats: dict[str, TeamStanding], teams: dict[str, TeamInfo], speaker_stats: dict[str, SpeakerStanding]) -> None:
+    style_map = snapshot_styles(sheet_root)
     clear_range(sheet_root, 7, 220, "A", "AC")
     set_cell_value(sheet_root, "A7", title)
     set_cell_value(sheet_root, "A8", "")
@@ -531,6 +578,8 @@ def fill_body_sheet(sheet_root: ET.Element, title: str, subtitle: str, rounds: l
     for offset, value in enumerate(["V", "B", "RB – tím", "RB - indiv", "RB-min/max", "standardná odchýlka"]):
         set_cell_value(sheet_root, f"{col_ref(summary_start_col + offset)}13", value)
     merges.append(f"{col_ref(summary_start_col)}12:{col_ref(summary_end_col)}12")
+    copy_style_block_from_snapshot(style_map, sheet_root, 12, 12, col_index("X"), summary_start_col, 6)
+    copy_style_block_from_snapshot(style_map, sheet_root, 13, 13, col_index("X"), summary_start_col, 6)
 
     sorted_teams = sorted(team_stats.values(), key=lambda row: (-row.wins, -row.ballots, -row.total_points, row.team_name.lower()))
     team_rank_rows = [{"team_id": row.team_id, "wins": row.wins, "ballots": row.ballots, "points": round(row.total_points, 6)} for row in sorted_teams]
@@ -554,15 +603,21 @@ def fill_body_sheet(sheet_root: ET.Element, title: str, subtitle: str, rounds: l
         has_reply = any(any(score is not None for score in round_data.reply_panel_scores) for round_data in team_row.rounds.values())
         block_height = 1 + len(speakers) + (1 if has_cross else 0) + (1 if has_reply else 0)
         block_end_row = base_row + block_height - 1
-        copy_row_styles(sheet_root, 14 if team_index == 0 else 20, base_row, 1, max_col)
+        base_source_row = 14 if team_index == 0 else 20
+        copy_row_styles_from_snapshot(style_map, sheet_root, base_source_row, base_row, 1, max_col)
+        copy_style_block_from_snapshot(style_map, sheet_root, base_source_row, base_row, col_index("X"), summary_start_col, 6)
         for speaker_offset, _speaker in enumerate(speakers, start=1):
-            copy_row_styles(sheet_root, 15 + min(speaker_offset - 1, 2), base_row + speaker_offset, 1, max_col)
+            source_row = 15 + min(speaker_offset - 1, 2)
+            copy_row_styles_from_snapshot(style_map, sheet_root, source_row, base_row + speaker_offset, 1, max_col)
+            copy_style_block_from_snapshot(style_map, sheet_root, source_row, base_row + speaker_offset, col_index("X"), summary_start_col, 6)
         next_row = base_row + 1 + len(speakers)
         if has_cross:
-            copy_row_styles(sheet_root, 18, next_row, 1, max_col)
+            copy_row_styles_from_snapshot(style_map, sheet_root, 18, next_row, 1, max_col)
+            copy_style_block_from_snapshot(style_map, sheet_root, 18, next_row, col_index("X"), summary_start_col, 6)
             next_row += 1
         if has_reply:
-            copy_row_styles(sheet_root, 19, next_row, 1, max_col)
+            copy_row_styles_from_snapshot(style_map, sheet_root, 19, next_row, 1, max_col)
+            copy_style_block_from_snapshot(style_map, sheet_root, 19, next_row, col_index("X"), summary_start_col, 6)
         set_cell_value(sheet_root, f"A{base_row}", ranks[team.team_id])
         set_cell_value(sheet_root, f"B{base_row}", team_display(team))
         set_cell_value(sheet_root, f"C{base_row}", "Rozh. panel")

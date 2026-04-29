@@ -3,6 +3,7 @@
 import argparse
 import math
 import re
+import unicodedata
 import zipfile
 from collections import defaultdict
 from dataclasses import dataclass, field
@@ -158,7 +159,15 @@ def team_display(team: TeamInfo) -> str:
 def adjudicator_short(name: str) -> str:
     if not name:
         return ""
-    return name.split()[-1]
+    surname = name.split()[-1]
+    ascii_name = unicodedata.normalize("NFKD", surname).encode("ascii", "ignore").decode("ascii")
+    return re.sub(r"[^a-z0-9-]", "", ascii_name.lower())
+
+
+def adjudicator_can_vote(adjudicator: AdjudicatorInfo | None) -> bool:
+    if adjudicator is None or adjudicator.score is None:
+        return True
+    return adjudicator.score > 0
 
 
 def build_output_path(xml_path: Path, output_path: Path | None) -> Path:
@@ -306,9 +315,17 @@ def parse_debatexml(xml_source: Path | str | BinaryIO, source_name: str | None =
         round_name = display_round_name(round_node.attrib.get("name", ""), round_seq)
         rounds.append(round_name)
         for debate_node in round_node.findall("debate"):
-            adjudicator_ids = debate_node.attrib.get("adjudicators", "").split()
-            chair_id = debate_node.attrib.get("chair", adjudicator_ids[0] if adjudicator_ids else "")
+            raw_adjudicator_ids = debate_node.attrib.get("adjudicators", "").split()
+            adjudicator_ids = [
+                adjudicator_id for adjudicator_id in raw_adjudicator_ids
+                if adjudicator_can_vote(adjudicators.get(adjudicator_id))
+            ]
+            if not adjudicator_ids:
+                adjudicator_ids = raw_adjudicator_ids[:]
+            raw_chair_id = debate_node.attrib.get("chair", raw_adjudicator_ids[0] if raw_adjudicator_ids else "")
+            chair_id = raw_chair_id if raw_chair_id in adjudicator_ids else (adjudicator_ids[0] if adjudicator_ids else "")
             weights = panel_weights(adjudicator_ids, chair_id)
+            voting_adjudicator_ids = set(adjudicator_ids)
             winners_by_adj: dict[str, str] = {}
             official_ballots: dict[str, int] = defaultdict(int)
             sides: list[SideResult] = []
@@ -324,6 +341,8 @@ def parse_debatexml(xml_source: Path | str | BinaryIO, source_name: str | None =
                         if not adj_ids:
                             continue
                         adjudicator_id = adj_ids[0]
+                        if adjudicator_id not in voting_adjudicator_ids:
+                            continue
                         rank = int(child.attrib["rank"]) if child.attrib.get("rank") else None
                         ballot = BallotEntry(
                             adjudicator_id=adjudicator_id,
@@ -339,7 +358,7 @@ def parse_debatexml(xml_source: Path | str | BinaryIO, source_name: str | None =
                         scores_by_adj: dict[str, float] = {}
                         for ballot_node in child.findall("ballot"):
                             adj_ids = ballot_node.attrib.get("adjudicators", "").split()
-                            if adj_ids:
+                            if adj_ids and adj_ids[0] in voting_adjudicator_ids:
                                 scores_by_adj[adj_ids[0]] = as_float(ballot_node.text)
                         speeches.append(SpeechEntry(
                             speaker_id=child.attrib.get("speaker", ""),
@@ -350,7 +369,7 @@ def parse_debatexml(xml_source: Path | str | BinaryIO, source_name: str | None =
                         scores_by_adj: dict[str, float] = {}
                         for ballot_node in child.findall("ballot"):
                             adj_ids = ballot_node.attrib.get("adjudicators", "").split()
-                            if adj_ids:
+                            if adj_ids and adj_ids[0] in voting_adjudicator_ids:
                                 scores_by_adj[adj_ids[0]] = as_float(ballot_node.text)
                         crosses.append(CrossEntry(scores_by_adj=scores_by_adj))
                 side = SideResult(team_id=team_id, ballots_by_adj=ballots_by_adj, speeches=speeches, crosses=crosses)
