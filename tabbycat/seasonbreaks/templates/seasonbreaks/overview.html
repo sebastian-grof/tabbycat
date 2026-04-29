@@ -58,4 +58,27 @@
       </tbody>
     </table>
   </div>
+
+  {% if can_edit_breaks %}
+    <div class="card mt-3">
+      <div class="card-header">
+        <h4 class="mb-0">{% trans "Season settings" %}</h4>
+      </div>
+      <form method="post" class="card-body">
+        {% csrf_token %}
+        <div class="form-row">
+          {% include "components/form-field.html" with field=season_form.name double=True %}
+          {% include "components/form-field.html" with field=season_form.slug double=True %}
+          {% include "components/form-field.html" with field=season_form.league triple=True %}
+          {% include "components/form-field.html" with field=season_form.regional_slots triple=True %}
+          {% include "components/form-field.html" with field=season_form.invited_teams triple=True %}
+          <div class="col-12">
+            {{ season_form.active }}
+            <label for="{{ season_form.active.id_for_label }}">{{ season_form.active.label }}</label>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary">{% trans "Save settings" %}</button>
+      </form>
+    </div>
+  {% endif %}
 {% endblock %}

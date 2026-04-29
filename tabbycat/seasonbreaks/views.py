@@ -142,8 +142,19 @@ class SeasonOverviewView(SeasonMixin, TemplateView):
     def get_context_data(self, **kwargs):
         kwargs['summary'] = season_summary(self.season)
         kwargs['quotas'] = calculate_region_quotas(self.season)
+        kwargs['season_form'] = kwargs.get('season_form') or BreakSeasonForm(instance=self.season)
         kwargs['active_tab'] = 'overview'
         return super().get_context_data(**kwargs)
+
+    def post(self, request, *args, **kwargs):
+        if not has_breaks_permission(request.user, BreaksPermission.EDIT):
+            return self.handle_no_permission()
+        form = BreakSeasonForm(request.POST, instance=self.season)
+        if form.is_valid():
+            season = form.save()
+            messages.success(request, _("Break season settings were updated."))
+            return redirect('seasonbreaks-season-overview', season_slug=season.slug)
+        return self.render_to_response(self.get_context_data(season_form=form))
 
 
 class SeasonTournamentsView(SeasonMixin, TemplateView):
@@ -191,6 +202,15 @@ class SeasonTournamentsView(SeasonMixin, TemplateView):
                     season=self.season, speaker__team__tournament=break_tournament.tournament,
                 ).delete()
             messages.success(request, _("Tournament type was updated."))
+            return redirect('seasonbreaks-tournaments', season_slug=self.season.slug)
+        if action == 'remove_tournament':
+            break_tournament = get_object_or_404(BreakTournament, id=request.POST.get('break_tournament'), season=self.season)
+            tournament = break_tournament.tournament
+            BreakTeamLink.objects.filter(season=self.season, team__tournament=tournament).delete()
+            BreakSpeakerLink.objects.filter(season=self.season, speaker__team__tournament=tournament).delete()
+            BreakAdjudicatorLink.objects.filter(season=self.season, adjudicator__tournament=tournament).delete()
+            break_tournament.delete()
+            messages.success(request, _("Tournament %(tournament)s was removed from this Breaks season.") % {'tournament': tournament})
             return redirect('seasonbreaks-tournaments', season_slug=self.season.slug)
         if action == 'freeze':
             break_tournament = get_object_or_404(BreakTournament, id=request.POST.get('break_tournament'), season=self.season)

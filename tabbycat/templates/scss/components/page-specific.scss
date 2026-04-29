@@ -19,6 +19,16 @@
   gap: 0.5rem;
   display: grid;
   grid-template-columns: 1fr 1fr;
+
+  > .card {
+    min-width: 0;
+  }
+}
+
+@include media-breakpoint-down(sm) {
+  .scoresheet {
+    grid-template-columns: 1fr;
+  }
 }
 
 // ballot_speaks.html

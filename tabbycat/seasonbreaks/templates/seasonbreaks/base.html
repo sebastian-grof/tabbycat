@@ -17,14 +17,15 @@
       display: grid;
       gap: 1rem;
       grid-template-columns: 260px minmax(0, 1fr);
-      margin: 0 0 2rem;
+      margin: 0 0 2rem -15px;
     }
 
     .breaks-sidebar {
       align-self: start;
       background: var(--breaks-sidebar-bg);
       border: 1px solid var(--breaks-sidebar-border);
-      border-radius: 0.25rem;
+      border-left: 0;
+      border-radius: 0 0.25rem 0.25rem 0;
       color: var(--breaks-sidebar-text);
       overflow: hidden;
       position: sticky;
@@ -117,6 +118,7 @@
 
     .breaks-main {
       min-width: 0;
+      padding-right: 15px;
     }
 
     .breaks-main > .card,
@@ -178,10 +180,17 @@
     @media (max-width: 991.98px) {
       .breaks-shell {
         grid-template-columns: 1fr;
+        margin-left: 0;
       }
 
       .breaks-sidebar {
+        border-left: 1px solid var(--breaks-sidebar-border);
+        border-radius: 0.25rem;
         position: static;
+      }
+
+      .breaks-main {
+        padding-right: 0;
       }
 
       .breaks-stat-grid {
