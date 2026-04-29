@@ -14,10 +14,17 @@
     }
 
     .breaks-shell {
+      background: linear-gradient(
+        to right,
+        var(--breaks-sidebar-bg) 0,
+        var(--breaks-sidebar-bg) 260px,
+        transparent 260px
+      );
       display: grid;
       gap: 1rem;
       grid-template-columns: 260px minmax(0, 1fr);
-      margin: 0 0 2rem -15px;
+      margin: -1rem 0 0 -15px;
+      padding-top: 1rem;
     }
 
     .breaks-sidebar {
@@ -205,7 +212,7 @@
 
     .breaks-main {
       min-width: 0;
-      padding: 0 15px 0 0.35rem;
+      padding: 0.75rem 15px 2rem 0.35rem;
     }
 
     .breaks-main > .card,
@@ -279,6 +286,10 @@
       margin-bottom: 0;
     }
 
+    body.breaks-page > nav.navbar {
+      display: none;
+    }
+
     .breaks-page .footer {
       border-top: 1px solid var(--breaks-border);
       height: auto;
@@ -325,8 +336,11 @@
 
     @media (max-width: 991.98px) {
       .breaks-shell {
+        background: transparent;
         grid-template-columns: 1fr;
         margin-left: 0;
+        margin-top: 0;
+        padding-top: 0;
       }
 
       .breaks-sidebar {
@@ -336,7 +350,7 @@
       }
 
       .breaks-main {
-        padding: 0;
+        padding: 0 0 2rem;
       }
 
       .breaks-stat-grid {
