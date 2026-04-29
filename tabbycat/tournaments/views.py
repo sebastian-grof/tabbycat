@@ -29,7 +29,8 @@ from utils.views import ModelFormSetView, PostOnlyRedirectView, VueTableTemplate
 
 from .forms import (RoundWeightForm, ScheduleEventForm, SetCurrentRoundMultipleBreakCategoriesForm,
                     SetCurrentRoundSingleBreakCategoryForm, TournamentCategoryAssignmentForm,
-                    TournamentCategoryFormSet, TournamentConfigureForm, TournamentStartForm)
+                    TournamentCategoryDeleteForm, TournamentCategoryForm, TournamentConfigureForm,
+                    TournamentStartForm)
 from .mixins import PublicTournamentPageMixin, RoundMixin, TournamentMixin
 from .models import ScheduleEvent, Tournament, TournamentCategory
 from .utils import get_side_name
@@ -91,30 +92,40 @@ class TournamentCategoryManageView(AdministratorMixin, TemplateView):
     def get_context_data(self, **kwargs):
         kwargs.setdefault('page_title', self.page_title)
         kwargs.setdefault('page_emoji', self.page_emoji)
-        kwargs.setdefault('category_formset', TournamentCategoryFormSet(
-            queryset=TournamentCategory.objects.order_by('seq', 'name'),
-            prefix='categories',
-        ))
+        kwargs.setdefault('category_form', TournamentCategoryForm(prefix='category'))
+        kwargs.setdefault('delete_form', TournamentCategoryDeleteForm(prefix='delete'))
         kwargs.setdefault('assignment_form', TournamentCategoryAssignmentForm(prefix='assignments'))
+        kwargs['categories'] = TournamentCategory.objects.annotate(
+            tournament_count=Count('tournaments'),
+        ).order_by('seq', 'name')
+        kwargs['assigned_tournaments'] = Tournament.objects.select_related('homepage_category').filter(
+            homepage_category__isnull=False,
+        ).order_by('homepage_category__seq', 'homepage_category__name', 'seq', 'name')
         return super().get_context_data(**kwargs)
 
     def post(self, request, *args, **kwargs):
-        if 'save_categories' in request.POST:
-            category_formset = TournamentCategoryFormSet(
-                request.POST,
-                queryset=TournamentCategory.objects.order_by('seq', 'name'),
-                prefix='categories',
-            )
-            if category_formset.is_valid():
-                category_formset.save()
-                messages.success(request, _("Tournament categories updated."))
+        if 'create_category' in request.POST:
+            category_form = TournamentCategoryForm(request.POST, prefix='category')
+            if category_form.is_valid():
+                category = category_form.save()
+                messages.success(request, _("Tournament category %(category)s created.") % {'category': category})
                 return redirect('tournament-category-manage')
-            return self.render_to_response(self.get_context_data(category_formset=category_formset))
+            return self.render_to_response(self.get_context_data(category_form=category_form))
+
+        if 'delete_category' in request.POST:
+            delete_form = TournamentCategoryDeleteForm(request.POST, prefix='delete')
+            if delete_form.is_valid():
+                category = delete_form.cleaned_data['category']
+                name = category.name
+                category.delete()
+                messages.success(request, _("Tournament category %(category)s deleted.") % {'category': name})
+                return redirect('tournament-category-manage')
+            return self.render_to_response(self.get_context_data(delete_form=delete_form))
 
         assignment_form = TournamentCategoryAssignmentForm(request.POST, prefix='assignments')
         if assignment_form.is_valid():
-            assignment_form.save()
-            messages.success(request, _("Tournament category assignments updated."))
+            tournament = assignment_form.save()
+            messages.success(request, _("Category assignment updated for %(tournament)s.") % {'tournament': tournament})
             return redirect('tournament-category-manage')
         return self.render_to_response(self.get_context_data(assignment_form=assignment_form))
 

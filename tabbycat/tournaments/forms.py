@@ -1,6 +1,6 @@
 from django.contrib.contenttypes.models import ContentType
 from django.core.cache import cache
-from django.forms import CharField, ChoiceField, DateTimeInput, Form, HiddenInput, ModelChoiceField, ModelForm, modelformset_factory
+from django.forms import CharField, ChoiceField, DateTimeInput, Form, HiddenInput, ModelChoiceField, ModelForm
 from django.forms.fields import IntegerField, NumberInput
 from django.forms.models import ModelChoiceIterator
 from django.utils.html import escape
@@ -28,42 +28,38 @@ class TournamentCategoryForm(ModelForm):
         fields = ('name', 'slug', 'description', 'seq', 'active')
 
 
-TournamentCategoryFormSet = modelformset_factory(
-    TournamentCategory,
-    form=TournamentCategoryForm,
-    extra=1,
-    can_delete=True,
-)
+class TournamentCategoryDeleteForm(Form):
+    category = ModelChoiceField(
+        queryset=TournamentCategory.objects.order_by('seq', 'name'),
+        label=_("Category"),
+    )
 
 
 class TournamentCategoryAssignmentForm(Form):
+    tournament = ModelChoiceField(
+        queryset=Tournament.objects.select_related('homepage_category').order_by('-active', 'seq', 'name'),
+        label=_("Choose a tournament"),
+    )
+    category = ModelChoiceField(
+        queryset=TournamentCategory.objects.order_by('seq', 'name'),
+        required=False,
+        label=_("Assign to category"),
+        empty_label=_("Uncategorised"),
+    )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.categories = list(TournamentCategory.objects.order_by('seq', 'name'))
-        self.tournaments = list(Tournament.objects.select_related('homepage_category').order_by(
-            '-active', 'homepage_category__seq', 'seq', 'name'))
-        choices = [('', _("Uncategorised"))] + [(category.id, category.name) for category in self.categories]
-
-        for tournament in self.tournaments:
-            self.fields[self.field_name(tournament)] = ChoiceField(
-                choices=choices,
-                required=False,
-                label=str(tournament),
-                initial=tournament.homepage_category_id or '',
-            )
-
-    @staticmethod
-    def field_name(tournament):
-        return f"tournament_{tournament.id}"
+        if not TournamentCategory.objects.exists():
+            self.fields['category'].disabled = True
+            self.fields['category'].help_text = _("Create a category first, then assign tournaments to it.")
 
     def save(self):
-        for tournament in self.tournaments:
-            value = self.cleaned_data[self.field_name(tournament)]
-            category_id = int(value) if value else None
-            if tournament.homepage_category_id != category_id:
-                tournament.homepage_category_id = category_id
-                tournament.save(update_fields=['homepage_category'])
+        tournament = self.cleaned_data['tournament']
+        category = self.cleaned_data['category']
+        if tournament.homepage_category_id != (category.id if category else None):
+            tournament.homepage_category = category
+            tournament.save(update_fields=['homepage_category'])
+        return tournament
 
 
 class TournamentStartForm(ModelForm):
