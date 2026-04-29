@@ -17,9 +17,13 @@
       {% blocktrans trimmed with category_name=category.name asvar text %}
         <strong>{{ category_name }}</strong>
       {% endblocktrans %}
-      {% blocktrans trimmed with counter=category.active_tournament_count asvar subtext %}
-        {{ counter }} tournaments
-      {% endblocktrans %}
+      {% if category.active_tournament_count %}
+        {% blocktrans trimmed with counter=category.active_tournament_count asvar subtext %}
+          {{ counter }} active tournaments
+        {% endblocktrans %}
+      {% else %}
+        {% trans "Archive" as subtext %}
+      {% endif %}
       {% include "components/item-action.html" with icon="folder" url=category.get_absolute_url %}
     {% endfor %}
   </div>

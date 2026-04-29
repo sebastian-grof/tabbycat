@@ -57,7 +57,8 @@ class PublicSiteIndexView(WarnAboutDatabaseUseMixin, WarnAboutLegacySendgridConf
     def get_context_data(self, **kwargs):
         category_queryset = TournamentCategory.objects.filter(active=True).annotate(
             active_tournament_count=Count('tournaments', filter=Q(tournaments__active=True)),
-        ).filter(active_tournament_count__gt=0).order_by('seq', 'name')
+            tournament_count=Count('tournaments'),
+        ).filter(tournament_count__gt=0).order_by('seq', 'name')
         kwargs['tournament_categories'] = category_queryset
         kwargs['tournaments'] = Tournament.objects.filter(active=True, homepage_category__isnull=True)
         kwargs['inactive'] = Tournament.objects.filter(active=False, homepage_category__isnull=True)
