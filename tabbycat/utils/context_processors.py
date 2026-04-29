@@ -2,6 +2,7 @@ from django.conf import settings
 
 from tournaments.models import Tournament
 from seasonbreaks.permissions import can_view_breaks
+from xmlconverter.permissions import has_converter_permission
 
 
 def debate_context(request):
@@ -14,6 +15,7 @@ def debate_context(request):
         'on_local': getattr(settings, 'ON_LOCAL', False),
         'hmr': getattr(settings, 'USE_WEBPACK_SERVER', False),
         'can_view_global_breaks': can_view_breaks(request.user),
+        'can_use_converter': has_converter_permission(request.user),
     }
 
     if hasattr(request, 'tournament'):

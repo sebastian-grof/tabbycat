@@ -77,6 +77,10 @@ urlpatterns = [
     path('breaks/',
         include('seasonbreaks.urls')),
 
+    # DebateXML to results workbook converter
+    path('converter/',
+        include('xmlconverter.urls')),
+
     # Tournament URLs
     path('<slug:tournament_slug>/',
         include('tournaments.urls')),

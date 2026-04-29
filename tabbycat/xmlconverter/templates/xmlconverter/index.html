@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load add_field_css i18n %}
+
+{% block head-title %}<span class="emoji">{{ page_emoji }}</span> {{ page_title }}{% endblock %}
+{% block page-title %}{{ page_title }}{% endblock %}
+
+{% block content %}
+  <div class="card mb-3">
+    <div class="card-body">
+      <h2 class="card-title mb-2">{% trans "Convert DebateXML" %}</h2>
+      <p class="text-muted mb-0">
+        {% trans "Upload a Tabbycat DebateXML export and download an SDA-style XLSX results workbook." %}
+      </p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+          <div class="alert alert-danger">
+            {{ form.non_field_errors }}
+          </div>
+        {% endif %}
+
+        <div class="form-group">
+          <label for="{{ form.xml_file.id_for_label }}">{{ form.xml_file.label }}</label>
+          {{ form.xml_file|addcss:"form-control" }}
+          {% if form.xml_file.help_text %}
+            <small class="form-text text-muted">{{ form.xml_file.help_text }}</small>
+          {% endif %}
+          {% for error in form.xml_file.errors %}
+            <div class="invalid-feedback d-block">{{ error }}</div>
+          {% endfor %}
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+          <i data-feather="download"></i> {% trans "Convert" %}
+        </button>
+      </form>
+    </div>
+  </div>
+{% endblock content %}

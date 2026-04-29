@@ -74,6 +74,13 @@
     {% include "components/item-action.html" with icon="award" %}
 
   {% endif %}
+
+  {% if can_use_converter %}
+
+    {% trans "Converter" as text %}{% url 'xmlconverter-index' as url %}
+    {% include "components/item-action.html" with icon="repeat" %}
+
+  {% endif %}
 </div>
 
 <div class="list-group mt-2">

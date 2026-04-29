@@ -82,5 +82,3 @@ nosetests.xml
 
 # Redis
 dump.rdb
-
-tools/debatexml_converter/
