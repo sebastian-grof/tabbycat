@@ -2,12 +2,11 @@
 {% load i18n %}
 
 {% block season_content %}
-  <section class="breaks-hero">
+  <section class="breaks-page-header">
     <div class="d-md-flex justify-content-between align-items-start">
       <div>
-        <div class="breaks-kicker">{% trans "Identity map" %}</div>
-        <h3 class="breaks-hero-title">{% trans "Adjudicator identities" %}</h3>
-        <p class="breaks-hero-subtitle">{% trans "Choose a source tournament, then repair only that tournament's adjudicator links." %}</p>
+        <h3 class="breaks-page-title">{% trans "Adjudicator identities" %}</h3>
+        <p class="breaks-page-subtitle">{% trans "Choose a source tournament, then repair only that tournament's adjudicator links." %}</p>
       </div>
       <a class="btn btn-outline-secondary mt-3 mt-md-0" href="{% url 'seasonbreaks-identities' season_slug=season.slug %}">
         {% trans "Back to identity categories" %}

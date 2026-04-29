@@ -33,7 +33,7 @@ class BreakTournamentForm(forms.ModelForm):
 
     class Meta:
         model = BreakTournament
-        fields = ('tournament', 'region', 'seq')
+        fields = ('tournament', 'region', 'seq', 'counts_for_break')
 
     def __init__(self, *args, season=None, **kwargs):
         super().__init__(*args, **kwargs)

@@ -177,6 +177,21 @@ class SeasonTournamentsView(SeasonMixin, TemplateView):
                 messages.success(request, _("Tournament %(tournament)s was added.") % {'tournament': break_tournament.tournament})
                 return redirect('seasonbreaks-tournaments', season_slug=self.season.slug)
             return self.render_to_response(self.get_context_data(tournament_form=form))
+        if action == 'update_tournament_type':
+            break_tournament = get_object_or_404(BreakTournament, id=request.POST.get('break_tournament'), season=self.season)
+            break_tournament.counts_for_break = request.POST.get('counts_for_break') == '1'
+            break_tournament.save(update_fields=['counts_for_break'])
+            if not break_tournament.counts_for_break:
+                break_tournament.team_results.all().delete()
+                break_tournament.speaker_participations.all().delete()
+                BreakTeamLink.objects.filter(
+                    season=self.season, team__tournament=break_tournament.tournament,
+                ).delete()
+                BreakSpeakerLink.objects.filter(
+                    season=self.season, speaker__team__tournament=break_tournament.tournament,
+                ).delete()
+            messages.success(request, _("Tournament type was updated."))
+            return redirect('seasonbreaks-tournaments', season_slug=self.season.slug)
         if action == 'freeze':
             break_tournament = get_object_or_404(BreakTournament, id=request.POST.get('break_tournament'), season=self.season)
             counts = freeze_break_tournament(break_tournament)

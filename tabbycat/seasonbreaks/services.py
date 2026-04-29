@@ -125,67 +125,73 @@ def freeze_break_tournament(break_tournament: BreakTournament) -> dict:
         'real_debate_ids': set(),
     })
 
-    team_scores = TeamScore.objects.filter(
-        ballot_submission__confirmed=True,
-        ballot_submission__discarded=False,
-        debate_team__debate__round__tournament=tournament,
-        debate_team__debate__round__stage=Round.Stage.PRELIMINARY,
-    ).select_related('debate_team__team', 'debate_team__debate', 'ballot_submission')
-
-    for team_score in team_scores:
-        team = team_score.debate_team.team
-        totals = team_totals[team]
-        if team_score.win:
-            totals['wins'] += 1
-        if team_score.votes_given is not None and team_score.votes_possible:
-            totals['ballots'] += (team_score.votes_given / team_score.votes_possible) * 3
-        if team_score.score is not None:
-            totals['speaker_score'] += team_score.score
-        if team_score.debate_team.side != DebateSide.BYE:
-            totals['real_debate_ids'].add(team_score.debate_team.debate_id)
-
-    for team, totals in team_totals.items():
-        break_team = get_or_create_break_team(season, team, break_tournament.region)
-        rounds_debated = len(totals['real_debate_ids'])
-        BreakTeamTournamentResult.objects.update_or_create(
-            break_tournament=break_tournament,
-            break_team=break_team,
-            defaults={
-                'wins': totals['wins'],
-                'ballots': totals['ballots'],
-                'speaker_score': totals['speaker_score'],
-                'rounds_debated': rounds_debated,
-                'majority_debated': rounds_debated > (prelim_round_count / 2),
-            },
-        )
-
     speaker_totals = defaultdict(lambda: {'speeches': 0, 'round_ids': set()})
-    speaker_scores = SpeakerScore.objects.filter(
-        ballot_submission__confirmed=True,
-        ballot_submission__discarded=False,
-        debate_team__debate__round__tournament=tournament,
-        debate_team__debate__round__stage=Round.Stage.PRELIMINARY,
-    ).exclude(debate_team__side=DebateSide.BYE).select_related(
-        'speaker', 'debate_team__team', 'debate_team__debate__round',
-    )
 
-    for speaker_score in speaker_scores:
-        break_speaker = get_or_create_break_speaker(season, speaker_score.speaker)
-        break_team = get_or_create_break_team(season, speaker_score.debate_team.team, break_tournament.region)
-        key = (break_speaker, break_team)
-        speaker_totals[key]['speeches'] += 1
-        speaker_totals[key]['round_ids'].add(speaker_score.debate_team.debate.round_id)
+    if break_tournament.counts_for_break:
+        team_scores = TeamScore.objects.filter(
+            ballot_submission__confirmed=True,
+            ballot_submission__discarded=False,
+            debate_team__debate__round__tournament=tournament,
+            debate_team__debate__round__stage=Round.Stage.PRELIMINARY,
+        ).select_related('debate_team__team', 'debate_team__debate', 'ballot_submission')
 
-    for (break_speaker, break_team), totals in speaker_totals.items():
-        BreakSpeakerTournamentParticipation.objects.update_or_create(
-            break_tournament=break_tournament,
-            break_speaker=break_speaker,
-            break_team=break_team,
-            defaults={
-                'speeches': totals['speeches'],
-                'rounds': len(totals['round_ids']),
-            },
+        for team_score in team_scores:
+            team = team_score.debate_team.team
+            totals = team_totals[team]
+            if team_score.win:
+                totals['wins'] += 1
+            if team_score.votes_given is not None and team_score.votes_possible:
+                totals['ballots'] += (team_score.votes_given / team_score.votes_possible) * 3
+            if team_score.score is not None:
+                totals['speaker_score'] += team_score.score
+            if team_score.debate_team.side != DebateSide.BYE:
+                totals['real_debate_ids'].add(team_score.debate_team.debate_id)
+
+        for team, totals in team_totals.items():
+            break_team = get_or_create_break_team(season, team, break_tournament.region)
+            rounds_debated = len(totals['real_debate_ids'])
+            BreakTeamTournamentResult.objects.update_or_create(
+                break_tournament=break_tournament,
+                break_team=break_team,
+                defaults={
+                    'wins': totals['wins'],
+                    'ballots': totals['ballots'],
+                    'speaker_score': totals['speaker_score'],
+                    'rounds_debated': rounds_debated,
+                    'majority_debated': rounds_debated > (prelim_round_count / 2),
+                },
+            )
+
+        speaker_scores = SpeakerScore.objects.filter(
+            ballot_submission__confirmed=True,
+            ballot_submission__discarded=False,
+            debate_team__debate__round__tournament=tournament,
+            debate_team__debate__round__stage=Round.Stage.PRELIMINARY,
+        ).exclude(debate_team__side=DebateSide.BYE).select_related(
+            'speaker', 'debate_team__team', 'debate_team__debate__round',
         )
+
+        for speaker_score in speaker_scores:
+            break_speaker = get_or_create_break_speaker(season, speaker_score.speaker)
+            break_team = get_or_create_break_team(season, speaker_score.debate_team.team, break_tournament.region)
+            key = (break_speaker, break_team)
+            speaker_totals[key]['speeches'] += 1
+            speaker_totals[key]['round_ids'].add(speaker_score.debate_team.debate.round_id)
+
+        for (break_speaker, break_team), totals in speaker_totals.items():
+            BreakSpeakerTournamentParticipation.objects.update_or_create(
+                break_tournament=break_tournament,
+                break_speaker=break_speaker,
+                break_team=break_team,
+                defaults={
+                    'speeches': totals['speeches'],
+                    'rounds': len(totals['round_ids']),
+                },
+            )
+
+    else:
+        BreakTeamLink.objects.filter(season=season, team__tournament=tournament).delete()
+        BreakSpeakerLink.objects.filter(season=season, speaker__team__tournament=tournament).delete()
 
     confirmed_debate_ids = set(BallotSubmission.objects.filter(
         confirmed=True,
@@ -219,7 +225,7 @@ def freeze_break_tournament(break_tournament: BreakTournament) -> dict:
                 'chair_count': chair_count,
                 'panellist_count': panellist_count,
                 'trainee_count': trainee_count,
-                'total_count': chair_count + panellist_count + trainee_count,
+                'total_count': chair_count + panellist_count,
             },
         )
 
@@ -247,6 +253,7 @@ def calculate_region_quotas(season: BreakSeason) -> list[RegionQuota]:
 
     results = BreakTeamTournamentResult.objects.filter(
         break_tournament__season=season,
+        break_tournament__counts_for_break=True,
         majority_debated=True,
     ).select_related('break_tournament__region')
     for result in results:
@@ -277,6 +284,7 @@ def _team_member_eligibility(team: BreakTeam, region: BreakRegion) -> int:
     participations = BreakSpeakerTournamentParticipation.objects.filter(
         break_team=team,
         break_tournament__region=region,
+        break_tournament__counts_for_break=True,
         rounds__gte=2,
     ).values('break_speaker_id', 'break_tournament_id').distinct()
     tournaments_by_speaker = defaultdict(set)
@@ -290,13 +298,16 @@ def calculate_rankings(season: BreakSeason) -> dict[int, list[dict]]:
     rankings = {}
 
     for region in season.regions.all():
-        tournaments_in_region = BreakTournament.objects.filter(season=season, region=region).count()
+        tournaments_in_region = BreakTournament.objects.filter(
+            season=season, region=region, counts_for_break=True,
+        ).count()
         required_tournaments = max(tournaments_in_region - 1, 0)
         result_limit = required_tournaments if required_tournaments else None
 
         team_ids = BreakTeamTournamentResult.objects.filter(
             break_tournament__season=season,
             break_tournament__region=region,
+            break_tournament__counts_for_break=True,
         ).values_list('break_team_id', flat=True).distinct()
 
         rows = []
@@ -304,6 +315,7 @@ def calculate_rankings(season: BreakSeason) -> dict[int, list[dict]]:
             all_results = list(team.tournament_results.filter(
                 break_tournament__season=season,
                 break_tournament__region=region,
+                break_tournament__counts_for_break=True,
                 majority_debated=True,
             ).select_related('break_tournament'))
             strongest = sorted(all_results, key=lambda r: (r.wins, r.ballots, r.speaker_score), reverse=True)
@@ -359,6 +371,8 @@ def season_summary(season: BreakSeason) -> dict:
     return {
         'regions': season.regions.count(),
         'tournaments': season.break_tournaments.count(),
+        'league_tournaments': season.break_tournaments.filter(counts_for_break=True).count(),
+        'nonleague_tournaments': season.break_tournaments.filter(counts_for_break=False).count(),
         'frozen_tournaments': season.break_tournaments.filter(frozen_at__isnull=False).count(),
         'teams': season.teams.count(),
         'speakers': season.speakers.count(),

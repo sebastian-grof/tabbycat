@@ -2,10 +2,9 @@
 {% load i18n %}
 
 {% block season_content %}
-  <section class="breaks-hero">
-    <div class="breaks-kicker">{% trans "Data intake" %}</div>
-    <h3 class="breaks-hero-title">{% trans "Tournaments and snapshots" %}</h3>
-    <p class="breaks-hero-subtitle">
+  <section class="breaks-page-header">
+    <h3 class="breaks-page-title">{% trans "Tournaments and snapshots" %}</h3>
+    <p class="breaks-page-subtitle">
       {% trans "Attach source tournaments to regions, then freeze their confirmed results into the season model." %}
     </p>
   </section>
@@ -13,16 +12,34 @@
   <div class="card mb-3">
     <div class="card-header d-md-flex justify-content-between align-items-center">
       <h4 class="mb-0">{% trans "Assigned tournaments" %}</h4>
-      <span class="text-muted small">{% trans "Freeze creates team, speaker and adjudicator identity links." %}</span>
+      <span class="text-muted small">{% trans "Non-league tournaments count only for adjudicator statistics." %}</span>
     </div>
     <table class="table table-sm mb-0">
-      <thead><tr><th>{% trans "Seq" %}</th><th>{% trans "Tournament" %}</th><th>{% trans "Region" %}</th><th>{% trans "Frozen" %}</th><th></th></tr></thead>
+      <thead><tr><th>{% trans "Seq" %}</th><th>{% trans "Tournament" %}</th><th>{% trans "Region" %}</th><th>{% trans "Type" %}</th><th>{% trans "Frozen" %}</th><th></th></tr></thead>
       <tbody>
         {% for bt in tournaments %}
           <tr>
             <td>{{ bt.seq }}</td>
             <td>{{ bt.tournament }}</td>
             <td>{{ bt.region.name }}</td>
+            <td>
+              {% if can_edit_breaks %}
+                <form method="post" class="form-inline">
+                  {% csrf_token %}
+                  <input type="hidden" name="action" value="update_tournament_type">
+                  <input type="hidden" name="break_tournament" value="{{ bt.id }}">
+                  <select name="counts_for_break" class="form-control form-control-sm mr-2">
+                    <option value="1" {% if bt.counts_for_break %}selected{% endif %}>{% trans "League" %}</option>
+                    <option value="0" {% if not bt.counts_for_break %}selected{% endif %}>{% trans "Non-league" %}</option>
+                  </select>
+                  <button class="btn btn-sm btn-outline-secondary" type="submit">{% trans "Save" %}</button>
+                </form>
+              {% elif bt.counts_for_break %}
+                <span class="badge badge-primary">{% trans "League" %}</span>
+              {% else %}
+                <span class="badge badge-secondary">{% trans "Non-league" %}</span>
+              {% endif %}
+            </td>
             <td>{% if bt.frozen_at %}{{ bt.frozen_at }}{% else %}<span class="text-muted">{% trans "Not frozen" %}</span>{% endif %}</td>
             <td class="text-right">
               {% if can_edit_breaks %}
@@ -36,7 +53,7 @@
             </td>
           </tr>
         {% empty %}
-          <tr><td colspan="5" class="text-muted">{% trans "No tournaments are assigned to this season yet." %}</td></tr>
+          <tr><td colspan="6" class="text-muted">{% trans "No tournaments are assigned to this season yet." %}</td></tr>
         {% endfor %}
       </tbody>
     </table>
@@ -66,6 +83,11 @@
             {% include "components/form-field.html" with field=tournament_form.tournament %}
             {% include "components/form-field.html" with field=tournament_form.region %}
             {% include "components/form-field.html" with field=tournament_form.seq %}
+            <div class="form-group">
+              {{ tournament_form.counts_for_break }}
+              <label for="{{ tournament_form.counts_for_break.id_for_label }}">{{ tournament_form.counts_for_break.label }}</label>
+              <small class="form-text text-muted">{{ tournament_form.counts_for_break.help_text }}</small>
+            </div>
             <button class="btn btn-primary" type="submit">{% trans "Add tournament" %}</button>
           </form>
         </div>

@@ -74,6 +74,8 @@ class BreakTournament(models.Model):
         verbose_name=_("tournament"))
     region = models.ForeignKey(BreakRegion, models.PROTECT, related_name='break_tournaments', verbose_name=_("region"))
     seq = models.PositiveSmallIntegerField(default=0, verbose_name=_("sequence"))
+    counts_for_break = models.BooleanField(default=True, verbose_name=_("counts for team and speaker break"),
+        help_text=_("If unchecked, this tournament only counts toward adjudicator statistics."))
     frozen_at = models.DateTimeField(blank=True, null=True, verbose_name=_("frozen at"))
 
     class Meta:

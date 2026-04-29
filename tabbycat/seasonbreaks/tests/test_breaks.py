@@ -41,9 +41,13 @@ class BreaksCalculationTests(TestCase):
         self.tournament_w1 = Tournament.objects.create(name='West 1', short_name='W1', slug='w1')
         self.tournament_w2 = Tournament.objects.create(name='West 2', short_name='W2', slug='w2')
         self.tournament_e1 = Tournament.objects.create(name='East 1', short_name='E1', slug='e1')
+        self.tournament_open = Tournament.objects.create(name='Open', short_name='Open', slug='open')
         self.bt_w1 = BreakTournament.objects.create(season=self.season, tournament=self.tournament_w1, region=self.west, seq=1)
         self.bt_w2 = BreakTournament.objects.create(season=self.season, tournament=self.tournament_w2, region=self.west, seq=2)
         self.bt_e1 = BreakTournament.objects.create(season=self.season, tournament=self.tournament_e1, region=self.east, seq=3)
+        self.bt_open = BreakTournament.objects.create(
+            season=self.season, tournament=self.tournament_open, region=self.west, seq=4, counts_for_break=False,
+        )
 
     def _team_with_members(self, name, region, tournaments, results):
         team = BreakTeam.objects.create(season=self.season, name=name, region=region)
@@ -87,3 +91,21 @@ class BreaksCalculationTests(TestCase):
         self.assertEqual(rankings[0]['wins'], 3)
         self.assertTrue(rankings[0]['eligible'])
         self.assertEqual(rankings[1]['team'], weaker)
+
+    def test_nonleague_tournaments_do_not_affect_quotas_or_rankings(self):
+        team = self._team_with_members('West A', self.west, [self.bt_w1, self.bt_open], [
+            (self.bt_w1, 1, 3, 500),
+            (self.bt_open, 99, 99, 9999),
+        ])
+        BreakTeamTournamentResult.objects.create(
+            break_tournament=self.bt_w2, break_team=team, wins=1, ballots=3,
+            speaker_score=500, rounds_debated=3, majority_debated=True,
+        )
+
+        quotas = {row.region.name: row.participations for row in calculate_region_quotas(self.season)}
+        rankings = calculate_rankings(self.season)[self.west.id]
+
+        self.assertEqual(quotas['West'], 2)
+        self.assertEqual(rankings[0]['wins'], 1)
+        self.assertEqual(rankings[0]['participations'], 2)
+        self.assertEqual(rankings[0]['required_tournaments'], 1)

@@ -2,10 +2,9 @@
 {% load i18n %}
 
 {% block season_content %}
-  <section class="breaks-hero">
-    <div class="breaks-kicker">{% trans "Season command centre" %}</div>
-    <h3 class="breaks-hero-title">{{ season.name }}</h3>
-    <p class="breaks-hero-subtitle">
+  <section class="breaks-page-header">
+    <h3 class="breaks-page-title">{{ season.name }}</h3>
+    <p class="breaks-page-subtitle">
       {% blocktrans trimmed with league=season.get_league_display %}
         {{ league }} qualification state, frozen tournament data and current regional allocation in one place.
       {% endblocktrans %}
@@ -18,8 +17,12 @@
       <div class="breaks-stat-label">{% trans "Regions mapped" %}</div>
     </div>
     <div class="breaks-stat-card">
-      <div class="breaks-stat-value">{{ summary.tournaments }}</div>
-      <div class="breaks-stat-label">{% trans "Source tournaments" %}</div>
+      <div class="breaks-stat-value">{{ summary.league_tournaments }}</div>
+      <div class="breaks-stat-label">{% trans "League tournaments" %}</div>
+    </div>
+    <div class="breaks-stat-card">
+      <div class="breaks-stat-value">{{ summary.nonleague_tournaments }}</div>
+      <div class="breaks-stat-label">{% trans "Non-league tournaments" %}</div>
     </div>
     <div class="breaks-stat-card">
       <div class="breaks-stat-value">{{ summary.frozen_tournaments }}</div>

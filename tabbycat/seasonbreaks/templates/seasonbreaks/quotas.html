@@ -2,10 +2,9 @@
 {% load i18n %}
 
 {% block season_content %}
-  <section class="breaks-hero">
-    <div class="breaks-kicker">{% trans "Allocation model" %}</div>
-    <h3 class="breaks-hero-title">{% trans "Regional quotas" %}</h3>
-    <p class="breaks-hero-subtitle">
+  <section class="breaks-page-header">
+    <h3 class="breaks-page-title">{% trans "Regional quotas" %}</h3>
+    <p class="breaks-page-subtitle">
       {% blocktrans trimmed with slots=season.effective_regional_slots invited=season.invited_teams %}
         Regional slots used for quota calculation: {{ slots }}. Invited teams: {{ invited }}.
       {% endblocktrans %}
