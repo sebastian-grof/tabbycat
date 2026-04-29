@@ -4,6 +4,7 @@ from collections import OrderedDict
 
 from django.conf import settings
 from django.contrib import messages
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.contrib.auth import get_user_model
 from django.db.models import Count, Q
 from django.shortcuts import get_object_or_404, redirect, resolve_url
@@ -84,10 +85,13 @@ class TournamentCategoryLandingView(WarnAboutDatabaseUseMixin, WarnAboutLegacySe
         return super().get_context_data(**kwargs)
 
 
-class TournamentCategoryManageView(AdministratorMixin, TemplateView):
+class TournamentCategoryManageView(UserPassesTestMixin, WarnAboutDatabaseUseMixin, WarnAboutLegacySendgridConfigVarsMixin, TemplateView):
     template_name = 'tournament_category_manage.html'
     page_title = _('Tournament categories')
     page_emoji = '🗂'
+
+    def test_func(self):
+        return self.request.user.is_superuser
 
     def get_context_data(self, **kwargs):
         kwargs.setdefault('page_title', self.page_title)

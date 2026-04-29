@@ -9,63 +9,42 @@
     </p>
   </section>
 
-  <div class="row">
-    <div class="col-lg-4 mb-3">
-      <a class="card h-100 border-left border-primary shadow-sm text-reset text-decoration-none"
-          href="{% url 'seasonbreaks-identities-teams' season_slug=season.slug %}">
-        <div class="card-body">
-          <div class="d-flex justify-content-between align-items-start">
-            <div>
-              <h4 class="mb-1">{% trans "Teams" %}</h4>
-              <p class="text-muted mb-3">{% trans "Link tournament teams to season team identities." %}</p>
-            </div>
-            <span class="h3 text-primary mb-0">T</span>
-          </div>
-          <div class="d-flex justify-content-between small text-muted">
-            <span>{{ team_identity_count }} {% trans "identities" %}</span>
-            <span>{{ team_link_count }} {% trans "links" %}</span>
-          </div>
+  <div class="list-group mb-3">
+    <a class="list-group-item list-group-item-action" href="{% url 'seasonbreaks-identities-teams' season_slug=season.slug %}">
+      <div class="row align-items-center">
+        <div class="col-auto pr-1"><i data-feather="users"></i></div>
+        <div class="col pl-0">
+          <h5 class="mb-1">{% trans "Teams" %}</h5>
+          <div class="text-muted">{% trans "Link tournament teams to season team identities." %}</div>
+          <small class="text-muted">{{ team_identity_count }} {% trans "identities" %} · {{ team_link_count }} {% trans "links" %}</small>
         </div>
-      </a>
-    </div>
+        <div class="col-auto pr-1"><i data-feather="chevron-right"></i></div>
+      </div>
+    </a>
 
-    <div class="col-lg-4 mb-3">
-      <a class="card h-100 border-left border-info shadow-sm text-reset text-decoration-none"
-          href="{% url 'seasonbreaks-identities-speakers' season_slug=season.slug %}">
-        <div class="card-body">
-          <div class="d-flex justify-content-between align-items-start">
-            <div>
-              <h4 class="mb-1">{% trans "Speakers" %}</h4>
-              <p class="text-muted mb-3">{% trans "Link tournament speakers to season speaker identities." %}</p>
-            </div>
-            <span class="h3 text-info mb-0">S</span>
-          </div>
-          <div class="d-flex justify-content-between small text-muted">
-            <span>{{ speaker_identity_count }} {% trans "identities" %}</span>
-            <span>{{ speaker_link_count }} {% trans "links" %}</span>
-          </div>
+    <a class="list-group-item list-group-item-action" href="{% url 'seasonbreaks-identities-speakers' season_slug=season.slug %}">
+      <div class="row align-items-center">
+        <div class="col-auto pr-1"><i data-feather="mic"></i></div>
+        <div class="col pl-0">
+          <h5 class="mb-1">{% trans "Speakers" %}</h5>
+          <div class="text-muted">{% trans "Link tournament speakers to season speaker identities." %}</div>
+          <small class="text-muted">{{ speaker_identity_count }} {% trans "identities" %} · {{ speaker_link_count }} {% trans "links" %}</small>
         </div>
-      </a>
-    </div>
+        <div class="col-auto pr-1"><i data-feather="chevron-right"></i></div>
+      </div>
+    </a>
 
-    <div class="col-lg-4 mb-3">
-      <a class="card h-100 border-left border-secondary shadow-sm text-reset text-decoration-none"
-          href="{% url 'seasonbreaks-identities-adjudicators' season_slug=season.slug %}">
-        <div class="card-body">
-          <div class="d-flex justify-content-between align-items-start">
-            <div>
-              <h4 class="mb-1">{% trans "Adjudicators" %}</h4>
-              <p class="text-muted mb-3">{% trans "Link tournament adjudicators to season adjudicator identities." %}</p>
-            </div>
-            <span class="h3 text-secondary mb-0">A</span>
-          </div>
-          <div class="d-flex justify-content-between small text-muted">
-            <span>{{ adjudicator_identity_count }} {% trans "identities" %}</span>
-            <span>{{ adjudicator_link_count }} {% trans "links" %}</span>
-          </div>
+    <a class="list-group-item list-group-item-action" href="{% url 'seasonbreaks-identities-adjudicators' season_slug=season.slug %}">
+      <div class="row align-items-center">
+        <div class="col-auto pr-1"><i data-feather="award"></i></div>
+        <div class="col pl-0">
+          <h5 class="mb-1">{% trans "Adjudicators" %}</h5>
+          <div class="text-muted">{% trans "Link tournament adjudicators to season adjudicator identities." %}</div>
+          <small class="text-muted">{{ adjudicator_identity_count }} {% trans "identities" %} · {{ adjudicator_link_count }} {% trans "links" %}</small>
         </div>
-      </a>
-    </div>
+        <div class="col-auto pr-1"><i data-feather="chevron-right"></i></div>
+      </div>
+    </a>
   </div>
 
   {% if can_edit_breaks %}
