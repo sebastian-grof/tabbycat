@@ -1,9 +1,63 @@
 {% extends "seasonbreaks/base.html" %}
 {% load i18n %}
 
+{% block extra-css %}
+  {{ block.super }}
+  <style>
+    .breaks-access-page {
+      padding: 0.25rem 0.75rem 2rem;
+    }
+
+    .breaks-access-header {
+      align-items: center;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+
+    .breaks-access-header h3 {
+      font-size: 1.5rem;
+      font-weight: 500;
+      margin: 0;
+    }
+
+    .breaks-access-page .card-header {
+      padding: 1rem 1.35rem;
+    }
+
+    .breaks-access-page .card-body {
+      padding: 1.25rem 1.35rem;
+    }
+
+    .breaks-access-page .table th,
+    .breaks-access-page .table td {
+      padding: 0.75rem 1.35rem;
+    }
+
+    @media (max-width: 767.98px) {
+      .breaks-access-header {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+    }
+  </style>
+{% endblock %}
+
 {% block standalone_content %}
-  <div class="row">
-    <div class="col-md-6">
+  <div class="breaks-access-page">
+    <div class="breaks-access-header">
+      <div>
+        <h3>{% trans "Breaks access" %}</h3>
+        <p class="text-muted mb-0">{% trans "Grant global access to the Breaks section." %}</p>
+      </div>
+      <a class="btn btn-outline-secondary" href="{% url 'seasonbreaks-index' %}">
+        <i data-feather="arrow-left"></i>{% trans "Return to Breaks" %}
+      </a>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 mb-3 mb-md-0">
       <div class="card">
         <div class="card-header"><h4 class="mb-0">{% trans "Grant Breaks access" %}</h4></div>
         <form method="post" class="card-body">
@@ -17,8 +71,8 @@
           <button class="btn btn-primary" type="submit">{% trans "Save access" %}</button>
         </form>
       </div>
-    </div>
-    <div class="col-md-6">
+      </div>
+      <div class="col-md-6">
       <div class="card">
         <div class="card-header"><h4 class="mb-0">{% trans "Current access" %}</h4></div>
         <table class="table table-sm mb-0">
@@ -31,6 +85,7 @@
             {% endfor %}
           </tbody>
         </table>
+      </div>
       </div>
     </div>
   </div>
