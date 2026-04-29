@@ -81,6 +81,13 @@
     {% include "components/item-action.html" with icon="repeat" %}
 
   {% endif %}
+
+  {% if can_manage_converter_access %}
+
+    {% trans "Converter Access" as text %}{% url 'xmlconverter-access' as url %}
+    {% include "components/item-action.html" with icon="users" %}
+
+  {% endif %}
 </div>
 
 <div class="list-group mt-2">

@@ -77,6 +77,10 @@ class PreferencesPreset:
             logger.info(f"Setting {pref} to {getattr(cls, pref)}")
             tournament.preferences[pref] = getattr(cls, pref)
 
+    @classmethod
+    def configure_feedback_questions(cls, tournament):
+        pass
+
 
 class AustralsPreferences(PreferencesPreset):
     name         = _("Australs Rules")
@@ -397,6 +401,7 @@ class SDLFormatPreferences(PreferencesPreset):
     # Feedback
     feedback__adj_min_score                    = 0.0
     feedback__adj_max_score                    = 9.0
+    feedback__feedback_affects_adjudicator_scores = False
     feedback__feedback_paths                   = 'with-p-on-c'
     feedback__feedback_from_teams              = 'orallist'
     feedback__show_unexpected_feedback         = True
@@ -478,6 +483,110 @@ class SDLFormatPreferences(PreferencesPreset):
     motions__show_motions_in_results           = True
     motions__motion_vetoes_enabled             = False
     motions__enable_motions                    = False
+
+    @classmethod
+    def configure_feedback_questions(cls, tournament):
+        from django.contrib.contenttypes.models import ContentType
+
+        from adjfeedback.models import AdjudicatorFeedbackQuestion
+
+        existing = AdjudicatorFeedbackQuestion.objects.filter(tournament=tournament)
+        existing_references = set(existing.values_list('reference', flat=True))
+        if existing_references and existing_references != {'agree', 'comments'}:
+            logger.info("Skipping SDL feedback question setup for %s because custom questions already exist", tournament)
+            return
+
+        content_type = ContentType.objects.get(app_label="adjfeedback", model="adjudicatorfeedback")
+        existing.delete()
+
+        scale_help = "1 - Úplne nesúhlasím, 10 - Úplne súhlasím"
+        questions = [
+            {
+                "seq": 1,
+                "text": "Súhlasíme s rozhodnutím",
+                "name": "Súhlas s rozhodnutím",
+                "reference": "suhlasime_s_rozhodnutim",
+                "from_team": True,
+                "from_adj": False,
+                "answer_type": AdjudicatorFeedbackQuestion.AnswerType.SINGLE_SELECT,
+                "choices": ["Áno", "Nie"],
+            },
+            {
+                "seq": 2,
+                "text": "Debatu sme",
+                "name": "Debatu sme",
+                "reference": "debatu_sme",
+                "from_team": True,
+                "from_adj": False,
+                "answer_type": AdjudicatorFeedbackQuestion.AnswerType.SINGLE_SELECT,
+                "choices": ["Vyhrali", "Prehrali"],
+            },
+            {
+                "seq": 3,
+                "text": "Rozhodnutie bolo podané jasne a zrozumiteľne",
+                "name": "Jasnosť rozhodnutia",
+                "reference": "rozhodnutie_jasne",
+                "from_team": True,
+                "from_adj": False,
+                "answer_type": AdjudicatorFeedbackQuestion.AnswerType.INTEGER_SCALE,
+                "min_value": 1,
+                "max_value": 10,
+                "help_text": scale_help,
+            },
+            {
+                "seq": 4,
+                "text": "Spätná väzba bola prínosná",
+                "name": "Prínos spätnej väzby",
+                "reference": "spatna_vazba_prinosna",
+                "from_team": True,
+                "from_adj": False,
+                "answer_type": AdjudicatorFeedbackQuestion.AnswerType.INTEGER_SCALE,
+                "min_value": 1,
+                "max_value": 10,
+                "help_text": scale_help,
+            },
+            {
+                "seq": 5,
+                "text": "Komentáre k rozhodnutiu",
+                "name": "Komentáre k rozhodnutiu",
+                "reference": "komentare_k_rozhodnutiu",
+                "from_team": True,
+                "from_adj": False,
+                "answer_type": AdjudicatorFeedbackQuestion.AnswerType.LONGTEXT,
+            },
+            {
+                "seq": 6,
+                "text": "Podusok",
+                "name": "Podusok",
+                "reference": "podusok",
+                "from_team": False,
+                "from_adj": True,
+                "answer_type": AdjudicatorFeedbackQuestion.AnswerType.SINGLE_SELECT,
+                "choices": ["Pozitívny", "Neutrálny", "Negatívny"],
+            },
+            {
+                "seq": 7,
+                "text": "Komentáre",
+                "name": "Komentáre",
+                "reference": "komentare_rozhodca",
+                "from_team": False,
+                "from_adj": True,
+                "answer_type": AdjudicatorFeedbackQuestion.AnswerType.LONGTEXT,
+                "required": False,
+            },
+        ]
+
+        for question in questions:
+            AdjudicatorFeedbackQuestion.objects.create(
+                tournament=tournament,
+                for_content_type=content_type,
+                required=question.pop("required", True),
+                min_value=question.pop("min_value", None),
+                max_value=question.pop("max_value", None),
+                choices=question.pop("choices", []),
+                help_text=question.pop("help_text", ""),
+                **question,
+            )
 
 
 class JDLFormatPreferences(SDLFormatPreferences):
@@ -599,4 +708,3 @@ class PublicForms(PreferencesPreset):
 
     data_entry__participant_ballots            = 'public'
     data_entry__participant_feedback           = 'public'
-

@@ -130,6 +130,7 @@ class TournamentConfigureForm(ModelForm):
         selected_index = self.cleaned_data["preset_rules"]
         selected_preset = next(p for p in presets if p.name == selected_index)
         selected_preset.save(t)
+        selected_preset.configure_feedback_questions(t)
 
         # Apply public info presets
         do_public = self.cleaned_data["public_info"]

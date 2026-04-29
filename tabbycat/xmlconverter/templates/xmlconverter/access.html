@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block head-title %}<span class="emoji">{{ page_emoji }}</span> {{ page_title }}{% endblock %}
+{% block page-title %}{{ page_title }}{% endblock %}
+
+{% block content %}
+  <div class="card mb-3">
+    <div class="card-body d-flex flex-column flex-md-row justify-content-between">
+      <div>
+        <h2 class="card-title mb-2">{% trans "Converter access" %}</h2>
+        <p class="text-muted mb-0">{% trans "Grant global access to the XML converter." %}</p>
+      </div>
+      <div class="mt-3 mt-md-0">
+        <a class="btn btn-outline-secondary" href="{% url 'xmlconverter-index' %}">
+          <i data-feather="arrow-left"></i> {% trans "Return to Converter" %}
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6 mb-3 mb-md-0">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="mb-0">{% trans "Grant converter access" %}</h4>
+        </div>
+        <form method="post" class="card-body">
+          {% csrf_token %}
+          {% include "components/form-field.html" with field=form.user %}
+          <div class="form-group">
+            <label>{{ form.permissions.label }}</label>
+            {{ form.permissions }}
+            {{ form.permissions.errors }}
+          </div>
+          <button class="btn btn-primary" type="submit">{% trans "Save access" %}</button>
+        </form>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="mb-0">{% trans "Current access" %}</h4>
+        </div>
+        <table class="table table-sm mb-0">
+          <thead>
+            <tr>
+              <th>{% trans "User" %}</th>
+              <th>{% trans "Permissions" %}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for user, permissions in access_rows %}
+              <tr>
+                <td>{{ user }}</td>
+                <td>{{ permissions|join:", " }}</td>
+              </tr>
+            {% empty %}
+              <tr>
+                <td colspan="2" class="text-muted">{% trans "No users have explicit converter access yet." %}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

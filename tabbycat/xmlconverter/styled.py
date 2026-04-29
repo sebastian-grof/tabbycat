@@ -188,6 +188,48 @@ def copy_style_block_from_snapshot(style_map: dict[str, str], sheet_root: ET.Ele
         copy_cell_style_from_snapshot(style_map, sheet_root, f"{source_col}{source_row}", f"{target_col}{target_row}")
 
 
+def set_explicit_column_widths(sheet_root: ET.Element, widths: dict[int, float]) -> None:
+    cols = sheet_root.find(q("cols"))
+    if cols is None:
+        cols = ET.Element(q("cols"))
+        sheet_data = get_sheet_data(sheet_root)
+        children = list(sheet_root)
+        sheet_root.insert(children.index(sheet_data), cols)
+
+    existing: dict[int, dict[str, str]] = {}
+    max_col = max(widths.keys(), default=0)
+    for col in cols.findall(q("col")):
+        min_col = int(col.attrib.get("min", "1"))
+        max_col_attr = int(col.attrib.get("max", str(min_col)))
+        max_col = max(max_col, max_col_attr)
+        for col_no in range(min_col, max_col_attr + 1):
+            existing[col_no] = {key: value for key, value in col.attrib.items() if key not in {"min", "max"}}
+
+    for col_no, width in widths.items():
+        attrs = existing.setdefault(col_no, {})
+        attrs["width"] = str(width)
+        attrs["customWidth"] = "1"
+
+    for child in list(cols):
+        cols.remove(child)
+
+    previous_attrs = None
+    start_col = 1
+    for col_no in range(1, max_col + 1):
+        attrs = existing.get(col_no, {}).copy()
+        if previous_attrs is None:
+            previous_attrs = attrs
+            start_col = col_no
+            continue
+        if attrs != previous_attrs:
+            if previous_attrs:
+                ET.SubElement(cols, q("col"), {"min": str(start_col), "max": str(col_no - 1), **previous_attrs})
+            start_col = col_no
+            previous_attrs = attrs
+    if previous_attrs:
+        ET.SubElement(cols, q("col"), {"min": str(start_col), "max": str(max_col), **previous_attrs})
+
+
 def remove_row_cells(sheet_root: ET.Element, row_no: int, start_col: int, end_col: int) -> None:
     sheet_data = get_sheet_data(sheet_root)
     row = sheet_data.find(f"m:row[@r='{row_no}']", NS)
@@ -458,7 +500,11 @@ def fill_debaty_sheet(sheet_root: ET.Element, title: str, subtitle: str, rounds:
         copy_row_styles_from_snapshot(style_map, sheet_root, prototype_round_row, current_round_row, 1, max_col)
         copy_row_styles_from_snapshot(style_map, sheet_root, prototype_header_row, header_row, 1, max_col)
         for offset in range(data_rows):
-            copy_row_styles_from_snapshot(style_map, sheet_root, prototype_data_row, data_start_row + offset, 1, max_col)
+            row_no = data_start_row + offset
+            copy_row_styles_from_snapshot(style_map, sheet_root, prototype_data_row, row_no, 1, max_col)
+            copy_cell_style_from_snapshot(style_map, sheet_root, f"F{prototype_data_row}", f"G{row_no}")
+            if len(round_numbers) == 2:
+                copy_cell_style_from_snapshot(style_map, sheet_root, f"M{prototype_data_row}", f"N{row_no}")
 
         block_specs = [
             {"round_no": round_numbers[0], "round_col": "A", "motion_col": "B", "cols": ["B", "C", "D", "E", "F", "G"]},
@@ -556,6 +602,14 @@ def fill_body_sheet(sheet_root: ET.Element, title: str, subtitle: str, rounds: l
     summary_end_col = summary_start_col + 5
     max_col = summary_end_col
     last_col = col_ref(max_col)
+    set_explicit_column_widths(sheet_root, {
+        summary_start_col: 3.33203125,
+        summary_start_col + 1: 3.33203125,
+        summary_start_col + 2: 10.6640625,
+        summary_start_col + 3: 10.44140625,
+        summary_start_col + 4: 10.44140625,
+        summary_start_col + 5: 12.5,
+    })
 
     merges = [f"A1:{last_col}6", "A8:G8", f"A9:{last_col}9", f"A10:{last_col}10", f"D11:{last_col}11"]
     set_cell_value(sheet_root, "B13", "Tím")

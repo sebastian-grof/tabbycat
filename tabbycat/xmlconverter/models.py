@@ -7,6 +7,7 @@ from utils.models import UniqueConstraint
 
 class ConverterPermission(models.TextChoices):
     USE = 'use.converter', _('use converter')
+    MANAGE_ACCESS = 'manage.converter_access', _('manage converter access')
 
 
 class GlobalConverterPermission(models.Model):

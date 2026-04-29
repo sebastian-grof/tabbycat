@@ -21,6 +21,8 @@ class TeamInfo:
     name: str
     code: str
     speakers: list[tuple[str, str]] = field(default_factory=list)
+    institution_names: list[str] = field(default_factory=list)
+    institution_references: list[str] = field(default_factory=list)
 
 
 @dataclass
@@ -153,7 +155,17 @@ def format_number(value: float | int | None, digits: int = 2) -> float | int | s
 
 
 def team_display(team: TeamInfo) -> str:
-    return team.name or team.code or team.team_id
+    name = team.name or team.code or team.team_id
+    for institution_name, institution_reference in zip(team.institution_names, team.institution_references):
+        if not institution_name or not institution_reference:
+            continue
+        normalized_name = name.casefold()
+        normalized_institution = institution_name.casefold()
+        if not normalized_name.startswith(normalized_institution):
+            continue
+        suffix = name[len(institution_name):].strip(" -–—")
+        return f"{institution_reference} {suffix}".strip()
+    return name
 
 
 def adjudicator_short(name: str) -> str:
@@ -278,16 +290,33 @@ def parse_debatexml(xml_source: Path | str | BinaryIO, source_name: str | None =
     adjudicators: dict[str, AdjudicatorInfo] = {}
     venues: dict[str, str] = {}
     motions: dict[str, str] = {}
+    institution_names = {
+        institution.attrib["id"]: (institution.text or "").strip()
+        for institution in root.findall("institution")
+    }
+    institution_references = {
+        institution.attrib["id"]: institution.attrib.get("reference", "").strip()
+        for institution in root.findall("institution")
+    }
 
     participants = root.find("participants")
     if participants is not None:
         for node in participants:
             if node.tag == "team":
+                speakers = node.findall("speaker")
+                institution_ids = list(dict.fromkeys(
+                    institution_id
+                    for speaker in speakers
+                    for institution_id in speaker.attrib.get("institutions", "").split()
+                    if institution_id
+                ))
                 teams[node.attrib["id"]] = TeamInfo(
                     team_id=node.attrib["id"],
                     name=node.attrib.get("name", ""),
                     code=node.attrib.get("code", ""),
-                    speakers=[(speaker.attrib["id"], (speaker.text or "").strip()) for speaker in node.findall("speaker")],
+                    speakers=[(speaker.attrib["id"], (speaker.text or "").strip()) for speaker in speakers],
+                    institution_names=[institution_names[institution_id] for institution_id in institution_ids if institution_id in institution_names],
+                    institution_references=[institution_references[institution_id] for institution_id in institution_ids if institution_id in institution_references],
                 )
             elif node.tag == "adjudicator":
                 score_value = node.attrib.get("score")
