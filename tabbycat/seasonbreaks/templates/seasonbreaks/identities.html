@@ -7,168 +7,69 @@
       <div>
         <h3 class="mb-1">{% trans "Identity management" %}</h3>
         <p class="text-muted mb-md-0">
-          {% trans "Connect tournament teams, speakers and adjudicators to season identities used by qualification calculations." %}
+          {% trans "Choose a category first, then choose the source tournament. This keeps mapping work scoped and avoids one giant list." %}
         </p>
       </div>
-      <div class="text-md-right mt-3 mt-md-0">
-        <span class="badge badge-primary p-2">{{ teams|length }} {% trans "team identities" %}</span>
-        <span class="badge badge-info p-2">{{ speakers|length }} {% trans "speaker identities" %}</span>
-        <span class="badge badge-secondary p-2">{{ adjudicators|length }} {% trans "adjudicator identities" %}</span>
-      </div>
+      <span class="badge badge-light p-2 mt-3 mt-md-0">{% trans "Season identity hub" %}</span>
     </div>
   </div>
 
-  {% if can_edit_breaks %}
-    <div class="row mb-3">
-      <div class="col-lg-4 mb-3">
-        <div class="card h-100 border-left border-primary shadow-sm">
-          <div class="card-header bg-white"><h5 class="mb-0">{% trans "Create team identity" %}</h5></div>
-          <form method="post" class="card-body">
-            {% csrf_token %}
-            <input type="hidden" name="action" value="create_team">
-            {% include "components/form-field.html" with field=team_form.name %}
-            {% include "components/form-field.html" with field=team_form.institution %}
-            {% include "components/form-field.html" with field=team_form.region %}
-            <button class="btn btn-primary btn-block" type="submit">{% trans "Create team identity" %}</button>
-          </form>
+  <div class="row">
+    <div class="col-lg-4 mb-3">
+      <a class="card h-100 border-left border-primary shadow-sm text-reset text-decoration-none"
+          href="{% url 'seasonbreaks-identities-teams' season_slug=season.slug %}">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-start">
+            <div>
+              <h4 class="mb-1">{% trans "Teams" %}</h4>
+              <p class="text-muted mb-3">{% trans "Link tournament teams to season team identities." %}</p>
+            </div>
+            <span class="h3 text-primary mb-0">T</span>
+          </div>
+          <div class="d-flex justify-content-between small text-muted">
+            <span>{{ team_identity_count }} {% trans "identities" %}</span>
+            <span>{{ team_link_count }} {% trans "links" %}</span>
+          </div>
         </div>
-      </div>
-      <div class="col-lg-4 mb-3">
-        <div class="card h-100 border-left border-info shadow-sm">
-          <div class="card-header bg-white"><h5 class="mb-0">{% trans "Create speaker identity" %}</h5></div>
-          <form method="post" class="card-body">
-            {% csrf_token %}
-            <input type="hidden" name="action" value="create_speaker">
-            {% include "components/form-field.html" with field=speaker_form.name %}
-            {% include "components/form-field.html" with field=speaker_form.email %}
-            <button class="btn btn-info btn-block" type="submit">{% trans "Create speaker identity" %}</button>
-          </form>
+      </a>
+    </div>
+
+    <div class="col-lg-4 mb-3">
+      <a class="card h-100 border-left border-info shadow-sm text-reset text-decoration-none"
+          href="{% url 'seasonbreaks-identities-speakers' season_slug=season.slug %}">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-start">
+            <div>
+              <h4 class="mb-1">{% trans "Speakers" %}</h4>
+              <p class="text-muted mb-3">{% trans "Link tournament speakers to season speaker identities." %}</p>
+            </div>
+            <span class="h3 text-info mb-0">S</span>
+          </div>
+          <div class="d-flex justify-content-between small text-muted">
+            <span>{{ speaker_identity_count }} {% trans "identities" %}</span>
+            <span>{{ speaker_link_count }} {% trans "links" %}</span>
+          </div>
         </div>
-      </div>
-      <div class="col-lg-4 mb-3">
-        <div class="card h-100 border-left border-secondary shadow-sm">
-          <div class="card-header bg-white"><h5 class="mb-0">{% trans "Create adjudicator identity" %}</h5></div>
-          <form method="post" class="card-body">
-            {% csrf_token %}
-            <input type="hidden" name="action" value="create_adjudicator">
-            {% include "components/form-field.html" with field=adjudicator_form.name %}
-            {% include "components/form-field.html" with field=adjudicator_form.email %}
-            {% include "components/form-field.html" with field=adjudicator_form.institution %}
-            <button class="btn btn-secondary btn-block" type="submit">{% trans "Create adjudicator identity" %}</button>
-          </form>
+      </a>
+    </div>
+
+    <div class="col-lg-4 mb-3">
+      <a class="card h-100 border-left border-secondary shadow-sm text-reset text-decoration-none"
+          href="{% url 'seasonbreaks-identities-adjudicators' season_slug=season.slug %}">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-start">
+            <div>
+              <h4 class="mb-1">{% trans "Adjudicators" %}</h4>
+              <p class="text-muted mb-3">{% trans "Link tournament adjudicators to season adjudicator identities." %}</p>
+            </div>
+            <span class="h3 text-secondary mb-0">A</span>
+          </div>
+          <div class="d-flex justify-content-between small text-muted">
+            <span>{{ adjudicator_identity_count }} {% trans "identities" %}</span>
+            <span>{{ adjudicator_link_count }} {% trans "links" %}</span>
+          </div>
         </div>
-      </div>
+      </a>
     </div>
-  {% endif %}
-
-  <div class="card shadow-sm mb-3" id="teams">
-    <div class="card-header bg-white d-flex justify-content-between align-items-center">
-      <h4 class="mb-0">{% trans "Team links" %}</h4>
-      <span class="text-muted small">{% trans "Tournament team → season team" %}</span>
-    </div>
-    <table class="table table-hover table-sm mb-0">
-      <thead><tr><th>{% trans "Tournament team" %}</th><th>{% trans "Tournament" %}</th><th>{% trans "Season identity" %}</th></tr></thead>
-      <tbody>
-        {% for link in team_links %}
-          <tr>
-            <td><strong>{{ link.team.short_name }}</strong></td>
-            <td>{{ link.team.tournament }}</td>
-            <td>
-              {% if can_edit_breaks %}
-                <form method="post" class="form-inline">
-                  {% csrf_token %}
-                  <input type="hidden" name="action" value="update_team_link">
-                  <input type="hidden" name="link" value="{{ link.id }}">
-                  <select name="break_team" class="form-control form-control-sm mr-2 flex-grow-1">
-                    {% for team in teams %}
-                      <option value="{{ team.id }}" {% if team.id == link.break_team_id %}selected{% endif %}>{{ team.name }}</option>
-                    {% endfor %}
-                  </select>
-                  <button class="btn btn-sm btn-outline-primary" type="submit">{% trans "Save" %}</button>
-                </form>
-              {% else %}
-                {{ link.break_team.name }}
-              {% endif %}
-            </td>
-          </tr>
-        {% empty %}
-          <tr><td colspan="3" class="text-muted">{% trans "Freeze a tournament to create team links." %}</td></tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
-
-  <div class="card shadow-sm mb-3" id="speakers">
-    <div class="card-header bg-white d-flex justify-content-between align-items-center">
-      <h4 class="mb-0">{% trans "Speaker links" %}</h4>
-      <span class="text-muted small">{% trans "Tournament speaker → season speaker" %}</span>
-    </div>
-    <table class="table table-hover table-sm mb-0">
-      <thead><tr><th>{% trans "Tournament speaker" %}</th><th>{% trans "Team" %}</th><th>{% trans "Season identity" %}</th></tr></thead>
-      <tbody>
-        {% for link in speaker_links %}
-          <tr>
-            <td><strong>{{ link.speaker.name }}</strong></td>
-            <td>{{ link.speaker.team.tournament }} · {{ link.speaker.team.short_name }}</td>
-            <td>
-              {% if can_edit_breaks %}
-                <form method="post" class="form-inline">
-                  {% csrf_token %}
-                  <input type="hidden" name="action" value="update_speaker_link">
-                  <input type="hidden" name="link" value="{{ link.id }}">
-                  <select name="break_speaker" class="form-control form-control-sm mr-2 flex-grow-1">
-                    {% for speaker in speakers %}
-                      <option value="{{ speaker.id }}" {% if speaker.id == link.break_speaker_id %}selected{% endif %}>{{ speaker.name }}{% if speaker.email %} · {{ speaker.email }}{% endif %}</option>
-                    {% endfor %}
-                  </select>
-                  <button class="btn btn-sm btn-outline-info" type="submit">{% trans "Save" %}</button>
-                </form>
-              {% else %}
-                {{ link.break_speaker.name }}
-              {% endif %}
-            </td>
-          </tr>
-        {% empty %}
-          <tr><td colspan="3" class="text-muted">{% trans "Freeze a tournament to create speaker links." %}</td></tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
-
-  <div class="card shadow-sm mb-3" id="adjudicators">
-    <div class="card-header bg-white d-flex justify-content-between align-items-center">
-      <h4 class="mb-0">{% trans "Adjudicator links" %}</h4>
-      <span class="text-muted small">{% trans "Tournament adjudicator → season adjudicator" %}</span>
-    </div>
-    <table class="table table-hover table-sm mb-0">
-      <thead><tr><th>{% trans "Tournament adjudicator" %}</th><th>{% trans "Tournament" %}</th><th>{% trans "Season identity" %}</th></tr></thead>
-      <tbody>
-        {% for link in adjudicator_links %}
-          <tr>
-            <td><strong>{{ link.adjudicator.name }}</strong></td>
-            <td>{{ link.adjudicator.tournament|default:"Shared" }}</td>
-            <td>
-              {% if can_edit_breaks %}
-                <form method="post" class="form-inline">
-                  {% csrf_token %}
-                  <input type="hidden" name="action" value="update_adjudicator_link">
-                  <input type="hidden" name="link" value="{{ link.id }}">
-                  <select name="break_adjudicator" class="form-control form-control-sm mr-2 flex-grow-1">
-                    {% for adjudicator in adjudicators %}
-                      <option value="{{ adjudicator.id }}" {% if adjudicator.id == link.break_adjudicator_id %}selected{% endif %}>{{ adjudicator.name }}{% if adjudicator.email %} · {{ adjudicator.email }}{% endif %}</option>
-                    {% endfor %}
-                  </select>
-                  <button class="btn btn-sm btn-outline-secondary" type="submit">{% trans "Save" %}</button>
-                </form>
-              {% else %}
-                {{ link.break_adjudicator.name }}
-              {% endif %}
-            </td>
-          </tr>
-        {% empty %}
-          <tr><td colspan="3" class="text-muted">{% trans "Freeze a tournament to create adjudicator links." %}</td></tr>
-        {% endfor %}
-      </tbody>
-    </table>
   </div>
 {% endblock %}

@@ -9,7 +9,7 @@
         <p class="text-muted mb-md-0">{% trans "These are the season-level team identities used for ranking and eligibility." %}</p>
       </div>
       {% if can_edit_breaks %}
-        <a class="btn btn-outline-primary mt-3 mt-md-0" href="{% url 'seasonbreaks-identities' season_slug=season.slug %}#teams">
+        <a class="btn btn-outline-primary mt-3 mt-md-0" href="{% url 'seasonbreaks-identities-teams' season_slug=season.slug %}">
           {% trans "Manage team identities" %}
         </a>
       {% endif %}

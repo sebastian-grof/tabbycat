@@ -9,7 +9,7 @@
         <p class="text-muted mb-md-0">{% trans "Season totals from confirmed preliminary debates, grouped by adjudicator identity." %}</p>
       </div>
       {% if can_edit_breaks %}
-        <a class="btn btn-outline-secondary mt-3 mt-md-0" href="{% url 'seasonbreaks-identities' season_slug=season.slug %}#adjudicators">
+        <a class="btn btn-outline-secondary mt-3 mt-md-0" href="{% url 'seasonbreaks-identities-adjudicators' season_slug=season.slug %}">
           {% trans "Manage adjudicator identities" %}
         </a>
       {% endif %}

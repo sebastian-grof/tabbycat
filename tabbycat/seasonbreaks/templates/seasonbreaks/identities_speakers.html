@@ -1,0 +1,108 @@
+{% extends "seasonbreaks/base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <div class="card border-0 shadow-sm mb-3">
+    <div class="card-body d-md-flex justify-content-between align-items-center">
+      <div>
+        <h3 class="mb-1">{% trans "Speaker identities" %}</h3>
+        <p class="text-muted mb-md-0">{% trans "Choose a source tournament, then repair only that tournament's speaker links." %}</p>
+      </div>
+      <a class="btn btn-outline-secondary mt-3 mt-md-0" href="{% url 'seasonbreaks-identities' season_slug=season.slug %}">
+        {% trans "Back to identity categories" %}
+      </a>
+    </div>
+  </div>
+
+  {% if can_edit_breaks %}
+    <div class="card shadow-sm mb-3">
+      <div class="card-header bg-white">
+        <h5 class="mb-0">{% trans "Create speaker identity" %}</h5>
+      </div>
+      <form method="post" class="card-body">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="create_speaker">
+        <input type="hidden" name="source" value="{{ selected_source|default:'' }}">
+        <div class="form-row">
+          <div class="col-md-5">{% include "components/form-field.html" with field=speaker_form.name %}</div>
+          <div class="col-md-5">{% include "components/form-field.html" with field=speaker_form.email %}</div>
+          <div class="col-md-2 d-flex align-items-end">
+            <button class="btn btn-info btn-block mb-3" type="submit">{% trans "Create" %}</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  {% endif %}
+
+  <div class="card shadow-sm mb-3">
+    <div class="card-header bg-white">
+      <h5 class="mb-0">{% trans "Choose tournament" %}</h5>
+    </div>
+    <div class="card-body">
+      {% for group in source_groups %}
+        <a class="btn {% if selected_source == group.source_key %}btn-info{% else %}btn-outline-info{% endif %} mb-2 mr-2"
+            href="{% url 'seasonbreaks-identities-speakers' season_slug=season.slug %}?source={{ group.source_key }}">
+          {{ group.title }}
+          <span class="badge {% if selected_source == group.source_key %}badge-light{% else %}badge-info{% endif %} ml-1">
+            {{ group.links|length }}
+          </span>
+        </a>
+      {% empty %}
+        <span class="text-muted">{% trans "Freeze a tournament to create speaker links." %}</span>
+      {% endfor %}
+    </div>
+  </div>
+
+  {% if selected_group %}
+    <div class="card shadow-sm">
+      <div class="card-header bg-white d-md-flex justify-content-between align-items-center">
+        <h4 class="mb-0">{{ selected_group.title }}</h4>
+        <span class="text-muted small">{% trans "Tournament speaker to season speaker" %}</span>
+      </div>
+      <table class="table table-hover table-sm mb-0">
+        <thead>
+          <tr>
+            <th>{% trans "Tournament speaker" %}</th>
+            <th>{% trans "Tournament team" %}</th>
+            <th>{% trans "Season identity" %}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for link in selected_group.links %}
+            <tr>
+              <td>
+                <strong>{{ link.speaker.name }}</strong>
+                {% if link.speaker.email %}
+                  <span class="text-muted">- {{ link.speaker.email }}</span>
+                {% endif %}
+              </td>
+              <td>{{ link.speaker.team.short_name }}</td>
+              <td>
+                {% if can_edit_breaks %}
+                  <form method="post" class="form-inline">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="update_speaker_link">
+                    <input type="hidden" name="link" value="{{ link.id }}">
+                    <input type="hidden" name="source" value="{{ selected_source }}">
+                    <select name="break_speaker" class="form-control form-control-sm mr-2 flex-grow-1">
+                      {% for speaker in speakers %}
+                        <option value="{{ speaker.id }}" {% if speaker.id == link.break_speaker_id %}selected{% endif %}>
+                          {{ speaker.name }}{% if speaker.email %} - {{ speaker.email }}{% endif %}
+                        </option>
+                      {% endfor %}
+                    </select>
+                    <button class="btn btn-sm btn-outline-info" type="submit">{% trans "Save" %}</button>
+                  </form>
+                {% else %}
+                  {{ link.break_speaker.name }}
+                {% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% elif source_groups %}
+    <div class="alert alert-info">{% trans "Pick a tournament above to edit its speaker links." %}</div>
+  {% endif %}
+{% endblock %}
