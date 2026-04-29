@@ -2,7 +2,7 @@ from django.contrib import admin
 
 from utils.admin import ModelAdmin
 
-from .models import Round, ScheduleEvent, Tournament
+from .models import Round, ScheduleEvent, Tournament, TournamentCategory
 
 
 # ==============================================================================
@@ -11,8 +11,16 @@ from .models import Round, ScheduleEvent, Tournament
 
 @admin.register(Tournament)
 class TournamentAdmin(ModelAdmin):
-    list_display = ('name', 'slug', 'seq', 'short_name', 'current_round', 'active')
-    ordering = ('seq', )
+    list_display = ('name', 'slug', 'homepage_category', 'seq', 'short_name', 'current_round', 'active')
+    list_filter = ('homepage_category', 'active')
+    ordering = ('homepage_category__seq', 'seq', )
+
+
+@admin.register(TournamentCategory)
+class TournamentCategoryAdmin(ModelAdmin):
+    list_display = ('name', 'slug', 'seq', 'active')
+    list_editable = ('seq', 'active')
+    ordering = ('seq', 'name')
 
 
 # ==============================================================================

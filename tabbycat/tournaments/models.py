@@ -6,6 +6,7 @@ from django.db import models
 from django.db.models import Count, F, Prefetch, Q
 from django.urls import reverse
 from django.utils.functional import cached_property
+from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 
 from draw.types import DebateSide
@@ -19,8 +20,8 @@ logger = logging.getLogger(__name__)
 PROHIBITED_TOURNAMENT_SLUGS = [
     'jet', 'database', 'admin', 'accounts', 'summernote',  # System
     'start', 'create', 'load-demo', # Setup Wizards
-    'tournament', 'notifications', 'archive', 'api', 'breaks', 'converter', # Cross-Tournament app's view roots
-    'favicon.ico', 'robots.txt', 'navigatorPush.service.js' # Files that must be at top level
+    'tournament', 'notifications', 'archive', 'api', 'breaks', 'converter', 'categories', # Cross-Tournament app's view roots
+    'favicon.ico', 'robots.txt', 'navigatorPush.service.js', # Files that must be at top level
     '__debug__', 'static', 'style', 'i18n', 'jsi18n']  # Misc
 
 
@@ -29,6 +30,36 @@ def validate_tournament_slug(value):
         raise ValidationError(_("You can't use this as a tournament slug, "
             "because it's reserved for a Tabbycat system URL. Please try "
             "another one."))
+
+
+class TournamentCategory(models.Model):
+    name = models.CharField(max_length=100, verbose_name=_("name"))
+    slug = models.SlugField(unique=True, blank=True, verbose_name=_("slug"))
+    description = models.CharField(max_length=255, blank=True, verbose_name=_("description"))
+    seq = models.IntegerField(blank=True, null=True, verbose_name=_("sequence number"))
+    active = models.BooleanField(default=True, verbose_name=_("active"))
+
+    class Meta:
+        verbose_name = _("tournament category")
+        verbose_name_plural = _("tournament categories")
+        ordering = ["seq", "name"]
+
+    def __str__(self):
+        return self.name
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            base_slug = slugify(self.name) or "category"
+            slug = base_slug
+            counter = 2
+            while TournamentCategory.objects.exclude(pk=self.pk).filter(slug=slug).exists():
+                slug = f"{base_slug}-{counter}"
+                counter += 1
+            self.slug = slug
+        return super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse("tournament-category", kwargs={"category_slug": self.slug})
 
 
 class Tournament(models.Model):
@@ -45,6 +76,8 @@ class Tournament(models.Model):
         verbose_name=_("slug"),
         help_text=_("The sub-URL of the tournament, cannot have spaces, e.g. \"australs2016\""))
     active = models.BooleanField(verbose_name=_("active"), default=True)
+    homepage_category = models.ForeignKey(TournamentCategory, models.SET_NULL, blank=True, null=True,
+        related_name="tournaments", verbose_name=_("homepage category"))
 
     class Meta:
         verbose_name = _('tournament')

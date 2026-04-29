@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block head-title %}<span class="emoji">🗂</span> {{ category.name }}{% endblock %}
+{% block page-title %}{{ category.name }}{% endblock %}
+{% block page-subnav-sections %}{% endblock %}
+
+{% block content %}
+
+  <div class="card mb-3">
+    <div class="card-body d-flex flex-column flex-md-row justify-content-between">
+      <div>
+        <h2 class="card-title mb-2">{{ category.name }}</h2>
+        {% if category.description %}
+          <p class="text-muted mb-0">{{ category.description }}</p>
+        {% else %}
+          <p class="text-muted mb-0">{% trans "Tournaments in this category." %}</p>
+        {% endif %}
+      </div>
+      <div class="mt-3 mt-md-0">
+        <a class="btn btn-outline-secondary" href="{% url 'tabbycat-index' %}">
+          <i data-feather="arrow-left"></i> {% trans "Return to Home" %}
+        </a>
+      </div>
+    </div>
+  </div>
+
+  {% for tournament in tournaments %}
+    {% include "tournament_index_links.html" %}
+  {% empty %}
+    <div class="list-group">
+      {% trans "There are no active tournaments in this category." as p1 %}
+      {% include "components/explainer-card.html" with type="info" %}
+    </div>
+  {% endfor %}
+
+  {% if inactive %}
+    <div class="list-group mt-3">
+      {% trans '(inactive)' as inactive_subtext %}
+      {% for tournament in inactive %}
+        {% include "tournament_index_links.html" with type="dark" subtext=inactive_subtext %}
+      {% endfor %}
+    </div>
+  {% endif %}
+
+{% endblock content %}

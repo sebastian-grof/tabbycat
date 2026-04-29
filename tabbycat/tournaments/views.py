@@ -6,7 +6,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.db.models import Count, Q
-from django.shortcuts import redirect, resolve_url
+from django.shortcuts import get_object_or_404, redirect, resolve_url
 from django.utils.html import format_html_join
 from django.utils.timezone import get_current_timezone_name
 from django.utils.translation import gettext_lazy as _
@@ -28,10 +28,10 @@ from utils.tables import TabbycatTableBuilder
 from utils.views import ModelFormSetView, PostOnlyRedirectView, VueTableTemplateView
 
 from .forms import (RoundWeightForm, ScheduleEventForm, SetCurrentRoundMultipleBreakCategoriesForm,
-                    SetCurrentRoundSingleBreakCategoryForm, TournamentConfigureForm,
-                    TournamentStartForm)
+                    SetCurrentRoundSingleBreakCategoryForm, TournamentCategoryAssignmentForm,
+                    TournamentCategoryFormSet, TournamentConfigureForm, TournamentStartForm)
 from .mixins import PublicTournamentPageMixin, RoundMixin, TournamentMixin
-from .models import ScheduleEvent, Tournament
+from .models import ScheduleEvent, Tournament, TournamentCategory
 from .utils import get_side_name
 
 User = get_user_model()
@@ -55,9 +55,67 @@ class PublicSiteIndexView(WarnAboutDatabaseUseMixin, WarnAboutLegacySendgridConf
             return super().get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
-        kwargs['tournaments'] = Tournament.objects.filter(active=True)
-        kwargs['inactive'] = Tournament.objects.filter(active=False)
+        category_queryset = TournamentCategory.objects.filter(active=True).annotate(
+            active_tournament_count=Count('tournaments', filter=Q(tournaments__active=True)),
+        ).filter(active_tournament_count__gt=0).order_by('seq', 'name')
+        kwargs['tournament_categories'] = category_queryset
+        kwargs['tournaments'] = Tournament.objects.filter(active=True, homepage_category__isnull=True)
+        kwargs['inactive'] = Tournament.objects.filter(active=False, homepage_category__isnull=True)
+        kwargs['has_inactive'] = kwargs['inactive'].exists()
         return super().get_context_data(**kwargs)
+
+
+class TournamentCategoryLandingView(WarnAboutDatabaseUseMixin, WarnAboutLegacySendgridConfigVarsMixin, TemplateView):
+    template_name = 'tournament_category.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        queryset = TournamentCategory.objects.all()
+        if not request.user.is_superuser:
+            queryset = queryset.filter(active=True)
+        self.category = get_object_or_404(queryset, slug=kwargs['category_slug'])
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        kwargs['category'] = self.category
+        kwargs['tournaments'] = self.category.tournaments.filter(active=True).order_by('seq', 'name')
+        kwargs['inactive'] = self.category.tournaments.filter(active=False).order_by('seq', 'name')
+        return super().get_context_data(**kwargs)
+
+
+class TournamentCategoryManageView(AdministratorMixin, TemplateView):
+    template_name = 'tournament_category_manage.html'
+    page_title = _('Tournament categories')
+    page_emoji = '🗂'
+
+    def get_context_data(self, **kwargs):
+        kwargs.setdefault('page_title', self.page_title)
+        kwargs.setdefault('page_emoji', self.page_emoji)
+        kwargs.setdefault('category_formset', TournamentCategoryFormSet(
+            queryset=TournamentCategory.objects.order_by('seq', 'name'),
+            prefix='categories',
+        ))
+        kwargs.setdefault('assignment_form', TournamentCategoryAssignmentForm(prefix='assignments'))
+        return super().get_context_data(**kwargs)
+
+    def post(self, request, *args, **kwargs):
+        if 'save_categories' in request.POST:
+            category_formset = TournamentCategoryFormSet(
+                request.POST,
+                queryset=TournamentCategory.objects.order_by('seq', 'name'),
+                prefix='categories',
+            )
+            if category_formset.is_valid():
+                category_formset.save()
+                messages.success(request, _("Tournament categories updated."))
+                return redirect('tournament-category-manage')
+            return self.render_to_response(self.get_context_data(category_formset=category_formset))
+
+        assignment_form = TournamentCategoryAssignmentForm(request.POST, prefix='assignments')
+        if assignment_form.is_valid():
+            assignment_form.save()
+            messages.success(request, _("Tournament category assignments updated."))
+            return redirect('tournament-category-manage')
+        return self.render_to_response(self.get_context_data(assignment_form=assignment_form))
 
 
 class TournamentPublicHomeView(CacheMixin, TournamentMixin, TemplateView):

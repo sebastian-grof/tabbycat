@@ -1,6 +1,6 @@
 from django.contrib.contenttypes.models import ContentType
 from django.core.cache import cache
-from django.forms import CharField, ChoiceField, DateTimeInput, Form, HiddenInput, ModelChoiceField, ModelForm
+from django.forms import CharField, ChoiceField, DateTimeInput, Form, HiddenInput, ModelChoiceField, ModelForm, modelformset_factory
 from django.forms.fields import IntegerField, NumberInput
 from django.forms.models import ModelChoiceIterator
 from django.utils.html import escape
@@ -16,9 +16,54 @@ from options.presets import all_presets, data_entry_presets_for_form, presets_fo
 from users.groups import all_groups
 from users.models import Group
 
-from .models import Round, ScheduleEvent, Tournament
+from .models import Round, ScheduleEvent, Tournament, TournamentCategory
 from .signals import update_tournament_cache
 from .utils import auto_make_rounds
+
+
+class TournamentCategoryForm(ModelForm):
+
+    class Meta:
+        model = TournamentCategory
+        fields = ('name', 'slug', 'description', 'seq', 'active')
+
+
+TournamentCategoryFormSet = modelformset_factory(
+    TournamentCategory,
+    form=TournamentCategoryForm,
+    extra=1,
+    can_delete=True,
+)
+
+
+class TournamentCategoryAssignmentForm(Form):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.categories = list(TournamentCategory.objects.order_by('seq', 'name'))
+        self.tournaments = list(Tournament.objects.select_related('homepage_category').order_by(
+            '-active', 'homepage_category__seq', 'seq', 'name'))
+        choices = [('', _("Uncategorised"))] + [(category.id, category.name) for category in self.categories]
+
+        for tournament in self.tournaments:
+            self.fields[self.field_name(tournament)] = ChoiceField(
+                choices=choices,
+                required=False,
+                label=str(tournament),
+                initial=tournament.homepage_category_id or '',
+            )
+
+    @staticmethod
+    def field_name(tournament):
+        return f"tournament_{tournament.id}"
+
+    def save(self):
+        for tournament in self.tournaments:
+            value = self.cleaned_data[self.field_name(tournament)]
+            category_id = int(value) if value else None
+            if tournament.homepage_category_id != category_id:
+                tournament.homepage_category_id = category_id
+                tournament.save(update_fields=['homepage_category'])
 
 
 class TournamentStartForm(ModelForm):

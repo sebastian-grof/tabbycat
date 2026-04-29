@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block head-title %}<span class="emoji">{{ page_emoji }}</span> {{ page_title }}{% endblock %}
+{% block page-title %}{{ page_title }}{% endblock %}
+
+{% block content %}
+  <div class="card mb-3">
+    <div class="card-body d-flex flex-column flex-md-row justify-content-between">
+      <div>
+        <h2 class="card-title mb-2">{% trans "Tournament categories" %}</h2>
+        <p class="text-muted mb-0">{% trans "Create homepage categories and assign tournaments to their category landing pages." %}</p>
+      </div>
+      <div class="mt-3 mt-md-0">
+        <a class="btn btn-outline-secondary" href="{% url 'tabbycat-index' %}">
+          <i data-feather="arrow-left"></i> {% trans "Return to Home" %}
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-7 mb-3 mb-lg-0">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="mb-0">{% trans "Categories" %}</h4>
+        </div>
+        <form method="post" class="card-body">
+          {% csrf_token %}
+          {{ category_formset.management_form }}
+          {% if category_formset.non_form_errors %}{{ category_formset.non_form_errors }}{% endif %}
+
+          {% for form in category_formset %}
+            <div class="border rounded p-3 mb-3">
+              {% for hidden in form.hidden_fields %}{{ hidden }}{% endfor %}
+              <div class="row">
+                <div class="col-md-5">
+                  {% include "components/form-field.html" with field=form.name %}
+                </div>
+                <div class="col-md-4">
+                  {% include "components/form-field.html" with field=form.slug %}
+                </div>
+                <div class="col-md-3">
+                  {% include "components/form-field.html" with field=form.seq %}
+                </div>
+              </div>
+              {% include "components/form-field.html" with field=form.description %}
+              <div class="d-flex flex-wrap align-items-center">
+                <div class="form-check mr-4 mb-2">
+                  {{ form.active }}
+                  <label class="form-check-label" for="{{ form.active.id_for_label }}">{{ form.active.label }}</label>
+                  {{ form.active.errors }}
+                </div>
+                {% if form.DELETE %}
+                  <div class="form-check text-danger mb-2">
+                    {{ form.DELETE }}
+                    <label class="form-check-label" for="{{ form.DELETE.id_for_label }}">{% trans "Delete this category" %}</label>
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+          {% endfor %}
+
+          <button class="btn btn-primary" name="save_categories" type="submit">
+            {% trans "Save categories" %}
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <div class="col-lg-5">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="mb-0">{% trans "Tournament assignments" %}</h4>
+        </div>
+        <form method="post" class="card-body">
+          {% csrf_token %}
+          {% if assignment_form.non_field_errors %}{{ assignment_form.non_field_errors }}{% endif %}
+          {% for field in assignment_form %}
+            {% include "components/form-field.html" with field=field %}
+          {% empty %}
+            <p class="text-muted">{% trans "There are no tournaments yet." %}</p>
+          {% endfor %}
+          <button class="btn btn-primary" name="save_assignments" type="submit">
+            {% trans "Save assignments" %}
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
