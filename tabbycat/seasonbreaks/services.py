@@ -280,17 +280,24 @@ def calculate_region_quotas(season: BreakSeason) -> list[RegionQuota]:
     return rows
 
 
-def _team_member_eligibility(team: BreakTeam, region: BreakRegion) -> int:
+def _team_eligible_speakers(team: BreakTeam, region: BreakRegion) -> list[str]:
     participations = BreakSpeakerTournamentParticipation.objects.filter(
         break_team=team,
         break_tournament__region=region,
         break_tournament__counts_for_break=True,
         rounds__gte=2,
-    ).values('break_speaker_id', 'break_tournament_id').distinct()
-    tournaments_by_speaker = defaultdict(set)
+    ).values('break_speaker_id', 'break_speaker__name', 'break_tournament_id').distinct()
+    speakers = {}
     for row in participations:
-        tournaments_by_speaker[row['break_speaker_id']].add(row['break_tournament_id'])
-    return sum(1 for tournaments in tournaments_by_speaker.values() if len(tournaments) >= 2)
+        speaker = speakers.setdefault(row['break_speaker_id'], {
+            'name': row['break_speaker__name'],
+            'tournaments': set(),
+        })
+        speaker['tournaments'].add(row['break_tournament_id'])
+    return sorted(
+        speaker['name'] for speaker in speakers.values()
+        if len(speaker['tournaments']) >= 2
+    )
 
 
 def calculate_rankings(season: BreakSeason) -> dict[int, list[dict]]:
@@ -320,7 +327,8 @@ def calculate_rankings(season: BreakSeason) -> dict[int, list[dict]]:
             ).select_related('break_tournament'))
             strongest = sorted(all_results, key=lambda r: (r.wins, r.ballots, r.speaker_score), reverse=True)
             counted = strongest[:result_limit] if result_limit is not None else strongest
-            eligible_members = _team_member_eligibility(team, region)
+            eligible_speakers = _team_eligible_speakers(team, region)
+            eligible_members = len(eligible_speakers)
             eligible = len(all_results) >= required_tournaments and eligible_members >= 2
             total_wins = sum(r.wins for r in counted)
             total_ballots = sum(r.ballots for r in counted)
@@ -329,6 +337,7 @@ def calculate_rankings(season: BreakSeason) -> dict[int, list[dict]]:
                 'team': team,
                 'eligible': eligible,
                 'eligible_members': eligible_members,
+                'eligible_speakers': eligible_speakers,
                 'participations': len(all_results),
                 'required_tournaments': required_tournaments,
                 'counted_results': counted,

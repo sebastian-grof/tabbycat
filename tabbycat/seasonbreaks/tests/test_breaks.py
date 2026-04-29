@@ -90,6 +90,7 @@ class BreaksCalculationTests(TestCase):
         self.assertEqual(rankings[0]['team'], strong)
         self.assertEqual(rankings[0]['wins'], 3)
         self.assertTrue(rankings[0]['eligible'])
+        self.assertEqual(rankings[0]['eligible_speakers'], ['Strong speaker 0', 'Strong speaker 1'])
         self.assertEqual(rankings[1]['team'], weaker)
 
     def test_nonleague_tournaments_do_not_affect_quotas_or_rankings(self):

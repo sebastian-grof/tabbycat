@@ -21,6 +21,7 @@ from .models import (
     BreakAdjudicatorLink,
     BreakAdjudicatorTournamentStats,
     BreaksPermission,
+    BreakRegion,
     BreakSeason,
     BreakSpeakerLink,
     BreakTeam,
@@ -434,7 +435,27 @@ class SeasonRankingsView(SeasonMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         rankings = calculate_rankings(self.season)
-        kwargs['regions'] = [(region, rankings.get(region.id, [])) for region in self.season.regions.all()]
+        regions = []
+        for region in self.season.regions.all():
+            rows = rankings.get(region.id, [])
+            regions.append({
+                'region': region,
+                'rows': rows,
+                'eligible_rows': [row for row in rows if row['eligible']],
+            })
+        kwargs['regions'] = regions
+        kwargs['active_tab'] = 'rankings'
+        return super().get_context_data(**kwargs)
+
+
+class SeasonRegionRankingsView(SeasonMixin, TemplateView):
+    template_name = 'seasonbreaks/ranking_region.html'
+
+    def get_context_data(self, **kwargs):
+        self.region = get_object_or_404(BreakRegion, season=self.season, id=self.kwargs['region_id'])
+        rankings = calculate_rankings(self.season)
+        kwargs['region'] = self.region
+        kwargs['rows'] = rankings.get(self.region.id, [])
         kwargs['active_tab'] = 'rankings'
         return super().get_context_data(**kwargs)
 

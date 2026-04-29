@@ -15,5 +15,8 @@ urlpatterns = [
     path('<slug:season_slug>/speakers/', views.SeasonSpeakersView.as_view(), name='seasonbreaks-speakers'),
     path('<slug:season_slug>/quotas/', views.SeasonQuotasView.as_view(), name='seasonbreaks-quotas'),
     path('<slug:season_slug>/rankings/', views.SeasonRankingsView.as_view(), name='seasonbreaks-rankings'),
+    path('<slug:season_slug>/rankings/<int:region_id>/',
+        views.SeasonRegionRankingsView.as_view(),
+        name='seasonbreaks-ranking-region'),
     path('<slug:season_slug>/adjudicators/', views.SeasonAdjudicatorsView.as_view(), name='seasonbreaks-adjudicators'),
 ]

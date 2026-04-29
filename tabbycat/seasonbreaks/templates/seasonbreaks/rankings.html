@@ -5,37 +5,59 @@
   <section class="breaks-page-header">
     <h3 class="breaks-page-title">{% trans "Rankings by region" %}</h3>
     <p class="breaks-page-subtitle">
-      {% trans "Eligible teams, advancing status and tie warnings are grouped by region for review." %}
+      {% trans "A compact overview of eligible teams in each region. Open a region for full scores, eligibility notes and tie warnings." %}
     </p>
   </section>
 
-  {% for region, rows in regions %}
-    <div class="card mb-3">
-      <div class="card-header d-md-flex justify-content-between align-items-center">
-        <h4 class="mb-0">{{ region.name }}</h4>
-        <span class="text-muted small">{% trans "Ordered by wins, ballots, speaker score" %}</span>
-      </div>
-      <table class="table table-sm mb-0">
-        <thead><tr><th>#</th><th>{% trans "Team" %}</th><th>{% trans "Status" %}</th><th>{% trans "Participations" %}</th><th>{% trans "Members" %}</th><th>{% trans "Wins" %}</th><th>{% trans "Ballots" %}</th><th>{% trans "Speaks" %}</th><th>{% trans "Notes" %}</th></tr></thead>
-        <tbody>
-          {% for row in rows %}
-            <tr class="{% if row.advancing %}table-success{% elif not row.eligible %}text-muted{% endif %}">
-              <td>{{ forloop.counter }}</td>
-              <td><strong>{{ row.team.name }}</strong></td>
-              <td>{% if row.advancing %}{% trans "Advancing" %}{% elif row.eligible %}{% trans "Eligible" %}{% else %}{% trans "Ineligible" %}{% endif %}</td>
-              <td>{{ row.participations }}/{{ row.required_tournaments }}</td>
-              <td>{{ row.eligible_members }}</td>
-              <td>{{ row.wins|floatformat:0 }}</td>
-              <td>{{ row.ballots|floatformat:2 }}</td>
-              <td>{{ row.speaker_score|floatformat:2 }}</td>
-              <td>{% if row.tie_at_cutoff %}<span class="badge badge-warning">{% trans "Tie at cutoff" %}</span>{% endif %} {{ row.ineligible_reasons|join:", " }}</td>
+  {% for region_data in regions %}
+    {% with region=region_data.region eligible_rows=region_data.eligible_rows %}
+      <div class="card mb-3">
+        <div class="card-header d-md-flex justify-content-between align-items-center">
+          <div>
+            <h4 class="mb-0">{{ region.name }}</h4>
+            <span class="text-muted small">
+              {% blocktrans trimmed count teams_count=eligible_rows|length %}
+                1 eligible team
+              {% plural %}
+                {{ teams_count }} eligible teams
+              {% endblocktrans %}
+            </span>
+          </div>
+          <a class="btn btn-outline-primary btn-sm mt-2 mt-md-0"
+              href="{% url 'seasonbreaks-ranking-region' season_slug=season.slug region_id=region.id %}">
+            {% trans "Open full ranking" %}
+          </a>
+        </div>
+        <table class="table table-sm mb-0">
+          <thead>
+            <tr>
+              <th>{% trans "Rank" %}</th>
+              <th>{% trans "Team" %}</th>
+              <th>{% trans "Eligible speakers" %}</th>
             </tr>
-          {% empty %}
-            <tr><td colspan="9" class="text-muted">{% trans "No frozen results for this region." %}</td></tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
+          </thead>
+          <tbody>
+            {% for row in eligible_rows %}
+              <tr class="{% if row.advancing %}table-success{% endif %}">
+                <td>{{ forloop.counter }}</td>
+                <td><strong>{{ row.team.name }}</strong></td>
+                <td>
+                  {% if row.eligible_speakers %}
+                    {{ row.eligible_speakers|join:", " }}
+                  {% else %}
+                    <span class="text-muted">{% trans "None" %}</span>
+                  {% endif %}
+                </td>
+              </tr>
+            {% empty %}
+              <tr>
+                <td colspan="3" class="text-muted">{% trans "No eligible teams in this region yet." %}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% endwith %}
   {% empty %}
     {% trans "No regions yet." as p1 %}
     {% include "components/explainer-card.html" with type="info" %}
