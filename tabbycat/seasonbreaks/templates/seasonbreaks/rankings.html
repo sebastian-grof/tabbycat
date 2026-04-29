@@ -1,29 +1,42 @@
 {% extends "seasonbreaks/base.html" %}
 {% load i18n %}
 
-{% block content %}
+{% block season_content %}
+  <section class="breaks-hero">
+    <div class="breaks-kicker">{% trans "Qualification table" %}</div>
+    <h3 class="breaks-hero-title">{% trans "Rankings by region" %}</h3>
+    <p class="breaks-hero-subtitle">
+      {% trans "Eligible teams, advancing status and tie warnings are grouped by region for review." %}
+    </p>
+  </section>
+
   {% for region, rows in regions %}
-    <h4 class="mt-3">{{ region.name }}</h4>
-    <table class="table table-sm">
-      <thead><tr><th>#</th><th>{% trans "Team" %}</th><th>{% trans "Status" %}</th><th>{% trans "Participations" %}</th><th>{% trans "Members" %}</th><th>{% trans "Wins" %}</th><th>{% trans "Ballots" %}</th><th>{% trans "Speaks" %}</th><th>{% trans "Notes" %}</th></tr></thead>
-      <tbody>
-        {% for row in rows %}
-          <tr class="{% if row.advancing %}table-success{% elif not row.eligible %}text-muted{% endif %}">
-            <td>{{ forloop.counter }}</td>
-            <td>{{ row.team.name }}</td>
-            <td>{% if row.advancing %}{% trans "Advancing" %}{% elif row.eligible %}{% trans "Eligible" %}{% else %}{% trans "Ineligible" %}{% endif %}</td>
-            <td>{{ row.participations }}/{{ row.required_tournaments }}</td>
-            <td>{{ row.eligible_members }}</td>
-            <td>{{ row.wins|floatformat:0 }}</td>
-            <td>{{ row.ballots|floatformat:2 }}</td>
-            <td>{{ row.speaker_score|floatformat:2 }}</td>
-            <td>{% if row.tie_at_cutoff %}<span class="badge badge-warning">{% trans "Tie at cutoff" %}</span>{% endif %} {{ row.ineligible_reasons|join:", " }}</td>
-          </tr>
-        {% empty %}
-          <tr><td colspan="9" class="text-muted">{% trans "No frozen results for this region." %}</td></tr>
-        {% endfor %}
-      </tbody>
-    </table>
+    <div class="card mb-3">
+      <div class="card-header d-md-flex justify-content-between align-items-center">
+        <h4 class="mb-0">{{ region.name }}</h4>
+        <span class="text-muted small">{% trans "Ordered by wins, ballots, speaker score" %}</span>
+      </div>
+      <table class="table table-sm mb-0">
+        <thead><tr><th>#</th><th>{% trans "Team" %}</th><th>{% trans "Status" %}</th><th>{% trans "Participations" %}</th><th>{% trans "Members" %}</th><th>{% trans "Wins" %}</th><th>{% trans "Ballots" %}</th><th>{% trans "Speaks" %}</th><th>{% trans "Notes" %}</th></tr></thead>
+        <tbody>
+          {% for row in rows %}
+            <tr class="{% if row.advancing %}table-success{% elif not row.eligible %}text-muted{% endif %}">
+              <td>{{ forloop.counter }}</td>
+              <td><strong>{{ row.team.name }}</strong></td>
+              <td>{% if row.advancing %}{% trans "Advancing" %}{% elif row.eligible %}{% trans "Eligible" %}{% else %}{% trans "Ineligible" %}{% endif %}</td>
+              <td>{{ row.participations }}/{{ row.required_tournaments }}</td>
+              <td>{{ row.eligible_members }}</td>
+              <td>{{ row.wins|floatformat:0 }}</td>
+              <td>{{ row.ballots|floatformat:2 }}</td>
+              <td>{{ row.speaker_score|floatformat:2 }}</td>
+              <td>{% if row.tie_at_cutoff %}<span class="badge badge-warning">{% trans "Tie at cutoff" %}</span>{% endif %} {{ row.ineligible_reasons|join:", " }}</td>
+            </tr>
+          {% empty %}
+            <tr><td colspan="9" class="text-muted">{% trans "No frozen results for this region." %}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
   {% empty %}
     {% trans "No regions yet." as p1 %}
     {% include "components/explainer-card.html" with type="info" %}

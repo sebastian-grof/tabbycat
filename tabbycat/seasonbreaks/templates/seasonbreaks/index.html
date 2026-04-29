@@ -1,7 +1,7 @@
 {% extends "seasonbreaks/base.html" %}
 {% load i18n %}
 
-{% block content %}
+{% block standalone_content %}
   <div class="list-group mb-3">
     {% for season in seasons %}
       {% url 'seasonbreaks-season-overview' season_slug=season.slug as url %}

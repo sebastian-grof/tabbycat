@@ -1,21 +1,49 @@
 {% extends "seasonbreaks/base.html" %}
 {% load i18n %}
 
-{% block content %}
-  <h3>{{ season.name }}</h3>
-  <p class="text-muted">{{ season.get_league_display }}</p>
+{% block season_content %}
+  <section class="breaks-hero">
+    <div class="breaks-kicker">{% trans "Season command centre" %}</div>
+    <h3 class="breaks-hero-title">{{ season.name }}</h3>
+    <p class="breaks-hero-subtitle">
+      {% blocktrans trimmed with league=season.get_league_display %}
+        {{ league }} qualification state, frozen tournament data and current regional allocation in one place.
+      {% endblocktrans %}
+    </p>
+  </section>
 
-  <div class="row mb-3">
-    <div class="col-md-2 col-6"><div class="card"><div class="card-body"><h4>{{ summary.regions }}</h4><span class="text-muted">{% trans "regions" %}</span></div></div></div>
-    <div class="col-md-2 col-6"><div class="card"><div class="card-body"><h4>{{ summary.tournaments }}</h4><span class="text-muted">{% trans "tournaments" %}</span></div></div></div>
-    <div class="col-md-2 col-6"><div class="card"><div class="card-body"><h4>{{ summary.frozen_tournaments }}</h4><span class="text-muted">{% trans "frozen" %}</span></div></div></div>
-    <div class="col-md-2 col-6"><div class="card"><div class="card-body"><h4>{{ summary.teams }}</h4><span class="text-muted">{% trans "teams" %}</span></div></div></div>
-    <div class="col-md-2 col-6"><div class="card"><div class="card-body"><h4>{{ summary.speakers }}</h4><span class="text-muted">{% trans "speakers" %}</span></div></div></div>
-    <div class="col-md-2 col-6"><div class="card"><div class="card-body"><h4>{{ summary.adjudicators }}</h4><span class="text-muted">{% trans "adjudicators" %}</span></div></div></div>
+  <div class="breaks-stat-grid">
+    <div class="breaks-stat-card">
+      <div class="breaks-stat-value">{{ summary.regions }}</div>
+      <div class="breaks-stat-label">{% trans "Regions mapped" %}</div>
+    </div>
+    <div class="breaks-stat-card">
+      <div class="breaks-stat-value">{{ summary.tournaments }}</div>
+      <div class="breaks-stat-label">{% trans "Source tournaments" %}</div>
+    </div>
+    <div class="breaks-stat-card">
+      <div class="breaks-stat-value">{{ summary.frozen_tournaments }}</div>
+      <div class="breaks-stat-label">{% trans "Snapshots frozen" %}</div>
+    </div>
+    <div class="breaks-stat-card">
+      <div class="breaks-stat-value">{{ summary.teams }}</div>
+      <div class="breaks-stat-label">{% trans "Season teams" %}</div>
+    </div>
+    <div class="breaks-stat-card">
+      <div class="breaks-stat-value">{{ summary.speakers }}</div>
+      <div class="breaks-stat-label">{% trans "Speaker identities" %}</div>
+    </div>
+    <div class="breaks-stat-card">
+      <div class="breaks-stat-value">{{ summary.adjudicators }}</div>
+      <div class="breaks-stat-label">{% trans "Adjudicator identities" %}</div>
+    </div>
   </div>
 
   <div class="card">
-    <div class="card-header"><h4 class="mb-0">{% trans "Quota overview" %}</h4></div>
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h4 class="mb-0">{% trans "Quota overview" %}</h4>
+      <span class="badge badge-light">{% trans "Largest remainder" %}</span>
+    </div>
     <table class="table table-sm mb-0">
       <thead><tr><th>{% trans "Region" %}</th><th>{% trans "Participations" %}</th><th>{% trans "Allocated slots" %}</th></tr></thead>
       <tbody>

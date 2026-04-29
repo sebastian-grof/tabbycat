@@ -1,14 +1,358 @@
 {% extends "base.html" %}
 {% load i18n %}
 
-{% block page-subnav-sections %}
-  {% if season_tabs %}
-    <div class="btn-group flex-wrap">
-      {% for label, href, key in season_tabs %}
-        {% if key != 'access' or can_manage_breaks_access %}
-          <a class="btn btn-outline-primary {% if active_tab == key %}active disabled{% endif %}" href="{{ href }}">{{ label }}</a>
-        {% endif %}
-      {% endfor %}
+{% block extra-css %}
+  {{ block.super }}
+  <style>
+    :root {
+      --breaks-ink: #19212f;
+      --breaks-muted: #687386;
+      --breaks-paper: #f5f0e8;
+      --breaks-card: rgba(255, 255, 255, 0.94);
+      --breaks-line: rgba(25, 33, 47, 0.11);
+      --breaks-rail: #202735;
+      --breaks-rail-soft: #2d3546;
+      --breaks-gold: #d9a441;
+      --breaks-sea: #1f8a9a;
+      --breaks-rose: #c96c5c;
+      --breaks-green: #638f62;
+      --breaks-radius: 22px;
+    }
+
+    body {
+      background:
+        radial-gradient(circle at top left, rgba(217, 164, 65, 0.18), transparent 28rem),
+        linear-gradient(135deg, #f9f5ed 0%, #eef2f1 54%, #f7f1e7 100%);
+    }
+
+    .breaks-shell {
+      display: grid;
+      gap: 1.25rem;
+      grid-template-columns: minmax(260px, 310px) minmax(0, 1fr);
+      margin: 0 0 2rem;
+    }
+
+    .breaks-sidebar {
+      align-self: start;
+      background:
+        linear-gradient(160deg, rgba(255, 255, 255, 0.08), transparent 42%),
+        var(--breaks-rail);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: var(--breaks-radius);
+      box-shadow: 0 24px 60px rgba(25, 33, 47, 0.20);
+      color: #eef2f4;
+      overflow: hidden;
+      position: sticky;
+      top: 1rem;
+    }
+
+    .breaks-sidebar-head {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+      padding: 1.25rem;
+      position: relative;
+    }
+
+    .breaks-sidebar-head:after {
+      background: var(--breaks-gold);
+      border-radius: 999px;
+      bottom: -4px;
+      content: "";
+      height: 8px;
+      left: 1.25rem;
+      position: absolute;
+      width: 72px;
+    }
+
+    .breaks-kicker {
+      color: rgba(238, 242, 244, 0.68);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .breaks-season-title {
+      font-family: "Avenir Next", "Trebuchet MS", sans-serif;
+      font-size: 1.35rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin: 0.35rem 0 0.25rem;
+    }
+
+    .breaks-season-meta {
+      color: rgba(238, 242, 244, 0.72);
+      margin: 0;
+    }
+
+    .breaks-nav {
+      padding: 0.8rem;
+    }
+
+    .breaks-nav-group {
+      margin-bottom: 0.85rem;
+    }
+
+    .breaks-nav-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .breaks-nav-label {
+      color: rgba(238, 242, 244, 0.58);
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: 0.13em;
+      padding: 0.45rem 0.7rem 0.35rem;
+      text-transform: uppercase;
+    }
+
+    .breaks-nav-link {
+      border: 1px solid transparent;
+      border-radius: 15px;
+      color: rgba(238, 242, 244, 0.84);
+      display: block;
+      margin: 0.18rem 0;
+      padding: 0.72rem 0.82rem;
+      text-decoration: none;
+      transition: background-color 120ms ease, border-color 120ms ease, transform 120ms ease;
+    }
+
+    .breaks-nav-link:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.10);
+      color: #fff;
+      text-decoration: none;
+      transform: translateX(2px);
+    }
+
+    .breaks-nav-link.active {
+      background: linear-gradient(135deg, rgba(217, 164, 65, 0.30), rgba(31, 138, 154, 0.18));
+      border-color: rgba(217, 164, 65, 0.42);
+      box-shadow: inset 4px 0 0 var(--breaks-gold);
+      color: #fff;
+    }
+
+    .breaks-nav-title {
+      display: block;
+      font-weight: 750;
+      line-height: 1.15;
+    }
+
+    .breaks-nav-caption {
+      color: rgba(238, 242, 244, 0.56);
+      display: block;
+      font-size: 0.74rem;
+      line-height: 1.25;
+      margin-top: 0.16rem;
+    }
+
+    .breaks-main {
+      min-width: 0;
+    }
+
+    .breaks-main > .card,
+    .breaks-main .card {
+      background: var(--breaks-card);
+      border: 1px solid var(--breaks-line);
+      border-radius: 18px;
+      box-shadow: 0 14px 38px rgba(25, 33, 47, 0.08);
+      overflow: hidden;
+    }
+
+    .breaks-main .card-header {
+      background: rgba(255, 255, 255, 0.62) !important;
+      border-bottom: 1px solid var(--breaks-line);
+    }
+
+    .breaks-main .table {
+      color: var(--breaks-ink);
+    }
+
+    .breaks-main .table thead th {
+      border-top: 0;
+      color: var(--breaks-muted);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .breaks-hero {
+      background:
+        radial-gradient(circle at 90% 15%, rgba(217, 164, 65, 0.30), transparent 14rem),
+        linear-gradient(135deg, rgba(32, 39, 53, 0.96), rgba(31, 138, 154, 0.82));
+      border-radius: 24px;
+      box-shadow: 0 18px 44px rgba(25, 33, 47, 0.18);
+      color: #fff;
+      margin-bottom: 1.25rem;
+      overflow: hidden;
+      padding: 1.35rem;
+      position: relative;
+    }
+
+    .breaks-hero:after {
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 999px;
+      content: "";
+      height: 180px;
+      position: absolute;
+      right: -54px;
+      top: -72px;
+      width: 180px;
+    }
+
+    .breaks-hero-title {
+      font-family: "Avenir Next", "Trebuchet MS", sans-serif;
+      font-size: clamp(1.6rem, 3vw, 2.6rem);
+      font-weight: 850;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      margin: 0;
+      max-width: 760px;
+    }
+
+    .breaks-hero-subtitle {
+      color: rgba(255, 255, 255, 0.76);
+      margin: 0.55rem 0 0;
+      max-width: 720px;
+    }
+
+    .breaks-hero .btn-outline-secondary {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.42);
+      color: #fff;
+    }
+
+    .breaks-hero .btn-outline-secondary:hover {
+      background: rgba(255, 255, 255, 0.18);
+      border-color: rgba(255, 255, 255, 0.72);
+      color: #fff;
+    }
+
+    .breaks-stat-grid {
+      display: grid;
+      gap: 0.9rem;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      margin-bottom: 1.25rem;
+    }
+
+    .breaks-stat-card {
+      background: rgba(255, 255, 255, 0.86);
+      border: 1px solid var(--breaks-line);
+      border-radius: 18px;
+      min-height: 118px;
+      padding: 1rem;
+      position: relative;
+    }
+
+    .breaks-stat-card:before {
+      background: var(--breaks-gold);
+      border-radius: 999px;
+      content: "";
+      height: 7px;
+      left: 1rem;
+      position: absolute;
+      top: 1rem;
+      width: 42px;
+    }
+
+    .breaks-stat-value {
+      color: var(--breaks-ink);
+      font-size: 2.1rem;
+      font-weight: 850;
+      letter-spacing: -0.05em;
+      line-height: 1;
+      margin-top: 1.15rem;
+    }
+
+    .breaks-stat-label {
+      color: var(--breaks-muted);
+      font-size: 0.78rem;
+      font-weight: 750;
+      letter-spacing: 0.08em;
+      margin-top: 0.35rem;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 991.98px) {
+      .breaks-shell {
+        grid-template-columns: 1fr;
+      }
+
+      .breaks-sidebar {
+        position: static;
+      }
+
+      .breaks-nav {
+        display: grid;
+        gap: 0.8rem;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .breaks-stat-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 575.98px) {
+      .breaks-nav,
+      .breaks-stat-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+{% endblock %}
+
+{% block header %}
+  {% if not season %}
+    {{ block.super }}
+  {% endif %}
+{% endblock %}
+
+{% block subheader %}
+  <div class="row d-print-none">
+    <div class="col" id="messages-container">
+      {% if messages %}
+        {% for message in messages %}
+          {% include "components/alert.html" with type=message.tags message=message %}
+        {% endfor %}
+      {% endif %}
+      {% block page-alerts %}{% endblock %}
     </div>
+  </div>
+{% endblock %}
+
+{% block content %}
+  {% if season %}
+    <div class="breaks-shell">
+      <aside class="breaks-sidebar">
+        <div class="breaks-sidebar-head">
+          <div class="breaks-kicker">{% trans "Breaks" %}</div>
+          <div class="breaks-season-title">{{ season.name }}</div>
+          <p class="breaks-season-meta">{{ season.get_league_display }}</p>
+        </div>
+        <nav class="breaks-nav" aria-label="{% trans 'Breaks navigation' %}">
+          {% for group_key, group_label, links in season_nav_groups %}
+            {% if group_key != 'access' or can_manage_breaks_access %}
+              <div class="breaks-nav-group">
+                <div class="breaks-nav-label">{{ group_label }}</div>
+                {% for label, href, key, caption in links %}
+                  {% if key != 'access' or can_manage_breaks_access %}
+                    <a class="breaks-nav-link {% if active_tab == key %}active{% endif %}" href="{{ href }}">
+                      <span class="breaks-nav-title">{{ label }}</span>
+                      <span class="breaks-nav-caption">{{ caption }}</span>
+                    </a>
+                  {% endif %}
+                {% endfor %}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </nav>
+      </aside>
+      <main class="breaks-main">
+        {% block season_content %}{% endblock %}
+      </main>
+    </div>
+  {% else %}
+    {% block standalone_content %}{% endblock %}
   {% endif %}
 {% endblock %}

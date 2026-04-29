@@ -67,6 +67,7 @@ class SeasonMixin(BreaksPermissionMixin):
     def get_context_data(self, **kwargs):
         kwargs['season'] = self.season
         kwargs['season_tabs'] = season_tabs(self.season)
+        kwargs['season_nav_groups'] = season_nav_groups(self.season)
         return super().get_context_data(**kwargs)
 
 
@@ -81,6 +82,38 @@ def season_tabs(season):
         (_("Rankings"), reverse('seasonbreaks-rankings', kwargs={'season_slug': season.slug}), 'rankings'),
         (_("Adjudicators"), reverse('seasonbreaks-adjudicators', kwargs={'season_slug': season.slug}), 'adjudicators'),
         (_("Access"), reverse('seasonbreaks-access'), 'access'),
+    ]
+
+
+def season_nav_groups(season):
+    return [
+        ('season', _("Season"), [
+            (_("Overview"), reverse('seasonbreaks-season-overview', kwargs={'season_slug': season.slug}), 'overview',
+                _("Status, frozen data and quota snapshot")),
+            (_("Tournaments"), reverse('seasonbreaks-tournaments', kwargs={'season_slug': season.slug}), 'tournaments',
+                _("Regions, source tournaments and snapshots")),
+        ]),
+        ('identities', _("Identities"), [
+            (_("Identity hub"), reverse('seasonbreaks-identities', kwargs={'season_slug': season.slug}), 'identities',
+                _("Choose teams, speakers or adjudicators")),
+            (_("Teams"), reverse('seasonbreaks-teams', kwargs={'season_slug': season.slug}), 'teams',
+                _("Season team identities")),
+            (_("Speakers"), reverse('seasonbreaks-speakers', kwargs={'season_slug': season.slug}), 'speakers',
+                _("Season speaker identities")),
+        ]),
+        ('qualification', _("Qualification"), [
+            (_("Quotas"), reverse('seasonbreaks-quotas', kwargs={'season_slug': season.slug}), 'quotas',
+                _("Regional slot calculation")),
+            (_("Rankings"), reverse('seasonbreaks-rankings', kwargs={'season_slug': season.slug}), 'rankings',
+                _("Qualified teams and eligibility")),
+        ]),
+        ('people', _("People"), [
+            (_("Adjudicators"), reverse('seasonbreaks-adjudicators', kwargs={'season_slug': season.slug}), 'adjudicators',
+                _("Chair, panel and trainee totals")),
+        ]),
+        ('access', _("Access"), [
+            (_("Permissions"), reverse('seasonbreaks-access'), 'access', _("Global Breaks permissions")),
+        ]),
     ]
 
 
