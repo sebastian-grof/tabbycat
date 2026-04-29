@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n %}
+{% load debate_tags static i18n %}
 
 {% block extra-css %}
   {{ block.super }}
@@ -34,7 +34,94 @@
 
     .breaks-sidebar-head {
       border-bottom: 1px solid var(--breaks-sidebar-border);
-      padding: 1rem;
+      padding: 0;
+    }
+
+    .breaks-brand-toggle {
+      background: transparent;
+      border: 0;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.85rem 1rem;
+      text-align: left;
+      width: 100%;
+    }
+
+    .breaks-brand-toggle:hover,
+    .breaks-brand-toggle:focus {
+      background: var(--breaks-sidebar-active);
+      color: #fff;
+      outline: 0;
+      text-decoration: none;
+    }
+
+    .breaks-brand-main {
+      display: flex;
+      align-items: center;
+      min-width: 0;
+    }
+
+    .breaks-brand-text {
+      font-size: 1rem;
+      font-weight: 600;
+      line-height: 1.15;
+      margin-left: 0.55rem;
+    }
+
+    .breaks-brand-subtitle {
+      color: var(--breaks-sidebar-heading);
+      display: block;
+      font-size: 0.74rem;
+      font-weight: 400;
+      margin-top: 0.1rem;
+    }
+
+    .breaks-brand-menu {
+      background: var(--breaks-sidebar-active);
+      border-top: 1px solid var(--breaks-sidebar-border);
+      padding: 0.35rem 0;
+    }
+
+    .breaks-brand-menu .breaks-menu-item {
+      background: transparent;
+      border: 0;
+      color: var(--breaks-sidebar-text);
+      display: block;
+      padding: 0.5rem 1rem;
+      text-align: left;
+      width: 100%;
+    }
+
+    .breaks-brand-menu .breaks-menu-item:hover,
+    .breaks-brand-menu .breaks-menu-item:focus {
+      background: rgba(255, 255, 255, 0.06);
+      color: #fff;
+      outline: 0;
+      text-decoration: none;
+    }
+
+    .breaks-brand-menu .breaks-menu-item svg {
+      margin-right: 0.45rem;
+    }
+
+    .breaks-brand-menu .dropdown-divider {
+      border-top-color: var(--breaks-sidebar-border);
+    }
+
+    .breaks-menu-section-title {
+      color: var(--breaks-sidebar-heading);
+      font-size: 0.7rem;
+      font-weight: bold;
+      letter-spacing: 0.08em;
+      padding: 0.45rem 1rem 0.25rem;
+      text-transform: uppercase;
+    }
+
+    .breaks-season-summary {
+      border-top: 1px solid var(--breaks-sidebar-border);
+      padding: 0.85rem 1rem 0.9rem;
     }
 
     .breaks-kicker {
@@ -118,7 +205,7 @@
 
     .breaks-main {
       min-width: 0;
-      padding-right: 15px;
+      padding: 0 15px 0 0.35rem;
     }
 
     .breaks-main > .card,
@@ -131,12 +218,23 @@
     .breaks-main .card-header {
       background: #fff !important;
       border-bottom: 1px solid var(--breaks-border);
+      padding: 1rem 1.35rem;
+    }
+
+    .breaks-main .card-body {
+      padding: 1.25rem 1.35rem;
+    }
+
+    .breaks-main .table th,
+    .breaks-main .table td {
+      padding-left: 1.35rem;
+      padding-right: 1.35rem;
     }
 
     .breaks-page-header {
       border-bottom: 1px solid var(--breaks-border);
       margin-bottom: 1rem;
-      padding-bottom: 0.75rem;
+      padding: 0.25rem 0.25rem 0.75rem;
     }
 
     .breaks-page-title {
@@ -177,6 +275,54 @@
       margin-top: 0.25rem;
     }
 
+    body.breaks-page {
+      margin-bottom: 0;
+    }
+
+    .breaks-page .footer {
+      border-top: 1px solid var(--breaks-border);
+      height: auto;
+      position: static;
+    }
+
+    .breaks-footer-shell {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: 260px minmax(0, 1fr);
+      margin-left: -15px;
+      min-height: 4.25rem;
+    }
+
+    .breaks-footer-sidebar {
+      background: var(--breaks-sidebar-bg);
+      border-right: 1px solid var(--breaks-sidebar-border);
+    }
+
+    .breaks-footer-main {
+      align-items: center;
+      color: #6c757d;
+      display: flex;
+      flex-wrap: wrap;
+      font-size: 0.875rem;
+      gap: 0.35rem 0.95rem;
+      padding: 0.85rem 15px 0.85rem 0.35rem;
+    }
+
+    .breaks-footer-main a,
+    .breaks-page .footer .breaks-footer-main a {
+      border-bottom: 0;
+      color: #495057;
+    }
+
+    .breaks-footer-main a:hover {
+      color: #212529;
+      text-decoration: underline;
+    }
+
+    .breaks-footer-main svg {
+      margin-right: 0.25rem;
+    }
+
     @media (max-width: 991.98px) {
       .breaks-shell {
         grid-template-columns: 1fr;
@@ -190,11 +336,25 @@
       }
 
       .breaks-main {
-        padding-right: 0;
+        padding: 0;
       }
 
       .breaks-stat-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .breaks-footer-shell {
+        grid-template-columns: 1fr;
+        margin-left: 0;
+      }
+
+      .breaks-footer-sidebar {
+        display: none;
+      }
+
+      .breaks-footer-main {
+        padding-left: 0;
+        padding-right: 0;
       }
     }
 
@@ -207,11 +367,87 @@
   </style>
 {% endblock %}
 
+{% block body-class %}{% if season %}breaks-page{% endif %}{% endblock %}
+
+{% block nav %}
+  {% if not season %}
+    {{ block.super }}
+  {% endif %}
+{% endblock nav %}
+
 {% block header %}
   {% if not season %}
     {{ block.super }}
   {% endif %}
 {% endblock %}
+
+{% block footer %}
+  {% if season %}
+    {% get_current_language as LANGUAGE_CODE %}
+    <div class="breaks-footer-shell">
+      <div class="breaks-footer-sidebar" aria-hidden="true"></div>
+      <div class="breaks-footer-main">
+        <span>
+          {% blocktrans trimmed %}Tabbycat {{ tabbycat_version }}{% endblocktrans %}
+        </span>
+        <a href="#" data-toggle="modal" data-target="#setLanguageModal">
+          <i data-feather="globe"></i>{% trans "Language" %}
+        </a>
+        <a href="https://github.com/TabbycatDebate/tabbycat/">
+          <i data-feather="github"></i>{% trans "GitHub" %}
+        </a>
+        <a href="https://github.com/sebastian-grof/tabbycat">
+          <i data-feather="code"></i>{% trans "Source Code" %}
+        </a>
+        <a href="https://github.com/sebastian-grof/tabbycat/blob/develop/MODIFICATIONS.md">
+          <i data-feather="file-text"></i>{% trans "Modifications" %}
+        </a>
+        <a href="https://tabbycat.readthedocs.io/en/stable/">
+          <i data-feather="book"></i>{% trans "Documentation" %}
+        </a>
+        <a href="https://tabbycat.readthedocs.io/en/stable/about/support.html">
+          <i data-feather="help-circle"></i>{% trans "Support" %}
+        </a>
+        <a href="https://www.facebook.com/TabbycatDebate/">
+          <i data-feather="facebook"></i>{% trans "Facebook" %}
+        </a>
+        <a href="https://github.com/TabbycatDebate/tabbycat#%EF%B8%8F-installation">
+          <i data-feather="upload-cloud"></i>{% trans "Set Up A Copy" %}
+        </a>
+      </div>
+    </div>
+
+    <div class="modal fade" id="setLanguageModal" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">{% trans "Change Language" %}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form action="{% url 'set_language' %}" method="post">{% csrf_token %}
+              <input name="next" type="hidden" value="{{ request.get_full_path }}">
+              <select name="language" class="custom-select">
+                {% get_available_languages as LANGUAGES %}
+                {% get_language_info_list for LANGUAGES as languages %}
+                {% for language in languages %}
+                  <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
+                    {{ language.name_local }} ({{ language.code }})
+                  </option>
+                {% endfor %}
+              </select>
+              <input class="btn btn-primary btn-block mt-3" type="submit" value="{% trans "Use this language" %}">
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% else %}
+    {{ block.super }}
+  {% endif %}
+{% endblock footer %}
 
 {% block subheader %}
   <div class="row d-print-none">
@@ -231,9 +467,77 @@
     <div class="breaks-shell">
       <aside class="breaks-sidebar">
         <div class="breaks-sidebar-head">
-          <div class="breaks-kicker">{% trans "Breaks" %}</div>
-          <div class="breaks-season-title">{{ season.name }}</div>
-          <p class="breaks-season-meta">{{ season.get_league_display }}</p>
+          <button class="breaks-brand-toggle" type="button" data-toggle="collapse"
+              data-target="#breaksGlobalMenu" aria-expanded="false" aria-controls="breaksGlobalMenu">
+            <span class="breaks-brand-main">
+              {% blocktrans trimmed asvar logo_alt %}
+                Tabbycat Logo
+              {% endblocktrans %}
+              {% if on_local %}
+                {% include "nav/logo_local.html" with width=24 height=24 alt=logo_alt %}
+              {% else %}
+                {% include "nav/logo.html" with width=24 height=24 alt=logo_alt %}
+              {% endif %}
+              <span class="breaks-brand-text">
+                Tabbycat
+                <span class="breaks-brand-subtitle">{% trans "Breaks" %}</span>
+              </span>
+            </span>
+            <i data-feather="chevron-down"></i>
+          </button>
+          <div class="collapse breaks-brand-menu" id="breaksGlobalMenu">
+            <a class="breaks-menu-item" href="/">
+              <i data-feather="home"></i>{% trans "Site Home" %}
+            </a>
+            <a class="breaks-menu-item" href="{% url 'seasonbreaks-index' %}">
+              <i data-feather="award"></i>{% trans "All Break Seasons" %}
+            </a>
+            {% if user.is_staff %}
+              <a class="breaks-menu-item" href="{% url 'admin:index' %}" target="_blank">
+                <i data-feather="database"></i>{% trans "Edit Database" %}
+              </a>
+            {% endif %}
+            {% if all_tournaments %}
+              <div class="dropdown-divider"></div>
+              <div class="breaks-menu-section-title">{% trans "Tournaments" %}</div>
+              {% for t in all_tournaments %}
+                <div class="breaks-menu-section-title">{{ t }}</div>
+                {% hasadminaccess user t as can_access_admin %}
+                {% if can_access_admin %}
+                  <a class="breaks-menu-item" href="{% url 'tournament-admin-home' tournament_slug=t.slug %}">
+                    <i data-feather="settings"></i>{% trans "Admin Area" %}
+                  </a>
+                {% endif %}
+                {% if user.is_authenticated %}
+                  <a class="breaks-menu-item" href="{% url 'tournament-assistant-home' tournament_slug=t.slug %}">
+                    <i data-feather="pocket"></i>{% trans "Assistant Area" %}
+                  </a>
+                {% endif %}
+                <a class="breaks-menu-item" href="{% url 'tournament-public-index' tournament_slug=t.slug %}">
+                  <i data-feather="globe"></i>{% trans "Public Area" %}
+                </a>
+              {% endfor %}
+            {% endif %}
+            <div class="dropdown-divider"></div>
+            {% if user.is_authenticated %}
+              <form action="{% url 'logout' %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="breaks-menu-item">
+                  <i data-feather="log-out"></i>
+                  {% trans "Log Out" %} ({{ user }})
+                </button>
+              </form>
+            {% else %}
+              <a class="breaks-menu-item" href="{% url 'login' %}">
+                <i data-feather="log-in"></i>{% trans "Login" %}
+              </a>
+            {% endif %}
+          </div>
+          <div class="breaks-season-summary">
+            <div class="breaks-kicker">{% trans "Current season" %}</div>
+            <div class="breaks-season-title">{{ season.name }}</div>
+            <p class="breaks-season-meta">{{ season.get_league_display }}</p>
+          </div>
         </div>
         <nav class="breaks-nav" aria-label="{% trans 'Breaks navigation' %}">
           {% for group_key, group_label, links in season_nav_groups %}
