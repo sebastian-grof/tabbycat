@@ -7,8 +7,18 @@ from django.urls import reverse
 from django.utils.translation import gettext as _, gettext_lazy
 from django.views.generic import TemplateView
 
-from .forms import BreakRegionForm, BreakSeasonForm, BreakSpeakerForm, BreakTeamForm, BreakTournamentForm, BreaksAccessForm
+from .forms import (
+    BreakAdjudicatorForm,
+    BreakRegionForm,
+    BreakSeasonForm,
+    BreakSpeakerForm,
+    BreakTeamForm,
+    BreakTournamentForm,
+    BreaksAccessForm,
+)
 from .models import (
+    BreakAdjudicator,
+    BreakAdjudicatorLink,
     BreakAdjudicatorTournamentStats,
     BreaksPermission,
     BreakSeason,
@@ -64,6 +74,7 @@ def season_tabs(season):
     return [
         (_("Overview"), reverse('seasonbreaks-season-overview', kwargs={'season_slug': season.slug}), 'overview'),
         (_("Tournaments"), reverse('seasonbreaks-tournaments', kwargs={'season_slug': season.slug}), 'tournaments'),
+        (_("Identities"), reverse('seasonbreaks-identities', kwargs={'season_slug': season.slug}), 'identities'),
         (_("Teams"), reverse('seasonbreaks-teams', kwargs={'season_slug': season.slug}), 'teams'),
         (_("Speakers"), reverse('seasonbreaks-speakers', kwargs={'season_slug': season.slug}), 'speakers'),
         (_("Quotas"), reverse('seasonbreaks-quotas', kwargs={'season_slug': season.slug}), 'quotas'),
@@ -146,11 +157,30 @@ class SeasonTeamsView(SeasonMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         kwargs['teams'] = self.season.teams.select_related('institution', 'region').prefetch_related('links__team')
+        kwargs['active_tab'] = 'teams'
+        return super().get_context_data(**kwargs)
+
+
+class SeasonIdentitiesView(SeasonMixin, TemplateView):
+    template_name = 'seasonbreaks/identities.html'
+
+    def get_context_data(self, **kwargs):
+        kwargs['teams'] = self.season.teams.select_related('institution', 'region').order_by('name')
+        kwargs['speakers'] = self.season.speakers.order_by('name')
+        kwargs['adjudicators'] = self.season.adjudicators.select_related('institution').order_by('name')
         kwargs['team_links'] = BreakTeamLink.objects.filter(season=self.season).select_related(
             'team__tournament', 'break_team',
         ).order_by('team__tournament__seq', 'team__short_name')
+        kwargs['speaker_links'] = BreakSpeakerLink.objects.filter(season=self.season).select_related(
+            'speaker__team__tournament', 'speaker__team', 'break_speaker',
+        ).order_by('speaker__team__tournament__seq', 'speaker__name')
+        kwargs['adjudicator_links'] = BreakAdjudicatorLink.objects.filter(season=self.season).select_related(
+            'adjudicator__tournament', 'break_adjudicator',
+        ).order_by('adjudicator__tournament__seq', 'adjudicator__name')
         kwargs['team_form'] = kwargs.get('team_form') or BreakTeamForm(season=self.season)
-        kwargs['active_tab'] = 'teams'
+        kwargs['speaker_form'] = kwargs.get('speaker_form') or BreakSpeakerForm(season=self.season)
+        kwargs['adjudicator_form'] = kwargs.get('adjudicator_form') or BreakAdjudicatorForm(season=self.season)
+        kwargs['active_tab'] = 'identities'
         return super().get_context_data(**kwargs)
 
     def post(self, request, *args, **kwargs):
@@ -162,7 +192,7 @@ class SeasonTeamsView(SeasonMixin, TemplateView):
             if form.is_valid():
                 team = form.save()
                 messages.success(request, _("Season team %(team)s was created.") % {'team': team})
-                return redirect('seasonbreaks-teams', season_slug=self.season.slug)
+                return redirect('seasonbreaks-identities', season_slug=self.season.slug)
             return self.render_to_response(self.get_context_data(team_form=form))
         if action == 'update_team_link':
             link = get_object_or_404(BreakTeamLink, id=request.POST.get('link'), season=self.season)
@@ -170,32 +200,13 @@ class SeasonTeamsView(SeasonMixin, TemplateView):
             link.break_team = break_team
             link.save(update_fields=['break_team'])
             messages.success(request, _("Team link was updated."))
-            return redirect('seasonbreaks-teams', season_slug=self.season.slug)
-        return redirect('seasonbreaks-teams', season_slug=self.season.slug)
-
-
-class SeasonSpeakersView(SeasonMixin, TemplateView):
-    template_name = 'seasonbreaks/speakers.html'
-
-    def get_context_data(self, **kwargs):
-        kwargs['speakers'] = self.season.speakers.prefetch_related('links__speaker__team')
-        kwargs['speaker_links'] = BreakSpeakerLink.objects.filter(season=self.season).select_related(
-            'speaker__team__tournament', 'break_speaker',
-        ).order_by('speaker__team__tournament__seq', 'speaker__name')
-        kwargs['speaker_form'] = kwargs.get('speaker_form') or BreakSpeakerForm(season=self.season)
-        kwargs['active_tab'] = 'speakers'
-        return super().get_context_data(**kwargs)
-
-    def post(self, request, *args, **kwargs):
-        if not has_breaks_permission(request.user, BreaksPermission.EDIT):
-            return self.handle_no_permission()
-        action = request.POST.get('action')
+            return redirect('seasonbreaks-identities', season_slug=self.season.slug)
         if action == 'create_speaker':
             form = BreakSpeakerForm(request.POST, season=self.season)
             if form.is_valid():
                 speaker = form.save()
                 messages.success(request, _("Season speaker %(speaker)s was created.") % {'speaker': speaker})
-                return redirect('seasonbreaks-speakers', season_slug=self.season.slug)
+                return redirect('seasonbreaks-identities', season_slug=self.season.slug)
             return self.render_to_response(self.get_context_data(speaker_form=form))
         if action == 'update_speaker_link':
             link = get_object_or_404(BreakSpeakerLink, id=request.POST.get('link'), season=self.season)
@@ -203,8 +214,31 @@ class SeasonSpeakersView(SeasonMixin, TemplateView):
             link.break_speaker = break_speaker
             link.save(update_fields=['break_speaker'])
             messages.success(request, _("Speaker link was updated."))
-            return redirect('seasonbreaks-speakers', season_slug=self.season.slug)
-        return redirect('seasonbreaks-speakers', season_slug=self.season.slug)
+            return redirect('seasonbreaks-identities', season_slug=self.season.slug)
+        if action == 'create_adjudicator':
+            form = BreakAdjudicatorForm(request.POST, season=self.season)
+            if form.is_valid():
+                adjudicator = form.save()
+                messages.success(request, _("Season adjudicator %(adjudicator)s was created.") % {'adjudicator': adjudicator})
+                return redirect('seasonbreaks-identities', season_slug=self.season.slug)
+            return self.render_to_response(self.get_context_data(adjudicator_form=form))
+        if action == 'update_adjudicator_link':
+            link = get_object_or_404(BreakAdjudicatorLink, id=request.POST.get('link'), season=self.season)
+            break_adjudicator = get_object_or_404(BreakAdjudicator, id=request.POST.get('break_adjudicator'), season=self.season)
+            link.break_adjudicator = break_adjudicator
+            link.save(update_fields=['break_adjudicator'])
+            messages.success(request, _("Adjudicator link was updated."))
+            return redirect('seasonbreaks-identities', season_slug=self.season.slug)
+        return redirect('seasonbreaks-identities', season_slug=self.season.slug)
+
+
+class SeasonSpeakersView(SeasonMixin, TemplateView):
+    template_name = 'seasonbreaks/speakers.html'
+
+    def get_context_data(self, **kwargs):
+        kwargs['speakers'] = self.season.speakers.prefetch_related('links__speaker__team')
+        kwargs['active_tab'] = 'speakers'
+        return super().get_context_data(**kwargs)
 
 
 class SeasonQuotasView(SeasonMixin, TemplateView):
