@@ -17,3 +17,4 @@ class Command(TournamentCommand):
         selected_preset = get_preset_from_slug(options["preset"])
         self.stdout.write("Applying preset: " + selected_preset.name)
         selected_preset.save(tournament)
+        selected_preset.configure_feedback_questions(tournament)

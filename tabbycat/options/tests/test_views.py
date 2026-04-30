@@ -119,7 +119,9 @@ class TestSetPresetPreferencesView(TestCase):
 
         form = TestPreset.get_form(tournament, data={'scoring__score_min': Decimal('70'), 'scoring__score_max': Decimal('80')})
         form.is_valid()
-        view.form_valid(form)
+        with patch.object(TestPreset, 'configure_feedback_questions') as mock_configure_feedback_questions:
+            view.form_valid(form)
+        mock_configure_feedback_questions.assert_called_once_with(tournament)
         mock_redirect.assert_called_with(reverse_tournament('options-tournament-index', tournament))
 
         tournament.delete()

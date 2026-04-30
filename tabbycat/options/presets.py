@@ -487,6 +487,7 @@ class SDLFormatPreferences(PreferencesPreset):
     @classmethod
     def configure_feedback_questions(cls, tournament):
         from django.contrib.contenttypes.models import ContentType
+        from django.db import transaction
 
         from adjfeedback.models import AdjudicatorFeedbackQuestion
 
@@ -497,7 +498,6 @@ class SDLFormatPreferences(PreferencesPreset):
             return
 
         content_type = ContentType.objects.get(app_label="adjfeedback", model="adjudicatorfeedback")
-        existing.delete()
 
         scale_help = "1 - Úplne nesúhlasím, 10 - Úplne súhlasím"
         questions = [
@@ -576,17 +576,21 @@ class SDLFormatPreferences(PreferencesPreset):
             },
         ]
 
-        for question in questions:
-            AdjudicatorFeedbackQuestion.objects.create(
-                tournament=tournament,
-                for_content_type=content_type,
-                required=question.pop("required", True),
-                min_value=question.pop("min_value", None),
-                max_value=question.pop("max_value", None),
-                choices=question.pop("choices", []),
-                help_text=question.pop("help_text", ""),
-                **question,
-            )
+        with transaction.atomic():
+            existing.delete()
+
+            for question_spec in questions:
+                question = question_spec.copy()
+                AdjudicatorFeedbackQuestion.objects.create(
+                    tournament=tournament,
+                    for_content_type=content_type,
+                    required=question.pop("required", True),
+                    min_value=question.pop("min_value", None),
+                    max_value=question.pop("max_value", None),
+                    choices=question.pop("choices", []),
+                    help_text=question.pop("help_text", ""),
+                    **question,
+                )
 
 
 class JDLFormatPreferences(SDLFormatPreferences):

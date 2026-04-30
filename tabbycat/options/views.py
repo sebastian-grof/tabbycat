@@ -102,7 +102,9 @@ class SetPresetPreferencesView(AdministratorMixin, LogActionMixin, TournamentMix
         return reverse_tournament('options-tournament-index', self.tournament)
 
     def form_valid(self, form):
+        selected_preset = self.get_selected_preset()
         form.update_preferences()
+        selected_preset.configure_feedback_questions(self.tournament)
         messages.success(self.request, _("Tournament options saved based on preset "
-                "%(name)s.") % {'name': self.get_selected_preset().name})
+                "%(name)s.") % {'name': selected_preset.name})
         return super().form_valid(form)

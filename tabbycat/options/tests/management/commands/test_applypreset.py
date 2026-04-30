@@ -41,6 +41,8 @@ class ApplyPresetTests(TestCase):
         tournament.preferences['scoring__score_min'] = Decimal('0')
         tournament.preferences['scoring__score_max'] = Decimal('100')
 
-        call_command('applypreset', ['-t', 'command', 'testpreset'])
+        with patch.object(TestPreset, 'configure_feedback_questions') as mock_configure_feedback_questions:
+            call_command('applypreset', ['-t', 'command', 'testpreset'])
+        mock_configure_feedback_questions.assert_called_once_with(tournament)
         for pref, val in [('scoring__score_min', Decimal('70')), ('scoring__score_max', Decimal('80'))]:
             self.assertEqual(tournament.preferences[pref], val)
