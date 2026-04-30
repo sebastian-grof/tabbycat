@@ -17,9 +17,14 @@ As of 2026-04-12, the fork includes changes in areas such as:
 - archive export/import for byes and forfeits
 - changes is vote distribution behavior
 - cross-examination support
+- Criterion management interface
+- User permission management interface
 - UI changes in ballots
 - tournament-specific workflow and deployment adjustments
 - footer source-code link for hosted instances
+- XML Converter to XLSX Slovak Debate League result format
+- Break TAB (Used to gather results from multiple tournaments and calculate finals break according to SDL format rules)
+- Tournament folder categorization support
 
 ## Source Code for Hosted Version
 
