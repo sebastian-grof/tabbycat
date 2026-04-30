@@ -31,7 +31,8 @@ As of 2026-04-12, the fork includes changes in areas such as:
 If you are using or interacting with a hosted instance of this fork, the corresponding source code for that deployed version is intended to be available from:
 
 - https://github.com/sebastian-grof/tabbycat
-
+- SDA branch - SDA Tournaments (W.I.P.)
+- develop branch - Global support (W.I.P.) (No Break TAB, Converter, nor Folders)
 ## Licensing
 
 This fork remains distributed under the GNU Affero General Public License v3.0.
