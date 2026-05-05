@@ -11,11 +11,11 @@
 
 {% block page-alerts %}
   {% if not export_enabled %}
-    {% trans "Live feedback export is disabled. Queueing and manual dry runs still work, but automatic push requires FEEDBACK_EXPORT_ENABLED=1." as message %}
+    {% trans "Live feedback export is disabled. Queueing and manual dry runs still work, but automatic push requires SDA_JUDGES_FEEDBACK_EXPORT_ENABLED=True." as message %}
     {% include "components/alert.html" with type="warning" %}
   {% endif %}
   {% if not endpoint_configured %}
-    {% trans "No external feedback API endpoint is configured. Set FEEDBACK_EXPORT_ENDPOINT before processing live sends." as message %}
+    {% trans "No external feedback API endpoint is configured. Set SDA_JUDGES_FEEDBACK_API_URL before processing live sends." as message %}
     {% include "components/alert.html" with type="info" %}
   {% endif %}
 {% endblock %}

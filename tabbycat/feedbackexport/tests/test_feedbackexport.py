@@ -1,3 +1,7 @@
+import io
+import urllib.error
+from unittest.mock import patch
+
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
 from django.test import TestCase, override_settings
@@ -13,7 +17,22 @@ from results.models import Submission
 from tournaments.models import Round, Tournament
 
 from feedbackexport.models import FeedbackExportEvent, JudgeProfile, JudgeProfileLink
-from feedbackexport.services import build_feedback_payload, queue_feedback_export
+from feedbackexport.services import build_feedback_payload, queue_feedback_export, send_event
+
+
+class FakeHTTPResponse:
+    def __init__(self, status=201, body=b'{"ok": true}'):
+        self.status = status
+        self.body = body
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *args):
+        return False
+
+    def read(self):
+        return self.body
 
 
 class FeedbackExportTestCase(TestCase):
@@ -35,6 +54,12 @@ class FeedbackExportTestCase(TestCase):
         )
         self.debate_adjudicator = DebateAdjudicator.objects.create(
             debate=self.debate, adjudicator=self.adjudicator, type=DebateAdjudicator.TYPE_CHAIR,
+        )
+        self.source_adjudicator = Adjudicator.objects.create(
+            tournament=self.tournament, name='Source Judge', email='source@example.test', institution=self.institution,
+        )
+        self.source_debate_adjudicator = DebateAdjudicator.objects.create(
+            debate=self.debate, adjudicator=self.source_adjudicator, type=DebateAdjudicator.TYPE_PANEL,
         )
         self.question = AdjudicatorFeedbackQuestion.objects.create(
             tournament=self.tournament,
@@ -78,12 +103,95 @@ class FeedbackExportTestCase(TestCase):
         payload = event.payload
 
         self.assertEqual(event.status, FeedbackExportEvent.Status.PENDING)
-        self.assertEqual(payload['target']['judge_profile']['external_id'], 'judge-1')
+        self.assertEqual(payload['source_system'], 'tabbycat-sda')
+        self.assertEqual(payload['idempotency_key'], 'tabbycat-sda:feedback:%s:v1' % self.feedback.id)
+        self.assertEqual(payload['target']['judge_profile_id'], 'judge-1')
+        self.assertEqual(payload['target']['local_adjudicator_id'], self.adjudicator.id)
+        self.assertEqual(payload['target']['role'], 'chair')
         self.assertEqual(payload['source']['type'], 'team')
-        self.assertEqual(payload['answers'][0]['reference'], 'clarity')
-        self.assertEqual(payload['answers'][0]['answer'], 5)
+        self.assertEqual(payload['source']['local_id'], self.team.id)
+        self.assertEqual(payload['source']['display_name'], self.team.short_name)
+        self.assertEqual(payload['answers'][0]['question_reference'], 'clarity')
+        self.assertEqual(payload['answers'][0]['answer_type'], 'integer')
+        self.assertEqual(payload['answers'][0]['value'], 5)
         self.assertNotIn('ip_address', payload)
         self.assertNotIn('private_url', payload)
+        self.assertNotIn('submitter', payload)
+
+    def test_payload_contains_adjudicator_source(self):
+        profile = JudgeProfile.objects.create(name='Canonical Judge', primary_email='target@example.test', external_id='judge-1')
+        JudgeProfileLink.objects.create(profile=profile, adjudicator=self.adjudicator)
+        feedback = AdjudicatorFeedback.objects.create(
+            adjudicator=self.adjudicator,
+            score=3,
+            source_adjudicator=self.source_debate_adjudicator,
+            submitter_type=Submission.Submitter.PUBLIC,
+            confirmed=True,
+            confirm_timestamp=timezone.now(),
+        )
+
+        payload = build_feedback_payload(feedback)
+
+        self.assertEqual(payload['source']['type'], 'adjudicator')
+        self.assertEqual(payload['source']['local_id'], self.source_adjudicator.id)
+        self.assertEqual(payload['source']['display_name'], 'Source Judge')
+        self.assertEqual(payload['source']['email'], 'source@example.test')
+
+    def test_ignored_feedback_is_exported_with_ignored_flag(self):
+        profile = JudgeProfile.objects.create(name='Canonical Judge', primary_email='target@example.test')
+        JudgeProfileLink.objects.create(profile=profile, adjudicator=self.adjudicator)
+        self.feedback.ignored = True
+        self.feedback.save()
+
+        payload = build_feedback_payload(self.feedback)
+
+        self.assertIs(payload['ignored'], True)
+
+    @override_settings(FEEDBACK_EXPORT_ENDPOINT='https://example.test/api/', FEEDBACK_EXPORT_TOKEN='secret')
+    @patch('feedbackexport.services.urllib.request.urlopen')
+    def test_send_event_posts_authorization_and_idempotency_headers(self, urlopen):
+        profile = JudgeProfile.objects.create(name='Canonical Judge', primary_email='target@example.test')
+        JudgeProfileLink.objects.create(profile=profile, adjudicator=self.adjudicator)
+        event = queue_feedback_export(self.feedback)
+        urlopen.return_value = FakeHTTPResponse(status=201)
+
+        send_event(event)
+
+        request = urlopen.call_args.args[0]
+        self.assertEqual(request.headers['Authorization'], 'Bearer secret')
+        self.assertEqual(request.headers['Idempotency-key'], event.idempotency_key)
+        event.refresh_from_db()
+        self.assertEqual(event.status, FeedbackExportEvent.Status.SENT)
+
+    @override_settings(FEEDBACK_EXPORT_ENDPOINT='https://example.test/api/', FEEDBACK_EXPORT_TOKEN='secret')
+    @patch('feedbackexport.services.urllib.request.urlopen')
+    def test_send_event_logs_api_error_without_crashing(self, urlopen):
+        profile = JudgeProfile.objects.create(name='Canonical Judge', primary_email='target@example.test')
+        JudgeProfileLink.objects.create(profile=profile, adjudicator=self.adjudicator)
+        event = queue_feedback_export(self.feedback)
+        urlopen.side_effect = urllib.error.HTTPError(
+            'https://example.test/api/', 500, 'Server error', hdrs=None, fp=io.BytesIO(b'{}'),
+        )
+
+        send_event(event)
+
+        event.refresh_from_db()
+        self.assertEqual(event.status, FeedbackExportEvent.Status.FAILED)
+        self.assertEqual(event.last_http_status, 500)
+
+    @override_settings(FEEDBACK_EXPORT_ENABLED=False)
+    @patch('feedbackexport.signals.queue_feedback_export')
+    def test_disabled_live_export_does_not_queue_from_signal(self, queue_feedback):
+        AdjudicatorFeedback.objects.create(
+            adjudicator=self.adjudicator,
+            score=4,
+            source_adjudicator=self.source_debate_adjudicator,
+            submitter_type=Submission.Submitter.PUBLIC,
+            confirmed=True,
+            confirm_timestamp=timezone.now(),
+        )
+
+        queue_feedback.assert_not_called()
 
     @override_settings(FEEDBACK_EXPORT_ENABLED=False)
     def test_index_requires_feedback_export_permission_or_superuser(self):

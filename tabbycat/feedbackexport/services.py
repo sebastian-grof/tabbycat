@@ -17,7 +17,7 @@ from .models import FeedbackExportEvent, JudgeProfile, JudgeProfileLink
 
 logger = logging.getLogger(__name__)
 
-SOURCE_SYSTEM = 'tabbycat'
+SOURCE_SYSTEM = 'tabbycat-sda'
 DEFAULT_TIMEOUT = 10
 MAX_ATTEMPTS = 8
 
@@ -43,7 +43,7 @@ def feedback_export_token():
 
 
 def make_idempotency_key(feedback_id):
-    return '%s-feedback-%s' % (SOURCE_SYSTEM, feedback_id)
+    return '%s:feedback:%s:v1' % (SOURCE_SYSTEM, feedback_id)
 
 
 def normalise_json_value(value):
@@ -93,32 +93,48 @@ def adjudicator_payload(adjudicator, *, include_profile=True):
     return payload
 
 
+def debate_adjudicator_role(debate_adjudicator):
+    if not debate_adjudicator:
+        return None
+    return str(debate_adjudicator.get_type_display())
+
+
 def source_payload(feedback):
     if feedback.source_team_id:
         debate_team = feedback.source_team
         team = debate_team.team
-        tournament = feedback.round.tournament
         return {
             'type': 'team',
-            'debate_team_id': debate_team.id,
             'local_id': team.id,
-            'name': team.short_name,
-            'long_name': team.long_name,
-            'institution': participant_institution_payload(team.institution),
-            'side': debate_team.side,
-            'side_name': str(debate_team.get_side_name(tournament)),
-            'side_abbreviation': str(debate_team.get_side_abbr(tournament)),
-            'result': str(debate_team.get_result_display()),
+            'display_name': team.short_name,
         }
 
     debate_adjudicator = feedback.source_adjudicator
-    return {
+    payload = {
         'type': 'adjudicator',
-        'debate_adjudicator_id': debate_adjudicator.id,
-        'role': debate_adjudicator.type,
-        'role_name': str(debate_adjudicator.get_type_display()),
-        'adjudicator': adjudicator_payload(debate_adjudicator.adjudicator),
+        'local_id': debate_adjudicator.adjudicator_id,
+        'display_name': debate_adjudicator.adjudicator.name,
     }
+    if debate_adjudicator.adjudicator.email:
+        payload['email'] = debate_adjudicator.adjudicator.email
+    return payload
+
+
+def answer_type_payload(question):
+    answer_type = question.answer_type
+    mapping = {
+        question.AnswerType.BOOLEAN_CHECKBOX: 'boolean',
+        question.AnswerType.BOOLEAN_SELECT: 'boolean',
+        question.AnswerType.INTEGER_TEXTBOX: 'integer',
+        question.AnswerType.INTEGER_SCALE: 'integer',
+        question.AnswerType.FLOAT: 'float',
+        question.AnswerType.TEXT: 'text',
+        question.AnswerType.LONGTEXT: 'text',
+        question.AnswerType.SINGLE_SELECT: 'single_select',
+        question.AnswerType.MULTIPLE_SELECT: 'multiple_select',
+        question.AnswerType.DATETIME: 'datetime',
+    }
+    return mapping.get(answer_type, answer_type)
 
 
 def answers_payload(feedback):
@@ -130,16 +146,32 @@ def answers_payload(feedback):
         except Exception:
             logger.exception('Could not deserialize feedback answer %s', answer.id)
             value = answer.answer
+        value = normalise_json_value(value)
         answers.append({
-            'question_id': question.id,
-            'reference': getattr(question, 'reference', None),
-            'name': question.name,
-            'text': question.text,
-            'answer_type': question.answer_type,
-            'answer': normalise_json_value(value),
-            'raw_answer': answer.answer,
+            'question_reference': getattr(question, 'reference', None),
+            'question_text': question.text,
+            'answer_type': answer_type_payload(question),
+            'raw_value': value,
+            'value': value,
         })
     return answers
+
+
+def timestamp_payload(value):
+    return value.isoformat() if value else None
+
+
+def tournament_season_payload(tournament):
+    try:
+        break_tournament = tournament.break_tournaments.select_related('season').order_by(
+            '-season__active', '-season__created_at',
+        ).first()
+    except Exception:
+        logger.exception('Could not resolve feedback export season for tournament %s', tournament.id)
+        return None
+    if not break_tournament:
+        return None
+    return break_tournament.season.name
 
 
 def build_feedback_payload(feedback):
@@ -161,9 +193,10 @@ def build_feedback_payload(feedback):
         'feedback_id': feedback.id,
         'idempotency_key': make_idempotency_key(feedback.id),
         'version': feedback.version,
-        'timestamp': feedback.timestamp.isoformat() if feedback.timestamp else None,
+        'created_at': timestamp_payload(feedback.timestamp),
+        'updated_at': timestamp_payload(feedback.confirm_timestamp or feedback.timestamp),
+        'confirmed_at': timestamp_payload(feedback.confirm_timestamp),
         'confirmed': feedback.confirmed,
-        'confirmed_timestamp': feedback.confirm_timestamp.isoformat() if feedback.confirm_timestamp else None,
         'ignored': feedback.ignored,
         'score': feedback.score,
         'tournament': {
@@ -171,24 +204,22 @@ def build_feedback_payload(feedback):
             'slug': tournament.slug,
             'name': tournament.name,
             'short_name': tournament.short_name,
+            'season': tournament_season_payload(tournament),
         },
         'round': {
-            'id': round_.id,
             'seq': round_.seq,
             'name': round_.name,
             'abbreviation': round_.abbreviation,
         },
         'debate': {
             'id': debate.id,
-            'room_rank': debate.room_rank,
-            'bracket': debate.bracket,
         },
         'target': {
-            'judge_profile': judge_profile_payload(profile),
-            'adjudicator': adjudicator_payload(feedback.adjudicator, include_profile=False),
-            'debate_adjudicator_id': debate_adjudicator.id if debate_adjudicator else None,
-            'role': debate_adjudicator.type if debate_adjudicator else None,
-            'role_name': str(debate_adjudicator.get_type_display()) if debate_adjudicator else None,
+            'judge_profile_id': profile.export_id,
+            'local_adjudicator_id': feedback.adjudicator_id,
+            'name': feedback.adjudicator.name,
+            'email': feedback.adjudicator.email,
+            'role': debate_adjudicator_role(debate_adjudicator),
         },
         'source': source_payload(feedback),
         'answers': answers_payload(feedback),
@@ -223,7 +254,7 @@ def queue_feedback_export(feedback, *, force=False, reset_attempts=False):
             feedback=feedback,
             defaults={'idempotency_key': make_idempotency_key(feedback.id)},
         )
-        if not event.idempotency_key:
+        if event.idempotency_key != make_idempotency_key(feedback.id):
             event.idempotency_key = make_idempotency_key(feedback.id)
 
         try:
@@ -330,12 +361,21 @@ def send_event(event, *, dry_run=False):
         timeout = int(getattr(settings, 'FEEDBACK_EXPORT_TIMEOUT', DEFAULT_TIMEOUT))
         with urllib.request.urlopen(request, timeout=timeout) as response:
             response_body = parse_response_body(response.read())
-            event.mark_sent(response_data=response_body, http_status=response.status)
+            if response.status in {200, 201}:
+                event.mark_sent(response_data=response_body, http_status=response.status)
+            else:
+                event.mark_failed(
+                    'External feedback API returned unexpected HTTP %s.' % response.status,
+                    http_status=response.status,
+                    retry_at=retry_delay(event.attempts),
+                )
     except urllib.error.HTTPError as exc:
         response_body = parse_response_body(exc.read())
         event.remote_response = response_body
         event.save(update_fields=['remote_response', 'updated_at'])
-        permanent = 400 <= exc.code < 500 and exc.code != 429
+        if exc.code in {401, 403}:
+            logger.error('Invalid SDA judges API token while exporting feedback event %s', event.id)
+        permanent = 400 <= exc.code < 500 and exc.code not in {409, 429}
         event.mark_failed(
             'External feedback API returned HTTP %s.' % exc.code,
             permanent=permanent,
