@@ -13,6 +13,7 @@ from actionlog.consumers import ActionLogEntryConsumer # noqa: E402 (has to come
 from adjallocation.consumers import AdjudicatorAllocationWorkerConsumer, PanelEditConsumer # noqa: E402 (has to come after settings)
 from checkins.consumers import CheckInEventConsumer # noqa: E402 (has to come after settings)
 from draw.consumers import DebateEditConsumer # noqa: E402 (has to come after settings)
+from feedbackexport.consumers import FeedbackExportConsumer # noqa: E402 (has to come after settings)
 from notifications.consumers import NotificationQueueConsumer # noqa: E402 (has to come after settings)
 from results.consumers import BallotResultConsumer, BallotStatusConsumer # noqa: E402 (has to come after settings)
 from venues.consumers import VenuesWorkerConsumer # noqa: E402 (has to come after settings)
@@ -41,6 +42,7 @@ application = ProtocolTypeRouter({
     "channel": ChannelNameRouter({
         # Name used in runworker cmd : SyncConsumer responsible
         "notifications":  NotificationQueueConsumer.as_asgi(), # Email sending
+        "feedbackexport": FeedbackExportConsumer.as_asgi(),
         "adjallocation": AdjudicatorAllocationWorkerConsumer.as_asgi(),
         "venues": VenuesWorkerConsumer.as_asgi(),
     }),

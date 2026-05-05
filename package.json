@@ -7,7 +7,7 @@
     "serve-live": "livereload 'tabbycat/' --exts 'css' --exclusions 'tabbycat/static/vue/'",
     "serve-sass": "npm run build-sass -- --watch --style=expanded & npm run build-sass-print -- --watch --style=expanded --source-map",
     "serve-vue": "npx vite",
-    "serve-worker": "dj runworker notifications adjallocation venues",
+    "serve-worker": "dj runworker notifications adjallocation venues feedbackexport",
     "build": "NODE_ENV='production' npm-run-all -p build-* cp-*",
     "build-sass": "npx sass --style=compressed --load-path=node_modules/ tabbycat/templates/scss/style.scss tabbycat/static/css/style.css",
     "build-sass-print": "npx sass --style=compressed tabbycat/templates/scss/printables.scss tabbycat/static/css/printables.css",
@@ -20,7 +20,7 @@
     "cp-validate": "cpx node_modules/jquery-validation/dist/jquery.validate.js tabbycat/static/js/vendor",
     "render-serve": "npm-run-all -p render-*",
     "render-server": "python tabbycat/run-asgi.py",
-    "render-worker": "python manage.py runworker notifications adjallocation venues",
+    "render-worker": "python manage.py runworker notifications adjallocation venues feedbackexport",
     "docs": "sphinx-autobuild docs docs/_build/html --port 7999",
     "lint": "pre-commit run --all-files"
   },

@@ -83,6 +83,10 @@ urlpatterns = [
     path('breaks/',
         include('seasonbreaks.urls')),
 
+    # Cross-tournament adjudicator feedback export
+    path('feedback-export/',
+        include('feedbackexport.urls')),
+
     # DebateXML to results workbook converter
     path('converter/',
         include('xmlconverter.urls')),

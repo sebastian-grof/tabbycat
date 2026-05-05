@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 PROHIBITED_TOURNAMENT_SLUGS = [
     'jet', 'database', 'admin', 'accounts', 'summernote',  # System
     'start', 'create', 'load-demo', # Setup Wizards
-    'tournament', 'notifications', 'archive', 'api', 'breaks', 'converter', 'categories', # Cross-Tournament app's view roots
+    'tournament', 'notifications', 'archive', 'api', 'breaks', 'feedback-export', 'converter', 'categories', # Cross-Tournament app's view roots
     'favicon.ico', 'robots.txt', 'navigatorPush.service.js', # Files that must be at top level
     '__debug__', 'static', 'style', 'i18n', 'jsi18n']  # Misc
 

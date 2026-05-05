@@ -137,6 +137,7 @@ TABBYCAT_APPS = (
     'notifications',
     'importer',
     'registration',
+    'feedbackexport.apps.FeedbackExportConfig',
     'seasonbreaks',
     'xmlconverter',
 )
@@ -442,3 +443,12 @@ PUSH_NOTIFICATIONS_SETTINGS = {
     "application_server_key": os.environ.get("WP_APPLICATION_SERVER_KEY")
 }
 ENABLE_PUSH_NOTIFICATIONS = os.environ.get("WP_PRIVATE_KEY") is not None
+
+# ==============================================================================
+# Feedback export
+# ==============================================================================
+
+FEEDBACK_EXPORT_ENABLED = bool(int(os.environ.get('FEEDBACK_EXPORT_ENABLED', '0')))
+FEEDBACK_EXPORT_ENDPOINT = os.environ.get('FEEDBACK_EXPORT_ENDPOINT', '')
+FEEDBACK_EXPORT_TOKEN = os.environ.get('FEEDBACK_EXPORT_TOKEN', '')
+FEEDBACK_EXPORT_TIMEOUT = int(os.environ.get('FEEDBACK_EXPORT_TIMEOUT', '10'))

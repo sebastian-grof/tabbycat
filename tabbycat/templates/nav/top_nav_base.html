@@ -70,6 +70,12 @@
           </a>
         {% endif %}
 
+        {% if can_view_feedback_export %}
+          <a class="dropdown-item px-2" href="{% url 'feedbackexport-index' %}">
+            <i data-feather="navigation"></i>{% trans "Feedback Export" %}
+          </a>
+        {% endif %}
+
         {% if can_use_converter %}
           <a class="dropdown-item px-2" href="{% url 'xmlconverter-index' %}">
             <i data-feather="repeat"></i>{% trans "Converter" %}
