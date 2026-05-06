@@ -464,7 +464,7 @@ class SDLFormatPreferences(PreferencesPreset):
     data_entry__enable_blind_checks            = False
     data_entry__disable_ballot_confirms        = False
     data_entry__slider_ballot_ui               = True
-    data_entry__participant_feedback           = 'off'
+    data_entry__participant_feedback           = 'private-urls'
     data_entry__participant_ballots            = 'private-urls'
 
     # UI Options
@@ -592,7 +592,7 @@ class SDLFormatPreferences(PreferencesPreset):
 
 
 class JDLFormatPreferences(SDLFormatPreferences):
-    name         = _("JDL Format")
+    name         = _("JDL 2. kategória")
     description  = _("2 vs 2 with replies, no cross-examinations, pre-allocated "
         "sides, private URL ballot entry, and JDL-style standings and draw rules.")
 
@@ -618,6 +618,8 @@ class JDLFirstCategoryPreferences(JDLFormatPreferences):
     debate_rules__cross_examinations_enabled   = False
     debate_rules__require_substantive_for_reply = False
     debate_rules__side_names                   = 'aff-neg'
+
+    data_entry__individual_ballots             = False
 
     standings__team_standings_precedence       = ['speaks_sum', 'num_adjs']
     standings__team_standings_extra_metrics    = []
