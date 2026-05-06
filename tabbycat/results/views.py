@@ -40,15 +40,35 @@ from utils.tables import TabbycatTableBuilder
 from utils.views import PostOnlyRedirectView, VueTableTemplateView
 
 from .consumers import BallotStatusConsumer
-from .forms import (broadcast_results, PerAdjudicatorBallotSetForm, PerAdjudicatorEliminationBallotSetForm,
-                    SingleBallotSetForm, SingleEliminationBallotSetForm)
-from .models import BallotSubmission, ScoreCriterion, TeamScore
+from .forms import (BallotTextFeedbackForm, broadcast_results, PerAdjudicatorBallotSetForm,
+                    PerAdjudicatorEliminationBallotSetForm, SingleBallotSetForm,
+                    SingleEliminationBallotSetForm)
+from .models import BallotSubmission, BallotTextFeedback, ScoreCriterion, TeamScore
 from .prefetch import populate_confirmed_ballots, populate_results
 from .result import DebateResult, get_class_name
 from .tables import ResultsTableBuilder
 from .utils import get_status_meta, populate_identical_ballotsub_lists
 
 logger = logging.getLogger(__name__)
+
+TEXT_FEEDBACK_POST_ACTION = 'save_ballot_text_feedback'
+
+
+def ballot_text_feedbacks_for_debate(debate):
+    return BallotTextFeedback.objects.filter(
+        ballot_submission__debate=debate,
+        ballot_submission__discarded=False,
+    ).exclude(text='').select_related(
+        'ballot_submission__participant_submitter',
+        'updated_by_adjudicator',
+        'updated_by_user',
+    ).order_by('ballot_submission__version')
+
+
+def ballot_text_feedback_initial(ballot_submission):
+    return BallotTextFeedback.objects.filter(
+        ballot_submission=ballot_submission,
+    ).values_list('text', flat=True).first() or ''
 
 
 class PublicResultsIndexView(PublicTournamentPageMixin, TemplateView):
@@ -529,9 +549,43 @@ class BaseEditBallotSetView(SingleObjectFromTournamentMixin, BaseBallotSetView):
         kwargs['result'] = DebateResult(self.ballotsub, tournament=self.tournament)
         return kwargs
 
+    def can_edit_ballot_text_feedback(self):
+        return False
+
+    def get_ballot_text_feedback_form(self, **kwargs):
+        kwargs.setdefault('initial_text', ballot_text_feedback_initial(self.ballotsub))
+        return BallotTextFeedbackForm(**kwargs)
+
+    def get_context_data(self, **kwargs):
+        if self.can_edit_ballot_text_feedback():
+            kwargs['show_ballot_text_feedback_admin_form'] = True
+            kwargs['text_feedback_action'] = TEXT_FEEDBACK_POST_ACTION
+            kwargs.setdefault('ballot_text_feedback_form', self.get_ballot_text_feedback_form())
+        return super().get_context_data(**kwargs)
+
+    def post(self, request, *args, **kwargs):
+        if request.POST.get('action') != TEXT_FEEDBACK_POST_ACTION:
+            return super().post(request, *args, **kwargs)
+
+        error_response = self.populate_objects(prefill=False)
+        if error_response:
+            return error_response
+
+        if not self.can_edit_ballot_text_feedback():
+            raise Http404
+
+        form = self.get_ballot_text_feedback_form(data=request.POST)
+        if form.is_valid():
+            form.save(self.ballotsub, user=request.user)
+            messages.success(request, _("Text feedback for teams saved."))
+            return HttpResponseRedirect(request.get_full_path())
+
+        return self.render_to_response(self.get_context_data(ballot_text_feedback_form=form))
+
 
 class AdminEditBallotSetView(AdministratorBallotSetMixin, BaseEditBallotSetView):
-    pass
+    def can_edit_ballot_text_feedback(self):
+        return True
 
 
 class AssistantEditBallotSetView(AssistantBallotSetMixin, BaseEditBallotSetView):
@@ -539,7 +593,8 @@ class AssistantEditBallotSetView(AssistantBallotSetMixin, BaseEditBallotSetView)
 
 
 class OldAdminEditBallotSetView(OldAdministratorBallotSetMixin, BaseEditBallotSetView):
-    pass
+    def can_edit_ballot_text_feedback(self):
+        return True
 
 
 class OldAssistantEditBallotSetView(OldAssistantBallotSetMixin, BaseEditBallotSetView):
@@ -842,17 +897,60 @@ class AdjudicatorPrivateUrlBallotScoresheetView(RoundMixin, SingleObjectByRandom
             logger.warning("Refused public view of ballots for %s: no ballot", self.object)
             return 404, _("There is no result yet for debate %s.") % self.matchup_description()
 
-    def get_context_data(self, **kwargs):
-        ballot = self.object.ballotsubmission_set.filter(
-            Q(participant_submitter__isnull=True) | Q(participant_submitter__url_key=self.kwargs.get('url_key')) | Q(confirmed=True),
-            discarded=False,
-        ).order_by('confirmed', 'version').last()
+    def _get_adjudicator(self):
+        return Adjudicator.objects.get(url_key=self.kwargs.get('url_key'))
+
+    def _get_visible_ballot(self):
+        ballots = self.object.ballotsubmission_set.filter(discarded=False)
+        if self.tournament.pref('individual_ballots'):
+            ballots = ballots.filter(
+                Q(participant_submitter__isnull=True) |
+                Q(participant_submitter__url_key=self.kwargs.get('url_key')) |
+                Q(confirmed=True),
+            )
+        ballot = ballots.order_by('confirmed', 'version').last()
         if ballot is None:
             raise Http404
+        return ballot
+
+    def _render_post_error(self, error):
+        if error:
+            return self.response_error(error)
+
+    def post(self, request, *args, **kwargs):
+        try:
+            self.object = self.get_object()
+        except self.model.MultipleObjectsReturned:
+            return self.response_error((500, _("It looks like you were assigned to two or more debates. Please contact a tab room official.")))
+
+        error_response = self._render_post_error(self.check_permissions())
+        if error_response:
+            return error_response
+
+        if request.POST.get('action') != TEXT_FEEDBACK_POST_ACTION:
+            return HttpResponseRedirect(request.get_full_path())
+
+        ballot = self._get_visible_ballot()
+        form = BallotTextFeedbackForm(request.POST)
+        if form.is_valid():
+            form.save(ballot, adjudicator=self._get_adjudicator(), user=request.user)
+            messages.success(request, _("Text feedback for teams saved."))
+            return HttpResponseRedirect(request.get_full_path())
+
+        return self.render_to_response(self.get_context_data(ballot_text_feedback_form=form))
+
+    def get_context_data(self, **kwargs):
+        ballot = self._get_visible_ballot()
         kwargs['motion'] = ballot.motion
         kwargs['result'] = ballot.result
         kwargs['use_code_names'] = use_team_code_names(self.tournament, False)
-        kwargs['adjudicator'] = Adjudicator.objects.get(url_key=self.kwargs.get('url_key'))
+        kwargs['adjudicator'] = self._get_adjudicator()
+        kwargs['private_url'] = True
+        kwargs['url_key'] = self.kwargs.get('url_key')
+        kwargs['show_ballot_text_feedback_form'] = True
+        kwargs['text_feedback_action'] = TEXT_FEEDBACK_POST_ACTION
+        kwargs.setdefault('ballot_text_feedback_form', BallotTextFeedbackForm(
+            initial_text=ballot_text_feedback_initial(ballot)))
         return super().get_context_data(**kwargs)
 
     def response_error(self, error):
@@ -875,6 +973,13 @@ class SpeakerPrivateUrlBallotScoresheetView(RoundMixin, SingleObjectByRandomised
 
     def is_page_enabled(self, tournament):
         return True
+
+    def get_context_data(self, **kwargs):
+        kwargs['private_url'] = True
+        kwargs['url_key'] = self.kwargs.get('url_key')
+        kwargs['show_ballot_text_feedbacks'] = True
+        kwargs['ballot_text_feedbacks'] = ballot_text_feedbacks_for_debate(self.object)
+        return super().get_context_data(**kwargs)
 
     def get_queryset(self):
         return super().get_queryset().filter(round=self.round)

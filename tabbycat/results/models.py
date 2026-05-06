@@ -225,6 +225,30 @@ class BallotSubmission(Submission):
         return self._roundmotion
 
 
+class BallotTextFeedback(models.Model):
+    """Optional post-ballot text feedback shown to teams on private ballot views."""
+
+    ballot_submission = models.OneToOneField(BallotSubmission, models.CASCADE,
+        related_name='text_feedback', verbose_name=_("ballot submission"))
+    text = models.TextField(verbose_name=_("text feedback"))
+    updated_by_adjudicator = models.ForeignKey('participants.Adjudicator', models.SET_NULL,
+        blank=True, null=True, related_name='ballot_text_feedback_updates',
+        verbose_name=_("updated by adjudicator"))
+    updated_by_user = models.ForeignKey(settings.AUTH_USER_MODEL, models.SET_NULL,
+        blank=True, null=True, related_name='ballot_text_feedback_updates',
+        verbose_name=_("updated by user"))
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("created at"))
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=_("updated at"))
+
+    class Meta:
+        ordering = ['ballot_submission_id']
+        verbose_name = _("ballot text feedback")
+        verbose_name_plural = _("ballot text feedback")
+
+    def __str__(self):
+        return _("Text feedback for %(ballot)s") % {'ballot': self.ballot_submission}
+
+
 class TeamScoreByAdj(models.Model):
     """Holds team result given by a particular adjudicator in a debate.
     Mostly redundant; is necessary however for voting elimination ballots."""

@@ -21,6 +21,7 @@ As of 2026-04-12, the fork includes changes in areas such as:
 - UI changes in ballots
 - tournament-specific workflow and deployment adjustments
 - footer source-code link for hosted instances
+- Feedback export to external DB through API with extra information
 
 ## Source Code for Hosted Version
 

@@ -1,0 +1,31 @@
+{% load add_field_css i18n %}
+
+<div class="card mt-3">
+  <form action="." method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="action" value="{{ text_feedback_action }}">
+
+    <div class="list-group list-group-flush">
+      <div class="list-group-item">
+        <h4 class="mb-1">{% trans "Textový feedback pre tímy" %}</h4>
+        <p class="mb-0 text-muted">
+          {% trans "Tento text sa zobrazí tímom v ich súkromnom zobrazení ballotu. Verejná stránka ballotu ho nezobrazí." %}
+        </p>
+      </div>
+
+      <div class="list-group-item">
+        {{ ballot_text_feedback_form.text.errors }}
+        {{ ballot_text_feedback_form.text|addcss:"form-control" }}
+        <p class="small text-muted mt-2 mb-0">
+          {% trans "Ak pole necháš prázdne a uložíš, textový feedback sa odstráni." %}
+        </p>
+      </div>
+
+      <div class="list-group-item">
+        <button type="submit" class="btn btn-success">
+          {% trans "Uložiť textový feedback" %}
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

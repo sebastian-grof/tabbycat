@@ -147,6 +147,39 @@ def broadcast_results(ballotsub: 'BallotSubmission', debate: Debate):
 # Result/ballot forms
 # ==============================================================================
 
+class BallotTextFeedbackForm(forms.Form):
+    text = forms.CharField(
+        label=_("Text feedback for teams"),
+        required=False,
+        widget=forms.Textarea(attrs={
+            'rows': 6,
+            'placeholder': _("Add text feedback that teams can read from their private ballot view."),
+        }),
+    )
+
+    def __init__(self, *args, initial_text=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        if initial_text is not None:
+            self.initial['text'] = initial_text
+
+    def save(self, ballot_submission: 'BallotSubmission', adjudicator=None, user=None):
+        from .models import BallotTextFeedback
+
+        text = self.cleaned_data['text'].strip()
+        if not text:
+            BallotTextFeedback.objects.filter(ballot_submission=ballot_submission).delete()
+            return None
+
+        defaults = {
+            'text': text,
+            'updated_by_adjudicator': adjudicator,
+            'updated_by_user': user if getattr(user, 'is_authenticated', False) else None,
+        }
+        feedback, _ = BallotTextFeedback.objects.update_or_create(
+            ballot_submission=ballot_submission, defaults=defaults)
+        return feedback
+
+
 class BaseResultForm(forms.Form):
     """Base class for forms that report results. Contains fields and methods
     common to absolutely everything (which isn't very much)."""

@@ -7,7 +7,7 @@ from django.utils.translation import gettext_lazy as _, ngettext_lazy
 from draw.models import DebateTeam
 from utils.admin import ModelAdmin, TabbycatModelAdminFieldsMixin
 
-from .models import BallotSubmission, CriterionPreset, CriterionPresetItem, CrossExamination, CrossExaminationScore, CrossExaminationScoreByAdj, ScoreCriterion, SpeakerCriterionScore, SpeakerCriterionScoreByAdj, SpeakerScore, SpeakerScoreByAdj, TeamScore, TeamScoreByAdj
+from .models import BallotSubmission, BallotTextFeedback, CriterionPreset, CriterionPresetItem, CrossExamination, CrossExaminationScore, CrossExaminationScoreByAdj, ScoreCriterion, SpeakerCriterionScore, SpeakerCriterionScoreByAdj, SpeakerScore, SpeakerScoreByAdj, TeamScore, TeamScoreByAdj
 from .prefetch import populate_results
 
 
@@ -45,6 +45,22 @@ class BallotSubmissionAdmin(TabbycatModelAdminFieldsMixin, ModelAdmin):
             "Resaved results for %(count)d ballot submission.",
             "Resaved results for %(count)d ballot submissions.",
             count) % {'count': count})
+
+
+@admin.register(BallotTextFeedback)
+class BallotTextFeedbackAdmin(TabbycatModelAdminFieldsMixin, ModelAdmin):
+    list_display = ('id', 'ballot_submission', 'updated_by_adjudicator', 'updated_by_user', 'updated_at')
+    search_fields = ('text', 'ballot_submission__debate__debateteam__team__short_name',
+        'ballot_submission__debate__debateteam__team__institution__name')
+    raw_id_fields = ('ballot_submission', 'updated_by_adjudicator', 'updated_by_user')
+    list_filter = ('ballot_submission__debate__round', 'ballot_submission__debate__round__tournament')
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).select_related(
+            'ballot_submission__debate__round__tournament',
+            'updated_by_adjudicator',
+            'updated_by_user',
+        )
 
 
 # ==============================================================================

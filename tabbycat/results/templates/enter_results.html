@@ -59,6 +59,10 @@
     </div>
 
   </form>
+
+  {% if show_ballot_text_feedback_admin_form %}
+    {% include "ballot_text_feedback_form.html" %}
+  {% endif %}
 {% endblock content %}
 
 {% block js %}

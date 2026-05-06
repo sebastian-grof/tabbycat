@@ -1,0 +1,33 @@
+{% load debate_tags i18n %}
+
+{% if ballot_text_feedbacks %}
+  <div class="card mt-3">
+    <div class="card-body">
+      <h4 class="card-title">{% trans "Textový feedback od rozhodcov" %}</h4>
+
+      {% for feedback in ballot_text_feedbacks %}
+        <div class="ballot-text-feedback{% if not forloop.last %} mb-3 pb-3 border-bottom{% endif %}">
+          <div class="small text-muted mb-2">
+            {% if feedback.ballot_submission.participant_submitter %}
+              {% person_display_name feedback.ballot_submission.participant_submitter as feedback_author %}
+              {% blocktrans trimmed with name=feedback_author %}
+                Od {{ name }}
+              {% endblocktrans %}
+            {% elif feedback.updated_by_adjudicator %}
+              {% person_display_name feedback.updated_by_adjudicator as feedback_author %}
+              {% blocktrans trimmed with name=feedback_author %}
+                Od {{ name }}
+              {% endblocktrans %}
+            {% else %}
+              {% trans "Od rozhodcovského panelu" %}
+            {% endif %}
+            {% if feedback.updated_at %}
+              · {{ feedback.updated_at|date:"SHORT_DATETIME_FORMAT" }}
+            {% endif %}
+          </div>
+          <div class="ballot-text-feedback__text">{{ feedback.text|linebreaks }}</div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endif %}
