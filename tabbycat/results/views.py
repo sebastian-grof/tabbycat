@@ -80,6 +80,11 @@ def ballot_text_feedback_initial(ballot_submission):
     return feedback.text if feedback else ''
 
 
+def ballot_text_feedback_form_for_ballot(ballot_submission, **kwargs):
+    kwargs.setdefault('initial_text', ballot_text_feedback_initial(ballot_submission))
+    return BallotTextFeedbackForm(**kwargs)
+
+
 class PublicResultsIndexView(PublicTournamentPageMixin, TemplateView):
 
     template_name = 'public_results_index.html'
@@ -558,46 +563,9 @@ class BaseEditBallotSetView(SingleObjectFromTournamentMixin, BaseBallotSetView):
         kwargs['result'] = DebateResult(self.ballotsub, tournament=self.tournament)
         return kwargs
 
-    def can_edit_ballot_text_feedback(self):
-        return False
-
-    def get_ballot_text_feedback_form(self, **kwargs):
-        kwargs.setdefault('initial_text', ballot_text_feedback_initial(self.ballotsub))
-        return BallotTextFeedbackForm(**kwargs)
-
-    def get_context_data(self, **kwargs):
-        if self.can_edit_ballot_text_feedback():
-            kwargs['ballot_text_feedback'] = ballot_text_feedback_for_ballot(self.ballotsub)
-            kwargs['show_ballot_text_feedbacks'] = True
-            kwargs['ballot_text_feedbacks'] = ballot_text_feedbacks_for_debate(self.debate)
-            kwargs['show_ballot_text_feedback_admin_form'] = True
-            kwargs['text_feedback_action'] = TEXT_FEEDBACK_POST_ACTION
-            kwargs.setdefault('ballot_text_feedback_form', self.get_ballot_text_feedback_form())
-        return super().get_context_data(**kwargs)
-
-    def post(self, request, *args, **kwargs):
-        if request.POST.get('action') != TEXT_FEEDBACK_POST_ACTION:
-            return super().post(request, *args, **kwargs)
-
-        error_response = self.populate_objects(prefill=False)
-        if error_response:
-            return error_response
-
-        if not self.can_edit_ballot_text_feedback():
-            raise Http404
-
-        form = self.get_ballot_text_feedback_form(data=request.POST)
-        if form.is_valid():
-            form.save(self.ballotsub, user=request.user)
-            messages.success(request, _("Text feedback for teams saved."))
-            return HttpResponseRedirect(request.get_full_path())
-
-        return self.render_to_response(self.get_context_data(ballot_text_feedback_form=form))
-
 
 class AdminEditBallotSetView(AdministratorBallotSetMixin, BaseEditBallotSetView):
-    def can_edit_ballot_text_feedback(self):
-        return True
+    pass
 
 
 class AssistantEditBallotSetView(AssistantBallotSetMixin, BaseEditBallotSetView):
@@ -605,8 +573,7 @@ class AssistantEditBallotSetView(AssistantBallotSetMixin, BaseEditBallotSetView)
 
 
 class OldAdminEditBallotSetView(OldAdministratorBallotSetMixin, BaseEditBallotSetView):
-    def can_edit_ballot_text_feedback(self):
-        return True
+    pass
 
 
 class OldAssistantEditBallotSetView(OldAssistantBallotSetMixin, BaseEditBallotSetView):
@@ -912,12 +879,16 @@ class AdjudicatorPrivateUrlBallotScoresheetView(RoundMixin, SingleObjectByRandom
     def _get_adjudicator(self):
         return Adjudicator.objects.get(url_key=self.kwargs.get('url_key'))
 
+    def _get_judge_ballot(self):
+        return self.object.ballotsubmission_set.filter(
+            discarded=False,
+            participant_submitter__url_key=self.kwargs.get('url_key'),
+        ).order_by('version').last()
+
     def _get_visible_ballot(self):
         ballots = self.object.ballotsubmission_set.filter(discarded=False)
         if self.tournament.pref('individual_ballots'):
-            ballot = ballots.filter(
-                participant_submitter__url_key=self.kwargs.get('url_key'),
-            ).order_by('confirmed', 'version').last()
+            ballot = self._get_judge_ballot()
             if ballot is not None:
                 return ballot
 
@@ -929,6 +900,11 @@ class AdjudicatorPrivateUrlBallotScoresheetView(RoundMixin, SingleObjectByRandom
         if ballot is None:
             raise Http404
         return ballot
+
+    def _get_editable_ballot(self):
+        if self.tournament.pref('individual_ballots'):
+            return self._get_judge_ballot()
+        return self._get_visible_ballot()
 
     def _render_post_error(self, error):
         if error:
@@ -947,7 +923,11 @@ class AdjudicatorPrivateUrlBallotScoresheetView(RoundMixin, SingleObjectByRandom
         if request.POST.get('action') != TEXT_FEEDBACK_POST_ACTION:
             return HttpResponseRedirect(request.get_full_path())
 
-        ballot = self._get_visible_ballot()
+        ballot = self._get_editable_ballot()
+        if ballot is None:
+            messages.error(request, _("Text feedback can be added after your own ballot has been submitted."))
+            return HttpResponseRedirect(request.get_full_path())
+
         form = BallotTextFeedbackForm(request.POST)
         if form.is_valid():
             form.save(ballot, adjudicator=self._get_adjudicator(), user=request.user)
@@ -958,17 +938,22 @@ class AdjudicatorPrivateUrlBallotScoresheetView(RoundMixin, SingleObjectByRandom
 
     def get_context_data(self, **kwargs):
         ballot = self._get_visible_ballot()
+        editable_ballot = self._get_editable_ballot()
         kwargs['motion'] = ballot.motion
         kwargs['result'] = ballot.result
         kwargs['use_code_names'] = use_team_code_names(self.tournament, False)
         kwargs['adjudicator'] = self._get_adjudicator()
         kwargs['private_url'] = True
         kwargs['url_key'] = self.kwargs.get('url_key')
-        kwargs['ballot_text_feedback'] = ballot_text_feedback_for_ballot(ballot)
+        kwargs['ballot_text_feedback_can_edit'] = editable_ballot is not None
         kwargs['show_ballot_text_feedback_form'] = True
+        if editable_ballot is None:
+            kwargs['ballot_text_feedback_unavailable_message'] = _(
+                "Text feedback can be added after your own ballot has been submitted.")
+        else:
+            kwargs['ballot_text_feedback'] = ballot_text_feedback_for_ballot(editable_ballot)
+            kwargs.setdefault('ballot_text_feedback_form', ballot_text_feedback_form_for_ballot(editable_ballot))
         kwargs['text_feedback_action'] = TEXT_FEEDBACK_POST_ACTION
-        kwargs.setdefault('ballot_text_feedback_form', BallotTextFeedbackForm(
-            initial_text=ballot_text_feedback_initial(ballot)))
         return super().get_context_data(**kwargs)
 
     def response_error(self, error):

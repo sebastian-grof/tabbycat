@@ -39,11 +39,6 @@
 
   </form>
 
-  {% if show_ballot_text_feedback_admin_form %}
-    {% include "ballot_text_feedback_list.html" %}
-    {% include "ballot_text_feedback_form.html" %}
-  {% endif %}
-
   <div id="vueMount">
     <ballot-entry-container
       :debate-name="'{{ debate_name|escapejs }}'"

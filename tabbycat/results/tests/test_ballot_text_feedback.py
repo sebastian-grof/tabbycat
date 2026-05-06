@@ -5,7 +5,7 @@ from draw.models import Debate
 from participants.models import Adjudicator, Institution
 from results.forms import BallotTextFeedbackForm
 from results.models import BallotSubmission, BallotTextFeedback
-from results.views import ballot_text_feedbacks_for_debate
+from results.views import AdjudicatorPrivateUrlBallotScoresheetView, ballot_text_feedbacks_for_debate
 from tournaments.models import Round, Tournament
 from venues.models import Venue
 
@@ -27,6 +27,7 @@ class BallotTextFeedbackFormTests(TestCase):
             tournament=self.tournament,
             institution=self.institution,
             name="Adjudicator",
+            url_key="adj-url",
             base_score=5,
         )
         self.user = get_user_model().objects.create_user(username="tab", password="pass")
@@ -70,3 +71,40 @@ class BallotTextFeedbackFormTests(TestCase):
 
         self.assertEqual(len(feedbacks), 1)
         self.assertEqual(feedbacks[0].text, "Visible")
+
+    def test_private_url_individual_ballot_edits_only_judge_ballot(self):
+        self.tournament.preferences['data_entry__individual_ballots'] = True
+        judge_ballot = BallotSubmission.objects.create(
+            debate=self.debate,
+            submitter_type=BallotSubmission.Submitter.PUBLIC,
+            participant_submitter=self.adjudicator,
+            private_url=True,
+            single_adj=True,
+        )
+        BallotSubmission.objects.create(
+            debate=self.debate,
+            submitter_type=BallotSubmission.Submitter.AUTOMATION,
+            confirmed=True,
+        )
+
+        view = AdjudicatorPrivateUrlBallotScoresheetView()
+        view.object = self.debate
+        view.tournament = self.tournament
+        view.kwargs = {'url_key': self.adjudicator.url_key}
+
+        self.assertEqual(view._get_editable_ballot(), judge_ballot)
+
+    def test_private_url_individual_ballot_without_judge_ballot_has_no_edit_target(self):
+        self.tournament.preferences['data_entry__individual_ballots'] = True
+        BallotSubmission.objects.create(
+            debate=self.debate,
+            submitter_type=BallotSubmission.Submitter.AUTOMATION,
+            confirmed=True,
+        )
+
+        view = AdjudicatorPrivateUrlBallotScoresheetView()
+        view.object = self.debate
+        view.tournament = self.tournament
+        view.kwargs = {'url_key': self.adjudicator.url_key}
+
+        self.assertIsNone(view._get_editable_ballot())
