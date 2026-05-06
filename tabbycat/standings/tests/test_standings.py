@@ -14,6 +14,7 @@ from utils.tests import suppress_logs
 from venues.models import Venue
 
 from ..base import StandingsError
+from ..round_results import add_speaker_round_results
 from ..speakers import SpeakerStandingsGenerator
 from ..teams import TeamStandingsGenerator
 
@@ -435,6 +436,7 @@ class TestSpeakerStandingsAverageMetric(TestCase):
             return generator.generate(Speaker.objects.filter(team__tournament=self.tournament), tournament=self.tournament, round=self.tournament.round_set.order_by('seq').last())
 
     def test_average_normalizes_by_votes_possible_when_dissenters_are_included(self):
+        self.set_tournament_preference('debate_rules', 'adjudicator_weighting', 'weighted-to-three')
         self.set_tournament_preference('scoring', 'margin_includes_dissenters', True)
         self.add_round_scores(1, 60, 45, 3, 0)
         self.add_round_scores(2, 72, 63, 2, 1)
@@ -447,6 +449,7 @@ class TestSpeakerStandingsAverageMetric(TestCase):
         self.assertAlmostEqual(108, standings.get_standing(self.speaker2).metrics['total'])
 
     def test_average_normalizes_by_votes_possible_when_dissenters_are_excluded(self):
+        self.set_tournament_preference('debate_rules', 'adjudicator_weighting', 'weighted-to-three')
         self.set_tournament_preference('scoring', 'margin_includes_dissenters', False)
         self.add_round_scores(1, 40, 36, 2, 1)
         self.add_round_scores(2, 50, 42, 2, 1)
@@ -457,6 +460,26 @@ class TestSpeakerStandingsAverageMetric(TestCase):
         self.assertAlmostEqual(13, standings.get_standing(self.speaker2).metrics['average'])
         self.assertAlmostEqual(90, standings.get_standing(self.speaker1).metrics['total'])
         self.assertAlmostEqual(78, standings.get_standing(self.speaker2).metrics['total'])
+
+    def test_round_scores_normalize_by_votes_possible_when_weighted_to_three(self):
+        self.set_tournament_preference('debate_rules', 'adjudicator_weighting', 'weighted-to-three')
+        self.add_round_scores(1, 72, 63, 2, 1)
+
+        standings = self.get_standings()
+        add_speaker_round_results(standings, self.tournament.round_set.order_by('seq'), self.tournament)
+
+        self.assertAlmostEqual(24, standings.get_standing(self.speaker1).scores[0])
+        self.assertAlmostEqual(21, standings.get_standing(self.speaker2).scores[0])
+
+    def test_round_scores_remain_raw_when_not_weighted_to_three(self):
+        self.set_tournament_preference('debate_rules', 'adjudicator_weighting', 'tabbycat-default')
+        self.add_round_scores(1, 72, 63, 2, 1)
+
+        standings = self.get_standings()
+        add_speaker_round_results(standings, self.tournament.round_set.order_by('seq'), self.tournament)
+
+        self.assertAlmostEqual(72, standings.get_standing(self.speaker1).scores[0])
+        self.assertAlmostEqual(63, standings.get_standing(self.speaker2).scores[0])
 
 
 class TestByeAverageScores(TestCase):

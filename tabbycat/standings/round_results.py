@@ -85,7 +85,24 @@ def add_speaker_round_results(standings, rounds, tournament, replies=False):
     for info in standings:
         info.scores = [None] * len(rounds)
 
+    speaker_scores = list(speaker_scores)
+    weighted_score_divisors = {}
+    if tournament.pref('adjudicator_weighting') == 'weighted-to-three':
+        ballot_submission_ids = {ss.ballot_submission_id for ss in speaker_scores}
+        debate_team_ids = {ss.debate_team_id for ss in speaker_scores}
+        weighted_score_divisors = {
+            (ballot_submission_id, debate_team_id): votes_possible
+            for ballot_submission_id, debate_team_id, votes_possible in TeamScore.objects.filter(
+                ballot_submission_id__in=ballot_submission_ids,
+                debate_team_id__in=debate_team_ids,
+            ).values_list('ballot_submission_id', 'debate_team_id', 'votes_possible')
+            if votes_possible
+        }
+
     round_lookup = {r: i for i, r in enumerate(rounds)}
     for ss in speaker_scores:
         info = standings.get_standing(ss.speaker)
-        info.scores[round_lookup[ss.debate_team.debate.round]] = ss.score
+        score = ss.score
+        if weighted_score_divisors:
+            score /= weighted_score_divisors.get((ss.ballot_submission_id, ss.debate_team_id), 1)
+        info.scores[round_lookup[ss.debate_team.debate.round]] = score
