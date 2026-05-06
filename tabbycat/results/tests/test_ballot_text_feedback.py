@@ -5,8 +5,10 @@ from draw.models import Debate
 from participants.models import Adjudicator, Institution
 from results.forms import BallotTextFeedbackForm
 from results.models import BallotSubmission, BallotTextFeedback
-from results.views import AdjudicatorPrivateUrlBallotScoresheetView, ballot_text_feedbacks_for_debate
+from results.views import (AdjudicatorPrivateUrlBallotScoresheetView, BasePublicBallotScoresheetsView,
+                           ballot_text_feedbacks_for_debate)
 from tournaments.models import Round, Tournament
+from utils.mixins import CacheMixin
 from venues.models import Venue
 
 
@@ -108,3 +110,6 @@ class BallotTextFeedbackFormTests(TestCase):
         view.kwargs = {'url_key': self.adjudicator.url_key}
 
         self.assertIsNone(view._get_editable_ballot())
+
+    def test_scoresheet_view_is_not_cached(self):
+        self.assertNotIn(CacheMixin, BasePublicBallotScoresheetsView.mro())

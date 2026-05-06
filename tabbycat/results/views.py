@@ -790,7 +790,7 @@ class PostPublicBallotSetSubmissionURLView(TournamentMixin, TemplateView):
 # Other public views
 # ==============================================================================
 
-class BasePublicBallotScoresheetsView(PublicTournamentPageMixin, SingleObjectFromTournamentMixin, TemplateView):
+class BasePublicBallotScoresheetsView(PersonalizablePublicTournamentPageMixin, SingleObjectFromTournamentMixin, TemplateView):
     """Base Public view showing the ballots for a debate as scoresheets."""
 
     model = Debate
