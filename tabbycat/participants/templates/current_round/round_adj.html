@@ -5,8 +5,45 @@
 
   {% person_display_name debateadjudicator.adjudicator as adjudicator_name %}
 
+  {# (Solo speech formats) #}
+  {% if pref.teams_in_debate == 1 %}
+    {% with solo_team=debate.teams.0 solo_dt=debate.debateteams.0 %}
+      {% team_record_link solo_team admin_page as speaker_team %}
+      {% if debate.adjudicators|length > 1 and debateadjudicator.type == debateadjudicator.TYPE_CHAIR %}
+        {% if grammatical_person == "3" %}
+          {% blocktrans trimmed with adjudicator=adjudicator_name team=speaker_team side=solo_dt.get_side_name room=debate.venue.display_name|default:venue_tba %}
+            {{ adjudicator }} is the <strong>chair</strong> adjudicating {{ team }} on the <strong>{{ side }}</strong> side in <strong>{{ room }}</strong>.
+          {% endblocktrans %}
+        {% else %}
+          {% blocktrans trimmed with team=speaker_team side=solo_dt.get_side_name room=debate.venue.display_name|default:venue_tba %}
+            You are the <strong>chair</strong> adjudicating {{ team }} on the <strong>{{ side }}</strong> side in <strong>{{ room }}</strong>.
+          {% endblocktrans %}
+        {% endif %}
+      {% elif debate.adjudicators|length > 1 %}
+        {% if grammatical_person == "3" %}
+          {% blocktrans trimmed with adjudicator=adjudicator_name type=debateadjudicator.get_type_display team=speaker_team side=solo_dt.get_side_name room=debate.venue.display_name|default:venue_tba %}
+            {{ adjudicator }} is a <strong>{{ type }}</strong> adjudicating {{ team }} on the <strong>{{ side }}</strong> side in <strong>{{ room }}</strong>.
+          {% endblocktrans %}
+        {% else %}
+          {% blocktrans trimmed with type=debateadjudicator.get_type_display team=speaker_team side=solo_dt.get_side_name room=debate.venue.display_name|default:venue_tba %}
+            You are a <strong>{{ type }}</strong> adjudicating {{ team }} on the <strong>{{ side }}</strong> side in <strong>{{ room }}</strong>.
+          {% endblocktrans %}
+        {% endif %}
+      {% else %}
+        {% if grammatical_person == "3" %}
+          {% blocktrans trimmed with adjudicator=adjudicator_name team=speaker_team side=solo_dt.get_side_name room=debate.venue.display_name|default:venue_tba %}
+            {{ adjudicator }} is adjudicating {{ team }} on the <strong>{{ side }}</strong> side in <strong>{{ room }}</strong>.
+          {% endblocktrans %}
+        {% else %}
+          {% blocktrans trimmed with team=speaker_team side=solo_dt.get_side_name room=debate.venue.display_name|default:venue_tba %}
+            You are adjudicating {{ team }} on the <strong>{{ side }}</strong> side in <strong>{{ room }}</strong>.
+          {% endblocktrans %}
+        {% endif %}
+      {% endif %}
+    {% endwith %}
+
   {# (Two-team formats) #}
-  {% if pref.teams_in_debate == 2 %}
+  {% elif pref.teams_in_debate == 2 %}
     {% team_record_link debate.teams.0 admin_page as aff %}
     {% team_record_link debate.teams.1 admin_page as neg %}
 

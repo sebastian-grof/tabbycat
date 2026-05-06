@@ -5,7 +5,7 @@ from .pairing import ResultPairing, BPEliminationResultPairing
 from .elimination import FirstEliminationDrawGenerator, SubsequentEliminationDrawGenerator
 from .powerpair import (AustralsPowerPairedDrawGenerator, AustralsPowerPairedWithAllocatedSidesDrawGenerator,
     GraphPowerPairedDrawGenerator, GraphPowerPairedWithAllocatedSidesDrawGenerator, SingleGraphPowerPairedDrawGenerator)
-from .random import (RandomBPDrawGenerator, RandomPolyDrawGenerator, GraphRandomDrawGenerator,
+from .random import (RandomBPDrawGenerator, RandomPolyDrawGenerator, RankedSoloDrawGenerator, GraphRandomDrawGenerator,
     GraphRandomWithAllocatedSidesDrawGenerator, SwapRandomDrawGenerator, SwapRandomWithAllocatedSidesDrawGenerator)
 from .bphungarian import BPHungarianDrawGenerator
 from .bpelimination import (PartialBPEliminationDrawGenerator, AfterPartialBPEliminationDrawGenerator,
@@ -81,6 +81,16 @@ def get_poly_generator(draw_type):
         raise ValueError("Unrecognised draw type for poly draw: {}".format(draw_type))
 
 
+def get_solo_generator(draw_type):
+    try:
+        return {
+            "random": RandomPolyDrawGenerator,
+            "power_paired": RankedSoloDrawGenerator,
+        }[draw_type]
+    except KeyError:
+        raise ValueError("Unrecognised draw type for solo draw: {}".format(draw_type))
+
+
 def DrawGenerator(teams_in_debate, draw_type, teams, results=None, rrseq=None, **kwargs):  # noqa: N802 (factory function)
     """Factory for draw objects.
     Takes a list of options and returns an appropriate subclass of BaseDrawGenerator.
@@ -90,6 +100,9 @@ def DrawGenerator(teams_in_debate, draw_type, teams, results=None, rrseq=None, *
 
     if draw_type == "manual":
         klass = ManualDrawGenerator
+
+    elif teams_in_debate == 1:
+        klass = get_solo_generator(draw_type)
 
     elif teams_in_debate == 2:
         klass = get_two_team_generator(draw_type, **kwargs)

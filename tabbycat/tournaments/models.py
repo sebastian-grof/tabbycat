@@ -113,7 +113,7 @@ class Tournament(models.Model):
     def sides(self) -> Union[list[DebateSide], list[int]]:
         """Returns a list of side codes."""
         option = self.pref('teams_in_debate')
-        if option == 2:
+        if option in (1, 2):
             return [DebateSide.AFF, DebateSide.NEG]
         elif option == 4:
             return [DebateSide.OG, DebateSide.OO, DebateSide.CG, DebateSide.CO]

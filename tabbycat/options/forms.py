@@ -38,6 +38,16 @@ class TournamentPreferenceForm(PreferenceForm):
         elif section == 'debate_rules':
             if get_pref('teams_in_debate') == 4 and (get_pref('ballots_per_debate_prelim') == 'per-adj' or get_pref('ballots_per_debate_elim') == 'per-adj'):
                 raise ValidationError({'debate_rules__teams_in_debate': _("Four-team formats require consensus ballots")})
+            if get_pref('solo_speech_format') and get_pref('teams_in_debate') != 1:
+                raise ValidationError({
+                    'debate_rules__solo_speech_format': _("Solo speech format requires one team per debate."),
+                    'debate_rules__teams_in_debate': _("Set this to 1 when using solo speech format."),
+                })
+            if get_pref('teams_in_debate') == 1 and not get_pref('solo_speech_format'):
+                raise ValidationError({
+                    'debate_rules__solo_speech_format': _("Enable solo speech format when using one team per debate."),
+                    'debate_rules__teams_in_debate': _("One-team debates are only supported in solo speech format."),
+                })
 
         elif section == 'feedback':
             if get_pref('adj_min_score') > get_pref('adj_max_score'):

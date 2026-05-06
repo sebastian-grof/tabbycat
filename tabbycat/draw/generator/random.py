@@ -176,3 +176,31 @@ class RandomPolyDrawGenerator(RandomPairingsMixin, BaseDrawGenerator):
     def generate(self):
         self._draw = self.make_random_pairings(self.teams_in_debate)
         return self._draw
+
+
+class RankedSoloDrawGenerator(BaseDrawGenerator):
+    """Power-paired solo draw: one ranked team per debate."""
+
+    requires_even_teams = False
+    requires_prev_results = False
+    pairing_class = PolyPairing
+
+    BASE_DEFAULT_OPTIONS = {}
+    DEFAULT_OPTIONS = {}
+
+    def __init__(self, *args, teams_in_debate: int, **kwargs):
+        if teams_in_debate != 1:
+            raise DrawUserError(_("Ranked solo draws require exactly one team per debate."))
+        super().__init__(*args, **kwargs)
+
+    def generate(self):
+        self._draw = [
+            self.pairing_class(
+                teams=[team],
+                bracket=getattr(team, "points", 0) or 0,
+                room_rank=index,
+                num_sides=1,
+            )
+            for index, team in enumerate(self.teams)
+        ]
+        return self._draw

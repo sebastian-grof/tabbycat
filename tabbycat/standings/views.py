@@ -592,6 +592,19 @@ class PublicCurrentTeamStandingsView(PublicTournamentPageMixin, VueTableTemplate
         # Can't use prefetch.populate_win_counts, since that doesn't exclude
         # silent rounds and future rounds appropriately
         opponents = self.tournament.pref('teams_in_debate') == 2
+
+        if self.tournament.pref('teams_in_debate') == 1:
+            metrics = self.tournament.pref('team_standings_precedence')
+            standings = TeamStandingsGenerator(metrics, ('rank',)).generate(teams, round=rounds.last())
+            add_team_round_results(standings, rounds, opponents=False)
+
+            table = TabbycatTableBuilder(view=self, sort_order='asc')
+            table.add_ranking_columns(standings)
+            table.add_team_columns([info.team for info in standings])
+            table.add_standings_results_columns(standings, rounds, show_ballots=False)
+            table.add_metric_columns(standings, integer_score_columns=self.integer_score_columns(rounds))
+            return table
+
         add_team_round_results_public(teams, rounds, opponents=opponents)
 
         # Pre-sort, as Vue tables can't do two sort keys

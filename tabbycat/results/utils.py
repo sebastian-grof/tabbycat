@@ -42,6 +42,10 @@ def readable_ballotsub_result(debateresult):
         if debateresult.debate.is_bye:
             result_winner = _("%(team)s received a bye") % {'team': debateresult.winning_team().code_name if use_codes else debateresult.winning_team().short_name}
             result = ""
+        elif t.pref('teams_in_debate') == 1:
+            dt = next(iter(debateresult.debateteams.values()))
+            result_winner = _("%(team)s as %(side)s") % get_display_name(dt, t, use_codes)
+            result = ""
         elif t.pref('teams_in_debate') == 2:
             result_winner = _("%(team)s (%(side)s) won") % get_display_name(debateresult.winning_dt(), t, use_codes)
             # Translators: The team here is the losing team
@@ -143,25 +147,26 @@ _BP_POSITION_NAMES = [
 ]
 
 
-def side_and_position_names(tournament):
+def side_and_position_names(tournament, sides=None):
     """Yields 2-tuples (side, positions), where position is a list of position
     names, all being translated human-readable names. This should eventually
     be extended to return an appropriate list for the tournament configuration.
     """
-    sides = [get_side_name(tournament, side, 'full').title() for side in tournament.sides]
+    side_codes = list(tournament.sides if sides is None else sides)
+    side_names = [get_side_name(tournament, side, 'full').title() for side in side_codes]
 
     if tournament.pref('teams_in_debate') == 4 \
             and tournament.last_substantive_position == 2 \
             and tournament.reply_position is None:
 
-        for side, positions in zip(sides, _BP_POSITION_NAMES):
+        for side, positions in zip(side_names, _BP_POSITION_NAMES):
             yield side, positions
 
     else:
-        for side_index, side in enumerate(sides):
-            side_abbr = get_side_name(tournament, side_index, 'abbr')
+        for side, side_name in zip(side_codes, side_names):
+            side_abbr = get_side_name(tournament, side, 'abbr')
             use_side_prefixed_positions = (
-                tournament.pref('teams_in_debate') == 2 and
+                tournament.pref('teams_in_debate') in (1, 2) and
                 isinstance(side_abbr, str) and
                 len(side_abbr) == 1
             )
@@ -171,4 +176,4 @@ def side_and_position_names(tournament):
                 else ordinal(pos)
                 for pos in tournament.positions
             ]
-            yield side, positions
+            yield side_name, positions

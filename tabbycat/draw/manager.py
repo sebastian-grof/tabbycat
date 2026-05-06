@@ -51,7 +51,7 @@ def DrawManager(round: Round, active_only: bool = True, draw_type: Round.DrawTyp
     teams_in_debate = round.tournament.pref('teams_in_debate')
     draw_type = draw_type or round.draw_type
     try:
-        if teams_in_debate in [2, 4]:
+        if teams_in_debate in [1, 2, 4]:
             klass = DRAW_MANAGER_CLASSES[(teams_in_debate, round.draw_type)]
         else:
             klass = DRAW_MANAGER_CLASSES[(None, round.draw_type)]
@@ -92,6 +92,8 @@ class BaseDrawManager:
 
     def n_byes(self, n_teams):
         if self.get_bye_selection_mode() != 'off':
+            if self.teams_in_debate == 1:
+                return 0
             return n_teams % len(self.round.tournament.sides)
         return 0
 
@@ -313,6 +315,14 @@ class BaseDrawManager:
 
         debates = {}
         debateteams = []
+        solo_allocations = None
+
+        if self.teams_in_debate == 1:
+            solo_allocations = {
+                tsa.team_id: tsa.side
+                for tsa in self.round.teamsideallocation_set.all()
+            }
+            allowed_sides = set(self.round.tournament.sides)
 
         for pairing in pairings:
             debate = Debate(round=self.round, bracket=pairing.bracket, room_rank=pairing.room_rank, flags=pairing.flags)
@@ -325,6 +335,19 @@ class BaseDrawManager:
         logger.debug("Created %d debates", len(debates))
 
         for pairing, debate in debates.items():
+            if self.teams_in_debate == 1:
+                if len(pairing.teams) != 1:
+                    raise DrawUserError(_("Solo speech draws must have exactly one team in each debate."))
+
+                team = pairing.teams[0]
+                side = solo_allocations.get(team.id)
+                if side not in allowed_sides:
+                    raise DrawUserError(_("Assign a saved affirmative/negative side for every active team before generating this solo speech draw."))
+
+                dt = DebateTeam(debate=debate, team=team, side=side, flags=pairing.get_team_flags(team))
+                debateteams.append(dt)
+                continue
+
             for team, side in zip(pairing.teams, self.round.tournament.sides):
                 dt = DebateTeam(debate=debate, team=team, side=side, flags=pairing.get_team_flags(team))
                 debateteams.append(dt)
@@ -658,6 +681,9 @@ class BPEliminationDrawManager(BaseEliminationDrawManager):
 
 
 DRAW_MANAGER_CLASSES = {
+    (1, Round.DrawType.RANDOM): RandomDrawManager,
+    (1, Round.DrawType.POWERPAIRED): PowerPairedDrawManager,
+    (1, Round.DrawType.MANUAL): ManualDrawManager,
     (2, Round.DrawType.RANDOM): RandomDrawManager,
     (2, Round.DrawType.POWERPAIRED): PowerPairedDrawManager,
     (2, Round.DrawType.ROUNDROBIN): RoundRobinDrawManager,

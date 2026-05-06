@@ -75,7 +75,13 @@ class AdjudicatorDebateTable:
         populate_confirmed_ballots(debates, motions=True, results=True)
 
         table.add_round_column([debate.round for debate in debates])
-        table.add_debate_results_columns(debates, n_cols=Debate.objects.filter(id__in=[d.id for d in debates]).aggregate(n=Coalesce(Max('debateteam__side'), len(view.tournament.sides)-1))['n']+1)
+        if view.tournament.pref('teams_in_debate') == 1:
+            n_cols = len(view.tournament.sides)
+        else:
+            n_cols = Debate.objects.filter(id__in=[d.id for d in debates]).aggregate(
+                n=Coalesce(Max('debateteam__side'), len(view.tournament.sides)-1),
+            )['n'] + 1
+        table.add_debate_results_columns(debates, n_cols=n_cols)
         table.add_debate_adjudicators_column(debates, show_splits=True, highlight_adj=participant)
 
         if table.admin or view.tournament.pref('public_motions'):

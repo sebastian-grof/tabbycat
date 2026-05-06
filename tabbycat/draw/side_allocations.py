@@ -34,7 +34,9 @@ def _get_teams_for_tournament(tournament):
 
 def _fallback_draw_split(round):
     teams = list(round.active_teams.order_by("short_name", "id"))
-    if round.tournament.pref('bye_team_selection') != 'off' and len(round.tournament.sides) > 0:
+    if round.tournament.pref('teams_in_debate') == 1:
+        n_byes = 0
+    elif round.tournament.pref('bye_team_selection') != 'off' and len(round.tournament.sides) > 0:
         n_byes = len(teams) % len(round.tournament.sides)
     else:
         n_byes = 0
@@ -400,7 +402,7 @@ def generate_random_allocations(round):
 
     if not teams:
         raise SideAllocationError(_("There are no available teams for this round yet."))
-    if round.tournament.pref('bye_team_selection') == 'off' and len(teams) % 2 != 0:
+    if round.tournament.pref('teams_in_debate') != 1 and round.tournament.pref('bye_team_selection') == 'off' and len(teams) % 2 != 0:
         raise SideAllocationError(_("The round still has an odd number of debating teams after accounting for byes. Check availability or bye settings before generating side allocations."))
 
     shuffled_team_ids = [team.id for team in teams]

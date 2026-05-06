@@ -16,7 +16,7 @@ from django.utils.translation import ngettext
 
 from adjallocation.allocation import AdjudicatorAllocation
 from draw.generator import DRAW_FLAG_DESCRIPTIONS
-from draw.models import Debate
+from draw.models import Debate, DebateTeam
 from draw.types import DebateSide
 from options.utils import use_team_code_names
 from results.models import BallotSubmission
@@ -224,7 +224,9 @@ class TabbycatTableBuilder(BaseTableBuilder):
         else:
             self.private_url = kwargs.get('private_url', False)
 
-        if self.tournament.pref('teams_in_debate') > 2:
+        if self.tournament.pref('teams_in_debate') == 1:
+            self._result_cell = self._result_cell_solo
+        elif self.tournament.pref('teams_in_debate') > 2:
             self._result_cell = self._result_cell_bp
         else:
             self._result_cell = self._result_cell_two
@@ -445,6 +447,25 @@ class TabbycatTableBuilder(BaseTableBuilder):
         if self._show_record_links:
             cell['popover']['content'].append(
                 self._team_record_link(opp))
+
+        return cell
+
+    def _result_cell_solo(self, ts, compress=False, show_score=False, show_ballots=False):
+        if not hasattr(ts, 'debate_team'):
+            return {'text': self.BLANK_TEXT}
+
+        side = ts.debate_team.get_side_abbr(self.tournament)
+        cell = {
+            'text': _("%(side)s speech") % {'side': side},
+            'popover': {'content': [], 'title': _("Solo speech")},
+            'class': "no-wrap",
+        }
+
+        if show_score and ts.score is not None:
+            self._show_score(ts, cell)
+
+        if show_ballots:
+            self._show_ballots(cell, ts, "old-results-ballotset-edit")
 
         return cell
 
@@ -1004,17 +1025,20 @@ class TabbycatTableBuilder(BaseTableBuilder):
                 continue
 
             for side in range(n_cols):
-                if side >= len(debate.teams):
-                    row += [{'text': self.BLANK_TEXT} for i in range(n_cols - side)]
-                    break
-
-                debateteam = debate.get_dt(side)
-                team = debate.get_team(side)
+                try:
+                    debateteam = debate.get_dt(side)
+                    team = debate.get_team(side)
+                except DebateTeam.DoesNotExist:
+                    row.append({'text': self.BLANK_TEXT})
+                    continue
 
                 subtext = None if (all_sides_confirmed or not debate.sides_confirmed) else side_abbrs[side]
                 cell = self._team_cell(team, show_emoji=False, subtext=subtext)
 
-                if self.tournament.pref('teams_in_debate') == 2:
+                if self.tournament.pref('teams_in_debate') == 1:
+                    if debateteam.points is not None:
+                        cell['subtext'] = metricformat(debateteam.points)
+                elif self.tournament.pref('teams_in_debate') == 2:
                     cell = self._result_cell_class_two(debateteam.win, cell)
                 elif debate.round.is_break_round:
                     cell = self._result_cell_class_four_elim(debateteam.win, cell)

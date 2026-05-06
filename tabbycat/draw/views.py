@@ -7,6 +7,7 @@ from zoneinfo import ZoneInfo
 
 from django.conf import settings
 from django.contrib import messages
+from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 from django.db import DatabaseError, transaction
 from django.db.models import OuterRef, Subquery
 from django.http import HttpResponseRedirect
@@ -271,7 +272,12 @@ class BriefingRoomDrawByTeamTableMixin(BriefingRoomDrawTableMixin):
         byes = [d for d in debates if d.is_bye]
         debates = [d for d in debates if not d.is_bye]
 
-        draw_by_team = [(debate, debate.get_team(side)) for debate, side in product(debates, self.tournament.sides)]
+        draw_by_team = []
+        for debate, side in product(debates, self.tournament.sides):
+            try:
+                draw_by_team.append((debate, debate.get_team(side)))
+            except (IndexError, ObjectDoesNotExist, MultipleObjectsReturned):
+                continue
         draw_by_team.extend([(debate, debate.get_team(DebateSide.BYE)) for debate in byes])
         draw_by_team.sort(key=lambda x: unicodedata.normalize('NFKD', table._team_short_name(x[1])))
 

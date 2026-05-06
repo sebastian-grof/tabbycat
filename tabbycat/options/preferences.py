@@ -589,6 +589,15 @@ class TeamsInDebate(IntegerPreference):
 
 
 @tournament_preferences_registry.register
+class SoloSpeechFormat(BooleanPreference):
+    help_text = _("Use one team with one speaker per debate, with no opponent but with an assigned affirmative/negative side")
+    verbose_name = _("Solo speech format")
+    section = debate_rules
+    name = 'solo_speech_format'
+    default = False
+
+
+@tournament_preferences_registry.register
 class BallotsPerDebatePreliminary(ChoicePreference):
     help_text = _("Whether panels submit a ballot each or a single ballot for a debate during the preliminary rounds. Note: BP must use one per debate.")
     verbose_name = _("Ballots per debate, preliminary rounds")

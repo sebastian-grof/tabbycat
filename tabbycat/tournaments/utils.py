@@ -123,7 +123,7 @@ def get_side_name(tournament, side: int, name_type) -> str:
         return gettext('bye')
     elif tournament is None or tournament.pref('side_names') == '1-2':
         return gettext('Team %d') % (side + 1)
-    elif tournament.pref('teams_in_debate') == 2:
+    elif tournament.pref('teams_in_debate') in (1, 2):
         names = SIDE_NAMES.get(tournament.pref('side_names'), SIDE_NAMES['aff-neg'])
         return force_str(names["%d_%s" % (side, name_type)])
     elif tournament.pref('teams_in_debate') == 4:

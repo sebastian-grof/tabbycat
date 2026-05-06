@@ -118,7 +118,13 @@ class BaseResultsEntryForRoundView(RoundMixin, VueTableTemplateView):
         if self.tournament.pref('enable_postponements'):
             table.add_debate_postponement_column(draw, self.request)
         table.add_debate_venue_columns(draw, for_admin=True)
-        table.add_debate_results_columns(draw, iron=True, n_cols=self._get_draw().aggregate(n=Coalesce(Max('debateteam__side'), self.tournament.pref('teams_in_debate')-1))['n']+1)
+        if self.tournament.pref('teams_in_debate') == 1:
+            n_cols = len(self.tournament.sides)
+        else:
+            n_cols = self._get_draw().aggregate(
+                n=Coalesce(Max('debateteam__side'), self.tournament.pref('teams_in_debate')-1),
+            )['n'] + 1
+        table.add_debate_results_columns(draw, iron=True, n_cols=n_cols)
         table.add_debate_adjudicators_column(draw, show_splits=True, for_admin=True)
         return table
 
@@ -214,7 +220,11 @@ class PublicResultsForRoundView(RoundMixin, PublicTournamentPageMixin, VueTableT
 
         table = TabbycatTableBuilder(view=self, sort_key="venue")
         table.add_debate_venue_columns(debates)
-        table.add_debate_results_columns(debates, n_cols=debates.aggregate(n=Max('debateteam__side'))['n']+1)
+        if self.tournament.pref('teams_in_debate') == 1:
+            n_cols = len(self.tournament.sides)
+        else:
+            n_cols = debates.aggregate(n=Max('debateteam__side'))['n'] + 1
+        table.add_debate_results_columns(debates, n_cols=n_cols)
         if not (self.tournament.pref('teams_in_debate') == 4 and self.round.is_break_round):
             table.add_debate_ballot_link_column(debates)
         table.add_debate_adjudicators_column(debates, show_splits=True)
@@ -925,13 +935,13 @@ class AdjudicatorPrivateUrlBallotScoresheetView(RoundMixin, SingleObjectByRandom
 
         ballot = self._get_editable_ballot()
         if ballot is None:
-            messages.error(request, _("Text feedback can be added after your own ballot has been submitted."))
+            messages.error(request, _("Poznámky je možné pridať až po odoslaní vlastného ballotu."))
             return HttpResponseRedirect(request.get_full_path())
 
         form = BallotTextFeedbackForm(request.POST)
         if form.is_valid():
             form.save(ballot, adjudicator=self._get_adjudicator(), user=request.user)
-            messages.success(request, _("Text feedback for teams saved."))
+            messages.success(request, _("Poznámky boli uložené."))
             return HttpResponseRedirect(request.get_full_path())
 
         return self.render_to_response(self.get_context_data(ballot_text_feedback_form=form))
@@ -949,7 +959,7 @@ class AdjudicatorPrivateUrlBallotScoresheetView(RoundMixin, SingleObjectByRandom
         kwargs['show_ballot_text_feedback_form'] = True
         if editable_ballot is None:
             kwargs['ballot_text_feedback_unavailable_message'] = _(
-                "Text feedback can be added after your own ballot has been submitted.")
+                "Poznámky je možné pridať až po odoslaní vlastného ballotu.")
         else:
             kwargs['ballot_text_feedback'] = ballot_text_feedback_for_ballot(editable_ballot)
             kwargs.setdefault('ballot_text_feedback_form', ballot_text_feedback_form_for_ballot(editable_ballot))

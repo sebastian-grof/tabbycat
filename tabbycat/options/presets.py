@@ -600,6 +600,31 @@ class JDLFormatPreferences(SDLFormatPreferences):
     debate_rules__cross_examinations_enabled   = False
 
 
+class JDLFirstCategoryPreferences(JDLFormatPreferences):
+    name         = _("JDL 1. Kategória")
+    description  = _("One-speaker JDL format with one team per room, no opponent, "
+        "pre-allocated affirmative/negative sides, and score-based standings.")
+
+    scoring__margin_includes_dissenters        = True
+
+    draw_rules__draw_side_allocations          = 'preallocated'
+    draw_rules__bye_team_selection             = 'off'
+
+    debate_rules__teams_in_debate              = 1
+    debate_rules__solo_speech_format           = True
+    debate_rules__winners_in_ballots           = 'none'
+    debate_rules__substantive_speakers         = 1
+    debate_rules__reply_scores_enabled         = False
+    debate_rules__cross_examinations_enabled   = False
+    debate_rules__require_substantive_for_reply = False
+    debate_rules__side_names                   = 'aff-neg'
+
+    standings__team_standings_precedence       = ['speaks_sum', 'num_adjs']
+    standings__team_standings_extra_metrics    = []
+    standings__speaker_standings_precedence    = ['average', 'trimmed_mean']
+    standings__speaker_standings_extra_metrics = []
+
+
 class APDAPreferences(PreferencesPreset):
     name = _("APDA Rules")
     show_in_list = True

@@ -3,9 +3,9 @@
 <div class="card mt-3">
   <div class="list-group list-group-flush">
     <div class="list-group-item">
-      <h4 class="mb-1">{% trans "Textový feedback pre tímy" %}</h4>
+      <h4 class="mb-1">{% trans "Poznámky" %}</h4>
       <p class="mb-0 text-muted">
-        {% trans "Tento text sa zobrazí tímom v ich súkromnom zobrazení ballotu. Verejná stránka ballotu ho nezobrazí." %}
+        {% trans "Tieto poznámky sa zobrazia tímom v ich súkromnom zobrazení ballotu. Verejná stránka ballotu ich nezobrazí." %}
       </p>
       {% if ballot_text_feedback %}
         <p class="small text-muted mt-2 mb-0">
@@ -32,7 +32,7 @@
       {% if ballot_text_feedback %}
         <div class="border rounded p-3 bg-light">{{ ballot_text_feedback.text|linebreaks }}</div>
       {% else %}
-        <p class="text-muted mb-0">{% trans "Zatiaľ nebol uložený žiadny textový feedback." %}</p>
+        <p class="text-muted mb-0">{% trans "Zatiaľ neboli uložené žiadne poznámky." %}</p>
       {% endif %}
     </div>
 
@@ -43,7 +43,7 @@
             {% if ballot_text_feedback %}
               {% trans "Upraviť" %}
             {% else %}
-              {% trans "Pridať textový feedback" %}
+              {% trans "Pridať poznámky" %}
             {% endif %}
           </summary>
 
@@ -56,13 +56,13 @@
                       id="{{ ballot_text_feedback_form.text.id_for_label }}"
                       class="form-control"
                       rows="6"
-                      placeholder="{% trans "Pridaj textový feedback, ktorý si tímy prečítajú v súkromnom zobrazení ballotu." %}">{{ ballot_text_feedback_form.text.value|default_if_none:"" }}</textarea>
+                      placeholder="{% trans "Pridaj poznámky, ktoré si tímy prečítajú v súkromnom zobrazení ballotu." %}">{{ ballot_text_feedback_form.text.value|default_if_none:"" }}</textarea>
             <p class="small text-muted mt-2 mb-3">
-              {% trans "Ak pole necháš prázdne a uložíš, textový feedback sa odstráni." %}
+              {% trans "Ak pole necháš prázdne a uložíš, poznámky sa odstránia." %}
             </p>
 
             <button type="submit" class="btn btn-success">
-              {% trans "Uložiť textový feedback" %}
+              {% trans "Uložiť poznámky" %}
             </button>
           </form>
         </details>

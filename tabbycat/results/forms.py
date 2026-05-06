@@ -149,11 +149,11 @@ def broadcast_results(ballotsub: 'BallotSubmission', debate: Debate):
 
 class BallotTextFeedbackForm(forms.Form):
     text = forms.CharField(
-        label=_("Text feedback for teams"),
+        label=_("Poznámky"),
         required=False,
         widget=forms.Textarea(attrs={
             'rows': 6,
-            'placeholder': _("Add text feedback that teams can read from their private ballot view."),
+            'placeholder': _("Pridaj poznámky, ktoré si tímy prečítajú v súkromnom zobrazení ballotu."),
         }),
     )
 
@@ -806,7 +806,7 @@ class ScoresMixin:
         take two arguments `(side, pos)`. This function is called by the
         `.scoresheets()` methods of both subclasses."""
         teams = []
-        for side, (side_name, pos_names) in zip(self.sides, side_and_position_names(self.tournament)):
+        for side, (side_name, pos_names) in zip(self.sides, side_and_position_names(self.tournament, self.sides)):
             side_dict = {
                 "side_code": side,
                 "side_name": side_name,
@@ -1495,8 +1495,8 @@ class PerAdjudicatorBallotSetForm(ScoresMixin, BaseBallotSetForm):
                         ))
 
             # Check that the margin did not exceed the maximum permissible.
-            margin = abs(totals[0] - totals[1])
-            if self.max_margin and margin > self.max_margin:
+            if len(totals) == 2 and self.max_margin:
+                margin = abs(totals[0] - totals[1])
                 self.add_error(None, forms.ValidationError(
                     _("The margin (%(margin).1f) in the ballot of adjudicator %(adjudicator)s exceeds the maximum allowable margin (%(max_margin).1f)."),
                     params={'adjudicator': adj.get_public_name(self.tournament), 'margin': float(margin), 'max_margin': self.max_margin}, code='max_margin',

@@ -1,6 +1,7 @@
 from itertools import islice, zip_longest
 from typing import List, Optional, TYPE_CHECKING
 
+from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 from django.utils.encoding import force_str
 from django.utils.html import format_html
 from django.utils.translation import gettext as _
@@ -56,6 +57,8 @@ class BaseDrawTableBuilder(TabbycatTableBuilder):
 class PublicDrawTableBuilder(BaseDrawTableBuilder):
 
     def get_sides(self, debates: List['Debate']) -> int:
+        if self.tournament.pref('teams_in_debate') == 1:
+            return len(self.tournament.sides)
         return max([dt.side for debate in debates for dt in debate.debateteams], default=self.tournament.pref('teams_in_debate') - 1) + 1
 
     def add_debate_team_columns(self, debates, highlight=[]):
@@ -70,11 +73,12 @@ class PublicDrawTableBuilder(BaseDrawTableBuilder):
 
             team_data = []
             for debate, hl in zip_longest(debates, highlight):
-                if side >= len(debate.teams):
+                try:
+                    team = debate.get_team(side)
+                except (IndexError, ObjectDoesNotExist, MultipleObjectsReturned):
                     team_data.append({'text': self.BLANK_TEXT})
                     continue
 
-                team = debate.get_team(side)
                 if debate.is_bye and side == 0:
                     team_data.append(self._team_cell(team, subtext=_("Bye"), show_emoji=True, highlight=team == hl))
                     continue
@@ -174,10 +178,13 @@ class AdminDrawTableBuilder(PublicDrawTableBuilder):
                 row = [self.BLANK_TEXT] * sides
             else:
                 row = []
-                for team in debate.teams:
-                    row.append({'text': team.seed, 'sort': team.seed})
-                for i in range(sides - len(debate.teams)):
-                    row.append({'text': self.BLANK_TEXT})
+                for side in range(sides):
+                    try:
+                        team = debate.get_team(side)
+                    except (IndexError, ObjectDoesNotExist, MultipleObjectsReturned):
+                        row.append({'text': self.BLANK_TEXT})
+                    else:
+                        row.append({'text': team.seed, 'sort': team.seed})
             cells.append(row)
 
         for side in range(sides):
@@ -198,7 +205,7 @@ class AdminDrawTableBuilder(PublicDrawTableBuilder):
         def get_team_or_none(debate: 'Debate', side: int) -> Optional['Team']:
             try:
                 return debate.get_team(side)
-            except IndexError:
+            except (IndexError, ObjectDoesNotExist, MultipleObjectsReturned):
                 return None
 
         teams_by_side = [[get_team_or_none(d, side) if not d.is_bye else None for d in debates] for side in range(self.get_sides(debates))]

@@ -3,7 +3,7 @@
 {% if ballot_text_feedbacks %}
   <div class="card mt-3">
     <div class="card-body">
-      <h4 class="card-title">{% trans "Textový feedback od rozhodcov" %}</h4>
+      <h4 class="card-title">{% trans "Poznámky" %}</h4>
 
       {% for feedback in ballot_text_feedbacks %}
         <div class="ballot-text-feedback{% if not forloop.last %} mb-3 pb-3 border-bottom{% endif %}">

@@ -355,9 +355,12 @@ class BaseDebateResult:
         self.debate = ballotsub.debate
         self.tournament = self.debate.round.tournament
 
+        teams_in_debate = self.tournament.pref('teams_in_debate')
         if 'sides' in kwargs:
             self.sides = kwargs['sides']
-        elif self.tournament.pref('margin_includes_dissenters') and self.tournament.pref('teams_in_debate') != 2:
+        elif teams_in_debate == 1:
+            self.sides = sorted(dt.side for dt in self.debate.debateteams)
+        elif self.tournament.pref('margin_includes_dissenters') and teams_in_debate != 2:
             self.sides = list(range(1+max(*[dt.side for dt in self.debate.debateteams])))
         else:
             self.sides = self.tournament.sides
@@ -543,7 +546,7 @@ class BaseDebateResult:
         """Returns a list of dicts, each being a team in the debate. Used by
         subclasses' `as_dicts()` methods."""
         teams = []
-        for side, (side_name, pos_names) in zip(self.sides, side_and_position_names(self.tournament)):
+        for side, (side_name, pos_names) in zip(self.sides, side_and_position_names(self.tournament, self.sides)):
             side_dict = self.side_as_dicts(sheet, side, side_name)
 
             # Colour result according to outcome of debate
@@ -551,7 +554,7 @@ class BaseDebateResult:
                 rank = sheet.rank(side)
                 side_dict["rank"] = rank
                 side_dict["win_style"] = ["success", "info", "warning", "danger"][rank-1]
-            elif hasattr(sheet, 'winners'):
+            elif hasattr(sheet, 'winners') and len(self.sides) == 2:
                 side_dict["win"] = side in sheet.winners()
                 side_dict["win_style"] = "success" if side in sheet.winners() else "danger"
 
@@ -758,7 +761,7 @@ class DebateResultByAdjudicator(BaseDebateResult):
         def wrap(func):
             @wraps(func)
             def wrapped(self, *args, **kwargs):
-                if not self.is_complete() or len(self.sides) > 2:
+                if not self.is_complete() or len(self.sides) != 2:
                     return default
                 if not self._decision_calculated:
                     self._calculate_decision()
@@ -926,6 +929,8 @@ class DebateResultWithScoresMixin:
 
     @property
     def scoresheet_class(self):
+        if self.tournament.pref('teams_in_debate') == 1:
+            return PolyNoWinScoresheet
         if self.tournament.pref('teams_in_debate') != 2:
             if self.tournament.pref('margin_includes_dissenters'):
                 return PolyNoWinScoresheet
@@ -1065,7 +1070,7 @@ class DebateResultWithScoresMixin:
     # --------------------------------------------------------------------------
 
     def calculate_full_margin(self, side):
-        if len(self.sides) > 2:
+        if len(self.sides) != 2:
             return None
 
         aff_total = self.teamscore_field_score(DebateSide.AFF)
@@ -1620,7 +1625,7 @@ class DebateResultByAdjudicatorWithScores(DebateResultWithScoresMixin, DebateRes
     # --------------------------------------------------------------------------
 
     def teamscorebyadj_field_margin(self, adj, side):
-        if len(self.sides) > 2:
+        if len(self.sides) != 2:
             return None
         return self.calculate_margin_by_adj(adj, side)
 
@@ -1651,7 +1656,7 @@ class DebateResultByAdjudicatorWithScores(DebateResultWithScoresMixin, DebateRes
     def teamscore_field_margin(self, side):
         if not self.uses_weighted_adjudicator_weighting():
             return self.calculate_full_margin(side)
-        if len(self.sides) > 2:
+        if len(self.sides) != 2:
             return None
         aff_total = self._teamscore_margin_component(DebateSide.AFF)
         neg_total = self._teamscore_margin_component(DebateSide.NEG)
@@ -1689,7 +1694,7 @@ class DebateResultByAdjudicatorWithScores(DebateResultWithScoresMixin, DebateRes
     def speakercriterionscore_field_score(self, side, pos, criterion):
         if not self.is_complete():
             return None
-        if not self._decision_calculated:
+        if not self._decision_calculated and len(self.sides) == 2:
             self._calculate_decision()
         return self._aggregate_scores(
             self.score_aggregation_adjudicators(),

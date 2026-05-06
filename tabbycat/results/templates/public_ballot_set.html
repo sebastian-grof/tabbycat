@@ -155,14 +155,6 @@
     </div>
   {% endif %}
 
-  {% if show_ballot_text_feedbacks %}
-    {% include "ballot_text_feedback_list.html" %}
-  {% endif %}
-
-  {% if show_ballot_text_feedback_form %}
-    {% include "ballot_text_feedback_form.html" %}
-  {% endif %}
-
   {% for sheet in result.as_dicts %}
 
     <div class="card mt-3">
@@ -290,5 +282,13 @@
     </div>
 
   {% endfor %}
+
+  {% if show_ballot_text_feedbacks %}
+    {% include "ballot_text_feedback_list.html" %}
+  {% endif %}
+
+  {% if show_ballot_text_feedback_form %}
+    {% include "ballot_text_feedback_form.html" %}
+  {% endif %}
 
 {% endblock %}

@@ -179,19 +179,34 @@ class Debate(models.Model):
         return self._dts
 
     def debateteams_ordered(self):
+        if self.round.tournament.pref('teams_in_debate') == 1:
+            yield from self.debateteams
+            return
         for side in self.round.tournament.sides:
             yield self.get_dt(side)
 
     def get_team(self, side: int) -> 'Team':
         if not hasattr(self, '_team_properties'):
             self._populate_teams()
-        return self.teams[side]
+        key = '%d_team' % side
+        if key in self._multiple_found:
+            raise MultipleDebateTeamsError()
+        try:
+            return self._team_properties[key]
+        except KeyError:
+            raise NoDebateTeamFoundError()
 
     def get_dt(self, side: int) -> 'DebateTeam':
         """dt = DebateTeam"""
         if not hasattr(self, '_team_properties'):
             self._populate_teams()
-        return self._dts[side]
+        key = '%d_dt' % side
+        if key in self._multiple_found:
+            raise MultipleDebateTeamsError()
+        try:
+            return self._team_properties[key]
+        except KeyError:
+            raise NoDebateTeamFoundError()
 
     # --------------------------------------------------------------------------
     # Other properties
@@ -215,6 +230,9 @@ class Debate(models.Model):
         try:
             return self._history
         except AttributeError:
+            if self.round.tournament.pref('teams_in_debate') == 1 or len(self.teams) < 2:
+                self._history = 0
+                return self._history
             self._history = self.teams[DebateSide.AFF].seen(self.teams[DebateSide.NEG], before_round=self.round.seq)
             return self._history
 

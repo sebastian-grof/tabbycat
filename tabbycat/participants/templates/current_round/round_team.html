@@ -2,8 +2,22 @@
 
 {# Position and opponent #}
 
+{# (Solo speech formats) #}
+{% if pref.teams_in_debate == 1 %}
+  <div class="list-group-item lead {% if draw_released %}active{% else %}list-group-item-dark{% endif %}">
+  {% if grammatical_person == "3" %}
+    {% blocktrans trimmed with team=team_short_name side=debateteam.get_side_name %}
+      {{ team }} is speaking on the <strong>{{ side }}</strong> side.
+    {% endblocktrans %}
+  {% else %}
+    {% blocktrans trimmed with side=debateteam.get_side_name %}
+      You are speaking on the <strong>{{ side }}</strong> side.
+    {% endblocktrans %}
+  {% endif %}
+  </div>
+
 {# (Two-team formats) #}
-{% if pref.teams_in_debate == 2 %}
+{% elif pref.teams_in_debate == 2 %}
   <div class="list-group-item lead {% if draw_released %}active{% else %}list-group-item-dark{% endif %}">
   {% team_record_link debateteam.opponent.team admin_page as opponent %}
 
