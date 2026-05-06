@@ -5,8 +5,9 @@ from django.contrib.auth import get_user_model
 from django.http.response import Http404
 from django.test import RequestFactory, TestCase
 
+from adjfeedback.models import AdjudicatorFeedbackQuestion
 from options.preferences import scoring
-from options.presets import PreferencesPreset, PublicInformation
+from options.presets import PreferencesPreset, PublicInformation, SDLFormatPreferences
 from options.views import SetPresetPreferencesView, TournamentConfigIndexView, TournamentPreferenceFormView
 from tournaments.models import Tournament
 from utils.misc import reverse_tournament
@@ -137,3 +138,22 @@ class TestSetPresetPreferencesView(TestCase):
         for pref in ['scoring__score_min', 'scoring__score_max']:
             self.assertIn(pref, form.fields)
         tournament.delete()
+
+
+class SDLFormatPresetTests(TestCase):
+
+    def test_rating_feedback_questions_are_dropdowns(self):
+        tournament = Tournament.objects.create(slug="sdl-preset", name="SDL Preset")
+
+        SDLFormatPreferences.configure_feedback_questions(tournament)
+
+        questions = {
+            question.reference: question
+            for question in AdjudicatorFeedbackQuestion.objects.filter(tournament=tournament)
+        }
+        for reference in ["rozhodnutie_jasne", "spatna_vazba_prinosna"]:
+            question = questions[reference]
+            self.assertEqual(question.answer_type, AdjudicatorFeedbackQuestion.AnswerType.SINGLE_SELECT)
+            self.assertEqual(question.choices, [str(i) for i in range(1, 11)])
+            self.assertIsNone(question.min_value)
+            self.assertIsNone(question.max_value)

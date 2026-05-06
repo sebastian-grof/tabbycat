@@ -147,6 +147,17 @@ class FeedbackExportTestCase(TestCase):
 
         self.assertIs(payload['ignored'], True)
 
+    def test_disabled_feedback_scoring_does_not_mark_export_ignored(self):
+        self.tournament.preferences['feedback__feedback_affects_adjudicator_scores'] = False
+        profile = JudgeProfile.objects.create(name='Canonical Judge', primary_email='target@example.test')
+        JudgeProfileLink.objects.create(profile=profile, adjudicator=self.adjudicator)
+
+        payload = build_feedback_payload(self.feedback)
+
+        self.assertIs(payload['ignored'], False)
+        self.assertIs(payload['feedback_affects_adjudicator_scores'], False)
+        self.assertIs(payload['score_ignored_in_tabbycat'], True)
+
     @override_settings(FEEDBACK_EXPORT_ENDPOINT='https://example.test/api/', FEEDBACK_EXPORT_TOKEN='secret')
     @patch('feedbackexport.services.urllib.request.urlopen')
     def test_send_event_posts_authorization_and_idempotency_headers(self, urlopen):

@@ -528,9 +528,8 @@ class SDLFormatPreferences(PreferencesPreset):
                 "reference": "rozhodnutie_jasne",
                 "from_team": True,
                 "from_adj": False,
-                "answer_type": AdjudicatorFeedbackQuestion.AnswerType.INTEGER_SCALE,
-                "min_value": 1,
-                "max_value": 10,
+                "answer_type": AdjudicatorFeedbackQuestion.AnswerType.SINGLE_SELECT,
+                "choices": [str(i) for i in range(1, 11)],
                 "help_text": scale_help,
             },
             {
@@ -540,9 +539,8 @@ class SDLFormatPreferences(PreferencesPreset):
                 "reference": "spatna_vazba_prinosna",
                 "from_team": True,
                 "from_adj": False,
-                "answer_type": AdjudicatorFeedbackQuestion.AnswerType.INTEGER_SCALE,
-                "min_value": 1,
-                "max_value": 10,
+                "answer_type": AdjudicatorFeedbackQuestion.AnswerType.SINGLE_SELECT,
+                "choices": [str(i) for i in range(1, 11)],
                 "help_text": scale_help,
             },
             {

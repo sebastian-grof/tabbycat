@@ -33,7 +33,7 @@ class FeedbackScoreToggleTests(TestCase):
         form = self.make_form_class()()
         self.assertIn('score', form.fields)
 
-    def test_score_field_hidden_and_ignored_when_disabled(self):
+    def test_score_field_hidden_and_not_ignored_when_disabled(self):
         self.tournament.preferences['feedback__feedback_affects_adjudicator_scores'] = False
         form = self.make_form_class()(data={})
 
@@ -47,7 +47,8 @@ class FeedbackScoreToggleTests(TestCase):
             submitter_type=AdjudicatorFeedback.Submitter.PUBLIC,
         )
         self.assertEqual(feedback.score, self.adjudicator.base_score)
-        self.assertTrue(feedback.ignored)
+        self.assertFalse(feedback.ignored)
+        self.assertEqual(self.adjudicator.weighted_score(1), self.adjudicator.base_score)
 
     def test_weighted_score_ignores_feedback_when_disabled(self):
         AdjudicatorFeedback.objects.create(

@@ -187,6 +187,7 @@ def build_feedback_payload(feedback):
     round_ = debate.round
     tournament = round_.tournament
     debate_adjudicator = feedback.debate_adjudicator
+    feedback_affects_scores = tournament.pref('feedback_affects_adjudicator_scores')
 
     return {
         'source_system': SOURCE_SYSTEM,
@@ -198,6 +199,8 @@ def build_feedback_payload(feedback):
         'confirmed_at': timestamp_payload(feedback.confirm_timestamp),
         'confirmed': feedback.confirmed,
         'ignored': feedback.ignored,
+        'feedback_affects_adjudicator_scores': feedback_affects_scores,
+        'score_ignored_in_tabbycat': not feedback_affects_scores,
         'score': feedback.score,
         'tournament': {
             'id': tournament.id,

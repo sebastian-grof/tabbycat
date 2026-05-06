@@ -108,13 +108,11 @@ class BaseFeedbackForm(CustomQuestionsFormMixin, forms.Form):
         else:
             # The database requires a score, but feedback submitted while this
             # feature is disabled should never influence adjudicator ratings.
+            # Keep ignored=False unless tab staff explicitly mark it invalid.
             af.score = af.adjudicator.base_score
-            af.ignored = True
 
         if self._ignored_option:
             af.ignored = self.cleaned_data['ignored']
-        if not self._tournament.pref('feedback_affects_adjudicator_scores'):
-            af.ignored = True
 
         af.save()
         self.save_answers(af)
