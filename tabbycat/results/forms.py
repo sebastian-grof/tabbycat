@@ -158,9 +158,11 @@ class BallotTextFeedbackForm(forms.Form):
     )
 
     def __init__(self, *args, initial_text=None, **kwargs):
-        super().__init__(*args, **kwargs)
         if initial_text is not None:
-            self.initial['text'] = initial_text
+            initial = kwargs.pop('initial', {})
+            initial['text'] = initial_text
+            kwargs['initial'] = initial
+        super().__init__(*args, **kwargs)
 
     def save(self, ballot_submission: 'BallotSubmission', adjudicator=None, user=None):
         from .models import BallotTextFeedback

@@ -65,10 +65,19 @@ def ballot_text_feedbacks_for_debate(debate):
     ).order_by('ballot_submission__version')
 
 
-def ballot_text_feedback_initial(ballot_submission):
+def ballot_text_feedback_for_ballot(ballot_submission):
     return BallotTextFeedback.objects.filter(
         ballot_submission=ballot_submission,
-    ).values_list('text', flat=True).first() or ''
+    ).select_related(
+        'ballot_submission__participant_submitter',
+        'updated_by_adjudicator',
+        'updated_by_user',
+    ).first()
+
+
+def ballot_text_feedback_initial(ballot_submission):
+    feedback = ballot_text_feedback_for_ballot(ballot_submission)
+    return feedback.text if feedback else ''
 
 
 class PublicResultsIndexView(PublicTournamentPageMixin, TemplateView):
@@ -558,6 +567,9 @@ class BaseEditBallotSetView(SingleObjectFromTournamentMixin, BaseBallotSetView):
 
     def get_context_data(self, **kwargs):
         if self.can_edit_ballot_text_feedback():
+            kwargs['ballot_text_feedback'] = ballot_text_feedback_for_ballot(self.ballotsub)
+            kwargs['show_ballot_text_feedbacks'] = True
+            kwargs['ballot_text_feedbacks'] = ballot_text_feedbacks_for_debate(self.debate)
             kwargs['show_ballot_text_feedback_admin_form'] = True
             kwargs['text_feedback_action'] = TEXT_FEEDBACK_POST_ACTION
             kwargs.setdefault('ballot_text_feedback_form', self.get_ballot_text_feedback_form())
@@ -903,11 +915,16 @@ class AdjudicatorPrivateUrlBallotScoresheetView(RoundMixin, SingleObjectByRandom
     def _get_visible_ballot(self):
         ballots = self.object.ballotsubmission_set.filter(discarded=False)
         if self.tournament.pref('individual_ballots'):
+            ballot = ballots.filter(
+                participant_submitter__url_key=self.kwargs.get('url_key'),
+            ).order_by('confirmed', 'version').last()
+            if ballot is not None:
+                return ballot
+
             ballots = ballots.filter(
-                Q(participant_submitter__isnull=True) |
-                Q(participant_submitter__url_key=self.kwargs.get('url_key')) |
-                Q(confirmed=True),
+                Q(participant_submitter__isnull=True) | Q(confirmed=True),
             )
+
         ballot = ballots.order_by('confirmed', 'version').last()
         if ballot is None:
             raise Http404
@@ -947,6 +964,7 @@ class AdjudicatorPrivateUrlBallotScoresheetView(RoundMixin, SingleObjectByRandom
         kwargs['adjudicator'] = self._get_adjudicator()
         kwargs['private_url'] = True
         kwargs['url_key'] = self.kwargs.get('url_key')
+        kwargs['ballot_text_feedback'] = ballot_text_feedback_for_ballot(ballot)
         kwargs['show_ballot_text_feedback_form'] = True
         kwargs['text_feedback_action'] = TEXT_FEEDBACK_POST_ACTION
         kwargs.setdefault('ballot_text_feedback_form', BallotTextFeedbackForm(

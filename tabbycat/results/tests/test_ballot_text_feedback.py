@@ -52,6 +52,11 @@ class BallotTextFeedbackFormTests(TestCase):
         self.assertIsNone(form.save(self.ballot, adjudicator=self.adjudicator, user=self.user))
         self.assertFalse(BallotTextFeedback.objects.filter(ballot_submission=self.ballot).exists())
 
+    def test_initial_text_prefills_form(self):
+        form = BallotTextFeedbackForm(initial_text="Already saved")
+
+        self.assertEqual(form['text'].value(), "Already saved")
+
     def test_feedbacks_for_debate_ignores_discarded_ballots(self):
         BallotTextFeedback.objects.create(ballot_submission=self.ballot, text="Visible")
         discarded = BallotSubmission.objects.create(
