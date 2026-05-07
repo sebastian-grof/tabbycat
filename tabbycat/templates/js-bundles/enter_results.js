@@ -21,6 +21,44 @@ const ballotLostLabel = ballot_i18n('Lost');
 const ballotTieLabel = ballot_i18n('Tie');
 const ballotTieUpperLabel = ballot_i18n('TIE');
 
+function refresh_weighted_speaker_totals($scoresheet, side) {
+  if (!$('.criterion', $scoresheet).length) {
+    return;
+  }
+
+  for (const speaker of [...$(`.side-${side}.score`, $scoresheet)]) {
+    const criteria = $('.criterion input', speaker);
+    var weighted = 0;
+    var missingRequired = false;
+    criteria.each((i, c) => {
+      const rawValue = c.value;
+      const required = c.dataset.required !== 'false';
+      if (rawValue === '') {
+        if (required) {
+          missingRequired = true;
+        }
+        return;
+      }
+
+      const score = parseFloat(rawValue);
+      const weight = parseFloat(c.getAttribute('weight') || 1);
+      if (!Number.isNaN(score) && !Number.isNaN(weight)) {
+        weighted += score * weight;
+      }
+    });
+
+    const totalField = speaker.querySelector('input.total');
+    if (totalField) {
+      totalField.value = missingRequired ? '' : weighted;
+      set_whole_number_total_validity(totalField);
+    }
+  }
+}
+
+function side_has_missing_speaker_totals($scoresheet, side) {
+  return [...$(`.side-${side}.score input.total`, $scoresheet)].some((input) => input.value === '');
+}
+
 function refresh_totals(scoresheet) {
 
   $scoresheet = $(scoresheet);
@@ -28,7 +66,22 @@ function refresh_totals(scoresheet) {
   // Fix the branching logic here into something cleaner
   var allClasses = 'btn-dark btn-secondary btn-success btn-primary btn-warning btn-danger btn-info';
 
-  if ("{{ pref.teams_in_debate }}" == 2) {
+  if ("{{ pref.teams_in_debate }}" == 1) {
+    // Solo speech formats still need live criterion totals before submit.
+    for (const totalButton of [...$('button[name$="_total"]', $scoresheet)]) {
+      const match = totalButton.name.match(/^(\d+)_total$/);
+      if (!match) { continue; }
+
+      const side = parseInt(match[1]);
+      refresh_weighted_speaker_totals($scoresheet, side);
+      var team_total = sum($(`.side-${side}.score input.total`, $scoresheet)) + cross_total($scoresheet, side);
+      if (side_has_missing_speaker_totals($scoresheet, side)) {
+        $(totalButton).text("00");
+      } else {
+        $(totalButton).text(team_total);
+      }
+    }
+  } else if ("{{ pref.teams_in_debate }}" == 2) {
     // 2-team
     $aff_total = $('[name="0_total"]', $scoresheet);
     $neg_total = $('[name="1_total"]', $scoresheet);
@@ -824,4 +877,3 @@ $("#hasIron").change(function() {
   });
 
 {% endif %}
-

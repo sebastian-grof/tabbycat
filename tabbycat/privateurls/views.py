@@ -5,7 +5,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Exists, OuterRef, Prefetch, Q
-from django.utils.html import format_html
+from django.utils.html import format_html, format_html_join
 from django.utils.text import format_lazy
 from django.utils.translation import gettext as _
 from django.utils.translation import ngettext
@@ -229,6 +229,31 @@ class PersonIndexView(SingleObjectByRandomisedUrlMixin, PersonalizablePublicTour
             return ""
         return get_side_name(self.tournament, debate_team.side, 'full').capitalize()
 
+    def _solo_speech_chair_allocations(self, debateadjudications):
+        return [dadj for dadj in debateadjudications if dadj.type == dadj.TYPE_CHAIR]
+
+    def _solo_adjudicator_side_summaries(self, debateadjudications):
+        grouped = {}
+        for dadj in debateadjudications:
+            debate_team = self._solo_debate_team(dadj.debate)
+            if debate_team is None:
+                continue
+
+            group = grouped.setdefault(debate_team.side, {
+                'side': get_side_name(self.tournament, debate_team.side, 'full').capitalize(),
+                'speakers': [],
+            })
+            group['speakers'].append(self._solo_debate_speaker_name(dadj.debate))
+
+        summaries = []
+        for side, group in sorted(grouped.items()):
+            summaries.append({
+                'side': group['side'],
+                'count': len(group['speakers']),
+                'speakers': format_html_join(", ", "{}", ((speaker,) for speaker in group['speakers'])),
+            })
+        return summaries
+
     def _adjudicator_ballot_actions(self, debateadjudications):
         debateadjudications = list(debateadjudications)
         latest_ballots = {}
@@ -243,33 +268,33 @@ class PersonIndexView(SingleObjectByRandomisedUrlMixin, PersonalizablePublicTour
 
         actions = []
         for dadj in debateadjudications:
+            if dadj.type != dadj.TYPE_CHAIR:
+                continue
+
             debate = dadj.debate
             ballot = latest_ballots.get(debate.id)
-            url_name = (
-                'results-privateurl-scoresheet-view-debate' if ballot
-                else 'results-public-ballotset-new-randomised-debate'
-            )
-            action = _("View Ballot") if ballot else _("Submit Ballot")
+            if ballot:
+                continue
+
             speaker_name = self._solo_debate_speaker_name(debate)
             side_name = self._solo_debate_side_name(debate)
-            room = debate.venue.display_name if debate.venue else _("TBA")
 
             actions.append({
                 'url': reverse_round(
-                    url_name,
+                    'results-public-ballotset-new-randomised-debate',
                     debate.round,
                     kwargs={'url_key': self.object.url_key, 'debate_id': debate.id},
                 ),
                 'text': format_html(
                     _("{action}: {round} - {speaker} ({side})"),
-                    action=action,
+                    action=_("Submit Ballot"),
                     round=debate.round.name,
                     speaker=speaker_name,
                     side=side_name,
                 ),
-                'subtext': _("Room: %(room)s") % {'room': room},
-                'to_complete': ballot is None,
-                'type': 'success' if ballot is None else 'primary',
+                'subtext': "",
+                'to_complete': False,
+                'type': 'primary',
             })
         return actions
 
@@ -301,6 +326,10 @@ class PersonIndexView(SingleObjectByRandomisedUrlMixin, PersonalizablePublicTour
                 ).prefetch_related(
                     'debate__debateteam_set__team__speaker_set',
                 )
+            if (debateadjudications is not None and
+                    self.tournament.pref('solo_speech_format') and self.tournament.pref('teams_in_debate') == 1):
+                debateadjudications = self._solo_speech_chair_allocations(debateadjudications)
+                kwargs['solo_adjudicator_side_summaries'] = self._solo_adjudicator_side_summaries(debateadjudications)
             kwargs['debateadjudications'] = debateadjudications
             actions_source = debateadjudications if debateadjudications is not None else []
             kwargs['adjudicator_ballot_actions'] = self._adjudicator_ballot_actions(actions_source)

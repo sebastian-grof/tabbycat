@@ -92,9 +92,11 @@ class JDLMultiSpeechPrivateUrlTests(TestCase):
         self.assertIn(str(self.debate_one.id), actions[0]['url'])
         self.assertIn(str(self.debate_two.id), actions[1]['url'])
         self.assertIn("Submit Ballot", actions[0]['text'])
-        self.assertTrue(actions[0]['to_complete'])
+        self.assertEqual(actions[0]['subtext'], "")
+        self.assertFalse(actions[0]['to_complete'])
+        self.assertEqual(actions[0]['type'], 'primary')
 
-    def test_landing_action_switches_to_view_after_judge_submits_ballot(self):
+    def test_landing_actions_hide_submitted_ballots(self):
         BallotSubmission.objects.create(
             debate=self.debate_one,
             participant_submitter=self.adjudicator,
@@ -108,7 +110,22 @@ class JDLMultiSpeechPrivateUrlTests(TestCase):
 
         actions = view._adjudicator_ballot_actions([self.debate_adj_one, self.debate_adj_two])
 
-        self.assertIn("View Ballot", actions[0]['text'])
-        self.assertFalse(actions[0]['to_complete'])
-        self.assertIn("Submit Ballot", actions[1]['text'])
-        self.assertTrue(actions[1]['to_complete'])
+        self.assertEqual(len(actions), 1)
+        self.assertIn(str(self.debate_two.id), actions[0]['url'])
+        self.assertIn("Submit Ballot", actions[0]['text'])
+
+    def test_landing_actions_ignore_non_chair_allocations(self):
+        debate = self._create_solo_debate("Speaker Three", DebateSide.AFF)
+        panel_allocation = DebateAdjudicator.objects.create(
+            debate=debate,
+            adjudicator=self.adjudicator,
+            type=DebateAdjudicator.TYPE_PANEL,
+        )
+        view = PersonIndexView()
+        view.object = self.adjudicator
+        view._tournament_from_url = self.tournament
+
+        actions = view._adjudicator_ballot_actions([self.debate_adj_one, self.debate_adj_two, panel_allocation])
+
+        self.assertEqual(len(actions), 2)
+        self.assertNotIn(str(debate.id), [action['url'] for action in actions])

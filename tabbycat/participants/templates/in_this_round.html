@@ -24,28 +24,49 @@
       {% trans "Room TBA" as venue_tba %}
 
       {% if debateadjudications != None %}
-        {% for debateadjudicator in debateadjudications %}
-          {% with debate=debateadjudicator.debate %}
-            {% include "current_round/round_adj.html" %}
-          {% endwith %}
-        {% empty %}
+        {% if solo_adjudicator_side_summaries %}
+          {% for summary in solo_adjudicator_side_summaries %}
+            <div class="list-group-item lead {% if draw_released %}active{% else %}list-group-item-dark{% endif %}">
+              {% if grammatical_person == "3" %}
+                {% person_display_name adjudicator as adjudicator_name %}
+                {% blocktrans trimmed with adjudicator=adjudicator_name side=summary.side speakers=summary.speakers count counter=summary.count %}
+                  {{ adjudicator }} is chairing 1 speech on the <strong>{{ side }}</strong> side: {{ speakers }}.
+                {% plural %}
+                  {{ adjudicator }} is chairing {{ counter }} speeches on the <strong>{{ side }}</strong> side: {{ speakers }}.
+                {% endblocktrans %}
+              {% else %}
+                {% blocktrans trimmed with side=summary.side speakers=summary.speakers count counter=summary.count %}
+                  You are chairing 1 speech on the <strong>{{ side }}</strong> side: {{ speakers }}.
+                {% plural %}
+                  You are chairing {{ counter }} speeches on the <strong>{{ side }}</strong> side: {{ speakers }}.
+                {% endblocktrans %}
+              {% endif %}
+            </div>
+          {% endfor %}
+        {% else %}
+          {% for debateadjudicator in debateadjudications %}
+            {% with debate=debateadjudicator.debate %}
+              {% include "current_round/round_adj.html" %}
+            {% endwith %}
+          {% empty %}
 
-        <div class="list-group-item">
-          <em>
-            {% if grammatical_person == "3" %}
-              {% person_display_name adjudicator as adjudicator_name %}
-              {% blocktrans trimmed with adjudicator=adjudicator_name %}
-                {{ adjudicator }} is not adjudicating this round.
-              {% endblocktrans %}
-            {% else %}
-              {% blocktrans trimmed %}
-                You are not adjudicating this round.
-              {% endblocktrans %}
-            {% endif %}
-          </em>
-        </div>
+          <div class="list-group-item">
+            <em>
+              {% if grammatical_person == "3" %}
+                {% person_display_name adjudicator as adjudicator_name %}
+                {% blocktrans trimmed with adjudicator=adjudicator_name %}
+                  {{ adjudicator }} is not adjudicating this round.
+                {% endblocktrans %}
+              {% else %}
+                {% blocktrans trimmed %}
+                  You are not adjudicating this round.
+                {% endblocktrans %}
+              {% endif %}
+            </em>
+          </div>
 
-        {% endfor %}
+          {% endfor %}
+        {% endif %}
 
       {% elif debateteams != None %}
 

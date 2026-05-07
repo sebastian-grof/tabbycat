@@ -69,6 +69,8 @@ class AdjudicatorDebateTable:
             )
         elif table.private_url:
             debateadjs = debateadjs.filter(debate__round__draw_status=Round.Status.RELEASED)
+            if view.tournament.pref('solo_speech_format') and view.tournament.pref('teams_in_debate') == 1:
+                debateadjs = debateadjs.filter(type=DebateAdjudicator.TYPE_CHAIR)
 
         debates = [da.debate for da in debateadjs]
         populate_wins(debates)
