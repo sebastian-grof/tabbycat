@@ -9,7 +9,6 @@ from django.core.exceptions import ObjectDoesNotExist
 
 from adjallocation.models import DebateAdjudicator
 from draw.types import DebateSide
-from tournaments.utils import get_side_name
 from xmlconverter.converter_core import adjudicator_short
 from xmlconverter.styled import (
     col_index,
@@ -99,7 +98,7 @@ def _build_export_context(ballot_submission: BallotSubmission) -> dict[str, obje
     return {
         'tournament': tournament.name,
         'motion': _motion_text(ballot_submission),
-        'position': get_side_name(tournament, debate_team.side, 'full').capitalize(),
+        'position': _jdl_first_category_position_name(debate_team.side),
         'speaker': _speaker_name(ballot_submission, debate_team, tournament),
         'criteria': criteria,
         'panel_names': panel_names,
@@ -107,6 +106,14 @@ def _build_export_context(ballot_submission: BallotSubmission) -> dict[str, obje
         'notes': notes.text if notes else '',
         'chair_signature': adjudicator_short(chair.adjudicator.name),
     }
+
+
+def _jdl_first_category_position_name(side: DebateSide) -> str:
+    if side == DebateSide.AFF:
+        return "Súhlas"
+    if side == DebateSide.NEG:
+        return "Nesúhlas"
+    return ""
 
 
 def _get_single_debate_team(debate):

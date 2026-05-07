@@ -130,7 +130,7 @@ class JDLFirstCategoryBallotExportTests(TestCase):
 
         self.assertEqual(cells["D3"], "JDL Test")
         self.assertEqual(cells["D5"], "This House would test XLSX exports")
-        self.assertEqual(cells["Y3"], "Affirmative")
+        self.assertEqual(cells["Y3"], "Súhlas")
         self.assertEqual(cells["L8"], "Jana Rečníčka")
         self.assertEqual([cells["L9"], cells["M9"], cells["N9"]], ["chair", "chair", "chair"])
         self.assertEqual([cells["L10"], cells["M10"], cells["N10"]], ["1", "1", "1"])
