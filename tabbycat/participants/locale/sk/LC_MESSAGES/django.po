@@ -858,7 +858,7 @@ msgstr "V tomto kole nemáš debatu."
 
 #: participants/templates/in_this_round.html
 msgid "The draw for this round hasn't yet been released."
-msgstr "?reb pre toto kolo nem?yet bolo zverejnen?."
+msgstr "Pairing pre toto kolo ešte nebol zverejnený."
 
 #: participants/templates/participants_subnav.html
 msgid "Participants List"
