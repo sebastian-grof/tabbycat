@@ -5,21 +5,25 @@ from django.conf import settings
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Exists, OuterRef, Prefetch, Q
+from django.utils.html import format_html
 from django.utils.text import format_lazy
 from django.utils.translation import gettext as _
 from django.utils.translation import ngettext
 
 from checkins.models import PersonIdentifier
 from checkins.utils import get_unexpired_checkins
+from draw.types import DebateSide
 from notifications.models import BulkNotification, SentMessage
 from notifications.views import RoleColumnMixin, TournamentTemplateEmailCreateView
 from participants.models import Adjudicator, Person, Speaker, SpeakerCategory
 from participants.tables import AdjudicatorDebateTable, TeamDebateTable
 from participants.views import BaseRecordView
+from results.models import BallotSubmission
 from tournaments.mixins import PersonalizablePublicTournamentPageMixin, SingleObjectByRandomisedUrlMixin, TournamentMixin
 from tournaments.models import Round
+from tournaments.utils import get_side_name
 from users.permissions import Permission
-from utils.misc import reverse_tournament
+from utils.misc import reverse_round, reverse_tournament
 from utils.mixins import AdministratorMixin
 from utils.tables import TabbycatTableBuilder
 from utils.views import PostOnlyRedirectView, VueTableTemplateView
@@ -207,6 +211,68 @@ class PersonIndexView(SingleObjectByRandomisedUrlMixin, PersonalizablePublicTour
         else:
             return TeamDebateTable.get_table(self, self.object.speaker.team)
 
+    def _solo_debate_team(self, debate):
+        return next((dt for dt in debate.debateteam_set.all() if dt.side != DebateSide.BYE), None)
+
+    def _solo_debate_speaker_name(self, debate):
+        debate_team = self._solo_debate_team(debate)
+        if debate_team is None:
+            return debate.matchup
+
+        speakers = sorted(debate_team.team.speaker_set.all(), key=lambda sp: sp.name)
+        speaker = speakers[0] if speakers else None
+        return speaker.get_public_name(self.tournament) if speaker else debate_team.team.short_name
+
+    def _solo_debate_side_name(self, debate):
+        debate_team = self._solo_debate_team(debate)
+        if debate_team is None:
+            return ""
+        return get_side_name(self.tournament, debate_team.side, 'full').capitalize()
+
+    def _adjudicator_ballot_actions(self, debateadjudications):
+        debateadjudications = list(debateadjudications)
+        latest_ballots = {}
+        ballot_submissions = BallotSubmission.objects.filter(
+            debate_id__in=[dadj.debate_id for dadj in debateadjudications],
+            participant_submitter=self.object,
+            discarded=False,
+        ).order_by('debate_id', '-version')
+
+        for ballot in ballot_submissions:
+            latest_ballots.setdefault(ballot.debate_id, ballot)
+
+        actions = []
+        for dadj in debateadjudications:
+            debate = dadj.debate
+            ballot = latest_ballots.get(debate.id)
+            url_name = (
+                'results-privateurl-scoresheet-view-debate' if ballot
+                else 'results-public-ballotset-new-randomised-debate'
+            )
+            action = _("View Ballot") if ballot else _("Submit Ballot")
+            speaker_name = self._solo_debate_speaker_name(debate)
+            side_name = self._solo_debate_side_name(debate)
+            room = debate.venue.display_name if debate.venue else _("TBA")
+
+            actions.append({
+                'url': reverse_round(
+                    url_name,
+                    debate.round,
+                    kwargs={'url_key': self.object.url_key, 'debate_id': debate.id},
+                ),
+                'text': format_html(
+                    _("{action}: {round} - {speaker} ({side})"),
+                    action=action,
+                    round=debate.round.name,
+                    speaker=speaker_name,
+                    side=side_name,
+                ),
+                'subtext': _("Room: %(room)s") % {'room': room},
+                'to_complete': ballot is None,
+                'type': 'success' if ballot is None else 'primary',
+            })
+        return actions
+
     def get_context_data(self, **kwargs) -> Dict[str, Any]:
         self.object = self.get_object()
         t = self.tournament
@@ -227,7 +293,17 @@ class PersonIndexView(SingleObjectByRandomisedUrlMixin, PersonalizablePublicTour
             kwargs['checkins_used'] = False
 
         if hasattr(self.object, 'adjudicator'):
-            kwargs['debateadjudications'] = BaseRecordView.allocations_set(self.object.adjudicator, False, self.tournament)
+            debateadjudications = BaseRecordView.allocations_set(self.object.adjudicator, False, self.tournament)
+            if debateadjudications is not None:
+                debateadjudications = debateadjudications.select_related(
+                    'debate__round',
+                    'debate__venue',
+                ).prefetch_related(
+                    'debate__debateteam_set__team__speaker_set',
+                )
+            kwargs['debateadjudications'] = debateadjudications
+            actions_source = debateadjudications if debateadjudications is not None else []
+            kwargs['adjudicator_ballot_actions'] = self._adjudicator_ballot_actions(actions_source)
             draw_released = t.current_round.draw_status == Round.Status.RELEASED
         else:
             team = self.object.speaker.team

@@ -45,6 +45,7 @@ const prioritiseIntro = `Using auto-prioritise will remove all existing debate p
 const noDebatesInline = 'There are no debates created for this round.'
 
 const unallocatedComponent = DraggableAdjudicator
+const allowRepeatAdjudicators = computed(() => props.initialData?.extra?.repeatAdjudicatorAllocation ?? false)
 
 const maxTeams = computed(() => {
   return Math.max(...container.sortedDebatesOrPanels.value.map(d => d.teams ? d.teams.length : 0), 2)
@@ -78,7 +79,7 @@ const { moveAdjudicator, swapPanels, showShard, showAllocate, showPrioritise } =
       <drag-and-drop-actions
         :count="debatesOrPanelsCount"
         prioritise="true"
-        allocate="true"
+        :allocate="!allowRepeatAdjudicators"
         shard="true"
         @show-shard="showShard"
         @show-allocate="showAllocate"
@@ -115,6 +116,15 @@ const { moveAdjudicator, swapPanels, showShard, showAllocate, showPrioritise } =
           </button>
         </template>
       </drag-and-drop-actions>
+    </template>
+
+    <template #extra-messages>
+      <div
+        v-if="allowRepeatAdjudicators"
+        class="alert alert-info mx-2 mt-2 mb-0"
+      >
+        {{ gettext('Solo speech mode: adjudicators can be assigned to multiple speeches in this round. Drag a judge from the bottom pool to every speech they judge; drag from a speech back to the pool to remove only that assignment. Auto-allocation is disabled for this format.') }}
+      </div>
     </template>
 
     <template #debates>

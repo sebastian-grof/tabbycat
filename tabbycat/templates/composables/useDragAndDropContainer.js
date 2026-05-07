@@ -88,6 +88,10 @@ export function useDragAndDropContainer ({
   const debatesOrPanelsCount = computed(() => Object.keys(allDebatesOrPanels.value).length)
 
   const unallocatedItems = computed(() => {
+    if (store.extra?.repeatAdjudicatorAllocation) {
+      return Object.values(store.allocatableItems)
+    }
+
     const allocatedItemIDs = []
     for (const [, debateOrPanel] of Object.entries(allDebatesOrPanels.value)) {
       allocatedItemIDs.push(...getUnallocatedItemFromDebateOrPanel(debateOrPanel))

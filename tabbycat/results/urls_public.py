@@ -25,6 +25,15 @@ urlpatterns = [
 
         # Private Ballots
         path('adjudicator/<slug:url_key>/', include([
+            path('debate/<int:debate_id>/add/',
+                views.OldPublicNewBallotSetByRandomisedUrlView.as_view(),
+                name='results-public-ballotset-new-randomised-debate'),
+            path('debate/<int:debate_id>/view/',
+                views.AdjudicatorPrivateUrlBallotScoresheetView.as_view(),
+                name='results-privateurl-scoresheet-view-debate'),
+            path('debate/<int:debate_id>/download-ballot/',
+                views.AdjudicatorPrivateUrlJDLBallotDownloadView.as_view(),
+                name='results-privateurl-jdl-ballot-xlsx-debate'),
             path('add/',
                 views.OldPublicNewBallotSetByRandomisedUrlView.as_view(),
                 name='results-public-ballotset-new-randomised'),

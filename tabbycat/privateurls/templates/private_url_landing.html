@@ -76,11 +76,17 @@
     {% endif %}
 
     {% if object.adjudicator and pref.participant_ballots == 'private-urls' %}
-      {% for dadj in debateadjudications %}
+      {% if pref.solo_speech_format and pref.teams_in_debate == 1 %}
+        {% for action in adjudicator_ballot_actions %}
+          {% include "components/item-action.html" with url=action.url text=action.text subtext=action.subtext to_complete=action.to_complete type=action.type %}
+        {% endfor %}
+      {% else %}
+        {% for dadj in debateadjudications %}
           {% roundurl 'results-public-ballotset-new-randomised' dadj.debate.round url_key as url %}
           {% blocktrans trimmed with round=dadj.debate.round.name asvar text %}Submit Ballot for {{ round }}{% endblocktrans %}
           {% include "components/item-action.html" %}
-      {% endfor %}
+        {% endfor %}
+      {% endif %}
     {% endif %}
 
     {% if pref.participant_feedback == 'private-urls' %}

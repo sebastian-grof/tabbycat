@@ -642,6 +642,21 @@ class BasePublicNewBallotSetView(PersonalizablePublicTournamentPageMixin, RoundM
         messages.success(self.request, _("Thanks, %(user)s! Your ballot for %(debate)s has "
                 "been recorded.") % {'user': self.object.name, 'debate': self.matchup_description()})
 
+    def _adjudicator_debate_queryset(self):
+        debateadjs = DebateAdjudicator.objects.prefetch_related(
+            'debate__debateteam_set__team__speaker_set',
+        ).filter(adjudicator=self.object, debate__round=self.round)
+        if 'debate_id' in self.kwargs:
+            debateadjs = debateadjs.filter(debate_id=self.kwargs['debate_id'])
+        return debateadjs
+
+    def _multi_debate_redirect(self):
+        if self.tournament.pref('solo_speech_format') and self.tournament.pref('teams_in_debate') == 1:
+            return HttpResponseRedirect(
+                reverse_tournament('privateurls-person-index', self.tournament, kwargs={'url_key': self.kwargs['url_key']}),
+            )
+        return None
+
     def populate_objects(self, prefill=True):
         self.object = self.get_object() # must be populated before self.error_page() called
 
@@ -653,10 +668,13 @@ class BasePublicNewBallotSetView(PersonalizablePublicTournamentPageMixin, RoundM
             return self.error_page(_("The motions for this round haven't been released yet."))
 
         try:
-            self.debateadj = DebateAdjudicator.objects.prefetch_related('debate__debateteam_set__team__speaker_set').get(adjudicator=self.object, debate__round=self.round)
+            self.debateadj = self._adjudicator_debate_queryset().get()
         except DebateAdjudicator.DoesNotExist:
             return self.error_page(_("It looks like you don't have a debate this round."))
         except DebateAdjudicator.MultipleObjectsReturned:
+            redirect = self._multi_debate_redirect()
+            if redirect:
+                return redirect
             return self.error_page(_("It looks like you're assigned to two or more debates this round. "
                     "Please contact a tab room official."))
 
@@ -908,10 +926,33 @@ class AdjudicatorPrivateUrlBallotScoresheetView(RoundMixin, SingleObjectByRandom
     def is_page_enabled(self, tournament):
         return True
 
+    def _multi_debate_redirect(self):
+        if self.tournament.pref('solo_speech_format') and self.tournament.pref('teams_in_debate') == 1:
+            return HttpResponseRedirect(
+                reverse_tournament('privateurls-person-index', self.tournament, kwargs={'url_key': self.kwargs['url_key']}),
+            )
+        return None
+
     def check_permissions(self):
         if not self.object.ballotsubmission_set.filter(discarded=False).exists():
             logger.warning("Refused public view of ballots for %s: no ballot", self.object)
             return 404, _("There is no result yet for debate %s.") % self.matchup_description()
+
+    def get(self, request, *args, **kwargs):
+        try:
+            self.object = self.get_object()
+        except self.model.MultipleObjectsReturned:
+            redirect = self._multi_debate_redirect()
+            if redirect:
+                return redirect
+            error = (500, _("It looks like you were assigned to two or more debates. Please contact a tab room official."))
+        else:
+            error = self.check_permissions()
+
+        if error:
+            return self.response_error(error)
+
+        return TemplateView.get(self, request, *args, **kwargs)
 
     def _get_adjudicator(self):
         return Adjudicator.objects.get(url_key=self.kwargs.get('url_key'))
@@ -951,6 +992,9 @@ class AdjudicatorPrivateUrlBallotScoresheetView(RoundMixin, SingleObjectByRandom
         try:
             self.object = self.get_object()
         except self.model.MultipleObjectsReturned:
+            redirect = self._multi_debate_redirect()
+            if redirect:
+                return redirect
             return self.response_error((500, _(
                 "It looks like you were assigned to two or more debates. Please contact a tab room official.")))
 
@@ -985,9 +1029,9 @@ class AdjudicatorPrivateUrlBallotScoresheetView(RoundMixin, SingleObjectByRandom
         kwargs['url_key'] = self.kwargs.get('url_key')
         if is_jdl_first_category_ballot_export_enabled(self.tournament):
             kwargs['ballot_xlsx_download_url'] = reverse_round(
-                'results-privateurl-jdl-ballot-xlsx',
+                'results-privateurl-jdl-ballot-xlsx-debate',
                 self.round,
-                kwargs={'url_key': self.kwargs.get('url_key')},
+                kwargs={'url_key': self.kwargs.get('url_key'), 'debate_id': self.object.id},
             )
         kwargs['ballot_text_feedback_can_edit'] = editable_ballot is not None
         kwargs['show_ballot_text_feedback_form'] = True
@@ -1011,7 +1055,10 @@ class AdjudicatorPrivateUrlBallotScoresheetView(RoundMixin, SingleObjectByRandom
         )
 
     def get_queryset(self):
-        return super().get_queryset().filter(round=self.round)
+        queryset = super().get_queryset().filter(round=self.round)
+        if 'debate_id' in self.kwargs:
+            queryset = queryset.filter(pk=self.kwargs['debate_id'])
+        return queryset
 
 
 class AdjudicatorPrivateUrlJDLBallotDownloadView(AdjudicatorPrivateUrlBallotScoresheetView):
@@ -1020,6 +1067,9 @@ class AdjudicatorPrivateUrlJDLBallotDownloadView(AdjudicatorPrivateUrlBallotScor
         try:
             self.object = self.get_object()
         except self.model.MultipleObjectsReturned:
+            redirect = self._multi_debate_redirect()
+            if redirect:
+                return redirect
             return self.response_error((500, _(
                 "It looks like you were assigned to two or more debates. Please contact a tab room official.")))
 

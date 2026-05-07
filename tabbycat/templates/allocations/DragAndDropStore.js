@@ -106,6 +106,10 @@ export const useDragAndDropStore = defineStore('dragAndDrop', {
     currentHoverVenueConstraintSets: (state) => state.hoverVenueConstraintSets,
     currentHoverVenueConstraintDebateId: (state) => state.hoverVenueConstraintDebateId,
     duplicateAdjudicatorAllocations: (state) => {
+      if (state.extra?.repeatAdjudicatorAllocation) {
+        return []
+      }
+
       const allocatedIDs = []
       const doubleAllocatedIDs = []
       for (const debateOrPanelID in state.debatesOrPanels) {

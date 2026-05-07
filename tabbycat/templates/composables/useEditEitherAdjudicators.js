@@ -33,6 +33,9 @@ export function useEditEitherAdjudicators ({ allDebatesOrPanels }) {
   }
 
   const addToAllocation = (allocation, adjudicatorID, position) => {
+    if (Object.values(allocation).flat().includes(adjudicatorID)) {
+      return allocation
+    }
     allocation[position].push(adjudicatorID)
     return allocation
   }

@@ -954,10 +954,15 @@ class TabbycatTableBuilder(BaseTableBuilder):
                 elif not get_result_class(debate.nondiscard_ballots[0], debate.round, self.tournament).uses_speakers:
                     ballot_links_data.append(_("No scores"))
                 else:
+                    view_name = 'results-privateurl-scoresheet-view'
+                    view_kwargs = {'url_key': self.private_url_key}
+                    if self.tournament.pref('teams_in_debate') == 1:
+                        view_name = 'results-privateurl-scoresheet-view-debate'
+                        view_kwargs['debate_id'] = debate.id
                     ballot_links_data.append({
                         'text': no_ballot if debate.is_bye else _("View Ballot"),
                         'link': None if debate.is_bye else reverse_round(
-                            'results-privateurl-scoresheet-view', debate.round, kwargs={'url_key': self.private_url_key}),
+                            view_name, debate.round, kwargs=view_kwargs),
                     })
             self.add_column(ballot_links_header, ballot_links_data)
 

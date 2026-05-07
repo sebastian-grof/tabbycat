@@ -65,6 +65,10 @@ class AdjudicatorAllocationWorkerConsumer(EditDebateOrPanelWorkerMixin):
             self.return_error(event['extra']['group_name'],
                 _("Draw is not confirmed, confirm draw to run auto-allocations."))
             return
+        if round.tournament.pref('solo_speech_format') and round.tournament.pref('teams_in_debate') == 1:
+            self.return_error(event['extra']['group_name'],
+                _("Auto-allocation is disabled for solo speech formats because one adjudicator may judge multiple speeches. Assign adjudicators manually."))
+            return
 
         if event['extra']['settings']['usePreformedPanels']:
             if not round.preformedpanel_set.exists():
