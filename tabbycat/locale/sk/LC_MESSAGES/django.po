@@ -2174,19 +2174,19 @@ msgstr "Zahodená sada ballotov"
 
 #: tournaments/utils.py
 msgid "affirmative"
-msgstr "afirmácia"
+msgstr "súhlas"
 
 #: tournaments/utils.py
 msgid "negative"
-msgstr "negácia"
+msgstr "nesúhlas"
 
 #: tournaments/utils.py
 msgid "affirmative team"
-msgstr "afirmačný tím"
+msgstr "súhlasný tím"
 
 #: tournaments/utils.py
 msgid "negative team"
-msgstr "negačný tím"
+msgstr "nesúhlasný tím"
 
 #: tournaments/utils.py
 msgid "Aff"
