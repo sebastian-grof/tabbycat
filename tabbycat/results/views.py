@@ -8,11 +8,13 @@ from django.core.exceptions import ValidationError
 from django.db import ProgrammingError
 from django.db.models import Count, Max, Q, Window
 from django.db.models.functions import Coalesce, Rank
+from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.http.response import Http404
 from django.shortcuts import render
 from django.utils import timezone
 from django.utils.html import escape
+from django.utils.text import slugify
 from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy
 from django.views.generic import FormView, TemplateView
@@ -43,6 +45,11 @@ from .consumers import BallotStatusConsumer
 from .forms import (BallotTextFeedbackForm, broadcast_results, PerAdjudicatorBallotSetForm,
                     PerAdjudicatorEliminationBallotSetForm, SingleBallotSetForm,
                     SingleEliminationBallotSetForm)
+from .jdl_ballot_export import (
+    JDLFirstCategoryBallotExportError,
+    build_jdl_first_category_ballot_xlsx,
+    is_jdl_first_category_ballot_export_enabled,
+)
 from .models import BallotSubmission, BallotTextFeedback, ScoreCriterion, TeamScore
 from .prefetch import populate_confirmed_ballots, populate_results
 from .result import DebateResult, get_class_name
@@ -83,6 +90,32 @@ def ballot_text_feedback_initial(ballot_submission):
 def ballot_text_feedback_form_for_ballot(ballot_submission, **kwargs):
     kwargs.setdefault('initial_text', ballot_text_feedback_initial(ballot_submission))
     return BallotTextFeedbackForm(**kwargs)
+
+
+def jdl_first_category_ballot_download_response(ballot_submission):
+    tournament = ballot_submission.debate.round.tournament
+    if not is_jdl_first_category_ballot_export_enabled(tournament):
+        raise Http404
+
+    try:
+        contents = build_jdl_first_category_ballot_xlsx(ballot_submission)
+    except JDLFirstCategoryBallotExportError as exc:
+        logger.warning("Unable to export JDL 1 ballot %s: %s", ballot_submission.id, exc)
+        raise Http404(str(exc))
+
+    filename_slug = slugify(
+        "%s-%s-debate-%s" % (
+            tournament.slug,
+            ballot_submission.debate.round.abbreviation or ballot_submission.debate.round.seq,
+            ballot_submission.debate_id,
+        )
+    ) or "jdl-1-ballot"
+    response = HttpResponse(
+        contents,
+        content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    )
+    response["Content-Disposition"] = 'attachment; filename="%s.xlsx"' % filename_slug
+    return response
 
 
 class PublicResultsIndexView(PublicTournamentPageMixin, TemplateView):
@@ -924,7 +957,8 @@ class AdjudicatorPrivateUrlBallotScoresheetView(RoundMixin, SingleObjectByRandom
         try:
             self.object = self.get_object()
         except self.model.MultipleObjectsReturned:
-            return self.response_error((500, _("It looks like you were assigned to two or more debates. Please contact a tab room official.")))
+            return self.response_error((500, _(
+                "It looks like you were assigned to two or more debates. Please contact a tab room official.")))
 
         error_response = self._render_post_error(self.check_permissions())
         if error_response:
@@ -955,6 +989,12 @@ class AdjudicatorPrivateUrlBallotScoresheetView(RoundMixin, SingleObjectByRandom
         kwargs['adjudicator'] = self._get_adjudicator()
         kwargs['private_url'] = True
         kwargs['url_key'] = self.kwargs.get('url_key')
+        if is_jdl_first_category_ballot_export_enabled(self.tournament):
+            kwargs['ballot_xlsx_download_url'] = reverse_round(
+                'results-privateurl-jdl-ballot-xlsx',
+                self.round,
+                kwargs={'url_key': self.kwargs.get('url_key')},
+            )
         kwargs['ballot_text_feedback_can_edit'] = editable_ballot is not None
         kwargs['show_ballot_text_feedback_form'] = True
         if editable_ballot is None:
@@ -980,6 +1020,25 @@ class AdjudicatorPrivateUrlBallotScoresheetView(RoundMixin, SingleObjectByRandom
         return super().get_queryset().filter(round=self.round)
 
 
+class AdjudicatorPrivateUrlJDLBallotDownloadView(AdjudicatorPrivateUrlBallotScoresheetView):
+
+    def get(self, request, *args, **kwargs):
+        try:
+            self.object = self.get_object()
+        except self.model.MultipleObjectsReturned:
+            return self.response_error((500, _(
+                "It looks like you were assigned to two or more debates. Please contact a tab room official.")))
+
+        error = self.check_permissions()
+        if error:
+            status, message = error
+            if status == 404:
+                raise Http404(message)
+            return HttpResponse(message, status=status)
+
+        return jdl_first_category_ballot_download_response(self._get_visible_ballot())
+
+
 class SpeakerPrivateUrlBallotScoresheetView(RoundMixin, SingleObjectByRandomisedUrlMixin, PublicBallotScoresheetsView):
     slug_field = 'debateteam__team__speaker__url_key'
     public_page_preference = 'private_ballots_released'
@@ -990,12 +1049,37 @@ class SpeakerPrivateUrlBallotScoresheetView(RoundMixin, SingleObjectByRandomised
     def get_context_data(self, **kwargs):
         kwargs['private_url'] = True
         kwargs['url_key'] = self.kwargs.get('url_key')
+        if is_jdl_first_category_ballot_export_enabled(self.tournament):
+            kwargs['ballot_xlsx_download_url'] = reverse_round(
+                'speaker-results-privateurl-jdl-ballot-xlsx',
+                self.round,
+                kwargs={'url_key': self.kwargs.get('url_key')},
+            )
         kwargs['show_ballot_text_feedbacks'] = True
         kwargs['ballot_text_feedbacks'] = ballot_text_feedbacks_for_debate(self.object)
         return super().get_context_data(**kwargs)
 
     def get_queryset(self):
         return super().get_queryset().filter(round=self.round)
+
+
+class SpeakerPrivateUrlJDLBallotDownloadView(SpeakerPrivateUrlBallotScoresheetView):
+
+    def get(self, request, *args, **kwargs):
+        try:
+            self.object = self.get_object()
+        except self.model.MultipleObjectsReturned:
+            return self.response_error((500, _(
+                "It looks like you were assigned to two or more debates. Please contact a tab room official.")))
+
+        error = self.check_permissions()
+        if error:
+            status, message = error
+            if status == 404:
+                raise Http404(message)
+            return HttpResponse(message, status=status)
+
+        return jdl_first_category_ballot_download_response(self.object.confirmed_ballot)
 
 
 class PublicBallotSubmissionIndexView(PublicTournamentPageMixin, RoundMixin, VueTableTemplateView):

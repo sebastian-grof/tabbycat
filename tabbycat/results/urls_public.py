@@ -31,11 +31,17 @@ urlpatterns = [
             path('view/',
                 views.AdjudicatorPrivateUrlBallotScoresheetView.as_view(),
                 name='results-privateurl-scoresheet-view'),
+            path('download-ballot/',
+                views.AdjudicatorPrivateUrlJDLBallotDownloadView.as_view(),
+                name='results-privateurl-jdl-ballot-xlsx'),
         ])),
 
         path('speaker/<slug:url_key>/',
             views.SpeakerPrivateUrlBallotScoresheetView.as_view(),
             name='speaker-results-privateurl-scoresheet'),
+        path('speaker/<slug:url_key>/download-ballot/',
+            views.SpeakerPrivateUrlJDLBallotDownloadView.as_view(),
+            name='speaker-results-privateurl-jdl-ballot-xlsx'),
     ])),
 
     path('added/',

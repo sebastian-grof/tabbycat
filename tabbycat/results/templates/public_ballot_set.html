@@ -36,6 +36,12 @@
       <i data-feather="chevron-left"></i>
       {% trans "Return to landing page" %}
     </a>
+    {% if ballot_xlsx_download_url %}
+      <a class="btn btn-outline-primary" href="{{ ballot_xlsx_download_url }}">
+        <i data-feather="download"></i>
+        {% trans "Stiahnuť Ballot" %}
+      </a>
+    {% endif %}
   {% else %}
     <a class="btn btn-outline-primary" href="{% roundurl 'results-public-round' debate.round %}">
       <i data-feather="chevron-left"></i>

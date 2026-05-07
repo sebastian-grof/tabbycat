@@ -1131,6 +1131,19 @@ class SplitVotingBallots(BooleanPreference):
     default = False
 
 
+@tournament_preferences_registry.register
+class BallotExportFormat(ChoicePreference):
+    help_text = _("Optional downloadable ballot file format for private URL ballot views.")
+    verbose_name = _("Ballot export format")
+    section = data_entry
+    name = 'ballot_export_format'
+    choices = (
+        ('off', _("Off")),
+        ('jdl_first_category', _("JDL 1. Kategória")),
+    )
+    default = 'off'
+
+
 # ==============================================================================
 public_features = Section('public_features', verbose_name=_("Public Features"))
 # ==============================================================================

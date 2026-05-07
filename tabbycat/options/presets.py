@@ -463,6 +463,7 @@ class SDLFormatPreferences(PreferencesPreset):
     data_entry__assistant_access               = 'all_areas'
     data_entry__enable_blind_checks            = False
     data_entry__disable_ballot_confirms        = False
+    data_entry__ballot_export_format           = 'off'
     data_entry__slider_ballot_ui               = True
     data_entry__participant_feedback           = 'private-urls'
     data_entry__participant_ballots            = 'private-urls'
@@ -620,6 +621,7 @@ class JDLFirstCategoryPreferences(JDLFormatPreferences):
     debate_rules__side_names                   = 'aff-neg'
 
     data_entry__individual_ballots             = False
+    data_entry__ballot_export_format           = 'jdl_first_category'
 
     standings__team_standings_precedence       = ['speaks_sum', 'num_adjs']
     standings__team_standings_extra_metrics    = []
