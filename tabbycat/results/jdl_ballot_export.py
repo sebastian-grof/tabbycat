@@ -6,6 +6,7 @@ from pathlib import Path
 from xml.etree import ElementTree as ET
 
 from django.core.exceptions import ObjectDoesNotExist
+from django.utils.text import slugify
 
 from adjallocation.models import DebateAdjudicator
 from draw.types import DebateSide
@@ -55,6 +56,21 @@ def build_jdl_first_category_ballot_xlsx(
             else:
                 zf.writestr(name, data)
     return output.getvalue()
+
+
+def jdl_first_category_ballot_filename_slug(ballot_submission: BallotSubmission) -> str:
+    tournament = ballot_submission.debate.round.tournament
+    debate_team = _get_single_debate_team(ballot_submission.debate)
+    return slugify_filename_parts(
+        tournament.short_name or tournament.name or tournament.slug,
+        _speaker_name(ballot_submission, debate_team, tournament),
+        _jdl_first_category_position_name(debate_team.side),
+    )
+
+
+def slugify_filename_parts(*parts: object) -> str:
+    filename = "-".join(str(part).strip() for part in parts if str(part).strip())
+    return slugify(filename) or "jdl-1-ballot"
 
 
 def _load_single_sheet_template(template_path: Path) -> tuple[dict[str, bytes], ET.Element]:

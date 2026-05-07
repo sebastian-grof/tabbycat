@@ -14,7 +14,6 @@ from django.http.response import Http404
 from django.shortcuts import render
 from django.utils import timezone
 from django.utils.html import escape
-from django.utils.text import slugify
 from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy
 from django.views.generic import FormView, TemplateView
@@ -49,6 +48,7 @@ from .jdl_ballot_export import (
     JDLFirstCategoryBallotExportError,
     build_jdl_first_category_ballot_xlsx,
     is_jdl_first_category_ballot_export_enabled,
+    jdl_first_category_ballot_filename_slug,
 )
 from .models import BallotSubmission, BallotTextFeedback, ScoreCriterion, TeamScore
 from .prefetch import populate_confirmed_ballots, populate_results
@@ -99,17 +99,11 @@ def jdl_first_category_ballot_download_response(ballot_submission):
 
     try:
         contents = build_jdl_first_category_ballot_xlsx(ballot_submission)
+        filename_slug = jdl_first_category_ballot_filename_slug(ballot_submission)
     except JDLFirstCategoryBallotExportError as exc:
         logger.warning("Unable to export JDL 1 ballot %s: %s", ballot_submission.id, exc)
         raise Http404(str(exc))
 
-    filename_slug = slugify(
-        "%s-%s-debate-%s" % (
-            tournament.slug,
-            ballot_submission.debate.round.abbreviation or ballot_submission.debate.round.seq,
-            ballot_submission.debate_id,
-        )
-    ) or "jdl-1-ballot"
     response = HttpResponse(
         contents,
         content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",

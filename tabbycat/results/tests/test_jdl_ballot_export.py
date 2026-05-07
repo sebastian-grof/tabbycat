@@ -10,7 +10,10 @@ from draw.types import DebateSide
 from motions.models import Motion, RoundMotion
 from options.presets import JDLFirstCategoryPreferences, SDLFormatPreferences
 from participants.models import Adjudicator, Institution, Speaker, Team
-from results.jdl_ballot_export import build_jdl_first_category_ballot_xlsx
+from results.jdl_ballot_export import (
+    build_jdl_first_category_ballot_xlsx,
+    jdl_first_category_ballot_filename_slug,
+)
 from results.models import (
     BallotSubmission,
     BallotTextFeedback,
@@ -136,6 +139,22 @@ class JDLFirstCategoryBallotExportTests(TestCase):
         self.assertEqual([cells["L10"], cells["M10"], cells["N10"]], ["1", "1", "1"])
         self.assertEqual(cells["A19"], "Dobré poznámky.")
         self.assertEqual(cells["I36"], "chair")
+
+    def test_filename_uses_tournament_short_name_speaker_and_side(self):
+        self.tournament.short_name = "JDL ZI"
+        self.tournament.save()
+
+        self.assertEqual(
+            jdl_first_category_ballot_filename_slug(self.ballot),
+            "jdl-zi-jana-recnicka-suhlas",
+        )
+
+        self.debate_team.side = DebateSide.NEG
+        self.debate_team.save()
+        self.assertEqual(
+            jdl_first_category_ballot_filename_slug(self.ballot),
+            "jdl-zi-jana-recnicka-nesuhlas",
+        )
 
     def test_two_adjudicators_repeat_chair_twice(self):
         self._add_adjudicator("Anna Chair", DebateAdjudicator.TYPE_CHAIR)
