@@ -555,9 +555,9 @@ class SDLFormatPreferences(PreferencesPreset):
             },
             {
                 "seq": 6,
-                "text": "Podusok",
-                "name": "Podusok",
-                "reference": "podusok",
+                "text": "Posudok",
+                "name": "Posudok",
+                "reference": "posudok",
                 "from_team": False,
                 "from_adj": True,
                 "answer_type": AdjudicatorFeedbackQuestion.AnswerType.SINGLE_SELECT,
