@@ -71,48 +71,69 @@
   </div>
 {% endif %}
 
-<div class="list-group mt-2">
-  {% if user.is_superuser %}
+{% if user.is_superuser or can_view_global_breaks or can_view_feedback_export or can_use_converter %}
+  <div class="list-group mt-2">
+    <a href="#site-tools-menu" class="list-group-item list-group-item-action text-primary"
+       data-toggle="collapse" role="button" aria-expanded="false" aria-controls="site-tools-menu">
+      <div class="row align-items-center">
+        <div class="col-auto pr-1">
+          <i data-feather="tool"></i>
+        </div>
+        <div class="col pl-0 pr-0">
+          {% trans "Site tools" %}
+          <span class="text-muted d-block">{% trans "Database, imports, categories, breaks and exports" %}</span>
+        </div>
+        <div class="col-auto pr-1">
+          <i data-feather="chevron-down"></i>
+        </div>
+      </div>
+    </a>
 
-    {% trans "New Tournament" as text %}{% url 'tournament-create' as url %}
-    {% include "components/item-action.html" with icon="plus-circle" %}
+    <div class="collapse" id="site-tools-menu">
+      <div class="list-group">
+        {% if user.is_superuser %}
 
-    {% trans "Edit Database Area" as text %}{% url 'admin:index' as url %}
-    {% include "components/item-action.html" with icon="edit" %}
+          {% trans "New Tournament" as text %}{% url 'tournament-create' as url %}
+          {% include "components/item-action.html" with icon="plus-circle" %}
 
-    {% trans "Send a Test Email" as text %}{% url 'notifications-test-email' as url %}
-    {% include "components/item-action.html" with icon="send" %}
+          {% trans "Edit Database Area" as text %}{% url 'admin:index' as url %}
+          {% include "components/item-action.html" with icon="edit" %}
 
-    {% trans "Import DebateXML" as text %}{% url 'importer-archive' as url %}
-    {% include "components/item-action.html" with icon="archive" %}
+          {% trans "Send a Test Email" as text %}{% url 'notifications-test-email' as url %}
+          {% include "components/item-action.html" with icon="send" %}
 
-    {% trans "Tournament Categories" as text %}{% url 'tournament-category-manage' as url %}
-    {% include "components/item-action.html" with icon="folder" %}
+          {% trans "Import DebateXML" as text %}{% url 'importer-archive' as url %}
+          {% include "components/item-action.html" with icon="archive" %}
 
-  {% endif %}
+          {% trans "Tournament Categories" as text %}{% url 'tournament-category-manage' as url %}
+          {% include "components/item-action.html" with icon="folder" %}
 
-  {% if can_view_global_breaks %}
+        {% endif %}
 
-    {% trans "Breaks" as text %}{% url 'seasonbreaks-index' as url %}
-    {% include "components/item-action.html" with icon="award" %}
+        {% if can_view_global_breaks %}
 
-  {% endif %}
+          {% trans "Breaks" as text %}{% url 'seasonbreaks-index' as url %}
+          {% include "components/item-action.html" with icon="award" %}
 
-  {% if can_view_feedback_export %}
+        {% endif %}
 
-    {% trans "Feedback Export" as text %}{% url 'feedbackexport-index' as url %}
-    {% include "components/item-action.html" with icon="navigation" %}
+        {% if can_view_feedback_export %}
 
-  {% endif %}
+          {% trans "Feedback Export" as text %}{% url 'feedbackexport-index' as url %}
+          {% include "components/item-action.html" with icon="navigation" %}
 
-  {% if can_use_converter %}
+        {% endif %}
 
-    {% trans "Converter" as text %}{% url 'xmlconverter-index' as url %}
-    {% include "components/item-action.html" with icon="repeat" %}
+        {% if can_use_converter %}
 
-  {% endif %}
+          {% trans "Converter" as text %}{% url 'xmlconverter-index' as url %}
+          {% include "components/item-action.html" with icon="repeat" %}
 
-</div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% endif %}
 
 <div class="list-group mt-2">
   {% if user.is_authenticated %}
