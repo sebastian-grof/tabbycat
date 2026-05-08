@@ -43,6 +43,14 @@
             <label class="form-check-label" for="{{ category_form.active.id_for_label }}">{{ category_form.active.label }}</label>
             {{ category_form.active.errors }}
           </div>
+          <div class="form-check mb-3">
+            {{ category_form.public }}
+            <label class="form-check-label" for="{{ category_form.public.id_for_label }}">{{ category_form.public.label }}</label>
+            {{ category_form.public.errors }}
+            {% if category_form.public.help_text %}
+              <small class="form-text text-muted">{{ category_form.public.help_text }}</small>
+            {% endif %}
+          </div>
           <button class="btn btn-primary" name="create_category" type="submit">
             {% trans "Create category" %}
           </button>
@@ -64,6 +72,20 @@
           </button>
         </form>
       </div>
+
+      <div class="card mt-3">
+        <div class="card-header">
+          <h4 class="mb-0">{% trans "Change visibility" %}</h4>
+        </div>
+        <form method="post" class="card-body">
+          {% csrf_token %}
+          {% include "components/form-field.html" with field=visibility_form.category %}
+          {% include "components/form-field.html" with field=visibility_form.visibility %}
+          <button class="btn btn-primary" name="update_category_visibility" type="submit">
+            {% trans "Save visibility" %}
+          </button>
+        </form>
+      </div>
     </div>
 
     <div class="col-lg-7">
@@ -77,6 +99,7 @@
               <th>{% trans "Category" %}</th>
               <th>{% trans "Slug" %}</th>
               <th>{% trans "Tournaments" %}</th>
+              <th>{% trans "Visibility" %}</th>
               <th>{% trans "Status" %}</th>
             </tr>
           </thead>
@@ -87,6 +110,13 @@
                 <td><code>{{ category.slug }}</code></td>
                 <td>{{ category.tournament_count }}</td>
                 <td>
+                  {% if category.public %}
+                    <span class="badge badge-info">{% trans "Public" %}</span>
+                  {% else %}
+                    <span class="badge badge-warning">{% trans "Private" %}</span>
+                  {% endif %}
+                </td>
+                <td>
                   {% if category.active %}
                     <span class="badge badge-success">{% trans "Active" %}</span>
                   {% else %}
@@ -96,7 +126,7 @@
               </tr>
             {% empty %}
               <tr>
-                <td colspan="4" class="text-muted">{% trans "No categories yet." %}</td>
+                <td colspan="5" class="text-muted">{% trans "No categories yet." %}</td>
               </tr>
             {% endfor %}
           </tbody>

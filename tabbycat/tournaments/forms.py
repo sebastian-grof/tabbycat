@@ -25,7 +25,32 @@ class TournamentCategoryForm(ModelForm):
 
     class Meta:
         model = TournamentCategory
-        fields = ('name', 'slug', 'description', 'seq', 'active')
+        fields = ('name', 'slug', 'description', 'seq', 'active', 'public')
+
+
+class TournamentCategoryVisibilityForm(Form):
+    category = ModelChoiceField(
+        queryset=TournamentCategory.objects.order_by('seq', 'name'),
+        label=_("Category"),
+    )
+    visibility = ChoiceField(
+        choices=(('public', _("Public")), ('private', _("Private"))),
+        label=_("Visibility"),
+        help_text=_("Private categories are shown only to superusers and users with administrator access to tournaments in that category."),
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if not TournamentCategory.objects.exists():
+            self.fields['category'].disabled = True
+            self.fields['visibility'].disabled = True
+            self.fields['category'].help_text = _("Create a category first, then change its visibility.")
+
+    def save(self):
+        category = self.cleaned_data['category']
+        category.public = self.cleaned_data['visibility'] == 'public'
+        category.save(update_fields=['public'])
+        return category
 
 
 class TournamentCategoryDeleteForm(Form):

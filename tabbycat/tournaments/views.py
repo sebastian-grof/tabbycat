@@ -7,6 +7,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.contrib.auth import get_user_model
 from django.db.models import Count, Q
+from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, resolve_url
 from django.utils.html import format_html_join
 from django.utils.timezone import get_current_timezone_name
@@ -21,7 +22,7 @@ from notifications.models import BulkNotification
 from results.models import BallotSubmission
 from results.prefetch import populate_confirmed_ballots
 from tournaments.models import Round
-from users.permissions import has_permission, Permission
+from users.permissions import has_admin_access, has_permission, Permission
 from utils.misc import redirect_round, redirect_tournament, reverse_round, reverse_tournament
 from utils.mixins import (AdministratorMixin, AssistantMixin, CacheMixin, TabbycatPageTitlesMixin,
                           WarnAboutDatabaseUseMixin, WarnAboutLegacySendgridConfigVarsMixin)
@@ -30,8 +31,8 @@ from utils.views import ModelFormSetView, PostOnlyRedirectView, VueTableTemplate
 
 from .forms import (RoundWeightForm, ScheduleEventForm, SetCurrentRoundMultipleBreakCategoriesForm,
                     SetCurrentRoundSingleBreakCategoryForm, TournamentCategoryAssignmentForm,
-                    TournamentCategoryDeleteForm, TournamentCategoryForm, TournamentConfigureForm,
-                    TournamentStartForm)
+                    TournamentCategoryDeleteForm, TournamentCategoryForm, TournamentCategoryVisibilityForm,
+                    TournamentConfigureForm, TournamentStartForm)
 from .mixins import PublicTournamentPageMixin, RoundMixin, TournamentMixin
 from .models import ScheduleEvent, Tournament, TournamentCategory
 from .utils import get_side_name
@@ -40,14 +41,32 @@ User = get_user_model()
 logger = logging.getLogger(__name__)
 
 
+def _visible_tournaments_for_category(user, category, tournaments=None):
+    tournaments = tournaments if tournaments is not None else category.tournaments.all().order_by('seq', 'name')
+    if category.public or user.is_superuser:
+        return list(tournaments)
+    return [tournament for tournament in tournaments if has_admin_access(user, tournament)]
+
+
+def _can_view_category(user, category):
+    if category.public or user.is_superuser:
+        return True
+    return bool(_visible_tournaments_for_category(user, category))
+
+
 class PublicSiteIndexView(WarnAboutDatabaseUseMixin, WarnAboutLegacySendgridConfigVarsMixin, TemplateView):
     template_name = 'site_index.html'
 
     def get(self, request, *args, **kwargs):
         tournaments = Tournament.objects.all()
+        visible_tournaments = tournaments
+        if not request.user.is_authenticated:
+            visible_tournaments = visible_tournaments.filter(
+                Q(homepage_category__isnull=True) | Q(homepage_category__public=True),
+            )
         if request.GET.get('redirect', '') == 'false':
             return super().get(request, *args, **kwargs)
-        if tournaments.count() == 1 and not request.user.is_authenticated:
+        if tournaments.count() == 1 and visible_tournaments.count() == 1 and not request.user.is_authenticated:
             logger.debug('One tournament only, user is: %s, redirecting to tournament-public-index', request.user)
             return redirect_tournament('tournament-public-index', tournaments.first())
         elif not tournaments.exists() and not User.objects.exists():
@@ -57,11 +76,18 @@ class PublicSiteIndexView(WarnAboutDatabaseUseMixin, WarnAboutLegacySendgridConf
             return super().get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
-        category_queryset = TournamentCategory.objects.filter(active=True).annotate(
-            active_tournament_count=Count('tournaments', filter=Q(tournaments__active=True)),
-            tournament_count=Count('tournaments'),
-        ).filter(tournament_count__gt=0).order_by('seq', 'name')
-        kwargs['tournament_categories'] = category_queryset
+        category_queryset = TournamentCategory.objects.filter(active=True).prefetch_related(
+            'tournaments',
+        ).order_by('seq', 'name')
+        tournament_categories = []
+        for category in category_queryset:
+            visible_tournaments = _visible_tournaments_for_category(self.request.user, category)
+            if not visible_tournaments:
+                continue
+            category.active_tournament_count = sum(1 for tournament in visible_tournaments if tournament.active)
+            category.tournament_count = len(visible_tournaments)
+            tournament_categories.append(category)
+        kwargs['tournament_categories'] = tournament_categories
         kwargs['tournaments'] = Tournament.objects.filter(active=True, homepage_category__isnull=True)
         kwargs['inactive'] = Tournament.objects.filter(active=False, homepage_category__isnull=True)
         kwargs['has_inactive'] = kwargs['inactive'].exists()
@@ -72,16 +98,23 @@ class TournamentCategoryLandingView(WarnAboutDatabaseUseMixin, WarnAboutLegacySe
     template_name = 'tournament_category.html'
 
     def dispatch(self, request, *args, **kwargs):
-        queryset = TournamentCategory.objects.all()
+        queryset = TournamentCategory.objects.prefetch_related('tournaments')
         if not request.user.is_superuser:
             queryset = queryset.filter(active=True)
         self.category = get_object_or_404(queryset, slug=kwargs['category_slug'])
+        if not _can_view_category(request.user, self.category):
+            raise Http404
         return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         kwargs['category'] = self.category
-        kwargs['tournaments'] = self.category.tournaments.filter(active=True).order_by('seq', 'name')
-        kwargs['inactive'] = self.category.tournaments.filter(active=False).order_by('seq', 'name')
+        visible_tournaments = _visible_tournaments_for_category(
+            self.request.user,
+            self.category,
+            self.category.tournaments.all().order_by('seq', 'name'),
+        )
+        kwargs['tournaments'] = [tournament for tournament in visible_tournaments if tournament.active]
+        kwargs['inactive'] = [tournament for tournament in visible_tournaments if not tournament.active]
         return super().get_context_data(**kwargs)
 
 
@@ -98,6 +131,7 @@ class TournamentCategoryManageView(UserPassesTestMixin, WarnAboutDatabaseUseMixi
         kwargs.setdefault('page_emoji', self.page_emoji)
         kwargs.setdefault('category_form', TournamentCategoryForm(prefix='category'))
         kwargs.setdefault('delete_form', TournamentCategoryDeleteForm(prefix='delete'))
+        kwargs.setdefault('visibility_form', TournamentCategoryVisibilityForm(prefix='visibility'))
         kwargs.setdefault('assignment_form', TournamentCategoryAssignmentForm(prefix='assignments'))
         kwargs['categories'] = TournamentCategory.objects.annotate(
             tournament_count=Count('tournaments'),
@@ -125,6 +159,14 @@ class TournamentCategoryManageView(UserPassesTestMixin, WarnAboutDatabaseUseMixi
                 messages.success(request, _("Tournament category %(category)s deleted.") % {'category': name})
                 return redirect('tournament-category-manage')
             return self.render_to_response(self.get_context_data(delete_form=delete_form))
+
+        if 'update_category_visibility' in request.POST:
+            visibility_form = TournamentCategoryVisibilityForm(request.POST, prefix='visibility')
+            if visibility_form.is_valid():
+                category = visibility_form.save()
+                messages.success(request, _("Visibility updated for %(category)s.") % {'category': category})
+                return redirect('tournament-category-manage')
+            return self.render_to_response(self.get_context_data(visibility_form=visibility_form))
 
         assignment_form = TournamentCategoryAssignmentForm(request.POST, prefix='assignments')
         if assignment_form.is_valid():

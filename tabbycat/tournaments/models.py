@@ -38,6 +38,8 @@ class TournamentCategory(models.Model):
     description = models.CharField(max_length=255, blank=True, verbose_name=_("description"))
     seq = models.IntegerField(blank=True, null=True, verbose_name=_("sequence number"))
     active = models.BooleanField(default=True, verbose_name=_("active"))
+    public = models.BooleanField(default=True, verbose_name=_("public"),
+        help_text=_("Public categories are shown to everyone. Private categories are shown only to superusers and users with administrator access to at least one tournament in the category."))
 
     class Meta:
         verbose_name = _("tournament category")

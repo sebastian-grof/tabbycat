@@ -18,8 +18,8 @@ class TournamentAdmin(ModelAdmin):
 
 @admin.register(TournamentCategory)
 class TournamentCategoryAdmin(ModelAdmin):
-    list_display = ('name', 'slug', 'seq', 'active')
-    list_editable = ('seq', 'active')
+    list_display = ('name', 'slug', 'seq', 'public', 'active')
+    list_editable = ('seq', 'public', 'active')
     ordering = ('seq', 'name')
 
 

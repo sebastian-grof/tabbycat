@@ -1,7 +1,8 @@
 from django.contrib.auth import get_user_model
 from django.test import TestCase
+from django.urls import reverse
 
-from tournaments.models import Round, Tournament
+from tournaments.models import Round, Tournament, TournamentCategory
 from users.groups import TabAssistant
 from users.models import Group, Membership
 from users.permissions import Permission
@@ -106,3 +107,81 @@ class AdminAccessTests(TestCase):
         response = self.client.get(reverse_tournament("user-role-management", self.tournament))
 
         self.assertEqual(response.status_code, 200)
+
+
+class TournamentCategoryVisibilityTests(TestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.public_category = TournamentCategory.objects.create(
+            name="Public Folder",
+            slug="public-folder",
+            public=True,
+        )
+        cls.private_category = TournamentCategory.objects.create(
+            name="Private Folder",
+            slug="private-folder",
+            public=False,
+        )
+        cls.public_tournament = Tournament.objects.create(
+            slug="public-tournament",
+            name="Public Tournament",
+            homepage_category=cls.public_category,
+        )
+        cls.private_tournament = Tournament.objects.create(
+            slug="private-tournament",
+            name="Private Tournament",
+            homepage_category=cls.private_category,
+        )
+        cls.other_private_tournament = Tournament.objects.create(
+            slug="other-private-tournament",
+            name="Other Private Tournament",
+            homepage_category=cls.private_category,
+        )
+
+    def make_user(self, username, tournament=None, permissions=None):
+        user = get_user_model().objects.create_user(username=username, password="password")
+        if tournament is not None:
+            group = Group.objects.create(
+                name=f"{username} group",
+                tournament=tournament,
+                permissions=list(permissions or [Permission.VIEW_SETTINGS]),
+            )
+            Membership.objects.create(user=user, group=group)
+        return user
+
+    def test_public_category_visible_to_anonymous_user(self):
+        response = self.client.get("/")
+
+        self.assertContains(response, "Public Folder")
+        self.assertNotContains(response, "Private Folder")
+
+    def test_private_category_url_hidden_from_anonymous_user(self):
+        response = self.client.get(reverse("tournament-category", kwargs={"category_slug": self.private_category.slug}))
+
+        self.assertEqual(response.status_code, 404)
+
+    def test_private_category_visible_to_tournament_admin(self):
+        user = self.make_user("private-admin", self.private_tournament)
+        self.client.force_login(user)
+
+        response = self.client.get("/")
+
+        self.assertContains(response, "Private Folder")
+
+    def test_private_category_page_only_lists_accessible_tournaments(self):
+        user = self.make_user("private-admin-page", self.private_tournament)
+        self.client.force_login(user)
+
+        response = self.client.get(reverse("tournament-category", kwargs={"category_slug": self.private_category.slug}))
+
+        self.assertContains(response, "Private Tournament")
+        self.assertNotContains(response, "Other Private Tournament")
+
+    def test_assistant_only_access_does_not_show_private_category(self):
+        user = self.make_user("assistant", self.private_tournament, TabAssistant.permissions)
+        self.client.force_login(user)
+
+        response = self.client.get("/")
+
+        self.assertNotContains(response, "Private Folder")
