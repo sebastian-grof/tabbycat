@@ -877,7 +877,12 @@ class DebateResultByAdjudicator(BaseDebateResult):
 
         Raises a ResultError if the scoresheet is invalid."""
 
-        if not self._decision_calculated and len(self.sides) == 2:
+        if len(self.sides) != 2:
+            for adj, adjtype in self.debate.adjudicators.with_positions():
+                yield adj, adjtype, False
+            return
+
+        if not self._decision_calculated:
             self._calculate_decision()
         majority = self.majority_adjudicators()
         for adj, adjtype in self.debate.adjudicators.with_positions():
