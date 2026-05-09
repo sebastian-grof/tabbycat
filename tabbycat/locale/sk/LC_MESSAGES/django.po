@@ -872,8 +872,8 @@ msgid "This site runs on Tabbycat %(tabbycat_version)s (%(tabbycat_codename)s)"
 msgstr "Táto stránka beží na Tabbycat %(tabbycat_version)s (%(tabbycat_codename)s)"
 
 #: templates/footer.html
-msgid "This SDA-hosted version is an unofficial modified fork maintained by <strong>Sebastian Grof</strong>. The official Tabbycat project is available at <strong><a href=\"https://tabbycat-debate.org/\">tabbycat-debate.org</a></strong>. See <a href=\"https://github.com/sebastian-grof/tabbycat/blob/develop/MODIFICATIONS.md\">Modifications</a> and <a href=\"https://github.com/sebastian-grof/tabbycat\">Source Code</a>."
-msgstr "Táto SDA hostovaná verzia je neoficiálny upravený fork, ktorý spravuje <strong>Sebastian Grof</strong>. Oficiálny projekt Tabbycat je dostupný na <strong><a href=\"https://tabbycat-debate.org/\">tabbycat-debate.org</a></strong>. Pozrite si <a href=\"https://github.com/sebastian-grof/tabbycat/blob/develop/MODIFICATIONS.md\">úpravy</a> a <a href=\"https://github.com/sebastian-grof/tabbycat\">zdrojový kód</a>."
+msgid "This SDA-hosted version is an unofficial modified fork maintained by <strong class=\"font-weight-bold text-dark\">Sebastian Grof</strong>. The official Tabbycat project is available at <strong><a href=\"https://tabbycat-debate.org/\">tabbycat-debate.org</a></strong>. See <a href=\"https://github.com/sebastian-grof/tabbycat/blob/develop/MODIFICATIONS.md\">Modifications</a> and <a href=\"https://github.com/sebastian-grof/tabbycat\">Source Code</a>."
+msgstr "Táto SDA hostovaná verzia je neoficiálny upravený fork, ktorý spravuje <strong class=\"font-weight-bold text-dark\">Sebastian Grof</strong>. Oficiálny projekt Tabbycat je dostupný na <strong><a href=\"https://tabbycat-debate.org/\">tabbycat-debate.org</a></strong>. Pozrite si <a href=\"https://github.com/sebastian-grof/tabbycat/blob/develop/MODIFICATIONS.md\">úpravy</a> a <a href=\"https://github.com/sebastian-grof/tabbycat\">zdrojový kód</a>."
 
 #: templates/footer.html
 msgid "Tabbycat is an open-source project developed by volunteers and is free to use."
