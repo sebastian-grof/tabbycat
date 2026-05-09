@@ -22,6 +22,7 @@ As of 2026-04-12, the fork includes changes in areas such as:
 - tournament-specific workflow and deployment adjustments
 - footer source-code link for hosted instances
 - Feedback export to external DB through API with extra information
+- Support for SDA 1-speech format (JDL)
 
 ## Source Code for Hosted Version
 
