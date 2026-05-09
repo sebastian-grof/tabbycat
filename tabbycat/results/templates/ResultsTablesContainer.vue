@@ -31,12 +31,17 @@ const handleSocketReceive = (socketLabel, payload) => {
     row[1].class = payload.data.class
     row[1].sort = payload.data.sort
 
+    const ballotCell = row.find(cell => cell.component === 'ballots-cell')
+    if (!ballotCell || !payload.data.ballot) {
+      return
+    }
+
     const payloadBallotId = payload.data.ballot.ballot_id
-    const existingBallotIndex = row[2].ballots.findIndex(b => b.ballot_id === payloadBallotId)
+    const existingBallotIndex = ballotCell.ballots.findIndex(b => b.ballot_id === payloadBallotId)
     if (existingBallotIndex !== -1) {
-      row[2].ballots[existingBallotIndex] = payload.data.ballot
+      ballotCell.ballots[existingBallotIndex] = payload.data.ballot
     } else {
-      row[2].ballots.push(payload.data.ballot)
+      ballotCell.ballots.push(payload.data.ballot)
     }
   }
   if (socketLabel === 'checkins' && payload.created) {

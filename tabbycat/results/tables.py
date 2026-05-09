@@ -51,6 +51,32 @@ class ResultsTableBuilder(TabbycatTableBuilder):
             status_cells.append(cell)
         self.add_column(status_header, status_cells)
 
+    def add_ballot_text_feedback_columns(self, debates, key):
+
+        notes_header = {
+            'key': key,
+            'tooltip': _("Whether this debate has ballot notes"),
+            'icon': "message-square",
+        }
+        notes_cells = []
+        for debate in debates:
+            has_notes = getattr(debate, 'has_ballot_text_feedback', None)
+            if has_notes is None:
+                has_notes = debate.ballotsubmission_set.filter(
+                    discarded=False,
+                    text_feedback__isnull=False,
+                ).exclude(text_feedback__text='').exists()
+            cell = {
+                'icon': 'check' if has_notes else 'x',
+                'class': 'text-success' if has_notes else 'text-danger',
+                'sort': 1 if has_notes else 0,
+                'tooltip': _("Poznámky pridané") if has_notes else _("Poznámky nepridané"),
+                'notes': 'added' if has_notes else 'missing',
+                'id': debate.id,
+            }
+            notes_cells.append(cell)
+        self.add_column(notes_header, notes_cells)
+
     def get_ballot_cells(self, debate, tournament, view_role, user):
         # These are prefetched, so sort using Python rather than generating an SQL query
         ballotsubmissions = sorted(debate.ballotsubmission_set.all(), key=lambda x: x.version)
