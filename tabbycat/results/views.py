@@ -6,7 +6,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.core.exceptions import ValidationError
 from django.db import ProgrammingError
-from django.db.models import Count, Exists, Max, OuterRef, Q, Window
+from django.db.models import Count, Max, Q, Window
 from django.db.models.functions import Coalesce, Rank
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
@@ -132,13 +132,11 @@ class BaseResultsEntryForRoundView(RoundMixin, VueTableTemplateView):
 
     def _get_draw(self):
         if not hasattr(self, '_draw'):
-            text_feedback = BallotTextFeedback.objects.filter(
-                ballot_submission__debate=OuterRef('pk'),
-                ballot_submission__discarded=False,
-            ).exclude(text='')
+            # debate_set_with_prefetches() attaches check-in/result attributes in-place;
+            # don't chain a fresh queryset afterwards or those attributes disappear.
             self._draw = self.round.debate_set_with_prefetches(
                 filter_args=[~Q(debateteam__side=DebateSide.BYE)], ordering=('room_rank',), results=True, wins=True, check_ins=True, iron=True,
-            ).annotate(has_ballot_text_feedback=Exists(text_feedback))
+            )
         return self._draw
 
     def get_table(self):
