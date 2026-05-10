@@ -9,6 +9,7 @@ from adjallocation.models import AdjudicatorAdjudicatorConflict, DebateAdjudicat
 from adjfeedback.models import AdjudicatorFeedback, AdjudicatorFeedbackQuestion
 from breakqual.models import BreakCategory
 from draw.models import Debate, DebateTeam
+from draw.types import DebateSide
 from motions.models import DebateTeamMotionPreference, Motion, RoundMotion
 from options.presets import (AustralianEastersPreferences, AustralsPreferences, BritishParliamentaryPreferences,
                              CanadianParliamentaryPreferences, JoyntPreferences, NZEastersPreferences,
@@ -41,7 +42,13 @@ class Exporter:
 
     def __init__(self, tournament):
         self.t = tournament
-        self.root = Element('tournament', {'name': tournament.name, 'short': tournament.short_name})
+        self.root = Element('tournament', {
+            'name': tournament.name,
+            'short': tournament.short_name,
+            'adjudicator-weighting': tournament.pref('adjudicator_weighting'),
+            'teamscore-includes-ghosts': str(tournament.pref('teamscore_includes_ghosts')).lower(),
+            'winners-in-ballots': tournament.pref('winners_in_ballots'),
+        })
         if tournament.pref('teams_in_debate') == 4:
             self.root.set('style', 'bp')
 
@@ -183,6 +190,8 @@ class Exporter:
 
         if not result.is_voting:
             self.add_team_score_metadata(ballot_tag, self.get_teamscore(result, side))
+        elif self.root.get('adjudicator-weighting') is not None:
+            self.add_team_score_metadata(ballot_tag, self.get_teamscore(result, side))
 
     def add_bye_team_ballot(self, side_tag, result, adjs, side):
         teamscore = self.get_teamscore(result, side)
@@ -232,7 +241,7 @@ class Exporter:
             if speaker is not None:
                 speech_tag = SubElement(side_tag, 'speech', {
                     'speaker': SPEAKER_PREFIX + str(result.get_speaker(side, pos).id),
-                    'reply': str(pos > self.t.pref('substantive_speakers')),
+                    'reply': str(pos > self.t.pref('substantive_speakers')).lower(),
                 })
 
                 if result.is_voting:
@@ -480,8 +489,12 @@ class Exporter:
 
 class Importer:
 
-    def __init__(self, tournament):
+    ADJUDICATOR_WEIGHTING_ARCHIVE = 'archive'
+    ADJUDICATOR_WEIGHTING_CHOICES = {'tabbycat-default', 'weighted-to-three'}
+
+    def __init__(self, tournament, adjudicator_weighting=ADJUDICATOR_WEIGHTING_ARCHIVE):
         self.root = tournament
+        self.adjudicator_weighting = adjudicator_weighting
 
     def import_tournament(self):
         self.tournament = Tournament(name=self.root.get('name'))
@@ -514,6 +527,10 @@ class Importer:
     def _is_consensus_ballot(self, elimination):
         xpath = "round[@elimination='" + elimination + "']/debate/side"
         return len(self.root.findall(xpath + "/ballot")) == len(self.root.findall(xpath))
+
+    @staticmethod
+    def _is_true(value):
+        return str(value).lower() == 'true'
 
     def set_preferences(self):
         styles = {
@@ -548,8 +565,13 @@ class Importer:
         else:
             self.preliminary_consensus = self._is_consensus_ballot('false')
             self.elimination_consensus = self._is_consensus_ballot('true')
-            substantive_speakers = len(self.root.findall("round[1]/debate[1]/side[1]/speech[@reply='false']"))
-            reply_scores_enabled = len(self.root.findall("round/debate/side/speech[@reply='true']")) != 0
+            first_side_with_speeches = next((
+                side for side in self.root.findall("round/debate/side")
+                if side.find('speech') is not None
+            ), None)
+            first_side_speeches = [] if first_side_with_speeches is None else first_side_with_speeches.findall('speech')
+            substantive_speakers = sum(1 for speech in first_side_speeches if not self._is_true(speech.get('reply')))
+            reply_scores_enabled = any(self._is_true(speech.get('reply')) for speech in self.root.findall("round/debate/side/speech"))
             margin_includes_dissenters = len(self.root.findall("round/debate/side/ballot[@minority='true'][@ignored='true']")) == 0
             cross_examinations_enabled = (
                 len(self.root.findall("round/debate/side/cross")) != 0 or
@@ -562,6 +584,21 @@ class Importer:
             self.tournament.preferences['debate_rules__ballots_per_debate_elim'] = 'per-debate' if self.elimination_consensus else 'per-adj'
             self.tournament.preferences['scoring__margin_includes_dissenters'] = margin_includes_dissenters
             self.tournament.preferences['debate_rules__cross_examinations_enabled'] = cross_examinations_enabled
+            if self.adjudicator_weighting in self.ADJUDICATOR_WEIGHTING_CHOICES:
+                adjudicator_weighting = self.adjudicator_weighting
+            else:
+                adjudicator_weighting = self.root.get('adjudicator-weighting')
+            if adjudicator_weighting in self.ADJUDICATOR_WEIGHTING_CHOICES:
+                self.tournament.preferences['debate_rules__adjudicator_weighting'] = adjudicator_weighting
+                self.tournament._prefs.pop('adjudicator_weighting', None)
+            teamscore_includes_ghosts = self.root.get('teamscore-includes-ghosts')
+            if teamscore_includes_ghosts is not None:
+                self.tournament.preferences['scoring__teamscore_includes_ghosts'] = self._is_true(teamscore_includes_ghosts)
+                self.tournament._prefs.pop('teamscore_includes_ghosts', None)
+            winners_in_ballots = self.root.get('winners-in-ballots')
+            if winners_in_ballots in {'none', 'high-points', 'tied-points', 'low-points'}:
+                self.tournament.preferences['debate_rules__winners_in_ballots'] = winners_in_ballots
+                self.tournament._prefs.pop('winners_in_ballots', None)
             self.tournament._prefs.pop('cross_examinations_enabled', None)
 
     def import_score_components(self):
@@ -915,21 +952,20 @@ class Importer:
             consensus = self.preliminary_consensus if round.get('elimination') == 'false' else self.elimination_consensus
 
             for debate in round.findall('debate'):
+                if debate.find('side/ballot') is None:
+                    continue
                 bs_obj = BallotSubmission(
                     version=1, submitter_type=Submission.Submitter.TABROOM, confirmed=True,
                     debate=self.debates[debate.get('id')], motion=self.motions.get(debate.get('motion')),
                     forfeit=debate.get('forfeit', 'false') == 'true')
                 bs_obj.save()
-                if self.debates[debate.get('id')].is_bye:
+                if self._debate_is_bye(debate):
                     self._import_bye_result(bs_obj, debate)
                     continue
-                dr = DebateResult(bs_obj)
+                dr = DebateResult(bs_obj, load=False)
+                dr.empty_load()
 
-                numeric_scores = True
-                try:
-                    float(debate.find("side/ballot").text)
-                except ValueError:
-                    numeric_scores = False
+                numeric_scores = self._debate_has_numeric_scores(debate)
 
                 for side, side_code in zip(debate.findall('side'), self.tournament.sides):
 
@@ -995,13 +1031,35 @@ class Importer:
                                 if int(ballot.get('rank')) == 1:
                                     dr.add_winner(adj, side_code)
                 dr.save()
-                self._apply_imported_team_score_metadata(bs_obj, debate)
+                if not dr.is_voting or self.adjudicator_weighting == self.ADJUDICATOR_WEIGHTING_ARCHIVE:
+                    self._apply_imported_team_score_metadata(bs_obj, debate, allow_ballot_text_score=not dr.is_voting)
 
-    def _parse_ballot_score(self, ballot):
+    @staticmethod
+    def _xml_text_is_float(node):
+        if node is None:
+            return False
+        try:
+            float(node.text)
+            return True
+        except (TypeError, ValueError):
+            return False
+
+    def _debate_has_numeric_scores(self, debate):
+        score_nodes = []
+        score_nodes.extend(debate.findall("side/ballot"))
+        score_nodes.extend(debate.findall("side/speech/ballot"))
+        score_nodes.extend(debate.findall("side/speech/criterion/ballot"))
+        score_nodes.extend(debate.findall("side/cross/ballot"))
+        score_nodes.extend(debate.findall("side/cross-total/ballot"))
+        return any(self._xml_text_is_float(node) for node in score_nodes)
+
+    def _parse_ballot_score(self, ballot, allow_text=True):
         if ballot is None:
             return None
         if ballot.get('score') is not None:
             return float(ballot.get('score'))
+        if not allow_text:
+            return None
         if ballot.text is None:
             return None
         try:
@@ -1009,7 +1067,7 @@ class Importer:
         except (TypeError, ValueError):
             return None
 
-    def _apply_imported_team_score_metadata(self, bs_obj, debate):
+    def _apply_imported_team_score_metadata(self, bs_obj, debate, allow_ballot_text_score=True):
         for side in debate.findall('side'):
             ballot = side.find('ballot')
             if ballot is None:
@@ -1023,7 +1081,7 @@ class Importer:
             if ballot.get('margin') is not None:
                 defaults['margin'] = float(ballot.get('margin'))
 
-            score = self._parse_ballot_score(ballot)
+            score = self._parse_ballot_score(ballot, allow_text=allow_ballot_text_score)
             if score is not None:
                 defaults['score'] = score
 

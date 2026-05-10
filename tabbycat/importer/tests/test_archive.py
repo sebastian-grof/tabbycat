@@ -7,8 +7,9 @@ from draw.types import DebateSide
 from importer.archive import Exporter, Importer
 from importer.forms import ArchiveImportForm
 from participants.models import Adjudicator, Institution, Speaker, Team
-from results.models import BallotSubmission, CrossExaminationScore, SpeakerScore, TeamScore
-from results.result import ConsensusDebateResultWithScores
+from results.models import (BallotSubmission, CrossExamination, CrossExaminationScore, ScoreCriterion,
+    SpeakerScore, TeamScore)
+from results.result import ConsensusDebateResultWithScores, DebateResultByAdjudicatorWithScores
 from tournaments.models import Round, Tournament
 
 
@@ -52,6 +53,19 @@ class TestArchiveExporter(TestCase):
             adjudicator=self.adjudicator,
             type=DebateAdjudicator.TYPE_CHAIR,
         )
+        for seq, name in enumerate(("Strategy", "Organisation", "Analysis", "Evidence", "Presentation"), start=1):
+            ScoreCriterion.objects.create(
+                tournament=self.tournament, seq=seq, name=name, speech_type=ScoreCriterion.SpeechType.SUBSTANTIVE,
+                weight=1, min_score=2, max_score=6, step=0.5,
+            )
+        for seq, name in enumerate(("Reply strategy", "Reply organisation", "Reply analysis", "Reply presentation"), start=6):
+            ScoreCriterion.objects.create(
+                tournament=self.tournament, seq=seq, name=name, speech_type=ScoreCriterion.SpeechType.REPLY,
+                weight=1, min_score=2, max_score=6, step=0.5,
+            )
+        CrossExamination.objects.create(
+            tournament=self.tournament, seq=1, name="Cross", weight=1, min_score=2, max_score=6, step=0.5,
+        )
 
     def test_export_includes_speech_criteria_and_cross_scores(self):
         ballotsub = BallotSubmission.objects.create(debate=self.debate, confirmed=True)
@@ -85,8 +99,11 @@ class TestArchiveExporter(TestCase):
         first_speech = aff_side.find("speech")
         criteria = first_speech.findall("criterion")
         crosses = aff_side.findall("cross")
+        reply_speech = aff_side.findall("speech")[-1]
 
         expected_criteria = result.criteria_for_position(1)
+        self.assertEqual(first_speech.get('reply'), 'false')
+        self.assertEqual(reply_speech.get('reply'), 'true')
         self.assertEqual(len(criteria), len(expected_criteria))
         self.assertEqual(criteria[0].get('name'), expected_criteria[0].name)
         self.assertAlmostEqual(float(criteria[0].find('ballot').text), 4.0)
@@ -125,7 +142,7 @@ class TestArchiveExporter(TestCase):
         result.save()
 
         root = Exporter(self.tournament).create_all()
-        self.tournament.delete()
+        root.set('short', 'arch-import-criteria')
 
         importer = Importer(root)
         importer.import_tournament()
@@ -154,6 +171,125 @@ class TestArchiveExporter(TestCase):
             imported_result.get_cross_score(DebateSide.NEG, imported_first_cross),
             3.0,
         )
+
+    def test_import_accepts_legacy_uppercase_reply_attributes(self):
+        ballotsub = BallotSubmission.objects.create(debate=self.debate, confirmed=True)
+        result = ConsensusDebateResultWithScores(
+            ballotsub,
+            criteria=list(self.tournament.scorecriterion_set.order_by('seq')),
+            crosses=[],
+            using_cross_examinations=False,
+        )
+
+        for side, speakers in ((DebateSide.AFF, self.aff_speakers), (DebateSide.NEG, self.neg_speakers)):
+            for position in self.tournament.positions:
+                speaker = speakers[0] if position == self.tournament.reply_position else speakers[position - 1]
+                result.set_speaker(side, position, speaker)
+
+        for position in self.tournament.positions:
+            for criterion in result.criteria_for_position(position):
+                result.set_criterion_score(DebateSide.AFF, position, criterion, 4.0)
+                result.set_criterion_score(DebateSide.NEG, position, criterion, 3.0)
+
+        result.save()
+
+        root = Exporter(self.tournament).create_all()
+        for speech in root.findall("round/debate/side/speech"):
+            speech.set('reply', speech.get('reply').title())
+        root.set('short', 'arch-import-uppercase')
+
+        importer = Importer(root)
+        importer.import_tournament()
+
+        imported_tournament = importer.tournament
+        imported_debate = imported_tournament.round_set.get(seq=1).debate_set.get()
+        imported_result = imported_debate.confirmed_ballot.result
+
+        self.assertEqual(imported_tournament.pref('substantive_speakers'), 3)
+        self.assertTrue(imported_tournament.pref('reply_scores_enabled'))
+        self.assertFalse(imported_tournament.pref('cross_examinations_enabled'))
+        self.assertEqual(imported_tournament.positions, [1, 2, 3, 4])
+        self.assertAlmostEqual(imported_result.get_score(DebateSide.AFF, 1), 20.0)
+        self.assertAlmostEqual(imported_result.get_score(DebateSide.NEG, 1), 15.0)
+
+    def test_import_legacy_per_adjudicator_archive_uses_weighted_scores(self):
+        self.tournament.preferences['debate_rules__ballots_per_debate_prelim'] = 'per-adj'
+        self.tournament.preferences['debate_rules__adjudicator_weighting'] = 'weighted-to-three'
+        for key in ('ballots_per_debate_prelim', 'adjudicator_weighting'):
+            self.tournament._prefs.pop(key, None)
+
+        panel = Adjudicator.objects.create(
+            tournament=self.tournament,
+            institution=self.institution,
+            name="Panel",
+            base_score=5,
+        )
+        DebateAdjudicator.objects.create(
+            debate=self.debate,
+            adjudicator=panel,
+            type=DebateAdjudicator.TYPE_PANEL,
+        )
+
+        ballotsub = BallotSubmission.objects.create(debate=self.debate, confirmed=True)
+        result = DebateResultByAdjudicatorWithScores(
+            ballotsub,
+            criteria=list(self.tournament.scorecriterion_set.order_by('seq')),
+            crosses=[],
+            using_cross_examinations=False,
+        )
+
+        for side, speakers in ((DebateSide.AFF, self.aff_speakers), (DebateSide.NEG, self.neg_speakers)):
+            for position in self.tournament.positions:
+                speaker = speakers[0] if position == self.tournament.reply_position else speakers[position - 1]
+                result.set_speaker(side, position, speaker)
+
+        for adjudicator, aff_score, neg_score in (
+            (self.adjudicator, 20.0, 18.0),
+            (panel, 19.0, 17.0),
+        ):
+            result.add_winner(adjudicator, DebateSide.AFF)
+            for position in self.tournament.positions:
+                criteria = result.criteria_for_position(position)
+                for criterion in criteria:
+                    result.set_criterion_score(adjudicator, DebateSide.AFF, position, criterion, aff_score / len(criteria))
+                    result.set_criterion_score(adjudicator, DebateSide.NEG, position, criterion, neg_score / len(criteria))
+
+        result.save()
+        expected_aff_score = TeamScore.objects.get(
+            ballot_submission=ballotsub,
+            debate_team__side=DebateSide.AFF,
+        ).score
+
+        root = Exporter(self.tournament).create_all()
+        self.assertEqual(root.get('adjudicator-weighting'), 'weighted-to-three')
+
+        # Simulate an archive produced before the weighting preference and
+        # aggregate team score were exported explicitly.
+        del root.attrib['adjudicator-weighting']
+        for ballot in root.findall("round/debate/side/ballot"):
+            ballot.attrib.pop('score', None)
+            ballot.attrib.pop('votes-given', None)
+            ballot.attrib.pop('votes-possible', None)
+        root.set('short', 'arch-import-weighted')
+
+        importer = Importer(root, adjudicator_weighting='weighted-to-three')
+        importer.import_tournament()
+
+        imported_tournament = importer.tournament
+        imported_ballot = imported_tournament.round_set.get(seq=1).debate_set.get().confirmed_ballot
+        imported_aff_score = TeamScore.objects.get(
+            ballot_submission=imported_ballot,
+            debate_team__side=DebateSide.AFF,
+        )
+
+        self.assertEqual(imported_tournament.pref('adjudicator_weighting'), 'weighted-to-three')
+        self.assertEqual(imported_aff_score.votes_possible, 3)
+        self.assertAlmostEqual(imported_aff_score.score, expected_aff_score)
+        first_adjudicator_speech_total = sum(
+            float(speech.find('ballot').text)
+            for speech in root.find("round/debate/side").findall('speech')
+        )
+        self.assertNotEqual(imported_aff_score.score, first_adjudicator_speech_total)
 
     def test_export_handles_bye_ballots_with_speaker_scores(self):
         bye_team = Team.objects.create(
@@ -248,7 +384,7 @@ class TestArchiveExporter(TestCase):
             )
 
         root = Exporter(self.tournament).create_all()
-        self.tournament.delete()
+        root.set('short', 'arch-import-bye')
 
         importer = Importer(root)
         importer.import_tournament()
@@ -335,7 +471,7 @@ class TestArchiveExporter(TestCase):
         )
 
         root = Exporter(self.tournament).create_all()
-        self.tournament.delete()
+        root.set('short', 'arch-import-forfeit')
 
         importer = Importer(root)
         importer.import_tournament()

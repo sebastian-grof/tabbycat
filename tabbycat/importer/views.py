@@ -262,7 +262,10 @@ class TournamentImportArchiveView(AdministratorMixin, FormView):
     view_role = ""
 
     def form_valid(self, form):
-        self.importer = Importer(form.cleaned_data['xml_root'])
+        self.importer = Importer(
+            form.cleaned_data['xml_root'],
+            adjudicator_weighting=form.cleaned_data['adjudicator_weighting'],
+        )
         self.importer.import_tournament()
 
         messages.success(self.request, _("Tournament archive has been imported."))

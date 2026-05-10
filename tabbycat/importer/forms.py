@@ -428,10 +428,28 @@ class ImportAdjudicatorsNumbersForm(BaseNumberForEachInstitutionForm):
 
 class ArchiveImportForm(forms.Form):
 
+    ADJUDICATOR_WEIGHTING_ARCHIVE = 'archive'
+    ADJUDICATOR_WEIGHTING_TABBYCAT_DEFAULT = 'tabbycat-default'
+    ADJUDICATOR_WEIGHTING_WEIGHTED_TO_THREE = 'weighted-to-three'
+
     xml = forms.CharField(required=False, label=_("XML"),
         widget=forms.Textarea(), help_text=_("Paste the Debate XML archive here."))
     xml_file = forms.FileField(required=False, label=_("XML file"),
         help_text=_("Or upload the exported Debate XML archive file."))
+    adjudicator_weighting = forms.ChoiceField(
+        label=_("Adjudicator weighting"),
+        required=False,
+        choices=(
+            (ADJUDICATOR_WEIGHTING_ARCHIVE, _("Use archive setting (Tabbycat default if the archive does not say)")),
+            (ADJUDICATOR_WEIGHTING_TABBYCAT_DEFAULT, _("Tabbycat default")),
+            (ADJUDICATOR_WEIGHTING_WEIGHTED_TO_THREE, _("Weighted to three votes")),
+        ),
+        initial=ADJUDICATOR_WEIGHTING_ARCHIVE,
+        help_text=_(
+            "Choose how per-adjudicator ballots should be aggregated. "
+            "For old SDA XML archives from weighted tournaments, choose \"Weighted to three votes\".",
+        ),
+    )
 
     def clean(self):
         cleaned_data = super().clean()
@@ -454,4 +472,6 @@ class ArchiveImportForm(forms.Form):
 
         cleaned_data['xml'] = xml_payload
         cleaned_data['xml_root'] = xml_root
+        if not cleaned_data.get('adjudicator_weighting'):
+            cleaned_data['adjudicator_weighting'] = self.ADJUDICATOR_WEIGHTING_ARCHIVE
         return cleaned_data
