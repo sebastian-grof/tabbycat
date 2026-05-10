@@ -1,0 +1,23 @@
+{% extends "seasonbreaks/public_base.html" %}
+{% load i18n %}
+
+{% block public_breaks_content %}
+  <div class="card">
+    <div class="card-header">
+      <h4 class="mb-0">{% trans "Published Break seasons" %}</h4>
+    </div>
+    <div class="list-group list-group-flush">
+      {% for season in seasons %}
+        {% url 'public-breaks-season' season_slug=season.slug as url %}
+        {% blocktrans trimmed with league=season.get_league_display published=season.public_published_at asvar subtext %}
+          {{ league }} · published {{ published }}
+        {% endblocktrans %}
+        {% include "components/item-action.html" with text=season.name subtext=subtext icon="award" %}
+      {% empty %}
+        <div class="list-group-item text-muted">
+          {% trans "No public Breaks seasons have been published yet." %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}

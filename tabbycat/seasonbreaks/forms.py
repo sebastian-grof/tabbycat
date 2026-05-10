@@ -19,7 +19,7 @@ from .models import (
 class BreakSeasonForm(forms.ModelForm):
     class Meta:
         model = BreakSeason
-        fields = ('name', 'slug', 'league', 'regional_slots', 'invited_teams', 'active')
+        fields = ('name', 'slug', 'league', 'regional_slots', 'invited_teams', 'active', 'public')
 
 
 class BreakRegionForm(forms.ModelForm):

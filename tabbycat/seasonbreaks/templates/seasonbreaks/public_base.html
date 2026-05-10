@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block extra-css %}
+  {{ block.super }}
+  <style>
+    .public-breaks-page {
+      padding: 0.25rem 0 2rem;
+    }
+
+    .public-breaks-header-actions {
+      align-items: center;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .public-breaks-header-actions svg {
+      margin-right: 0.35rem;
+    }
+
+    .public-breaks-page .card-header {
+      padding: 1rem 1.35rem;
+    }
+
+    .public-breaks-page .list-group-item {
+      padding: 1rem 1.35rem;
+    }
+
+    .public-breaks-page table.public-breaks-table > thead > tr > th,
+    .public-breaks-page table.public-breaks-table > tbody > tr > td {
+      padding: 0.75rem 1.5rem !important;
+      vertical-align: middle;
+    }
+
+    .public-breaks-page table.public-breaks-table > thead > tr > th:first-child,
+    .public-breaks-page table.public-breaks-table > tbody > tr > td:first-child {
+      padding-left: 1.75rem !important;
+    }
+  </style>
+{% endblock %}
+
+{% block header %}
+  <div class="row d-print-none align-items-center" id="pageTitle">
+    <div class="col m-3 h2 d-flex align-items-center">
+      <div class="min-height: 100px;">
+        {% if page_title %}
+          {% if page_emoji %}<span class="emoji">{{ page_emoji }}</span>{% endif %}
+          {{ page_title }}
+        {% else %}
+          {% block head-title %}{% endblock %}
+        {% endif %}
+        {% if page_subtitle %}
+          <small class="text-muted d-md-inline d-block">{{ page_subtitle }}</small>
+        {% else %}
+          <small class="text-muted d-md-inline d-block">{% block sub-title %}{% endblock %}</small>
+        {% endif %}
+      </div>
+    </div>
+    {% block public_breaks_header_actions %}{% endblock %}
+  </div>
+{% endblock %}
+
+{% block content %}
+  <div class="public-breaks-page">
+    {% block public_breaks_content %}{% endblock %}
+  </div>
+{% endblock %}

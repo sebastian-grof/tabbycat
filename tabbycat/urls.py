@@ -79,8 +79,12 @@ urlpatterns = [
     path('archive/',
         include('importer.urls_archive')),
 
-    # Cross-tournament qualification breaks
+    # Public cross-tournament qualification breaks
     path('breaks/',
+        include('seasonbreaks.public_urls')),
+
+    # Cross-tournament qualification breaks management
+    path('break-management/',
         include('seasonbreaks.urls')),
 
     # Cross-tournament adjudicator feedback export

@@ -15,10 +15,19 @@ from ..models import (
     BreaksPermission,
     GlobalBreaksPermission,
 )
-from ..services import calculate_rankings, calculate_region_quotas, prune_unused_break_identities
+from ..services import (
+    calculate_rankings,
+    calculate_region_quotas,
+    publish_public_breaks_snapshot,
+    prune_unused_break_identities,
+)
 
 
 class BreaksPermissionTests(TestCase):
+    def test_public_breaks_index_is_anonymous(self):
+        response = self.client.get(reverse('public-breaks-index'))
+        self.assertEqual(response.status_code, 200)
+
     def test_breaks_index_requires_global_permission(self):
         user = get_user_model().objects.create_user(username='tab', password='pw')
         self.client.login(username='tab', password='pw')
@@ -138,3 +147,66 @@ class BreaksCalculationTests(TestCase):
         self.assertTrue(BreakTeam.objects.filter(id=used_team.id).exists())
         self.assertFalse(BreakSpeaker.objects.filter(id=unused_speaker.id).exists())
         self.assertTrue(BreakSpeaker.objects.filter(id=used_speaker.id).exists())
+
+    def test_public_breaks_only_show_public_published_seasons(self):
+        response = self.client.get(reverse('public-breaks-index'))
+        self.assertNotContains(response, self.season.name)
+
+        self.season.public = True
+        self.season.save(update_fields=['public'])
+        response = self.client.get(reverse('public-breaks-index'))
+        self.assertNotContains(response, self.season.name)
+
+        publish_public_breaks_snapshot(self.season)
+        response = self.client.get(reverse('public-breaks-index'))
+        self.assertContains(response, self.season.name)
+
+    def test_public_snapshot_freezes_region_and_global_rankings_until_republished(self):
+        team = self._team_with_members('West A', self.west, [self.bt_w1], [(self.bt_w1, 1, 3, 500)])
+        self._team_with_members('East A', self.east, [self.bt_e1], [(self.bt_e1, 2, 6, 600)])
+        self.season.public = True
+        self.season.save(update_fields=['public'])
+        publish_public_breaks_snapshot(self.season)
+
+        response = self.client.get(reverse('public-breaks-season', kwargs={'season_slug': self.season.slug}))
+        self.assertContains(response, 'West A')
+        self.assertContains(response, 'East A')
+        self.assertNotContains(response, 'Status')
+        self.assertEqual(response.context['global_rows'][1]['wins'], 1.0)
+        self.assertEqual(response.context['regions'][0]['slots'], 2)
+
+        BreakTeamTournamentResult.objects.filter(break_team=team).update(wins=99, ballots=99, speaker_score=9999)
+        response = self.client.get(reverse('public-breaks-season', kwargs={'season_slug': self.season.slug}))
+        self.assertEqual(response.context['global_rows'][1]['wins'], 1.0)
+
+        publish_public_breaks_snapshot(self.season)
+        response = self.client.get(reverse('public-breaks-season', kwargs={'season_slug': self.season.slug}))
+        self.assertEqual(response.context['global_rows'][0]['wins'], 99.0)
+
+    def test_public_global_ranking_excludes_nonleague_tournaments(self):
+        self._team_with_members('West A', self.west, [self.bt_w1, self.bt_open], [
+            (self.bt_w1, 1, 3, 500),
+            (self.bt_open, 99, 99, 9999),
+        ])
+        self.season.public = True
+        self.season.save(update_fields=['public'])
+        publish_public_breaks_snapshot(self.season)
+
+        response = self.client.get(reverse('public-breaks-season', kwargs={'season_slug': self.season.slug}))
+        self.assertEqual(response.context['global_rows'][0]['wins'], 1.0)
+        self.assertNotContains(response, 'Status')
+
+    def test_public_region_page_uses_published_snapshot_without_status_column(self):
+        self._team_with_members('West A', self.west, [self.bt_w1], [(self.bt_w1, 1, 3, 500)])
+        self.season.public = True
+        self.season.save(update_fields=['public'])
+        publish_public_breaks_snapshot(self.season)
+
+        response = self.client.get(reverse('public-breaks-region', kwargs={
+            'season_slug': self.season.slug,
+            'region_id': self.west.id,
+        }))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'West A')
+        self.assertContains(response, 'Speaker points')
+        self.assertNotContains(response, 'Status')

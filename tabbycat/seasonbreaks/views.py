@@ -2,6 +2,7 @@ from collections import defaultdict
 
 from django.contrib import messages
 from django.contrib.auth.mixins import UserPassesTestMixin
+from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 from django.utils.translation import gettext as _, gettext_lazy
@@ -34,6 +35,7 @@ from .services import (
     calculate_rankings,
     calculate_region_quotas,
     freeze_break_tournament,
+    publish_public_breaks_snapshot,
     prune_all_unused_break_identities,
     prune_unused_break_identities,
     season_summary,
@@ -43,7 +45,7 @@ from .services import (
 class BreaksPermissionMixin(UserPassesTestMixin):
     required_permission = BreaksPermission.VIEW
     page_emoji = '🏆'
-    page_title = gettext_lazy("Breaks")
+    page_title = gettext_lazy("Break management")
     view_role = ''
 
     def test_func(self):
@@ -157,12 +159,70 @@ class SeasonOverviewView(SeasonMixin, TemplateView):
     def post(self, request, *args, **kwargs):
         if not has_breaks_permission(request.user, BreaksPermission.EDIT):
             return self.handle_no_permission()
+        if request.POST.get('action') == 'publish_public_snapshot':
+            publish_public_breaks_snapshot(self.season)
+            messages.success(request, _("Public Breaks snapshot was published."))
+            return redirect('seasonbreaks-season-overview', season_slug=self.season.slug)
         form = BreakSeasonForm(request.POST, instance=self.season)
         if form.is_valid():
             season = form.save()
             messages.success(request, _("Break season settings were updated."))
             return redirect('seasonbreaks-season-overview', season_slug=season.slug)
         return self.render_to_response(self.get_context_data(season_form=form))
+
+
+class PublicBreaksIndexView(TemplateView):
+    template_name = 'seasonbreaks/public_index.html'
+
+    def get_context_data(self, **kwargs):
+        kwargs['page_title'] = _("Breaks")
+        kwargs['page_emoji'] = '🏆'
+        kwargs['public_breaks_nav'] = True
+        kwargs['seasons'] = BreakSeason.objects.filter(
+            public=True,
+            public_snapshot__isnull=False,
+        ).order_by('-public_published_at', 'name')
+        return super().get_context_data(**kwargs)
+
+
+class PublicBreaksSeasonView(TemplateView):
+    template_name = 'seasonbreaks/public_season.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        self.season = get_object_or_404(
+            BreakSeason,
+            slug=kwargs['season_slug'],
+            public=True,
+            public_snapshot__isnull=False,
+        )
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        snapshot = self.season.public_snapshot or {}
+        kwargs['page_title'] = snapshot.get('season', {}).get('name', self.season.name)
+        kwargs['page_emoji'] = '🏆'
+        kwargs['public_breaks_nav'] = True
+        kwargs['season'] = self.season
+        kwargs['snapshot'] = snapshot
+        kwargs['published_at'] = self.season.public_published_at
+        kwargs['regions'] = snapshot.get('regions', [])
+        kwargs['global_rows'] = snapshot.get('global_ranking', [])
+        return super().get_context_data(**kwargs)
+
+
+class PublicBreaksRegionView(PublicBreaksSeasonView):
+    template_name = 'seasonbreaks/public_region.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        region_id = self.kwargs['region_id']
+        region = next((region for region in context['regions'] if region.get('id') == region_id), None)
+        if region is None:
+            raise Http404
+        context['region'] = region
+        context['rows'] = region.get('ranking', [])
+        context['page_title'] = "%s - %s" % (context['season'].name, region.get('name'))
+        return context
 
 
 class SeasonTournamentsView(SeasonMixin, TemplateView):

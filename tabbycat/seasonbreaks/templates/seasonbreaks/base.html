@@ -495,7 +495,7 @@
               {% endif %}
               <span class="breaks-brand-text">
                 Tabbycat
-                <span class="breaks-brand-subtitle">{% trans "Breaks" %}</span>
+                <span class="breaks-brand-subtitle">{% trans "Break management" %}</span>
               </span>
             </span>
             <i data-feather="chevron-down"></i>
@@ -505,7 +505,7 @@
               <i data-feather="home"></i>{% trans "Site Home" %}
             </a>
             <a class="breaks-menu-item" href="{% url 'seasonbreaks-index' %}">
-              <i data-feather="award"></i>{% trans "All Break Seasons" %}
+              <i data-feather="award"></i>{% trans "Break management" %}
             </a>
             {% if user.is_staff %}
               <a class="breaks-menu-item" href="{% url 'admin:index' %}" target="_blank">
@@ -554,7 +554,7 @@
             <p class="breaks-season-meta">{{ season.get_league_display }}</p>
           </div>
         </div>
-        <nav class="breaks-nav" aria-label="{% trans 'Breaks navigation' %}">
+        <nav class="breaks-nav" aria-label="{% trans 'Break management navigation' %}">
           {% for group_key, group_label, links in season_nav_groups %}
             {% if group_key != 'access' or can_manage_breaks_access %}
               <div class="breaks-nav-group">

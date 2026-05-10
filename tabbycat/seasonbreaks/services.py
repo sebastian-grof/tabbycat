@@ -4,6 +4,7 @@ from math import floor
 
 from django.db import transaction
 from django.db.models import Count
+from django.utils import timezone
 
 from adjallocation.models import DebateAdjudicator
 from draw.types import DebateSide
@@ -420,6 +421,78 @@ def calculate_rankings(season: BreakSeason) -> dict[int, list[dict]]:
 
         rankings[region.id] = rows
     return rankings
+
+
+def _public_row(row, region, rank):
+    return {
+        'rank': rank,
+        'team': row['team'].name,
+        'team_id': row['team'].id,
+        'region': region.name,
+        'region_id': region.id,
+        'wins': float(row['wins']),
+        'ballots': float(row['ballots']),
+        'speaker_score': float(row['speaker_score']),
+        'participations': row['participations'],
+    }
+
+
+def build_public_breaks_snapshot(season: BreakSeason, published_at=None) -> dict:
+    """Serialize the current break state into a stable public snapshot."""
+    published_at = published_at or timezone.now()
+    quotas = {quota.region.id: quota for quota in calculate_region_quotas(season)}
+    rankings = calculate_rankings(season)
+    regions = []
+    global_rows = []
+
+    for region in season.regions.all():
+        quota = quotas.get(region.id)
+        region_rows = [
+            _public_row(row, region, rank)
+            for rank, row in enumerate(rankings.get(region.id, []), start=1)
+        ]
+        regions.append({
+            'id': region.id,
+            'name': region.name,
+            'seq': region.seq,
+            'slots': quota.allocated if quota else 0,
+            'participations': quota.participations if quota else 0,
+            'ranking': region_rows,
+        })
+        global_rows.extend(region_rows)
+
+    global_rows = sorted(
+        global_rows,
+        key=lambda row: (-row['wins'], -row['ballots'], -row['speaker_score'], row['team']),
+    )
+    for rank, row in enumerate(global_rows, start=1):
+        row['rank'] = rank
+
+    return {
+        'version': 1,
+        'published_at': published_at.isoformat(),
+        'season': {
+            'id': season.id,
+            'name': season.name,
+            'slug': season.slug,
+            'league': season.league,
+            'league_display': season.get_league_display(),
+            'regional_slots': season.regional_slots,
+            'invited_teams': season.invited_teams,
+            'effective_regional_slots': season.effective_regional_slots,
+        },
+        'regions': regions,
+        'global_ranking': global_rows,
+    }
+
+
+def publish_public_breaks_snapshot(season: BreakSeason) -> dict:
+    published_at = timezone.now()
+    snapshot = build_public_breaks_snapshot(season, published_at=published_at)
+    season.public_snapshot = snapshot
+    season.public_published_at = published_at
+    season.save(update_fields=['public_snapshot', 'public_published_at'])
+    return snapshot
 
 
 def _ineligible_reasons(participations, required_tournaments, eligible_members):

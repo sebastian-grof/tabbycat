@@ -11,6 +11,14 @@
 
 {% block content %}
 
+{% if show_public_breaks %}
+  <div class="list-group mb-2">
+    {% trans "Breaks" as public_breaks_text %}
+    {% url 'public-breaks-index' as public_breaks_url %}
+    {% include "components/item-action.html" with icon="award" text=public_breaks_text url=public_breaks_url only %}
+  </div>
+{% endif %}
+
 {% if tournament_categories %}
   <div class="list-group">
     {% for category in tournament_categories %}
@@ -112,7 +120,7 @@
 
         {% if can_view_global_breaks %}
 
-          {% trans "Breaks" as text %}{% url 'seasonbreaks-index' as url %}
+          {% trans "Break management" as text %}{% url 'seasonbreaks-index' as url %}
           {% include "components/item-action.html" with icon="award" %}
 
         {% endif %}

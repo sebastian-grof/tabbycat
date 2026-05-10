@@ -15,7 +15,7 @@
 
   {% if can_manage_breaks_access %}
     <div class="list-group mb-3">
-      {% trans "Manage Breaks Access" as text %}{% url 'seasonbreaks-access' as url %}
+      {% trans "Break management access" as text %}{% url 'seasonbreaks-access' as url %}
       {% include "components/item-action.html" with icon="lock" %}
     </div>
   {% endif %}
@@ -35,6 +35,9 @@
           {% include "components/form-field.html" with field=season_form.invited_teams triple=True %}
           <div class="col-12">
             {{ season_form.active }} <label for="{{ season_form.active.id_for_label }}">{{ season_form.active.label }}</label>
+          </div>
+          <div class="col-12">
+            {{ season_form.public }} <label for="{{ season_form.public.id_for_label }}">{{ season_form.public.label }}</label>
           </div>
         </div>
         <button type="submit" class="btn btn-primary">{% trans "Create" %}</button>

@@ -2203,3 +2203,68 @@ msgstr "Úpravy"
 #: manually-added-sda
 msgid "Source Code"
 msgstr "Zdrojový kód"
+
+#: manually-added-sda-public-breaks
+msgid "Break management"
+msgstr "Správa postupov"
+
+#: manually-added-sda-public-breaks
+msgid "Published Break seasons"
+msgstr "Publikované postupové sezóny"
+
+#: manually-added-sda-public-breaks
+msgid "No public Breaks seasons have been published yet."
+msgstr "Zatiaľ neboli publikované žiadne postupové sezóny."
+
+#: manually-added-sda-public-breaks
+msgid "Return back"
+msgstr "Vrátiť sa späť"
+
+#: manually-added-sda-public-breaks
+msgid "Regions"
+msgstr "Regióny"
+
+#: manually-added-sda-public-breaks
+#, python-format
+msgid "%(slots)s slots · %(participations)s participations"
+msgstr "%(slots)s slotov · %(participations)s účastí"
+
+#: manually-added-sda-public-breaks
+msgid "No regions were published in this snapshot."
+msgstr "V tomto zverejnení neboli publikované žiadne regióny."
+
+#: manually-added-sda-public-breaks
+msgid "Global ranking"
+msgstr "Globálne poradie"
+
+#: manually-added-sda-public-breaks
+msgid "Rank"
+msgstr "Poradie"
+
+#: manually-added-sda-public-breaks
+msgid "Team"
+msgstr "Tím"
+
+#: manually-added-sda-public-breaks
+msgid "Region"
+msgstr "Región"
+
+#: manually-added-sda-public-breaks
+msgid "Wins"
+msgstr "Výhry"
+
+#: manually-added-sda-public-breaks
+msgid "Ballots"
+msgstr "Balloty"
+
+#: manually-added-sda-public-breaks
+msgid "Speaker points"
+msgstr "Rečnícke body"
+
+#: manually-added-sda-public-breaks
+msgid "Participations"
+msgstr "Účasti"
+
+#: manually-added-sda-public-breaks
+msgid "No ranking rows were published in this snapshot."
+msgstr "V tomto zverejnení neboli publikované žiadne riadky poradia."

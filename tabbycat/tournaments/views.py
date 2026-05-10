@@ -21,6 +21,7 @@ from draw.models import Debate
 from notifications.models import BulkNotification
 from results.models import BallotSubmission
 from results.prefetch import populate_confirmed_ballots
+from seasonbreaks.models import BreakSeason
 from tournaments.models import Round
 from users.permissions import has_admin_access, has_permission, Permission
 from utils.misc import redirect_round, redirect_tournament, reverse_round, reverse_tournament
@@ -91,6 +92,10 @@ class PublicSiteIndexView(WarnAboutDatabaseUseMixin, WarnAboutLegacySendgridConf
         kwargs['tournaments'] = Tournament.objects.filter(active=True, homepage_category__isnull=True)
         kwargs['inactive'] = Tournament.objects.filter(active=False, homepage_category__isnull=True)
         kwargs['has_inactive'] = kwargs['inactive'].exists()
+        kwargs['show_public_breaks'] = BreakSeason.objects.filter(
+            public=True,
+            public_snapshot__isnull=False,
+        ).exists()
         return super().get_context_data(**kwargs)
 
 

@@ -36,6 +36,9 @@ class BreakSeason(models.Model):
     regional_slots = models.PositiveSmallIntegerField(default=0, verbose_name=_("regional final slots"))
     invited_teams = models.PositiveSmallIntegerField(default=0, verbose_name=_("invited teams"))
     active = models.BooleanField(default=True, verbose_name=_("active"))
+    public = models.BooleanField(default=False, verbose_name=_("show on public Breaks page"))
+    public_published_at = models.DateTimeField(blank=True, null=True, verbose_name=_("public snapshot published at"))
+    public_snapshot = models.JSONField(blank=True, null=True, verbose_name=_("public snapshot"))
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("created at"))
 
     class Meta:

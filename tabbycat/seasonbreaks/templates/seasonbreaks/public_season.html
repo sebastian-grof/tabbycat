@@ -1,0 +1,36 @@
+{% extends "seasonbreaks/public_base.html" %}
+{% load i18n %}
+
+{% block public_breaks_header_actions %}
+  <div class="col-auto m-3 public-breaks-header-actions">
+    <a class="btn btn-outline-secondary" href="{% url 'public-breaks-index' %}">
+      <i data-feather="arrow-left"></i>{% trans "Return back" %}
+    </a>
+  </div>
+{% endblock %}
+
+{% block public_breaks_content %}
+  <div class="card mb-3">
+    <div class="card-header">
+      <h4 class="mb-0">{% trans "Regions" %}</h4>
+    </div>
+    <div class="list-group list-group-flush">
+      {% for region in regions %}
+        {% url 'public-breaks-region' season_slug=season.slug region_id=region.id as url %}
+        {% blocktrans trimmed with slots=region.slots participations=region.participations asvar subtext %}
+          {{ slots }} slots · {{ participations }} participations
+        {% endblocktrans %}
+        {% include "components/item-action.html" with text=region.name subtext=subtext icon="map-pin" %}
+      {% empty %}
+        <div class="list-group-item text-muted">{% trans "No regions were published in this snapshot." %}</div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <h4 class="mb-0">{% trans "Global ranking" %}</h4>
+    </div>
+    {% include "seasonbreaks/public_table.html" with rows=global_rows include_region=True %}
+  </div>
+{% endblock %}
