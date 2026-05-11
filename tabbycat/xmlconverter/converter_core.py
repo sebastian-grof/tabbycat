@@ -35,7 +35,7 @@ class AdjudicatorInfo:
 @dataclass
 class BallotEntry:
     adjudicator_id: str
-    total: float
+    total: float | None
     rank: int | None
     ignored: bool
     minority: bool
@@ -132,10 +132,32 @@ def parse_args() -> argparse.Namespace:
 
 
 def as_float(text: str | None) -> float:
+    value = as_optional_float(text)
+    return value if value is not None else 0.0
+
+
+def as_optional_float(text: str | None) -> float | None:
     if text is None:
-        return 0.0
+        return None
     stripped = text.strip()
-    return float(stripped) if stripped else 0.0
+    if not stripped or stripped.lower() == "none":
+        return None
+    try:
+        return float(stripped)
+    except ValueError:
+        return None
+
+
+def as_optional_int(text: str | None) -> int | None:
+    if text is None:
+        return None
+    stripped = text.strip()
+    if not stripped or stripped.lower() == "none":
+        return None
+    try:
+        return int(stripped)
+    except ValueError:
+        return None
 
 
 def is_reply(value: str | None) -> bool:
@@ -190,9 +212,11 @@ def build_output_path(xml_path: Path, output_path: Path | None) -> Path:
     return output_dir / f"{xml_path.stem}_converted.xlsx"
 
 
-def panel_weights(adjudicator_ids: list[str], chair_id: str) -> dict[str, int]:
+def panel_weights(adjudicator_ids: list[str], chair_id: str, weighting: str = "weighted-to-three") -> dict[str, int]:
     if not adjudicator_ids:
         return {}
+    if weighting != "weighted-to-three":
+        return {adj_id: 1 for adj_id in adjudicator_ids}
     if len(adjudicator_ids) == 1:
         return {adjudicator_ids[0]: 3}
     if len(adjudicator_ids) == 2:
@@ -208,6 +232,59 @@ def weighted_ballots_for_side(side: SideResult, weights: dict[str, int]) -> int:
         for adj_id, ballot in side.ballots_by_adj.items()
         if ballot.rank == 1
     )
+
+
+def collect_ballot_scores(parent: ET.Element, voting_adjudicator_ids: set[str]) -> dict[str, float]:
+    scores_by_adj: dict[str, float] = {}
+    for ballot_node in parent.findall("ballot"):
+        adj_ids = ballot_node.attrib.get("adjudicators", "").split()
+        if not adj_ids or adj_ids[0] not in voting_adjudicator_ids:
+            continue
+        score = as_optional_float(ballot_node.text)
+        if score is None:
+            score = as_optional_float(ballot_node.attrib.get("score"))
+        if score is not None:
+            scores_by_adj[adj_ids[0]] = score
+    return scores_by_adj
+
+
+def collect_speech_scores(speech_node: ET.Element, voting_adjudicator_ids: set[str]) -> dict[str, float]:
+    scores_by_adj = collect_ballot_scores(speech_node, voting_adjudicator_ids)
+    criterion_totals: dict[str, float] = defaultdict(float)
+    criterion_seen: set[str] = set()
+    for criterion_node in speech_node.findall("criterion"):
+        for ballot_node in criterion_node.findall("ballot"):
+            adj_ids = ballot_node.attrib.get("adjudicators", "").split()
+            if not adj_ids or adj_ids[0] not in voting_adjudicator_ids:
+                continue
+            score = as_optional_float(ballot_node.text)
+            if score is None:
+                continue
+            adjudicator_id = adj_ids[0]
+            criterion_totals[adjudicator_id] += score
+            criterion_seen.add(adjudicator_id)
+
+    for adjudicator_id in criterion_seen:
+        scores_by_adj.setdefault(adjudicator_id, criterion_totals[adjudicator_id])
+    return scores_by_adj
+
+
+def inferred_ballot_total(adjudicator_id: str, speeches: list[SpeechEntry], crosses: list[CrossEntry]) -> float | None:
+    total = 0.0
+    seen = False
+    for speech in speeches:
+        score = speech.scores_by_adj.get(adjudicator_id)
+        if score is None:
+            continue
+        total += score
+        seen = True
+    for cross in crosses:
+        score = cross.scores_by_adj.get(adjudicator_id)
+        if score is None:
+            continue
+        total += score
+        seen = True
+    return total if seen else None
 
 
 def expand_by_weights(values: list[object], weights: list[int], slot_count: int) -> list[object]:
@@ -285,6 +362,7 @@ def parse_debatexml(xml_source: Path | str | BinaryIO, source_name: str | None =
     fallback_name = source_stem(xml_source, source_name)
     tournament_name = root.attrib.get("name", fallback_name)
     tournament_short = root.attrib.get("short", fallback_name)
+    adjudicator_weighting = root.attrib.get("adjudicator-weighting", "weighted-to-three")
 
     teams: dict[str, TeamInfo] = {}
     adjudicators: dict[str, AdjudicatorInfo] = {}
@@ -353,7 +431,7 @@ def parse_debatexml(xml_source: Path | str | BinaryIO, source_name: str | None =
                 adjudicator_ids = raw_adjudicator_ids[:]
             raw_chair_id = debate_node.attrib.get("chair", raw_adjudicator_ids[0] if raw_adjudicator_ids else "")
             chair_id = raw_chair_id if raw_chair_id in adjudicator_ids else (adjudicator_ids[0] if adjudicator_ids else "")
-            weights = panel_weights(adjudicator_ids, chair_id)
+            weights = panel_weights(adjudicator_ids, chair_id, adjudicator_weighting)
             voting_adjudicator_ids = set(adjudicator_ids)
             winners_by_adj: dict[str, str] = {}
             official_ballots: dict[str, int] = defaultdict(int)
@@ -372,10 +450,10 @@ def parse_debatexml(xml_source: Path | str | BinaryIO, source_name: str | None =
                         adjudicator_id = adj_ids[0]
                         if adjudicator_id not in voting_adjudicator_ids:
                             continue
-                        rank = int(child.attrib["rank"]) if child.attrib.get("rank") else None
+                        rank = as_optional_int(child.attrib.get("rank"))
                         ballot = BallotEntry(
                             adjudicator_id=adjudicator_id,
-                            total=as_float(child.text),
+                            total=as_optional_float(child.text),
                             rank=rank,
                             ignored=child.attrib.get("ignored", "false").lower() == "true",
                             minority=child.attrib.get("minority", "false").lower() == "true",
@@ -384,23 +462,19 @@ def parse_debatexml(xml_source: Path | str | BinaryIO, source_name: str | None =
                         if rank == 1:
                             winners_by_adj[adjudicator_id] = team_id
                     elif child.tag == "speech":
-                        scores_by_adj: dict[str, float] = {}
-                        for ballot_node in child.findall("ballot"):
-                            adj_ids = ballot_node.attrib.get("adjudicators", "").split()
-                            if adj_ids and adj_ids[0] in voting_adjudicator_ids:
-                                scores_by_adj[adj_ids[0]] = as_float(ballot_node.text)
+                        scores_by_adj = collect_speech_scores(child, voting_adjudicator_ids)
                         speeches.append(SpeechEntry(
                             speaker_id=child.attrib.get("speaker", ""),
                             reply=is_reply(child.attrib.get("reply")),
                             scores_by_adj=scores_by_adj,
                         ))
                     elif child.tag == "cross":
-                        scores_by_adj: dict[str, float] = {}
-                        for ballot_node in child.findall("ballot"):
-                            adj_ids = ballot_node.attrib.get("adjudicators", "").split()
-                            if adj_ids and adj_ids[0] in voting_adjudicator_ids:
-                                scores_by_adj[adj_ids[0]] = as_float(ballot_node.text)
+                        scores_by_adj = collect_ballot_scores(child, voting_adjudicator_ids)
                         crosses.append(CrossEntry(scores_by_adj=scores_by_adj))
+                for ballot in ballots_by_adj.values():
+                    if ballot.total is None:
+                        inferred_total = inferred_ballot_total(ballot.adjudicator_id, speeches, crosses)
+                        ballot.total = inferred_total if inferred_total is not None else 0.0
                 side = SideResult(team_id=team_id, ballots_by_adj=ballots_by_adj, speeches=speeches, crosses=crosses)
                 official_ballots[team_id] = weighted_ballots_for_side(side, weights)
                 sides.append(side)
@@ -458,7 +532,7 @@ def build_aggregates(
                 debated=True,
                 win=1 if debate.winner_team_id == side.team_id else 0,
                 ballots=weighted_ballots_for_side(side, debate.weights),
-                weighted_team_total=sum(ballot.total * debate.weights.get(adj_id, 1) for adj_id, ballot in side.ballots_by_adj.items()),
+                weighted_team_total=sum((ballot.total or 0.0) * debate.weights.get(adj_id, 1) for adj_id, ballot in side.ballots_by_adj.items()),
                 adjudicator_names=adjudicator_names[:],
                 panel_weights=panel_weights[:],
                 speaker_panel_scores={},
