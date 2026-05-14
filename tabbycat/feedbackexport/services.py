@@ -8,12 +8,13 @@ from datetime import timedelta
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 from django.conf import settings
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
 from django.utils import timezone
 
 from adjfeedback.models import AdjudicatorFeedback
 
-from .models import FeedbackExportEvent, JudgeProfile, JudgeProfileLink
+from .models import AdjudicatorStatsExportEvent, FeedbackExportEvent, JudgeProfile, JudgeProfileLink
 
 logger = logging.getLogger(__name__)
 
@@ -42,8 +43,29 @@ def feedback_export_token():
     return getattr(settings, 'FEEDBACK_EXPORT_TOKEN', '')
 
 
+def adjudicator_stats_export_enabled():
+    return bool(getattr(settings, 'ADJUDICATOR_STATS_EXPORT_ENABLED', False))
+
+
+def adjudicator_stats_export_endpoint():
+    return getattr(settings, 'ADJUDICATOR_STATS_EXPORT_ENDPOINT', '')
+
+
+def adjudicator_stats_export_token():
+    return getattr(settings, 'ADJUDICATOR_STATS_EXPORT_TOKEN', '') or feedback_export_token()
+
+
 def make_idempotency_key(feedback_id):
     return '%s:feedback:%s:v1' % (SOURCE_SYSTEM, feedback_id)
+
+
+def make_adjudicator_stats_idempotency_key(break_tournament, content_hash=None):
+    base = '%s:adjudicator-stats:%s:%s' % (
+        SOURCE_SYSTEM, break_tournament.season_id, break_tournament.id,
+    )
+    if content_hash:
+        return '%s:%s:v1' % (base, content_hash[:12])
+    return '%s:v1' % base
 
 
 def normalise_json_value(value):
@@ -137,6 +159,16 @@ def answer_type_payload(question):
     return mapping.get(answer_type, answer_type)
 
 
+def question_reference_payload(question):
+    reference = getattr(question, 'reference', None)
+    if reference is not None:
+        return reference
+    try:
+        return question.adjudicatorfeedbackquestion.reference
+    except (AttributeError, ObjectDoesNotExist):
+        return None
+
+
 def answers_payload(feedback):
     answers = []
     for answer in feedback.answers.select_related('question').order_by('question__seq', 'question__id'):
@@ -148,7 +180,7 @@ def answers_payload(feedback):
             value = answer.answer
         value = normalise_json_value(value)
         answers.append({
-            'question_reference': getattr(question, 'reference', None),
+            'question_reference': question_reference_payload(question),
             'question_text': question.text,
             'answer_type': answer_type_payload(question),
             'raw_value': value,
@@ -229,6 +261,90 @@ def build_feedback_payload(feedback):
     }
 
 
+def _best_local_adjudicator_for_stats(stat):
+    links = list(stat.break_adjudicator.links.select_related(
+        'adjudicator', 'adjudicator__judge_profile_link__profile',
+    ).all())
+    for link in links:
+        if link.adjudicator.tournament_id == stat.break_tournament.tournament_id:
+            return link.adjudicator
+    return links[0].adjudicator if links else None
+
+
+def _judge_profile_export_id_for_adjudicator(adjudicator):
+    if not adjudicator:
+        return None
+    try:
+        return adjudicator.judge_profile_link.profile.export_id
+    except JudgeProfileLink.DoesNotExist:
+        return None
+
+
+def build_adjudicator_stats_payload(break_tournament, *, idempotency_key=None):
+    from seasonbreaks.models import BreakAdjudicatorTournamentStats, BreakTournament
+
+    if not isinstance(break_tournament, BreakTournament):
+        break_tournament = BreakTournament.objects.select_related(
+            'season', 'tournament',
+        ).get(pk=break_tournament)
+    else:
+        break_tournament = BreakTournament.objects.select_related(
+            'season', 'tournament',
+        ).get(pk=break_tournament.pk)
+
+    season = break_tournament.season
+    tournament = break_tournament.tournament
+    stats = BreakAdjudicatorTournamentStats.objects.filter(
+        break_tournament=break_tournament,
+    ).select_related(
+        'break_adjudicator',
+        'break_adjudicator__institution',
+        'break_tournament',
+        'break_tournament__tournament',
+    ).prefetch_related(
+        'break_adjudicator__links__adjudicator__judge_profile_link__profile',
+    ).order_by('break_adjudicator__name', 'break_adjudicator_id')
+
+    adjudicators = []
+    for stat in stats:
+        local_adjudicator = _best_local_adjudicator_for_stats(stat)
+        adjudicators.append({
+            'judge_profile_id': _judge_profile_export_id_for_adjudicator(local_adjudicator),
+            'local_adjudicator_id': local_adjudicator.id if local_adjudicator else None,
+            'name': stat.break_adjudicator.name,
+            'email': stat.break_adjudicator.email,
+            'chair_count': stat.chair_count,
+            'panellist_count': stat.panellist_count,
+            'trainee_count': stat.trainee_count,
+            'total_count': stat.chair_count + stat.panellist_count,
+        })
+
+    return {
+        'source_system': SOURCE_SYSTEM,
+        'idempotency_key': idempotency_key or make_adjudicator_stats_idempotency_key(break_tournament),
+        'version': 1,
+        'season': {
+            'id': season.id,
+            'slug': season.slug,
+            'name': season.name,
+            'league': season.league,
+        },
+        'tournament': {
+            'id': tournament.id,
+            'slug': tournament.slug,
+            'name': tournament.name,
+            'short_name': tournament.short_name,
+            'season': season.name,
+        },
+        'break_tournament': {
+            'id': break_tournament.id,
+            'counts_for_break': break_tournament.counts_for_break,
+            'frozen_at': timestamp_payload(break_tournament.frozen_at),
+        },
+        'adjudicators': adjudicators,
+    }
+
+
 def payload_hash(payload):
     raw = json.dumps(payload, sort_keys=True, separators=(',', ':'), ensure_ascii=True)
     return hashlib.sha256(raw.encode('utf-8')).hexdigest()
@@ -306,6 +422,16 @@ def notify_feedback_export_worker(event_ids=None):
         return
     async_to_sync(channel_layer.send)('feedbackexport', {
         'type': 'feedback.export',
+        'event_ids': event_ids or [],
+    })
+
+
+def notify_adjudicator_stats_export_worker(event_ids=None):
+    channel_layer = get_channel_layer()
+    if not channel_layer:
+        return
+    async_to_sync(channel_layer.send)('feedbackexport', {
+        'type': 'adjudicator.stats.export',
         'event_ids': event_ids or [],
     })
 
@@ -391,10 +517,130 @@ def send_event(event, *, dry_run=False):
     return event
 
 
+def queue_adjudicator_stats_export(break_tournament, *, force=False, reset_attempts=False):
+    from seasonbreaks.models import BreakTournament
+
+    if not isinstance(break_tournament, BreakTournament):
+        break_tournament = BreakTournament.objects.get(pk=break_tournament)
+
+    with transaction.atomic():
+        event, _ = AdjudicatorStatsExportEvent.objects.select_for_update().get_or_create(
+            break_tournament=break_tournament,
+            defaults={'idempotency_key': make_adjudicator_stats_idempotency_key(break_tournament)},
+        )
+        content_payload = build_adjudicator_stats_payload(break_tournament, idempotency_key='')
+        content_hash = payload_hash(content_payload)
+        idempotency_key = make_adjudicator_stats_idempotency_key(break_tournament, content_hash)
+        payload = build_adjudicator_stats_payload(break_tournament, idempotency_key=idempotency_key)
+        new_hash = payload_hash(payload)
+
+        if event.status == AdjudicatorStatsExportEvent.Status.SENT and event.payload_hash == new_hash and not force:
+            return event
+
+        event.idempotency_key = idempotency_key
+        event.payload = payload
+        event.payload_hash = new_hash
+        event.status = AdjudicatorStatsExportEvent.Status.PENDING
+        if reset_attempts:
+            event.attempts = 0
+        event.last_error = ''
+        event.last_http_status = None
+        event.remote_response = None
+        event.next_attempt_at = timezone.now()
+        event.sent_at = None
+        event.save(update_fields=[
+            'idempotency_key', 'payload', 'payload_hash', 'status', 'attempts', 'last_error',
+            'last_http_status', 'remote_response', 'next_attempt_at', 'sent_at', 'updated_at',
+        ])
+
+    if adjudicator_stats_export_enabled():
+        notify_adjudicator_stats_export_worker([event.id])
+    return event
+
+
+def send_adjudicator_stats_event(event, *, dry_run=False):
+    if event.status == AdjudicatorStatsExportEvent.Status.SENT and not dry_run:
+        return event
+    if not event.payload:
+        queue_adjudicator_stats_export(event.break_tournament, force=True)
+        event.refresh_from_db()
+    if event.status == AdjudicatorStatsExportEvent.Status.PERMANENT_FAILED:
+        return event
+
+    endpoint = adjudicator_stats_export_endpoint()
+    if not endpoint:
+        if dry_run:
+            return event
+        event.attempts += 1
+        event.save(update_fields=['attempts', 'updated_at'])
+        event.mark_failed('ADJUDICATOR_STATS_EXPORT_ENDPOINT is not configured.', retry_at=retry_delay(event.attempts))
+        return event
+
+    if dry_run:
+        return event
+
+    token = adjudicator_stats_export_token()
+    body = json.dumps(event.payload, sort_keys=True).encode('utf-8')
+    headers = {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'User-Agent': 'Tabbycat Adjudicator Stats Export',
+        'Idempotency-Key': event.idempotency_key,
+    }
+    if token:
+        headers['Authorization'] = 'Bearer %s' % token
+
+    request = urllib.request.Request(endpoint, data=body, headers=headers, method='POST')
+    event.attempts += 1
+    event.save(update_fields=['attempts', 'updated_at'])
+
+    try:
+        timeout = int(getattr(settings, 'ADJUDICATOR_STATS_EXPORT_TIMEOUT', DEFAULT_TIMEOUT))
+        with urllib.request.urlopen(request, timeout=timeout) as response:
+            response_body = parse_response_body(response.read())
+            if response.status in {200, 201}:
+                event.mark_sent(response_data=response_body, http_status=response.status)
+            else:
+                event.mark_failed(
+                    'External adjudicator stats API returned unexpected HTTP %s.' % response.status,
+                    http_status=response.status,
+                    retry_at=retry_delay(event.attempts),
+                )
+    except urllib.error.HTTPError as exc:
+        response_body = parse_response_body(exc.read())
+        event.remote_response = response_body
+        event.save(update_fields=['remote_response', 'updated_at'])
+        if exc.code in {401, 403}:
+            logger.error('Invalid SDA judges API token while exporting adjudicator stats event %s', event.id)
+        permanent = 400 <= exc.code < 500 and exc.code not in {409, 429}
+        event.mark_failed(
+            'External adjudicator stats API returned HTTP %s.' % exc.code,
+            permanent=permanent,
+            http_status=exc.code,
+            retry_at=retry_delay(event.attempts),
+        )
+    except Exception as exc:
+        logger.exception('Failed to export adjudicator stats event %s', event.id)
+        event.mark_failed(exc, retry_at=retry_delay(event.attempts))
+    return event
+
+
 def pending_events_queryset(event_ids=None):
     now = timezone.now()
     queryset = FeedbackExportEvent.objects.select_related('feedback').filter(
         status__in=[FeedbackExportEvent.Status.PENDING, FeedbackExportEvent.Status.FAILED],
+    ).filter(attempts__lt=MAX_ATTEMPTS).filter(
+        models_Q_next_attempt(now)
+    )
+    if event_ids:
+        queryset = queryset.filter(id__in=event_ids)
+    return queryset.order_by('next_attempt_at', 'created_at')
+
+
+def pending_adjudicator_stats_events_queryset(event_ids=None):
+    now = timezone.now()
+    queryset = AdjudicatorStatsExportEvent.objects.select_related('break_tournament').filter(
+        status__in=[AdjudicatorStatsExportEvent.Status.PENDING, AdjudicatorStatsExportEvent.Status.FAILED],
     ).filter(attempts__lt=MAX_ATTEMPTS).filter(
         models_Q_next_attempt(now)
     )
@@ -421,6 +667,25 @@ def send_pending_events(*, event_ids=None, limit=50, dry_run=False):
         elif event.status == FeedbackExportEvent.Status.SENT:
             sent += 1
         elif event.status in {FeedbackExportEvent.Status.FAILED, FeedbackExportEvent.Status.PERMANENT_FAILED}:
+            failed += 1
+        elif event.status == before:
+            pending += 1
+    return {'processed': len(events), 'sent': sent, 'failed': failed, 'pending': pending}
+
+
+def send_pending_adjudicator_stats_events(*, event_ids=None, limit=50, dry_run=False):
+    queryset = pending_adjudicator_stats_events_queryset(event_ids=event_ids)[:limit]
+    sent = failed = pending = 0
+    events = list(queryset)
+    for event in events:
+        before = event.status
+        send_adjudicator_stats_event(event, dry_run=dry_run)
+        event.refresh_from_db()
+        if dry_run:
+            pending += 1
+        elif event.status == AdjudicatorStatsExportEvent.Status.SENT:
+            sent += 1
+        elif event.status in {AdjudicatorStatsExportEvent.Status.FAILED, AdjudicatorStatsExportEvent.Status.PERMANENT_FAILED}:
             failed += 1
         elif event.status == before:
             pending += 1

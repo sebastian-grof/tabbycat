@@ -1,6 +1,12 @@
 from django.contrib import admin
 
-from .models import FeedbackExportEvent, GlobalFeedbackExportPermission, JudgeProfile, JudgeProfileLink
+from .models import (
+    AdjudicatorStatsExportEvent,
+    FeedbackExportEvent,
+    GlobalFeedbackExportPermission,
+    JudgeProfile,
+    JudgeProfileLink,
+)
 
 
 @admin.register(GlobalFeedbackExportPermission)
@@ -36,4 +42,18 @@ class FeedbackExportEventAdmin(admin.ModelAdmin):
     list_display = ('feedback', 'status', 'attempts', 'last_http_status', 'sent_at', 'updated_at')
     list_filter = ('status',)
     search_fields = ('feedback__adjudicator__name', 'idempotency_key', 'last_error')
+    readonly_fields = ('payload', 'remote_response')
+
+
+@admin.register(AdjudicatorStatsExportEvent)
+class AdjudicatorStatsExportEventAdmin(admin.ModelAdmin):
+    list_display = ('break_tournament', 'status', 'attempts', 'last_http_status', 'sent_at', 'updated_at')
+    list_filter = ('status',)
+    search_fields = (
+        'break_tournament__season__name',
+        'break_tournament__tournament__name',
+        'break_tournament__tournament__slug',
+        'idempotency_key',
+        'last_error',
+    )
     readonly_fields = ('payload', 'remote_response')

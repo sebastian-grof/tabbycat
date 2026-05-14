@@ -124,3 +124,54 @@ class FeedbackExportEvent(models.Model):
         self.last_http_status = http_status
         self.next_attempt_at = None if permanent else retry_at
         self.save(update_fields=['status', 'last_error', 'last_http_status', 'next_attempt_at', 'updated_at'])
+
+
+class AdjudicatorStatsExportEvent(models.Model):
+    class Status(models.TextChoices):
+        PENDING = 'pending', _('pending')
+        SENT = 'sent', _('sent')
+        FAILED = 'failed', _('failed')
+        PERMANENT_FAILED = 'permanent_failed', _('permanently failed')
+
+    break_tournament = models.OneToOneField('seasonbreaks.BreakTournament', models.CASCADE,
+        related_name='adjudicator_stats_export_event', verbose_name=_('break tournament'))
+    status = models.CharField(max_length=20, choices=Status.choices, default=Status.PENDING, db_index=True,
+        verbose_name=_('status'))
+    idempotency_key = models.CharField(max_length=160, unique=True, verbose_name=_('idempotency key'))
+    attempts = models.PositiveSmallIntegerField(default=0, verbose_name=_('attempts'))
+    next_attempt_at = models.DateTimeField(blank=True, null=True, db_index=True, verbose_name=_('next attempt at'))
+    last_error = models.TextField(blank=True, verbose_name=_('last error'))
+    last_http_status = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name=_('last HTTP status'))
+    payload_hash = models.CharField(max_length=64, blank=True, verbose_name=_('payload hash'))
+    payload = models.JSONField(blank=True, null=True, verbose_name=_('payload'))
+    remote_response = models.JSONField(blank=True, null=True, verbose_name=_('remote response'))
+    sent_at = models.DateTimeField(blank=True, null=True, verbose_name=_('sent at'))
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created at'))
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=_('updated at'))
+
+    class Meta:
+        ordering = ['status', '-updated_at']
+        verbose_name = _('adjudicator stats export event')
+        verbose_name_plural = _('adjudicator stats export events')
+
+    def __str__(self):
+        return "%s adjudicator stats for %s" % (self.status, self.break_tournament)
+
+    @property
+    def can_retry(self):
+        return self.status in {self.Status.PENDING, self.Status.FAILED, self.Status.PERMANENT_FAILED}
+
+    def mark_sent(self, response_data=None, http_status=None):
+        self.status = self.Status.SENT
+        self.sent_at = timezone.now()
+        self.last_error = ''
+        self.last_http_status = http_status
+        self.remote_response = response_data
+        self.save(update_fields=['status', 'sent_at', 'last_error', 'last_http_status', 'remote_response', 'updated_at'])
+
+    def mark_failed(self, error, *, permanent=False, http_status=None, retry_at=None):
+        self.status = self.Status.PERMANENT_FAILED if permanent else self.Status.FAILED
+        self.last_error = str(error)
+        self.last_http_status = http_status
+        self.next_attempt_at = None if permanent else retry_at
+        self.save(update_fields=['status', 'last_error', 'last_http_status', 'next_attempt_at', 'updated_at'])

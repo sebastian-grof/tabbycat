@@ -13,11 +13,20 @@ from adjfeedback.models import AdjudicatorFeedback, AdjudicatorFeedbackQuestion
 from draw.models import Debate, DebateTeam
 from participants.models import Adjudicator, Institution, Team
 from registration.models import Answer, Question
-from results.models import Submission
+from results.models import BallotSubmission, Submission
+from seasonbreaks.models import BreakRegion, BreakSeason, BreakTournament
+from seasonbreaks.services import freeze_break_tournament
 from tournaments.models import Round, Tournament
 
-from feedbackexport.models import FeedbackExportEvent, JudgeProfile, JudgeProfileLink
-from feedbackexport.services import build_feedback_payload, queue_feedback_export, send_event
+from feedbackexport.models import AdjudicatorStatsExportEvent, FeedbackExportEvent, JudgeProfile, JudgeProfileLink
+from feedbackexport.services import (
+    build_adjudicator_stats_payload,
+    build_feedback_payload,
+    queue_adjudicator_stats_export,
+    queue_feedback_export,
+    send_adjudicator_stats_event,
+    send_event,
+)
 
 
 class FakeHTTPResponse:
@@ -213,3 +222,68 @@ class FeedbackExportTestCase(TestCase):
         superuser = get_user_model().objects.create_superuser(username='root', password='pw')
         self.client.force_login(superuser)
         self.assertEqual(self.client.get(reverse('feedbackexport-index')).status_code, 200)
+
+    def _break_tournament(self):
+        season = BreakSeason.objects.create(
+            name='SDL 2025/2026', slug='sdl-2025-2026', league=BreakSeason.League.SDL,
+        )
+        region = BreakRegion.objects.create(season=season, name='West')
+        return BreakTournament.objects.create(season=season, tournament=self.tournament, region=region)
+
+    def test_freeze_break_tournament_queues_adjudicator_stats_event(self):
+        profile = JudgeProfile.objects.create(name='Canonical Judge', primary_email='target@example.test', external_id='judge-1')
+        JudgeProfileLink.objects.create(profile=profile, adjudicator=self.adjudicator)
+        break_tournament = self._break_tournament()
+        BallotSubmission.objects.create(debate=self.debate, confirmed=True)
+
+        with self.captureOnCommitCallbacks(execute=True):
+            freeze_break_tournament(break_tournament)
+
+        event = AdjudicatorStatsExportEvent.objects.get(break_tournament=break_tournament)
+        self.assertEqual(event.status, AdjudicatorStatsExportEvent.Status.PENDING)
+        self.assertEqual(event.payload['season']['slug'], 'sdl-2025-2026')
+        self.assertEqual(event.payload['tournament']['id'], self.tournament.id)
+        row = {row['name']: row for row in event.payload['adjudicators']}['Target Judge']
+        self.assertEqual(row['judge_profile_id'], 'judge-1')
+        self.assertEqual(row['local_adjudicator_id'], self.adjudicator.id)
+        self.assertEqual(row['chair_count'], 1)
+        self.assertEqual(row['panellist_count'], 0)
+        self.assertEqual(row['trainee_count'], 0)
+        self.assertEqual(row['total_count'], 1)
+
+    def test_adjudicator_stats_payload_keeps_trainee_separate_from_total(self):
+        break_tournament = self._break_tournament()
+        BallotSubmission.objects.create(debate=self.debate, confirmed=True)
+        trainee = Adjudicator.objects.create(
+            tournament=self.tournament, name='Trainee Judge', email='trainee@example.test',
+        )
+        DebateAdjudicator.objects.create(
+            debate=self.debate, adjudicator=trainee, type=DebateAdjudicator.TYPE_TRAINEE,
+        )
+        with self.captureOnCommitCallbacks(execute=True):
+            freeze_break_tournament(break_tournament)
+
+        payload = build_adjudicator_stats_payload(break_tournament)
+        rows = {row['name']: row for row in payload['adjudicators']}
+
+        self.assertEqual(rows['Target Judge']['total_count'], 1)
+        self.assertEqual(rows['Trainee Judge']['trainee_count'], 1)
+        self.assertEqual(rows['Trainee Judge']['total_count'], 0)
+
+    @override_settings(ADJUDICATOR_STATS_EXPORT_ENDPOINT='https://example.test/stats/', ADJUDICATOR_STATS_EXPORT_TOKEN='secret')
+    @patch('feedbackexport.services.urllib.request.urlopen')
+    def test_send_adjudicator_stats_event_posts_authorization_and_idempotency_headers(self, urlopen):
+        break_tournament = self._break_tournament()
+        BallotSubmission.objects.create(debate=self.debate, confirmed=True)
+        with self.captureOnCommitCallbacks(execute=True):
+            freeze_break_tournament(break_tournament)
+        event = queue_adjudicator_stats_export(break_tournament)
+        urlopen.return_value = FakeHTTPResponse(status=201)
+
+        send_adjudicator_stats_event(event)
+
+        request = urlopen.call_args.args[0]
+        self.assertEqual(request.headers['Authorization'], 'Bearer secret')
+        self.assertEqual(request.headers['Idempotency-key'], event.idempotency_key)
+        event.refresh_from_db()
+        self.assertEqual(event.status, AdjudicatorStatsExportEvent.Status.SENT)
