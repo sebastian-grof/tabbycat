@@ -26,13 +26,9 @@ class GlobalBreaksPermission(models.Model):
 
 
 class BreakSeason(models.Model):
-    class League(models.TextChoices):
-        SDL = 'SDL', _("Slovak Debate League")
-        JDL = 'JDL', _("Junior Debate League")
-
     name = models.CharField(max_length=100, verbose_name=_("name"))
     slug = models.SlugField(unique=True, verbose_name=_("slug"))
-    league = models.CharField(max_length=3, choices=League.choices, verbose_name=_("league"))
+    league = models.ForeignKey('BreakLeague', models.PROTECT, related_name='seasons', verbose_name=_("league"))
     regional_slots = models.PositiveSmallIntegerField(default=0, verbose_name=_("regional final slots"))
     invited_teams = models.PositiveSmallIntegerField(default=0, verbose_name=_("invited teams"))
     active = models.BooleanField(default=True, verbose_name=_("active"))
@@ -49,9 +45,25 @@ class BreakSeason(models.Model):
     def __str__(self):
         return self.name
 
+    def get_league_display(self):
+        return self.league.name
+
     @property
     def effective_regional_slots(self):
         return self.regional_slots + (1 if self.invited_teams % 2 else 0)
+
+
+class BreakLeague(models.Model):
+    name = models.CharField(max_length=80, unique=True, verbose_name=_("name"))
+    slug = models.SlugField(max_length=80, unique=True, verbose_name=_("slug"))
+
+    class Meta:
+        ordering = ['name']
+        verbose_name = _("break league")
+        verbose_name_plural = _("break leagues")
+
+    def __str__(self):
+        return self.name
 
 
 class BreakRegion(models.Model):

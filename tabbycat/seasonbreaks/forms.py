@@ -1,11 +1,14 @@
 from django import forms
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
+from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 
 from tournaments.models import Tournament
 
 from .models import (
     BreakAdjudicator,
+    BreakLeague,
     BreakRegion,
     BreakSeason,
     BreakSpeaker,
@@ -16,10 +19,29 @@ from .models import (
 )
 
 
+class BreakLeagueForm(forms.ModelForm):
+    slug = forms.SlugField(required=False)
+
+    class Meta:
+        model = BreakLeague
+        fields = ('name', 'slug')
+
+    def clean_slug(self):
+        slug = self.cleaned_data.get('slug') or slugify(self.cleaned_data.get('name', ''))
+        slug = slug[:80]
+        if not slug:
+            raise ValidationError(_("Enter a valid slug."))
+        return slug
+
+
 class BreakSeasonForm(forms.ModelForm):
     class Meta:
         model = BreakSeason
         fields = ('name', 'slug', 'league', 'regional_slots', 'invited_teams', 'active', 'public')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['league'].queryset = BreakLeague.objects.order_by('name')
 
 
 class BreakRegionForm(forms.ModelForm):

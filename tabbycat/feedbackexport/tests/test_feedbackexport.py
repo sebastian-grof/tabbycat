@@ -14,7 +14,7 @@ from draw.models import Debate, DebateTeam
 from participants.models import Adjudicator, Institution, Team
 from registration.models import Answer, Question
 from results.models import BallotSubmission, Submission
-from seasonbreaks.models import BreakRegion, BreakSeason, BreakTournament
+from seasonbreaks.models import BreakLeague, BreakRegion, BreakSeason, BreakTournament
 from seasonbreaks.services import freeze_break_tournament
 from tournaments.models import Round, Tournament
 
@@ -127,6 +127,17 @@ class FeedbackExportTestCase(TestCase):
         self.assertNotIn('private_url', payload)
         self.assertNotIn('submitter', payload)
 
+    def test_payload_contains_break_league_when_tournament_is_in_break_season(self):
+        profile = JudgeProfile.objects.create(name='Canonical Judge', primary_email='target@example.test', external_id='judge-1')
+        JudgeProfileLink.objects.create(profile=profile, adjudicator=self.adjudicator)
+        self._break_tournament()
+
+        payload = build_feedback_payload(self.feedback)
+
+        self.assertEqual(payload['tournament']['season'], '2025/2026')
+        self.assertEqual(payload['tournament']['league'], 'SDL')
+        self.assertEqual(payload['tournament']['league_slug'], 'sdl')
+
     def test_payload_contains_adjudicator_source(self):
         profile = JudgeProfile.objects.create(name='Canonical Judge', primary_email='target@example.test', external_id='judge-1')
         JudgeProfileLink.objects.create(profile=profile, adjudicator=self.adjudicator)
@@ -224,8 +235,9 @@ class FeedbackExportTestCase(TestCase):
         self.assertEqual(self.client.get(reverse('feedbackexport-index')).status_code, 200)
 
     def _break_tournament(self):
+        league = BreakLeague.objects.get(slug='sdl')
         season = BreakSeason.objects.create(
-            name='SDL 2025/2026', slug='sdl-2025-2026', league=BreakSeason.League.SDL,
+            name='SDL 2025/2026', slug='sdl-2025-2026', league=league,
         )
         region = BreakRegion.objects.create(season=season, name='West')
         return BreakTournament.objects.create(season=season, tournament=self.tournament, region=region)
@@ -242,7 +254,12 @@ class FeedbackExportTestCase(TestCase):
         event = AdjudicatorStatsExportEvent.objects.get(break_tournament=break_tournament)
         self.assertEqual(event.status, AdjudicatorStatsExportEvent.Status.PENDING)
         self.assertEqual(event.payload['season']['slug'], 'sdl-2025-2026')
+        self.assertEqual(event.payload['season']['league'], 'SDL')
+        self.assertEqual(event.payload['season']['league_slug'], 'sdl')
         self.assertEqual(event.payload['tournament']['id'], self.tournament.id)
+        self.assertEqual(event.payload['tournament']['season'], '2025/2026')
+        self.assertEqual(event.payload['break_tournament']['region']['name'], 'West')
+        self.assertEqual(event.payload['break_tournament']['region']['slug'], 'west')
         row = {row['name']: row for row in event.payload['adjudicators']}['Target Judge']
         self.assertEqual(row['judge_profile_id'], 'judge-1')
         self.assertEqual(row['local_adjudicator_id'], self.adjudicator.id)
@@ -266,6 +283,8 @@ class FeedbackExportTestCase(TestCase):
         payload = build_adjudicator_stats_payload(break_tournament)
         rows = {row['name']: row for row in payload['adjudicators']}
 
+        self.assertEqual(payload['season']['name'], 'SDL 2025/2026')
+        self.assertEqual(payload['tournament']['season'], '2025/2026')
         self.assertEqual(rows['Target Judge']['total_count'], 1)
         self.assertEqual(rows['Trainee Judge']['trainee_count'], 1)
         self.assertEqual(rows['Trainee Judge']['total_count'], 0)

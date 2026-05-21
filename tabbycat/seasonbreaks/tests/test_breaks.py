@@ -5,6 +5,7 @@ from django.urls import reverse
 from tournaments.models import Tournament
 
 from ..models import (
+    BreakLeague,
     BreakRegion,
     BreakSeason,
     BreakSpeaker,
@@ -39,10 +40,58 @@ class BreaksPermissionTests(TestCase):
         self.assertEqual(response.status_code, 200)
 
 
+class BreakLeagueManagementTests(TestCase):
+    def setUp(self):
+        self.user = get_user_model().objects.create_user(username='tab', password='pw')
+        GlobalBreaksPermission.objects.create(user=self.user, permission=BreaksPermission.VIEW)
+        GlobalBreaksPermission.objects.create(user=self.user, permission=BreaksPermission.EDIT)
+        self.client.force_login(self.user)
+
+    def test_can_create_league_from_break_management(self):
+        response = self.client.post(reverse('seasonbreaks-index'), {
+            'action': 'create_league',
+            'name': 'KSD',
+            'slug': '',
+        })
+
+        self.assertRedirects(response, reverse('seasonbreaks-index'))
+        self.assertTrue(BreakLeague.objects.filter(name='KSD', slug='ksd').exists())
+
+    def test_can_create_season_with_custom_league(self):
+        league = BreakLeague.objects.create(name='KSD', slug='ksd')
+
+        response = self.client.post(reverse('seasonbreaks-index'), {
+            'action': 'create_season',
+            'name': 'KSD 2026/2027',
+            'slug': 'ksd-2026-2027',
+            'league': league.id,
+            'regional_slots': 4,
+            'invited_teams': 0,
+            'active': 'on',
+        })
+
+        season = BreakSeason.objects.get(slug='ksd-2026-2027')
+        self.assertRedirects(response, reverse('seasonbreaks-season-overview', kwargs={'season_slug': season.slug}))
+        self.assertEqual(season.league, league)
+
+    def test_cannot_delete_league_with_seasons(self):
+        league = BreakLeague.objects.create(name='KSD', slug='ksd')
+        BreakSeason.objects.create(name='KSD 2026/2027', slug='ksd-2026-2027', league=league)
+
+        response = self.client.post(reverse('seasonbreaks-index'), {
+            'action': 'delete_league',
+            'league_id': league.id,
+        })
+
+        self.assertRedirects(response, reverse('seasonbreaks-index'))
+        self.assertTrue(BreakLeague.objects.filter(id=league.id).exists())
+
+
 class BreaksCalculationTests(TestCase):
     def setUp(self):
+        self.league = BreakLeague.objects.get(slug='sdl')
         self.season = BreakSeason.objects.create(
-            name='SDL 2025/26', slug='sdl-2025', league=BreakSeason.League.SDL,
+            name='SDL 2025/26', slug='sdl-2025', league=self.league,
             regional_slots=3, invited_teams=1,
         )
         self.west = BreakRegion.objects.create(season=self.season, name='West', seq=1)

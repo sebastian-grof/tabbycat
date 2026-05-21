@@ -2,6 +2,7 @@ from collections import defaultdict
 
 from django.contrib import messages
 from django.contrib.auth.mixins import UserPassesTestMixin
+from django.db.models.deletion import ProtectedError
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
@@ -10,6 +11,7 @@ from django.views.generic import TemplateView
 
 from .forms import (
     BreakAdjudicatorForm,
+    BreakLeagueForm,
     BreakRegionForm,
     BreakSeasonForm,
     BreakSpeakerForm,
@@ -21,6 +23,7 @@ from .models import (
     BreakAdjudicator,
     BreakAdjudicatorLink,
     BreakAdjudicatorTournamentStats,
+    BreakLeague,
     BreaksPermission,
     BreakRegion,
     BreakSeason,
@@ -131,13 +134,42 @@ class BreaksIndexView(BreaksPermissionMixin, TemplateView):
     template_name = 'seasonbreaks/index.html'
 
     def get_context_data(self, **kwargs):
-        kwargs['seasons'] = BreakSeason.objects.all()
+        kwargs['leagues'] = BreakLeague.objects.prefetch_related('seasons').all()
+        kwargs['seasons'] = BreakSeason.objects.select_related('league')
         kwargs['season_form'] = kwargs.get('season_form') or BreakSeasonForm()
+        kwargs['league_form'] = kwargs.get('league_form') or BreakLeagueForm()
+        kwargs['edited_league_id'] = kwargs.get('edited_league_id')
         return super().get_context_data(**kwargs)
 
     def post(self, request, *args, **kwargs):
         if not has_breaks_permission(request.user, BreaksPermission.EDIT):
             return self.handle_no_permission()
+        action = request.POST.get('action', 'create_season')
+        if action == 'create_league':
+            form = BreakLeagueForm(request.POST)
+            if form.is_valid():
+                league = form.save()
+                messages.success(request, _("Break league %(league)s was created.") % {'league': league})
+                return redirect('seasonbreaks-index')
+            return self.render_to_response(self.get_context_data(league_form=form))
+        if action == 'update_league':
+            league = get_object_or_404(BreakLeague, pk=request.POST.get('league_id'))
+            form = BreakLeagueForm(request.POST, instance=league)
+            if form.is_valid():
+                league = form.save()
+                messages.success(request, _("Break league %(league)s was updated.") % {'league': league})
+                return redirect('seasonbreaks-index')
+            return self.render_to_response(self.get_context_data(league_form=form, edited_league_id=league.id))
+        if action == 'delete_league':
+            league = get_object_or_404(BreakLeague, pk=request.POST.get('league_id'))
+            label = str(league)
+            try:
+                league.delete()
+            except ProtectedError:
+                messages.error(request, _("Break league %(league)s cannot be deleted because it still has seasons.") % {'league': label})
+                return redirect('seasonbreaks-index')
+            messages.success(request, _("Break league %(league)s was deleted.") % {'league': label})
+            return redirect('seasonbreaks-index')
         form = BreakSeasonForm(request.POST)
         if form.is_valid():
             season = form.save()
@@ -181,7 +213,7 @@ class PublicBreaksIndexView(TemplateView):
         kwargs['seasons'] = BreakSeason.objects.filter(
             public=True,
             public_snapshot__isnull=False,
-        ).order_by('-public_published_at', 'name')
+        ).select_related('league').order_by('-public_published_at', 'name')
         return super().get_context_data(**kwargs)
 
 

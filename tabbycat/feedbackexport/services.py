@@ -1,6 +1,7 @@
 import hashlib
 import json
 import logging
+import re
 import urllib.error
 import urllib.request
 from datetime import timedelta
@@ -10,6 +11,7 @@ from channels.layers import get_channel_layer
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
+from django.utils.text import slugify
 from django.utils import timezone
 
 from adjfeedback.models import AdjudicatorFeedback
@@ -21,6 +23,7 @@ logger = logging.getLogger(__name__)
 SOURCE_SYSTEM = 'tabbycat-sda'
 DEFAULT_TIMEOUT = 10
 MAX_ATTEMPTS = 8
+SEASON_LABEL_RE = re.compile(r'(20\d{2})\s*[/-]\s*(20\d{2})')
 
 
 class FeedbackExportError(RuntimeError):
@@ -193,17 +196,24 @@ def timestamp_payload(value):
     return value.isoformat() if value else None
 
 
-def tournament_season_payload(tournament):
+def season_catalog_label(season):
+    if not season:
+        return None
+    for value in (season.name, season.slug):
+        match = SEASON_LABEL_RE.search(value or '')
+        if match:
+            return '%s/%s' % match.groups()
+    return season.name
+
+
+def tournament_break_season(tournament):
     try:
-        break_tournament = tournament.break_tournaments.select_related('season').order_by(
+        return tournament.break_tournaments.select_related('season', 'season__league').order_by(
             '-season__active', '-season__created_at',
         ).first()
     except Exception:
         logger.exception('Could not resolve feedback export season for tournament %s', tournament.id)
         return None
-    if not break_tournament:
-        return None
-    return break_tournament.season.name
 
 
 def build_feedback_payload(feedback):
@@ -218,6 +228,8 @@ def build_feedback_payload(feedback):
     debate = feedback.debate
     round_ = debate.round
     tournament = round_.tournament
+    break_tournament = tournament_break_season(tournament)
+    break_season = break_tournament.season if break_tournament else None
     debate_adjudicator = feedback.debate_adjudicator
     feedback_affects_scores = tournament.pref('feedback_affects_adjudicator_scores')
 
@@ -239,7 +251,9 @@ def build_feedback_payload(feedback):
             'slug': tournament.slug,
             'name': tournament.name,
             'short_name': tournament.short_name,
-            'season': tournament_season_payload(tournament),
+            'season': season_catalog_label(break_season),
+            'league': break_season.league.name if break_season else None,
+            'league_slug': break_season.league.slug if break_season else None,
         },
         'round': {
             'seq': round_.seq,
@@ -285,11 +299,11 @@ def build_adjudicator_stats_payload(break_tournament, *, idempotency_key=None):
 
     if not isinstance(break_tournament, BreakTournament):
         break_tournament = BreakTournament.objects.select_related(
-            'season', 'tournament',
+            'season', 'season__league', 'tournament', 'region',
         ).get(pk=break_tournament)
     else:
         break_tournament = BreakTournament.objects.select_related(
-            'season', 'tournament',
+            'season', 'season__league', 'tournament', 'region',
         ).get(pk=break_tournament.pk)
 
     season = break_tournament.season
@@ -327,19 +341,25 @@ def build_adjudicator_stats_payload(break_tournament, *, idempotency_key=None):
             'id': season.id,
             'slug': season.slug,
             'name': season.name,
-            'league': season.league,
+            'league': season.league.name,
+            'league_slug': season.league.slug,
         },
         'tournament': {
             'id': tournament.id,
             'slug': tournament.slug,
             'name': tournament.name,
             'short_name': tournament.short_name,
-            'season': season.name,
+            'season': season_catalog_label(season),
         },
         'break_tournament': {
             'id': break_tournament.id,
             'counts_for_break': break_tournament.counts_for_break,
             'frozen_at': timestamp_payload(break_tournament.frozen_at),
+            'region': {
+                'id': break_tournament.region_id,
+                'name': break_tournament.region.name,
+                'slug': slugify(break_tournament.region.name),
+            } if break_tournament.region_id else None,
         },
         'adjudicators': adjudicators,
     }

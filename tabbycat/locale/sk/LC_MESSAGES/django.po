@@ -2233,6 +2233,56 @@ msgstr "%(slots)s slotov · %(participations)s účastí"
 msgid "No regions were published in this snapshot."
 msgstr "V tomto zverejnení neboli publikované žiadne regióny."
 
+#: manually-added-sda-break-leagues
+msgid "Break leagues"
+msgstr "Ligy"
+
+#: manually-added-sda-break-leagues
+msgid "Add league"
+msgstr "Pridať ligu"
+
+#: manually-added-sda-break-leagues
+msgid "No break leagues have been created yet."
+msgstr "Zatiaľ neboli vytvorené žiadne ligy."
+
+#: manually-added-sda-break-leagues
+msgid "Create break season"
+msgstr "Vytvoriť postupovú sezónu"
+
+#: manually-added-sda-break-leagues
+#, python-format
+msgid "%(league)s · %(slots)s regional slots"
+msgstr "%(league)s · %(slots)s regionálnych slotov"
+
+#: manually-added-sda-break-leagues
+#, python-format
+msgid "%(count)s season"
+msgid_plural "%(count)s seasons"
+msgstr[0] "%(count)s sezóna"
+msgstr[1] "%(count)s sezóny"
+msgstr[2] "%(count)s sezón"
+msgstr[3] "%(count)s sezóny"
+
+#: manually-added-sda-break-leagues
+#, python-format
+msgid "Break league %(league)s was created."
+msgstr "Liga %(league)s bola vytvorená."
+
+#: manually-added-sda-break-leagues
+#, python-format
+msgid "Break league %(league)s was updated."
+msgstr "Liga %(league)s bola upravená."
+
+#: manually-added-sda-break-leagues
+#, python-format
+msgid "Break league %(league)s cannot be deleted because it still has seasons."
+msgstr "Ligu %(league)s nemožno odstrániť, pretože má priradené sezóny."
+
+#: manually-added-sda-break-leagues
+#, python-format
+msgid "Break league %(league)s was deleted."
+msgstr "Liga %(league)s bola odstránená."
+
 #: manually-added-sda-public-breaks
 msgid "Global ranking"
 msgstr "Globálne poradie"

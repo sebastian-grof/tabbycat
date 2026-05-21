@@ -15,6 +15,13 @@ class BreakRegionInline(admin.TabularInline):
     extra = 0
 
 
+@admin.register(models.BreakLeague)
+class BreakLeagueAdmin(admin.ModelAdmin):
+    list_display = ('name', 'slug')
+    search_fields = ('name', 'slug')
+    prepopulated_fields = {'slug': ('name',)}
+
+
 @admin.register(models.BreakSeason)
 class BreakSeasonAdmin(admin.ModelAdmin):
     list_display = ('name', 'league', 'regional_slots', 'invited_teams', 'effective_regional_slots', 'active')
