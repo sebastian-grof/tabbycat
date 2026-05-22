@@ -19,14 +19,6 @@
 {% block extra-css %}
   {{ block.super }}
   <style>
-    .site-tools-lead {
-      color: #6c757d;
-      font-size: 1.05rem;
-      line-height: 1.5;
-      margin: 0 0 1.5rem;
-      max-width: 760px;
-    }
-
     .site-tools-grid {
       align-items: start;
       display: grid;
@@ -124,10 +116,6 @@
 {% endblock %}
 
 {% block content %}
-  <p class="site-tools-lead">
-    {% trans "One home for site-wide tools outside a tournament: tournaments, imports, breaks, exports and operations." %}
-  </p>
-
   <section class="site-tools-grid">
     {% if user.is_superuser %}
       <section class="site-tools-group">

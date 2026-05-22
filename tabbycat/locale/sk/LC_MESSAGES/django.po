@@ -2374,10 +2374,6 @@ msgid "Tournaments, imports, breaks, exports and operations"
 msgstr "Turnaje, importy, postupy, exporty a prevádzka"
 
 #: manually-added-sda-management-hubs
-msgid "One home for site-wide tools outside a tournament: tournaments, imports, breaks, exports and operations."
-msgstr "Jedno miesto pre webové utility mimo konkrétneho turnaja: turnaje, importy, postupy, exporty a prevádzku."
-
-#: manually-added-sda-management-hubs
 msgid "Tournaments"
 msgstr "Turnaje"
 
@@ -2509,10 +2505,6 @@ msgstr "Prístupy"
 #: manually-added-sda-break-management-v2
 msgid "All"
 msgstr "Všetko"
-
-#: manually-added-sda-break-management-v2
-msgid "Seasons are the main workspace. Leagues are filters and export metadata."
-msgstr "Sezóny sú hlavný pracovný priestor. Ligy slúžia iba ako filter a metadáta pre exporty."
 
 #: manually-added-sda-break-management-v2
 msgid "Season overview"
