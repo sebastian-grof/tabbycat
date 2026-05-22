@@ -2334,3 +2334,25 @@ msgstr "Sezóny"
 #: manually-added-sda-break-leagues-compact
 msgid "Actions"
 msgstr "Akcie"
+
+#: manually-added-sda-break-season-delete
+msgid "Delete season"
+msgstr "Odstrániť sezónu"
+
+#: manually-added-sda-break-season-delete
+msgid "This permanently deletes the break season, its regions, frozen tournament snapshots, identities, rankings and public snapshot."
+msgstr "Toto natrvalo odstráni postupovú sezónu, jej regióny, zmrazené snapshoty turnajov, identity, poradia a verejný snapshot."
+
+#: manually-added-sda-break-season-delete
+msgid "Delete this break season permanently?"
+msgstr "Natrvalo odstrániť túto postupovú sezónu?"
+
+#: manually-added-sda-break-season-delete
+#, python-format
+msgid "Break season %(season)s cannot be deleted because it still has protected data."
+msgstr "Postupovú sezónu %(season)s nemožno odstrániť, pretože stále obsahuje chránené dáta."
+
+#: manually-added-sda-break-season-delete
+#, python-format
+msgid "Break season %(season)s was deleted."
+msgstr "Postupová sezóna %(season)s bola odstránená."

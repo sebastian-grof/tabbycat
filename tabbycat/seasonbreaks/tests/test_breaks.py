@@ -86,6 +86,22 @@ class BreakLeagueManagementTests(TestCase):
         self.assertRedirects(response, reverse('seasonbreaks-index'))
         self.assertTrue(BreakLeague.objects.filter(id=league.id).exists())
 
+    def test_can_delete_season_from_overview(self):
+        league = BreakLeague.objects.create(name='KSD', slug='ksd')
+        season = BreakSeason.objects.create(name='KSD 2026/2027', slug='ksd-2026-2027', league=league)
+        region = BreakRegion.objects.create(season=season, name='West')
+        tournament = Tournament.objects.create(name='West 1', short_name='W1', slug='w1')
+        BreakTournament.objects.create(season=season, tournament=tournament, region=region)
+
+        response = self.client.post(reverse('seasonbreaks-season-overview', kwargs={'season_slug': season.slug}), {
+            'action': 'delete_season',
+        })
+
+        self.assertRedirects(response, reverse('seasonbreaks-index'))
+        self.assertFalse(BreakSeason.objects.filter(id=season.id).exists())
+        self.assertFalse(BreakRegion.objects.filter(id=region.id).exists())
+        self.assertFalse(BreakTournament.objects.filter(tournament=tournament).exists())
+
 
 class BreaksCalculationTests(TestCase):
     def setUp(self):

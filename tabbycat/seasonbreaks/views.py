@@ -195,6 +195,20 @@ class SeasonOverviewView(SeasonMixin, TemplateView):
             publish_public_breaks_snapshot(self.season)
             messages.success(request, _("Public Breaks snapshot was published."))
             return redirect('seasonbreaks-season-overview', season_slug=self.season.slug)
+        if request.POST.get('action') == 'delete_season':
+            label = str(self.season)
+            try:
+                # BreakTournament.region is protected, so remove tournaments first
+                # before cascading through the season's regions and identities.
+                self.season.break_tournaments.all().delete()
+                self.season.delete()
+            except ProtectedError:
+                messages.error(request, _("Break season %(season)s cannot be deleted because it still has protected data.") % {
+                    'season': label,
+                })
+                return redirect('seasonbreaks-season-overview', season_slug=self.season.slug)
+            messages.success(request, _("Break season %(season)s was deleted.") % {'season': label})
+            return redirect('seasonbreaks-index')
         form = BreakSeasonForm(request.POST, instance=self.season)
         if form.is_valid():
             season = form.save()
