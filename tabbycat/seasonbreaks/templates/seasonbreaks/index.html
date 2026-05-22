@@ -4,57 +4,79 @@
 {% block standalone_content %}
   {% if can_edit_breaks %}
     <div class="card mb-3">
-      <div class="card-header">
-        <h4 class="mb-0">{% trans "Break leagues" %}</h4>
+      <div class="card-header d-flex align-items-center justify-content-between py-2">
+        <div>
+          <h5 class="mb-0">{% trans "Break leagues" %}</h5>
+          <small class="text-muted">{% trans "Manage the league labels used by break seasons and exports." %}</small>
+        </div>
+        <button class="btn btn-outline-secondary btn-sm" type="button" data-toggle="collapse"
+            data-target="#breakLeaguesPanel" aria-expanded="{% if league_form.errors or edited_league_id %}true{% else %}false{% endif %}"
+            aria-controls="breakLeaguesPanel">
+          {% trans "Manage leagues" %}
+        </button>
       </div>
-      <div class="card-body">
-        <form method="post" class="form-row align-items-end">
-          {% csrf_token %}
-          <input type="hidden" name="action" value="create_league">
-          {% include "components/form-field.html" with field=league_form.name double=True %}
-          {% include "components/form-field.html" with field=league_form.slug double=True %}
-          <div class="col-12 col-md-2">
-            <button type="submit" class="btn btn-primary btn-block">{% trans "Add league" %}</button>
-          </div>
-        </form>
-      </div>
-      <div class="list-group list-group-flush">
+      <div id="breakLeaguesPanel" class="collapse {% if league_form.errors or edited_league_id %}show{% endif %}">
+        <div class="card-body py-2">
+          <form method="post" class="form-row align-items-end">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="create_league">
+            {% include "components/form-field.html" with field=league_form.name double=True %}
+            {% include "components/form-field.html" with field=league_form.slug double=True %}
+            <div class="col-12 col-md-2">
+              <button type="submit" class="btn btn-primary btn-block">{% trans "Add league" %}</button>
+            </div>
+          </form>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-sm mb-0">
+            <thead>
+              <tr>
+                <th>{% trans "Name" %}</th>
+                <th>{% trans "Slug" %}</th>
+                <th>{% trans "Seasons" %}</th>
+                <th class="text-right">{% trans "Actions" %}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for league in leagues %}
+                <tr>
+                  <td>
+                    <form id="update-league-{{ league.id }}" method="post" class="mb-0">
+                      {% csrf_token %}
+                      <input type="hidden" name="action" value="update_league">
+                      <input type="hidden" name="league_id" value="{{ league.id }}">
+                      <input id="league-name-{{ league.id }}" type="text" name="name" value="{{ league.name }}" maxlength="80" class="form-control form-control-sm" required aria-label="{% trans 'Name' %}">
+                    </form>
+                  </td>
+                  <td>
+                    <input form="update-league-{{ league.id }}" id="league-slug-{{ league.id }}" type="text" name="slug" value="{{ league.slug }}" maxlength="80" class="form-control form-control-sm" aria-label="{% trans 'Slug' %}">
+                  </td>
+                  <td class="text-muted align-middle">
+                    {% blocktrans trimmed count count=league.seasons.count %}
+                      {{ count }} season
+                    {% plural %}
+                      {{ count }} seasons
+                    {% endblocktrans %}
+                  </td>
+                  <td class="text-right text-nowrap align-middle">
+                    <button type="submit" form="update-league-{{ league.id }}" class="btn btn-outline-primary btn-sm">{% trans "Save" %}</button>
+                    <button type="submit" form="delete-league-{{ league.id }}" class="btn btn-outline-danger btn-sm">{% trans "Delete" %}</button>
+                  </td>
+                </tr>
+              {% empty %}
+                <tr>
+                  <td colspan="4" class="text-muted">{% trans "No break leagues have been created yet." %}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
         {% for league in leagues %}
-          <div class="list-group-item">
-            <form method="post" class="form-row align-items-end">
-              {% csrf_token %}
-              <input type="hidden" name="action" value="update_league">
-              <input type="hidden" name="league_id" value="{{ league.id }}">
-              <div class="col-12 col-md-4">
-                <label for="league-name-{{ league.id }}">{% trans "Name" %}</label>
-                <input id="league-name-{{ league.id }}" type="text" name="name" value="{{ league.name }}" maxlength="80" class="form-control" required>
-              </div>
-              <div class="col-12 col-md-4">
-                <label for="league-slug-{{ league.id }}">{% trans "Slug" %}</label>
-                <input id="league-slug-{{ league.id }}" type="text" name="slug" value="{{ league.slug }}" maxlength="80" class="form-control">
-              </div>
-              <div class="col-6 col-md-2">
-                <button type="submit" class="btn btn-outline-primary btn-block">{% trans "Save" %}</button>
-              </div>
-              <div class="col-6 col-md-2">
-                <button type="submit" form="delete-league-{{ league.id }}" class="btn btn-outline-danger btn-block">{% trans "Delete" %}</button>
-              </div>
-              <div class="col-12 text-muted small mt-2">
-                {% blocktrans trimmed count count=league.seasons.count %}
-                  {{ count }} season
-                {% plural %}
-                  {{ count }} seasons
-                {% endblocktrans %}
-              </div>
-            </form>
-            <form id="delete-league-{{ league.id }}" method="post">
-              {% csrf_token %}
-              <input type="hidden" name="action" value="delete_league">
-              <input type="hidden" name="league_id" value="{{ league.id }}">
-            </form>
-          </div>
-        {% empty %}
-          <div class="list-group-item text-muted">{% trans "No break leagues have been created yet." %}</div>
+          <form id="delete-league-{{ league.id }}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="delete_league">
+            <input type="hidden" name="league_id" value="{{ league.id }}">
+          </form>
         {% endfor %}
       </div>
     </div>

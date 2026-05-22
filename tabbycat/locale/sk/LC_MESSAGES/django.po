@@ -2318,3 +2318,19 @@ msgstr "Účasti"
 #: manually-added-sda-public-breaks
 msgid "No ranking rows were published in this snapshot."
 msgstr "V tomto zverejnení neboli publikované žiadne riadky poradia."
+
+#: manually-added-sda-break-leagues-compact
+msgid "Manage the league labels used by break seasons and exports."
+msgstr "Spravuj označenia líg používané v postupových sezónach a exportoch."
+
+#: manually-added-sda-break-leagues-compact
+msgid "Manage leagues"
+msgstr "Spravovať ligy"
+
+#: manually-added-sda-break-leagues-compact
+msgid "Seasons"
+msgstr "Sezóny"
+
+#: manually-added-sda-break-leagues-compact
+msgid "Actions"
+msgstr "Akcie"
