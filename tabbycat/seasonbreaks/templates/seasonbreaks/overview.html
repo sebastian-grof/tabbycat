@@ -3,134 +3,128 @@
 
 {% block season_content %}
   <section class="breaks-page-header">
-    <h3 class="breaks-page-title">{{ season.name }}</h3>
-    <p class="breaks-page-subtitle">
-      {% blocktrans trimmed with league=season.get_league_display %}
-        {{ league }} qualification state, frozen tournament data and current regional allocation in one place.
-      {% endblocktrans %}
-    </p>
+    <div>
+      <h3 class="breaks-page-title">{% trans "Season overview" %}</h3>
+      <p class="breaks-page-subtitle">
+        {% blocktrans trimmed with league=season.get_league_display %}
+          A calm summary of the {{ league }} season: structure, frozen data, quotas and public snapshot.
+        {% endblocktrans %}
+      </p>
+    </div>
   </section>
 
-  <div class="breaks-stat-grid">
-    <div class="breaks-stat-card">
-      <div class="breaks-stat-value">{{ summary.regions }}</div>
-      <div class="breaks-stat-label">{% trans "Regions mapped" %}</div>
-    </div>
-    <div class="breaks-stat-card">
-      <div class="breaks-stat-value">{{ summary.league_tournaments }}</div>
-      <div class="breaks-stat-label">{% trans "League tournaments" %}</div>
-    </div>
-    <div class="breaks-stat-card">
-      <div class="breaks-stat-value">{{ summary.nonleague_tournaments }}</div>
-      <div class="breaks-stat-label">{% trans "Non-league tournaments" %}</div>
-    </div>
-    <div class="breaks-stat-card">
-      <div class="breaks-stat-value">{{ summary.frozen_tournaments }}</div>
-      <div class="breaks-stat-label">{% trans "Snapshots frozen" %}</div>
-    </div>
-    <div class="breaks-stat-card">
-      <div class="breaks-stat-value">{{ summary.teams }}</div>
-      <div class="breaks-stat-label">{% trans "Season teams" %}</div>
-    </div>
-    <div class="breaks-stat-card">
-      <div class="breaks-stat-value">{{ summary.speakers }}</div>
-      <div class="breaks-stat-label">{% trans "Speaker identities" %}</div>
-    </div>
-    <div class="breaks-stat-card">
-      <div class="breaks-stat-value">{{ summary.adjudicators }}</div>
-      <div class="breaks-stat-label">{% trans "Adjudicator identities" %}</div>
-    </div>
-  </div>
+  <section class="breaks-summary-grid" aria-label="{% trans 'Season summary' %}">
+    <article class="breaks-summary-card">
+      <h4>{% trans "Structure" %}</h4>
+      <dl class="breaks-summary-list">
+        <div><dt>{% trans "Regions" %}</dt><dd>{{ summary.regions }}</dd></div>
+        <div><dt>{% trans "Regional slots" %}</dt><dd>{{ season.effective_regional_slots }}</dd></div>
+        <div><dt>{% trans "Invited teams" %}</dt><dd>{{ season.invited_teams }}</dd></div>
+      </dl>
+    </article>
+    <article class="breaks-summary-card">
+      <h4>{% trans "Snapshots" %}</h4>
+      <dl class="breaks-summary-list">
+        <div><dt>{% trans "League tournaments" %}</dt><dd>{{ summary.league_tournaments }}</dd></div>
+        <div><dt>{% trans "Non-league tournaments" %}</dt><dd>{{ summary.nonleague_tournaments }}</dd></div>
+        <div><dt>{% trans "Frozen" %}</dt><dd>{{ summary.frozen_tournaments }}</dd></div>
+      </dl>
+    </article>
+    <article class="breaks-summary-card">
+      <h4>{% trans "Identities" %}</h4>
+      <dl class="breaks-summary-list">
+        <div><dt>{% trans "Teams" %}</dt><dd>{{ summary.teams }}</dd></div>
+        <div><dt>{% trans "Speakers" %}</dt><dd>{{ summary.speakers }}</dd></div>
+        <div><dt>{% trans "Adjudicators" %}</dt><dd>{{ summary.adjudicators }}</dd></div>
+      </dl>
+    </article>
+  </section>
 
-  <div class="card">
-    <div class="card-header d-flex justify-content-between align-items-center">
-      <h4 class="mb-0">{% trans "Quota overview" %}</h4>
-      <span class="badge badge-light">{% trans "Largest remainder" %}</span>
-    </div>
-    <table class="table table-sm mb-0">
-      <thead><tr><th>{% trans "Region" %}</th><th>{% trans "Participations" %}</th><th>{% trans "Allocated slots" %}</th></tr></thead>
-      <tbody>
-        {% for quota in quotas %}
-          <tr><td>{{ quota.region.name }}</td><td>{{ quota.participations }}</td><td>{{ quota.allocated }}</td></tr>
-        {% empty %}
-          <tr><td colspan="3" class="text-muted">{% trans "Add regions and tournaments to calculate quotas." %}</td></tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
-
-  {% if can_edit_breaks %}
-    <div class="card mt-3">
+  <section class="breaks-grid-two">
+    <div class="card">
       <div class="card-header d-flex justify-content-between align-items-center">
-        <h4 class="mb-0">{% trans "Public Breaks snapshot" %}</h4>
-        {% if season.public %}
-          <span class="badge badge-success">{% trans "Public season" %}</span>
-        {% else %}
-          <span class="badge badge-secondary">{% trans "Hidden season" %}</span>
-        {% endif %}
+        <h4 class="mb-0">{% trans "Region quotas" %}</h4>
+        <span class="breaks-badge">{% trans "Largest remainder" %}</span>
       </div>
-      <div class="card-body">
-        <p class="text-muted">
-          {% trans "Public Breaks pages use a manually published snapshot. Live changes to teams, tournaments, regions or results will not appear publicly until this snapshot is published again." %}
-        </p>
-        <p class="mb-3">
-          <strong>{% trans "Last published:" %}</strong>
-          {% if season.public_published_at %}
-            {{ season.public_published_at }}
-          {% else %}
-            <span class="text-muted">{% trans "Never" %}</span>
-          {% endif %}
-        </p>
-        <form method="post">
-          {% csrf_token %}
-          <input type="hidden" name="action" value="publish_public_snapshot">
-          <button type="submit" class="btn btn-primary">{% trans "Publish public Breaks snapshot" %}</button>
-        </form>
-      </div>
+      <table class="table table-sm mb-0">
+        <thead><tr><th>{% trans "Region" %}</th><th>{% trans "Participations" %}</th><th>{% trans "Slots" %}</th></tr></thead>
+        <tbody>
+          {% for quota in quotas %}
+            <tr><td>{{ quota.region.name }}</td><td>{{ quota.participations }}</td><td><strong>{{ quota.allocated }}</strong></td></tr>
+          {% empty %}
+            <tr><td colspan="3" class="text-muted">{% trans "Add regions and tournaments before calculating quotas." %}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
-  {% endif %}
+
+    {% if can_edit_breaks %}
+      <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h4 class="mb-0">{% trans "Public snapshot" %}</h4>
+          {% if season.public %}
+            <span class="breaks-badge breaks-badge-success">{% trans "Public season" %}</span>
+          {% else %}
+            <span class="breaks-badge">{% trans "Hidden season" %}</span>
+          {% endif %}
+        </div>
+        <div class="card-body">
+          <p class="text-muted mb-3">
+            {% trans "Public Breaks use a manually published snapshot. Live changes appear only after a new publish." %}
+          </p>
+          <p class="mb-4">
+            <strong>{% trans "Last published:" %}</strong>
+            {% if season.public_published_at %}
+              {{ season.public_published_at }}
+            {% else %}
+              <span class="text-muted">{% trans "Never" %}</span>
+            {% endif %}
+          </p>
+          <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="publish_public_snapshot">
+            <button type="submit" class="btn btn-primary">{% trans "Publish public snapshot" %}</button>
+          </form>
+        </div>
+      </div>
+    {% endif %}
+  </section>
 
   {% if can_edit_breaks %}
-    <div class="card mt-3">
-      <div class="card-header">
-        <h4 class="mb-0">{% trans "Season settings" %}</h4>
-      </div>
-      <form method="post" class="card-body">
+    <details id="season-settings" class="breaks-drawer-panel breaks-settings-panel" {% if season_form.errors %}open{% endif %}>
+      <summary>
+        <span>{% trans "Season settings" %}</span>
+        <small>{% trans "Public visibility, name, league, slots and dangerous actions" %}</small>
+      </summary>
+      <form method="post" class="breaks-relaxed-form">
         {% csrf_token %}
-        <div class="form-row">
-          {% include "components/form-field.html" with field=season_form.name double=True %}
-          {% include "components/form-field.html" with field=season_form.slug double=True %}
-          {% include "components/form-field.html" with field=season_form.league triple=True %}
-          {% include "components/form-field.html" with field=season_form.regional_slots triple=True %}
-          {% include "components/form-field.html" with field=season_form.invited_teams triple=True %}
-          <div class="col-12">
-            {{ season_form.active }}
-            <label for="{{ season_form.active.id_for_label }}">{{ season_form.active.label }}</label>
-          </div>
-          <div class="col-12">
-            {{ season_form.public }}
-            <label for="{{ season_form.public.id_for_label }}">{{ season_form.public.label }}</label>
+        <div class="breaks-form-grid">
+          {% include "components/form-field.html" with field=season_form.name %}
+          {% include "components/form-field.html" with field=season_form.slug %}
+          {% include "components/form-field.html" with field=season_form.league %}
+          {% include "components/form-field.html" with field=season_form.regional_slots %}
+          {% include "components/form-field.html" with field=season_form.invited_teams %}
+          <div class="breaks-checkbox-stack">
+            <label>{{ season_form.active }} {{ season_form.active.label }}</label>
+            <label>{{ season_form.public }} {{ season_form.public.label }}</label>
           </div>
         </div>
-        <button type="submit" class="btn btn-primary">{% trans "Save settings" %}</button>
+        <div class="breaks-form-actions">
+          <button type="submit" class="btn btn-primary">{% trans "Save settings" %}</button>
+        </div>
       </form>
-    </div>
-
-    <div class="card mt-3 border-danger">
-      <div class="card-header bg-danger text-white">
-        <h4 class="mb-0">{% trans "Delete season" %}</h4>
+      <div class="breaks-relaxed-form">
+        <div class="breaks-danger-block">
+          <h4>{% trans "Delete season" %}</h4>
+          <p>{% trans "This permanently deletes the break season, its regions, frozen tournament snapshots, identities, rankings and public snapshot." %}</p>
+          {% trans "Delete this break season permanently?" as delete_confirm %}
+          <form method="post" onsubmit="return confirm('{{ delete_confirm|escapejs }}')">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="delete_season">
+            <button type="submit" class="btn btn-outline-danger">{% trans "Delete season" %}</button>
+          </form>
+        </div>
       </div>
-      <div class="card-body">
-        <p class="text-muted">
-          {% trans "This permanently deletes the break season, its regions, frozen tournament snapshots, identities, rankings and public snapshot." %}
-        </p>
-        {% trans "Delete this break season permanently?" as delete_confirm %}
-        <form method="post" onsubmit="return confirm('{{ delete_confirm|escapejs }}')">
-          {% csrf_token %}
-          <input type="hidden" name="action" value="delete_season">
-          <button type="submit" class="btn btn-outline-danger">{% trans "Delete season" %}</button>
-        </form>
-      </div>
-    </div>
+    </details>
   {% endif %}
 {% endblock %}

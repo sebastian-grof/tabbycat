@@ -18,10 +18,12 @@ from django.views.generic.edit import CreateView, FormView, UpdateView
 from actionlog.mixins import LogActionMixin
 from actionlog.models import ActionLogEntry
 from draw.models import Debate
+from feedbackexport.permissions import can_view_feedback_export
 from notifications.models import BulkNotification
 from results.models import BallotSubmission
 from results.prefetch import populate_confirmed_ballots
 from seasonbreaks.models import BreakSeason
+from seasonbreaks.permissions import can_view_breaks
 from tournaments.models import Round
 from users.permissions import has_admin_access, has_permission, Permission
 from utils.misc import redirect_round, redirect_tournament, reverse_round, reverse_tournament
@@ -29,6 +31,7 @@ from utils.mixins import (AdministratorMixin, AssistantMixin, CacheMixin, Tabbyc
                           WarnAboutDatabaseUseMixin, WarnAboutLegacySendgridConfigVarsMixin)
 from utils.tables import TabbycatTableBuilder
 from utils.views import ModelFormSetView, PostOnlyRedirectView, VueTableTemplateView
+from xmlconverter.permissions import can_use_converter
 
 from .forms import (RoundWeightForm, ScheduleEventForm, SetCurrentRoundMultipleBreakCategoriesForm,
                     SetCurrentRoundSingleBreakCategoryForm, TournamentCategoryAssignmentForm,
@@ -96,6 +99,27 @@ class PublicSiteIndexView(WarnAboutDatabaseUseMixin, WarnAboutLegacySendgridConf
             public=True,
             public_snapshot__isnull=False,
         ).exists()
+        return super().get_context_data(**kwargs)
+
+
+class SiteToolsView(UserPassesTestMixin, WarnAboutDatabaseUseMixin, WarnAboutLegacySendgridConfigVarsMixin,
+        TemplateView):
+    template_name = 'site_tools.html'
+    page_title = _('Site tools')
+    page_emoji = '🛠'
+
+    def test_func(self):
+        user = self.request.user
+        return (
+            user.is_superuser
+            or can_view_breaks(user)
+            or can_view_feedback_export(user)
+            or can_use_converter(user)
+        )
+
+    def get_context_data(self, **kwargs):
+        kwargs.setdefault('page_title', self.page_title)
+        kwargs.setdefault('page_emoji', self.page_emoji)
         return super().get_context_data(**kwargs)
 
 

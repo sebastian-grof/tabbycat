@@ -2356,3 +2356,322 @@ msgstr "Postupovú sezónu %(season)s nemožno odstrániť, pretože stále obsa
 #, python-format
 msgid "Break season %(season)s was deleted."
 msgstr "Postupová sezóna %(season)s bola odstránená."
+
+#: manually-added-sda-management-hubs
+msgid "Site tools"
+msgstr "Správa webu"
+
+#: manually-added-sda-management-hubs
+msgid "Return to Site Home"
+msgstr "Späť na homepage"
+
+#: manually-added-sda-management-hubs
+msgid "Return to Site Tools"
+msgstr "Späť do Správy webu"
+
+#: manually-added-sda-management-hubs
+msgid "Tournaments, imports, breaks, exports and operations"
+msgstr "Turnaje, importy, postupy, exporty a prevádzka"
+
+#: manually-added-sda-management-hubs
+msgid "One home for site-wide tools outside a tournament: tournaments, imports, breaks, exports and operations."
+msgstr "Jedno miesto pre webové utility mimo konkrétneho turnaja: turnaje, importy, postupy, exporty a prevádzku."
+
+#: manually-added-sda-management-hubs
+msgid "Tournaments"
+msgstr "Turnaje"
+
+#: manually-added-sda-management-hubs
+msgid "New tournament"
+msgstr "Nový turnaj"
+
+#: manually-added-sda-management-hubs
+msgid "Create a new Tabbycat tournament from a preset."
+msgstr "Vytvor nový Tabbycat turnaj z presetu."
+
+#: manually-added-sda-management-hubs
+msgid "Tournament categories"
+msgstr "Kategórie turnajov"
+
+#: manually-added-sda-management-hubs
+msgid "Group tournaments on the homepage and set their visibility."
+msgstr "Zoskupuj turnaje na homepage a nastav ich viditeľnosť."
+
+#: manually-added-sda-management-hubs
+msgid "Upload a tournament archive from a DebateXML export."
+msgstr "Nahraj archív turnaja z DebateXML exportu."
+
+#: manually-added-sda-management-hubs
+msgid "Breaks and exports"
+msgstr "Postupy a exporty"
+
+#: manually-added-sda-management-hubs
+msgid "Manage seasons, leagues, snapshots and break rankings."
+msgstr "Spravuj sezóny, ligy, snapshoty a postupové poradia."
+
+#: manually-added-sda-management-hubs
+msgid "Feedback Export"
+msgstr "Export feedbackov"
+
+#: manually-added-sda-management-hubs
+msgid "Send or inspect feedback exports to the SDA database."
+msgstr "Pošli alebo skontroluj feedback export do SDA databázy."
+
+#: manually-added-sda-management-hubs
+msgid "Results converter"
+msgstr "Konvertor výsledkov"
+
+#: manually-added-sda-management-hubs
+msgid "Convert DebateXML results into the output workbook."
+msgstr "Premeň DebateXML výsledky na výstupný workbook."
+
+#: manually-added-sda-management-hubs
+msgid "Operations"
+msgstr "Prevádzka"
+
+#: manually-added-sda-management-hubs
+msgid "Django administration"
+msgstr "Django administrácia"
+
+#: manually-added-sda-management-hubs
+msgid "Open the database administration area."
+msgstr "Otvor databázovú administračnú oblasť."
+
+#: manually-added-sda-management-hubs
+msgid "Test email"
+msgstr "Testovací e-mail"
+
+#: manually-added-sda-management-hubs
+msgid "Check whether the server can send email notifications."
+msgstr "Over, či server vie odosielať e-mailové notifikácie."
+
+#: manually-added-sda-break-management-v2
+msgid "Break season"
+msgstr "Postupová sezóna"
+
+#: manually-added-sda-break-management-v2
+#, python-format
+msgid "%(league)s · %(slots)s regional slots · %(invited)s invited teams"
+msgstr "%(league)s · %(slots)s regionálnych slotov · %(invited)s pozvaných tímov"
+
+#: manually-added-sda-break-management-v2
+msgid "Back to seasons"
+msgstr "Späť na sezóny"
+
+#: manually-added-sda-break-management-v2
+msgid "Status, frozen data and quotas"
+msgstr "Stav, zmrazené dáta a kvóty"
+
+#: manually-added-sda-break-management-v2
+msgid "Regions, source tournaments and snapshots"
+msgstr "Regióny, zdrojové turnaje a snapshoty"
+
+#: manually-added-sda-break-management-v2
+msgid "Teams, speakers and adjudicators"
+msgstr "Tímy, rečníci a rozhodcovia"
+
+#: manually-added-sda-break-management-v2
+msgid "Season team identities"
+msgstr "Tímové identity sezóny"
+
+#: manually-added-sda-break-management-v2
+msgid "Season speaker identities"
+msgstr "Rečnícke identity sezóny"
+
+#: manually-added-sda-break-management-v2
+msgid "Regional slot calculation"
+msgstr "Výpočet regionálnych slotov"
+
+#: manually-added-sda-break-management-v2
+msgid "Team rankings and eligibility"
+msgstr "Poradie tímov a eligibility"
+
+#: manually-added-sda-break-management-v2
+msgid "Chair, panel and trainee statistics"
+msgstr "Chair, panel a trainee štatistiky"
+
+#: manually-added-sda-break-management-v2
+msgid "Settings"
+msgstr "Nastavenia"
+
+#: manually-added-sda-break-management-v2
+msgid "Public visibility, season fields and dangerous actions"
+msgstr "Verejnosť, polia sezóny a nebezpečné akcie"
+
+#: manually-added-sda-break-management-v2
+msgid "Create season"
+msgstr "Vytvoriť sezónu"
+
+#: manually-added-sda-break-management-v2
+msgid "Access"
+msgstr "Prístupy"
+
+#: manually-added-sda-break-management-v2
+msgid "All"
+msgstr "Všetko"
+
+#: manually-added-sda-break-management-v2
+msgid "Seasons are the main workspace. Leagues are filters and export metadata."
+msgstr "Sezóny sú hlavný pracovný priestor. Ligy slúžia iba ako filter a metadáta pre exporty."
+
+#: manually-added-sda-break-management-v2
+msgid "Season overview"
+msgstr "Prehľad sezóny"
+
+#: manually-added-sda-break-management-v2
+msgid "Break seasons"
+msgstr "Prehľad sezón"
+
+#: manually-added-sda-break-management-v2
+#, python-format
+msgid "Filtered by league %(league)s."
+msgstr "Filtrované podľa ligy %(league)s."
+
+#: manually-added-sda-break-management-v2
+msgid "All break seasons in one place."
+msgstr "Všetky postupové sezóny na jednom mieste."
+
+#: manually-added-sda-break-management-v2
+msgid "Public"
+msgstr "Verejné"
+
+#: manually-added-sda-break-management-v2
+msgid "Waiting to publish"
+msgstr "Čaká na publish"
+
+#: manually-added-sda-break-management-v2
+msgid "Hidden"
+msgstr "Skryté"
+
+#: manually-added-sda-break-management-v2
+msgid "Slots"
+msgstr "Sloty"
+
+#: manually-added-sda-break-management-v2
+msgid "Last published"
+msgstr "Posledný publish"
+
+#: manually-added-sda-break-management-v2
+msgid "Never"
+msgstr "Nikdy"
+
+#: manually-added-sda-break-management-v2
+msgid "Open"
+msgstr "Otvoriť"
+
+#: manually-added-sda-break-management-v2
+msgid "No seasons"
+msgstr "Žiadne sezóny"
+
+#: manually-added-sda-break-management-v2
+msgid "This league does not have a break season yet."
+msgstr "Táto liga ešte nemá vytvorenú postupovú sezónu."
+
+#: manually-added-sda-break-management-v2
+msgid "Start by creating the first season."
+msgstr "Začni vytvorením prvej sezóny."
+
+#: manually-added-sda-break-management-v2
+msgid "Basic settings for a new break season"
+msgstr "Základné nastavenia novej postupovej sezóny"
+
+#: manually-added-sda-break-management-v2
+msgid "Leagues are metadata for filters and API exports"
+msgstr "Ligy sú metadáta pre filtre a API exporty"
+
+#: manually-added-sda-break-management-v2
+msgid "seasons"
+msgstr "sezón"
+
+#: manually-added-sda-break-management-v2
+msgid "Edit"
+msgstr "Upraviť"
+
+#: manually-added-sda-break-management-v2
+msgid "Save"
+msgstr "Uložiť"
+
+#: manually-added-sda-break-management-v2
+msgid "Delete unused league"
+msgstr "Odstrániť nepoužitú ligu"
+
+#: manually-added-sda-break-management-v2
+#, python-format
+msgid "A calm summary of the %(league)s season: structure, frozen data, quotas and public snapshot."
+msgstr "Pokojný súhrn sezóny %(league)s: štruktúra, zmrazené dáta, kvóty a verejný snapshot."
+
+#: manually-added-sda-break-management-v2
+msgid "Structure"
+msgstr "Štruktúra"
+
+#: manually-added-sda-break-management-v2
+msgid "Regional slots"
+msgstr "Regionálne sloty"
+
+#: manually-added-sda-break-management-v2
+msgid "Invited teams"
+msgstr "Pozvané tímy"
+
+#: manually-added-sda-break-management-v2
+msgid "Snapshots"
+msgstr "Snapshoty"
+
+#: manually-added-sda-break-management-v2
+msgid "League tournaments"
+msgstr "Ligové turnaje"
+
+#: manually-added-sda-break-management-v2
+msgid "Non-league tournaments"
+msgstr "Neligové turnaje"
+
+#: manually-added-sda-break-management-v2
+msgid "Frozen"
+msgstr "Zmrazené"
+
+#: manually-added-sda-break-management-v2
+msgid "Identities"
+msgstr "Identity"
+
+#: manually-added-sda-break-management-v2
+msgid "Region quotas"
+msgstr "Kvóty regiónov"
+
+#: manually-added-sda-break-management-v2
+msgid "Add regions and tournaments before calculating quotas."
+msgstr "Pridaj regióny a turnaje, aby sa dali vypočítať kvóty."
+
+#: manually-added-sda-break-management-v2
+msgid "Public snapshot"
+msgstr "Verejný snapshot"
+
+#: manually-added-sda-break-management-v2
+msgid "Public season"
+msgstr "Verejná sezóna"
+
+#: manually-added-sda-break-management-v2
+msgid "Hidden season"
+msgstr "Skrytá sezóna"
+
+#: manually-added-sda-break-management-v2
+msgid "Public Breaks use a manually published snapshot. Live changes appear only after a new publish."
+msgstr "Verejné postupy používajú manuálne publikovaný snapshot. Live zmeny sa zobrazia až po novom publishi."
+
+#: manually-added-sda-break-management-v2
+msgid "Last published:"
+msgstr "Naposledy publikované:"
+
+#: manually-added-sda-break-management-v2
+msgid "Publish public snapshot"
+msgstr "Publikovať verejný snapshot"
+
+#: manually-added-sda-break-management-v2
+msgid "Season settings"
+msgstr "Nastavenia sezóny"
+
+#: manually-added-sda-break-management-v2
+msgid "Public visibility, name, league, slots and dangerous actions"
+msgstr "Verejnosť, názov, liga, sloty a nebezpečné akcie"
+
+#: manually-added-sda-break-management-v2
+msgid "Save settings"
+msgstr "Uložiť nastavenia"

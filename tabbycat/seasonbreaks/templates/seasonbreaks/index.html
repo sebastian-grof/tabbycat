@@ -2,127 +2,194 @@
 {% load i18n %}
 
 {% block standalone_content %}
-  {% if can_edit_breaks %}
-    <div class="card mb-3">
-      <div class="card-header d-flex align-items-center justify-content-between py-2">
-        <div>
-          <h5 class="mb-0">{% trans "Break leagues" %}</h5>
-          <small class="text-muted">{% trans "Manage the league labels used by break seasons and exports." %}</small>
-        </div>
-        <button class="btn btn-outline-secondary btn-sm" type="button" data-toggle="collapse"
-            data-target="#breakLeaguesPanel" aria-expanded="{% if league_form.errors or edited_league_id %}true{% else %}false{% endif %}"
-            aria-controls="breakLeaguesPanel">
-          {% trans "Manage leagues" %}
-        </button>
-      </div>
-      <div id="breakLeaguesPanel" class="collapse {% if league_form.errors or edited_league_id %}show{% endif %}">
-        <div class="card-body py-2">
-          <form method="post" class="form-row align-items-end">
-            {% csrf_token %}
-            <input type="hidden" name="action" value="create_league">
-            {% include "components/form-field.html" with field=league_form.name double=True %}
-            {% include "components/form-field.html" with field=league_form.slug double=True %}
-            <div class="col-12 col-md-2">
-              <button type="submit" class="btn btn-primary btn-block">{% trans "Add league" %}</button>
-            </div>
-          </form>
-        </div>
-        <div class="table-responsive">
-          <table class="table table-sm mb-0">
-            <thead>
-              <tr>
-                <th>{% trans "Name" %}</th>
-                <th>{% trans "Slug" %}</th>
-                <th>{% trans "Seasons" %}</th>
-                <th class="text-right">{% trans "Actions" %}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for league in leagues %}
-                <tr>
-                  <td>
-                    <form id="update-league-{{ league.id }}" method="post" class="mb-0">
-                      {% csrf_token %}
-                      <input type="hidden" name="action" value="update_league">
-                      <input type="hidden" name="league_id" value="{{ league.id }}">
-                      <input id="league-name-{{ league.id }}" type="text" name="name" value="{{ league.name }}" maxlength="80" class="form-control form-control-sm" required aria-label="{% trans 'Name' %}">
-                    </form>
-                  </td>
-                  <td>
-                    <input form="update-league-{{ league.id }}" id="league-slug-{{ league.id }}" type="text" name="slug" value="{{ league.slug }}" maxlength="80" class="form-control form-control-sm" aria-label="{% trans 'Slug' %}">
-                  </td>
-                  <td class="text-muted align-middle">
-                    {% blocktrans trimmed count count=league.seasons.count %}
-                      {{ count }} season
-                    {% plural %}
-                      {{ count }} seasons
-                    {% endblocktrans %}
-                  </td>
-                  <td class="text-right text-nowrap align-middle">
-                    <button type="submit" form="update-league-{{ league.id }}" class="btn btn-outline-primary btn-sm">{% trans "Save" %}</button>
-                    <button type="submit" form="delete-league-{{ league.id }}" class="btn btn-outline-danger btn-sm">{% trans "Delete" %}</button>
-                  </td>
-                </tr>
-              {% empty %}
-                <tr>
-                  <td colspan="4" class="text-muted">{% trans "No break leagues have been created yet." %}</td>
-                </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        </div>
-        {% for league in leagues %}
-          <form id="delete-league-{{ league.id }}" method="post">
-            {% csrf_token %}
-            <input type="hidden" name="action" value="delete_league">
-            <input type="hidden" name="league_id" value="{{ league.id }}">
-          </form>
-        {% endfor %}
-      </div>
+  <section class="breaks-dashboard-hero">
+    <div>
+      <h1>{% trans "Seasons" %}</h1>
+      <p>{% trans "Seasons are the main workspace. Leagues are filters and export metadata." %}</p>
     </div>
-  {% endif %}
+    <div class="breaks-header-actions">
+      {% if can_edit_breaks %}
+        <a class="btn btn-primary" href="#create-season" onclick="document.getElementById('create-season').open = true;">{% trans "Create season" %}</a>
+        <a class="btn btn-outline-secondary" href="#manage-leagues" onclick="document.getElementById('manage-leagues').open = true;">{% trans "Manage leagues" %}</a>
+      {% endif %}
+      {% if can_manage_breaks_access %}
+        <a class="btn btn-outline-secondary" href="{% url 'seasonbreaks-access' %}">
+          <i data-feather="lock"></i>{% trans "Access" %}
+        </a>
+      {% endif %}
+      <a class="btn btn-outline-secondary" href="{% url 'site-tools' %}">
+        <i data-feather="tool"></i>{% trans "Return to Site Tools" %}
+      </a>
+    </div>
+  </section>
 
-  <div class="list-group mb-3">
-    {% for season in seasons %}
-      {% url 'seasonbreaks-season-overview' season_slug=season.slug as url %}
-      {% blocktrans trimmed with league=season.league slots=season.effective_regional_slots asvar subtext %}{{ league }} · {{ slots }} regional slots{% endblocktrans %}
-      {% include "components/item-action.html" with text=season.name subtext=subtext icon="award" %}
-    {% empty %}
-      {% trans "No break seasons have been created yet." as p1 %}
-      {% include "components/explainer-card.html" with type="info" %}
+  <nav class="breaks-filter-tabs" aria-label="{% trans 'Filter seasons by league' %}">
+    <a href="{% url 'seasonbreaks-index' %}" class="{% if not active_league %}active{% endif %}">
+      {% trans "All" %}
+      <span>{{ seasons.count }}</span>
+    </a>
+    {% for league in leagues %}
+      <a href="{% url 'seasonbreaks-index' %}?league={{ league.slug }}" class="{% if active_league == league %}active{% endif %}">
+        {{ league.name }}
+        <span>{{ league.seasons.count }}</span>
+      </a>
     {% endfor %}
-  </div>
+  </nav>
 
-  {% if can_manage_breaks_access %}
-    <div class="list-group mb-3">
-      {% trans "Break management access" as text %}{% url 'seasonbreaks-access' as url %}
-      {% include "components/item-action.html" with icon="lock" %}
+  <section class="breaks-season-dashboard">
+    <div class="breaks-section-heading">
+      <div>
+        <h2>{% trans "Break seasons" %}</h2>
+        {% if active_league %}
+          <p>{% blocktrans trimmed with league=active_league.name %}Filtered by league {{ league }}.{% endblocktrans %}</p>
+        {% else %}
+          <p>{% trans "All break seasons in one place." %}</p>
+        {% endif %}
+      </div>
     </div>
-  {% endif %}
+
+    <div class="breaks-season-grid">
+      {% for season in filtered_seasons %}
+        <article class="breaks-season-card">
+          <div class="breaks-season-card-topline">
+            <span class="breaks-badge breaks-badge-purple">{{ season.get_league_display }}</span>
+            {% if season.public and season.public_snapshot %}
+              <span class="breaks-badge breaks-badge-success">{% trans "Public" %}</span>
+            {% elif season.public %}
+              <span class="breaks-badge breaks-badge-warning">{% trans "Waiting to publish" %}</span>
+            {% else %}
+              <span class="breaks-badge">{% trans "Hidden" %}</span>
+            {% endif %}
+          </div>
+          <div class="breaks-season-card-body">
+            <h3>{{ season.name }}</h3>
+            <p>{{ season.slug }}</p>
+          </div>
+          <dl class="breaks-season-metrics">
+            <div>
+              <dt>{% trans "Regions" %}</dt>
+              <dd>{{ season.regions_count }}</dd>
+            </div>
+            <div>
+              <dt>{% trans "Tournaments" %}</dt>
+              <dd>{{ season.tournaments_count }}</dd>
+            </div>
+            <div>
+              <dt>{% trans "Slots" %}</dt>
+              <dd>{{ season.effective_regional_slots }}</dd>
+            </div>
+          </dl>
+          <div class="breaks-season-card-footer">
+            <div>
+              <span>{% trans "Last published" %}</span>
+              <strong>
+                {% if season.public_published_at %}{{ season.public_published_at }}{% else %}{% trans "Never" %}{% endif %}
+              </strong>
+            </div>
+            <a class="btn btn-outline-primary" href="{% url 'seasonbreaks-season-overview' season_slug=season.slug %}">{% trans "Open" %}</a>
+          </div>
+        </article>
+      {% empty %}
+        <div class="breaks-empty breaks-empty-large">
+          <h3>{% trans "No seasons" %}</h3>
+          {% if active_league %}
+            <p>{% trans "This league does not have a break season yet." %}</p>
+          {% else %}
+            <p>{% trans "Start by creating the first season." %}</p>
+          {% endif %}
+          {% if can_edit_breaks %}<a class="btn btn-primary" href="#create-season" onclick="document.getElementById('create-season').open = true;">{% trans "Create season" %}</a>{% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </section>
 
   {% if can_edit_breaks %}
-    <div class="card mt-3">
-      <div class="card-header">
-        <h4 class="mb-0">{% trans "Create break season" %}</h4>
-      </div>
-      <form method="post" class="card-body">
+    <details id="create-season" class="breaks-drawer-panel" {% if season_form.errors %}open{% endif %}>
+      <summary>
+        <span>{% trans "Create season" %}</span>
+        <small>{% trans "Basic settings for a new break season" %}</small>
+      </summary>
+      <form method="post" class="breaks-relaxed-form">
         {% csrf_token %}
         <input type="hidden" name="action" value="create_season">
-        <div class="form-row">
-          {% include "components/form-field.html" with field=season_form.name double=True %}
-          {% include "components/form-field.html" with field=season_form.slug double=True %}
-          {% include "components/form-field.html" with field=season_form.league triple=True %}
-          {% include "components/form-field.html" with field=season_form.regional_slots triple=True %}
-          {% include "components/form-field.html" with field=season_form.invited_teams triple=True %}
-          <div class="col-12">
-            {{ season_form.active }} <label for="{{ season_form.active.id_for_label }}">{{ season_form.active.label }}</label>
-          </div>
-          <div class="col-12">
-            {{ season_form.public }} <label for="{{ season_form.public.id_for_label }}">{{ season_form.public.label }}</label>
+        <div class="breaks-form-grid">
+          {% include "components/form-field.html" with field=season_form.name %}
+          {% include "components/form-field.html" with field=season_form.slug %}
+          {% include "components/form-field.html" with field=season_form.league %}
+          {% include "components/form-field.html" with field=season_form.regional_slots %}
+          {% include "components/form-field.html" with field=season_form.invited_teams %}
+          <div class="breaks-checkbox-stack">
+            <label>{{ season_form.active }} {{ season_form.active.label }}</label>
+            <label>{{ season_form.public }} {{ season_form.public.label }}</label>
           </div>
         </div>
-        <button type="submit" class="btn btn-primary">{% trans "Create" %}</button>
+        <div class="breaks-form-actions">
+          <button type="submit" class="btn btn-primary">{% trans "Create season" %}</button>
+        </div>
       </form>
-    </div>
+    </details>
+
+    <details id="manage-leagues" class="breaks-drawer-panel" {% if league_form.errors or edited_league_id %}open{% endif %}>
+      <summary>
+        <span>{% trans "Manage leagues" %}</span>
+        <small>{% trans "Leagues are metadata for filters and API exports" %}</small>
+      </summary>
+
+      <div class="breaks-league-management">
+        <form method="post" class="breaks-relaxed-form breaks-league-create-form">
+          {% csrf_token %}
+          <input type="hidden" name="action" value="create_league">
+          <div class="breaks-form-grid breaks-form-grid-compact">
+            {% include "components/form-field.html" with field=league_form.name %}
+            {% include "components/form-field.html" with field=league_form.slug %}
+            <div class="breaks-form-actions breaks-form-actions-inline">
+              <button type="submit" class="btn btn-primary">{% trans "Add league" %}</button>
+            </div>
+          </div>
+        </form>
+
+        <div class="breaks-league-list">
+          {% for league in leagues %}
+            <details class="breaks-league-row" {% if edited_league_id == league.id %}open{% endif %}>
+              <summary>
+                <span>
+                  <strong>{{ league.name }}</strong>
+                  <small>{{ league.slug }} · {{ league.seasons.count }} {% trans "seasons" %}</small>
+                </span>
+                <em>{% trans "Edit" %}</em>
+              </summary>
+              <div class="breaks-league-edit-body">
+                <form method="post" class="breaks-relaxed-form">
+                  {% csrf_token %}
+                  <input type="hidden" name="action" value="update_league">
+                  <input type="hidden" name="league_id" value="{{ league.id }}">
+                  <div class="breaks-form-grid breaks-form-grid-compact">
+                    <div class="form-group">
+                      <label for="league-name-{{ league.id }}">{% trans "Name" %}</label>
+                      <input id="league-name-{{ league.id }}" type="text" name="name" value="{{ league.name }}" maxlength="80" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="league-slug-{{ league.id }}">{% trans "Slug" %}</label>
+                      <input id="league-slug-{{ league.id }}" type="text" name="slug" value="{{ league.slug }}" maxlength="80" class="form-control">
+                    </div>
+                    <div class="breaks-form-actions breaks-form-actions-inline">
+                      <button type="submit" class="btn btn-outline-primary">{% trans "Save" %}</button>
+                    </div>
+                  </div>
+                </form>
+                <form method="post" class="breaks-inline-danger-form">
+                  {% csrf_token %}
+                  <input type="hidden" name="action" value="delete_league">
+                  <input type="hidden" name="league_id" value="{{ league.id }}">
+                  <button type="submit" class="btn btn-outline-danger btn-sm">{% trans "Delete unused league" %}</button>
+                </form>
+              </div>
+            </details>
+          {% empty %}
+            <p class="breaks-empty">{% trans "No break leagues have been created yet." %}</p>
+          {% endfor %}
+        </div>
+      </div>
+    </details>
   {% endif %}
 {% endblock %}

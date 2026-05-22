@@ -1,92 +1,49 @@
 {% extends "seasonbreaks/base.html" %}
 {% load i18n %}
 
-{% block extra-css %}
-  {{ block.super }}
-  <style>
-    .breaks-access-page {
-      padding: 0.25rem 0.75rem 2rem;
-    }
-
-    .breaks-access-header {
-      align-items: center;
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 1rem;
-    }
-
-    .breaks-access-header h3 {
-      font-size: 1.5rem;
-      font-weight: 500;
-      margin: 0;
-    }
-
-    .breaks-access-page .card-header {
-      padding: 1rem 1.35rem;
-    }
-
-    .breaks-access-page .card-body {
-      padding: 1.25rem 1.35rem;
-    }
-
-    .breaks-access-page .table th,
-    .breaks-access-page .table td {
-      padding: 0.75rem 1.35rem;
-    }
-
-    @media (max-width: 767.98px) {
-      .breaks-access-header {
-        align-items: flex-start;
-        flex-direction: column;
-        gap: 0.75rem;
-      }
-    }
-  </style>
-{% endblock %}
-
 {% block standalone_content %}
-  <div class="breaks-access-page">
-    <div class="breaks-access-header">
-      <div>
-        <h3>{% trans "Breaks access" %}</h3>
-        <p class="text-muted mb-0">{% trans "Grant global access to the Breaks section." %}</p>
-      </div>
+  <section class="breaks-management-header">
+    <div>
+      <div class="breaks-page-kicker">{% trans "Break management" %}</div>
+      <h1>{% trans "Breaks access" %}</h1>
+      <p>{% trans "Grant global access to the Breaks section." %}</p>
+    </div>
+    <div class="breaks-header-actions">
+      <a class="btn btn-outline-secondary" href="{% url 'site-tools' %}">
+        <i data-feather="tool"></i>{% trans "Return to Site Tools" %}
+      </a>
       <a class="btn btn-outline-secondary" href="{% url 'seasonbreaks-index' %}">
         <i data-feather="arrow-left"></i>{% trans "Return to Breaks" %}
       </a>
     </div>
+  </section>
 
-    <div class="row">
-      <div class="col-md-6 mb-3 mb-md-0">
-      <div class="card">
-        <div class="card-header"><h4 class="mb-0">{% trans "Grant Breaks access" %}</h4></div>
-        <form method="post" class="card-body">
-          {% csrf_token %}
-          {% include "components/form-field.html" with field=form.user %}
-          <div class="form-group">
-            <label>{{ form.permissions.label }}</label>
-            {{ form.permissions }}
-            {{ form.permissions.errors }}
-          </div>
-          <button class="btn btn-primary" type="submit">{% trans "Save access" %}</button>
-        </form>
-      </div>
-      </div>
-      <div class="col-md-6">
-      <div class="card">
-        <div class="card-header"><h4 class="mb-0">{% trans "Current access" %}</h4></div>
-        <table class="table table-sm mb-0">
-          <thead><tr><th>{% trans "User" %}</th><th>{% trans "Permissions" %}</th></tr></thead>
-          <tbody>
-            {% for user, permissions in access_rows %}
-              <tr><td>{{ user }}</td><td>{{ permissions|join:", " }}</td></tr>
-            {% empty %}
-              <tr><td colspan="2" class="text-muted">{% trans "No users have explicit Breaks access yet." %}</td></tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
-      </div>
+  <div class="breaks-grid-two">
+    <div class="card">
+      <div class="card-header"><h4 class="mb-0">{% trans "Grant Breaks access" %}</h4></div>
+      <form method="post" class="card-body">
+        {% csrf_token %}
+        {% include "components/form-field.html" with field=form.user %}
+        <div class="form-group">
+          <label>{{ form.permissions.label }}</label>
+          {{ form.permissions }}
+          {{ form.permissions.errors }}
+        </div>
+        <button class="btn btn-primary" type="submit">{% trans "Save access" %}</button>
+      </form>
+    </div>
+    <div class="card">
+      <div class="card-header"><h4 class="mb-0">{% trans "Current access" %}</h4></div>
+      <table class="table table-sm mb-0">
+        <thead><tr><th>{% trans "User" %}</th><th>{% trans "Permissions" %}</th></tr></thead>
+        <tbody>
+          {% for user, permissions in access_rows %}
+            <tr><td>{{ user }}</td><td>{{ permissions|join:", " }}</td></tr>
+          {% empty %}
+            <tr><td colspan="2" class="text-muted">{% trans "No users have explicit Breaks access yet." %}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
   </div>
 {% endblock %}

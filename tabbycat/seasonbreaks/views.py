@@ -2,6 +2,7 @@ from collections import defaultdict
 
 from django.contrib import messages
 from django.contrib.auth.mixins import UserPassesTestMixin
+from django.db.models import Count
 from django.db.models.deletion import ProtectedError
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect
@@ -80,7 +81,18 @@ class SeasonMixin(BreaksPermissionMixin):
     def get_context_data(self, **kwargs):
         kwargs['season'] = self.season
         kwargs['season_tabs'] = season_tabs(self.season)
-        kwargs['season_nav_groups'] = season_nav_groups(self.season)
+        nav_groups = season_nav_groups(self.season)
+        kwargs['season_nav_groups'] = nav_groups
+        active_tab = kwargs.get('active_tab')
+        active_group = None
+        active_links = []
+        for group_key, group_label, href, links in nav_groups:
+            if any(key == active_tab for label, href, key, caption in links):
+                active_group = group_key
+                active_links = links
+                break
+        kwargs['active_nav_group'] = active_group
+        kwargs['active_nav_links'] = active_links
         return super().get_context_data(**kwargs)
 
 
@@ -100,31 +112,35 @@ def season_tabs(season):
 
 def season_nav_groups(season):
     return [
-        ('season', _("Season"), [
+        ('overview', _("Overview"), reverse('seasonbreaks-season-overview', kwargs={'season_slug': season.slug}), [
             (_("Overview"), reverse('seasonbreaks-season-overview', kwargs={'season_slug': season.slug}), 'overview',
-                _("Status, frozen data and quota snapshot")),
+                _("Status, frozen data and quotas")),
+        ]),
+        ('tournaments', _("Tournaments"), reverse('seasonbreaks-tournaments', kwargs={'season_slug': season.slug}), [
             (_("Tournaments"), reverse('seasonbreaks-tournaments', kwargs={'season_slug': season.slug}), 'tournaments',
                 _("Regions, source tournaments and snapshots")),
         ]),
-        ('identities', _("Identities"), [
+        ('identities', _("Identity"), reverse('seasonbreaks-identities', kwargs={'season_slug': season.slug}), [
             (_("Identity hub"), reverse('seasonbreaks-identities', kwargs={'season_slug': season.slug}), 'identities',
-                _("Choose teams, speakers or adjudicators")),
+                _("Teams, speakers and adjudicators")),
             (_("Teams"), reverse('seasonbreaks-teams', kwargs={'season_slug': season.slug}), 'teams',
                 _("Season team identities")),
             (_("Speakers"), reverse('seasonbreaks-speakers', kwargs={'season_slug': season.slug}), 'speakers',
                 _("Season speaker identities")),
         ]),
-        ('qualification', _("Qualification"), [
+        ('breaks', _("Breaks"), reverse('seasonbreaks-rankings', kwargs={'season_slug': season.slug}), [
             (_("Quotas"), reverse('seasonbreaks-quotas', kwargs={'season_slug': season.slug}), 'quotas',
                 _("Regional slot calculation")),
             (_("Rankings"), reverse('seasonbreaks-rankings', kwargs={'season_slug': season.slug}), 'rankings',
-                _("Qualified teams and eligibility")),
+                _("Team rankings and eligibility")),
         ]),
-        ('people', _("People"), [
+        ('adjudicators', _("Adjudicators"), reverse('seasonbreaks-adjudicators', kwargs={'season_slug': season.slug}), [
             (_("Adjudicators"), reverse('seasonbreaks-adjudicators', kwargs={'season_slug': season.slug}), 'adjudicators',
-                _("Chair, panel and trainee totals")),
+                _("Chair, panel and trainee statistics")),
         ]),
-        ('access', _("Access"), [
+        ('settings', _("Settings"), "%s#season-settings" % reverse('seasonbreaks-season-overview', kwargs={'season_slug': season.slug}), [
+            (_("Season settings"), "%s#season-settings" % reverse('seasonbreaks-season-overview', kwargs={'season_slug': season.slug}), 'settings',
+                _("Public visibility, season fields and dangerous actions")),
             (_("Permissions"), reverse('seasonbreaks-access'), 'access', _("Global Breaks permissions")),
         ]),
     ]
@@ -134,9 +150,26 @@ class BreaksIndexView(BreaksPermissionMixin, TemplateView):
     template_name = 'seasonbreaks/index.html'
 
     def get_context_data(self, **kwargs):
-        kwargs['leagues'] = BreakLeague.objects.prefetch_related('seasons').all()
-        kwargs['seasons'] = BreakSeason.objects.select_related('league')
-        kwargs['season_form'] = kwargs.get('season_form') or BreakSeasonForm()
+        leagues = list(BreakLeague.objects.prefetch_related('seasons').all())
+        seasons = BreakSeason.objects.select_related('league').annotate(
+            regions_count=Count('regions', distinct=True),
+            tournaments_count=Count('break_tournaments', distinct=True),
+        )
+        active_league = None
+        active_league_slug = self.request.GET.get('league')
+        if active_league_slug:
+            active_league = next((league for league in leagues if league.slug == active_league_slug), None)
+        filtered_seasons = seasons
+        if active_league:
+            filtered_seasons = filtered_seasons.filter(league=active_league)
+        kwargs['leagues'] = leagues
+        kwargs['seasons'] = seasons
+        kwargs['filtered_seasons'] = filtered_seasons
+        kwargs['active_league'] = active_league
+        kwargs['active_league_slug'] = active_league.slug if active_league else ''
+        kwargs['season_form'] = kwargs.get('season_form') or BreakSeasonForm(
+            initial={'league': active_league or (leagues[0] if leagues else None)},
+        )
         kwargs['league_form'] = kwargs.get('league_form') or BreakLeagueForm()
         kwargs['edited_league_id'] = kwargs.get('edited_league_id')
         return super().get_context_data(**kwargs)

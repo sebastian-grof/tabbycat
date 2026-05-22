@@ -15,8 +15,8 @@
           </p>
         </div>
         <div class="mt-3 mt-md-0 d-flex flex-column flex-sm-row">
-          <a class="btn btn-outline-secondary mb-2 mb-sm-0 {% if can_manage_converter_access %}mr-sm-2{% endif %}" href="{% url 'tabbycat-index' %}">
-            <i data-feather="arrow-left"></i> {% trans "Return to Site Home" %}
+          <a class="btn btn-outline-secondary mb-2 mb-sm-0 {% if can_manage_converter_access %}mr-sm-2{% endif %}" href="{% url 'site-tools' %}">
+            <i data-feather="arrow-left"></i> {% trans "Return to Site Tools" %}
           </a>
           {% if can_manage_converter_access %}
             <a class="btn btn-outline-secondary" href="{% url 'xmlconverter-access' %}">

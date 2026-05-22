@@ -3,102 +3,111 @@
 
 {% block season_content %}
   <section class="breaks-page-header">
-    <h3 class="breaks-page-title">{% trans "Tournaments and snapshots" %}</h3>
-    <p class="breaks-page-subtitle">
-      {% trans "Attach source tournaments to regions, then freeze their confirmed results into the season model." %}
-    </p>
+    <div>
+      <h3 class="breaks-page-title">{% trans "Tournaments and snapshots" %}</h3>
+      <p class="breaks-page-subtitle">
+        {% trans "Attach source tournaments to regions, then freeze their confirmed results into the season model." %}
+      </p>
+    </div>
   </section>
 
-  <div class="card mb-3">
+  {% if can_edit_breaks %}
+    <section class="breaks-grid-two">
+      <details class="breaks-catalog-season" {% if region_form.errors %}open{% endif %}>
+        <summary class="breaks-catalog-season-summary">
+          <strong>{% trans "Add region" %}</strong>
+          <span>{% trans "Regional catalog" %}</span>
+        </summary>
+        <form method="post" class="breaks-inline-form">
+          {% csrf_token %}
+          <input type="hidden" name="action" value="add_region">
+          {% include "components/form-field.html" with field=region_form.name %}
+          {% include "components/form-field.html" with field=region_form.source_region %}
+          {% include "components/form-field.html" with field=region_form.seq %}
+          <button class="btn btn-primary" type="submit">{% trans "Add region" %}</button>
+        </form>
+      </details>
+
+      <details class="breaks-catalog-season" {% if tournament_form.errors %}open{% endif %}>
+        <summary class="breaks-catalog-season-summary">
+          <strong>{% trans "Add tournament" %}</strong>
+          <span>{% trans "Source snapshot" %}</span>
+        </summary>
+        <form method="post" class="breaks-inline-form">
+          {% csrf_token %}
+          <input type="hidden" name="action" value="add_tournament">
+          {% include "components/form-field.html" with field=tournament_form.tournament %}
+          {% include "components/form-field.html" with field=tournament_form.region %}
+          {% include "components/form-field.html" with field=tournament_form.seq %}
+          <div class="form-group">
+            {{ tournament_form.counts_for_break }}
+            <label for="{{ tournament_form.counts_for_break.id_for_label }}">{{ tournament_form.counts_for_break.label }}</label>
+            <small class="form-text text-muted">{{ tournament_form.counts_for_break.help_text }}</small>
+          </div>
+          <button class="btn btn-primary" type="submit">{% trans "Add tournament" %}</button>
+        </form>
+      </details>
+    </section>
+  {% endif %}
+
+  <div class="card">
     <div class="card-header d-md-flex justify-content-between align-items-center">
       <h4 class="mb-0">{% trans "Assigned tournaments" %}</h4>
       <span class="text-muted small">{% trans "Non-league tournaments count only for adjudicator statistics." %}</span>
     </div>
-    <table class="table table-sm mb-0">
-      <thead><tr><th>{% trans "Seq" %}</th><th>{% trans "Tournament" %}</th><th>{% trans "Region" %}</th><th>{% trans "Type" %}</th><th>{% trans "Frozen" %}</th><th></th></tr></thead>
-      <tbody>
-        {% for bt in tournaments %}
-          <tr>
-            <td>{{ bt.seq }}</td>
-            <td>{{ bt.tournament }}</td>
-            <td>{{ bt.region.name }}</td>
-            <td>
-              {% if can_edit_breaks %}
-                <form method="post" class="form-inline">
-                  {% csrf_token %}
-                  <input type="hidden" name="action" value="update_tournament_type">
-                  <input type="hidden" name="break_tournament" value="{{ bt.id }}">
-                  <select name="counts_for_break" class="form-control form-control-sm mr-2">
-                    <option value="1" {% if bt.counts_for_break %}selected{% endif %}>{% trans "League" %}</option>
-                    <option value="0" {% if not bt.counts_for_break %}selected{% endif %}>{% trans "Non-league" %}</option>
-                  </select>
-                  <button class="btn btn-sm btn-outline-secondary" type="submit">{% trans "Save" %}</button>
-                </form>
-              {% elif bt.counts_for_break %}
-                <span class="badge badge-primary">{% trans "League" %}</span>
-              {% else %}
-                <span class="badge badge-secondary">{% trans "Non-league" %}</span>
-              {% endif %}
-            </td>
-            <td>{% if bt.frozen_at %}{{ bt.frozen_at }}{% else %}<span class="text-muted">{% trans "Not frozen" %}</span>{% endif %}</td>
-            <td class="text-right">
-              {% if can_edit_breaks %}
-                <form method="post" class="d-inline">
-                  {% csrf_token %}
-                  <input type="hidden" name="action" value="freeze">
-                  <input type="hidden" name="break_tournament" value="{{ bt.id }}">
-                  <button class="btn btn-sm btn-outline-primary" type="submit">{% trans "Freeze / Update results" %}</button>
-                </form>
-                <form method="post" class="d-inline">
-                  {% csrf_token %}
-                  <input type="hidden" name="action" value="remove_tournament">
-                  <input type="hidden" name="break_tournament" value="{{ bt.id }}">
-                  {% trans "Remove this tournament from this Breaks season?" as remove_warning %}
-                  <button class="btn btn-sm btn-outline-danger" type="submit" onclick="return confirm('{{ remove_warning|escapejs }}')">{% trans "Remove" %}</button>
-                </form>
-              {% endif %}
-            </td>
-          </tr>
-        {% empty %}
-          <tr><td colspan="6" class="text-muted">{% trans "No tournaments are assigned to this season yet." %}</td></tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
-
-  {% if can_edit_breaks %}
-    <div class="row">
-      <div class="col-md-6">
-        <div class="card">
-          <div class="card-header"><h4 class="mb-0">{% trans "Add region" %}</h4></div>
-          <form method="post" class="card-body">
-            {% csrf_token %}
-            <input type="hidden" name="action" value="add_region">
-            {% include "components/form-field.html" with field=region_form.name %}
-            {% include "components/form-field.html" with field=region_form.source_region %}
-            {% include "components/form-field.html" with field=region_form.seq %}
-            <button class="btn btn-primary" type="submit">{% trans "Add region" %}</button>
-          </form>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="card">
-          <div class="card-header"><h4 class="mb-0">{% trans "Add tournament" %}</h4></div>
-          <form method="post" class="card-body">
-            {% csrf_token %}
-            <input type="hidden" name="action" value="add_tournament">
-            {% include "components/form-field.html" with field=tournament_form.tournament %}
-            {% include "components/form-field.html" with field=tournament_form.region %}
-            {% include "components/form-field.html" with field=tournament_form.seq %}
-            <div class="form-group">
-              {{ tournament_form.counts_for_break }}
-              <label for="{{ tournament_form.counts_for_break.id_for_label }}">{{ tournament_form.counts_for_break.label }}</label>
-              <small class="form-text text-muted">{{ tournament_form.counts_for_break.help_text }}</small>
-            </div>
-            <button class="btn btn-primary" type="submit">{% trans "Add tournament" %}</button>
-          </form>
-        </div>
-      </div>
+    <div class="table-responsive">
+      <table class="table table-sm mb-0">
+        <thead><tr><th>{% trans "Seq" %}</th><th>{% trans "Tournament" %}</th><th>{% trans "Region" %}</th><th>{% trans "Type" %}</th><th>{% trans "Frozen" %}</th><th></th></tr></thead>
+        <tbody>
+          {% for bt in tournaments %}
+            <tr>
+              <td>{{ bt.seq }}</td>
+              <td><strong>{{ bt.tournament }}</strong></td>
+              <td>{{ bt.region.name }}</td>
+              <td>
+                {% if can_edit_breaks %}
+                  <form method="post" class="form-inline">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="update_tournament_type">
+                    <input type="hidden" name="break_tournament" value="{{ bt.id }}">
+                    <select name="counts_for_break" class="form-control form-control-sm mr-2">
+                      <option value="1" {% if bt.counts_for_break %}selected{% endif %}>{% trans "League" %}</option>
+                      <option value="0" {% if not bt.counts_for_break %}selected{% endif %}>{% trans "Non-league" %}</option>
+                    </select>
+                    <button class="btn btn-sm btn-outline-secondary" type="submit">{% trans "Save" %}</button>
+                  </form>
+                {% elif bt.counts_for_break %}
+                  <span class="badge badge-primary">{% trans "League" %}</span>
+                {% else %}
+                  <span class="badge badge-secondary">{% trans "Non-league" %}</span>
+                {% endif %}
+              </td>
+              <td>{% if bt.frozen_at %}{{ bt.frozen_at }}{% else %}<span class="text-muted">{% trans "Not frozen" %}</span>{% endif %}</td>
+              <td class="text-right">
+                {% if can_edit_breaks %}
+                  <div class="breaks-row-actions">
+                    <form method="post" class="d-inline">
+                      {% csrf_token %}
+                      <input type="hidden" name="action" value="freeze">
+                      <input type="hidden" name="break_tournament" value="{{ bt.id }}">
+                      <button class="btn btn-sm btn-outline-primary" type="submit">{% trans "Freeze / Update results" %}</button>
+                    </form>
+                    <form method="post" class="d-inline">
+                      {% csrf_token %}
+                      <input type="hidden" name="action" value="remove_tournament">
+                      <input type="hidden" name="break_tournament" value="{{ bt.id }}">
+                      {% trans "Remove this tournament from this Breaks season?" as remove_warning %}
+                      <button class="btn btn-sm btn-outline-danger" type="submit" onclick="return confirm('{{ remove_warning|escapejs }}')">{% trans "Remove" %}</button>
+                    </form>
+                  </div>
+                {% endif %}
+              </td>
+            </tr>
+          {% empty %}
+            <tr><td colspan="6" class="text-muted">{% trans "No tournaments are assigned to this season yet." %}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
-  {% endif %}
+  </div>
 {% endblock %}

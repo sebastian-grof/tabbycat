@@ -1,0 +1,226 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block page-title %}{% trans "Site tools" %}{% endblock %}
+
+{% block header %}
+  <div class="row d-print-none" id="pageTitle">
+    <div class="col m-3 d-flex flex-column flex-md-row align-items-md-center justify-content-md-between">
+      <div class="h2 mb-3 mb-md-0">
+        <span class="emoji">{{ page_emoji }}</span> {{ page_title }}
+      </div>
+      <a class="btn btn-outline-secondary" href="{% url 'tabbycat-index' %}">
+        <i data-feather="arrow-left"></i> {% trans "Return to Site Home" %}
+      </a>
+    </div>
+  </div>
+{% endblock header %}
+
+{% block extra-css %}
+  {{ block.super }}
+  <style>
+    .site-tools-lead {
+      color: #6c757d;
+      font-size: 1.05rem;
+      line-height: 1.5;
+      margin: 0 0 1.5rem;
+      max-width: 760px;
+    }
+
+    .site-tools-grid {
+      align-items: start;
+      display: grid;
+      gap: 1.3rem;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+
+    .site-tools-group {
+      background: #fff;
+      border: 1px solid #dee2e6;
+      border-radius: 0.65rem;
+      padding: 1.25rem;
+    }
+
+    .site-tools-group h2 {
+      color: #212529;
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin: 0 0 1rem;
+    }
+
+    .site-tools-list {
+      display: grid;
+      gap: 0.7rem;
+    }
+
+    .site-tools-item {
+      align-items: start;
+      background: #f8f6fc;
+      border: 1px solid #e3dcef;
+      border-radius: 0.45rem;
+      color: #212529;
+      display: grid;
+      gap: 0.8rem;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      padding: 0.95rem;
+      text-decoration: none;
+    }
+
+    .site-tools-item:hover,
+    .site-tools-item:focus {
+      background: #fff;
+      border-color: #663da0;
+      color: #212529;
+      text-decoration: none;
+    }
+
+    .site-tools-icon {
+      align-items: center;
+      background: rgba(102, 61, 160, 0.12);
+      border-radius: 0.45rem;
+      color: #663da0;
+      display: inline-flex;
+      height: 2rem;
+      justify-content: center;
+      width: 2rem;
+    }
+
+    .site-tools-icon svg,
+    .site-tools-arrow svg {
+      height: 1rem;
+      width: 1rem;
+    }
+
+    .site-tools-copy strong,
+    .site-tools-copy span {
+      display: block;
+    }
+
+    .site-tools-copy strong {
+      color: #212529;
+      font-size: 1rem;
+      font-weight: 700;
+      line-height: 1.25;
+    }
+
+    .site-tools-copy span {
+      color: #6c757d;
+      font-size: 0.9rem;
+      line-height: 1.4;
+      margin-top: 0.22rem;
+    }
+
+    .site-tools-arrow {
+      color: #663da0;
+      padding-top: 0.45rem;
+    }
+  </style>
+{% endblock %}
+
+{% block page-alerts %}
+  {% include 'errors/database_limit_warning.html' %}
+  {% include 'errors/legacy_sendgrid_warning.html' %}
+{% endblock %}
+
+{% block content %}
+  <p class="site-tools-lead">
+    {% trans "One home for site-wide tools outside a tournament: tournaments, imports, breaks, exports and operations." %}
+  </p>
+
+  <section class="site-tools-grid">
+    {% if user.is_superuser %}
+      <section class="site-tools-group">
+        <h2>{% trans "Tournaments" %}</h2>
+        <div class="site-tools-list">
+          <a class="site-tools-item" href="{% url 'tournament-create' %}">
+            <span class="site-tools-icon"><i data-feather="plus-circle"></i></span>
+            <span class="site-tools-copy">
+              <strong>{% trans "New tournament" %}</strong>
+              <span>{% trans "Create a new Tabbycat tournament from a preset." %}</span>
+            </span>
+            <span class="site-tools-arrow"><i data-feather="chevron-right"></i></span>
+          </a>
+          <a class="site-tools-item" href="{% url 'tournament-category-manage' %}">
+            <span class="site-tools-icon"><i data-feather="folder"></i></span>
+            <span class="site-tools-copy">
+              <strong>{% trans "Tournament categories" %}</strong>
+              <span>{% trans "Group tournaments on the homepage and set their visibility." %}</span>
+            </span>
+            <span class="site-tools-arrow"><i data-feather="chevron-right"></i></span>
+          </a>
+          <a class="site-tools-item" href="{% url 'importer-archive' %}">
+            <span class="site-tools-icon"><i data-feather="archive"></i></span>
+            <span class="site-tools-copy">
+              <strong>{% trans "Import DebateXML" %}</strong>
+              <span>{% trans "Upload a tournament archive from a DebateXML export." %}</span>
+            </span>
+            <span class="site-tools-arrow"><i data-feather="chevron-right"></i></span>
+          </a>
+        </div>
+      </section>
+    {% endif %}
+
+    {% if can_view_global_breaks or can_view_feedback_export or can_use_converter %}
+      <section class="site-tools-group">
+        <h2>{% trans "Breaks and exports" %}</h2>
+        <div class="site-tools-list">
+          {% if can_view_global_breaks %}
+            <a class="site-tools-item" href="{% url 'seasonbreaks-index' %}">
+              <span class="site-tools-icon"><i data-feather="award"></i></span>
+              <span class="site-tools-copy">
+                <strong>{% trans "Break management" %}</strong>
+                <span>{% trans "Manage seasons, leagues, snapshots and break rankings." %}</span>
+              </span>
+              <span class="site-tools-arrow"><i data-feather="chevron-right"></i></span>
+            </a>
+          {% endif %}
+          {% if can_view_feedback_export %}
+            <a class="site-tools-item" href="{% url 'feedbackexport-index' %}">
+              <span class="site-tools-icon"><i data-feather="navigation"></i></span>
+              <span class="site-tools-copy">
+                <strong>{% trans "Feedback Export" %}</strong>
+                <span>{% trans "Send or inspect feedback exports to the SDA database." %}</span>
+              </span>
+              <span class="site-tools-arrow"><i data-feather="chevron-right"></i></span>
+            </a>
+          {% endif %}
+          {% if can_use_converter %}
+            <a class="site-tools-item" href="{% url 'xmlconverter-index' %}">
+              <span class="site-tools-icon"><i data-feather="repeat"></i></span>
+              <span class="site-tools-copy">
+                <strong>{% trans "Results converter" %}</strong>
+                <span>{% trans "Convert DebateXML results into the output workbook." %}</span>
+              </span>
+              <span class="site-tools-arrow"><i data-feather="chevron-right"></i></span>
+            </a>
+          {% endif %}
+        </div>
+      </section>
+    {% endif %}
+
+    {% if user.is_superuser %}
+      <section class="site-tools-group">
+        <h2>{% trans "Operations" %}</h2>
+        <div class="site-tools-list">
+          <a class="site-tools-item" href="{% url 'admin:index' %}">
+            <span class="site-tools-icon"><i data-feather="edit"></i></span>
+            <span class="site-tools-copy">
+              <strong>{% trans "Django administration" %}</strong>
+              <span>{% trans "Open the database administration area." %}</span>
+            </span>
+            <span class="site-tools-arrow"><i data-feather="chevron-right"></i></span>
+          </a>
+          <a class="site-tools-item" href="{% url 'notifications-test-email' %}">
+            <span class="site-tools-icon"><i data-feather="send"></i></span>
+            <span class="site-tools-copy">
+              <strong>{% trans "Test email" %}</strong>
+              <span>{% trans "Check whether the server can send email notifications." %}</span>
+            </span>
+            <span class="site-tools-arrow"><i data-feather="chevron-right"></i></span>
+          </a>
+        </div>
+      </section>
+    {% endif %}
+  </section>
+{% endblock content %}

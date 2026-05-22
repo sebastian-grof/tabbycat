@@ -64,6 +64,12 @@
           <div class="dropdown-divider"></div>
         {% endif %}
 
+        {% if user.is_superuser or can_view_global_breaks or can_view_feedback_export or can_use_converter %}
+          <a class="dropdown-item px-2" href="{% url 'site-tools' %}">
+            <i data-feather="tool"></i>{% trans "Site tools" %}
+          </a>
+        {% endif %}
+
         {% if can_view_global_breaks %}
           <a class="dropdown-item px-2" href="{% url 'seasonbreaks-index' %}">
             <i data-feather="award"></i>{% trans "Break management" %}

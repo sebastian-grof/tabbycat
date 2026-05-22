@@ -1,468 +1,1042 @@
 {% extends "base.html" %}
-{% load debate_tags static i18n %}
+{% load i18n %}
 
 {% block extra-css %}
   {{ block.super }}
   <style>
     :root {
-      --breaks-sidebar-bg: #333c47;
-      --breaks-sidebar-active: #2a323b;
-      --breaks-sidebar-border: #252c34;
-      --breaks-sidebar-text: #ced4da;
-      --breaks-sidebar-heading: #adb5bd;
+      --breaks-purple: #663da0;
+      --breaks-purple-dark: #4f2f7d;
+      --breaks-purple-soft: rgba(102, 61, 160, 0.10);
+      --breaks-purple-wash: rgba(102, 61, 160, 0.05);
+      --breaks-text: #212529;
+      --breaks-muted: #7a828c;
       --breaks-border: #dee2e6;
+      --breaks-border-strong: #c8cfd8;
+      --breaks-surface: #fff;
+      --breaks-surface-muted: #f7f5fb;
+      --breaks-shadow: 0 1px 0 rgba(33, 37, 41, 0.03);
+      --breaks-radius: 0.35rem;
     }
 
-    .breaks-shell {
-      background: linear-gradient(
-        to right,
-        var(--breaks-sidebar-bg) 0,
-        var(--breaks-sidebar-bg) 260px,
-        transparent 260px
-      );
-      display: grid;
+    .breaks-page {
+      margin: 0 auto 2rem;
+      max-width: 1320px;
+      padding: 0 0.25rem;
+    }
+
+    .breaks-management-header {
+      align-items: flex-start;
+      display: flex;
       gap: 1rem;
-      grid-template-columns: 260px minmax(0, 1fr);
-      margin: -1rem 0 0 -15px;
-      padding-top: 1rem;
-    }
-
-    .breaks-sidebar {
-      align-self: start;
-      background: var(--breaks-sidebar-bg);
-      border: 1px solid var(--breaks-sidebar-border);
-      border-left: 0;
-      border-radius: 0 0.25rem 0.25rem 0;
-      color: var(--breaks-sidebar-text);
-      overflow: hidden;
-      position: sticky;
-      top: 1rem;
-    }
-
-    .breaks-sidebar-head {
-      border-bottom: 1px solid var(--breaks-sidebar-border);
-      padding: 0;
-    }
-
-    .breaks-brand-toggle {
-      background: transparent;
-      border: 0;
-      color: #fff;
-      display: flex;
-      align-items: center;
       justify-content: space-between;
-      padding: 0.85rem 1rem;
-      text-align: left;
-      width: 100%;
+      margin-bottom: 1rem;
     }
 
-    .breaks-brand-toggle:hover,
-    .breaks-brand-toggle:focus {
-      background: var(--breaks-sidebar-active);
-      color: #fff;
-      outline: 0;
-      text-decoration: none;
+    .breaks-management-header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.05;
+      margin: 0;
     }
 
-    .breaks-brand-main {
+    .breaks-management-header p {
+      color: var(--breaks-muted);
+      font-size: 1rem;
+      margin: 0.35rem 0 0;
+      max-width: 760px;
+    }
+
+    .breaks-page-kicker {
+      color: var(--breaks-purple);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.3rem;
+      text-transform: uppercase;
+    }
+
+    .breaks-header-actions,
+    .breaks-card-actions,
+    .breaks-row-actions {
       display: flex;
-      align-items: center;
-      min-width: 0;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      justify-content: flex-end;
     }
 
-    .breaks-brand-text {
-      font-size: 1rem;
-      font-weight: 600;
-      line-height: 1.15;
-      margin-left: 0.55rem;
+    .breaks-view-switcher {
+      display: grid;
+      gap: 0.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      margin: 0 0 0.75rem;
     }
 
-    .breaks-brand-subtitle {
-      color: var(--breaks-sidebar-heading);
-      display: block;
-      font-size: 0.74rem;
-      font-weight: 400;
-      margin-top: 0.1rem;
-    }
-
-    .breaks-brand-menu {
-      background: var(--breaks-sidebar-active);
-      border-top: 1px solid var(--breaks-sidebar-border);
-      padding: 0.35rem 0;
-    }
-
-    .breaks-brand-menu .breaks-menu-item {
-      background: transparent;
-      border: 0;
-      color: var(--breaks-sidebar-text);
-      display: block;
-      padding: 0.5rem 1rem;
-      text-align: left;
-      width: 100%;
-    }
-
-    .breaks-brand-menu .breaks-menu-item:hover,
-    .breaks-brand-menu .breaks-menu-item:focus {
-      background: rgba(255, 255, 255, 0.06);
-      color: #fff;
-      outline: 0;
-      text-decoration: none;
-    }
-
-    .breaks-brand-menu .breaks-menu-item svg {
-      margin-right: 0.45rem;
-    }
-
-    .breaks-brand-menu .dropdown-divider {
-      border-top-color: var(--breaks-sidebar-border);
-    }
-
-    .breaks-menu-section-title {
-      color: var(--breaks-sidebar-heading);
-      font-size: 0.7rem;
-      font-weight: bold;
-      letter-spacing: 0.08em;
-      padding: 0.45rem 1rem 0.25rem;
-      text-transform: uppercase;
-    }
-
-    .breaks-season-summary {
-      border-top: 1px solid var(--breaks-sidebar-border);
-      padding: 0.85rem 1rem 0.9rem;
-    }
-
-    .breaks-kicker {
-      color: var(--breaks-sidebar-heading);
-      font-size: 0.75rem;
-      font-weight: bold;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    .breaks-season-title {
-      color: #fff;
-      font-family: inherit;
-      font-size: 1rem;
-      font-weight: 600;
-      line-height: 1.25;
-      margin: 0.35rem 0 0.15rem;
-    }
-
-    .breaks-season-meta {
-      color: var(--breaks-sidebar-heading);
-      font-size: 0.85rem;
-      margin: 0;
-    }
-
-    .breaks-nav {
-      padding: 0;
-    }
-
-    .breaks-nav-group {
-      border-bottom: 1px solid var(--breaks-sidebar-border);
-      margin: 0;
-    }
-
-    .breaks-nav-group:last-child {
-      border-bottom: 0;
-    }
-
-    .breaks-nav-label {
-      color: var(--breaks-sidebar-heading);
-      font-size: 0.7rem;
-      font-weight: bold;
-      letter-spacing: 0.08em;
-      padding: 0.75rem 1rem 0.35rem;
-      text-transform: uppercase;
-    }
-
-    .breaks-nav-link {
-      border-left: 4px solid transparent;
-      color: var(--breaks-sidebar-text);
-      display: block;
-      padding: 0.55rem 1rem 0.65rem;
-      text-decoration: none;
-    }
-
-    .breaks-nav-link:hover {
-      background: var(--breaks-sidebar-active);
-      color: #fff;
-      text-decoration: none;
-    }
-
-    .breaks-nav-link.active {
-      background: var(--breaks-sidebar-active);
-      border-left-color: #17a2b8;
-      color: #fff;
-    }
-
-    .breaks-nav-title {
-      display: block;
-      font-weight: 600;
-      line-height: 1.15;
-    }
-
-    .breaks-nav-caption {
-      color: var(--breaks-sidebar-heading);
-      display: block;
-      font-size: 0.75rem;
-      line-height: 1.25;
-      margin-top: 0.16rem;
-    }
-
-    .breaks-main {
-      min-width: 0;
-      padding: 0.75rem 15px 2rem 0.35rem;
-    }
-
-    .breaks-main > .card,
-    .breaks-main .card {
+    .breaks-view-switcher a {
+      background: var(--breaks-surface);
       border: 1px solid var(--breaks-border);
-      border-radius: 0.25rem;
-      box-shadow: none;
+      border-radius: var(--breaks-radius);
+      color: var(--breaks-text);
+      display: grid;
+      min-height: 3.35rem;
+      padding: 0.72rem 0.9rem;
+      text-decoration: none;
     }
 
-    .breaks-main .card-header {
-      background: #fff !important;
+    .breaks-view-switcher a:hover,
+    .breaks-view-switcher a.active {
+      border-color: var(--breaks-border-strong);
+      color: var(--breaks-text);
+      text-decoration: none;
+    }
+
+    .breaks-view-switcher a.active {
+      box-shadow: inset 0 -3px 0 var(--breaks-purple);
+    }
+
+    .breaks-view-switcher strong {
+      font-size: 0.92rem;
+      line-height: 1.2;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .breaks-view-switcher span {
+      color: var(--breaks-muted);
+      font-size: 0.78rem;
+      line-height: 1.2;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .breaks-subnav {
+      align-items: center;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin: 0 0 1rem;
+    }
+
+    .breaks-subnav a {
+      background: var(--breaks-surface);
+      border: 1px solid var(--breaks-border);
+      border-radius: 999px;
+      color: var(--breaks-purple);
+      font-size: 0.86rem;
+      font-weight: 600;
+      padding: 0.42rem 0.75rem;
+      text-decoration: none;
+    }
+
+    .breaks-subnav a:hover,
+    .breaks-subnav a.active {
+      background: var(--breaks-purple-soft);
+      border-color: rgba(102, 61, 160, 0.28);
+      color: var(--breaks-purple-dark);
+      text-decoration: none;
+    }
+
+    .breaks-panel,
+    .breaks-page .card,
+    .breaks-page .list-group {
+      background: var(--breaks-surface);
+      border: 1px solid var(--breaks-border);
+      border-radius: var(--breaks-radius);
+      box-shadow: var(--breaks-shadow);
+      overflow: hidden;
+    }
+
+    .breaks-panel {
+      padding: 1.15rem;
+    }
+
+    .breaks-page .card {
+      box-shadow: var(--breaks-shadow) !important;
+    }
+
+    .breaks-page .card-header {
+      background: var(--breaks-surface) !important;
       border-bottom: 1px solid var(--breaks-border);
-      padding: 1rem 1.35rem;
+      padding: 0.95rem 1.15rem;
     }
 
-    .breaks-main .card-body {
-      padding: 1.25rem 1.35rem;
+    .breaks-page .card-body {
+      padding: 1.15rem;
     }
 
-    .breaks-main .table th,
-    .breaks-main .table td {
-      padding-left: 1.35rem;
-      padding-right: 1.35rem;
+    .breaks-page .table th,
+    .breaks-page .table td {
+      padding-left: 1.15rem;
+      padding-right: 1.15rem;
+      vertical-align: middle;
+    }
+
+    .breaks-page .table thead th {
+      border-top: 0;
+      color: var(--breaks-text);
+      font-weight: 700;
+    }
+
+    .breaks-page .btn-primary {
+      background-color: var(--breaks-purple);
+      border-color: var(--breaks-purple);
+    }
+
+    .breaks-page .btn-primary:hover,
+    .breaks-page .btn-primary:focus {
+      background-color: var(--breaks-purple-dark);
+      border-color: var(--breaks-purple-dark);
+    }
+
+    .breaks-page .btn-outline-primary {
+      border-color: var(--breaks-purple);
+      color: var(--breaks-purple);
+    }
+
+    .breaks-page .btn-outline-primary:hover,
+    .breaks-page .btn-outline-primary:focus {
+      background-color: var(--breaks-purple);
+      border-color: var(--breaks-purple);
+      color: #fff;
     }
 
     .breaks-page-header {
-      border-bottom: 1px solid var(--breaks-border);
+      align-items: flex-start;
+      display: flex;
+      gap: 1rem;
+      justify-content: space-between;
       margin-bottom: 1rem;
-      padding: 0.25rem 0.25rem 0.75rem;
     }
 
     .breaks-page-title {
-      font-size: 1.5rem;
-      font-weight: 500;
+      font-size: 1.45rem;
+      font-weight: 700;
       margin: 0;
     }
 
     .breaks-page-subtitle {
-      color: #6c757d;
+      color: var(--breaks-muted);
       margin: 0.25rem 0 0;
+      max-width: 760px;
     }
 
     .breaks-stat-grid {
       display: grid;
-      gap: 1rem;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.75rem;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
       margin-bottom: 1rem;
     }
 
     .breaks-stat-card {
-      background: #fff;
+      background: var(--breaks-surface);
       border: 1px solid var(--breaks-border);
-      border-radius: 0.25rem;
-      padding: 1rem 1.25rem;
+      border-radius: var(--breaks-radius);
+      padding: 0.9rem 1rem;
     }
 
     .breaks-stat-value {
-      color: #212529;
-      font-size: 1.75rem;
-      font-weight: 500;
+      color: var(--breaks-text);
+      font-size: 1.65rem;
+      font-weight: 700;
       line-height: 1;
     }
 
     .breaks-stat-label {
-      color: #6c757d;
-      font-size: 0.875rem;
-      margin-top: 0.25rem;
+      color: var(--breaks-muted);
+      font-size: 0.82rem;
+      font-weight: 600;
+      margin-top: 0.32rem;
     }
 
-    body.breaks-page {
+    .breaks-grid-two,
+    .breaks-catalog-grid {
+      align-items: start;
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: minmax(280px, 0.85fr) minmax(0, 1.4fr);
+      margin-bottom: 1rem;
+    }
+
+    .breaks-panel-title {
+      align-items: flex-start;
+      display: flex;
+      gap: 1rem;
+      justify-content: space-between;
+      margin-bottom: 0.95rem;
+    }
+
+    .breaks-panel-title h2,
+    .breaks-panel-title h3,
+    .breaks-panel-title h4 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .breaks-panel-title span,
+    .breaks-muted {
+      color: var(--breaks-muted);
+    }
+
+    .breaks-inline-form {
+      align-items: end;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin: 0;
+    }
+
+    .breaks-inline-form .form-group {
+      flex: 1 1 180px;
+      margin-bottom: 0;
+      min-width: 0;
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    .breaks-inline-form .btn,
+    .breaks-inline-form button {
       margin-bottom: 0;
     }
 
-    body.breaks-page > nav.navbar {
+    .breaks-catalog-list,
+    .breaks-season-catalog,
+    .breaks-catalog-regions {
+      display: grid;
+      gap: 0.6rem;
+    }
+
+    .breaks-catalog-row,
+    .breaks-catalog-season {
+      background: #fbfbfd;
+      border: 1px solid var(--breaks-border);
+      border-radius: var(--breaks-radius);
+      display: grid;
+      gap: 0.65rem;
+      padding: 0.75rem;
+    }
+
+    .breaks-catalog-row.is-active {
+      background: var(--breaks-purple-wash);
+      border-color: rgba(102, 61, 160, 0.32);
+      box-shadow: inset 3px 0 0 var(--breaks-purple);
+    }
+
+    .breaks-catalog-row {
+      align-items: end;
+      grid-template-columns: minmax(0, 1fr) auto;
+    }
+
+    .breaks-catalog-season-summary {
+      align-items: center;
+      color: var(--breaks-text);
+      cursor: pointer;
+      display: flex;
+      gap: 0.75rem;
+      justify-content: space-between;
+      list-style: none;
+      min-height: 2.4rem;
+    }
+
+    .breaks-catalog-season-summary::-webkit-details-marker {
       display: none;
     }
 
-    .breaks-page .footer {
-      border-top: 0;
-      height: auto;
-      position: static;
+    .breaks-catalog-season-summary strong {
+      font-size: 1rem;
     }
 
-    .breaks-footer-shell {
-      display: grid;
-      gap: 1rem;
-      grid-template-columns: 260px minmax(0, 1fr);
-      margin-left: -15px;
-      min-height: 4.25rem;
+    .breaks-catalog-season-summary span {
+      color: var(--breaks-muted);
+      font-size: 0.85rem;
+      font-weight: 600;
     }
 
-    .breaks-footer-sidebar {
-      background: var(--breaks-sidebar-bg);
-      border-right: 1px solid var(--breaks-sidebar-border);
+    .breaks-catalog-season-summary::after {
+      color: var(--breaks-purple);
+      content: "▾";
+      font-weight: 700;
     }
 
-    .breaks-footer-main {
-      align-items: center;
-      border-top: 1px solid var(--breaks-border);
-      color: #6c757d;
+    .breaks-catalog-season:not([open]) .breaks-catalog-season-summary::after {
+      transform: rotate(-90deg);
+    }
+
+    .breaks-catalog-season-header {
+      align-items: end;
+      border-bottom: 1px solid var(--breaks-border);
       display: flex;
       flex-wrap: wrap;
-      font-size: 0.875rem;
-      gap: 0.35rem 0.95rem;
-      padding: 0.85rem 15px 0.85rem 0.35rem;
+      gap: 0.6rem;
+      justify-content: space-between;
+      padding-bottom: 0.75rem;
     }
 
-    .breaks-footer-main a,
-    .breaks-page .footer .breaks-footer-main a {
-      border-bottom: 0;
-      color: #495057;
+    .breaks-catalog-regions {
+      border-left: 3px solid var(--breaks-purple);
+      padding-left: 0.75rem;
     }
 
-    .breaks-footer-main a:hover {
-      color: #212529;
-      text-decoration: underline;
+    .breaks-empty {
+      background: var(--breaks-purple-wash);
+      border: 1px dashed rgba(102, 61, 160, 0.35);
+      border-radius: var(--breaks-radius);
+      color: var(--breaks-muted);
+      margin: 0;
+      padding: 0.85rem;
     }
 
-    .breaks-footer-main svg {
-      margin-right: 0.25rem;
+    .breaks-action-panel {
+      align-items: center;
+      background: var(--breaks-surface-muted);
+      border: 1px solid var(--breaks-border);
+      border-left: 4px solid var(--breaks-purple);
+      border-radius: var(--breaks-radius);
+      display: flex;
+      gap: 1rem;
+      justify-content: space-between;
+      padding: 0.85rem 1rem;
+    }
+
+    .breaks-danger-panel {
+      border-color: rgba(220, 53, 69, 0.45) !important;
+    }
+
+    .breaks-danger-panel .card-header,
+    .breaks-danger-panel .breaks-panel-title {
+      color: #842029;
+    }
+
+    .breaks-section-gap {
+      display: grid;
+      gap: 1rem;
     }
 
     @media (max-width: 991.98px) {
-      .breaks-shell {
-        background: transparent;
+      .breaks-management-header,
+      .breaks-page-header,
+      .breaks-action-panel {
+        flex-direction: column;
+      }
+
+      .breaks-header-actions,
+      .breaks-card-actions,
+      .breaks-row-actions {
+        justify-content: flex-start;
+      }
+
+      .breaks-catalog-grid,
+      .breaks-grid-two {
         grid-template-columns: 1fr;
-        margin-left: 0;
-        margin-top: 0;
-        padding-top: 0;
-      }
-
-      .breaks-sidebar {
-        border-left: 1px solid var(--breaks-sidebar-border);
-        border-radius: 0.25rem;
-        position: static;
-      }
-
-      .breaks-main {
-        padding: 0 0 2rem;
-      }
-
-      .breaks-stat-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
-      .breaks-footer-shell {
-        grid-template-columns: 1fr;
-        margin-left: 0;
-      }
-
-      .breaks-footer-sidebar {
-        display: none;
-      }
-
-      .breaks-footer-main {
-        padding-left: 0;
-        padding-right: 0;
       }
     }
 
     @media (max-width: 575.98px) {
-      .breaks-nav,
-      .breaks-stat-grid {
+      .breaks-page {
+        padding: 0;
+      }
+
+      .breaks-management-header h1 {
+        font-size: 1.65rem;
+      }
+
+      .breaks-view-switcher {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .breaks-catalog-row {
         grid-template-columns: 1fr;
+      }
+    }
+
+    /* Break Management v2: season-first, calmer spacing, fewer always-visible forms. */
+    .breaks-page {
+      max-width: 1400px;
+      padding: 0 1.35rem 3rem;
+    }
+
+    .breaks-management-header,
+    .breaks-dashboard-hero {
+      align-items: flex-start;
+      display: flex;
+      gap: 1.25rem;
+      justify-content: space-between;
+      margin: 1.25rem 0 1.5rem;
+    }
+
+    .breaks-dashboard-hero h1,
+    .breaks-management-header h1 {
+      font-size: clamp(2.05rem, 3.5vw, 3rem);
+      font-weight: 800;
+      letter-spacing: -0.045em;
+      line-height: 0.98;
+      margin: 0;
+    }
+
+    .breaks-dashboard-hero p,
+    .breaks-management-header p {
+      color: var(--breaks-muted);
+      font-size: 1.05rem;
+      line-height: 1.5;
+      margin: 0.75rem 0 0;
+      max-width: 780px;
+    }
+
+    .breaks-dashboard-summary {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      margin-bottom: 1.45rem;
+    }
+
+    .breaks-dashboard-summary > div {
+      background: linear-gradient(180deg, #fff 0%, #fbfaff 100%);
+      border: 1px solid var(--breaks-border);
+      border-radius: 0.85rem;
+      padding: 1.15rem 1.25rem;
+    }
+
+    .breaks-dashboard-summary strong {
+      color: var(--breaks-text);
+      display: block;
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1;
+    }
+
+    .breaks-dashboard-summary span {
+      color: var(--breaks-muted);
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 650;
+      margin-top: 0.45rem;
+    }
+
+    .breaks-filter-tabs {
+      align-items: center;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .breaks-filter-tabs a {
+      align-items: center;
+      background: #fff;
+      border: 1px solid var(--breaks-border);
+      border-radius: 999px;
+      color: var(--breaks-text);
+      display: inline-flex;
+      font-weight: 700;
+      gap: 0.55rem;
+      min-height: 2.45rem;
+      padding: 0.55rem 0.9rem;
+      text-decoration: none;
+    }
+
+    .breaks-filter-tabs a:hover,
+    .breaks-filter-tabs a.active {
+      background: var(--breaks-purple-soft);
+      border-color: rgba(102, 61, 160, 0.32);
+      color: var(--breaks-purple-dark);
+      text-decoration: none;
+    }
+
+    .breaks-filter-tabs span {
+      background: rgba(102, 61, 160, 0.12);
+      border-radius: 999px;
+      color: var(--breaks-purple-dark);
+      font-size: 0.78rem;
+      min-width: 1.4rem;
+      padding: 0.1rem 0.42rem;
+      text-align: center;
+    }
+
+    .breaks-season-dashboard,
+    .breaks-section-gap {
+      display: grid;
+      gap: 1.65rem;
+    }
+
+    .breaks-section-heading {
+      align-items: end;
+      display: flex;
+      gap: 1rem;
+      justify-content: space-between;
+    }
+
+    .breaks-section-heading h2 {
+      font-size: 1.65rem;
+      font-weight: 800;
+      letter-spacing: -0.035em;
+      margin: 0;
+    }
+
+    .breaks-section-heading p {
+      color: var(--breaks-muted);
+      margin: 0.25rem 0 0;
+    }
+
+    .breaks-season-grid {
+      display: grid;
+      gap: 1.15rem;
+      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+      margin-bottom: 1rem;
+    }
+
+    .breaks-season-card {
+      background: #fff;
+      border: 1px solid var(--breaks-border);
+      border-radius: 1rem;
+      display: grid;
+      gap: 1.15rem;
+      padding: 1.3rem;
+      transition: border-color 120ms ease, box-shadow 120ms ease, transform 120ms ease;
+    }
+
+    .breaks-season-card:hover {
+      border-color: rgba(102, 61, 160, 0.35);
+      box-shadow: 0 14px 34px rgba(33, 37, 41, 0.07);
+      transform: translateY(-1px);
+    }
+
+    .breaks-season-card-topline,
+    .breaks-season-card-footer {
+      align-items: center;
+      display: flex;
+      gap: 0.75rem;
+      justify-content: space-between;
+    }
+
+    .breaks-season-card-topline {
+      justify-content: flex-start;
+    }
+
+    .breaks-season-card-body h3 {
+      font-size: 1.45rem;
+      font-weight: 800;
+      letter-spacing: -0.035em;
+      margin: 0;
+    }
+
+    .breaks-season-card-body p {
+      color: var(--breaks-muted);
+      margin: 0.35rem 0 0;
+    }
+
+    .breaks-badge {
+      background: #f1f3f5;
+      border: 1px solid #e7eaee;
+      border-radius: 999px;
+      color: #68717d;
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      padding: 0.25rem 0.62rem;
+      text-transform: uppercase;
+    }
+
+    .breaks-badge-purple {
+      background: var(--breaks-purple-soft);
+      border-color: rgba(102, 61, 160, 0.2);
+      color: var(--breaks-purple-dark);
+    }
+
+    .breaks-badge-success {
+      background: #e9f8ef;
+      border-color: #b9e8c8;
+      color: #197343;
+    }
+
+    .breaks-badge-warning {
+      background: #fff6df;
+      border-color: #f3db9b;
+      color: #8a6400;
+    }
+
+    .breaks-season-metrics {
+      display: grid;
+      gap: 0.75rem;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      margin: 0;
+    }
+
+    .breaks-season-metrics div {
+      background: #fafbfc;
+      border-radius: 0.75rem;
+      padding: 0.85rem;
+    }
+
+    .breaks-season-metrics dt {
+      color: var(--breaks-muted);
+      font-size: 0.75rem;
+      font-weight: 750;
+      margin-bottom: 0.35rem;
+      text-transform: uppercase;
+    }
+
+    .breaks-season-metrics dd {
+      color: var(--breaks-text);
+      font-size: 1.35rem;
+      font-weight: 800;
+      line-height: 1;
+      margin: 0;
+    }
+
+    .breaks-season-card-footer {
+      border-top: 1px solid var(--breaks-border);
+      padding-top: 1rem;
+    }
+
+    .breaks-season-card-footer span,
+    .breaks-season-card-footer strong {
+      display: block;
+    }
+
+    .breaks-season-card-footer span {
+      color: var(--breaks-muted);
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .breaks-season-card-footer strong {
+      color: var(--breaks-text);
+      font-size: 0.95rem;
+      margin-top: 0.18rem;
+    }
+
+    .breaks-drawer-panel {
+      background: #fff;
+      border: 1px solid var(--breaks-border);
+      border-radius: 1rem;
+      margin-top: 1.25rem;
+      overflow: hidden;
+    }
+
+    .breaks-drawer-panel > summary {
+      align-items: center;
+      cursor: pointer;
+      display: flex;
+      gap: 1rem;
+      justify-content: space-between;
+      list-style: none;
+      padding: 1.2rem 1.35rem;
+    }
+
+    .breaks-drawer-panel > summary::-webkit-details-marker,
+    .breaks-league-row > summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .breaks-drawer-panel > summary span {
+      color: var(--breaks-text);
+      font-size: 1.15rem;
+      font-weight: 800;
+    }
+
+    .breaks-drawer-panel > summary small {
+      color: var(--breaks-muted);
+      font-size: 0.9rem;
+      font-weight: 650;
+    }
+
+    .breaks-drawer-panel > summary::after {
+      color: var(--breaks-purple);
+      content: "▾";
+      font-weight: 900;
+    }
+
+    .breaks-drawer-panel:not([open]) > summary::after {
+      transform: rotate(-90deg);
+    }
+
+    .breaks-relaxed-form,
+    .breaks-league-management {
+      border-top: 1px solid var(--breaks-border);
+      display: grid;
+      gap: 1.1rem;
+      padding: 1.35rem;
+    }
+
+    .breaks-form-grid {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .breaks-form-grid-compact {
+      align-items: end;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+    }
+
+    .breaks-relaxed-form .form-group {
+      margin-bottom: 0;
+      min-width: 0;
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    .breaks-checkbox-stack {
+      align-self: end;
+      display: grid;
+      gap: 0.55rem;
+    }
+
+    .breaks-checkbox-stack label {
+      color: var(--breaks-text);
+      font-weight: 650;
+      margin: 0;
+    }
+
+    .breaks-form-actions {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .breaks-form-actions-inline {
+      align-self: end;
+      justify-content: flex-start;
+      padding-bottom: 0;
+    }
+
+    .breaks-league-list {
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .breaks-league-row {
+      background: #fbfbfd;
+      border: 1px solid var(--breaks-border);
+      border-radius: 0.85rem;
+      overflow: hidden;
+    }
+
+    .breaks-league-row > summary {
+      align-items: center;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      list-style: none;
+      padding: 1rem 1.1rem;
+    }
+
+    .breaks-league-row strong,
+    .breaks-league-row small {
+      display: block;
+    }
+
+    .breaks-league-row strong {
+      color: var(--breaks-text);
+      font-size: 1rem;
+    }
+
+    .breaks-league-row small {
+      color: var(--breaks-muted);
+      margin-top: 0.15rem;
+    }
+
+    .breaks-league-row em {
+      color: var(--breaks-purple);
+      font-style: normal;
+      font-weight: 800;
+    }
+
+    .breaks-league-edit-body {
+      border-top: 1px solid var(--breaks-border);
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .breaks-league-edit-body .breaks-relaxed-form {
+      border-top: 0;
+    }
+
+    .breaks-inline-danger-form {
+      padding: 0 1.35rem 1.35rem;
+    }
+
+    .breaks-empty-large {
+      grid-column: 1 / -1;
+      padding: 1.5rem;
+    }
+
+    .breaks-empty-large h3 {
+      color: var(--breaks-text);
+      font-weight: 800;
+      margin: 0 0 0.35rem;
+    }
+
+    .breaks-panel,
+    .breaks-page .card,
+    .breaks-page .list-group {
+      border-radius: 1rem;
+    }
+
+    .breaks-panel,
+    .breaks-page .card-body {
+      padding: 1.35rem;
+    }
+
+    .breaks-page .card-header {
+      padding: 1.1rem 1.35rem;
+    }
+
+    .breaks-view-switcher {
+      gap: 0.85rem;
+      grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
+      margin-bottom: 1.35rem;
+    }
+
+    .breaks-view-switcher a {
+      border-radius: 0.85rem;
+      min-height: 4.35rem;
+      padding: 1rem 1.1rem;
+    }
+
+    .breaks-view-switcher strong {
+      font-size: 1rem;
+    }
+
+    .breaks-view-switcher span {
+      font-size: 0.82rem;
+    }
+
+    .breaks-grid-two {
+      gap: 1.35rem;
+      grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.25fr);
+      margin-bottom: 0;
+    }
+
+    .breaks-page-header {
+      margin: 0 0 0.35rem;
+    }
+
+    .breaks-page-title {
+      font-size: 1.9rem;
+      font-weight: 800;
+      letter-spacing: -0.035em;
+    }
+
+    .breaks-summary-grid {
+      display: grid;
+      gap: 1.15rem;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .breaks-summary-card {
+      background: #fff;
+      border: 1px solid var(--breaks-border);
+      border-radius: 1rem;
+      padding: 1.25rem;
+    }
+
+    .breaks-summary-card h4 {
+      font-size: 1.1rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin: 0 0 0.95rem;
+    }
+
+    .breaks-summary-list {
+      display: grid;
+      gap: 0.75rem;
+      margin: 0;
+    }
+
+    .breaks-summary-list div {
+      align-items: baseline;
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .breaks-summary-list dt {
+      color: var(--breaks-muted);
+      font-weight: 700;
+    }
+
+    .breaks-summary-list dd {
+      color: var(--breaks-text);
+      font-size: 1.35rem;
+      font-weight: 800;
+      line-height: 1;
+      margin: 0;
+    }
+
+    .breaks-settings-panel {
+      margin-top: 0.35rem;
+    }
+
+    .breaks-danger-block {
+      background: #fff7f8;
+      border: 1px solid rgba(220, 53, 69, 0.35);
+      border-radius: 0.85rem;
+      padding: 1rem;
+    }
+
+    .breaks-danger-block h4 {
+      color: #842029;
+      font-size: 1rem;
+      font-weight: 800;
+      margin: 0 0 0.35rem;
+    }
+
+    .breaks-danger-block p {
+      color: var(--breaks-muted);
+      margin: 0 0 0.8rem;
+    }
+
+    @media (max-width: 991.98px) {
+      .breaks-dashboard-hero,
+      .breaks-management-header,
+      .breaks-section-heading {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .breaks-dashboard-summary,
+      .breaks-summary-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .breaks-grid-two {
+        grid-template-columns: 1fr;
+      }
+
+      .breaks-form-grid,
+      .breaks-form-grid-compact {
+        grid-template-columns: 1fr;
+      }
+
+      .breaks-form-actions,
+      .breaks-header-actions {
+        justify-content: flex-start;
+      }
+    }
+
+    @media (max-width: 575.98px) {
+      .breaks-page {
+        padding: 0 0.75rem 2rem;
+      }
+
+      .breaks-season-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .breaks-season-card-footer {
+        align-items: flex-start;
+        flex-direction: column;
       }
     }
   </style>
 {% endblock %}
 
-{% block body-class %}{% if season %}breaks-page{% endif %}{% endblock %}
-
-{% block nav %}
-  {% if not season %}
-    {{ block.super }}
-  {% endif %}
-{% endblock nav %}
-
-{% block header %}
-  {% if not season %}
-    {{ block.super }}
-  {% endif %}
-{% endblock %}
-
-{% block footer %}
-  {% if season %}
-    {% get_current_language as LANGUAGE_CODE %}
-    <div class="breaks-footer-shell">
-      <div class="breaks-footer-sidebar" aria-hidden="true"></div>
-      <div class="breaks-footer-main">
-        <span>
-          {% blocktrans trimmed %}Tabbycat {{ tabbycat_version }}{% endblocktrans %}
-        </span>
-        <a href="#" data-toggle="modal" data-target="#setLanguageModal">
-          <i data-feather="globe"></i>{% trans "Language" %}
-        </a>
-        <a href="https://github.com/TabbycatDebate/tabbycat/">
-          <i data-feather="github"></i>{% trans "GitHub" %}
-        </a>
-        <a href="https://github.com/sebastian-grof/tabbycat">
-          <i data-feather="code"></i>{% trans "Source Code" %}
-        </a>
-        <a href="https://github.com/sebastian-grof/tabbycat/blob/develop/MODIFICATIONS.md">
-          <i data-feather="file-text"></i>{% trans "Modifications" %}
-        </a>
-        <a href="https://tabbycat.readthedocs.io/en/stable/">
-          <i data-feather="book"></i>{% trans "Documentation" %}
-        </a>
-        <a href="https://tabbycat.readthedocs.io/en/stable/about/support.html">
-          <i data-feather="help-circle"></i>{% trans "Support" %}
-        </a>
-        <a href="https://www.facebook.com/TabbycatDebate/">
-          <i data-feather="facebook"></i>{% trans "Facebook" %}
-        </a>
-        <a href="https://github.com/TabbycatDebate/tabbycat#%EF%B8%8F-installation">
-          <i data-feather="upload-cloud"></i>{% trans "Set Up A Copy" %}
-        </a>
-      </div>
-    </div>
-
-    <div class="modal fade" id="setLanguageModal" tabindex="-1" role="dialog" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">{% trans "Change Language" %}</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <form action="{% url 'set_language' %}" method="post">{% csrf_token %}
-              <input name="next" type="hidden" value="{{ request.get_full_path }}">
-              <select name="language" class="custom-select">
-                {% get_available_languages as LANGUAGES %}
-                {% get_language_info_list for LANGUAGES as languages %}
-                {% for language in languages %}
-                  <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
-                    {{ language.name_local }} ({{ language.code }})
-                  </option>
-                {% endfor %}
-              </select>
-              <input class="btn btn-primary btn-block mt-3" type="submit" value="{% trans "Use this language" %}">
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  {% else %}
-    {{ block.super }}
-  {% endif %}
-{% endblock footer %}
+{% block header %}{% endblock header %}
 
 {% block subheader %}
   <div class="row d-print-none">
@@ -478,105 +1052,60 @@
 {% endblock %}
 
 {% block content %}
-  {% if season %}
-    <div class="breaks-shell">
-      <aside class="breaks-sidebar">
-        <div class="breaks-sidebar-head">
-          <button class="breaks-brand-toggle" type="button" data-toggle="collapse"
-              data-target="#breaksGlobalMenu" aria-expanded="false" aria-controls="breaksGlobalMenu">
-            <span class="breaks-brand-main">
-              {% blocktrans trimmed asvar logo_alt %}
-                Tabbycat Logo
-              {% endblocktrans %}
-              {% if on_local %}
-                {% include "nav/logo_local.html" with width=24 height=24 alt=logo_alt %}
-              {% else %}
-                {% include "nav/logo.html" with width=24 height=24 alt=logo_alt %}
-              {% endif %}
-              <span class="breaks-brand-text">
-                Tabbycat
-                <span class="breaks-brand-subtitle">{% trans "Break management" %}</span>
-              </span>
-            </span>
-            <i data-feather="chevron-down"></i>
-          </button>
-          <div class="collapse breaks-brand-menu" id="breaksGlobalMenu">
-            <a class="breaks-menu-item" href="/">
-              <i data-feather="home"></i>{% trans "Site Home" %}
-            </a>
-            <a class="breaks-menu-item" href="{% url 'seasonbreaks-index' %}">
-              <i data-feather="award"></i>{% trans "Break management" %}
-            </a>
-            {% if user.is_staff %}
-              <a class="breaks-menu-item" href="{% url 'admin:index' %}" target="_blank">
-                <i data-feather="database"></i>{% trans "Edit Database" %}
-              </a>
-            {% endif %}
-            {% if all_tournaments %}
-              <div class="dropdown-divider"></div>
-              <div class="breaks-menu-section-title">{% trans "Tournaments" %}</div>
-              {% for t in all_tournaments %}
-                <div class="breaks-menu-section-title">{{ t }}</div>
-                {% hasadminaccess user t as can_access_admin %}
-                {% if can_access_admin %}
-                  <a class="breaks-menu-item" href="{% url 'tournament-admin-home' tournament_slug=t.slug %}">
-                    <i data-feather="settings"></i>{% trans "Admin Area" %}
-                  </a>
-                {% endif %}
-                {% if user.is_authenticated %}
-                  <a class="breaks-menu-item" href="{% url 'tournament-assistant-home' tournament_slug=t.slug %}">
-                    <i data-feather="pocket"></i>{% trans "Assistant Area" %}
-                  </a>
-                {% endif %}
-                <a class="breaks-menu-item" href="{% url 'tournament-public-index' tournament_slug=t.slug %}">
-                  <i data-feather="globe"></i>{% trans "Public Area" %}
-                </a>
-              {% endfor %}
-            {% endif %}
-            <div class="dropdown-divider"></div>
-            {% if user.is_authenticated %}
-              <form action="{% url 'logout' %}" method="post">
-                {% csrf_token %}
-                <button type="submit" class="breaks-menu-item">
-                  <i data-feather="log-out"></i>
-                  {% trans "Log Out" %} ({{ user }})
-                </button>
-              </form>
-            {% else %}
-              <a class="breaks-menu-item" href="{% url 'login' %}">
-                <i data-feather="log-in"></i>{% trans "Login" %}
-              </a>
-            {% endif %}
-          </div>
-          <div class="breaks-season-summary">
-            <div class="breaks-kicker">{% trans "Current season" %}</div>
-            <div class="breaks-season-title">{{ season.name }}</div>
-            <p class="breaks-season-meta">{{ season.get_league_display }}</p>
-          </div>
+  <div class="breaks-page">
+    {% if season %}
+      <section class="breaks-management-header">
+        <div>
+          <div class="breaks-page-kicker">{% trans "Break season" %}</div>
+          <h1>{{ season.name }}</h1>
+          <p>
+            {% blocktrans trimmed with league=season.get_league_display slots=season.effective_regional_slots invited=season.invited_teams %}
+              {{ league }} · {{ slots }} regional slots · {{ invited }} invited teams
+            {% endblocktrans %}
+          </p>
         </div>
-        <nav class="breaks-nav" aria-label="{% trans 'Break management navigation' %}">
-          {% for group_key, group_label, links in season_nav_groups %}
-            {% if group_key != 'access' or can_manage_breaks_access %}
-              <div class="breaks-nav-group">
-                <div class="breaks-nav-label">{{ group_label }}</div>
-                {% for label, href, key, caption in links %}
-                  {% if key != 'access' or can_manage_breaks_access %}
-                    <a class="breaks-nav-link {% if active_tab == key %}active{% endif %}" href="{{ href }}">
-                      <span class="breaks-nav-title">{{ label }}</span>
-                      <span class="breaks-nav-caption">{{ caption }}</span>
-                    </a>
-                  {% endif %}
-                {% endfor %}
-              </div>
+        <div class="breaks-header-actions">
+          <a class="btn btn-outline-secondary" href="{% url 'site-tools' %}">
+            <i data-feather="tool"></i>{% trans "Return to Site Tools" %}
+          </a>
+          <a class="btn btn-outline-secondary" href="{% url 'seasonbreaks-index' %}">
+            <i data-feather="arrow-left"></i>{% trans "Back to seasons" %}
+          </a>
+        </div>
+      </section>
+
+      <nav class="breaks-view-switcher" aria-label="{% trans 'Break management navigation' %}">
+        {% for group_key, group_label, href, links in season_nav_groups %}
+          {% if group_key != 'settings' or can_edit_breaks or can_manage_breaks_access %}
+            <a href="{{ href }}" class="{% if active_nav_group == group_key %}active{% endif %}" {% if active_nav_group == group_key %}aria-current="page"{% endif %}>
+              <strong>{{ group_label }}</strong>
+              {% for label, link_href, key, caption in links %}
+                {% if forloop.first %}<span>{{ caption }}</span>{% endif %}
+              {% endfor %}
+            </a>
+          {% endif %}
+        {% endfor %}
+      </nav>
+
+      {% if active_nav_links|length > 1 %}
+        <nav class="breaks-subnav" aria-label="{% trans 'Section navigation' %}">
+          {% for label, href, key, caption in active_nav_links %}
+            {% if key != 'access' or can_manage_breaks_access %}
+              {% if key != 'settings' or can_edit_breaks %}
+                <a href="{{ href }}" class="{% if active_tab == key %}active{% endif %}" {% if active_tab == key %}aria-current="page"{% endif %}>
+                  {{ label }}
+                </a>
+              {% endif %}
             {% endif %}
           {% endfor %}
         </nav>
-      </aside>
-      <main class="breaks-main">
+      {% endif %}
+
+      <main class="breaks-section-gap">
         {% block season_content %}{% endblock %}
       </main>
-    </div>
-  {% else %}
-    {% block standalone_content %}{% endblock %}
-  {% endif %}
+    {% else %}
+      {% block standalone_content %}{% endblock %}
+    {% endif %}
+  </div>
 {% endblock %}
