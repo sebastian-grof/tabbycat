@@ -99,6 +99,7 @@ class SeasonMixin(BreaksPermissionMixin):
 def season_tabs(season):
     return [
         (_("Overview"), reverse('seasonbreaks-season-overview', kwargs={'season_slug': season.slug}), 'overview'),
+        (_("Regions"), reverse('seasonbreaks-regions', kwargs={'season_slug': season.slug}), 'regions'),
         (_("Tournaments"), reverse('seasonbreaks-tournaments', kwargs={'season_slug': season.slug}), 'tournaments'),
         (_("Identities"), reverse('seasonbreaks-identities', kwargs={'season_slug': season.slug}), 'identities'),
         (_("Teams"), reverse('seasonbreaks-teams', kwargs={'season_slug': season.slug}), 'teams'),
@@ -116,9 +117,13 @@ def season_nav_groups(season):
             (_("Overview"), reverse('seasonbreaks-season-overview', kwargs={'season_slug': season.slug}), 'overview',
                 _("Status, frozen data and quotas")),
         ]),
+        ('regions', _("Regions"), reverse('seasonbreaks-regions', kwargs={'season_slug': season.slug}), [
+            (_("Regions"), reverse('seasonbreaks-regions', kwargs={'season_slug': season.slug}), 'regions',
+                _("Region settings and public visibility")),
+        ]),
         ('tournaments', _("Tournaments"), reverse('seasonbreaks-tournaments', kwargs={'season_slug': season.slug}), [
             (_("Tournaments"), reverse('seasonbreaks-tournaments', kwargs={'season_slug': season.slug}), 'tournaments',
-                _("Regions, source tournaments and snapshots")),
+                _("Source tournaments and snapshots")),
         ]),
         ('identities', _("Identity"), reverse('seasonbreaks-identities', kwargs={'season_slug': season.slug}), [
             (_("Identity hub"), reverse('seasonbreaks-identities', kwargs={'season_slug': season.slug}), 'identities',
@@ -304,15 +309,21 @@ class PublicBreaksRegionView(PublicBreaksSeasonView):
         return context
 
 
-class SeasonTournamentsView(SeasonMixin, TemplateView):
-    template_name = 'seasonbreaks/tournaments.html'
+class SeasonRegionsView(SeasonMixin, TemplateView):
+    template_name = 'seasonbreaks/regions.html'
 
     def get_context_data(self, **kwargs):
-        kwargs['tournaments'] = self.season.break_tournaments.select_related('tournament', 'region')
-        kwargs['regions'] = self.season.regions.all()
+        region_form_override = kwargs.pop('region_form_override', None)
         kwargs['region_form'] = kwargs.get('region_form') or BreakRegionForm()
-        kwargs['tournament_form'] = kwargs.get('tournament_form') or BreakTournamentForm(season=self.season)
-        kwargs['active_tab'] = 'tournaments'
+        kwargs['regions'] = [
+            {
+                'region': region,
+                'form': region_form_override if region_form_override and region_form_override.instance.id == region.id
+                    else BreakRegionForm(instance=region, prefix="region-%s" % region.id),
+            }
+            for region in self.season.regions.select_related('source_region').all()
+        ]
+        kwargs['active_tab'] = 'regions'
         return super().get_context_data(**kwargs)
 
     def post(self, request, *args, **kwargs):
@@ -326,8 +337,32 @@ class SeasonTournamentsView(SeasonMixin, TemplateView):
                 region.season = self.season
                 region.save()
                 messages.success(request, _("Region %(region)s was added.") % {'region': region.name})
-                return redirect('seasonbreaks-tournaments', season_slug=self.season.slug)
+                return redirect('seasonbreaks-regions', season_slug=self.season.slug)
             return self.render_to_response(self.get_context_data(region_form=form))
+        if action == 'update_region':
+            region = get_object_or_404(BreakRegion, id=request.POST.get('region'), season=self.season)
+            form = BreakRegionForm(request.POST, instance=region, prefix="region-%s" % region.id)
+            if form.is_valid():
+                form.save()
+                messages.success(request, _("Region %(region)s was updated.") % {'region': region.name})
+                return redirect('seasonbreaks-regions', season_slug=self.season.slug)
+            return self.render_to_response(self.get_context_data(region_form_override=form))
+        return redirect('seasonbreaks-regions', season_slug=self.season.slug)
+
+
+class SeasonTournamentsView(SeasonMixin, TemplateView):
+    template_name = 'seasonbreaks/tournaments.html'
+
+    def get_context_data(self, **kwargs):
+        kwargs['tournaments'] = self.season.break_tournaments.select_related('tournament', 'region')
+        kwargs['tournament_form'] = kwargs.get('tournament_form') or BreakTournamentForm(season=self.season)
+        kwargs['active_tab'] = 'tournaments'
+        return super().get_context_data(**kwargs)
+
+    def post(self, request, *args, **kwargs):
+        if not has_breaks_permission(request.user, BreaksPermission.EDIT):
+            return self.handle_no_permission()
+        action = request.POST.get('action')
         if action == 'add_tournament':
             form = BreakTournamentForm(request.POST, season=self.season)
             if form.is_valid():

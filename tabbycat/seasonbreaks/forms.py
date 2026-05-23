@@ -47,7 +47,12 @@ class BreakSeasonForm(forms.ModelForm):
 class BreakRegionForm(forms.ModelForm):
     class Meta:
         model = BreakRegion
-        fields = ('name', 'source_region', 'seq')
+        fields = ('name', 'source_region', 'seq', 'public_visible')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if not self.is_bound and not self.instance.pk:
+            self.fields['public_visible'].initial = True
 
 
 class BreakTournamentForm(forms.ModelForm):

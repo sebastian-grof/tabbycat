@@ -2667,3 +2667,69 @@ msgstr "Verejnosť, názov, liga, sloty a nebezpečné akcie"
 #: manually-added-sda-break-management-v2
 msgid "Save settings"
 msgstr "Uložiť nastavenia"
+
+#: manually-added-sda-break-region-management
+msgid "Region settings and public visibility"
+msgstr "Nastavenia regiónov a verejná viditeľnosť"
+
+#: manually-added-sda-break-region-management
+msgid "Source tournaments and snapshots"
+msgstr "Zdrojové turnaje a snapshoty"
+
+#: manually-added-sda-break-region-management
+msgid "show on public Breaks page"
+msgstr "zobraziť na verejnej stránke postupov"
+
+#: manually-added-sda-break-region-management
+msgid "Manage region names, ordering, source mappings and public visibility."
+msgstr "Spravuj názvy regiónov, poradie, napojenie na zdrojové regióny a verejnú viditeľnosť."
+
+#: manually-added-sda-break-region-management
+msgid "Add region"
+msgstr "Pridať región"
+
+#: manually-added-sda-break-region-management
+msgid "Regional catalog"
+msgstr "Katalóg regiónov"
+
+#: manually-added-sda-break-region-management
+msgid "Season regions"
+msgstr "Regióny sezóny"
+
+#: manually-added-sda-break-region-management
+msgid "Hidden regions remain available internally, but are excluded from the next public snapshot."
+msgstr "Skryté regióny ostanú interne dostupné, ale budú vynechané z ďalšieho verejného snapshotu."
+
+#: manually-added-sda-break-region-management
+msgid "Seq"
+msgstr "Poradie"
+
+#: manually-added-sda-break-region-management
+msgid "Source region"
+msgstr "Zdrojový región"
+
+#: manually-added-sda-break-region-management
+msgid "Visible on public page"
+msgstr "Viditeľné na verejnej stránke"
+
+#: manually-added-sda-break-region-management
+msgid "Hidden from public page"
+msgstr "Skryté z verejnej stránky"
+
+#: manually-added-sda-break-region-management
+msgid "No regions yet"
+msgstr "Zatiaľ žiadne regióny"
+
+#: manually-added-sda-break-region-management
+msgid "Create regions before assigning source tournaments."
+msgstr "Vytvor regióny pred priraďovaním zdrojových turnajov."
+
+#: manually-added-sda-break-region-management
+#, python-format
+msgid "Region %(region)s was added."
+msgstr "Región %(region)s bol pridaný."
+
+#: manually-added-sda-break-region-management
+#, python-format
+msgid "Region %(region)s was updated."
+msgstr "Región %(region)s bol upravený."

@@ -458,7 +458,7 @@ def build_public_breaks_snapshot(season: BreakSeason, published_at=None) -> dict
     regions = []
     global_rows = []
 
-    for region in season.regions.all():
+    for region in season.regions.filter(public_visible=True):
         quota = quotas.get(region.id)
         region_rows = [
             _public_row(row, region, rank)
@@ -468,6 +468,7 @@ def build_public_breaks_snapshot(season: BreakSeason, published_at=None) -> dict
             'id': region.id,
             'name': region.name,
             'seq': region.seq,
+            'public_visible': region.public_visible,
             'slots': quota.allocated if quota else 0,
             'participations': quota.participations if quota else 0,
             'ranking': region_rows,

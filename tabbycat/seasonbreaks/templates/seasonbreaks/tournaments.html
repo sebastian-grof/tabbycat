@@ -12,42 +12,25 @@
   </section>
 
   {% if can_edit_breaks %}
-    <section class="breaks-grid-two">
-      <details class="breaks-catalog-season" {% if region_form.errors %}open{% endif %}>
-        <summary class="breaks-catalog-season-summary">
-          <strong>{% trans "Add region" %}</strong>
-          <span>{% trans "Regional catalog" %}</span>
-        </summary>
-        <form method="post" class="breaks-inline-form">
-          {% csrf_token %}
-          <input type="hidden" name="action" value="add_region">
-          {% include "components/form-field.html" with field=region_form.name %}
-          {% include "components/form-field.html" with field=region_form.source_region %}
-          {% include "components/form-field.html" with field=region_form.seq %}
-          <button class="btn btn-primary" type="submit">{% trans "Add region" %}</button>
-        </form>
-      </details>
-
-      <details class="breaks-catalog-season" {% if tournament_form.errors %}open{% endif %}>
-        <summary class="breaks-catalog-season-summary">
-          <strong>{% trans "Add tournament" %}</strong>
-          <span>{% trans "Source snapshot" %}</span>
-        </summary>
-        <form method="post" class="breaks-inline-form">
-          {% csrf_token %}
-          <input type="hidden" name="action" value="add_tournament">
-          {% include "components/form-field.html" with field=tournament_form.tournament %}
-          {% include "components/form-field.html" with field=tournament_form.region %}
-          {% include "components/form-field.html" with field=tournament_form.seq %}
-          <div class="form-group">
-            {{ tournament_form.counts_for_break }}
-            <label for="{{ tournament_form.counts_for_break.id_for_label }}">{{ tournament_form.counts_for_break.label }}</label>
-            <small class="form-text text-muted">{{ tournament_form.counts_for_break.help_text }}</small>
-          </div>
-          <button class="btn btn-primary" type="submit">{% trans "Add tournament" %}</button>
-        </form>
-      </details>
-    </section>
+    <details class="breaks-catalog-season" {% if tournament_form.errors %}open{% endif %}>
+      <summary class="breaks-catalog-season-summary">
+        <strong>{% trans "Add tournament" %}</strong>
+        <span>{% trans "Source snapshot" %}</span>
+      </summary>
+      <form method="post" class="breaks-inline-form">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="add_tournament">
+        {% include "components/form-field.html" with field=tournament_form.tournament %}
+        {% include "components/form-field.html" with field=tournament_form.region %}
+        {% include "components/form-field.html" with field=tournament_form.seq %}
+        <div class="form-group">
+          {{ tournament_form.counts_for_break }}
+          <label for="{{ tournament_form.counts_for_break.id_for_label }}">{{ tournament_form.counts_for_break.label }}</label>
+          <small class="form-text text-muted">{{ tournament_form.counts_for_break.help_text }}</small>
+        </div>
+        <button class="btn btn-primary" type="submit">{% trans "Add tournament" %}</button>
+      </form>
+    </details>
   {% endif %}
 
   <div class="card">

@@ -1,0 +1,96 @@
+{% extends "seasonbreaks/base.html" %}
+{% load i18n %}
+
+{% block season_content %}
+  <section class="breaks-page-header">
+    <div>
+      <h3 class="breaks-page-title">{% trans "Regions" %}</h3>
+      <p class="breaks-page-subtitle">
+        {% trans "Manage region names, ordering, source mappings and public visibility." %}
+      </p>
+    </div>
+  </section>
+
+  {% if can_edit_breaks %}
+    <details class="breaks-catalog-season" {% if region_form.errors %}open{% endif %}>
+      <summary class="breaks-catalog-season-summary">
+        <strong>{% trans "Add region" %}</strong>
+        <span>{% trans "Regional catalog" %}</span>
+      </summary>
+      <form method="post" class="breaks-inline-form">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="add_region">
+        <div class="breaks-form-grid">
+          {% include "components/form-field.html" with field=region_form.name %}
+          {% include "components/form-field.html" with field=region_form.source_region %}
+          {% include "components/form-field.html" with field=region_form.seq %}
+        </div>
+        <div class="breaks-checkbox-stack">
+          {{ region_form.public_visible }}
+          <label for="{{ region_form.public_visible.id_for_label }}">{{ region_form.public_visible.label }}</label>
+          {% if region_form.public_visible.errors %}{{ region_form.public_visible.errors }}{% endif %}
+        </div>
+        <div class="breaks-form-actions">
+          <button class="btn btn-primary" type="submit">{% trans "Add region" %}</button>
+        </div>
+      </form>
+    </details>
+  {% endif %}
+
+  <section class="breaks-season-dashboard">
+    <div class="breaks-section-heading">
+      <div>
+        <h2>{% trans "Season regions" %}</h2>
+        <p>{% trans "Hidden regions remain available internally, but are excluded from the next public snapshot." %}</p>
+      </div>
+    </div>
+
+    <div class="breaks-league-list">
+      {% for row in regions %}
+        <details class="breaks-league-row">
+          <summary>
+            <span>
+              <strong>{{ row.region.name }}</strong>
+              <small>
+                {% trans "Seq" %}: {{ row.region.seq }}
+                {% if row.region.source_region %} · {% trans "Source region" %}: {{ row.region.source_region }}{% endif %}
+              </small>
+            </span>
+            {% if row.region.public_visible %}
+              <em>{% trans "Visible on public page" %}</em>
+            {% else %}
+              <span class="breaks-badge breaks-badge-warning">{% trans "Hidden from public page" %}</span>
+            {% endif %}
+          </summary>
+          {% if can_edit_breaks %}
+            <div class="breaks-league-edit-body">
+              <form method="post" class="breaks-relaxed-form">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="update_region">
+                <input type="hidden" name="region" value="{{ row.region.id }}">
+                <div class="breaks-form-grid">
+                  {% include "components/form-field.html" with field=row.form.name %}
+                  {% include "components/form-field.html" with field=row.form.source_region %}
+                  {% include "components/form-field.html" with field=row.form.seq %}
+                </div>
+                <div class="breaks-checkbox-stack">
+                  {{ row.form.public_visible }}
+                  <label for="{{ row.form.public_visible.id_for_label }}">{{ row.form.public_visible.label }}</label>
+                  {% if row.form.public_visible.errors %}{{ row.form.public_visible.errors }}{% endif %}
+                </div>
+                <div class="breaks-form-actions">
+                  <button class="btn btn-outline-primary" type="submit">{% trans "Save" %}</button>
+                </div>
+              </form>
+            </div>
+          {% endif %}
+        </details>
+      {% empty %}
+        <div class="breaks-empty breaks-empty-large">
+          <h3>{% trans "No regions yet" %}</h3>
+          <p>{% trans "Create regions before assigning source tournaments." %}</p>
+        </div>
+      {% endfor %}
+    </div>
+  </section>
+{% endblock %}

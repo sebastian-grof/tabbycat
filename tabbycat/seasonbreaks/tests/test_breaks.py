@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
+from django.utils.translation import gettext as _
 
 from tournaments.models import Tournament
 
@@ -101,6 +102,40 @@ class BreakLeagueManagementTests(TestCase):
         self.assertFalse(BreakSeason.objects.filter(id=season.id).exists())
         self.assertFalse(BreakRegion.objects.filter(id=region.id).exists())
         self.assertFalse(BreakTournament.objects.filter(tournament=tournament).exists())
+
+    def test_can_create_and_update_regions_from_region_tab(self):
+        league = BreakLeague.objects.create(name='KSD', slug='ksd')
+        season = BreakSeason.objects.create(name='KSD 2026/2027', slug='ksd-2026-2027', league=league)
+
+        response = self.client.post(reverse('seasonbreaks-regions', kwargs={'season_slug': season.slug}), {
+            'action': 'add_region',
+            'name': 'West',
+            'source_region': '',
+            'seq': 1,
+            'public_visible': 'on',
+        })
+
+        region = BreakRegion.objects.get(season=season, name='West')
+        self.assertRedirects(response, reverse('seasonbreaks-regions', kwargs={'season_slug': season.slug}))
+        self.assertTrue(region.public_visible)
+
+        response = self.client.post(reverse('seasonbreaks-regions', kwargs={'season_slug': season.slug}), {
+            'action': 'update_region',
+            'region': region.id,
+            f'region-{region.id}-name': 'West hidden',
+            f'region-{region.id}-source_region': '',
+            f'region-{region.id}-seq': 4,
+        })
+
+        region.refresh_from_db()
+        self.assertRedirects(response, reverse('seasonbreaks-regions', kwargs={'season_slug': season.slug}))
+        self.assertEqual(region.name, 'West hidden')
+        self.assertEqual(region.seq, 4)
+        self.assertFalse(region.public_visible)
+
+        response = self.client.get(reverse('seasonbreaks-regions', kwargs={'season_slug': season.slug}))
+        self.assertContains(response, 'West hidden')
+        self.assertContains(response, _("Hidden from public page"))
 
 
 class BreaksCalculationTests(TestCase):
@@ -248,6 +283,33 @@ class BreaksCalculationTests(TestCase):
         response = self.client.get(reverse('public-breaks-season', kwargs={'season_slug': self.season.slug}))
         self.assertEqual(response.context['global_rows'][0]['wins'], 99.0)
 
+    def test_public_region_visibility_uses_published_snapshot(self):
+        self._team_with_members('West A', self.west, [self.bt_w1], [(self.bt_w1, 1, 3, 500)])
+        self._team_with_members('East A', self.east, [self.bt_e1], [(self.bt_e1, 2, 6, 600)])
+        self.season.public = True
+        self.season.save(update_fields=['public'])
+        publish_public_breaks_snapshot(self.season)
+
+        self.west.public_visible = False
+        self.west.save(update_fields=['public_visible'])
+
+        response = self.client.get(reverse('public-breaks-season', kwargs={'season_slug': self.season.slug}))
+        self.assertContains(response, 'West A')
+        self.assertEqual([region['name'] for region in response.context['regions']], ['West', 'East'])
+
+        publish_public_breaks_snapshot(self.season)
+        response = self.client.get(reverse('public-breaks-season', kwargs={'season_slug': self.season.slug}))
+        self.assertNotContains(response, 'West A')
+        self.assertContains(response, 'East A')
+        self.assertEqual([region['name'] for region in response.context['regions']], ['East'])
+        self.assertEqual([row['team'] for row in response.context['global_rows']], ['East A'])
+
+        response = self.client.get(reverse('public-breaks-region', kwargs={
+            'season_slug': self.season.slug,
+            'region_id': self.west.id,
+        }))
+        self.assertEqual(response.status_code, 404)
+
     def test_public_global_ranking_excludes_nonleague_tournaments(self):
         self._team_with_members('West A', self.west, [self.bt_w1, self.bt_open], [
             (self.bt_w1, 1, 3, 500),
@@ -273,5 +335,5 @@ class BreaksCalculationTests(TestCase):
         }))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'West A')
-        self.assertContains(response, 'Speaker points')
+        self.assertContains(response, _("Speaker points"))
         self.assertNotContains(response, 'Status')

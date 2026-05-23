@@ -12,6 +12,7 @@ class GlobalBreaksPermissionAdmin(admin.ModelAdmin):
 
 class BreakRegionInline(admin.TabularInline):
     model = models.BreakRegion
+    fields = ('name', 'seq', 'source_region', 'public_visible')
     extra = 0
 
 

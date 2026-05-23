@@ -72,6 +72,7 @@ class BreakRegion(models.Model):
     seq = models.PositiveSmallIntegerField(default=0, verbose_name=_("sequence"))
     source_region = models.ForeignKey('participants.Region', models.SET_NULL, blank=True, null=True,
         verbose_name=_("source region"))
+    public_visible = models.BooleanField(default=True, verbose_name=_("show on public Breaks page"))
 
     class Meta:
         constraints = [UniqueConstraint(fields=['season', 'name'])]

@@ -6,6 +6,7 @@ urlpatterns = [
     path('', views.BreaksIndexView.as_view(), name='seasonbreaks-index'),
     path('access/', views.BreaksAccessView.as_view(), name='seasonbreaks-access'),
     path('<slug:season_slug>/', views.SeasonOverviewView.as_view(), name='seasonbreaks-season-overview'),
+    path('<slug:season_slug>/regions/', views.SeasonRegionsView.as_view(), name='seasonbreaks-regions'),
     path('<slug:season_slug>/tournaments/', views.SeasonTournamentsView.as_view(), name='seasonbreaks-tournaments'),
     path('<slug:season_slug>/identities/', views.SeasonIdentitiesView.as_view(), name='seasonbreaks-identities'),
     path('<slug:season_slug>/identities/teams/', views.SeasonTeamIdentitiesView.as_view(), name='seasonbreaks-identities-teams'),
