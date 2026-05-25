@@ -1,6 +1,5 @@
 from collections import defaultdict
 from dataclasses import dataclass
-import logging
 from math import floor
 
 from django.db import transaction
@@ -27,9 +26,6 @@ from .models import (
     BreakTeamTournamentResult,
     BreakTournament,
 )
-
-logger = logging.getLogger(__name__)
-
 
 def _unique_name(model, season, base_name):
     base_name = base_name or "Unnamed"
@@ -289,16 +285,6 @@ def freeze_break_tournament(break_tournament: BreakTournament) -> dict:
         )
 
     break_tournament.mark_frozen()
-    break_tournament_id = break_tournament.id
-
-    def queue_adjudicator_stats_export_after_commit():
-        try:
-            from feedbackexport.services import queue_adjudicator_stats_export
-            queue_adjudicator_stats_export(break_tournament_id)
-        except Exception:
-            logger.exception('Failed to queue adjudicator stats export for break tournament %s', break_tournament_id)
-
-    transaction.on_commit(queue_adjudicator_stats_export_after_commit)
     return {
         'teams': len(team_totals),
         'speakers': len(speaker_totals),

@@ -1,37 +1,60 @@
 {% extends "feedbackexport/base.html" %}
 {% load i18n %}
 
-{% block content %}
-  <div class="row">
-    <div class="col-md-6 mb-3 mb-md-0">
-      <div class="card">
-        <div class="card-header"><h4 class="mb-0">{% trans "Grant feedback export access" %}</h4></div>
-        <form method="post" class="card-body">
-          {% csrf_token %}
-          {% include "components/form-field.html" with field=form.user %}
-          <div class="form-group">
-            <label>{{ form.permissions.label }}</label>
-            {{ form.permissions }}
-            {{ form.permissions.errors }}
-          </div>
-          <button class="btn btn-primary" type="submit">{% trans "Save access" %}</button>
-        </form>
-      </div>
+{% block export_content %}
+  <section class="exports-page-header">
+    <div>
+      <h2 class="exports-page-title">{% trans "Access" %}</h2>
+      <p class="exports-page-subtitle">{% trans "Grant global access to API Exports. Manage implies view access." %}</p>
     </div>
-    <div class="col-md-6">
-      <div class="card">
-        <div class="card-header"><h4 class="mb-0">{% trans "Current access" %}</h4></div>
-        <table class="table table-sm mb-0">
-          <thead><tr><th>{% trans "User" %}</th><th>{% trans "Permissions" %}</th></tr></thead>
+  </section>
+
+  <section class="exports-grid-two">
+    <article class="exports-card">
+      <div class="exports-card-header">
+        <h2>{% trans "Grant access" %}</h2>
+      </div>
+      <form method="post" class="exports-section-stack">
+        {% csrf_token %}
+        {% include "components/form-field.html" with field=form.user %}
+        <div class="form-group mb-0">
+          <label>{{ form.permissions.label }}</label>
+          {{ form.permissions }}
+          {{ form.permissions.errors }}
+        </div>
+        <div class="exports-row-actions">
+          <button class="btn btn-primary" type="submit">{% trans "Save access" %}</button>
+        </div>
+      </form>
+    </article>
+
+    <article class="exports-card">
+      <div class="exports-card-header">
+        <h2>{% trans "Current access" %}</h2>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-sm">
+          <thead>
+            <tr><th>{% trans "User" %}</th><th>{% trans "Permissions" %}</th></tr>
+          </thead>
           <tbody>
             {% for user, permissions in access_rows %}
-              <tr><td>{{ user }}</td><td>{{ permissions|join:", " }}</td></tr>
+              <tr>
+                <td>{{ user }}</td>
+                <td>
+                  <div class="exports-inline-status">
+                    {% for permission in permissions %}
+                      <span class="exports-badge">{{ permission }}</span>
+                    {% endfor %}
+                  </div>
+                </td>
+              </tr>
             {% empty %}
-              <tr><td colspan="2" class="text-muted">{% trans "No users have explicit feedback export access yet." %}</td></tr>
+              <tr><td colspan="2" class="text-muted">{% trans "No users have explicit API export access yet." %}</td></tr>
             {% endfor %}
           </tbody>
         </table>
       </div>
-    </div>
-  </div>
+    </article>
+  </section>
 {% endblock %}

@@ -1,73 +1,55 @@
 {% extends "feedbackexport/base.html" %}
 {% load i18n %}
 
-{% block content %}
-  <div class="row">
-    <div class="col-md-3 mb-3">
-      <div class="card"><div class="card-body">
-        <div class="text-muted small text-uppercase">{% trans "Confirmed feedback" %}</div>
-        <div class="display-4">{{ confirmed_feedback_count }}</div>
-      </div></div>
+{% block export_content %}
+  <section class="exports-page-header">
+    <div>
+      <h2 class="exports-page-title">{% trans "Overview" %}</h2>
+      <p class="exports-page-subtitle">{% trans "A short control room for judge data exports. DR owns judge identity matching; Tabbycat sends source names, emails and local IDs." %}</p>
     </div>
-    <div class="col-md-3 mb-3">
-      <div class="card"><div class="card-body">
-        <div class="text-muted small text-uppercase">{% trans "Judge profiles" %}</div>
-        <div class="display-4">{{ profile_count }}</div>
-      </div></div>
-    </div>
-    <div class="col-md-3 mb-3">
-      <div class="card"><div class="card-body">
-        <div class="text-muted small text-uppercase">{% trans "Linked adjudicators" %}</div>
-        <div class="display-4">{{ linked_adjudicator_count }}</div>
-      </div></div>
-    </div>
-    <div class="col-md-3 mb-3">
-      <div class="card"><div class="card-body">
-        <div class="text-muted small text-uppercase">{% trans "Unmapped targets" %}</div>
-        <div class="display-4">{{ unmapped_target_count }}</div>
-      </div></div>
-    </div>
-  </div>
+  </section>
 
-  {% if can_manage_feedback_export %}
-    <div class="card mb-3">
-      <div class="card-header"><h4 class="mb-0">{% trans "Export actions" %}</h4></div>
-      <div class="card-body d-flex flex-wrap" style="gap: .5rem;">
-        <form method="post">{% csrf_token %}<input type="hidden" name="action" value="auto_profiles"><button class="btn btn-outline-primary" type="submit">{% trans "Create missing judge profiles" %}</button></form>
-        <form method="post">{% csrf_token %}<input type="hidden" name="action" value="queue_all"><button class="btn btn-outline-primary" type="submit">{% trans "Queue confirmed feedback" %}</button></form>
-        <form method="post">{% csrf_token %}<input type="hidden" name="action" value="send_pending"><button class="btn btn-primary" type="submit">{% trans "Process pending exports" %}</button></form>
+  <section class="exports-grid">
+    <article class="exports-card">
+      <div class="exports-card-header">
+        <h2>{% trans "Feedback export" %}</h2>
+        {% if status_counts.failed or status_counts.permanent_failed %}
+          <span class="exports-badge exports-badge-warning">{% trans "Needs attention" %}</span>
+        {% else %}
+          <span class="exports-badge exports-badge-success">{% trans "Ready" %}</span>
+        {% endif %}
       </div>
-    </div>
-  {% endif %}
+      <p>{% trans "Exports confirmed adjudicator feedback to DR. DR matches judges by exported ID when present, then email, name and local fallback." %}</p>
+      <dl class="exports-summary-list">
+        <div><dt>{% trans "Confirmed feedback" %}</dt><dd>{{ confirmed_feedback_count }}</dd></div>
+        <div><dt>{% trans "Pending" %}</dt><dd>{{ status_counts.pending|default:0 }}</dd></div>
+        <div><dt>{% trans "Failed" %}</dt><dd>{{ status_counts.failed|default:0 }}</dd></div>
+      </dl>
+      <div class="exports-row-actions">
+        <a class="btn btn-outline-primary" href="{% url 'feedbackexport-events' %}">{% trans "Open Judge Data" %}</a>
+      </div>
+    </article>
 
-  <div class="row">
-    <div class="col-md-6 mb-3">
-      <div class="card h-100">
-        <div class="card-header"><h4 class="mb-0">{% trans "Outbox status" %}</h4></div>
-        <table class="table mb-0">
-          <tbody>
-            <tr><th>{% trans "Pending" %}</th><td>{{ status_counts.pending|default:0 }}</td></tr>
-            <tr><th>{% trans "Sent" %}</th><td>{{ status_counts.sent|default:0 }}</td></tr>
-            <tr><th>{% trans "Failed" %}</th><td>{{ status_counts.failed|default:0 }}</td></tr>
-            <tr><th>{% trans "Permanently failed" %}</th><td>{{ status_counts.permanent_failed|default:0 }}</td></tr>
-          </tbody>
-        </table>
+    <article class="exports-card">
+      <div class="exports-card-header">
+        <h2>{% trans "Judge activity export" %}</h2>
+        {% if activity_status_counts.failed or activity_status_counts.permanent_failed %}
+          <span class="exports-badge exports-badge-warning">{% trans "Needs attention" %}</span>
+        {% elif activity_status_counts.pending %}
+          <span class="exports-badge exports-badge-purple">{% trans "Queued" %}</span>
+        {% else %}
+          <span class="exports-badge exports-badge-success">{% trans "Ready" %}</span>
+        {% endif %}
       </div>
-    </div>
-    <div class="col-md-6 mb-3">
-      <div class="card h-100">
-        <div class="card-header"><h4 class="mb-0">{% trans "Unmapped adjudicators with confirmed feedback" %}</h4></div>
-        <div class="list-group list-group-flush">
-          {% for adjudicator in unmapped_targets %}
-            <div class="list-group-item d-flex justify-content-between">
-              <span>{{ adjudicator.name }} <small class="text-muted">{{ adjudicator.tournament }}</small></span>
-              <small>{{ adjudicator.email|default:"—" }}</small>
-            </div>
-          {% empty %}
-            <div class="list-group-item text-muted">{% trans "All target adjudicators with confirmed feedback are mapped." %}</div>
-          {% endfor %}
-        </div>
+      <p>{% trans "Exports adjudicated debate counts by tournament. DR matches judges by exported ID when present, then email, name and local fallback." %}</p>
+      <dl class="exports-summary-list">
+        <div><dt>{% trans "Export events" %}</dt><dd>{{ activity_event_count }}</dd></div>
+        <div><dt>{% trans "Pending" %}</dt><dd>{{ activity_status_counts.pending|default:0 }}</dd></div>
+        <div><dt>{% trans "Failed" %}</dt><dd>{{ activity_status_counts.failed|default:0 }}</dd></div>
+      </dl>
+      <div class="exports-row-actions">
+        <a class="btn btn-outline-primary" href="{% url 'feedbackexport-events' %}">{% trans "Open Judge Data" %}</a>
       </div>
-    </div>
-  </div>
+    </article>
+  </section>
 {% endblock %}

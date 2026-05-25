@@ -1,4 +1,4 @@
-from collections import Counter, defaultdict
+from collections import Counter
 
 from django.conf import settings
 from django.contrib import messages
@@ -6,22 +6,36 @@ from django.contrib.auth.mixins import UserPassesTestMixin
 from django.db.models import Count
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.translation import gettext as _, gettext_lazy
-from django.views.generic import TemplateView
+from django.views.generic import RedirectView, TemplateView
 
 from adjfeedback.models import AdjudicatorFeedback
-from participants.models import Adjudicator
+from tournaments.models import Tournament
 
-from .forms import FeedbackExportAccessForm, FeedbackExportFilterForm, JudgeProfileForm, JudgeProfileLinkForm, access_rows
-from .models import FeedbackExportEvent, FeedbackExportPermission, GlobalFeedbackExportPermission, JudgeProfile, JudgeProfileLink
+from .forms import FeedbackExportAccessForm, FeedbackExportFilterForm, access_rows
+from .models import (
+    AdjudicatorStatsExportEvent,
+    FeedbackExportEvent,
+    FeedbackExportPermission,
+)
 from .permissions import can_manage_feedback_export, has_feedback_export_permission
-from .services import auto_create_profiles_from_adjudicators, queue_confirmed_feedback, queue_feedback_export, send_pending_events
+from .services import (
+    adjudicator_stats_event_needs_reexport,
+    adjudicator_stats_export_enabled,
+    adjudicator_stats_export_endpoint,
+    queue_adjudicator_stats_export,
+    queue_confirmed_feedback,
+    queue_feedback_export,
+    send_pending_adjudicator_stats_events,
+    send_pending_events,
+)
 
 
 class FeedbackExportPermissionMixin(UserPassesTestMixin):
     required_permission = FeedbackExportPermission.VIEW
     page_emoji = '🧭'
-    page_title = gettext_lazy('Feedback Export')
+    page_title = gettext_lazy('API Exports')
 
     def test_func(self):
         return has_feedback_export_permission(self.request.user, self.required_permission)
@@ -34,13 +48,14 @@ class FeedbackExportPermissionMixin(UserPassesTestMixin):
         kwargs['export_tabs'] = self.export_tabs()
         kwargs['export_enabled'] = bool(getattr(settings, 'FEEDBACK_EXPORT_ENABLED', False))
         kwargs['endpoint_configured'] = bool(getattr(settings, 'FEEDBACK_EXPORT_ENDPOINT', ''))
+        kwargs['activity_export_enabled'] = adjudicator_stats_export_enabled()
+        kwargs['activity_endpoint_configured'] = bool(adjudicator_stats_export_endpoint())
         return super().get_context_data(**kwargs)
 
     def export_tabs(self):
         return [
-            (_('Dashboard'), reverse('feedbackexport-index'), 'dashboard'),
-            (_('Judge Profiles'), reverse('feedbackexport-profiles'), 'profiles'),
-            (_('Export Events'), reverse('feedbackexport-events'), 'events'),
+            (_('Overview'), reverse('feedbackexport-index'), 'dashboard'),
+            (_('Judge Data'), reverse('feedbackexport-events'), 'judge_data'),
             (_('Access'), reverse('feedbackexport-access'), 'access'),
         ]
 
@@ -53,27 +68,21 @@ def confirmed_feedback_queryset():
     return AdjudicatorFeedback.objects.filter(confirmed=True)
 
 
-def unmapped_target_adjudicators():
-    return Adjudicator.objects.filter(
-        adjudicatorfeedback__confirmed=True,
-        judge_profile_link__isnull=True,
-    ).select_related('tournament', 'institution').distinct().order_by('name')
+def event_status_count_map(model):
+    return Counter(dict(model.objects.values_list('status').annotate(count=Count('id'))))
 
 
 class FeedbackExportIndexView(FeedbackExportPermissionMixin, TemplateView):
     template_name = 'feedbackexport/index.html'
 
     def get_context_data(self, **kwargs):
-        status_counts = Counter(dict(
-            FeedbackExportEvent.objects.values_list('status').annotate(count=Count('id'))
-        ))
+        status_counts = event_status_count_map(FeedbackExportEvent)
+        activity_status_counts = event_status_count_map(AdjudicatorStatsExportEvent)
         kwargs['active_tab'] = 'dashboard'
         kwargs['status_counts'] = status_counts
+        kwargs['activity_status_counts'] = activity_status_counts
         kwargs['confirmed_feedback_count'] = confirmed_feedback_queryset().count()
-        kwargs['profile_count'] = JudgeProfile.objects.count()
-        kwargs['linked_adjudicator_count'] = JudgeProfileLink.objects.count()
-        kwargs['unmapped_targets'] = unmapped_target_adjudicators()[:25]
-        kwargs['unmapped_target_count'] = unmapped_target_adjudicators().count()
+        kwargs['activity_event_count'] = AdjudicatorStatsExportEvent.objects.count()
         return super().get_context_data(**kwargs)
 
     def post(self, request, *args, **kwargs):
@@ -82,55 +91,19 @@ class FeedbackExportIndexView(FeedbackExportPermissionMixin, TemplateView):
         action = request.POST.get('action')
         if action == 'queue_all':
             result = queue_confirmed_feedback(force=True, reset_attempts=True)
-            messages.success(request, _('%(queued)s feedback export events queued; %(blocked)s blocked by missing judge profile.') % result)
+            messages.success(request, _('%(queued)s feedback export events queued; %(skipped)s skipped.') % result)
         elif action == 'send_pending':
             result = send_pending_events(limit=100)
             messages.success(request, _('%(processed)s export events processed; %(sent)s sent; %(failed)s failed.') % result)
-        elif action == 'auto_profiles':
-            result = auto_create_profiles_from_adjudicators(unmapped_target_adjudicators())
-            messages.success(request, _('%(created_profiles)s judge profiles and %(created_links)s links created.') % result)
         return redirect('feedbackexport-index')
 
 
-class FeedbackExportProfilesView(FeedbackExportPermissionMixin, TemplateView):
-    template_name = 'feedbackexport/profiles.html'
-
-    def get_context_data(self, **kwargs):
-        kwargs['active_tab'] = 'profiles'
-        kwargs['profiles'] = JudgeProfile.objects.prefetch_related('links__adjudicator__tournament').all()
-        kwargs['profile_form'] = kwargs.get('profile_form') or JudgeProfileForm()
-        kwargs['link_form'] = kwargs.get('link_form') or JudgeProfileLinkForm()
-        kwargs['unmapped_targets'] = unmapped_target_adjudicators()[:50]
-        return super().get_context_data(**kwargs)
-
-    def post(self, request, *args, **kwargs):
-        if not can_manage_feedback_export(request.user):
-            return self.handle_no_permission()
-        action = request.POST.get('action')
-        if action == 'create_profile':
-            form = JudgeProfileForm(request.POST)
-            if form.is_valid():
-                profile = form.save()
-                messages.success(request, _('Judge profile %(profile)s was created.') % {'profile': profile})
-                return redirect('feedbackexport-profiles')
-            return self.render_to_response(self.get_context_data(profile_form=form))
-        if action == 'create_link':
-            form = JudgeProfileLinkForm(request.POST)
-            if form.is_valid():
-                link = form.save()
-                messages.success(request, _('Linked %(adjudicator)s to %(profile)s.') % {
-                    'adjudicator': link.adjudicator, 'profile': link.profile,
-                })
-                return redirect('feedbackexport-profiles')
-            return self.render_to_response(self.get_context_data(link_form=form))
-        if action == 'auto_profiles':
-            result = auto_create_profiles_from_adjudicators(unmapped_target_adjudicators())
-            messages.success(request, _('%(created_profiles)s judge profiles and %(created_links)s links created.') % result)
-            return redirect('feedbackexport-profiles')
-        return redirect('feedbackexport-profiles')
+class FeedbackExportProfilesRedirectView(FeedbackExportPermissionMixin, RedirectView):
+    pattern_name = 'feedbackexport-index'
+    permanent = False
 
 
-class FeedbackExportEventsView(FeedbackExportPermissionMixin, TemplateView):
+class JudgeDataExportView(FeedbackExportPermissionMixin, TemplateView):
     template_name = 'feedbackexport/events.html'
 
     def get_context_data(self, **kwargs):
@@ -140,20 +113,48 @@ class FeedbackExportEventsView(FeedbackExportPermissionMixin, TemplateView):
         ).order_by('-updated_at')
         if filter_form.is_valid() and filter_form.cleaned_data.get('status'):
             events = events.filter(status=filter_form.cleaned_data['status'])
-        kwargs['active_tab'] = 'events'
+        tournaments = Tournament.objects.order_by('-active', 'seq', 'name').prefetch_related(
+            'break_tournaments__season__league',
+            'break_tournaments__region',
+        )
+        activity_events = {
+            event.source_tournament_id: event
+            for event in AdjudicatorStatsExportEvent.objects.select_related('tournament', 'break_tournament').all()
+            if event.source_tournament_id is not None
+        }
+        activity_rows = []
+        for tournament in tournaments:
+            event = activity_events.get(tournament.id)
+            break_tournament = next(iter(tournament.break_tournaments.all()), None)
+            activity_rows.append({
+                'tournament': tournament,
+                'event': event,
+                'break_tournament': break_tournament,
+                'status': _activity_status(event, tournament),
+            })
+
+        kwargs['active_tab'] = 'judge_data'
         kwargs['filter_form'] = filter_form
         kwargs['events'] = events[:250]
+        kwargs['activity_rows'] = activity_rows
+        kwargs['events_without_tournament'] = AdjudicatorStatsExportEvent.objects.filter(
+            tournament__isnull=True,
+            source_tournament_id__isnull=False,
+        ).order_by('-updated_at')[:50]
+        kwargs['status_counts'] = event_status_count_map(FeedbackExportEvent)
+        kwargs['activity_status_counts'] = event_status_count_map(AdjudicatorStatsExportEvent)
         return super().get_context_data(**kwargs)
 
     def post(self, request, *args, **kwargs):
         if not can_manage_feedback_export(request.user):
             return self.handle_no_permission()
         action = request.POST.get('action')
-        if action == 'retry_event':
+        redirect_name = request.resolver_match.url_name or 'feedbackexport-events'
+        if action in {'retry_event', 'retry_feedback_event'}:
             event = get_object_or_404(FeedbackExportEvent, id=request.POST.get('event_id'))
             queue_feedback_export(event.feedback, force=True, reset_attempts=True)
             messages.success(request, _('Feedback export event was queued for retry.'))
-        elif action == 'retry_failed':
+        elif action in {'retry_failed_feedback', 'retry_failed'}:
             count = 0
             for event in FeedbackExportEvent.objects.filter(
                 status__in=[FeedbackExportEvent.Status.FAILED, FeedbackExportEvent.Status.PERMANENT_FAILED]
@@ -161,13 +162,83 @@ class FeedbackExportEventsView(FeedbackExportPermissionMixin, TemplateView):
                 queue_feedback_export(event.feedback, force=True, reset_attempts=True)
                 count += 1
             messages.success(request, _('%(count)s failed export events were queued for retry.') % {'count': count})
-        elif action == 'send_pending':
+        elif action in {'send_pending_feedback', 'send_pending'} and redirect_name != 'feedbackexport-activity':
             result = send_pending_events(limit=100)
             messages.success(request, _('%(processed)s export events processed; %(sent)s sent; %(failed)s failed.') % result)
-        elif action == 'queue_all':
+        elif action in {'queue_feedback', 'queue_all'}:
             result = queue_confirmed_feedback(force=True, reset_attempts=True)
-            messages.success(request, _('%(queued)s feedback export events queued; %(blocked)s blocked by missing judge profile.') % result)
-        return redirect('feedbackexport-events')
+            messages.success(request, _('%(queued)s feedback export events queued; %(skipped)s skipped.') % result)
+        elif action in {'queue_activity_selected', 'force_activity_selected', 'queue_selected', 'force_selected'}:
+            ids = _selected_tournament_ids(request)
+            tournaments = Tournament.objects.filter(id__in=ids)
+            queued = 0
+            for tournament in tournaments:
+                queue_adjudicator_stats_export(
+                    tournament,
+                    force=action in {'force_activity_selected', 'force_selected'},
+                    reset_attempts=True,
+                )
+                queued += 1
+            messages.success(request, _('%(queued)s judge activity export events queued.') % {'queued': queued})
+        elif action in {'retry_failed_activity'} or (action == 'retry_failed' and redirect_name == 'feedbackexport-activity'):
+            queued = 0
+            for event in AdjudicatorStatsExportEvent.objects.filter(
+                status__in=[
+                    AdjudicatorStatsExportEvent.Status.FAILED,
+                    AdjudicatorStatsExportEvent.Status.PERMANENT_FAILED,
+                ],
+            ).select_related('tournament'):
+                if event.tournament_id:
+                    queue_adjudicator_stats_export(event.tournament, force=True, reset_attempts=True)
+                elif event.payload:
+                    event.status = AdjudicatorStatsExportEvent.Status.PENDING
+                    event.attempts = 0
+                    event.next_attempt_at = timezone.now()
+                    event.last_error = ''
+                    event.save(update_fields=['status', 'attempts', 'next_attempt_at', 'last_error', 'updated_at'])
+                else:
+                    continue
+                queued += 1
+            messages.success(request, _('%(queued)s failed judge activity events queued for retry.') % {'queued': queued})
+        elif action in {'send_pending_activity'} or (action == 'send_pending' and redirect_name == 'feedbackexport-activity'):
+            result = send_pending_adjudicator_stats_events(limit=100)
+            messages.success(request, _('%(processed)s judge activity events processed; %(sent)s sent; %(failed)s failed.') % result)
+        return redirect(redirect_name)
+
+
+def _activity_status(event, tournament):
+    if event is None:
+        return {
+            'key': 'not_exported',
+            'label': _('Not exported'),
+            'badge': 'secondary',
+        }
+    if adjudicator_stats_event_needs_reexport(event, tournament):
+        return {
+            'key': 'needs_reexport',
+            'label': _('Needs re-export'),
+            'badge': 'warning',
+        }
+    return {
+        'key': event.status,
+        'label': event.get_status_display(),
+        'badge': {
+            AdjudicatorStatsExportEvent.Status.PENDING: 'info',
+            AdjudicatorStatsExportEvent.Status.SENT: 'success',
+            AdjudicatorStatsExportEvent.Status.FAILED: 'warning',
+            AdjudicatorStatsExportEvent.Status.PERMANENT_FAILED: 'danger',
+        }.get(event.status, 'secondary'),
+    }
+
+
+def _selected_tournament_ids(request):
+    ids = []
+    for value in request.POST.getlist('tournaments'):
+        try:
+            ids.append(int(value))
+        except (TypeError, ValueError):
+            continue
+    return ids
 
 
 class FeedbackExportAccessView(FeedbackExportManageMixin, TemplateView):
@@ -183,6 +254,6 @@ class FeedbackExportAccessView(FeedbackExportManageMixin, TemplateView):
         form = FeedbackExportAccessForm(request.POST)
         if form.is_valid():
             user = form.save()
-            messages.success(request, _('Feedback export access updated for %(user)s.') % {'user': user})
+            messages.success(request, _('API export access updated for %(user)s.') % {'user': user})
             return redirect('feedbackexport-access')
         return self.render_to_response(self.get_context_data(form=form))

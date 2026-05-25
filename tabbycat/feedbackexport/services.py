@@ -14,9 +14,12 @@ from django.db import transaction
 from django.utils.text import slugify
 from django.utils import timezone
 
+from adjallocation.models import DebateAdjudicator
 from adjfeedback.models import AdjudicatorFeedback
+from results.models import BallotSubmission
+from tournaments.models import Tournament
 
-from .models import AdjudicatorStatsExportEvent, FeedbackExportEvent, JudgeProfile, JudgeProfileLink
+from .models import AdjudicatorStatsExportEvent, FeedbackExportEvent
 
 logger = logging.getLogger(__name__)
 
@@ -24,14 +27,6 @@ SOURCE_SYSTEM = 'tabbycat-sda'
 DEFAULT_TIMEOUT = 10
 MAX_ATTEMPTS = 8
 SEASON_LABEL_RE = re.compile(r'(20\d{2})\s*[/-]\s*(20\d{2})')
-
-
-class FeedbackExportError(RuntimeError):
-    pass
-
-
-class MissingJudgeProfile(FeedbackExportError):
-    pass
 
 
 def feedback_export_enabled():
@@ -62,13 +57,11 @@ def make_idempotency_key(feedback_id):
     return '%s:feedback:%s:v1' % (SOURCE_SYSTEM, feedback_id)
 
 
-def make_adjudicator_stats_idempotency_key(break_tournament, content_hash=None):
-    base = '%s:adjudicator-stats:%s:%s' % (
-        SOURCE_SYSTEM, break_tournament.season_id, break_tournament.id,
-    )
+def make_adjudicator_stats_idempotency_key(tournament, content_hash=None):
+    base = '%s:adjudicator-activity:%s' % (SOURCE_SYSTEM, tournament.id)
     if content_hash:
-        return '%s:%s:v1' % (base, content_hash[:12])
-    return '%s:v1' % base
+        return '%s:%s:v2' % (base, content_hash[:12])
+    return '%s:v2' % base
 
 
 def normalise_json_value(value):
@@ -92,29 +85,13 @@ def participant_institution_payload(institution):
     }
 
 
-def judge_profile_payload(profile):
-    return {
-        'id': profile.id,
-        'external_id': profile.external_id,
-        'export_id': profile.export_id,
-        'name': profile.name,
-        'primary_email': profile.primary_email,
-        'active': profile.active,
-    }
-
-
-def adjudicator_payload(adjudicator, *, include_profile=True):
+def adjudicator_payload(adjudicator, *, include_profile=False):
     payload = {
         'local_id': adjudicator.id,
         'name': adjudicator.name,
         'email': adjudicator.email,
         'institution': participant_institution_payload(adjudicator.institution),
     }
-    if include_profile:
-        try:
-            payload['judge_profile'] = judge_profile_payload(adjudicator.judge_profile_link.profile)
-        except JudgeProfileLink.DoesNotExist:
-            payload['judge_profile'] = None
     return payload
 
 
@@ -218,13 +195,6 @@ def tournament_break_season(tournament):
 
 def build_feedback_payload(feedback):
     feedback = load_feedback(feedback)
-    try:
-        profile = feedback.adjudicator.judge_profile_link.profile
-    except JudgeProfileLink.DoesNotExist as exc:
-        raise MissingJudgeProfile(
-            'Target adjudicator %s (#%s) is not linked to a judge profile.' % (feedback.adjudicator.name, feedback.adjudicator_id)
-        ) from exc
-
     debate = feedback.debate
     round_ = debate.round
     tournament = round_.tournament
@@ -264,7 +234,7 @@ def build_feedback_payload(feedback):
             'id': debate.id,
         },
         'target': {
-            'judge_profile_id': profile.export_id,
+            'judge_profile_id': None,
             'local_adjudicator_id': feedback.adjudicator_id,
             'name': feedback.adjudicator.name,
             'email': feedback.adjudicator.email,
@@ -275,83 +245,90 @@ def build_feedback_payload(feedback):
     }
 
 
-def _best_local_adjudicator_for_stats(stat):
-    links = list(stat.break_adjudicator.links.select_related(
-        'adjudicator', 'adjudicator__judge_profile_link__profile',
-    ).all())
-    for link in links:
-        if link.adjudicator.tournament_id == stat.break_tournament.tournament_id:
-            return link.adjudicator
-    return links[0].adjudicator if links else None
+def load_tournament_for_activity(tournament):
+    from seasonbreaks.models import BreakTournament
+
+    if isinstance(tournament, BreakTournament):
+        return Tournament.objects.get(pk=tournament.tournament_id)
+    if isinstance(tournament, Tournament):
+        return Tournament.objects.get(pk=tournament.pk)
+    return Tournament.objects.get(pk=tournament)
 
 
-def _judge_profile_export_id_for_adjudicator(adjudicator):
-    if not adjudicator:
-        return None
-    try:
-        return adjudicator.judge_profile_link.profile.export_id
-    except JudgeProfileLink.DoesNotExist:
-        return None
+def break_tournament_metadata(tournament):
+    break_tournament = tournament_break_season(tournament)
+    if break_tournament is None:
+        return None, None
+    break_tournament = break_tournament.__class__.objects.select_related(
+        'season', 'season__league', 'region', 'tournament',
+    ).get(pk=break_tournament.pk)
+    return break_tournament, break_tournament.season
 
 
-def build_adjudicator_stats_payload(break_tournament, *, idempotency_key=None):
-    from seasonbreaks.models import BreakAdjudicatorTournamentStats, BreakTournament
+def _adjudicator_activity_rows(tournament):
+    confirmed_debate_ids = set(BallotSubmission.objects.filter(
+        confirmed=True,
+        discarded=False,
+        debate__round__tournament=tournament,
+    ).values_list('debate_id', flat=True))
 
-    if not isinstance(break_tournament, BreakTournament):
-        break_tournament = BreakTournament.objects.select_related(
-            'season', 'season__league', 'tournament', 'region',
-        ).get(pk=break_tournament)
-    else:
-        break_tournament = BreakTournament.objects.select_related(
-            'season', 'season__league', 'tournament', 'region',
-        ).get(pk=break_tournament.pk)
-
-    season = break_tournament.season
-    tournament = break_tournament.tournament
-    stats = BreakAdjudicatorTournamentStats.objects.filter(
-        break_tournament=break_tournament,
+    totals = {}
+    allocations = DebateAdjudicator.objects.filter(
+        debate_id__in=confirmed_debate_ids,
     ).select_related(
-        'break_adjudicator',
-        'break_adjudicator__institution',
-        'break_tournament',
-        'break_tournament__tournament',
-    ).prefetch_related(
-        'break_adjudicator__links__adjudicator__judge_profile_link__profile',
-    ).order_by('break_adjudicator__name', 'break_adjudicator_id')
+        'adjudicator',
+    ).order_by('adjudicator__name', 'adjudicator_id')
+
+    for allocation in allocations:
+        adjudicator = allocation.adjudicator
+        row = totals.setdefault(adjudicator.id, {
+            'adjudicator': adjudicator,
+            'chair': set(),
+            'panel': set(),
+            'trainee': set(),
+        })
+        if allocation.type == DebateAdjudicator.TYPE_CHAIR:
+            row['chair'].add(allocation.debate_id)
+        elif allocation.type == DebateAdjudicator.TYPE_PANEL:
+            row['panel'].add(allocation.debate_id)
+        elif allocation.type == DebateAdjudicator.TYPE_TRAINEE:
+            row['trainee'].add(allocation.debate_id)
 
     adjudicators = []
-    for stat in stats:
-        local_adjudicator = _best_local_adjudicator_for_stats(stat)
+    for row in sorted(totals.values(), key=lambda item: (item['adjudicator'].name, item['adjudicator'].id)):
+        adjudicator = row['adjudicator']
+        chair_count = len(row['chair'])
+        panellist_count = len(row['panel'])
+        trainee_count = len(row['trainee'])
         adjudicators.append({
-            'judge_profile_id': _judge_profile_export_id_for_adjudicator(local_adjudicator),
-            'local_adjudicator_id': local_adjudicator.id if local_adjudicator else None,
-            'name': stat.break_adjudicator.name,
-            'email': stat.break_adjudicator.email,
-            'chair_count': stat.chair_count,
-            'panellist_count': stat.panellist_count,
-            'trainee_count': stat.trainee_count,
-            'total_count': stat.chair_count + stat.panellist_count,
+            'judge_profile_id': None,
+            'local_adjudicator_id': adjudicator.id,
+            'name': adjudicator.name,
+            'email': adjudicator.email,
+            'chair_count': chair_count,
+            'panellist_count': panellist_count,
+            'trainee_count': trainee_count,
+            'total_count': chair_count + panellist_count,
         })
+    return adjudicators
 
-    return {
-        'source_system': SOURCE_SYSTEM,
-        'idempotency_key': idempotency_key or make_adjudicator_stats_idempotency_key(break_tournament),
-        'version': 1,
-        'season': {
+
+def build_adjudicator_stats_payload(tournament, *, idempotency_key=None):
+    tournament = load_tournament_for_activity(tournament)
+    break_tournament, season = break_tournament_metadata(tournament)
+    season_payload = None
+    if season is not None:
+        season_payload = {
             'id': season.id,
             'slug': season.slug,
             'name': season.name,
             'league': season.league.name,
             'league_slug': season.league.slug,
-        },
-        'tournament': {
-            'id': tournament.id,
-            'slug': tournament.slug,
-            'name': tournament.name,
-            'short_name': tournament.short_name,
-            'season': season_catalog_label(season),
-        },
-        'break_tournament': {
+        }
+
+    break_tournament_payload = None
+    if break_tournament is not None:
+        break_tournament_payload = {
             'id': break_tournament.id,
             'counts_for_break': break_tournament.counts_for_break,
             'frozen_at': timestamp_payload(break_tournament.frozen_at),
@@ -360,9 +337,45 @@ def build_adjudicator_stats_payload(break_tournament, *, idempotency_key=None):
                 'name': break_tournament.region.name,
                 'slug': slugify(break_tournament.region.name),
             } if break_tournament.region_id else None,
+        }
+
+    return {
+        'source_system': SOURCE_SYSTEM,
+        'idempotency_key': idempotency_key or make_adjudicator_stats_idempotency_key(tournament),
+        'version': 2,
+        'season': season_payload,
+        'tournament': {
+            'id': tournament.id,
+            'slug': tournament.slug,
+            'name': tournament.name,
+            'short_name': tournament.short_name,
+            'season': season_catalog_label(season),
+            'league': season.league.name if season else None,
+            'league_slug': season.league.slug if season else None,
         },
-        'adjudicators': adjudicators,
+        'break_tournament': break_tournament_payload,
+        'adjudicators': _adjudicator_activity_rows(tournament),
     }
+
+
+def adjudicator_stats_content_hash(tournament):
+    tournament = load_tournament_for_activity(tournament)
+    content_payload = build_adjudicator_stats_payload(tournament, idempotency_key='')
+    content_hash = payload_hash(content_payload)
+    payload = build_adjudicator_stats_payload(
+        tournament,
+        idempotency_key=make_adjudicator_stats_idempotency_key(tournament, content_hash),
+    )
+    return payload_hash(payload)
+
+
+def adjudicator_stats_event_needs_reexport(event, tournament=None):
+    if event is None or event.status != AdjudicatorStatsExportEvent.Status.SENT:
+        return False
+    tournament = tournament or event.tournament
+    if tournament is None:
+        return False
+    return event.payload_hash != adjudicator_stats_content_hash(tournament)
 
 
 def payload_hash(payload):
@@ -396,21 +409,7 @@ def queue_feedback_export(feedback, *, force=False, reset_attempts=False):
         if event.idempotency_key != make_idempotency_key(feedback.id):
             event.idempotency_key = make_idempotency_key(feedback.id)
 
-        try:
-            payload = build_feedback_payload(feedback)
-        except MissingJudgeProfile as exc:
-            event.payload = None
-            event.payload_hash = ''
-            event.remote_response = None
-            event.status = FeedbackExportEvent.Status.PERMANENT_FAILED
-            event.last_error = str(exc)
-            event.last_http_status = None
-            event.next_attempt_at = None
-            event.save(update_fields=[
-                'payload', 'payload_hash', 'remote_response', 'status', 'last_error',
-                'last_http_status', 'next_attempt_at', 'updated_at',
-            ])
-            return event
+        payload = build_feedback_payload(feedback)
 
         new_hash = payload_hash(payload)
         if event.status == FeedbackExportEvent.Status.SENT and event.payload_hash == new_hash and not force:
@@ -537,24 +536,41 @@ def send_event(event, *, dry_run=False):
     return event
 
 
-def queue_adjudicator_stats_export(break_tournament, *, force=False, reset_attempts=False):
-    from seasonbreaks.models import BreakTournament
+def _update_adjudicator_stats_event_source_fields(event, tournament, break_tournament=None):
+    event.tournament = tournament
+    event.break_tournament = break_tournament
+    event.source_tournament_id = tournament.id
+    event.source_tournament_slug = tournament.slug
+    event.source_tournament_name = tournament.name
+    event.source_tournament_short_name = tournament.short_name
 
-    if not isinstance(break_tournament, BreakTournament):
-        break_tournament = BreakTournament.objects.get(pk=break_tournament)
 
+def queue_adjudicator_stats_export(tournament, *, force=False, reset_attempts=False):
+    tournament = load_tournament_for_activity(tournament)
+    break_tournament, _season = break_tournament_metadata(tournament)
     with transaction.atomic():
-        event, _ = AdjudicatorStatsExportEvent.objects.select_for_update().get_or_create(
-            break_tournament=break_tournament,
-            defaults={'idempotency_key': make_adjudicator_stats_idempotency_key(break_tournament)},
-        )
-        content_payload = build_adjudicator_stats_payload(break_tournament, idempotency_key='')
+        event = AdjudicatorStatsExportEvent.objects.select_for_update().filter(
+            source_tournament_id=tournament.id,
+        ).order_by('id').first()
+        if event is None:
+            event = AdjudicatorStatsExportEvent(
+                tournament=tournament,
+                source_tournament_id=tournament.id,
+                idempotency_key=make_adjudicator_stats_idempotency_key(tournament),
+            )
+        is_new_event = event.pk is None
+        _update_adjudicator_stats_event_source_fields(event, tournament, break_tournament)
+        content_payload = build_adjudicator_stats_payload(tournament, idempotency_key='')
         content_hash = payload_hash(content_payload)
-        idempotency_key = make_adjudicator_stats_idempotency_key(break_tournament, content_hash)
-        payload = build_adjudicator_stats_payload(break_tournament, idempotency_key=idempotency_key)
+        idempotency_key = make_adjudicator_stats_idempotency_key(tournament, content_hash)
+        payload = build_adjudicator_stats_payload(tournament, idempotency_key=idempotency_key)
         new_hash = payload_hash(payload)
 
         if event.status == AdjudicatorStatsExportEvent.Status.SENT and event.payload_hash == new_hash and not force:
+            event.save(update_fields=[
+                'tournament', 'break_tournament', 'source_tournament_id', 'source_tournament_slug',
+                'source_tournament_name', 'source_tournament_short_name', 'updated_at',
+            ])
             return event
 
         event.idempotency_key = idempotency_key
@@ -568,10 +584,15 @@ def queue_adjudicator_stats_export(break_tournament, *, force=False, reset_attem
         event.remote_response = None
         event.next_attempt_at = timezone.now()
         event.sent_at = None
-        event.save(update_fields=[
-            'idempotency_key', 'payload', 'payload_hash', 'status', 'attempts', 'last_error',
-            'last_http_status', 'remote_response', 'next_attempt_at', 'sent_at', 'updated_at',
-        ])
+        if is_new_event:
+            event.save()
+        else:
+            event.save(update_fields=[
+                'tournament', 'break_tournament', 'source_tournament_id', 'source_tournament_slug',
+                'source_tournament_name', 'source_tournament_short_name', 'idempotency_key', 'payload',
+                'payload_hash', 'status', 'attempts', 'last_error', 'last_http_status', 'remote_response',
+                'next_attempt_at', 'sent_at', 'updated_at',
+            ])
 
     if adjudicator_stats_export_enabled():
         notify_adjudicator_stats_export_worker([event.id])
@@ -582,8 +603,15 @@ def send_adjudicator_stats_event(event, *, dry_run=False):
     if event.status == AdjudicatorStatsExportEvent.Status.SENT and not dry_run:
         return event
     if not event.payload:
-        queue_adjudicator_stats_export(event.break_tournament, force=True)
-        event.refresh_from_db()
+        if event.tournament_id:
+            queue_adjudicator_stats_export(event.tournament, force=True)
+            event.refresh_from_db()
+        else:
+            event.mark_failed(
+                'Cannot rebuild judge activity payload because the source tournament no longer exists.',
+                permanent=True,
+            )
+            return event
     if event.status == AdjudicatorStatsExportEvent.Status.PERMANENT_FAILED:
         return event
 
@@ -604,7 +632,7 @@ def send_adjudicator_stats_event(event, *, dry_run=False):
     headers = {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'User-Agent': 'Tabbycat Adjudicator Stats Export',
+        'User-Agent': 'Tabbycat Judge Activity Export',
         'Idempotency-Key': event.idempotency_key,
     }
     if token:
@@ -659,7 +687,7 @@ def pending_events_queryset(event_ids=None):
 
 def pending_adjudicator_stats_events_queryset(event_ids=None):
     now = timezone.now()
-    queryset = AdjudicatorStatsExportEvent.objects.select_related('break_tournament').filter(
+    queryset = AdjudicatorStatsExportEvent.objects.select_related('tournament', 'break_tournament').filter(
         status__in=[AdjudicatorStatsExportEvent.Status.PENDING, AdjudicatorStatsExportEvent.Status.FAILED],
     ).filter(attempts__lt=MAX_ATTEMPTS).filter(
         models_Q_next_attempt(now)
@@ -716,36 +744,11 @@ def queue_confirmed_feedback(queryset=None, *, force=False, reset_attempts=False
     if queryset is None:
         queryset = AdjudicatorFeedback.objects.filter(confirmed=True)
     queryset = queryset.filter(confirmed=True).select_related('adjudicator')
-    queued = skipped = blocked = 0
+    queued = skipped = 0
     for feedback in queryset.iterator():
         event = queue_feedback_export(feedback, force=force, reset_attempts=reset_attempts)
         if event is None:
             skipped += 1
-        elif event.status == FeedbackExportEvent.Status.PERMANENT_FAILED:
-            blocked += 1
         else:
             queued += 1
-    return {'queued': queued, 'skipped': skipped, 'blocked': blocked}
-
-
-def auto_create_profiles_from_adjudicators(adjudicators):
-    created_profiles = created_links = existing_links = 0
-    for adjudicator in adjudicators:
-        if hasattr(adjudicator, 'judge_profile_link'):
-            existing_links += 1
-            continue
-        profile = None
-        email = (adjudicator.email or '').strip().lower()
-        if email:
-            matches = [p for p in JudgeProfile.objects.filter(primary_email__iexact=email)]
-            if len(matches) == 1:
-                profile = matches[0]
-        if profile is None:
-            profile = JudgeProfile.objects.create(
-                name=adjudicator.name,
-                primary_email=adjudicator.email or None,
-            )
-            created_profiles += 1
-        JudgeProfileLink.objects.create(profile=profile, adjudicator=adjudicator)
-        created_links += 1
-    return {'created_profiles': created_profiles, 'created_links': created_links, 'existing_links': existing_links}
+    return {'queued': queued, 'skipped': skipped}

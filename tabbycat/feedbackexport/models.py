@@ -24,57 +24,6 @@ class GlobalFeedbackExportPermission(models.Model):
         return "%s: %s" % (self.user, self.permission)
 
 
-class JudgeProfile(models.Model):
-    name = models.CharField(max_length=100, verbose_name=_('name'))
-    primary_email = models.EmailField(blank=True, null=True, verbose_name=_('primary email'))
-    extra_emails = models.JSONField(blank=True, default=list, verbose_name=_('extra emails'))
-    external_id = models.CharField(blank=True, null=True, unique=True, max_length=100,
-        verbose_name=_('external ID'))
-    notes = models.TextField(blank=True, verbose_name=_('notes'))
-    active = models.BooleanField(default=True, verbose_name=_('active'))
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created at'))
-    updated_at = models.DateTimeField(auto_now=True, verbose_name=_('updated at'))
-
-    class Meta:
-        ordering = ['-active', 'name']
-        verbose_name = _('judge profile')
-        verbose_name_plural = _('judge profiles')
-
-    def __str__(self):
-        return self.name
-
-    def save(self, *args, **kwargs):
-        self.primary_email = self.primary_email or None
-        self.external_id = self.external_id or None
-        return super().save(*args, **kwargs)
-
-    @property
-    def export_id(self):
-        return self.external_id or str(self.pk)
-
-    @property
-    def email_values(self):
-        emails = []
-        if self.primary_email:
-            emails.append(self.primary_email.strip().lower())
-        emails.extend(e.strip().lower() for e in self.extra_emails if isinstance(e, str) and e.strip())
-        return sorted(set(emails))
-
-
-class JudgeProfileLink(models.Model):
-    profile = models.ForeignKey(JudgeProfile, models.CASCADE, related_name='links', verbose_name=_('judge profile'))
-    adjudicator = models.OneToOneField('participants.Adjudicator', models.CASCADE, related_name='judge_profile_link',
-        verbose_name=_('adjudicator'))
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created at'))
-
-    class Meta:
-        verbose_name = _('judge profile link')
-        verbose_name_plural = _('judge profile links')
-
-    def __str__(self):
-        return "%s -> %s" % (self.adjudicator, self.profile)
-
-
 class FeedbackExportEvent(models.Model):
     class Status(models.TextChoices):
         PENDING = 'pending', _('pending')
@@ -133,8 +82,16 @@ class AdjudicatorStatsExportEvent(models.Model):
         FAILED = 'failed', _('failed')
         PERMANENT_FAILED = 'permanent_failed', _('permanently failed')
 
-    break_tournament = models.OneToOneField('seasonbreaks.BreakTournament', models.CASCADE,
+    tournament = models.ForeignKey('tournaments.Tournament', models.SET_NULL, blank=True, null=True,
+        related_name='adjudicator_stats_export_events', verbose_name=_('tournament'))
+    break_tournament = models.OneToOneField('seasonbreaks.BreakTournament', models.SET_NULL, blank=True, null=True,
         related_name='adjudicator_stats_export_event', verbose_name=_('break tournament'))
+    source_tournament_id = models.PositiveIntegerField(blank=True, null=True, db_index=True,
+        verbose_name=_('source tournament ID'))
+    source_tournament_slug = models.SlugField(blank=True, max_length=120, verbose_name=_('source tournament slug'))
+    source_tournament_name = models.CharField(blank=True, max_length=100, verbose_name=_('source tournament name'))
+    source_tournament_short_name = models.CharField(blank=True, max_length=25,
+        verbose_name=_('source tournament short name'))
     status = models.CharField(max_length=20, choices=Status.choices, default=Status.PENDING, db_index=True,
         verbose_name=_('status'))
     idempotency_key = models.CharField(max_length=160, unique=True, verbose_name=_('idempotency key'))
@@ -155,7 +112,10 @@ class AdjudicatorStatsExportEvent(models.Model):
         verbose_name_plural = _('adjudicator stats export events')
 
     def __str__(self):
-        return "%s adjudicator stats for %s" % (self.status, self.break_tournament)
+        return "%s adjudicator stats for %s" % (
+            self.status,
+            self.tournament or self.source_tournament_short_name or self.source_tournament_name or self.source_tournament_id,
+        )
 
     @property
     def can_retry(self):

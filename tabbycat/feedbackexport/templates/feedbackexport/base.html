@@ -1,34 +1,475 @@
 {% extends "base.html" %}
 {% load i18n %}
 
-{% block header %}
-  <div class="row d-print-none" id="pageTitle">
-    <div class="col m-3 d-flex flex-column flex-md-row align-items-md-center justify-content-md-between">
-      <div class="h2 mb-3 mb-md-0">
-        {% if page_emoji %}<span class="emoji">{{ page_emoji }}</span>{% endif %} {{ page_title }}
-      </div>
-      <a class="btn btn-outline-secondary" href="{% url 'site-tools' %}">
-        <i data-feather="arrow-left"></i> {% trans "Return to Site Tools" %}
-      </a>
-    </div>
-  </div>
-{% endblock header %}
+{% block extra-css %}
+  {{ block.super }}
+  <style>
+    :root {
+      --exports-purple: #663da0;
+      --exports-purple-dark: #4f2f7d;
+      --exports-purple-soft: rgba(102, 61, 160, 0.10);
+      --exports-purple-wash: rgba(102, 61, 160, 0.05);
+      --exports-text: #212529;
+      --exports-muted: #7a828c;
+      --exports-border: #dee2e6;
+      --exports-border-strong: #c8cfd8;
+      --exports-surface: #fff;
+      --exports-surface-muted: #f8f7fb;
+      --exports-radius: 1rem;
+      --exports-shadow: 0 14px 34px rgba(33, 37, 41, 0.06);
+    }
 
-{% block page-subnav-sections %}
-  <div class="btn-group mb-3" role="group">
-    {% for label, url, key in export_tabs %}
-      <a class="btn btn-outline-primary {% if active_tab == key %}active{% endif %}" href="{{ url }}">{{ label }}</a>
-    {% endfor %}
+    .exports-page {
+      margin: 0 auto 2rem;
+      max-width: 1400px;
+      padding: 0 1.35rem 3rem;
+    }
+
+    .exports-hero,
+    .exports-page-header,
+    .exports-section-heading,
+    .exports-card-header,
+    .exports-action-bar {
+      align-items: flex-start;
+      display: flex;
+      gap: 1rem;
+      justify-content: space-between;
+    }
+
+    .exports-hero {
+      margin: 1.25rem 0 1.35rem;
+    }
+
+    .exports-hero h1 {
+      font-size: clamp(2.05rem, 3.5vw, 3rem);
+      font-weight: 800;
+      letter-spacing: -0.045em;
+      line-height: 0.98;
+      margin: 0;
+    }
+
+    .exports-hero p,
+    .exports-page-subtitle,
+    .exports-muted {
+      color: var(--exports-muted);
+    }
+
+    .exports-hero p {
+      font-size: 1.05rem;
+      line-height: 1.5;
+      margin: 0.75rem 0 0;
+      max-width: 760px;
+    }
+
+    .exports-header-actions,
+    .exports-row-actions,
+    .exports-action-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+      justify-content: flex-end;
+    }
+
+    .exports-nav {
+      display: grid;
+      gap: 0.85rem;
+      grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
+      margin-bottom: 1.45rem;
+    }
+
+    .exports-nav a {
+      background: var(--exports-surface);
+      border: 1px solid var(--exports-border);
+      border-radius: 0.85rem;
+      color: var(--exports-text);
+      display: grid;
+      min-height: 4.1rem;
+      padding: 0.95rem 1.05rem;
+      text-decoration: none;
+    }
+
+    .exports-nav a:hover,
+    .exports-nav a.active {
+      border-color: var(--exports-border-strong);
+      color: var(--exports-text);
+      text-decoration: none;
+    }
+
+    .exports-nav a.active {
+      box-shadow: inset 0 -3px 0 var(--exports-purple);
+    }
+
+    .exports-nav strong {
+      font-size: 1rem;
+      line-height: 1.2;
+    }
+
+    .exports-nav span {
+      color: var(--exports-muted);
+      font-size: 0.82rem;
+      line-height: 1.2;
+      margin-top: 0.2rem;
+    }
+
+    .exports-grid,
+    .exports-grid-two,
+    .exports-section-stack {
+      display: grid;
+      gap: 1.15rem;
+    }
+
+    .exports-grid {
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+    }
+
+    .exports-grid-two {
+      grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.25fr);
+    }
+
+    .exports-card,
+    .exports-page .card {
+      background: var(--exports-surface);
+      border: 1px solid var(--exports-border);
+      border-radius: var(--exports-radius);
+      box-shadow: 0 1px 0 rgba(33, 37, 41, 0.03);
+      overflow: hidden;
+    }
+
+    .exports-card {
+      display: grid;
+      gap: 1rem;
+      padding: 1.25rem;
+    }
+
+    .exports-card:hover {
+      border-color: rgba(102, 61, 160, 0.22);
+    }
+
+    .exports-card-header {
+      align-items: center;
+    }
+
+    .exports-card h2,
+    .exports-card h3,
+    .exports-page-title {
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin: 0;
+    }
+
+    .exports-card h2,
+    .exports-page-title {
+      font-size: 1.65rem;
+    }
+
+    .exports-card h3 {
+      font-size: 1.2rem;
+    }
+
+    .exports-card p {
+      color: var(--exports-muted);
+      margin: 0;
+    }
+
+    .exports-summary-list {
+      display: grid;
+      gap: 0.7rem;
+      margin: 0;
+    }
+
+    .exports-summary-list div {
+      align-items: baseline;
+      display: flex;
+      gap: 1rem;
+      justify-content: space-between;
+    }
+
+    .exports-summary-list dt {
+      color: var(--exports-muted);
+      font-weight: 700;
+    }
+
+    .exports-summary-list dd {
+      color: var(--exports-text);
+      font-size: 1.25rem;
+      font-weight: 800;
+      line-height: 1;
+      margin: 0;
+    }
+
+    .exports-badge {
+      background: #f1f3f5;
+      border: 1px solid #e7eaee;
+      border-radius: 999px;
+      color: #68717d;
+      display: inline-flex;
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      padding: 0.25rem 0.62rem;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .exports-badge-purple {
+      background: var(--exports-purple-soft);
+      border-color: rgba(102, 61, 160, 0.2);
+      color: var(--exports-purple-dark);
+    }
+
+    .exports-badge-success {
+      background: #e9f8ef;
+      border-color: #b9e8c8;
+      color: #197343;
+    }
+
+    .exports-badge-warning {
+      background: #fff6df;
+      border-color: #f3db9b;
+      color: #8a6400;
+    }
+
+    .exports-badge-danger {
+      background: #fff0f2;
+      border-color: #f1b7c1;
+      color: #a61e4d;
+    }
+
+    .exports-soft-panel {
+      background: var(--exports-surface-muted);
+      border: 1px solid var(--exports-border);
+      border-radius: 0.85rem;
+      padding: 1rem;
+    }
+
+    .exports-drawer {
+      background: #fff;
+      border: 1px solid var(--exports-border);
+      border-radius: var(--exports-radius);
+      overflow: hidden;
+    }
+
+    .exports-drawer > summary {
+      align-items: center;
+      cursor: pointer;
+      display: flex;
+      gap: 1rem;
+      justify-content: space-between;
+      list-style: none;
+      padding: 1.05rem 1.25rem;
+    }
+
+    .exports-drawer > summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .exports-drawer > summary span {
+      color: var(--exports-text);
+      font-size: 1.05rem;
+      font-weight: 800;
+    }
+
+    .exports-drawer > summary small {
+      color: var(--exports-muted);
+      font-size: 0.88rem;
+      font-weight: 650;
+    }
+
+    .exports-drawer > summary::after {
+      color: var(--exports-purple);
+      content: "▾";
+      font-weight: 900;
+    }
+
+    .exports-drawer:not([open]) > summary::after {
+      transform: rotate(-90deg);
+    }
+
+    .exports-relaxed-form {
+      border-top: 1px solid var(--exports-border);
+      display: grid;
+      gap: 1rem;
+      padding: 1.25rem;
+    }
+
+    .exports-form-grid {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .exports-form-grid .form-group,
+    .exports-relaxed-form .form-group {
+      margin-bottom: 0;
+      min-width: 0;
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    .exports-page .card {
+      border-radius: var(--exports-radius);
+    }
+
+    .exports-page .card-header {
+      background: #fff !important;
+      border-bottom: 1px solid var(--exports-border);
+      padding: 1.05rem 1.25rem;
+    }
+
+    .exports-page .card-body {
+      padding: 1.25rem;
+    }
+
+    .exports-page .table {
+      margin-bottom: 0;
+    }
+
+    .exports-page .table th,
+    .exports-page .table td {
+      padding-left: 1.15rem;
+      padding-right: 1.15rem;
+      vertical-align: middle;
+    }
+
+    .exports-page .table thead th {
+      border-top: 0;
+      color: var(--exports-text);
+      font-weight: 800;
+    }
+
+    .exports-page .btn-primary {
+      background-color: var(--exports-purple);
+      border-color: var(--exports-purple);
+    }
+
+    .exports-page .btn-primary:hover,
+    .exports-page .btn-primary:focus {
+      background-color: var(--exports-purple-dark);
+      border-color: var(--exports-purple-dark);
+    }
+
+    .exports-page .btn-outline-primary {
+      border-color: var(--exports-purple);
+      color: var(--exports-purple);
+    }
+
+    .exports-page .btn-outline-primary:hover,
+    .exports-page .btn-outline-primary:focus {
+      background-color: var(--exports-purple);
+      border-color: var(--exports-purple);
+      color: #fff;
+    }
+
+    .exports-empty {
+      background: var(--exports-purple-wash);
+      border: 1px dashed rgba(102, 61, 160, 0.35);
+      border-radius: 0.85rem;
+      color: var(--exports-muted);
+      margin: 0;
+      padding: 0.9rem 1rem;
+    }
+
+    .exports-inline-status {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+    }
+
+    @media (max-width: 991.98px) {
+      .exports-hero,
+      .exports-page-header,
+      .exports-section-heading,
+      .exports-card-header,
+      .exports-action-bar {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .exports-header-actions,
+      .exports-row-actions,
+      .exports-action-bar {
+        justify-content: flex-start;
+      }
+
+      .exports-grid-two,
+      .exports-form-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 575.98px) {
+      .exports-page {
+        padding: 0 0.75rem 2rem;
+      }
+    }
+  </style>
+{% endblock %}
+
+{% block header %}{% endblock header %}
+
+{% block subheader %}
+  <div class="row d-print-none">
+    <div class="col" id="messages-container">
+      {% if messages %}
+        {% for message in messages %}
+          {% include "components/alert.html" with type=message.tags message=message %}
+        {% endfor %}
+      {% endif %}
+      {% block page-alerts %}
+        {% if active_tab == 'dashboard' or active_tab == 'judge_data' %}
+          {% if not export_enabled %}
+            {% trans "Live feedback export is disabled. Queueing still works, but sending requires SDA_JUDGES_FEEDBACK_EXPORT_ENABLED=True." as message %}
+            {% include "components/alert.html" with type="warning" %}
+          {% endif %}
+          {% if not endpoint_configured %}
+            {% trans "No external feedback API endpoint is configured. Set SDA_JUDGES_FEEDBACK_API_URL before processing feedback sends." as message %}
+            {% include "components/alert.html" with type="info" %}
+          {% endif %}
+          {% if not activity_export_enabled %}
+            {% trans "Live judge activity export is disabled. Manual queueing still works, but sending requires SDA_JUDGES_ACTIVITY_EXPORT_ENABLED=True." as message %}
+            {% include "components/alert.html" with type="warning" %}
+          {% endif %}
+          {% if not activity_endpoint_configured %}
+            {% trans "No external judge activity API endpoint is configured. Set SDA_JUDGES_ACTIVITY_API_URL before processing activity sends." as message %}
+            {% include "components/alert.html" with type="info" %}
+          {% endif %}
+        {% endif %}
+      {% endblock %}
+    </div>
   </div>
 {% endblock %}
 
-{% block page-alerts %}
-  {% if not export_enabled %}
-    {% trans "Live feedback export is disabled. Queueing and manual dry runs still work, but automatic push requires SDA_JUDGES_FEEDBACK_EXPORT_ENABLED=True." as message %}
-    {% include "components/alert.html" with type="warning" %}
-  {% endif %}
-  {% if not endpoint_configured %}
-    {% trans "No external feedback API endpoint is configured. Set SDA_JUDGES_FEEDBACK_API_URL before processing live sends." as message %}
-    {% include "components/alert.html" with type="info" %}
-  {% endif %}
+{% block content %}
+  <div class="exports-page">
+    <section class="exports-hero">
+      <div>
+        <h1>{{ page_title }}</h1>
+        <p>{% trans "Export structured SDA data from Tabbycat to external systems. Judge exports are managed together here; feedback and activity still remain separate records under the hood." %}</p>
+      </div>
+      <div class="exports-header-actions">
+        <a class="btn btn-outline-secondary" href="{% url 'site-tools' %}">
+          <i data-feather="arrow-left"></i> {% trans "Return to Site Tools" %}
+        </a>
+      </div>
+    </section>
+
+    <nav class="exports-nav" aria-label="{% trans 'API export navigation' %}">
+      {% for label, url, key in export_tabs %}
+        <a class="{% if active_tab == key %}active{% endif %}" href="{{ url }}" {% if active_tab == key %}aria-current="page"{% endif %}>
+          <strong>{{ label }}</strong>
+          {% if key == 'dashboard' %}
+            <span>{% trans "Pipeline health and next actions" %}</span>
+          {% elif key == 'judge_data' %}
+            <span>{% trans "Feedback and adjudicated debate counts" %}</span>
+          {% elif key == 'access' %}
+            <span>{% trans "Global permissions" %}</span>
+          {% endif %}
+        </a>
+      {% endfor %}
+    </nav>
+
+    <main class="exports-section-stack">
+      {% block export_content %}{% endblock %}
+    </main>
+  </div>
 {% endblock %}

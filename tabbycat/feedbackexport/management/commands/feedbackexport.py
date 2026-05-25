@@ -40,8 +40,9 @@ class Command(BaseCommand):
         payload.add_argument('feedback_id', type=int)
 
         stats_queue = subparsers.add_parser('queue-adjudicator-stats')
-        stats_queue.add_argument('--season', help='Only queue stats from this break season slug')
-        stats_queue.add_argument('--break-tournament', type=int, help='Only queue this BreakTournament ID')
+        stats_queue.add_argument('--tournament', help='Only queue this tournament slug')
+        stats_queue.add_argument('--season', help='Only queue tournaments linked to this break season slug')
+        stats_queue.add_argument('--break-tournament', type=int, help='Compatibility: queue the tournament linked to this BreakTournament ID')
         stats_queue.add_argument('--force', action='store_true', help='Rebuild events even if they were already sent')
         stats_queue.add_argument('--reset-attempts', action='store_true', help='Reset attempts while queueing')
 
@@ -53,7 +54,7 @@ class Command(BaseCommand):
         stats_retry.add_argument('--reset-attempts', action='store_true', default=True)
 
         stats_payload = subparsers.add_parser('adjudicator-stats-payload')
-        stats_payload.add_argument('break_tournament_id', type=int)
+        stats_payload.add_argument('tournament_id', type=int)
 
     def handle(self, *args, **options):
         command = options.get('command')
@@ -94,19 +95,25 @@ class Command(BaseCommand):
             return
 
         if command == 'queue-adjudicator-stats':
-            queryset = BreakTournament.objects.select_related('season', 'tournament').exclude(frozen_at__isnull=True)
+            queryset = Tournament.objects.order_by('slug')
             if options.get('season'):
                 try:
                     season = BreakSeason.objects.get(slug=options['season'])
                 except BreakSeason.DoesNotExist as exc:
                     raise CommandError('Break season not found: %s' % options['season']) from exc
-                queryset = queryset.filter(season=season)
+                queryset = queryset.filter(break_tournaments__season=season)
             if options.get('break_tournament'):
-                queryset = queryset.filter(id=options['break_tournament'])
+                try:
+                    break_tournament = BreakTournament.objects.get(id=options['break_tournament'])
+                except BreakTournament.DoesNotExist as exc:
+                    raise CommandError('BreakTournament not found: %s' % options['break_tournament']) from exc
+                queryset = queryset.filter(id=break_tournament.tournament_id)
+            if options.get('tournament'):
+                queryset = queryset.filter(slug=options['tournament'])
             count = 0
-            for break_tournament in queryset.iterator():
+            for tournament in queryset.distinct().iterator():
                 queue_adjudicator_stats_export(
-                    break_tournament,
+                    tournament,
                     force=options.get('force', False),
                     reset_attempts=options.get('reset_attempts', False),
                 )
@@ -126,18 +133,19 @@ class Command(BaseCommand):
                     AdjudicatorStatsExportEvent.Status.FAILED,
                     AdjudicatorStatsExportEvent.Status.PERMANENT_FAILED,
                 ]
-            ).select_related('break_tournament'):
-                queue_adjudicator_stats_export(
-                    event.break_tournament,
-                    force=True,
-                    reset_attempts=options['reset_attempts'],
-                )
-                count += 1
+            ).select_related('tournament'):
+                if event.tournament_id:
+                    queue_adjudicator_stats_export(
+                        event.tournament,
+                        force=True,
+                        reset_attempts=options['reset_attempts'],
+                    )
+                    count += 1
             self.stdout.write(self.style.SUCCESS(json.dumps({'queued': count}, sort_keys=True)))
             return
 
         if command == 'adjudicator-stats-payload':
-            payload = build_adjudicator_stats_payload(options['break_tournament_id'])
+            payload = build_adjudicator_stats_payload(options['tournament_id'])
             self.stdout.write(json.dumps(payload, indent=2, sort_keys=True))
             return
 
