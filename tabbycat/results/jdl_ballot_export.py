@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import zipfile
 from io import BytesIO
+from numbers import Number
 from pathlib import Path
 from xml.etree import ElementTree as ET
 
@@ -10,7 +11,7 @@ from django.utils.text import slugify
 
 from adjallocation.models import DebateAdjudicator
 from draw.types import DebateSide
-from xmlconverter.converter_core import adjudicator_short
+from xmlconverter.converter_core import adjudicator_short, format_number
 from xmlconverter.styled import (
     col_index,
     q,
@@ -246,8 +247,8 @@ def _fill_sheet(sheet_root: ET.Element, context: dict[str, object]) -> None:
 
         values = score_rows[offset] if offset < len(score_rows) else ["", "", ""]
         for column, value in zip(("L", "M", "N"), values):
-            set_cell_value(sheet_root, f"{column}{row}", value)
-            if isinstance(value, (int, float)):
+            set_cell_value(sheet_root, f"{column}{row}", format_number(value) if isinstance(value, Number) else value)
+            if isinstance(value, Number):
                 score_total += float(value)
 
     _set_formula_cached_value(sheet_root, "L15", score_total)

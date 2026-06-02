@@ -1,14 +1,16 @@
 from django.test import TestCase
+from django.utils.translation import gettext as _
 
 from adjallocation.models import DebateAdjudicator
 from draw.models import Debate, DebateTeam
 from draw.types import DebateSide
-from options.presets import JDLFirstCategoryPreferences
+from options.presets import JDLFirstCategoryPreferences, JDLFormatPreferences
 from participants.models import Adjudicator, Institution, Speaker, Team
 from privateurls.views import PersonIndexView
-from results.models import BallotSubmission
+from results.models import BallotSubmission, SpeakerScore, TeamScore
 from results.views import AdjudicatorPrivateUrlBallotScoresheetView, BasePublicNewBallotSetView
 from tournaments.models import Round, Tournament
+from utils.misc import reverse_round
 from venues.models import Venue
 
 
@@ -53,6 +55,102 @@ class JDLMultiSpeechPrivateUrlTests(TestCase):
         DebateTeam.objects.create(debate=debate, team=team, side=side)
         return debate
 
+    def _create_team_with_speakers(self, tournament, reference, names):
+        team = Team.objects.create(
+            tournament=tournament,
+            institution=self.institution,
+            reference=reference,
+            use_institution_prefix=False,
+        )
+        speakers = [Speaker.objects.create(team=team, name=name) for name in names]
+        return team, speakers
+
+    def test_private_url_can_submit_debate_specific_solo_ballot(self):
+        self.round.draw_status = Round.Status.RELEASED
+        self.round.save()
+
+        debate_team = self.debate_one.debateteam_set.get()
+        speaker = debate_team.team.speakers.get()
+        url = reverse_round('results-public-ballotset-new-randomised-debate', self.round, kwargs={
+            'url_key': self.adjudicator.url_key,
+            'debate_id': self.debate_one.id,
+        })
+
+        response = self.client.post(url, {
+            '0_speaker_s1': speaker.id,
+            f'0_score_a{self.adjudicator.id}_s1': 21,
+            'confirmed': 'on',
+            'debate_result_status': Debate.STATUS_CONFIRMED,
+        })
+
+        self.assertEqual(response.status_code, 302)
+        ballot = BallotSubmission.objects.get(debate=self.debate_one)
+        self.assertTrue(ballot.private_url)
+        self.assertEqual(ballot.participant_submitter_id, self.adjudicator.id)
+        self.assertTrue(ballot.confirmed)
+        self.assertEqual(TeamScore.objects.filter(ballot_submission=ballot).count(), 1)
+        self.assertEqual(SpeakerScore.objects.filter(ballot_submission=ballot).count(), 1)
+
+    def test_private_url_can_submit_jdl_second_category_draft_ballot(self):
+        tournament = Tournament.objects.create(slug="jdl-second", name="JDL Second Category")
+        JDLFormatPreferences.save(tournament)
+        round = Round.objects.create(
+            tournament=tournament,
+            seq=1,
+            name="Round 1",
+            abbreviation="R1",
+            draw_status=Round.Status.RELEASED,
+        )
+        adjudicator = Adjudicator.objects.create(
+            tournament=tournament,
+            institution=self.institution,
+            name="Ben Judge",
+            url_key="ben-judge",
+            base_score=5,
+        )
+        aff_team, aff_speakers = self._create_team_with_speakers(tournament, "Aff Team", ["Aff One", "Aff Two"])
+        neg_team, neg_speakers = self._create_team_with_speakers(tournament, "Neg Team", ["Neg One", "Neg Two"])
+        debate = Debate.objects.create(round=round, venue=self.venue)
+        DebateTeam.objects.create(debate=debate, team=aff_team, side=DebateSide.AFF)
+        DebateTeam.objects.create(debate=debate, team=neg_team, side=DebateSide.NEG)
+        DebateAdjudicator.objects.create(
+            debate=debate,
+            adjudicator=adjudicator,
+            type=DebateAdjudicator.TYPE_CHAIR,
+        )
+        url = reverse_round('results-public-ballotset-new-randomised-debate', round, kwargs={
+            'url_key': adjudicator.url_key,
+            'debate_id': debate.id,
+        })
+
+        response = self.client.post(url, {
+            '0_speaker_s1': aff_speakers[0].id,
+            '0_speaker_s2': aff_speakers[1].id,
+            '0_speaker_s3': aff_speakers[0].id,
+            '0_score_s1': 20,
+            '0_score_s2': 21,
+            '0_score_s3': 16,
+            '1_speaker_s1': neg_speakers[0].id,
+            '1_speaker_s2': neg_speakers[1].id,
+            '1_speaker_s3': neg_speakers[0].id,
+            '1_score_s1': 18,
+            '1_score_s2': 18,
+            '1_score_s3': 14,
+            'declared_winner': DebateSide.AFF,
+            'debate_result_status': Debate.STATUS_DRAFT,
+        })
+
+        form_errors = response.context['form'].errors if response.context else None
+        self.assertEqual(response.status_code, 302, form_errors)
+        ballot = BallotSubmission.objects.get(debate=debate)
+        self.assertTrue(ballot.private_url)
+        self.assertEqual(ballot.participant_submitter_id, adjudicator.id)
+        self.assertFalse(ballot.confirmed)
+        debate.refresh_from_db()
+        self.assertEqual(debate.result_status, Debate.STATUS_DRAFT)
+        self.assertEqual(TeamScore.objects.filter(ballot_submission=ballot).count(), 2)
+        self.assertEqual(SpeakerScore.objects.filter(ballot_submission=ballot).count(), 6)
+
     def test_same_adjudicator_can_be_assigned_to_multiple_solo_debates(self):
         self.assertEqual(
             DebateAdjudicator.objects.filter(adjudicator=self.adjudicator, debate__round=self.round).count(),
@@ -91,7 +189,7 @@ class JDLMultiSpeechPrivateUrlTests(TestCase):
         self.assertNotEqual(actions[0]['url'], actions[1]['url'])
         self.assertIn(str(self.debate_one.id), actions[0]['url'])
         self.assertIn(str(self.debate_two.id), actions[1]['url'])
-        self.assertIn("Submit Ballot", actions[0]['text'])
+        self.assertIn(_("Submit Ballot"), actions[0]['text'])
         self.assertEqual(actions[0]['subtext'], "")
         self.assertFalse(actions[0]['to_complete'])
         self.assertEqual(actions[0]['type'], 'primary')
@@ -112,7 +210,7 @@ class JDLMultiSpeechPrivateUrlTests(TestCase):
 
         self.assertEqual(len(actions), 1)
         self.assertIn(str(self.debate_two.id), actions[0]['url'])
-        self.assertIn("Submit Ballot", actions[0]['text'])
+        self.assertIn(_("Submit Ballot"), actions[0]['text'])
 
     def test_landing_actions_ignore_non_chair_allocations(self):
         debate = self._create_solo_debate("Speaker Three", DebateSide.AFF)

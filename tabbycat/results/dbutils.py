@@ -100,7 +100,7 @@ def add_result(debate, submitter_type, user, discarded=False, confirmed=False, r
     result = DebateResult(bsub)
 
     if result.uses_speakers:
-        for side in t.sides:
+        for side in result.sides:
             speakers = list(debate.get_team(side).speakers)  # fix order
             for i in range(1, t.last_substantive_position+1):
                 result.set_speaker(side, i, speakers[i-1])

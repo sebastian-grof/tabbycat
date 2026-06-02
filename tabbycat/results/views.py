@@ -426,7 +426,8 @@ class BaseBallotSetView(LogActionMixin, TournamentMixin, FormView):
     def form_valid(self, form):
         self.ballotsub = form.save()
         if self.ballotsub.confirmed:
-            self.ballotsub.confirmer = self.request.user
+            if self.request.user.is_authenticated:
+                self.ballotsub.confirmer = self.request.user
             self.ballotsub.confirm_timestamp = timezone.now()
             self.ballotsub.save()
 
