@@ -79,7 +79,9 @@ class AvailabilityIndexView(RoundMixin, AdministratorMixin, TemplateView):
         kwargs['availability_info'] = OrderedDict([('teams', teams), ('adjs', adjs), ('venues', venues)])
 
         # Check the number of teams/adjudicators is sufficient
-        if self.tournament.pref('teams_in_debate') == 2:
+        if self.tournament.pref('teams_in_debate') == 1:
+            per_room_divisor = 1
+        elif self.tournament.pref('teams_in_debate') == 2:
             per_room_divisor = 2
         else:
             per_room_divisor = 4
@@ -101,7 +103,13 @@ class AvailabilityIndexView(RoundMixin, AdministratorMixin, TemplateView):
         if self.round.prev is None or not self.round.prev.is_break_round:
             break_size = self.round.break_category.breakingteam_set_competing.count()
             teams_dict = {'total': break_size}
-            if break_size < 2:
+            if self.tournament.pref('teams_in_debate') == 1:
+                teams_dict['in_now'] = break_size
+                teams_dict['message'] = ngettext(
+                    "%(nteams)d breaking team is debating this round",
+                    "%(nteams)d breaking teams are debating this round",
+                    break_size) % {'nteams': break_size}
+            elif break_size < 2:
                 teams_dict['in_now'] = 0
                 teams_dict['message'] = ngettext(
                     # Translators: nteams in this string can only be 0 or 1

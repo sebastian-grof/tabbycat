@@ -86,6 +86,8 @@ def get_solo_generator(draw_type):
         return {
             "random": RandomPolyDrawGenerator,
             "power_paired": RankedSoloDrawGenerator,
+            "first_elimination": RankedSoloDrawGenerator,
+            "elimination": RankedSoloDrawGenerator,
         }[draw_type]
     except KeyError:
         raise ValueError("Unrecognised draw type for solo draw: {}".format(draw_type))

@@ -1,5 +1,6 @@
 import logging
 import random
+from collections import Counter
 from typing import List, Tuple, TYPE_CHECKING
 
 from django.utils.translation import gettext as _
@@ -52,9 +53,9 @@ def DrawManager(round: Round, active_only: bool = True, draw_type: Round.DrawTyp
     draw_type = draw_type or round.draw_type
     try:
         if teams_in_debate in [1, 2, 4]:
-            klass = DRAW_MANAGER_CLASSES[(teams_in_debate, round.draw_type)]
+            klass = DRAW_MANAGER_CLASSES[(teams_in_debate, draw_type)]
         else:
-            klass = DRAW_MANAGER_CLASSES[(None, round.draw_type)]
+            klass = DRAW_MANAGER_CLASSES[(None, draw_type)]
     except KeyError:
         if teams_in_debate == 2:
             raise DrawUserError(_("The draw type %(type)s can't be used with two-team formats.") % {'type': round.get_draw_type_display()})
@@ -310,6 +311,59 @@ class BaseDrawManager:
         self.round.teamsideallocation_set.all().delete()
         TeamSideAllocation.objects.bulk_create(allocations)
 
+    def _choose_solo_auto_side(self, team, side_counts, allowed_sides):
+        side_history = getattr(team, 'side_history', [0] * len(allowed_sides))
+        history_by_side = dict(zip(allowed_sides, side_history))
+        return min(allowed_sides, key=lambda side: (
+            side_counts[side],
+            history_by_side.get(side, 0),
+            side,
+        ))
+
+    def _get_solo_side_allocations(self, pairings: List['BasePairing']):
+        allowed_sides = list(self.round.tournament.sides)
+        if not allowed_sides:
+            raise DrawUserError(_("Solo speech draws require at least one available side."))
+
+        saved_allocations = {
+            tsa.team_id: tsa.side
+            for tsa in self.round.teamsideallocation_set.all()
+        }
+        pairings_by_rank = sorted(pairings, key=lambda pairing: (pairing.room_rank, pairing.bracket))
+        side_counts = Counter()
+        allocations = {}
+        missing_teams = []
+
+        for pairing in pairings_by_rank:
+            if len(pairing.teams) != 1:
+                raise DrawUserError(_("Solo speech draws must have exactly one team in each debate."))
+
+            team = pairing.teams[0]
+            side = saved_allocations.get(team.id)
+            if side is None:
+                missing_teams.append(team)
+                continue
+            if side not in allowed_sides:
+                raise DrawUserError(_("Assign a saved affirmative/negative side for every active team before generating this solo speech draw."))
+
+            allocations[team.id] = side
+            side_counts[side] += 1
+
+        if missing_teams and not self.round.is_break_round:
+            raise DrawUserError(_("Assign a saved affirmative/negative side for every active team before generating this solo speech draw."))
+
+        new_allocations = []
+        for team in missing_teams:
+            side = self._choose_solo_auto_side(team, side_counts, allowed_sides)
+            allocations[team.id] = side
+            side_counts[side] += 1
+            new_allocations.append(TeamSideAllocation(round=self.round, team=team, side=side))
+
+        if new_allocations:
+            TeamSideAllocation.objects.bulk_create(new_allocations)
+
+        return allocations
+
     def _make_debates(self, pairings: List['BasePairing']) -> list[Debate]:
         random.shuffle(pairings)  # to avoid IDs indicating room ranks
 
@@ -318,11 +372,7 @@ class BaseDrawManager:
         solo_allocations = None
 
         if self.teams_in_debate == 1:
-            solo_allocations = {
-                tsa.team_id: tsa.side
-                for tsa in self.round.teamsideallocation_set.all()
-            }
-            allowed_sides = set(self.round.tournament.sides)
+            solo_allocations = self._get_solo_side_allocations(pairings)
 
         for pairing in pairings:
             debate = Debate(round=self.round, bracket=pairing.bracket, room_rank=pairing.room_rank, flags=pairing.flags)
@@ -336,13 +386,8 @@ class BaseDrawManager:
 
         for pairing, debate in debates.items():
             if self.teams_in_debate == 1:
-                if len(pairing.teams) != 1:
-                    raise DrawUserError(_("Solo speech draws must have exactly one team in each debate."))
-
                 team = pairing.teams[0]
                 side = solo_allocations.get(team.id)
-                if side not in allowed_sides:
-                    raise DrawUserError(_("Assign a saved affirmative/negative side for every active team before generating this solo speech draw."))
 
                 dt = DebateTeam(debate=debate, team=team, side=side, flags=pairing.get_team_flags(team))
                 debateteams.append(dt)
@@ -657,6 +702,15 @@ class EliminationDrawManager(BaseEliminationDrawManager):
             return "first_elimination"
 
 
+class SoloEliminationDrawManager(BaseEliminationDrawManager):
+
+    def get_results(self):
+        return None
+
+    def get_generator_type(self):
+        return "elimination"
+
+
 class BPEliminationDrawManager(BaseEliminationDrawManager):
     result_pairing_class = BPEliminationResultPairing
 
@@ -684,6 +738,7 @@ DRAW_MANAGER_CLASSES = {
     (1, Round.DrawType.RANDOM): RandomDrawManager,
     (1, Round.DrawType.POWERPAIRED): PowerPairedDrawManager,
     (1, Round.DrawType.MANUAL): ManualDrawManager,
+    (1, Round.DrawType.ELIMINATION): SoloEliminationDrawManager,
     (2, Round.DrawType.RANDOM): RandomDrawManager,
     (2, Round.DrawType.POWERPAIRED): PowerPairedDrawManager,
     (2, Round.DrawType.ROUNDROBIN): RoundRobinDrawManager,
