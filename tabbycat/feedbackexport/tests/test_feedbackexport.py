@@ -114,7 +114,7 @@ class FeedbackExportTestCase(TestCase):
 
         self.assertEqual(event.status, FeedbackExportEvent.Status.PENDING)
         self.assertEqual(payload['source_system'], 'tabbycat-sda')
-        self.assertEqual(payload['idempotency_key'], 'tabbycat-sda:feedback:%s:v1' % self.feedback.id)
+        self.assertEqual(payload['idempotency_key'], 'tabbycat-sda:feedback:%s:v2' % self.feedback.id)
         self.assertIsNone(payload['target']['judge_profile_id'])
         self.assertEqual(payload['target']['local_adjudicator_id'], self.adjudicator.id)
         self.assertEqual(payload['target']['role'], 'chair')
@@ -127,6 +127,84 @@ class FeedbackExportTestCase(TestCase):
         self.assertNotIn('ip_address', payload)
         self.assertNotIn('private_url', payload)
         self.assertNotIn('submitter', payload)
+
+    def test_sdl_team_comment_uses_dr_comment_reference(self):
+        comment_question = AdjudicatorFeedbackQuestion.objects.create(
+            tournament=self.tournament,
+            for_content_type=ContentType.objects.get_for_model(AdjudicatorFeedback),
+            seq=2,
+            text='Komentáre k rozhodnutiu',
+            name='Komentáre k rozhodnutiu',
+            answer_type=Question.AnswerType.LONGTEXT,
+            required=False,
+            reference='komentare_k_rozhodnutiu',
+            from_adj=False,
+            from_team=True,
+        )
+        Answer.objects.create(
+            content_object=self.feedback,
+            question=comment_question,
+            answer='Decision was explained clearly.',
+        )
+
+        payload = build_feedback_payload(self.feedback)
+        answers = {answer['question_reference']: answer for answer in payload['answers']}
+
+        self.assertEqual(answers['comment']['value'], 'Decision was explained clearly.')
+        self.assertNotIn('komentare_k_rozhodnutiu', answers)
+
+    def test_sdl_adjudicator_assessment_uses_dr_references(self):
+        assessment_question = AdjudicatorFeedbackQuestion.objects.create(
+            tournament=self.tournament,
+            for_content_type=ContentType.objects.get_for_model(AdjudicatorFeedback),
+            seq=2,
+            text='Posudok',
+            name='Posudok',
+            answer_type=Question.AnswerType.SINGLE_SELECT,
+            required=True,
+            reference='posudok',
+            choices=['Pozitívny', 'Neutrálny', 'Negatívny'],
+            from_adj=True,
+            from_team=False,
+        )
+        comment_question = AdjudicatorFeedbackQuestion.objects.create(
+            tournament=self.tournament,
+            for_content_type=ContentType.objects.get_for_model(AdjudicatorFeedback),
+            seq=3,
+            text='Komentáre',
+            name='Komentáre',
+            answer_type=Question.AnswerType.LONGTEXT,
+            required=False,
+            reference='komentare_rozhodca',
+            from_adj=True,
+            from_team=False,
+        )
+        feedback = AdjudicatorFeedback.objects.create(
+            adjudicator=self.adjudicator,
+            score=4,
+            source_adjudicator=self.source_debate_adjudicator,
+            submitter_type=Submission.Submitter.PUBLIC,
+            confirmed=True,
+            confirm_timestamp=timezone.now(),
+        )
+        Answer.objects.create(
+            content_object=feedback,
+            question=assessment_question,
+            answer='Pozitívny',
+        )
+        Answer.objects.create(
+            content_object=feedback,
+            question=comment_question,
+            answer='Strong chairing and useful feedback.',
+        )
+
+        payload = build_feedback_payload(feedback)
+        answers = {answer['question_reference']: answer for answer in payload['answers']}
+
+        self.assertEqual(answers['assessment']['value'], 'Pozitívny')
+        self.assertEqual(answers['assessment_comment']['value'], 'Strong chairing and useful feedback.')
+        self.assertNotIn('posudok', answers)
+        self.assertNotIn('komentare_rozhodca', answers)
 
     def test_payload_contains_break_league_when_tournament_is_in_break_season(self):
         self._break_tournament()

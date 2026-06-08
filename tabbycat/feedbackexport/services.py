@@ -54,7 +54,7 @@ def adjudicator_stats_export_token():
 
 
 def make_idempotency_key(feedback_id):
-    return '%s:feedback:%s:v1' % (SOURCE_SYSTEM, feedback_id)
+    return '%s:feedback:%s:v2' % (SOURCE_SYSTEM, feedback_id)
 
 
 def make_adjudicator_stats_idempotency_key(tournament, content_hash=None):
@@ -139,6 +139,18 @@ def answer_type_payload(question):
     return mapping.get(answer_type, answer_type)
 
 
+DR_ASSESSMENT_REFERENCES = {'assessment', 'posudok'}
+DR_COMMENT_REFERENCES = {
+    'assessment_comment',
+    'comment',
+    'comments',
+    'komentar',
+    'komentare',
+    'komentare_k_rozhodnutiu',
+    'komentare_rozhodca',
+}
+
+
 def question_reference_payload(question):
     reference = getattr(question, 'reference', None)
     if reference is not None:
@@ -149,8 +161,59 @@ def question_reference_payload(question):
         return None
 
 
+def question_search_text(question):
+    return ' '.join(str(value or '') for value in (
+        question_reference_payload(question),
+        getattr(question, 'name', ''),
+        getattr(question, 'text', ''),
+    )).casefold()
+
+
+def canonical_question_reference(feedback, question):
+    reference = question_reference_payload(question)
+    reference_key = str(reference or '').strip().casefold()
+    search_text = question_search_text(question)
+
+    if feedback.source_adjudicator_id:
+        if reference_key in DR_COMMENT_REFERENCES or 'koment' in search_text or 'comment' in search_text:
+            return 'assessment_comment'
+        if reference_key in DR_ASSESSMENT_REFERENCES or 'posudok' in search_text or 'assessment' in search_text:
+            return 'assessment'
+    elif feedback.source_team_id:
+        if reference_key in DR_COMMENT_REFERENCES or 'koment' in search_text or 'comment' in search_text:
+            return 'comment'
+
+    return reference
+
+
+def unique_question_reference(reference, question, seen_references):
+    if not reference:
+        return reference
+
+    reference = str(reference)
+    if reference not in seen_references:
+        seen_references.add(reference)
+        return reference
+
+    original_reference = question_reference_payload(question)
+    candidates = []
+    if original_reference and original_reference != reference:
+        candidates.append(str(original_reference))
+    candidates.extend([
+        '%s_%s' % (reference, question.id),
+        'question_%s' % question.id,
+    ])
+    for candidate in candidates:
+        if candidate not in seen_references:
+            seen_references.add(candidate)
+            return candidate
+
+    return ''
+
+
 def answers_payload(feedback):
     answers = []
+    seen_references = set()
     for answer in feedback.answers.select_related('question').order_by('question__seq', 'question__id'):
         question = answer.question
         try:
@@ -159,8 +222,10 @@ def answers_payload(feedback):
             logger.exception('Could not deserialize feedback answer %s', answer.id)
             value = answer.answer
         value = normalise_json_value(value)
+        question_reference = canonical_question_reference(feedback, question)
+        question_reference = unique_question_reference(question_reference, question, seen_references)
         answers.append({
-            'question_reference': question_reference_payload(question),
+            'question_reference': question_reference,
             'question_text': question.text,
             'answer_type': answer_type_payload(question),
             'raw_value': value,
