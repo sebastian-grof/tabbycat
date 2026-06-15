@@ -2,35 +2,42 @@
 {% load i18n %}
 
 {% block season_content %}
-  <div class="card border-0 shadow-sm mb-3">
-    <div class="card-body d-md-flex justify-content-between align-items-center">
+  <div class="card">
+    <div class="card-header d-md-flex justify-content-between align-items-center">
       <div>
-        <h3 class="mb-1">{% trans "Season teams" %}</h3>
-        <p class="text-muted mb-md-0">{% trans "These are the season-level team identities used for ranking and eligibility." %}</p>
+        <h4 class="mb-0">{% trans "Season teams" %}</h4>
+        <span class="text-muted small">{% trans "Season-level team identities used for ranking and eligibility." %}</span>
       </div>
       {% if can_edit_breaks %}
-        <a class="btn btn-outline-primary mt-3 mt-md-0" href="{% url 'seasonbreaks-identities-teams' season_slug=season.slug %}">
+        <a class="btn btn-outline-primary btn-sm mt-2 mt-md-0" href="{% url 'seasonbreaks-identities-teams' season_slug=season.slug %}">
           {% trans "Manage team identities" %}
         </a>
       {% endif %}
     </div>
-  </div>
-
-  <div class="card shadow-sm">
-    <table class="table table-hover table-sm mb-0">
-      <thead><tr><th>{% trans "Season team" %}</th><th>{% trans "Institution" %}</th><th>{% trans "Region" %}</th><th>{% trans "Linked tournament teams" %}</th></tr></thead>
-      <tbody>
-        {% for team in teams %}
-          <tr>
-            <td><strong>{{ team.name }}</strong></td>
-            <td>{% if team.institution %}{{ team.institution.code }}{% endif %}</td>
-            <td>{% if team.region %}{{ team.region.name }}{% endif %}</td>
-            <td>{% for link in team.links.all %}<span class="badge badge-light">{{ link.team.tournament }}: {{ link.team.short_name }}</span>{% if not forloop.last %} {% endif %}{% empty %}<span class="text-muted">{% trans "No links" %}</span>{% endfor %}</td>
-          </tr>
-        {% empty %}
-          <tr><td colspan="4" class="text-muted">{% trans "Freeze a tournament to create team mappings." %}</td></tr>
-        {% endfor %}
-      </tbody>
-    </table>
+    <div class="table-responsive">
+      <table class="table table-sm mb-0">
+        <thead>
+          <tr><th>{% trans "Season team" %}</th><th>{% trans "Institution" %}</th><th>{% trans "Region" %}</th><th>{% trans "Linked tournament teams" %}</th></tr>
+        </thead>
+        <tbody>
+          {% for team in teams %}
+            <tr>
+              <td><strong>{{ team.name }}</strong></td>
+              <td>{% if team.institution %}{{ team.institution.code }}{% endif %}</td>
+              <td>{% if team.region %}{{ team.region.name }}{% endif %}</td>
+              <td>
+                {% for link in team.links.all %}
+                  <span class="badge badge-light">{{ link.team.tournament }}: {{ link.team.short_name }}</span>
+                {% empty %}
+                  <span class="text-muted">{% trans "No links" %}</span>
+                {% endfor %}
+              </td>
+            </tr>
+          {% empty %}
+            <tr><td colspan="4" class="text-muted">{% trans "Freeze a tournament to create team mappings." %}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
   </div>
 {% endblock %}

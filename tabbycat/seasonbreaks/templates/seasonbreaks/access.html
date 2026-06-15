@@ -1,49 +1,53 @@
 {% extends "seasonbreaks/base.html" %}
 {% load i18n %}
 
-{% block standalone_content %}
-  <section class="breaks-management-header">
-    <div>
-      <div class="breaks-page-kicker">{% trans "Break management" %}</div>
-      <h1>{% trans "Breaks access" %}</h1>
-      <p>{% trans "Grant global access to the Breaks section." %}</p>
-    </div>
-    <div class="breaks-header-actions">
-      <a class="btn btn-outline-secondary" href="{% url 'site-tools' %}">
-        <i data-feather="tool"></i>{% trans "Return to Site Tools" %}
-      </a>
-      <a class="btn btn-outline-secondary" href="{% url 'seasonbreaks-index' %}">
-        <i data-feather="arrow-left"></i>{% trans "Return to Breaks" %}
-      </a>
-    </div>
-  </section>
+{# Access is a global (no-season) page, so it sets its own header and actions. #}
 
-  <div class="breaks-grid-two">
-    <div class="card">
-      <div class="card-header"><h4 class="mb-0">{% trans "Grant Breaks access" %}</h4></div>
-      <form method="post" class="card-body">
-        {% csrf_token %}
-        {% include "components/form-field.html" with field=form.user %}
-        <div class="form-group">
-          <label>{{ form.permissions.label }}</label>
-          {{ form.permissions }}
-          {{ form.permissions.errors }}
-        </div>
-        <button class="btn btn-primary" type="submit">{% trans "Save access" %}</button>
-      </form>
+{% block head-title %}<span class="emoji">🔒</span> {% trans "Breaks access" %}{% endblock %}
+{% block sub-title %}{% trans "Grant global access to the Breaks section." %}{% endblock %}
+
+{% block page-subnav-sections %}{% endblock %}
+
+{% block page-subnav-actions %}
+  <a class="btn btn-outline-secondary" href="{% url 'seasonbreaks-index' %}">
+    <i data-feather="arrow-left"></i> {% trans "Return to Breaks" %}
+  </a>
+  <a class="btn btn-outline-secondary" href="{% url 'site-tools' %}">
+    <i data-feather="tool"></i> {% trans "Return to Site Tools" %}
+  </a>
+{% endblock %}
+
+{% block standalone_content %}
+  <div class="row">
+    <div class="col-lg-5 col-12 mb-3">
+      <div class="card h-100">
+        <div class="card-header"><h4 class="mb-0">{% trans "Grant Breaks access" %}</h4></div>
+        <form method="post" class="card-body">
+          {% csrf_token %}
+          {% include "components/form-field.html" with field=form.user %}
+          <div class="form-group">
+            <label>{{ form.permissions.label }}</label>
+            {{ form.permissions }}
+            {{ form.permissions.errors }}
+          </div>
+          <button class="btn btn-primary" type="submit">{% trans "Save access" %}</button>
+        </form>
+      </div>
     </div>
-    <div class="card">
-      <div class="card-header"><h4 class="mb-0">{% trans "Current access" %}</h4></div>
-      <table class="table table-sm mb-0">
-        <thead><tr><th>{% trans "User" %}</th><th>{% trans "Permissions" %}</th></tr></thead>
-        <tbody>
-          {% for user, permissions in access_rows %}
-            <tr><td>{{ user }}</td><td>{{ permissions|join:", " }}</td></tr>
-          {% empty %}
-            <tr><td colspan="2" class="text-muted">{% trans "No users have explicit Breaks access yet." %}</td></tr>
-          {% endfor %}
-        </tbody>
-      </table>
+    <div class="col-lg-7 col-12 mb-3">
+      <div class="card h-100">
+        <div class="card-header"><h4 class="mb-0">{% trans "Current access" %}</h4></div>
+        <table class="table table-sm mb-0">
+          <thead><tr><th>{% trans "User" %}</th><th>{% trans "Permissions" %}</th></tr></thead>
+          <tbody>
+            {% for user, permissions in access_rows %}
+              <tr><td><strong>{{ user }}</strong></td><td>{{ permissions|join:", " }}</td></tr>
+            {% empty %}
+              <tr><td colspan="2" class="text-muted">{% trans "No users have explicit Breaks access yet." %}</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 {% endblock %}

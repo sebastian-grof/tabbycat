@@ -2,47 +2,39 @@
 {% load i18n %}
 
 {% block season_content %}
-  <section class="breaks-page-header">
-    <div class="d-md-flex justify-content-between align-items-start">
-      <div>
-        <h3 class="breaks-page-title">{% trans "Adjudicator identities" %}</h3>
-        <p class="breaks-page-subtitle">{% trans "Choose a source tournament, then repair only that tournament's adjudicator links." %}</p>
-      </div>
-      <a class="btn btn-outline-secondary mt-3 mt-md-0" href="{% url 'seasonbreaks-identities' season_slug=season.slug %}">
-        {% trans "Back to identity categories" %}
-      </a>
-    </div>
-  </section>
+
+  <div class="d-md-flex justify-content-between align-items-center mb-3">
+    <p class="text-muted mb-2 mb-md-0">{% trans "Choose a source tournament, then repair only that tournament's adjudicator links." %}</p>
+    <a class="btn btn-outline-secondary" href="{% url 'seasonbreaks-identities' season_slug=season.slug %}">
+      <i data-feather="arrow-left"></i> {% trans "Identity categories" %}
+    </a>
+  </div>
 
   {% if can_edit_breaks %}
-    <div class="card shadow-sm mb-3">
-      <div class="card-header bg-white">
-        <h5 class="mb-0">{% trans "Create adjudicator identity" %}</h5>
-      </div>
+    <div class="card mb-3">
+      <div class="card-header"><h4 class="mb-0">{% trans "Create adjudicator identity" %}</h4></div>
       <form method="post" class="card-body">
         {% csrf_token %}
         <input type="hidden" name="action" value="create_adjudicator">
         <input type="hidden" name="source" value="{{ selected_source|default:'' }}">
-        <div class="form-row">
+        <div class="form-row align-items-end">
           <div class="col-md-4">{% include "components/form-field.html" with field=adjudicator_form.name %}</div>
           <div class="col-md-4">{% include "components/form-field.html" with field=adjudicator_form.email %}</div>
           <div class="col-md-3">{% include "components/form-field.html" with field=adjudicator_form.institution %}</div>
-          <div class="col-md-1 d-flex align-items-end">
-            <button class="btn btn-secondary btn-block mb-3" type="submit">{% trans "Create" %}</button>
+          <div class="col-md-1 form-group">
+            <button class="btn btn-secondary btn-block" type="submit">{% trans "Create" %}</button>
           </div>
         </div>
       </form>
     </div>
   {% endif %}
 
-  <div class="card shadow-sm mb-3">
-    <div class="card-header bg-white">
-      <h5 class="mb-0">{% trans "Choose tournament" %}</h5>
-    </div>
+  <div class="card mb-3">
+    <div class="card-header"><h4 class="mb-0">{% trans "Choose tournament" %}</h4></div>
     <div class="card-body">
       {% for group in source_groups %}
         <a class="btn {% if selected_source == group.source_key %}btn-secondary{% else %}btn-outline-secondary{% endif %} mb-2 mr-2"
-            href="{% url 'seasonbreaks-identities-adjudicators' season_slug=season.slug %}?source={{ group.source_key }}">
+           href="{% url 'seasonbreaks-identities-adjudicators' season_slug=season.slug %}?source={{ group.source_key }}">
           {{ group.title }}
           <span class="badge {% if selected_source == group.source_key %}badge-light{% else %}badge-secondary{% endif %} ml-1">
             {{ group.links|length }}
@@ -55,55 +47,58 @@
   </div>
 
   {% if selected_group %}
-    <div class="card shadow-sm">
-      <div class="card-header bg-white d-md-flex justify-content-between align-items-center">
+    <div class="card">
+      <div class="card-header d-md-flex justify-content-between align-items-center">
         <h4 class="mb-0">{{ selected_group.title }}</h4>
         <span class="text-muted small">{% trans "Tournament adjudicator to season adjudicator" %}</span>
       </div>
-      <table class="table table-hover table-sm mb-0">
-        <thead>
-          <tr>
-            <th>{% trans "Tournament adjudicator" %}</th>
-            <th>{% trans "Institution" %}</th>
-            <th>{% trans "Season identity" %}</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for link in selected_group.links %}
+      <div class="table-responsive">
+        <table class="table table-sm mb-0">
+          <thead>
             <tr>
-              <td>
-                <strong>{{ link.adjudicator.name }}</strong>
-                {% if link.adjudicator.email %}
-                  <span class="text-muted">- {{ link.adjudicator.email }}</span>
-                {% endif %}
-              </td>
-              <td>{% if link.adjudicator.institution %}{{ link.adjudicator.institution.code }}{% endif %}</td>
-              <td>
-                {% if can_edit_breaks %}
-                  <form method="post" class="form-inline">
-                    {% csrf_token %}
-                    <input type="hidden" name="action" value="update_adjudicator_link">
-                    <input type="hidden" name="link" value="{{ link.id }}">
-                    <input type="hidden" name="source" value="{{ selected_source }}">
-                    <select name="break_adjudicator" class="form-control form-control-sm mr-2 flex-grow-1">
-                      {% for adjudicator in adjudicators %}
-                        <option value="{{ adjudicator.id }}" {% if adjudicator.id == link.break_adjudicator_id %}selected{% endif %}>
-                          {{ adjudicator.name }}{% if adjudicator.email %} - {{ adjudicator.email }}{% endif %}
-                        </option>
-                      {% endfor %}
-                    </select>
-                    <button class="btn btn-sm btn-outline-secondary" type="submit">{% trans "Save" %}</button>
-                  </form>
-                {% else %}
-                  {{ link.break_adjudicator.name }}
-                {% endif %}
-              </td>
+              <th>{% trans "Tournament adjudicator" %}</th>
+              <th>{% trans "Institution" %}</th>
+              <th>{% trans "Season identity" %}</th>
             </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {% for link in selected_group.links %}
+              <tr>
+                <td>
+                  <strong>{{ link.adjudicator.name }}</strong>
+                  {% if link.adjudicator.email %}
+                    <span class="text-muted">- {{ link.adjudicator.email }}</span>
+                  {% endif %}
+                </td>
+                <td>{% if link.adjudicator.institution %}{{ link.adjudicator.institution.code }}{% endif %}</td>
+                <td>
+                  {% if can_edit_breaks %}
+                    <form method="post" class="form-inline">
+                      {% csrf_token %}
+                      <input type="hidden" name="action" value="update_adjudicator_link">
+                      <input type="hidden" name="link" value="{{ link.id }}">
+                      <input type="hidden" name="source" value="{{ selected_source }}">
+                      <select name="break_adjudicator" class="form-control form-control-sm mr-2 flex-grow-1">
+                        {% for adjudicator in adjudicators %}
+                          <option value="{{ adjudicator.id }}" {% if adjudicator.id == link.break_adjudicator_id %}selected{% endif %}>
+                            {{ adjudicator.name }}{% if adjudicator.email %} - {{ adjudicator.email }}{% endif %}
+                          </option>
+                        {% endfor %}
+                      </select>
+                      <button class="btn btn-sm btn-outline-secondary" type="submit">{% trans "Save" %}</button>
+                    </form>
+                  {% else %}
+                    {{ link.break_adjudicator.name }}
+                  {% endif %}
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
     </div>
   {% elif source_groups %}
     <div class="alert alert-info">{% trans "Pick a tournament above to edit its adjudicator links." %}</div>
   {% endif %}
+
 {% endblock %}

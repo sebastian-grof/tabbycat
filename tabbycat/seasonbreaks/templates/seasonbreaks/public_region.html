@@ -1,12 +1,10 @@
 {% extends "seasonbreaks/public_base.html" %}
 {% load i18n %}
 
-{% block public_breaks_header_actions %}
-  <div class="col-auto m-3 public-breaks-header-actions">
-    <a class="btn btn-outline-secondary" href="{% url 'public-breaks-season' season_slug=season.slug %}">
-      <i data-feather="arrow-left"></i>{% trans "Return back" %}
-    </a>
-  </div>
+{% block page-subnav-actions %}
+  <a class="btn btn-outline-secondary" href="{% url 'public-breaks-season' season_slug=season.slug %}">
+    <i data-feather="arrow-left"></i> {% trans "Return back" %}
+  </a>
 {% endblock %}
 
 {% block public_breaks_content %}
