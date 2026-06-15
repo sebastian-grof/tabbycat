@@ -246,6 +246,10 @@ msgstr "samostatný rozhodca"
 msgid "Whether this submission represents only the submitting adjudicator on a panel, when individual adjudicator ballots are enabled."
 msgstr "Určuje, či toto odovzdanie reprezentuje iba odosielajúceho rozhodcu v paneli, keď sú zapnuté individuálne balloty rozhodcov."
 
+#: results/templates/ballot/ballot_scoresheet.html
+msgid "Forfeit"
+msgstr "Kontumácia"
+
 #: results/models.py
 msgid "forfeit"
 msgstr "kontumácia"

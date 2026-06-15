@@ -31,5 +31,9 @@ RUN pipenv install --system --deploy
 RUN npm ci
 
 # Compile all the static files
+# compilejsi18n must run before `npm run build` (its cp-i18n step copies
+# locale/jsi18n/** into static/jsi18n), otherwise the served gettext catalogs
+# stay as stale as the committed files and .po/.mo edits never reach the browser.
+RUN python ./tabbycat/manage.py compilejsi18n
 RUN npm run build
 RUN python ./tabbycat/manage.py collectstatic --noinput -v 0
