@@ -12,6 +12,7 @@ from django.utils.translation import ngettext
 
 from draw.models import Debate, DebateTeam
 from draw.types import DebateSide
+from motions.models import RoundMotion
 from options.utils import use_team_code_names_data_entry
 from participants.models import Speaker, Team
 from participants.templatetags.team_name_for_data_entry import team_name_for_data_entry
@@ -441,7 +442,10 @@ class BaseBallotSetForm(BaseResultForm):
             if not self.ballotsub.motion and self.motions.count() == 1:
                 initial['motion'] = self.motions.get()
             else:
-                initial['motion'] = self.ballotsub.roundmotion
+                try:
+                    initial['motion'] = self.ballotsub.roundmotion
+                except RoundMotion.DoesNotExist:
+                    pass
 
         if self.ballotsub.id is not None or self.filled:
             if self.using_vetoes:
@@ -452,7 +456,10 @@ class BaseBallotSetForm(BaseResultForm):
                     else:
                         dtmp = self.vetos.get(side)
                     if dtmp:
-                        initial[self._fieldname_motion_veto(side)] = dtmp.roundmotion
+                        try:
+                            initial[self._fieldname_motion_veto(side)] = dtmp.roundmotion
+                        except RoundMotion.DoesNotExist:
+                            pass
 
             initial.update(self.initial_from_result(self.result))
 
@@ -562,7 +569,7 @@ class ScoresMixin:
     # --------------------------------------------------------------------------
 
     def _has_forfeit_fields(self):
-        return len(self.sides) == 2
+        return len(self.sides) == 2 and self.tournament.pref('enable_forfeits')
 
     def _selected_forfeit_side(self):
         if not self._has_forfeit_fields():

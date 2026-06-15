@@ -11,6 +11,7 @@ from django.views.generic.base import TemplateView
 
 from actionlog.mixins import LogActionMixin
 from actionlog.models import ActionLogEntry
+from breakqual.models import BreakingTeam
 from options.utils import use_team_code_names
 from participants.models import Person, Speaker
 from participants.serializers import InstitutionSerializer
@@ -57,6 +58,7 @@ class BaseCheckInStatusView(TournamentMixin, TemplateView):
             kwargs["scan_url"] = self.tournament.slug + '/checkins/'
         kwargs["for_admin"] = self.for_admin
         kwargs["team_size"] = self.tournament.pref('substantive_speakers')
+        kwargs.setdefault("prelims_completed", False)
         return super().get_context_data(**kwargs)
 
 
@@ -72,6 +74,16 @@ class CheckInPeopleStatusView(BaseCheckInStatusView):
         code_names_pref = self.tournament.pref('team_code_names')
         team_codes = use_team_code_names(self.tournament, admin=self.for_admin, user=self.request.user)
         kwargs["team_codes"] = json.dumps(team_codes)
+
+        prelims_completed = not self.tournament.prelim_rounds().filter(completed=False).exists()
+        kwargs["prelims_completed"] = prelims_completed
+
+        breaking_team_ids = set(
+            BreakingTeam.objects.filter(
+                break_category__tournament=self.tournament,
+                remark__isnull=True,
+            ).values_list('team_id', flat=True),
+        )
 
         # Include the extra fields for the admin name-display toggle only when appropriate.
         include_real_name_field = self.for_admin and (
@@ -91,6 +103,7 @@ class CheckInPeopleStatusView(BaseCheckInStatusView):
                 'id': adj.id, 'name': adj.get_public_name(self.tournament), 'type': 'Adjudicator',
                 'identifier': [code], 'locked': False, 'independent': adj.independent,
                 'institution': institution,
+                'breaking': adj.breaking,
             })
         kwargs["adjudicators"] = json.dumps(adjudicators)
 
@@ -108,6 +121,7 @@ class CheckInPeopleStatusView(BaseCheckInStatusView):
                 'team': speaker.team.code_name if team_codes else speaker.team.short_name,
                 'team_code_name': speaker.team.code_name,
                 'institution': institution,
+                'breaking': speaker.team_id in breaking_team_ids,
             }
             if include_real_name_field:
                 speaker_data['team_real_name'] = speaker.team.short_name

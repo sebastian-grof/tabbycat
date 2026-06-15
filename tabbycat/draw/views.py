@@ -2,7 +2,7 @@ import datetime
 import json
 import logging
 import unicodedata
-from itertools import product
+from itertools import combinations, product
 from zoneinfo import ZoneInfo
 
 from django.conf import settings
@@ -512,6 +512,7 @@ class AdminDrawView(RoundMixin, AdministratorMixin, AdminDrawUtilitiesMixin, Vue
         table.add_debate_team_columns(draw)
 
         # For draw details and draw draft pages
+        standings = None
         if r.draw_status is Round.Status.DRAFT or self.detailed:
             if r.prev:
                 teams = Team.objects.filter(debateteam__debate__round=r)
@@ -524,8 +525,12 @@ class AdminDrawView(RoundMixin, AdministratorMixin, AdminDrawUtilitiesMixin, Vue
 
                 # subrank only makes sense if there's a second metric to rank on
                 rankings = ('rank', 'subrank') if len(metrics) > 1 else ('rank',)
-                generator = TeamStandingsGenerator(metrics, rankings,
-                    extra_metrics=(pullup_metric,) if pullup_metric and pullup_metric not in metrics else ())
+                extra_metrics = []
+                if pullup_metric and pullup_metric not in metrics:
+                    extra_metrics.append(pullup_metric)
+                if 'npullups' not in metrics and 'npullups' not in extra_metrics:
+                    extra_metrics.append('npullups')
+                generator = TeamStandingsGenerator(metrics, rankings, extra_metrics=tuple(extra_metrics))
                 standings = generator.generate(teams, round=r.prev)
                 if not r.is_break_round:
                     table.add_debate_ranking_columns(draw, standings)
@@ -538,7 +543,7 @@ class AdminDrawView(RoundMixin, AdministratorMixin, AdminDrawUtilitiesMixin, Vue
         else:
             table.add_debate_adjudicators_column(draw, show_splits=False, for_admin=True)
 
-        table.add_draw_conflicts_columns(draw, self.venue_conflicts, self.adjudicator_conflicts)
+        table.add_draw_conflicts_columns(draw, self.venue_conflicts, self.adjudicator_conflicts, standings)
 
         if not r.is_break_round:
             table.highlight_column = 0  # Highlight based on first column (bracket)
@@ -1220,9 +1225,39 @@ class EditDebateTeamsView(DebateDragAndDropMixin, AdministratorMixin, TemplateVi
     prefetch_teams = False # Fetched in full as get_serialised
     edit_permission = Permission.EDIT_DEBATETEAMS
 
+    def _get_team_histories_map(self):
+        now_seq = self.round.seq
+        histories = {}
+        debates = Debate.objects.filter(
+            round__tournament=self.tournament,
+            round__seq__lt=now_seq,
+        ).select_related('round').prefetch_related('debateteam_set')
+
+        for debate in debates:
+            team_ids = [dt.team_id for dt in debate.debateteam_set.all()]
+            if len(team_ids) < 2:
+                continue
+            ago = now_seq - debate.round.seq
+            for a, b in combinations(team_ids, 2):
+                histories.setdefault(a, {'team': []})['team'].append({'id': b, 'ago': ago})
+                histories.setdefault(b, {'team': []})['team'].append({'id': a, 'ago': ago})
+        return histories
+
+    def get_extra_info(self):
+        info = super().get_extra_info()
+        teams = Team.objects.filter(tournament=self.tournament).only('id', 'institution_id')
+        team_institution_clashes = {}
+        for t in teams:
+            if t.institution_id:
+                team_institution_clashes[t.id] = {'institution': [{'id': t.institution_id}]}
+        team_histories = self._get_team_histories_map()
+        info['clashes'] = {'teams': team_institution_clashes, 'adjudicators': {}}
+        info['histories'] = {'teams': team_histories, 'adjudicators': {}}
+        return info
+
     def get_serialised_allocatable_items(self):
         # TODO: account for shared teams
-        teams = Team.objects.filter(tournament=self.tournament).prefetch_related('speaker_set')
+        teams = Team.objects.filter(tournament=self.tournament).prefetch_related('speaker_set', 'break_categories')
         teams = annotate_availability(teams, self.round)
         populate_win_counts(teams)
         serialized_teams = EditDebateTeamsTeamSerializer(teams, many=True)
