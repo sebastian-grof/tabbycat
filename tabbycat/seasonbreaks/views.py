@@ -36,12 +36,16 @@ from .models import (
 )
 from .permissions import has_breaks_permission
 from .services import (
+    calculate_global_ranking,
     calculate_rankings,
     calculate_region_quotas,
     freeze_break_tournament,
     publish_public_breaks_snapshot,
     prune_all_unused_break_identities,
     prune_unused_break_identities,
+    reassign_break_adjudicator_link,
+    reassign_break_speaker_link,
+    reassign_break_team_link,
     season_summary,
 )
 
@@ -106,6 +110,7 @@ def season_tabs(season):
         (_("Speakers"), reverse('seasonbreaks-speakers', kwargs={'season_slug': season.slug}), 'speakers'),
         (_("Quotas"), reverse('seasonbreaks-quotas', kwargs={'season_slug': season.slug}), 'quotas'),
         (_("Rankings"), reverse('seasonbreaks-rankings', kwargs={'season_slug': season.slug}), 'rankings'),
+        (_("Global ranking"), reverse('seasonbreaks-global-ranking', kwargs={'season_slug': season.slug}), 'global-ranking'),
         (_("Adjudicators"), reverse('seasonbreaks-adjudicators', kwargs={'season_slug': season.slug}), 'adjudicators'),
         (_("Access"), reverse('seasonbreaks-access'), 'access'),
     ]
@@ -138,6 +143,8 @@ def season_nav_groups(season):
                 _("Regional slot calculation")),
             (_("Rankings"), reverse('seasonbreaks-rankings', kwargs={'season_slug': season.slug}), 'rankings',
                 _("Team rankings and eligibility")),
+            (_("Global ranking"), reverse('seasonbreaks-global-ranking', kwargs={'season_slug': season.slug}),
+                'global-ranking', _("Cross-region ranking preview")),
         ]),
         ('adjudicators', _("Adjudicators"), reverse('seasonbreaks-adjudicators', kwargs={'season_slug': season.slug}), [
             (_("Adjudicators"), reverse('seasonbreaks-adjudicators', kwargs={'season_slug': season.slug}), 'adjudicators',
@@ -230,6 +237,10 @@ class SeasonOverviewView(SeasonMixin, TemplateView):
         if not has_breaks_permission(request.user, BreaksPermission.EDIT):
             return self.handle_no_permission()
         if request.POST.get('action') == 'publish_public_snapshot':
+            show_global = request.POST.get('show_global_ranking') == '1'
+            if self.season.public_global_ranking != show_global:
+                self.season.public_global_ranking = show_global
+                self.season.save(update_fields=['public_global_ranking'])
             publish_public_breaks_snapshot(self.season)
             messages.success(request, _("Public Breaks snapshot was published."))
             return redirect('seasonbreaks-season-overview', season_slug=self.season.slug)
@@ -291,6 +302,9 @@ class PublicBreaksSeasonView(TemplateView):
         kwargs['published_at'] = self.season.public_published_at
         kwargs['regions'] = snapshot.get('regions', [])
         kwargs['global_rows'] = snapshot.get('global_ranking', [])
+        # Legacy snapshots predate the toggle; treat a missing flag as visible so
+        # already-published public pages keep their global ranking.
+        kwargs['show_global_ranking'] = snapshot.get('show_global_ranking', True)
         return super().get_context_data(**kwargs)
 
 
@@ -526,8 +540,7 @@ class SeasonTeamIdentitiesView(SeasonMixin, TemplateView):
         if action == 'update_team_link':
             link = get_object_or_404(BreakTeamLink, id=request.POST.get('link'), season=self.season)
             break_team = get_object_or_404(BreakTeam, id=request.POST.get('break_team'), season=self.season)
-            link.break_team = break_team
-            link.save(update_fields=['break_team'])
+            reassign_break_team_link(link, break_team)
             messages.success(request, _("Team link was updated."))
             return _redirect_to_identity_category(
                 'seasonbreaks-identities-teams', self.season, request.POST.get('source'),
@@ -570,8 +583,7 @@ class SeasonSpeakerIdentitiesView(SeasonMixin, TemplateView):
         if action == 'update_speaker_link':
             link = get_object_or_404(BreakSpeakerLink, id=request.POST.get('link'), season=self.season)
             break_speaker = get_object_or_404(self.season.speakers, id=request.POST.get('break_speaker'))
-            link.break_speaker = break_speaker
-            link.save(update_fields=['break_speaker'])
+            reassign_break_speaker_link(link, break_speaker)
             messages.success(request, _("Speaker link was updated."))
             return _redirect_to_identity_category(
                 'seasonbreaks-identities-speakers', self.season, request.POST.get('source'),
@@ -614,8 +626,7 @@ class SeasonAdjudicatorIdentitiesView(SeasonMixin, TemplateView):
         if action == 'update_adjudicator_link':
             link = get_object_or_404(BreakAdjudicatorLink, id=request.POST.get('link'), season=self.season)
             break_adjudicator = get_object_or_404(BreakAdjudicator, id=request.POST.get('break_adjudicator'), season=self.season)
-            link.break_adjudicator = break_adjudicator
-            link.save(update_fields=['break_adjudicator'])
+            reassign_break_adjudicator_link(link, break_adjudicator)
             messages.success(request, _("Adjudicator link was updated."))
             return _redirect_to_identity_category(
                 'seasonbreaks-identities-adjudicators', self.season, request.POST.get('source'),
@@ -670,6 +681,15 @@ class SeasonRegionRankingsView(SeasonMixin, TemplateView):
         kwargs['region'] = self.region
         kwargs['rows'] = rankings.get(self.region.id, [])
         kwargs['active_tab'] = 'rankings'
+        return super().get_context_data(**kwargs)
+
+
+class SeasonGlobalRankingView(SeasonMixin, TemplateView):
+    template_name = 'seasonbreaks/global_ranking.html'
+
+    def get_context_data(self, **kwargs):
+        kwargs['rows'] = calculate_global_ranking(self.season)
+        kwargs['active_tab'] = 'global-ranking'
         return super().get_context_data(**kwargs)
 
 

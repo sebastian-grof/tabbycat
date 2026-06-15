@@ -88,8 +88,18 @@
             <form method="post">
               {% csrf_token %}
               <input type="hidden" name="action" value="publish_public_snapshot">
+              <div class="form-check mb-3">
+                <input type="checkbox" class="form-check-input" id="show_global_ranking" name="show_global_ranking"
+                       value="1" {% if season.public_global_ranking %}checked{% endif %}>
+                <label class="form-check-label" for="show_global_ranking">
+                  {% trans "Show the global ranking across regions on the public page" %}
+                </label>
+              </div>
               <button type="submit" class="btn btn-primary"><i data-feather="send"></i> {% trans "Publish public snapshot" %}</button>
             </form>
+            <a class="btn btn-outline-secondary btn-sm mt-3" href="{% url 'seasonbreaks-global-ranking' season_slug=season.slug %}">
+              <i data-feather="bar-chart-2"></i> {% trans "Preview global ranking" %}
+            </a>
           </div>
         </div>
       </div>
