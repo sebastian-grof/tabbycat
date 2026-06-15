@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load i18n %}
 
-{#
+{% comment %}
   Season Breaks — public chrome.
 
   Like the admin Breaks templates, this adds NO custom CSS. It relies on
@@ -10,7 +10,7 @@
   come from the views (page_title / page_emoji); the back button goes in the
   standard page-subnav-actions block. The top navbar and Tabbycat logo come
   from base.html and are NOT touched.
-#}
+{% endcomment %}
 
 {% block content %}
   {% block public_breaks_content %}{% endblock %}

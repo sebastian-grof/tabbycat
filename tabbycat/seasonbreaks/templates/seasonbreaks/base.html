@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load i18n %}
 
-{#
+{% comment %}
   Season Breaks — shared chrome.
 
   This template intentionally adds NO custom CSS. It uses Tabbycat's standard
@@ -10,9 +10,9 @@
   Tabbycat logo come from base.html -> top_nav_base.html and are NOT touched.
 
   Two layouts share this base:
-    * Index / standalone pages   -> {% block standalone_content %}
-    * A single season's sub-tabs -> {% block season_content %}
-#}
+    * Index / standalone pages   -> standalone_content block
+    * A single season's sub-tabs -> season_content block
+{% endcomment %}
 
 {% block head-title %}
   {% if season %}
