@@ -205,6 +205,32 @@ class BreaksCalculationTests(TestCase):
         self.assertEqual(rankings[0]['eligible_speakers'], ['Strong speaker 0', 'Strong speaker 1'])
         self.assertEqual(rankings[1]['team'], weaker)
 
+    def test_expected_tournaments_drives_best_n_minus_one_window(self):
+        # West only has two tournaments frozen so far, but the region is expected
+        # to run three this season. With N=3 the rule counts the best two results,
+        # so a team that played both gets them summed instead of just its best one.
+        team = self._team_with_members('Onda', self.west, [self.bt_w1, self.bt_w2], [
+            (self.bt_w1, 3, 9, 593),
+            (self.bt_w2, 3, 9, 561),
+        ])
+
+        # Default (expected=0) falls back to the two counting tournaments -> best 1.
+        rankings = calculate_rankings(self.season)[self.west.id]
+        self.assertEqual(rankings[0]['team'], team)
+        self.assertEqual(rankings[0]['wins'], 3)
+        self.assertEqual(rankings[0]['required_tournaments'], 1)
+
+        self.west.expected_tournaments = 3
+        self.west.save(update_fields=['expected_tournaments'])
+
+        rankings = calculate_rankings(self.season)[self.west.id]
+        self.assertEqual(rankings[0]['wins'], 6)
+        self.assertEqual(rankings[0]['ballots'], 18)
+        self.assertEqual(rankings[0]['speaker_score'], 1154)
+        self.assertEqual(rankings[0]['participations'], 2)
+        self.assertEqual(rankings[0]['required_tournaments'], 2)
+        self.assertTrue(rankings[0]['eligible'])
+
     def test_rankings_sort_by_performance_not_eligibility(self):
         # A stronger but ineligible team must rank above a weaker eligible one;
         # eligibility only governs advancement, not standings position.

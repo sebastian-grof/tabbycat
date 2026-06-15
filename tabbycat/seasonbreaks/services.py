@@ -487,10 +487,15 @@ def calculate_rankings(season: BreakSeason) -> dict[int, list[dict]]:
     rankings = {}
 
     for region in season.regions.all():
-        tournaments_in_region = BreakTournament.objects.filter(
+        # N is the number of tournaments the region is expected to run this
+        # season (set per region). Falling back to the count of counting
+        # tournaments already added keeps the old behaviour for regions that
+        # leave it at 0. Using the expected N lets the best N-1 rule produce a
+        # meaningful live ranking before every tournament has been frozen.
+        expected_tournaments = region.expected_tournaments or BreakTournament.objects.filter(
             season=season, region=region, counts_for_break=True,
         ).count()
-        required_tournaments = max(tournaments_in_region - 1, 0)
+        required_tournaments = max(expected_tournaments - 1, 0)
         result_limit = required_tournaments if required_tournaments else None
 
         team_ids = BreakTeamTournamentResult.objects.filter(
