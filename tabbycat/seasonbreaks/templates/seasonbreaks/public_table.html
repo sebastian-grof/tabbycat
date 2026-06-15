@@ -1,6 +1,6 @@
 {% load i18n %}
 
-<table class="table table-sm mb-0 public-breaks-table">
+<table class="table table-sm mb-0">
   <thead>
     <tr>
       <th>{% trans "Rank" %}</th>
@@ -8,10 +8,10 @@
       {% if include_region %}
         <th>{% trans "Region" %}</th>
       {% endif %}
-      <th>{% trans "Wins" %}</th>
-      <th>{% trans "Ballots" %}</th>
-      <th>{% trans "Speaker points" %}</th>
-      <th>{% trans "Participations" %}</th>
+      <th class="text-right">{% trans "Wins" %}</th>
+      <th class="text-right">{% trans "Ballots" %}</th>
+      <th class="text-right">{% trans "Speaker points" %}</th>
+      <th class="text-right">{% trans "Participations" %}</th>
     </tr>
   </thead>
   <tbody>
@@ -22,10 +22,10 @@
         {% if include_region %}
           <td>{{ row.region }}</td>
         {% endif %}
-        <td>{{ row.wins|floatformat:0 }}</td>
-        <td>{{ row.ballots|floatformat:0 }}</td>
-        <td>{{ row.speaker_score|floatformat:0 }}</td>
-        <td>{{ row.participations }}</td>
+        <td class="text-right">{{ row.wins|floatformat:0 }}</td>
+        <td class="text-right">{{ row.ballots|floatformat:0 }}</td>
+        <td class="text-right">{{ row.speaker_score|floatformat:0 }}</td>
+        <td class="text-right">{{ row.participations }}</td>
       </tr>
     {% empty %}
       <tr>

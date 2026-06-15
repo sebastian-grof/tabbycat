@@ -2,95 +2,105 @@
 {% load i18n %}
 
 {% block season_content %}
-  <section class="breaks-page-header">
-    <div>
-      <h3 class="breaks-page-title">{% trans "Regions" %}</h3>
-      <p class="breaks-page-subtitle">
-        {% trans "Manage region names, ordering, source mappings and public visibility." %}
-      </p>
-    </div>
-  </section>
 
   {% if can_edit_breaks %}
-    <details class="breaks-catalog-season" {% if region_form.errors %}open{% endif %}>
-      <summary class="breaks-catalog-season-summary">
-        <strong>{% trans "Add region" %}</strong>
-        <span>{% trans "Regional catalog" %}</span>
-      </summary>
-      <form method="post" class="breaks-inline-form">
-        {% csrf_token %}
-        <input type="hidden" name="action" value="add_region">
-        <div class="breaks-form-grid">
-          {% include "components/form-field.html" with field=region_form.name %}
-          {% include "components/form-field.html" with field=region_form.source_region %}
-          {% include "components/form-field.html" with field=region_form.seq %}
+    <div class="card mb-3">
+      <div class="card-header">
+        <a data-toggle="collapse" href="#add-region" role="button" aria-expanded="{% if region_form.errors %}true{% else %}false{% endif %}"
+           class="d-flex justify-content-between align-items-center text-reset text-decoration-none">
+          <h4 class="mb-0">{% trans "Add region" %}</h4>
+          <i data-feather="plus-circle"></i>
+        </a>
+      </div>
+      <div class="collapse {% if region_form.errors %}show{% endif %}" id="add-region">
+        <div class="card-body">
+          <form method="post" class="row">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="add_region">
+            {% include "components/form-field.html" with field=region_form.name triple=True %}
+            {% include "components/form-field.html" with field=region_form.source_region triple=True %}
+            {% include "components/form-field.html" with field=region_form.seq triple=True %}
+            <div class="form-group col-12">
+              <div class="form-check">
+                {{ region_form.public_visible }}
+                <label class="form-check-label" for="{{ region_form.public_visible.id_for_label }}">{{ region_form.public_visible.label }}</label>
+              </div>
+            </div>
+            <div class="col-12">
+              <button class="btn btn-primary" type="submit">{% trans "Add region" %}</button>
+            </div>
+          </form>
         </div>
-        <div class="breaks-checkbox-stack">
-          {{ region_form.public_visible }}
-          <label for="{{ region_form.public_visible.id_for_label }}">{{ region_form.public_visible.label }}</label>
-          {% if region_form.public_visible.errors %}{{ region_form.public_visible.errors }}{% endif %}
-        </div>
-        <div class="breaks-form-actions">
-          <button class="btn btn-primary" type="submit">{% trans "Add region" %}</button>
-        </div>
-      </form>
-    </details>
-  {% endif %}
-
-  <section class="breaks-season-dashboard">
-    <div class="breaks-section-heading">
-      <div>
-        <h2>{% trans "Season regions" %}</h2>
-        <p>{% trans "Hidden regions remain available internally, but are excluded from the next public snapshot." %}</p>
       </div>
     </div>
+  {% endif %}
 
-    <div class="breaks-league-list">
-      {% for row in regions %}
-        <details class="breaks-league-row">
-          <summary>
-            <span>
-              <strong>{{ row.region.name }}</strong>
-              <small>
-                {% trans "Seq" %}: {{ row.region.seq }}
-                {% if row.region.source_region %} · {% trans "Source region" %}: {{ row.region.source_region }}{% endif %}
-              </small>
-            </span>
-            {% if row.region.public_visible %}
-              <em>{% trans "Visible on public page" %}</em>
-            {% else %}
-              <span class="breaks-badge breaks-badge-warning">{% trans "Hidden from public page" %}</span>
-            {% endif %}
-          </summary>
-          {% if can_edit_breaks %}
-            <div class="breaks-league-edit-body">
-              <form method="post" class="breaks-relaxed-form">
-                {% csrf_token %}
-                <input type="hidden" name="action" value="update_region">
-                <input type="hidden" name="region" value="{{ row.region.id }}">
-                <div class="breaks-form-grid">
-                  {% include "components/form-field.html" with field=row.form.name %}
-                  {% include "components/form-field.html" with field=row.form.source_region %}
-                  {% include "components/form-field.html" with field=row.form.seq %}
-                </div>
-                <div class="breaks-checkbox-stack">
-                  {{ row.form.public_visible }}
-                  <label for="{{ row.form.public_visible.id_for_label }}">{{ row.form.public_visible.label }}</label>
-                  {% if row.form.public_visible.errors %}{{ row.form.public_visible.errors }}{% endif %}
-                </div>
-                <div class="breaks-form-actions">
-                  <button class="btn btn-outline-primary" type="submit">{% trans "Save" %}</button>
-                </div>
-              </form>
-            </div>
-          {% endif %}
-        </details>
-      {% empty %}
-        <div class="breaks-empty breaks-empty-large">
-          <h3>{% trans "No regions yet" %}</h3>
-          <p>{% trans "Create regions before assigning source tournaments." %}</p>
-        </div>
-      {% endfor %}
+  <div class="card">
+    <div class="card-header d-md-flex justify-content-between align-items-center">
+      <h4 class="mb-0">{% trans "Season regions" %}</h4>
+      <span class="text-muted small">{% trans "Hidden regions stay internal but are excluded from the next public snapshot." %}</span>
     </div>
-  </section>
+
+    {% if can_edit_breaks %}
+      {# Editable: one form per region (valid markup — no <form> inside <tr>). #}
+      <div class="list-group list-group-flush">
+        {% for row in regions %}
+          <form method="post" class="list-group-item">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="update_region">
+            <input type="hidden" name="region" value="{{ row.region.id }}">
+            <div class="form-row align-items-end">
+              <div class="form-group col-md mb-2 mb-md-0">
+                <label class="small text-muted mb-1">{% trans "Name" %}</label>{{ row.form.name }}
+              </div>
+              <div class="form-group col-md mb-2 mb-md-0">
+                <label class="small text-muted mb-1">{% trans "Source region" %}</label>{{ row.form.source_region }}
+              </div>
+              <div class="form-group col-md-2 mb-2 mb-md-0">
+                <label class="small text-muted mb-1">{% trans "Seq" %}</label>{{ row.form.seq }}
+              </div>
+              <div class="form-group col-md-auto mb-2 mb-md-0">
+                <div class="form-check mt-md-4">
+                  {{ row.form.public_visible }}
+                  <label class="form-check-label" for="{{ row.form.public_visible.id_for_label }}">{% trans "Visible" %}</label>
+                </div>
+              </div>
+              <div class="form-group col-md-auto mb-0">
+                <button class="btn btn-sm btn-outline-primary" type="submit">{% trans "Save" %}</button>
+              </div>
+            </div>
+          </form>
+        {% empty %}
+          <div class="list-group-item text-muted">{% trans "Create regions before assigning source tournaments." %}</div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="table-responsive">
+        <table class="table table-sm mb-0">
+          <thead>
+            <tr><th>{% trans "Region" %}</th><th>{% trans "Source region" %}</th><th>{% trans "Seq" %}</th><th>{% trans "Public" %}</th></tr>
+          </thead>
+          <tbody>
+            {% for row in regions %}
+              <tr>
+                <td><strong>{{ row.region.name }}</strong></td>
+                <td>{% if row.region.source_region %}{{ row.region.source_region }}{% endif %}</td>
+                <td>{{ row.region.seq }}</td>
+                <td>
+                  {% if row.region.public_visible %}
+                    <span class="text-success"><i data-feather="eye"></i> {% trans "Visible" %}</span>
+                  {% else %}
+                    <span class="badge badge-warning">{% trans "Hidden" %}</span>
+                  {% endif %}
+                </td>
+              </tr>
+            {% empty %}
+              <tr><td colspan="4" class="text-muted">{% trans "Create regions before assigning source tournaments." %}</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% endif %}
+  </div>
+
 {% endblock %}

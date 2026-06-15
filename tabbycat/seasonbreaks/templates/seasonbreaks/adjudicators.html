@@ -2,45 +2,46 @@
 {% load i18n %}
 
 {% block season_content %}
-  <div class="card border-0 shadow-sm mb-3">
-    <div class="card-body d-md-flex justify-content-between align-items-center">
+  <div class="card">
+    <div class="card-header d-md-flex justify-content-between align-items-center">
       <div>
-        <h3 class="mb-1">{% trans "Adjudicator stats" %}</h3>
-        <p class="text-muted mb-md-0">{% trans "Season totals from confirmed preliminary debates, grouped by adjudicator identity. Trainee debates are shown but excluded from totals." %}</p>
+        <h4 class="mb-0">{% trans "Adjudicator stats" %}</h4>
+        <span class="text-muted small">{% trans "Season totals from confirmed preliminary debates. Trainee debates are shown but excluded from totals." %}</span>
       </div>
       {% if can_edit_breaks %}
-        <a class="btn btn-outline-secondary mt-3 mt-md-0" href="{% url 'seasonbreaks-identities-adjudicators' season_slug=season.slug %}">
+        <a class="btn btn-outline-secondary btn-sm mt-2 mt-md-0" href="{% url 'seasonbreaks-identities-adjudicators' season_slug=season.slug %}">
           {% trans "Manage adjudicator identities" %}
         </a>
       {% endif %}
     </div>
-  </div>
-
-  <div class="card shadow-sm">
-    <table class="table table-hover table-sm mb-0">
-      <thead><tr><th>{% trans "Adjudicator" %}</th><th>{% trans "Chair" %}</th><th>{% trans "Panellist" %}</th><th>{% trans "Trainee" %}</th><th>{% trans "Total" %}</th><th>{% trans "Tournament detail" %}</th></tr></thead>
-      <tbody>
-        {% for row in rows %}
-          <tr>
-            <td><strong>{{ row.adjudicator.name }}</strong></td>
-            <td>{{ row.chair_count }}</td>
-            <td>{{ row.panellist_count }}</td>
-            <td>{{ row.trainee_count }}</td>
-            <td><strong>{{ row.total_count }}</strong></td>
-            <td>
-              {% for detail in row.details %}
-                <span class="badge badge-light">
-                  {{ detail.break_tournament.tournament }}: {{ detail.total_count }}
-                  {% if not detail.break_tournament.counts_for_break %}{% trans "non-league" %}{% endif %}
-                  {% if detail.trainee_count %}{% blocktrans trimmed with count=detail.trainee_count %}+{{ count }} trainee{% endblocktrans %}{% endif %}
-                </span>{% if not forloop.last %} {% endif %}
-              {% endfor %}
-            </td>
-          </tr>
-        {% empty %}
-          <tr><td colspan="6" class="text-muted">{% trans "Freeze tournaments to calculate adjudicator stats." %}</td></tr>
-        {% endfor %}
-      </tbody>
-    </table>
+    <div class="table-responsive">
+      <table class="table table-sm mb-0">
+        <thead>
+          <tr><th>{% trans "Adjudicator" %}</th><th class="text-right">{% trans "Chair" %}</th><th class="text-right">{% trans "Panellist" %}</th><th class="text-right">{% trans "Trainee" %}</th><th class="text-right">{% trans "Total" %}</th><th>{% trans "Tournament detail" %}</th></tr>
+        </thead>
+        <tbody>
+          {% for row in rows %}
+            <tr>
+              <td><strong>{{ row.adjudicator.name }}</strong></td>
+              <td class="text-right">{{ row.chair_count }}</td>
+              <td class="text-right">{{ row.panellist_count }}</td>
+              <td class="text-right">{{ row.trainee_count }}</td>
+              <td class="text-right"><strong>{{ row.total_count }}</strong></td>
+              <td>
+                {% for detail in row.details %}
+                  <span class="badge badge-light">
+                    {{ detail.break_tournament.tournament }}: {{ detail.total_count }}
+                    {% if not detail.break_tournament.counts_for_break %}{% trans "non-league" %}{% endif %}
+                    {% if detail.trainee_count %}{% blocktrans trimmed with count=detail.trainee_count %}+{{ count }} trainee{% endblocktrans %}{% endif %}
+                  </span>
+                {% endfor %}
+              </td>
+            </tr>
+          {% empty %}
+            <tr><td colspan="6" class="text-muted">{% trans "Freeze tournaments to calculate adjudicator stats." %}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
   </div>
 {% endblock %}

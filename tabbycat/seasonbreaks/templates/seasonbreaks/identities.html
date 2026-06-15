@@ -2,13 +2,6 @@
 {% load i18n %}
 
 {% block season_content %}
-  <section class="breaks-page-header">
-    <h3 class="breaks-page-title">{% trans "Choose what you want to repair" %}</h3>
-    <p class="breaks-page-subtitle">
-      {% trans "Start with a category, then choose the source tournament. No thousand-person scroll wall." %}
-    </p>
-  </section>
-
   <div class="list-group mb-3">
     <a class="list-group-item list-group-item-action" href="{% url 'seasonbreaks-identities-teams' season_slug=season.slug %}">
       <div class="row align-items-center">
@@ -48,7 +41,7 @@
   </div>
 
   {% if can_edit_breaks %}
-    <div class="card mt-2">
+    <div class="card">
       <div class="card-body d-md-flex justify-content-between align-items-center">
         <div class="mb-3 mb-md-0">
           <h4 class="mb-1">{% trans "Clean stale identities" %}</h4>
@@ -61,7 +54,7 @@
           <input type="hidden" name="action" value="cleanup_orphan_identities">
           {% trans "Remove all stale unlinked identities from this Breaks season?" as cleanup_warning %}
           <button class="btn btn-outline-danger" type="submit" onclick="return confirm('{{ cleanup_warning|escapejs }}')">
-            {% trans "Clean stale identities" %}
+            <i data-feather="trash-2"></i> {% trans "Clean stale identities" %}
           </button>
         </form>
       </div>

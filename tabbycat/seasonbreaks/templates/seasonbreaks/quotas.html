@@ -2,36 +2,42 @@
 {% load i18n %}
 
 {% block season_content %}
-  <section class="breaks-page-header">
-    <h3 class="breaks-page-title">{% trans "Regional quotas" %}</h3>
-    <p class="breaks-page-subtitle">
-      {% blocktrans trimmed with slots=season.effective_regional_slots invited=season.invited_teams %}
-        Regional slots used for quota calculation: {{ slots }}. Invited teams: {{ invited }}.
-      {% endblocktrans %}
-    </p>
-  </section>
-
   <div class="card">
     <div class="card-header d-md-flex justify-content-between align-items-center">
       <h4 class="mb-0">{% trans "Largest remainder calculation" %}</h4>
-      <span class="text-muted small">{% trans "Raw quota, floor and remainder are shown for auditability." %}</span>
+      <span class="text-muted small">
+        {% blocktrans trimmed with slots=season.effective_regional_slots invited=season.invited_teams %}
+          {{ slots }} regional slots · {{ invited }} invited teams. Raw quota, floor and remainder are shown for auditability.
+        {% endblocktrans %}
+      </span>
     </div>
-    <table class="table table-sm mb-0">
-      <thead><tr><th>{% trans "Region" %}</th><th>{% trans "Participations" %}</th><th>{% trans "Raw quota" %}</th><th>{% trans "Floor" %}</th><th>{% trans "Remainder" %}</th><th>{% trans "Allocated" %}</th></tr></thead>
-      <tbody>
-        {% for quota in quotas %}
+    <div class="table-responsive">
+      <table class="table table-sm mb-0">
+        <thead>
           <tr>
-            <td>{{ quota.region.name }}</td>
-            <td>{{ quota.participations }}</td>
-            <td>{{ quota.raw_quota|floatformat:3 }}</td>
-            <td>{{ quota.floor_quota }}</td>
-            <td>{{ quota.remainder|floatformat:3 }}</td>
-            <td><strong>{{ quota.allocated }}</strong></td>
+            <th>{% trans "Region" %}</th>
+            <th class="text-right">{% trans "Participations" %}</th>
+            <th class="text-right">{% trans "Raw quota" %}</th>
+            <th class="text-right">{% trans "Floor" %}</th>
+            <th class="text-right">{% trans "Remainder" %}</th>
+            <th class="text-right">{% trans "Allocated" %}</th>
           </tr>
-        {% empty %}
-          <tr><td colspan="6" class="text-muted">{% trans "No regions yet." %}</td></tr>
-        {% endfor %}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {% for quota in quotas %}
+            <tr>
+              <td><strong>{{ quota.region.name }}</strong></td>
+              <td class="text-right">{{ quota.participations }}</td>
+              <td class="text-right">{{ quota.raw_quota|floatformat:3 }}</td>
+              <td class="text-right">{{ quota.floor_quota }}</td>
+              <td class="text-right">{{ quota.remainder|floatformat:3 }}</td>
+              <td class="text-right"><strong>{{ quota.allocated }}</strong></td>
+            </tr>
+          {% empty %}
+            <tr><td colspan="6" class="text-muted">{% trans "No regions yet." %}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
   </div>
 {% endblock %}

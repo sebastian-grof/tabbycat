@@ -2,13 +2,6 @@
 {% load i18n %}
 
 {% block season_content %}
-  <section class="breaks-page-header">
-    <h3 class="breaks-page-title">{% trans "Rankings by region" %}</h3>
-    <p class="breaks-page-subtitle">
-      {% trans "A compact overview of eligible teams in each region. Open a region for full scores, eligibility notes and tie warnings." %}
-    </p>
-  </section>
-
   {% for region_data in regions %}
     {% with region=region_data.region eligible_rows=region_data.eligible_rows %}
       <div class="card mb-3">
@@ -24,23 +17,22 @@
             </span>
           </div>
           <a class="btn btn-outline-primary btn-sm mt-2 mt-md-0"
-              href="{% url 'seasonbreaks-ranking-region' season_slug=season.slug region_id=region.id %}">
+             href="{% url 'seasonbreaks-ranking-region' season_slug=season.slug region_id=region.id %}">
             {% trans "Open full ranking" %}
           </a>
         </div>
         <table class="table table-sm mb-0">
           <thead>
-            <tr>
-              <th>{% trans "Rank" %}</th>
-              <th>{% trans "Team" %}</th>
-              <th>{% trans "Eligible speakers" %}</th>
-            </tr>
+            <tr><th>{% trans "Rank" %}</th><th>{% trans "Team" %}</th><th>{% trans "Eligible speakers" %}</th></tr>
           </thead>
           <tbody>
             {% for row in eligible_rows %}
               <tr class="{% if row.advancing %}table-success{% endif %}">
                 <td>{{ forloop.counter }}</td>
-                <td><strong>{{ row.team.name }}</strong></td>
+                <td>
+                  <strong>{{ row.team.name }}</strong>
+                  {% if row.advancing %}<span class="badge badge-success ml-1">{% trans "Advancing" %}</span>{% endif %}
+                </td>
                 <td>
                   {% if row.eligible_speakers %}
                     {{ row.eligible_speakers|join:", " }}
@@ -50,9 +42,7 @@
                 </td>
               </tr>
             {% empty %}
-              <tr>
-                <td colspan="3" class="text-muted">{% trans "No eligible teams in this region yet." %}</td>
-              </tr>
+              <tr><td colspan="3" class="text-muted">{% trans "No eligible teams in this region yet." %}</td></tr>
             {% endfor %}
           </tbody>
         </table>
