@@ -576,7 +576,7 @@ msgstr "Nenastavené"
 #. Used to build labels such as "Total for Reply" and "Total for Cross-examinations".
 #: templates/js-bundles/enter_results.js:442
 msgid "Total for"
-msgstr "Celkovo body pre"
+msgstr "Spolu pre"
 
 #: templates/js-bundles/enter_results.js:557
 msgid "Use classic ballot UI"

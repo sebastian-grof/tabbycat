@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: tabbycat\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-07-06 09:38+1000\n"
-"PO-Revision-Date: 2026-04-27 09:18+0200\n"
+"PO-Revision-Date: 2026-06-15 17:56+0200\n"
 "Last-Translator: philip_tc\n"
 "Language-Team: Slovak\n"
 "Language: sk\n"
@@ -44,7 +44,7 @@ msgstr "Váš tím nemá kompletný počet rečníkov. Prosím, pošlite odkaz n
 #: privateurls/templates/private_url_landing.html
 #, python-format
 msgid "The URL of this page is personalised to you, %(name)s. <strong>Do not share it with anyone;</strong> anyone who knows this URL can submit results and/or feedback for your debates. You may bookmark this page and return here after each debate for the available actions."
-msgstr "URL tejto stránky je prispôsobená práve pre vás, %(name)s. <strong>Nezdieľajte ju s nikým;</strong> každý, kto pozná túto URL, môže odosielať výsledky a/alebo spätnú väzbu k vašim diskusiám. Túto stránku si môžete pridať do záložiek a vrátiť sa sem po každej diskusii, kde nájdete dostupné možnosti."
+msgstr "Táto stránka je vytvorená pre vás, %(name)s. <strong>Nezdieľajte ju s nikým;</strong> každý, kto pozná túto URL, môže odosielať výsledky a/alebo spätnú väzbu k vašim debatám. Túto stránku si môžete pridať do záložiek a vrátiť sa sem po každej debate, kde nájdete dostupné možnosti."
 
 #: privateurls/templates/private_url_landing.html
 #, python-format
@@ -67,7 +67,7 @@ msgstr "Momentálne nemáš potvrdený príchod."
 
 #: privateurls/templates/private_url_landing.html
 msgid "Show barcode for check-in"
-msgstr "Zobraziť čiarový kód na check-in"
+msgstr "Zobraziť čiarový kód pre check-in"
 
 #: privateurls/templates/private_url_landing.html
 #, python-format

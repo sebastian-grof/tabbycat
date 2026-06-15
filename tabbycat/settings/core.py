@@ -49,6 +49,14 @@ EXTRA_LANG_INFO = {
         'name': 'Translation',
         'name_local': 'Translation',
     },
+    'sk': {
+        # Override Django's default name_local ('slovensky') so the language
+        # switcher shows it capitalised as 'Slovensky (sk)'.
+        'bidi': False,
+        'code': 'sk',
+        'name': 'Slovak',
+        'name_local': 'Slovensky',
+    },
 }
 
 # Languages that should be available in the switcher
@@ -100,8 +108,11 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    # User language preferences; must be after Session
-    'django.middleware.locale.LocaleMiddleware',
+    # User language preferences; must be after Session.
+    # Custom subclass ignores the browser Accept-Language header so the site
+    # default language (LANGUAGE_CODE) wins unless the user explicitly picks
+    # one via the language switcher (see utils.middleware).
+    'utils.middleware.SiteDefaultLocaleMiddleware',
     # Set Etags; i.e. cached requests not on network; must precede Common
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.http.ConditionalGetMiddleware',
