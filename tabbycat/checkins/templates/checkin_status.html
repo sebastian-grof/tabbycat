@@ -10,7 +10,9 @@
                                :speakers="speakers"
                                :venues="venues"
                                :team-codes="teamCodes"
-                               :for-admin="forAdmin">
+                               :for-admin="forAdmin"
+                               :team-size="teamSize"
+                               :prelims-completed="prelimsCompleted">
     </check-in-status-container>
   </div>
 
@@ -26,6 +28,8 @@
       'venues': {% if venues %}{{ venues|safe }}{% else %}null{% endif %},
       'teamCodes': {{ team_codes }},
       'forAdmin': {% if for_admin %}true{% else %}false{% endif %},
+      'teamSize': {{ team_size }},
+      'prelimsCompleted': {% if prelims_completed %}true{% else %}false{% endif %},
     }
   </script>
   {{ block.super }}

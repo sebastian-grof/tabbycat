@@ -14,6 +14,14 @@ const props = defineProps({
   speakers: Array,
   adjudicators: Array,
   venues: Array,
+  teamSize: {
+    type: Number,
+    default: 2,
+  },
+  prelimsCompleted: {
+    type: Boolean,
+    default: false,
+  },
 })
 
 const { gettext, tct } = useDjangoI18n()
@@ -23,7 +31,7 @@ const events = ref([...(props.initialEvents ?? [])])
 
 const showCodeNames = ref(props.teamCodes)
 
-const peopleFilterByType = ref({ All: true, Adjudicators: false, Debaters: false })
+const peopleFilterByType = ref({ All: true, Adjudicators: false, Debaters: false, Breaking: false })
 const peopleSortByGroup = ref({ Institution: !props.teamCodes, Name: props.teamCodes, Time: false })
 const speakerGroupings = ref({ Speaker: false, Team: true })
 const venuesSortByGroup = ref({ Category: true, Name: false, Time: false, Priority: false })
@@ -32,6 +40,7 @@ const peopleFilterNames = {
   All: 'All',
   Adjudicators: 'Only Adjudicators',
   Debaters: 'Only Teams',
+  Breaking: 'Only Breaking',
 }
 
 const speakerGroupingNames = {
@@ -41,6 +50,17 @@ const speakerGroupingNames = {
 
 const isForVenues = computed(() => Array.isArray(props.venues))
 const filterByType = computed(() => (isForVenues.value ? null : peopleFilterByType.value))
+const filterByTypeOptions = computed(() => {
+  const f = peopleFilterByType.value
+  const options = []
+  _.forEach(f, (state, key) => {
+    if (key === 'Breaking' && !props.prelimsCompleted) {
+      return
+    }
+    options.push({ key, state })
+  })
+  return options
+})
 const sortByGroup = computed(() => (isForVenues.value ? venuesSortByGroup.value : peopleSortByGroup.value))
 
 const clock = (timeRead) => (`0${timeRead}`).slice(-2)
@@ -87,6 +107,7 @@ const annotatedTeams = computed(() => {
       speakersIn: teamSpeakers.length - _.filter(teamSpeakers, ['status', false]).length,
       institution: institution,
       identifier: _.flatten(_.map(teamSpeakers, 'identifier')),
+      breaking: _.some(teamSpeakers, speaker => speaker.breaking),
     }
     if (_.filter(team.speakers, ['status', false]).length > 0) {
       team.status = false
@@ -120,12 +141,21 @@ const annotatedAdjudicators = computed(() => {
 })
 
 const peopleByType = computed(() => {
+  const f = filterByType.value
+  if (!f) {
+    return []
+  }
   const entities = []
-  if (filterByType.value.All || filterByType.value.Adjudicators) {
+  const includeAdjudicators = f.All || f.Adjudicators || f.Breaking
+  if (includeAdjudicators) {
     _.forEach(annotatedAdjudicators.value, (adjudicator) => { entities.push(adjudicator) })
   }
-  if (filterByType.value.All || filterByType.value.Debaters) {
+  const includeDebaters = f.All || f.Debaters || f.Breaking
+  if (includeDebaters) {
     _.forEach(annotatedDebaters.value, (speakerOrTeam) => { entities.push(speakerOrTeam) })
+  }
+  if (f.Breaking) {
+    return _.filter(entities, person => person.breaking)
   }
   return entities
 })
@@ -462,13 +492,13 @@ const forAdmin = toRef(props, 'forAdmin')
         class="btn-group mb-md-0 mb-3"
       >
         <button
-          v-for="(optionState, optionKey) in filterByType"
-          :key="optionKey"
+          v-for="option in filterByTypeOptions"
+          :key="option.key"
           type="button"
-          :class="['btn btn-outline-primary', optionState ? 'active' : '']"
-          @click="setListContext('filterByType', optionKey, !optionState)"
+          :class="['btn btn-outline-primary', option.state ? 'active' : '']"
+          @click="setListContext('filterByType', option.key, !option.state)"
         >
-          {{ gettext(peopleFilterNames[optionKey]) }}
+          {{ gettext(peopleFilterNames[option.key]) }}
         </button>
       </div>
 
