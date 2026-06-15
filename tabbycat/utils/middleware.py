@@ -1,7 +1,31 @@
 from django.core.cache import cache
+from django.middleware.locale import LocaleMiddleware
 from django.shortcuts import get_object_or_404
 
 from tournaments.models import Round, Tournament
+
+
+class SiteDefaultLocaleMiddleware(LocaleMiddleware):
+    """Locale middleware that ignores the browser's ``Accept-Language`` header.
+
+    Django's stock ``LocaleMiddleware`` resolves the active language as:
+    language cookie -> ``Accept-Language`` header -> ``settings.LANGUAGE_CODE``.
+    Because English is one of the supported ``LANGUAGES``, any visitor whose
+    browser advertises English (the common default) gets the whole page in
+    English, so the site default (Slovak) only ever applied to visitors whose
+    browser languages matched nothing supported. That made e.g. private-URL
+    ballots open in English "sometimes", depending on the judge's browser.
+
+    By dropping the ``Accept-Language`` header before delegating to the parent
+    middleware, language resolution becomes: language cookie ->
+    ``settings.LANGUAGE_CODE``. Fresh visitors always get the site default,
+    while an explicit choice made via the footer language switcher (which sets
+    the ``LANGUAGE_COOKIE_NAME`` cookie) is still respected.
+    """
+
+    def process_request(self, request):
+        request.META.pop('HTTP_ACCEPT_LANGUAGE', None)
+        super().process_request(request)
 
 
 class DebateMiddleware(object):

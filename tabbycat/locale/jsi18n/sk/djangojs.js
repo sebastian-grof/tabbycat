@@ -139,7 +139,7 @@
       "This page will live-update with new check-ins as they occur although the initial list may be up to a minute old.": "Táto stránka sa bude aktualizovať v reálnom čase s novými registráciami, ako sa budú vyskytovať, hoci počiatočný zoznam môže byť starý až jednu minútu.",
       "This person does not have a check-in identifier so they can't be checked in": "Táto osoba nemá identifikačný kód na registráciu, preto nemôže byť zaregistrovaný",
       "Tie": "Remíza",
-      "Total for": "Celkovo body pre",
+      "Total for": "Spolu pre",
       "Total:": "Celkovo:",
       "Trainee": "Shadow",
       "Turn On Sounds": "Zapnúť zvuky",
