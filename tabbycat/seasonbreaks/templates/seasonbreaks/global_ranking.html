@@ -1,0 +1,23 @@
+{% extends "seasonbreaks/base.html" %}
+{% load i18n %}
+
+{% block season_content %}
+  <div class="card">
+    <div class="card-header d-md-flex justify-content-between align-items-center">
+      <div>
+        <h4 class="mb-0">{% trans "Global ranking" %}</h4>
+        <span class="text-muted small">
+          {% trans "Live ranking across all public regions. No published snapshot required." %}
+        </span>
+      </div>
+      {% if season.public_global_ranking %}
+        <span class="badge badge-success mt-2 mt-md-0">{% trans "Shown on public page" %}</span>
+      {% else %}
+        <span class="badge badge-light mt-2 mt-md-0">{% trans "Hidden from public page" %}</span>
+      {% endif %}
+    </div>
+    <div class="table-responsive">
+      {% include "seasonbreaks/public_table.html" with rows=rows include_region=True %}
+    </div>
+  </div>
+{% endblock %}

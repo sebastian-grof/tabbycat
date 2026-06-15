@@ -25,10 +25,12 @@
     </div>
   </div>
 
-  <div class="card">
-    <div class="card-header">
-      <h4 class="mb-0">{% trans "Global ranking" %}</h4>
+  {% if show_global_ranking %}
+    <div class="card">
+      <div class="card-header">
+        <h4 class="mb-0">{% trans "Global ranking" %}</h4>
+      </div>
+      {% include "seasonbreaks/public_table.html" with rows=global_rows include_region=True %}
     </div>
-    {% include "seasonbreaks/public_table.html" with rows=global_rows include_region=True %}
-  </div>
+  {% endif %}
 {% endblock %}

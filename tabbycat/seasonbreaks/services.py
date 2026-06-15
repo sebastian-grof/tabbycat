@@ -153,6 +153,133 @@ def prune_all_unused_break_identities(season: BreakSeason) -> dict:
 
 
 @transaction.atomic
+def reassign_break_team_link(link: BreakTeamLink, new_break_team: BreakTeam) -> None:
+    """Repoint a team link and carry its frozen stats to the new identity.
+
+    Reassigning only the link leaves the tournament's frozen results and speaker
+    participations attached to the old identity, so the old identity lingers in
+    the rankings as a duplicate and its wins/ballots never merge into the new
+    one. Move those rows (scoped to this link's tournament) too, then prune the
+    old identity if nothing else references it.
+    """
+    old = link.break_team
+    if old.id == new_break_team.id:
+        return
+    tournament = link.team.tournament
+
+    results = BreakTeamTournamentResult.objects.filter(
+        break_team=old,
+        break_tournament__season=link.season,
+        break_tournament__tournament=tournament,
+    )
+    for result in results:
+        existing = BreakTeamTournamentResult.objects.filter(
+            break_tournament=result.break_tournament, break_team=new_break_team,
+        ).first()
+        if existing is None:
+            result.break_team = new_break_team
+            result.save(update_fields=['break_team'])
+        else:
+            existing.wins += result.wins
+            existing.ballots += result.ballots
+            existing.speaker_score += result.speaker_score
+            existing.rounds_debated += result.rounds_debated
+            existing.majority_debated = existing.majority_debated or result.majority_debated
+            existing.save()
+            result.delete()
+
+    participations = BreakSpeakerTournamentParticipation.objects.filter(
+        break_team=old,
+        break_tournament__season=link.season,
+        break_tournament__tournament=tournament,
+    )
+    for participation in participations:
+        existing = BreakSpeakerTournamentParticipation.objects.filter(
+            break_tournament=participation.break_tournament,
+            break_speaker=participation.break_speaker,
+            break_team=new_break_team,
+        ).first()
+        if existing is None:
+            participation.break_team = new_break_team
+            participation.save(update_fields=['break_team'])
+        else:
+            existing.speeches += participation.speeches
+            existing.rounds += participation.rounds
+            existing.save(update_fields=['speeches', 'rounds'])
+            participation.delete()
+
+    link.break_team = new_break_team
+    link.save(update_fields=['break_team'])
+    prune_unused_break_identities(link.season, team_ids=[old.id])
+
+
+@transaction.atomic
+def reassign_break_speaker_link(link: BreakSpeakerLink, new_break_speaker: BreakSpeaker) -> None:
+    """Repoint a speaker link and carry its frozen participations across."""
+    old = link.break_speaker
+    if old.id == new_break_speaker.id:
+        return
+    tournament = link.speaker.team.tournament if link.speaker.team else None
+
+    participations = BreakSpeakerTournamentParticipation.objects.filter(
+        break_speaker=old,
+        break_tournament__season=link.season,
+        break_tournament__tournament=tournament,
+    )
+    for participation in participations:
+        existing = BreakSpeakerTournamentParticipation.objects.filter(
+            break_tournament=participation.break_tournament,
+            break_speaker=new_break_speaker,
+            break_team=participation.break_team,
+        ).first()
+        if existing is None:
+            participation.break_speaker = new_break_speaker
+            participation.save(update_fields=['break_speaker'])
+        else:
+            existing.speeches += participation.speeches
+            existing.rounds += participation.rounds
+            existing.save(update_fields=['speeches', 'rounds'])
+            participation.delete()
+
+    link.break_speaker = new_break_speaker
+    link.save(update_fields=['break_speaker'])
+    prune_unused_break_identities(link.season, speaker_ids=[old.id])
+
+
+@transaction.atomic
+def reassign_break_adjudicator_link(link: BreakAdjudicatorLink, new_break_adjudicator: BreakAdjudicator) -> None:
+    """Repoint an adjudicator link and carry its frozen stats across."""
+    old = link.break_adjudicator
+    if old.id == new_break_adjudicator.id:
+        return
+    tournament = link.adjudicator.tournament
+
+    stats = BreakAdjudicatorTournamentStats.objects.filter(
+        break_adjudicator=old,
+        break_tournament__season=link.season,
+        break_tournament__tournament=tournament,
+    )
+    for stat in stats:
+        existing = BreakAdjudicatorTournamentStats.objects.filter(
+            break_tournament=stat.break_tournament, break_adjudicator=new_break_adjudicator,
+        ).first()
+        if existing is None:
+            stat.break_adjudicator = new_break_adjudicator
+            stat.save(update_fields=['break_adjudicator'])
+        else:
+            existing.chair_count += stat.chair_count
+            existing.panellist_count += stat.panellist_count
+            existing.trainee_count += stat.trainee_count
+            existing.total_count += stat.total_count
+            existing.save()
+            stat.delete()
+
+    link.break_adjudicator = new_break_adjudicator
+    link.save(update_fields=['break_adjudicator'])
+    prune_unused_break_identities(link.season, adjudicator_ids=[old.id])
+
+
+@transaction.atomic
 def freeze_break_tournament(break_tournament: BreakTournament) -> dict:
     tournament = break_tournament.tournament
     season = break_tournament.season
@@ -404,7 +531,10 @@ def calculate_rankings(season: BreakSeason) -> dict[int, list[dict]]:
                 'ineligible_reasons': _ineligible_reasons(len(all_results), required_tournaments, eligible_members),
             })
 
-        rows.sort(key=lambda row: (row['eligible'], row['wins'], row['ballots'], row['speaker_score']), reverse=True)
+        # Rank purely by performance (wins > ballots > speaker score). Eligibility
+        # only decides who can advance, not where a team sits in the standings, so
+        # a stronger ineligible team still ranks above a weaker eligible one.
+        rows.sort(key=lambda row: (row['wins'], row['ballots'], row['speaker_score']), reverse=True)
         seats = quotas.get(region.id, 0)
         eligible_rows = [row for row in rows if row['eligible']]
         cutoff_tuple = None
@@ -436,15 +566,42 @@ def _public_row(row, region, rank):
     }
 
 
+def _global_ranking_rows(rankings: dict[int, list[dict]], regions) -> list[dict]:
+    """Flatten per-region rankings into one re-ranked global list.
+
+    Fresh row dicts are built per region so re-ranking here never mutates the
+    region-local ranks stored alongside them in the snapshot.
+    """
+    rows = []
+    for region in regions:
+        for rank, row in enumerate(rankings.get(region.id, []), start=1):
+            rows.append(_public_row(row, region, rank))
+    rows.sort(key=lambda row: (-row['wins'], -row['ballots'], -row['speaker_score'], row['team']))
+    for rank, row in enumerate(rows, start=1):
+        row['rank'] = rank
+    return rows
+
+
+def calculate_global_ranking(season: BreakSeason, regions=None) -> list[dict]:
+    """Live global ranking across regions, mirroring the published snapshot.
+
+    Admins can preview this without publishing a snapshot. Defaults to the
+    publicly visible regions so it matches what the public page would show.
+    """
+    if regions is None:
+        regions = list(season.regions.filter(public_visible=True))
+    return _global_ranking_rows(calculate_rankings(season), regions)
+
+
 def build_public_breaks_snapshot(season: BreakSeason, published_at=None) -> dict:
     """Serialize the current break state into a stable public snapshot."""
     published_at = published_at or timezone.now()
     quotas = {quota.region.id: quota for quota in calculate_region_quotas(season)}
     rankings = calculate_rankings(season)
+    public_regions = list(season.regions.filter(public_visible=True))
     regions = []
-    global_rows = []
 
-    for region in season.regions.filter(public_visible=True):
+    for region in public_regions:
         quota = quotas.get(region.id)
         region_rows = [
             _public_row(row, region, rank)
@@ -459,18 +616,13 @@ def build_public_breaks_snapshot(season: BreakSeason, published_at=None) -> dict
             'participations': quota.participations if quota else 0,
             'ranking': region_rows,
         })
-        global_rows.extend(region_rows)
 
-    global_rows = sorted(
-        global_rows,
-        key=lambda row: (-row['wins'], -row['ballots'], -row['speaker_score'], row['team']),
-    )
-    for rank, row in enumerate(global_rows, start=1):
-        row['rank'] = rank
+    global_rows = _global_ranking_rows(rankings, public_regions)
 
     return {
         'version': 1,
         'published_at': published_at.isoformat(),
+        'show_global_ranking': season.public_global_ranking,
         'season': {
             'id': season.id,
             'name': season.name,

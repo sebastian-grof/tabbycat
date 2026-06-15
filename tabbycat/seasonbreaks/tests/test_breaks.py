@@ -3,6 +3,7 @@ from django.test import TestCase
 from django.urls import reverse
 from django.utils.translation import gettext as _
 
+from participants.models import Team
 from tournaments.models import Tournament
 
 from ..models import (
@@ -12,6 +13,7 @@ from ..models import (
     BreakSpeaker,
     BreakSpeakerTournamentParticipation,
     BreakTeam,
+    BreakTeamLink,
     BreakTeamTournamentResult,
     BreakTournament,
     BreaksPermission,
@@ -22,6 +24,7 @@ from ..services import (
     calculate_region_quotas,
     publish_public_breaks_snapshot,
     prune_unused_break_identities,
+    reassign_break_team_link,
 )
 
 
@@ -202,6 +205,72 @@ class BreaksCalculationTests(TestCase):
         self.assertEqual(rankings[0]['eligible_speakers'], ['Strong speaker 0', 'Strong speaker 1'])
         self.assertEqual(rankings[1]['team'], weaker)
 
+    def test_rankings_sort_by_performance_not_eligibility(self):
+        # A stronger but ineligible team must rank above a weaker eligible one;
+        # eligibility only governs advancement, not standings position.
+        eligible = self._team_with_members('Eligible', self.west, [self.bt_w1, self.bt_w2], [
+            (self.bt_w1, 2, 6, 600),
+            (self.bt_w2, 2, 6, 600),
+        ])
+        strong_solo = BreakTeam.objects.create(season=self.season, name='Strong solo', region=self.west)
+        BreakTeamTournamentResult.objects.create(
+            break_tournament=self.bt_w1, break_team=strong_solo, wins=3, ballots=9,
+            speaker_score=700, rounds_debated=3, majority_debated=True,
+        )
+
+        rankings = calculate_rankings(self.season)[self.west.id]
+        self.assertEqual(rankings[0]['team'], strong_solo)
+        self.assertEqual(rankings[0]['wins'], 3)
+        self.assertFalse(rankings[0]['eligible'])
+        self.assertFalse(rankings[0]['advancing'])
+        self.assertEqual(rankings[1]['team'], eligible)
+        self.assertTrue(rankings[1]['eligible'])
+        self.assertTrue(rankings[1]['advancing'])
+
+    def test_reassign_team_link_merges_results_and_removes_duplicate(self):
+        # Same team entered under two spellings ("OnDa" / "ONDA") across two
+        # tournaments became two identities. Merging the link must carry the
+        # frozen results and participations over and drop the empty duplicate.
+        real_onda = Team.objects.create(
+            tournament=self.tournament_w1, reference='OnDa', use_institution_prefix=False)
+        real_onda_caps = Team.objects.create(
+            tournament=self.tournament_w2, reference='ONDA', use_institution_prefix=False)
+
+        identity_a = BreakTeam.objects.create(season=self.season, name='OnDa', region=self.west)
+        identity_b = BreakTeam.objects.create(season=self.season, name='ONDA', region=self.west)
+        link_a = BreakTeamLink.objects.create(season=self.season, break_team=identity_a, team=real_onda)
+        BreakTeamLink.objects.create(season=self.season, break_team=identity_b, team=real_onda_caps)
+
+        BreakTeamTournamentResult.objects.create(
+            break_tournament=self.bt_w1, break_team=identity_a, wins=3, ballots=9,
+            speaker_score=700, rounds_debated=3, majority_debated=True)
+        BreakTeamTournamentResult.objects.create(
+            break_tournament=self.bt_w2, break_team=identity_b, wins=2, ballots=6,
+            speaker_score=600, rounds_debated=3, majority_debated=True)
+        for index in range(2):
+            speaker = BreakSpeaker.objects.create(season=self.season, name=f'Shared speaker {index}')
+            BreakSpeakerTournamentParticipation.objects.create(
+                break_tournament=self.bt_w1, break_speaker=speaker, break_team=identity_a, speeches=2, rounds=2)
+            BreakSpeakerTournamentParticipation.objects.create(
+                break_tournament=self.bt_w2, break_speaker=speaker, break_team=identity_b, speeches=2, rounds=2)
+
+        reassign_break_team_link(link_a, identity_b)
+
+        self.assertFalse(BreakTeam.objects.filter(id=identity_a.id).exists())
+        self.assertEqual(
+            BreakTeamTournamentResult.objects.get(break_tournament=self.bt_w1).break_team, identity_b)
+        self.assertFalse(
+            BreakSpeakerTournamentParticipation.objects.filter(break_team=identity_a).exists())
+
+        rankings = calculate_rankings(self.season)[self.west.id]
+        self.assertEqual(len(rankings), 1)
+        row = rankings[0]
+        self.assertEqual(row['team'], identity_b)
+        self.assertEqual(row['participations'], 2)
+        self.assertEqual(row['wins'], 3)  # best 1 of 2 results
+        self.assertTrue(row['eligible'])
+        self.assertEqual(row['eligible_members'], 2)
+
     def test_nonleague_tournaments_do_not_affect_quotas_or_rankings(self):
         team = self._team_with_members('West A', self.west, [self.bt_w1, self.bt_open], [
             (self.bt_w1, 1, 3, 500),
@@ -265,7 +334,8 @@ class BreaksCalculationTests(TestCase):
         team = self._team_with_members('West A', self.west, [self.bt_w1], [(self.bt_w1, 1, 3, 500)])
         self._team_with_members('East A', self.east, [self.bt_e1], [(self.bt_e1, 2, 6, 600)])
         self.season.public = True
-        self.season.save(update_fields=['public'])
+        self.season.public_global_ranking = True
+        self.season.save(update_fields=['public', 'public_global_ranking'])
         publish_public_breaks_snapshot(self.season)
 
         response = self.client.get(reverse('public-breaks-season', kwargs={'season_slug': self.season.slug}))
@@ -287,7 +357,8 @@ class BreaksCalculationTests(TestCase):
         self._team_with_members('West A', self.west, [self.bt_w1], [(self.bt_w1, 1, 3, 500)])
         self._team_with_members('East A', self.east, [self.bt_e1], [(self.bt_e1, 2, 6, 600)])
         self.season.public = True
-        self.season.save(update_fields=['public'])
+        self.season.public_global_ranking = True
+        self.season.save(update_fields=['public', 'public_global_ranking'])
         publish_public_breaks_snapshot(self.season)
 
         self.west.public_visible = False
@@ -337,3 +408,91 @@ class BreaksCalculationTests(TestCase):
         self.assertContains(response, 'West A')
         self.assertContains(response, _("Speaker points"))
         self.assertNotContains(response, 'Status')
+
+    def test_public_global_ranking_toggle_controls_card_visibility(self):
+        self._team_with_members('West A', self.west, [self.bt_w1], [(self.bt_w1, 1, 3, 500)])
+        self.season.public = True
+        self.season.public_global_ranking = False
+        self.season.save(update_fields=['public', 'public_global_ranking'])
+        publish_public_breaks_snapshot(self.season)
+
+        url = reverse('public-breaks-season', kwargs={'season_slug': self.season.slug})
+        response = self.client.get(url)
+        self.assertFalse(response.context['show_global_ranking'])
+        self.assertNotContains(response, _("Global ranking"))
+        self.assertNotContains(response, 'West A')
+
+        self.season.public_global_ranking = True
+        self.season.save(update_fields=['public_global_ranking'])
+        publish_public_breaks_snapshot(self.season)
+        response = self.client.get(url)
+        self.assertTrue(response.context['show_global_ranking'])
+        self.assertContains(response, _("Global ranking"))
+        self.assertContains(response, 'West A')
+
+    def test_legacy_snapshot_without_toggle_still_shows_global_ranking(self):
+        self._team_with_members('West A', self.west, [self.bt_w1], [(self.bt_w1, 1, 3, 500)])
+        self.season.public = True
+        self.season.save(update_fields=['public'])
+        publish_public_breaks_snapshot(self.season)
+
+        # Simulate a snapshot published before the toggle existed.
+        snapshot = dict(self.season.public_snapshot)
+        snapshot.pop('show_global_ranking', None)
+        self.season.public_snapshot = snapshot
+        self.season.save(update_fields=['public_snapshot'])
+
+        response = self.client.get(reverse('public-breaks-season', kwargs={'season_slug': self.season.slug}))
+        self.assertTrue(response.context['show_global_ranking'])
+        self.assertContains(response, 'West A')
+
+    def test_publish_form_persists_global_ranking_toggle(self):
+        user = get_user_model().objects.create_user(username='breaks-admin', password='pw')
+        GlobalBreaksPermission.objects.create(user=user, permission=BreaksPermission.VIEW)
+        GlobalBreaksPermission.objects.create(user=user, permission=BreaksPermission.EDIT)
+        self.client.force_login(user)
+
+        overview_url = reverse('seasonbreaks-season-overview', kwargs={'season_slug': self.season.slug})
+        response = self.client.post(overview_url, {
+            'action': 'publish_public_snapshot',
+            'show_global_ranking': '1',
+        })
+        self.assertRedirects(response, overview_url)
+        self.season.refresh_from_db()
+        self.assertTrue(self.season.public_global_ranking)
+        self.assertTrue(self.season.public_snapshot['show_global_ranking'])
+
+        response = self.client.post(overview_url, {'action': 'publish_public_snapshot'})
+        self.season.refresh_from_db()
+        self.assertFalse(self.season.public_global_ranking)
+        self.assertFalse(self.season.public_snapshot['show_global_ranking'])
+
+    def test_admin_global_ranking_preview_lists_teams_without_publishing(self):
+        self._team_with_members('West A', self.west, [self.bt_w1], [(self.bt_w1, 1, 3, 500)])
+        self._team_with_members('East A', self.east, [self.bt_e1], [(self.bt_e1, 2, 6, 600)])
+        user = get_user_model().objects.create_user(username='breaks-view', password='pw')
+        GlobalBreaksPermission.objects.create(user=user, permission=BreaksPermission.VIEW)
+        self.client.force_login(user)
+
+        url = reverse('seasonbreaks-global-ranking', kwargs={'season_slug': self.season.slug})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual([row['team'] for row in response.context['rows']], ['East A', 'West A'])
+        self.assertContains(response, 'East A')
+        self.assertContains(response, 'West A')
+        # Still nothing published publicly.
+        self.assertIsNone(self.season.public_published_at)
+
+    def test_admin_global_ranking_preview_excludes_nonpublic_regions(self):
+        self._team_with_members('West A', self.west, [self.bt_w1], [(self.bt_w1, 1, 3, 500)])
+        self._team_with_members('East A', self.east, [self.bt_e1], [(self.bt_e1, 2, 6, 600)])
+        self.west.public_visible = False
+        self.west.save(update_fields=['public_visible'])
+        user = get_user_model().objects.create_user(username='breaks-view2', password='pw')
+        GlobalBreaksPermission.objects.create(user=user, permission=BreaksPermission.VIEW)
+        self.client.force_login(user)
+
+        url = reverse('seasonbreaks-global-ranking', kwargs={'season_slug': self.season.slug})
+        response = self.client.get(url)
+        self.assertEqual([row['team'] for row in response.context['rows']], ['East A'])
+        self.assertNotContains(response, 'West A')
