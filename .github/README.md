@@ -13,6 +13,18 @@
 
 </div>
 
+> [!NOTE]
+> ## 🍴 About this fork
+>
+> This repository is an **unofficial fork** of [Tabbycat](https://github.com/TabbycatDebate/tabbycat), maintained by Sebastian Grof for Slovak Debate Association (SDA) tournament operations. It is **not affiliated with or endorsed by** the upstream Tabbycat developers.
+>
+> - Upstream project: <https://github.com/TabbycatDebate/tabbycat>
+> - This fork: <https://github.com/sebastian-grof/tabbycat>
+> - **Summary of changes:** [MODIFICATIONS.md](../MODIFICATIONS.md)
+> - Licence: [GNU AGPL v3.0](../LICENSE.md) — unchanged from upstream
+>
+> In keeping with the AGPL, all modifications to this fork remain publicly available under the same licence.
+
 Tabbycat is a draw tabulation system for British Parliamentary and a variety of two-team formats. It was used at Australs 2010 and 2012–2019, EUDC 2018, WUDC 2019–2022 and many other tournaments of all sizes and formats. To see an example of a post-tournament website, have a look at the [WUDC 2022 tab website](https://wudc2022.calicotab.com/wudc/).
 
 **Want to try it out?** The best way to trial Tabbycat is just to launch a new site, as described [below](#%EF%B8%8F-installation)). It takes just a few clicks, requires no technical background, and you can always deploy a fresh copy when you're ready to run your tournament.
@@ -57,6 +69,8 @@ Monetary donations are much appreciated and help us to continue the development 
 Tabbycat is licensed under the terms of the [GNU Affero General Public License v3.0](https://choosealicense.com/licenses/agpl-3.0/). You may copy, distribute, and modify this software; however note that this licence requires (amongst other provisions) that any modifications you make to Tabbycat be made public.
 
 If you wish to modify Tabbycat in a proprietary fashion we (the developers) are open to negotiating a dual licence for this purpose. Please [contact us](http://tabbycat.readthedocs.io/en/latest/authors.html#authors) if this is the case for you.
+
+The modifications made in this fork are summarised in [MODIFICATIONS.md](../MODIFICATIONS.md) and, in accordance with the AGPL, remain available under the same licence.
 
 ## ✏️ Authors
 
