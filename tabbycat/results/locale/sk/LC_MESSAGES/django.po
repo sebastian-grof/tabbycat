@@ -1071,6 +1071,10 @@ msgstr "MO"
 msgid "OW"
 msgstr "OW"
 
+#: results/forms.py
+msgid "Cross-examinations"
+msgstr "Krížové výsluchy"
+
 #: results/utils.py
 msgid "Reply"
 msgstr "Záverečná reč"
