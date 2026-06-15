@@ -61,6 +61,18 @@ def fill_scoresheet_randomly(scoresheet, tournament, nattempts=1000):
                 score = random.randint(start, stop) * step
                 scoresheet.set_score(side, pos, score)
 
+        if getattr(scoresheet, 'using_cross_examinations', False):
+            step = tournament.pref('cross_score_step')
+            start = tournament.pref('cross_score_min') / step
+            stop = tournament.pref('cross_score_max') / step
+            crosses = getattr(scoresheet, 'crosses', [])
+            if crosses:
+                for side, cross in product(scoresheet.sides, crosses):
+                    scoresheet.set_cross_score(side, cross, random.randint(start, stop) * step)
+            else:
+                for side in scoresheet.sides:
+                    scoresheet.set_cross_total(side, random.randint(start, stop) * step)
+
         if scoresheet.uses_declared_winners:
             scoresheet.set_declared_winners(random.sample(scoresheet.sides, scoresheet.number_winners))
 
