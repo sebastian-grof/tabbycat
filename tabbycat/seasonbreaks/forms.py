@@ -47,12 +47,18 @@ class BreakSeasonForm(forms.ModelForm):
 class BreakRegionForm(forms.ModelForm):
     class Meta:
         model = BreakRegion
-        fields = ('name', 'source_region', 'seq', 'public_visible')
+        fields = ('name', 'source_region', 'seq', 'expected_tournaments', 'public_visible')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        # Blank means "auto" (fall back to the count of counting tournaments), so
+        # treat an empty value as 0 rather than rejecting the form.
+        self.fields['expected_tournaments'].required = False
         if not self.is_bound and not self.instance.pk:
             self.fields['public_visible'].initial = True
+
+    def clean_expected_tournaments(self):
+        return self.cleaned_data.get('expected_tournaments') or 0
 
 
 class BreakTournamentForm(forms.ModelForm):

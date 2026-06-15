@@ -72,6 +72,10 @@ class BreakRegion(models.Model):
     season = models.ForeignKey(BreakSeason, models.CASCADE, related_name='regions', verbose_name=_("season"))
     name = models.CharField(max_length=100, verbose_name=_("name"))
     seq = models.PositiveSmallIntegerField(default=0, verbose_name=_("sequence"))
+    expected_tournaments = models.PositiveSmallIntegerField(default=0,
+        verbose_name=_("expected tournaments this season"),
+        help_text=_("Drives the best N−1 ranking rule. Leave at 0 to use the number of "
+            "counting tournaments already added to this region."))
     source_region = models.ForeignKey('participants.Region', models.SET_NULL, blank=True, null=True,
         verbose_name=_("source region"))
     public_visible = models.BooleanField(default=True, verbose_name=_("show on public Breaks page"))

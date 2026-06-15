@@ -20,6 +20,7 @@
             {% include "components/form-field.html" with field=region_form.name triple=True %}
             {% include "components/form-field.html" with field=region_form.source_region triple=True %}
             {% include "components/form-field.html" with field=region_form.seq triple=True %}
+            {% include "components/form-field.html" with field=region_form.expected_tournaments triple=True %}
             <div class="form-group col-12">
               <div class="form-check">
                 {{ region_form.public_visible }}
@@ -59,6 +60,9 @@
               <div class="form-group col-md-2 mb-2 mb-md-0">
                 <label class="small text-muted mb-1">{% trans "Seq" %}</label>{{ row.form.seq }}
               </div>
+              <div class="form-group col-md-2 mb-2 mb-md-0">
+                <label class="small text-muted mb-1">{% trans "Expected tournaments" %}</label>{{ row.form.expected_tournaments }}
+              </div>
               <div class="form-group col-md-auto mb-2 mb-md-0">
                 <div class="form-check mt-md-4">
                   {{ row.form.public_visible }}
@@ -83,7 +87,7 @@
       <div class="table-responsive">
         <table class="table table-sm mb-0">
           <thead>
-            <tr><th>{% trans "Region" %}</th><th>{% trans "Source region" %}</th><th>{% trans "Seq" %}</th><th>{% trans "Public" %}</th></tr>
+            <tr><th>{% trans "Region" %}</th><th>{% trans "Source region" %}</th><th>{% trans "Seq" %}</th><th>{% trans "Expected tournaments" %}</th><th>{% trans "Public" %}</th></tr>
           </thead>
           <tbody>
             {% for row in regions %}
@@ -91,6 +95,7 @@
                 <td><strong>{{ row.region.name }}</strong></td>
                 <td>{% if row.region.source_region %}{{ row.region.source_region }}{% endif %}</td>
                 <td>{{ row.region.seq }}</td>
+                <td>{% if row.region.expected_tournaments %}{{ row.region.expected_tournaments }}{% else %}<span class="text-muted">{% trans "Auto" %}</span>{% endif %}</td>
                 <td>
                   {% if row.region.public_visible %}
                     <span class="text-success"><i data-feather="eye"></i> {% trans "Visible" %}</span>
@@ -100,7 +105,7 @@
                 </td>
               </tr>
             {% empty %}
-              <tr><td colspan="4" class="text-muted">{% trans "Create regions before assigning source tournaments." %}</td></tr>
+              <tr><td colspan="5" class="text-muted">{% trans "Create regions before assigning source tournaments." %}</td></tr>
             {% endfor %}
           </tbody>
         </table>
