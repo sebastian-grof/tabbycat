@@ -368,7 +368,7 @@ class SDLFormatPreferences(PreferencesPreset):
     scoring__teamscore_includes_ghosts         = True
 
     # Draw Rules
-    draw_rules__adj_min_voting_score           = 3.0
+    draw_rules__adj_min_voting_score           = 1.0
     draw_rules__adj_conflict_penalty           = 1000000
     draw_rules__adj_history_penalty            = 10000
     draw_rules__preformed_panel_mismatch_penalty = 10000000
@@ -400,7 +400,7 @@ class SDLFormatPreferences(PreferencesPreset):
 
     # Feedback
     feedback__adj_min_score                    = 0.0
-    feedback__adj_max_score                    = 9.0
+    feedback__adj_max_score                    = 3.0
     feedback__feedback_affects_adjudicator_scores = False
     feedback__feedback_paths                   = 'with-p-on-c'
     feedback__feedback_from_teams              = 'orallist'
@@ -627,6 +627,14 @@ class JDLFirstCategoryPreferences(JDLFormatPreferences):
     standings__team_standings_extra_metrics    = []
     standings__speaker_standings_precedence    = ['average', 'trimmed_mean']
     standings__speaker_standings_extra_metrics = []
+
+
+class NonLeagueTournamentsPreferences(SDLFormatPreferences):
+    name         = _("Neligové turnaje (GJH Open, MDIK Open)")
+    description  = _("SDL format without cross-examinations, used for non-league "
+        "tournaments such as GJH Open and MDIK Open.")
+
+    debate_rules__cross_examinations_enabled   = False
 
 
 class APDAPreferences(PreferencesPreset):
