@@ -11,7 +11,7 @@
         </div>
         {% if team.forfeit %}
           <div>
-            {{ team.forfeit|addcss:"forfeit-check" }} Forfeit
+            {{ team.forfeit|addcss:"forfeit-check" }} {% trans "Forfeit" %}
             {{ team.forfeit.errors }}
           </div>
         {% endif %}
