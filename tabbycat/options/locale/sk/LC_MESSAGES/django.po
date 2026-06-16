@@ -1921,3 +1921,15 @@ msgstr "Spätná väzba ovplyvňuje skóre rozhodcov/rozhodkýň"
 #: added manually for SDA feedback score toggle
 msgid "If enabled, feedback forms ask for an overall adjudicator score and confirmed feedback ratings are included in adjudicator score calculations. If disabled, feedback can still be submitted but will not affect adjudicator scores."
 msgstr "Ak je zapnuté, formuláre spätnej väzby sa pýtajú na celkové skóre rozhodcu/rozhodkyne a potvrdené hodnotenia zo spätnej väzby sa započítavajú do výpočtu skóre rozhodcov/rozhodkýň. Ak je vypnuté, spätná väzba sa stále dá odosielať, ale neovplyvní skóre rozhodcov/rozhodkýň."
+
+#: options/preferences.py options/presets.py
+msgid "JDL 1st Category"
+msgstr "JDL 1. Kategória"
+
+#: options/presets.py
+msgid "JDL 2nd Category"
+msgstr "JDL 2. kategória"
+
+#: options/presets.py
+msgid "Non-league tournaments (GJH Open, MDIK Open)"
+msgstr "Neligové turnaje (GJH Open, MDIK Open)"

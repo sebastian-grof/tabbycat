@@ -1171,3 +1171,74 @@ msgstr ""
 #: results/views.py
 msgid "Merge Ballots"
 msgstr ""
+
+#: results/forms.py results/templates/ballot_text_feedback_form.html results/templates/ballot_text_feedback_list.html
+msgid "Notes"
+msgstr ""
+
+#: results/tables.py
+msgid "Notes added"
+msgstr ""
+
+#: results/tables.py
+msgid "Notes not added"
+msgstr ""
+
+#: results/views.py
+msgid "Notes saved."
+msgstr ""
+
+#: results/views.py
+msgid "Notes can only be added after submitting your own ballot."
+msgstr ""
+
+#: results/forms.py results/templates/ballot_text_feedback_form.html
+msgid "Add notes that teams will read in their private ballot view."
+msgstr ""
+
+#: results/templates/ballot_text_feedback_form.html
+msgid "These notes will be shown to teams in their private ballot view. The public ballot page will not show them."
+msgstr ""
+
+#: results/templates/ballot_text_feedback_form.html
+msgid "No notes have been saved yet."
+msgstr ""
+
+#: results/templates/ballot_text_feedback_form.html
+msgid "Edit"
+msgstr ""
+
+#: results/templates/ballot_text_feedback_form.html
+msgid "Add notes"
+msgstr ""
+
+#: results/templates/ballot_text_feedback_form.html
+msgid "Save notes"
+msgstr ""
+
+#: results/templates/ballot_text_feedback_form.html
+msgid "If you leave the field empty and save, the notes will be removed."
+msgstr ""
+
+#: results/templates/ballot_text_feedback_list.html
+msgid "From the adjudication panel"
+msgstr ""
+
+#: results/templates/public_ballot_set.html
+msgid "Download ballot"
+msgstr ""
+
+#: results/templates/ballot_text_feedback_form.html
+#, python-format
+msgid "Last saved: %(time)s"
+msgstr ""
+
+#: results/templates/ballot_text_feedback_form.html
+#, python-format
+msgid "edited by %(name)s"
+msgstr ""
+
+#: results/templates/ballot_text_feedback_list.html
+#, python-format
+msgid "From %(name)s"
+msgstr ""

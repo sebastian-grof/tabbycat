@@ -3,25 +3,25 @@
 <div class="card mt-3">
   <div class="list-group list-group-flush">
     <div class="list-group-item">
-      <h4 class="mb-1">{% trans "Poznámky" %}</h4>
+      <h4 class="mb-1">{% trans "Notes" %}</h4>
       <p class="mb-0 text-muted">
-        {% trans "Tieto poznámky sa zobrazia tímom v ich súkromnom zobrazení ballotu. Verejná stránka ballotu ich nezobrazí." %}
+        {% trans "These notes will be shown to teams in their private ballot view. The public ballot page will not show them." %}
       </p>
       {% if ballot_text_feedback %}
         <p class="small text-muted mt-2 mb-0">
           {% blocktrans trimmed with time=ballot_text_feedback.updated_at|date:"SHORT_DATETIME_FORMAT" %}
-            Naposledy uložené: {{ time }}
+            Last saved: {{ time }}
           {% endblocktrans %}
           {% if ballot_text_feedback.updated_by_adjudicator %}
             {% person_display_name ballot_text_feedback.updated_by_adjudicator as editor_name %}
             ·
             {% blocktrans trimmed with name=editor_name %}
-              upravil/a {{ name }}
+              edited by {{ name }}
             {% endblocktrans %}
           {% elif ballot_text_feedback.updated_by_user %}
             ·
             {% blocktrans trimmed with name=ballot_text_feedback.updated_by_user %}
-              upravil/a {{ name }}
+              edited by {{ name }}
             {% endblocktrans %}
           {% endif %}
         </p>
@@ -32,7 +32,7 @@
       {% if ballot_text_feedback %}
         <div class="border rounded p-3 bg-light">{{ ballot_text_feedback.text|linebreaks }}</div>
       {% else %}
-        <p class="text-muted mb-0">{% trans "Zatiaľ neboli uložené žiadne poznámky." %}</p>
+        <p class="text-muted mb-0">{% trans "No notes have been saved yet." %}</p>
       {% endif %}
     </div>
 
@@ -41,9 +41,9 @@
         <details {% if ballot_text_feedback_form.errors %}open{% endif %}>
           <summary class="btn btn-outline-primary btn-sm">
             {% if ballot_text_feedback %}
-              {% trans "Upraviť" %}
+              {% trans "Edit" %}
             {% else %}
-              {% trans "Pridať poznámky" %}
+              {% trans "Add notes" %}
             {% endif %}
           </summary>
 
@@ -56,13 +56,13 @@
                       id="{{ ballot_text_feedback_form.text.id_for_label }}"
                       class="form-control"
                       rows="6"
-                      placeholder="{% trans "Pridaj poznámky, ktoré si tímy prečítajú v súkromnom zobrazení ballotu." %}">{{ ballot_text_feedback_form.text.value|default_if_none:"" }}</textarea>
+                      placeholder="{% trans "Add notes that teams will read in their private ballot view." %}">{{ ballot_text_feedback_form.text.value|default_if_none:"" }}</textarea>
             <p class="small text-muted mt-2 mb-3">
-              {% trans "Ak pole necháš prázdne a uložíš, poznámky sa odstránia." %}
+              {% trans "If you leave the field empty and save, the notes will be removed." %}
             </p>
 
             <button type="submit" class="btn btn-success">
-              {% trans "Uložiť poznámky" %}
+              {% trans "Save notes" %}
             </button>
           </form>
         </details>

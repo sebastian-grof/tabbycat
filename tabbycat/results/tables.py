@@ -70,7 +70,7 @@ class ResultsTableBuilder(TabbycatTableBuilder):
                 'icon': 'check' if has_notes else 'x',
                 'class': 'text-success' if has_notes else 'text-danger',
                 'sort': 1 if has_notes else 0,
-                'tooltip': _("Poznámky pridané") if has_notes else _("Poznámky nepridané"),
+                'tooltip': _("Notes added") if has_notes else _("Notes not added"),
                 'notes': 'added' if has_notes else 'missing',
                 'id': debate.id,
             }

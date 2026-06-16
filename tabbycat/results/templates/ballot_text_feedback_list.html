@@ -3,7 +3,7 @@
 {% if ballot_text_feedbacks %}
   <div class="card mt-3">
     <div class="card-body">
-      <h4 class="card-title">{% trans "Poznámky" %}</h4>
+      <h4 class="card-title">{% trans "Notes" %}</h4>
 
       {% for feedback in ballot_text_feedbacks %}
         <div class="ballot-text-feedback{% if not forloop.last %} mb-3 pb-3 border-bottom{% endif %}">
@@ -11,15 +11,15 @@
             {% if feedback.ballot_submission.participant_submitter %}
               {% person_display_name feedback.ballot_submission.participant_submitter as feedback_author %}
               {% blocktrans trimmed with name=feedback_author %}
-                Od {{ name }}
+                From {{ name }}
               {% endblocktrans %}
             {% elif feedback.updated_by_adjudicator %}
               {% person_display_name feedback.updated_by_adjudicator as feedback_author %}
               {% blocktrans trimmed with name=feedback_author %}
-                Od {{ name }}
+                From {{ name }}
               {% endblocktrans %}
             {% else %}
-              {% trans "Od rozhodcovského panelu" %}
+              {% trans "From the adjudication panel" %}
             {% endif %}
             {% if feedback.updated_at %}
               · {{ feedback.updated_at|date:"SHORT_DATETIME_FORMAT" }}

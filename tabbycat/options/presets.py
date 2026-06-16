@@ -593,7 +593,7 @@ class SDLFormatPreferences(PreferencesPreset):
 
 
 class JDLFormatPreferences(SDLFormatPreferences):
-    name         = _("JDL 2. kategória")
+    name         = _("JDL 2nd Category")
     description  = _("2 vs 2 with replies, no cross-examinations, pre-allocated "
         "sides, private URL ballot entry, and JDL-style standings and draw rules.")
 
@@ -602,7 +602,7 @@ class JDLFormatPreferences(SDLFormatPreferences):
 
 
 class JDLFirstCategoryPreferences(JDLFormatPreferences):
-    name         = _("JDL 1. Kategória")
+    name         = _("JDL 1st Category")
     description  = _("One-speaker JDL format with one team per room, no opponent, "
         "pre-allocated affirmative/negative sides, and score-based standings.")
 
@@ -630,7 +630,7 @@ class JDLFirstCategoryPreferences(JDLFormatPreferences):
 
 
 class NonLeagueTournamentsPreferences(SDLFormatPreferences):
-    name         = _("Neligové turnaje (GJH Open, MDIK Open)")
+    name         = _("Non-league tournaments (GJH Open, MDIK Open)")
     description  = _("SDL format without cross-examinations, used for non-league "
         "tournaments such as GJH Open and MDIK Open.")
 
