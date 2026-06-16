@@ -70,6 +70,7 @@ PERMISSION_GROUPS = (
         Permission.EDIT_PREFORMEDPANELS,
     )),
     (_("Ballots and Results"), (
+        Permission.ACCESS_ASSISTANT,
         Permission.VIEW_NEW_BALLOTSUBMISSIONS,
         Permission.EDIT_OLD_BALLOTSUBMISSIONS,
         Permission.VIEW_BALLOTSUBMISSIONS,

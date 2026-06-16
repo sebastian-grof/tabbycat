@@ -9,7 +9,7 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from django.views.generic.base import ContextMixin
 
-from users.permissions import has_admin_access, has_permission
+from users.permissions import has_admin_access, has_assistant_access, has_permission
 
 if TYPE_CHECKING:
     from users.permissions import permission_type
@@ -91,7 +91,17 @@ class AssistantMixin(UserPassesTestMixin, ContextMixin):
     view_role = "assistant"
 
     def test_func(self) -> bool:
-        return self.request.user.is_authenticated and (self.request.user.is_staff or not hasattr(self, 'tournament') or self.tournament.pref('assistant_access') != 'none')
+        user = self.request.user
+        if not user.is_authenticated:
+            return False
+        if user.is_staff or not hasattr(self, 'tournament'):
+            return True
+        if self.tournament.pref('assistant_access') == 'none':
+            return False
+        # Assistant access is no longer open to every authenticated user: it
+        # requires a role in this tournament that grants assistant (or admin)
+        # access. Users with no roles are denied.
+        return has_assistant_access(user, self.tournament)
 
     def get_context_data(self, **kwargs):
         kwargs["user_role"] = self.view_role
