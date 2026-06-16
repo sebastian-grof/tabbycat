@@ -13,6 +13,7 @@ from tournaments.utils import get_side_name
 from utils.tables import TabbycatTableBuilder
 
 from .generator.bphungarian import BPHungarianDrawGenerator
+from .types import DebateSide
 
 if TYPE_CHECKING:
     from participants.models import Team
@@ -73,14 +74,20 @@ class PublicDrawTableBuilder(BaseDrawTableBuilder):
 
             team_data = []
             for debate, hl in zip_longest(debates, highlight):
+                # Byes have a single team stored on the BYE side (-1), so it
+                # won't be found by get_team(side). Show it in the first column.
+                if debate.is_bye:
+                    if side == 0:
+                        team = debate.get_team(DebateSide.BYE)
+                        team_data.append(self._team_cell(team, subtext=_("Bye"), show_emoji=True, highlight=team == hl))
+                    else:
+                        team_data.append({'text': self.BLANK_TEXT})
+                    continue
+
                 try:
                     team = debate.get_team(side)
                 except (IndexError, ObjectDoesNotExist, MultipleObjectsReturned):
                     team_data.append({'text': self.BLANK_TEXT})
-                    continue
-
-                if debate.is_bye and side == 0:
-                    team_data.append(self._team_cell(team, subtext=_("Bye"), show_emoji=True, highlight=team == hl))
                     continue
 
                 subtext = None if (all_sides_confirmed or not debate.sides_confirmed) else side_name
