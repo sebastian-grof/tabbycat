@@ -4,6 +4,10 @@ from django.utils.translation import gettext_lazy as _
 
 from .models import ConverterPermission, GlobalConverterPermission
 
+# Cap uploads so an oversized document can't be read wholesale into memory.
+# A DebateXML export of even a very large tournament is comfortably under this.
+MAX_XML_UPLOAD_SIZE = 16 * 1024 * 1024  # 16 MB
+
 
 class ConverterUploadForm(forms.Form):
     xml_file = forms.FileField(
@@ -15,6 +19,10 @@ class ConverterUploadForm(forms.Form):
         uploaded = self.cleaned_data['xml_file']
         if not uploaded.name.lower().endswith('.xml'):
             raise forms.ValidationError(_("Please upload an XML file."))
+        if uploaded.size > MAX_XML_UPLOAD_SIZE:
+            raise forms.ValidationError(
+                _("This file is too large (limit %(limit)d MB).") % {'limit': MAX_XML_UPLOAD_SIZE // (1024 * 1024)},
+            )
         return uploaded
 
 

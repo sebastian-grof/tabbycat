@@ -14,6 +14,8 @@ from typing import BinaryIO, Iterable
 from xml.etree import ElementTree as ET
 from xml.sax.saxutils import escape
 
+from defusedxml.ElementTree import parse as safe_parse
+
 
 @dataclass
 class TeamInfo:
@@ -358,7 +360,10 @@ def source_stem(xml_source: Path | str | BinaryIO, source_name: str | None = Non
 
 
 def parse_debatexml(xml_source: Path | str | BinaryIO, source_name: str | None = None) -> tuple[str, str, list[str], dict[str, TeamInfo], dict[str, AdjudicatorInfo], dict[str, str], dict[str, str], list[DebateResult]]:
-    root = ET.parse(xml_source).getroot()
+    # Parse with defusedxml: the upload is untrusted, so this blocks XXE,
+    # external-entity, and entity-expansion (billion-laughs) attacks. ET is
+    # still imported above only for type hints and trusted output building.
+    root = safe_parse(xml_source).getroot()
     fallback_name = source_stem(xml_source, source_name)
     tournament_name = root.attrib.get("name", fallback_name)
     tournament_short = root.attrib.get("short", fallback_name)
