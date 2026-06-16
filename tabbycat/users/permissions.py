@@ -161,8 +161,13 @@ class Permission(TextChoices):
     EDIT_REGISTRATION = 'edit.registration', _("edit registration responses")
     CONFIRM_REGISTRATION = 'confirm.registration', _("confirm registration responses")
 
+    # Gates the assistant area. On its own it grants no admin access; it is the
+    # permission a role must include for a non-admin user to reach assistant pages.
+    ACCESS_ASSISTANT = 'access.assistant', _("access the assistant area")
+
 
 ASSISTANT_INTERFACE_PERMISSIONS = (
+    Permission.ACCESS_ASSISTANT,
     Permission.ADD_BALLOTSUBMISSIONS,
     Permission.MARK_OTHERS_BALLOTSUBMISSIONS,
     Permission.VIEW_BALLOTSUBMISSION_GRAPH,
@@ -221,15 +226,28 @@ def has_admin_access(user: 'settings.AUTH_USER_MODEL', tournament: 'Tournament')
     if user.is_superuser:
         return True
 
-    if user.userpermission_set.filter(tournament=tournament).exists():
+    if user.userpermission_set.filter(tournament=tournament).exclude(permission=Permission.ACCESS_ASSISTANT).exists():
         return True
 
+    # ACCESS_ASSISTANT only gates the assistant area, so ignore it when deciding
+    # whether a role grants admin access (a role that is otherwise just the
+    # assistant interface stays assistant-only).
+    assistant_only = ASSISTANT_INTERFACE_PERMISSION_SET - {Permission.ACCESS_ASSISTANT}
     return any(
-        frozenset(membership.group.permissions) != ASSISTANT_INTERFACE_PERMISSION_SET
+        (frozenset(membership.group.permissions) - {Permission.ACCESS_ASSISTANT}) not in (frozenset(), assistant_only)
         for membership in user.membership_set.filter(
             group__tournament=tournament,
         ).select_related('group')
     )
+
+
+def has_assistant_access(user: 'settings.AUTH_USER_MODEL', tournament: 'Tournament') -> bool:
+    """Whether the user may access the assistant area of this tournament.
+
+    Unlike the old behaviour (any authenticated user), this requires the user to
+    actually hold a role in the tournament: either admin access, or a role that
+    includes the ACCESS_ASSISTANT permission. Users with no roles are denied."""
+    return has_admin_access(user, tournament) or has_permission(user, Permission.ACCESS_ASSISTANT, tournament)
 
 
 def get_permissions(user: 'settings.AUTH_USER_MODEL') -> List['Tournament']:

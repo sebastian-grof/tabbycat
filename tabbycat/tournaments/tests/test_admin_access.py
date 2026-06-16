@@ -58,6 +58,33 @@ class AdminAccessTests(TestCase):
 
         self.assertEqual(response.status_code, 200)
 
+    def test_user_without_role_cannot_access_assistant_home(self):
+        user = get_user_model().objects.create_user(username="norole", password="password")
+        self.client.force_login(user)
+
+        response = self.client.get(reverse_tournament("tournament-assistant-home", self.tournament))
+
+        self.assertEqual(response.status_code, 403)
+
+    def test_assistant_role_does_not_grant_access_to_other_tournaments(self):
+        user = self.make_user("scoped-assistant", TabAssistant.permissions)
+        self.client.force_login(user)
+
+        other = Tournament.objects.create(slug="other-access", name="Other Access")
+        Round.objects.create(
+            tournament=other,
+            seq=1,
+            name="Round 1",
+            abbreviation="R1",
+            draw_type=Round.DrawType.RANDOM,
+        )
+        other.current_round = other.round_set.first()
+        other.save()
+
+        response = self.client.get(reverse_tournament("tournament-assistant-home", other))
+
+        self.assertEqual(response.status_code, 403)
+
     def test_assistant_only_user_does_not_see_admin_area_link(self):
         user = self.make_user("assistant", TabAssistant.permissions)
         self.client.force_login(user)
