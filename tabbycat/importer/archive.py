@@ -2,6 +2,7 @@ from xml.etree.ElementTree import Element, SubElement
 
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ObjectDoesNotExist
+from django.db import transaction
 from django.db.models import Prefetch, Q
 from django.utils.text import slugify
 
@@ -496,7 +497,12 @@ class Importer:
         self.root = tournament
         self.adjudicator_weighting = adjudicator_weighting
 
+    @transaction.atomic
     def import_tournament(self):
+        # Wrapped in a transaction so a malformed-but-well-formed document that
+        # fails partway through (e.g. a dangling team/adjudicator reference or a
+        # non-numeric score/rank) rolls back cleanly instead of leaving an
+        # orphaned, half-imported tournament in the database.
         self.tournament = Tournament(name=self.root.get('name'))
 
         if self.root.get('short') is not None:
