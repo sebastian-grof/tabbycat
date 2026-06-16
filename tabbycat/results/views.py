@@ -1014,13 +1014,13 @@ class AdjudicatorPrivateUrlBallotScoresheetView(RoundMixin, SingleObjectByRandom
 
         ballot = self._get_editable_ballot()
         if ballot is None:
-            messages.error(request, _("Poznámky je možné pridať až po odoslaní vlastného ballotu."))
+            messages.error(request, _("Notes can only be added after submitting your own ballot."))
             return HttpResponseRedirect(request.get_full_path())
 
         form = BallotTextFeedbackForm(request.POST)
         if form.is_valid():
             form.save(ballot, adjudicator=self._get_adjudicator(), user=request.user)
-            messages.success(request, _("Poznámky boli uložené."))
+            messages.success(request, _("Notes saved."))
             return HttpResponseRedirect(request.get_full_path())
 
         return self.render_to_response(self.get_context_data(ballot_text_feedback_form=form))
@@ -1044,7 +1044,7 @@ class AdjudicatorPrivateUrlBallotScoresheetView(RoundMixin, SingleObjectByRandom
         kwargs['show_ballot_text_feedback_form'] = True
         if editable_ballot is None:
             kwargs['ballot_text_feedback_unavailable_message'] = _(
-                "Poznámky je možné pridať až po odoslaní vlastného ballotu.")
+                "Notes can only be added after submitting your own ballot.")
         else:
             kwargs['ballot_text_feedback'] = ballot_text_feedback_for_ballot(editable_ballot)
             kwargs.setdefault('ballot_text_feedback_form', ballot_text_feedback_form_for_ballot(editable_ballot))

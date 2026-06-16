@@ -1909,3 +1909,15 @@ msgstr ""
 #, python-format
 msgid "Tournament options saved based on preset %(name)s."
 msgstr ""
+
+#: options/preferences.py options/presets.py
+msgid "JDL 1st Category"
+msgstr ""
+
+#: options/presets.py
+msgid "JDL 2nd Category"
+msgstr ""
+
+#: options/presets.py
+msgid "Non-league tournaments (GJH Open, MDIK Open)"
+msgstr ""

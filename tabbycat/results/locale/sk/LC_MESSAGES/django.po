@@ -1208,3 +1208,74 @@ msgstr "Zlúčiť balloty"
 #: manually-added-sda
 msgid "View Ballot"
 msgstr "Zobraziť ballot"
+
+#: results/forms.py results/templates/ballot_text_feedback_form.html results/templates/ballot_text_feedback_list.html
+msgid "Notes"
+msgstr "Poznámky"
+
+#: results/tables.py
+msgid "Notes added"
+msgstr "Poznámky pridané"
+
+#: results/tables.py
+msgid "Notes not added"
+msgstr "Poznámky nepridané"
+
+#: results/views.py
+msgid "Notes saved."
+msgstr "Poznámky boli uložené."
+
+#: results/views.py
+msgid "Notes can only be added after submitting your own ballot."
+msgstr "Poznámky je možné pridať až po odoslaní vlastného ballotu."
+
+#: results/forms.py results/templates/ballot_text_feedback_form.html
+msgid "Add notes that teams will read in their private ballot view."
+msgstr "Pridaj poznámky, ktoré si tímy prečítajú v súkromnom zobrazení ballotu."
+
+#: results/templates/ballot_text_feedback_form.html
+msgid "These notes will be shown to teams in their private ballot view. The public ballot page will not show them."
+msgstr "Tieto poznámky sa zobrazia tímom v ich súkromnom zobrazení ballotu. Verejná stránka ballotu ich nezobrazí."
+
+#: results/templates/ballot_text_feedback_form.html
+msgid "No notes have been saved yet."
+msgstr "Zatiaľ neboli uložené žiadne poznámky."
+
+#: results/templates/ballot_text_feedback_form.html
+msgid "Edit"
+msgstr "Upraviť"
+
+#: results/templates/ballot_text_feedback_form.html
+msgid "Add notes"
+msgstr "Pridať poznámky"
+
+#: results/templates/ballot_text_feedback_form.html
+msgid "Save notes"
+msgstr "Uložiť poznámky"
+
+#: results/templates/ballot_text_feedback_form.html
+msgid "If you leave the field empty and save, the notes will be removed."
+msgstr "Ak pole necháš prázdne a uložíš, poznámky sa odstránia."
+
+#: results/templates/ballot_text_feedback_list.html
+msgid "From the adjudication panel"
+msgstr "Od rozhodcovského panelu"
+
+#: results/templates/public_ballot_set.html
+msgid "Download ballot"
+msgstr "Stiahnuť Ballot"
+
+#: results/templates/ballot_text_feedback_form.html
+#, python-format
+msgid "Last saved: %(time)s"
+msgstr "Naposledy uložené: %(time)s"
+
+#: results/templates/ballot_text_feedback_form.html
+#, python-format
+msgid "edited by %(name)s"
+msgstr "upravil/a %(name)s"
+
+#: results/templates/ballot_text_feedback_list.html
+#, python-format
+msgid "From %(name)s"
+msgstr "Od %(name)s"

@@ -150,11 +150,11 @@ def broadcast_results(ballotsub: 'BallotSubmission', debate: Debate):
 
 class BallotTextFeedbackForm(forms.Form):
     text = forms.CharField(
-        label=_("Poznámky"),
+        label=_("Notes"),
         required=False,
         widget=forms.Textarea(attrs={
             'rows': 6,
-            'placeholder': _("Pridaj poznámky, ktoré si tímy prečítajú v súkromnom zobrazení ballotu."),
+            'placeholder': _("Add notes that teams will read in their private ballot view."),
         }),
     )
 

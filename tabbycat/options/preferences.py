@@ -1148,7 +1148,7 @@ class BallotExportFormat(ChoicePreference):
     name = 'ballot_export_format'
     choices = (
         ('off', _("Off")),
-        ('jdl_first_category', _("JDL 1. Kategória")),
+        ('jdl_first_category', _("JDL 1st Category")),
     )
     default = 'off'
 
