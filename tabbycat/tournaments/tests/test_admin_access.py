@@ -4,7 +4,7 @@ from django.urls import reverse
 
 from tournaments.models import Round, Tournament, TournamentCategory
 from users.groups import TabAssistant
-from users.models import Group, Membership
+from users.models import Group, Membership, UserPermission
 from users.permissions import Permission
 from utils.misc import reverse_tournament
 
@@ -33,6 +33,31 @@ class AdminAccessTests(TestCase):
         )
         Membership.objects.create(user=user, group=group)
         return user
+
+    def make_user_with_direct_permissions(self, username, permissions):
+        user = get_user_model().objects.create_user(username=username, password="password")
+        for permission in permissions:
+            UserPermission.objects.create(user=user, permission=permission, tournament=self.tournament)
+        return user
+
+    def test_direct_assistant_permissions_do_not_grant_admin_access(self):
+        # Regression: assistant-interface permissions granted *directly* (not via
+        # a group) must stay assistant-only and not confer full admin access.
+        user = self.make_user_with_direct_permissions(
+            "direct-assistant", [Permission.ACCESS_ASSISTANT, Permission.VIEW_PARTICIPANTS])
+        self.client.force_login(user)
+
+        self.assertEqual(
+            self.client.get(reverse_tournament("tournament-admin-home", self.tournament)).status_code, 403)
+        self.assertEqual(
+            self.client.get(reverse_tournament("tournament-assistant-home", self.tournament)).status_code, 200)
+
+    def test_direct_admin_permission_grants_admin_access(self):
+        user = self.make_user_with_direct_permissions("direct-admin", [Permission.VIEW_SETTINGS])
+        self.client.force_login(user)
+
+        self.assertEqual(
+            self.client.get(reverse_tournament("tournament-admin-home", self.tournament)).status_code, 200)
 
     def test_assistant_only_user_cannot_access_admin_home(self):
         user = self.make_user("assistant", TabAssistant.permissions)

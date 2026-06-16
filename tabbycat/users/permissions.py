@@ -226,7 +226,14 @@ def has_admin_access(user: 'settings.AUTH_USER_MODEL', tournament: 'Tournament')
     if user.is_superuser:
         return True
 
-    if user.userpermission_set.filter(tournament=tournament).exclude(permission=Permission.ACCESS_ASSISTANT).exists():
+    # A direct (non-group) permission grant only confers admin access if it
+    # includes something beyond the assistant interface. Excluding the whole
+    # assistant set — not just ACCESS_ASSISTANT — keeps a user who was granted
+    # only assistant permissions directly (e.g. VIEW_PARTICIPANTS) assistant-only,
+    # mirroring the group path below. The IN check runs in SQL, so it avoids any
+    # enum/str set-membership ambiguity.
+    if user.userpermission_set.filter(tournament=tournament).exclude(
+            permission__in=ASSISTANT_INTERFACE_PERMISSION_SET).exists():
         return True
 
     # ACCESS_ASSISTANT only gates the assistant area, so ignore it when deciding
