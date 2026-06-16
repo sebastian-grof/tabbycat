@@ -2,6 +2,7 @@ from collections import defaultdict
 
 from django.contrib import messages
 from django.contrib.auth.mixins import UserPassesTestMixin
+from django.db import transaction
 from django.db.models import Count
 from django.db.models.deletion import ProtectedError
 from django.http import Http404
@@ -24,6 +25,7 @@ from .models import (
     BreakAdjudicator,
     BreakAdjudicatorLink,
     BreakAdjudicatorTournamentStats,
+    BreakCutoffAdvancement,
     BreakLeague,
     BreaksPermission,
     BreakRegion,
@@ -41,6 +43,7 @@ from .services import (
     calculate_region_quotas,
     freeze_break_tournament,
     publish_public_breaks_snapshot,
+    season_has_unresolved_cutoff_tie,
     prune_all_unused_break_identities,
     prune_unused_break_identities,
     reassign_break_adjudicator_link,
@@ -243,6 +246,11 @@ class SeasonOverviewView(SeasonMixin, TemplateView):
                 self.season.save(update_fields=['public_global_ranking'])
             publish_public_breaks_snapshot(self.season)
             messages.success(request, _("Public Breaks snapshot was published."))
+            if season_has_unresolved_cutoff_tie(self.season):
+                messages.warning(request, _(
+                    "A tie at the break cutoff is still unresolved. The affected teams are "
+                    "published as not advancing until an editor resolves the tie on the region "
+                    "ranking page and republishes."))
             return redirect('seasonbreaks-season-overview', season_slug=self.season.slug)
         if request.POST.get('action') == 'delete_season':
             label = str(self.season)
@@ -675,13 +683,54 @@ class SeasonRankingsView(SeasonMixin, TemplateView):
 class SeasonRegionRankingsView(SeasonMixin, TemplateView):
     template_name = 'seasonbreaks/ranking_region.html'
 
+    def get_region(self):
+        return get_object_or_404(BreakRegion, season=self.season, id=self.kwargs['region_id'])
+
     def get_context_data(self, **kwargs):
-        self.region = get_object_or_404(BreakRegion, season=self.season, id=self.kwargs['region_id'])
-        rankings = calculate_rankings(self.season)
+        self.region = self.get_region()
+        rows = calculate_rankings(self.season).get(self.region.id, [])
+        contested = [row for row in rows if row['contested']]
         kwargs['region'] = self.region
-        kwargs['rows'] = rankings.get(self.region.id, [])
+        kwargs['rows'] = rows
+        kwargs['contested_rows'] = contested
+        kwargs['seats_contested'] = contested[0]['seats_contested'] if contested else 0
+        kwargs['contest_resolved'] = bool(contested) and contested[0]['contest_resolved']
         kwargs['active_tab'] = 'rankings'
         return super().get_context_data(**kwargs)
+
+    def post(self, request, *args, **kwargs):
+        if not has_breaks_permission(request.user, BreaksPermission.EDIT):
+            return self.handle_no_permission()
+        self.region = self.get_region()
+        rows = calculate_rankings(self.season).get(self.region.id, [])
+        contested = {row['team'].id: row for row in rows if row['contested']}
+        redirect_to = redirect('seasonbreaks-ranking-region', season_slug=self.season.slug, region_id=self.region.id)
+        if not contested:
+            messages.info(request, _("There is no tie to resolve in this region."))
+            return redirect_to
+
+        seats_contested = next(iter(contested.values()))['seats_contested']
+        chosen_ids = []
+        for raw_id in request.POST.getlist('advance'):
+            try:
+                team_id = int(raw_id)
+            except (TypeError, ValueError):
+                continue
+            if team_id in contested and team_id not in chosen_ids:
+                chosen_ids.append(team_id)
+
+        if len(chosen_ids) != seats_contested:
+            messages.error(request, _(
+                "Select exactly %(n)d team(s) to take the remaining seat(s).") % {'n': seats_contested})
+            return redirect_to
+
+        with transaction.atomic():
+            BreakCutoffAdvancement.objects.filter(region=self.region).delete()
+            BreakCutoffAdvancement.objects.bulk_create([
+                BreakCutoffAdvancement(region=self.region, break_team_id=team_id) for team_id in chosen_ids
+            ])
+        messages.success(request, _("The tie at the cutoff was resolved."))
+        return redirect_to
 
 
 class SeasonGlobalRankingView(SeasonMixin, TemplateView):
