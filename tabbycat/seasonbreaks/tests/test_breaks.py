@@ -7,6 +7,7 @@ from participants.models import Team
 from tournaments.models import Tournament
 
 from ..models import (
+    BreakCutoffAdvancement,
     BreakLeague,
     BreakRegion,
     BreakSeason,
@@ -522,3 +523,126 @@ class BreaksCalculationTests(TestCase):
         response = self.client.get(url)
         self.assertEqual([row['team'] for row in response.context['rows']], ['East A'])
         self.assertNotContains(response, 'West A')
+
+
+class BreakCutoffTieTests(TestCase):
+    """A genuine tie at the break cutoff is held for manual resolution rather
+    than decided silently by an arbitrary sort order."""
+
+    def setUp(self):
+        self.league = BreakLeague.objects.get(slug='sdl')
+        self.season = BreakSeason.objects.create(
+            name='Cutoff 2025/26', slug='cutoff-2025', league=self.league,
+            regional_slots=1, invited_teams=0,
+        )
+        self.region = BreakRegion.objects.create(season=self.season, name='Region', seq=1)
+        self.t1 = Tournament.objects.create(name='Cut 1', short_name='C1', slug='cut1')
+        self.t2 = Tournament.objects.create(name='Cut 2', short_name='C2', slug='cut2')
+        self.bt1 = BreakTournament.objects.create(season=self.season, tournament=self.t1, region=self.region, seq=1)
+        self.bt2 = BreakTournament.objects.create(season=self.season, tournament=self.t2, region=self.region, seq=2)
+        self.user = get_user_model().objects.create_user(username='editor', password='pw')
+        GlobalBreaksPermission.objects.create(user=self.user, permission=BreaksPermission.VIEW)
+        GlobalBreaksPermission.objects.create(user=self.user, permission=BreaksPermission.EDIT)
+
+    def _eligible_team(self, name, best):
+        # Plays both tournaments (so its two speakers are eligible) with `best` as
+        # its single counted result and a weaker second result that is dropped by
+        # the best N-1 rule.
+        team = BreakTeam.objects.create(season=self.season, name=name, region=self.region)
+        for i in range(2):
+            speaker = BreakSpeaker.objects.create(season=self.season, name=f'{name} sp{i}')
+            for break_tournament in (self.bt1, self.bt2):
+                BreakSpeakerTournamentParticipation.objects.create(
+                    break_tournament=break_tournament, break_speaker=speaker,
+                    break_team=team, speeches=2, rounds=2,
+                )
+        wins, ballots, speaks = best
+        BreakTeamTournamentResult.objects.create(
+            break_tournament=self.bt1, break_team=team, wins=wins, ballots=ballots,
+            speaker_score=speaks, rounds_debated=3, majority_debated=True)
+        BreakTeamTournamentResult.objects.create(
+            break_tournament=self.bt2, break_team=team, wins=0, ballots=0,
+            speaker_score=1, rounds_debated=3, majority_debated=True)
+        return team
+
+    def _region_rows(self):
+        rows = calculate_rankings(self.season)[self.region.id]
+        return {row['team'].id: row for row in rows}
+
+    def _region_url(self):
+        return reverse('seasonbreaks-ranking-region',
+            kwargs={'season_slug': self.season.slug, 'region_id': self.region.id})
+
+    def test_contested_cutoff_tie_is_not_auto_advanced(self):
+        a = self._eligible_team('Alfa', (1, 3, 600))
+        b = self._eligible_team('Beta', (1, 3, 600))
+
+        rows = self._region_rows()
+        # One seat, two identical records: neither is auto-advanced.
+        self.assertFalse(rows[a.id]['advancing'])
+        self.assertFalse(rows[b.id]['advancing'])
+        self.assertTrue(rows[a.id]['contested'])
+        self.assertTrue(rows[b.id]['contested'])
+        self.assertEqual(rows[a.id]['seats_contested'], 1)
+        self.assertFalse(rows[a.id]['contest_resolved'])
+
+    def test_manual_resolution_advances_only_the_chosen_team(self):
+        a = self._eligible_team('Alfa', (1, 3, 600))
+        b = self._eligible_team('Beta', (1, 3, 600))
+        self.client.force_login(self.user)
+
+        response = self.client.post(self._region_url(), {'advance': [str(a.id)]})
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(BreakCutoffAdvancement.objects.filter(region=self.region, break_team=a).exists())
+
+        rows = self._region_rows()
+        self.assertTrue(rows[a.id]['advancing'])
+        self.assertFalse(rows[b.id]['advancing'])
+        self.assertTrue(rows[a.id]['contest_resolved'])
+
+    def test_resolution_rejects_wrong_number_of_teams(self):
+        a = self._eligible_team('Alfa', (1, 3, 600))
+        b = self._eligible_team('Beta', (1, 3, 600))
+        self.client.force_login(self.user)
+
+        # Two teams chosen for one remaining seat: rejected, nothing saved.
+        response = self.client.post(self._region_url(), {'advance': [str(a.id), str(b.id)]})
+        self.assertEqual(response.status_code, 302)
+        self.assertFalse(BreakCutoffAdvancement.objects.filter(region=self.region).exists())
+        self.assertFalse(self._region_rows()[a.id]['advancing'])
+
+    def test_view_only_user_cannot_resolve_tie(self):
+        a = self._eligible_team('Alfa', (1, 3, 600))
+        self._eligible_team('Beta', (1, 3, 600))
+        viewer = get_user_model().objects.create_user(username='viewer', password='pw')
+        GlobalBreaksPermission.objects.create(user=viewer, permission=BreaksPermission.VIEW)
+        self.client.force_login(viewer)
+
+        response = self.client.post(self._region_url(), {'advance': [str(a.id)]})
+        self.assertEqual(response.status_code, 403)
+        self.assertFalse(BreakCutoffAdvancement.objects.filter(region=self.region).exists())
+
+    def test_tie_that_fits_within_seats_advances_without_contest(self):
+        # Two seats, two tied leaders and a weaker third team: the tie sits wholly
+        # inside the seats, so both advance and nothing is flagged contested.
+        self.season.regional_slots = 2
+        self.season.save(update_fields=['regional_slots'])
+        a = self._eligible_team('Alfa', (1, 3, 600))
+        b = self._eligible_team('Beta', (1, 3, 600))
+        c = self._eligible_team('Gama', (1, 3, 500))
+
+        rows = self._region_rows()
+        self.assertTrue(rows[a.id]['advancing'])
+        self.assertTrue(rows[b.id]['advancing'])
+        self.assertFalse(rows[a.id]['contested'])
+        self.assertFalse(rows[c.id]['advancing'])
+
+    def test_region_ranking_page_renders_resolution_form(self):
+        self._eligible_team('Alfa', (1, 3, 600))
+        self._eligible_team('Beta', (1, 3, 600))
+        self.client.force_login(self.user)
+
+        response = self.client.get(self._region_url())
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.context['contested_rows']), 2)
+        self.assertContains(response, 'name="advance"')

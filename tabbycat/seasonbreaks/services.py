@@ -16,6 +16,7 @@ from .models import (
     BreakAdjudicator,
     BreakAdjudicatorLink,
     BreakAdjudicatorTournamentStats,
+    BreakCutoffAdvancement,
     BreakRegion,
     BreakSeason,
     BreakSpeaker,
@@ -533,28 +534,81 @@ def calculate_rankings(season: BreakSeason) -> dict[int, list[dict]]:
                 'speaker_score': total_speaker_score,
                 'advancing': False,
                 'tie_at_cutoff': False,
+                'contested': False,
+                'seats_contested': 0,
+                'contest_resolved': False,
                 'ineligible_reasons': _ineligible_reasons(len(all_results), required_tournaments, eligible_members),
             })
 
         # Rank purely by performance (wins > ballots > speaker score). Eligibility
         # only decides who can advance, not where a team sits in the standings, so
-        # a stronger ineligible team still ranks above a weaker eligible one.
-        rows.sort(key=lambda row: (row['wins'], row['ballots'], row['speaker_score']), reverse=True)
+        # a stronger ineligible team still ranks above a weaker eligible one. The
+        # trailing team id is an arbitrary-but-stable tiebreak so the displayed
+        # order is reproducible; it never decides who *advances* (see below).
+        rows.sort(key=lambda row: (-row['wins'], -row['ballots'], -row['speaker_score'], row['team'].id))
         seats = quotas.get(region.id, 0)
         eligible_rows = [row for row in rows if row['eligible']]
-        cutoff_tuple = None
-        if seats and len(eligible_rows) >= seats:
-            cutoff = eligible_rows[seats - 1]
-            cutoff_tuple = (cutoff['wins'], cutoff['ballots'], cutoff['speaker_score'])
-
-        for index, row in enumerate(eligible_rows):
-            if index < seats:
-                row['advancing'] = True
-            if cutoff_tuple and (row['wins'], row['ballots'], row['speaker_score']) == cutoff_tuple:
-                row['tie_at_cutoff'] = True
+        manual_advances = set(BreakCutoffAdvancement.objects.filter(
+            region=region).values_list('break_team_id', flat=True))
+        _assign_cutoff_advancement(eligible_rows, seats, manual_advances)
 
         rankings[region.id] = rows
     return rankings
+
+
+def _assign_cutoff_advancement(eligible_rows: list[dict], seats: int, manual_advances: set) -> None:
+    """Mark which eligible teams advance, holding a genuine cutoff tie for a human.
+
+    Teams ranked strictly above the cutoff always advance. When teams share the
+    exact cutoff performance *and* there are more of them than the remaining
+    seats (i.e. the tie straddles the last seat), they are flagged ``contested``
+    and are NOT auto-advanced — picking between identical records by sort order
+    would be arbitrary and non-reproducible. An editor resolves it instead, and
+    that resolution (``manual_advances``: the set of break-team ids chosen to take
+    the remaining seats) is applied here when it selects exactly the right number.
+    """
+    if not seats:
+        return
+    if len(eligible_rows) <= seats:
+        for row in eligible_rows:
+            row['advancing'] = True
+        return
+
+    def performance(row):
+        return (row['wins'], row['ballots'], row['speaker_score'])
+
+    cutoff = performance(eligible_rows[seats - 1])
+    safe = [row for row in eligible_rows if performance(row) > cutoff]
+    at_cutoff = [row for row in eligible_rows if performance(row) == cutoff]
+
+    # The cutoff tie doesn't actually exclude anyone — everyone sharing it fits
+    # within the seats — so there is nothing to resolve.
+    if len(safe) + len(at_cutoff) <= seats:
+        for row in eligible_rows[:seats]:
+            row['advancing'] = True
+        return
+
+    for row in safe:
+        row['advancing'] = True
+
+    remaining = seats - len(safe)
+    chosen_ids = {row['team'].id for row in at_cutoff if row['team'].id in manual_advances}
+    resolved = len(chosen_ids) == remaining
+    for row in at_cutoff:
+        row['tie_at_cutoff'] = True
+        row['contested'] = True
+        row['seats_contested'] = remaining
+        row['contest_resolved'] = resolved
+        if resolved and row['team'].id in chosen_ids:
+            row['advancing'] = True
+
+
+def season_has_unresolved_cutoff_tie(season: BreakSeason) -> bool:
+    """Whether any region currently has a cutoff tie awaiting manual resolution."""
+    for rows in calculate_rankings(season).values():
+        if any(row['contested'] and not row['contest_resolved'] for row in rows):
+            return True
+    return False
 
 
 def _public_row(row, region, rank):
@@ -568,6 +622,7 @@ def _public_row(row, region, rank):
         'ballots': float(row['ballots']),
         'speaker_score': float(row['speaker_score']),
         'participations': row['participations'],
+        'advancing': bool(row['advancing']),
     }
 
 

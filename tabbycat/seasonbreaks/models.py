@@ -198,6 +198,29 @@ class BreakTeamTournamentResult(models.Model):
         return "%s in %s" % (self.break_team, self.break_tournament)
 
 
+class BreakCutoffAdvancement(models.Model):
+    """An editor's manual resolution of a genuine tie at the break cutoff.
+
+    When two or more teams are tied on every ranking metric (wins, ballots and
+    speaker score) and that tie straddles the last qualifying seat, the ranking
+    deliberately does not pick a winner automatically. An editor records here
+    which tied teams take the remaining seat(s), applying the league's own
+    tiebreak rule. The presence of a row means "this team advances at the
+    cutoff"; resolutions that no longer match a live tie are simply ignored."""
+    region = models.ForeignKey(BreakRegion, models.CASCADE, related_name='cutoff_advancements',
+        verbose_name=_("region"))
+    break_team = models.ForeignKey(BreakTeam, models.CASCADE, related_name='cutoff_advancements',
+        verbose_name=_("season team"))
+
+    class Meta:
+        constraints = [UniqueConstraint(fields=['region', 'break_team'])]
+        verbose_name = _("break cutoff advancement")
+        verbose_name_plural = _("break cutoff advancements")
+
+    def __str__(self):
+        return "%s advances at cutoff in %s" % (self.break_team, self.region)
+
+
 class BreakSpeakerTournamentParticipation(models.Model):
     break_tournament = models.ForeignKey(BreakTournament, models.CASCADE, related_name='speaker_participations',
         verbose_name=_("break tournament"))
