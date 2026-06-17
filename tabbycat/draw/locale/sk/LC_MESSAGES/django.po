@@ -69,6 +69,14 @@ msgid "Opposite of round"
 msgstr "Opak kola"
 
 #: draw/forms.py:34
+msgid "All affirmation"
+msgstr "Všetci na afirmáciu"
+
+#: draw/forms.py:35
+msgid "All negation"
+msgstr "Všetci na negáciu"
+
+#: draw/forms.py:36
 msgid "Clear selection"
 msgstr "Zrušiť výber"
 
@@ -1644,6 +1652,21 @@ msgstr "Pre %(round)s boli vygenerované náhodné priradenia strán."
 #, python-format
 msgid "Side allocations for %(target)s were copied as the opposite of %(source)s."
 msgstr "Priradenia strán pre %(target)s boli skopírované ako opak %(source)s."
+
+#: draw/views.py:1172
+#, python-format
+msgid "All teams in %(target)s were assigned the same side because %(source)s has one-sided side allocations, so this round can't be paired. Balance the sides before pairing this round."
+msgstr "Všetkým tímom v %(target)s bola priradená rovnaká strana, pretože %(source)s má jednostranné rozdelenie strán, takže toto kolo sa nedá spárovať. Pred párovaním tohto kola vyváž strany."
+
+#: draw/views.py:1170
+#, python-format
+msgid "All teams set to affirmation for %(round)s."
+msgstr "Všetky tímy boli pre %(round)s nastavené na afirmáciu."
+
+#: draw/views.py:1173
+#, python-format
+msgid "All teams set to negation for %(round)s."
+msgstr "Všetky tímy boli pre %(round)s nastavené na negáciu."
 
 #: draw/views.py:1171
 #, python-format

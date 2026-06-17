@@ -418,6 +418,27 @@ def generate_random_allocations(round):
     return allocations
 
 
+def _generate_uniform_allocations(round, side_index):
+    sides = _get_two_team_sides(round.tournament)
+    teams = _get_generation_target_teams(round)
+
+    if not teams:
+        raise SideAllocationError(_("There are no available teams for this round yet."))
+
+    side = sides[side_index]
+    allocations = {team.id: side for team in teams}
+    replace_round_allocations(round, allocations)
+    return allocations
+
+
+def generate_all_affirmation_allocations(round):
+    return _generate_uniform_allocations(round, 0)
+
+
+def generate_all_negation_allocations(round):
+    return _generate_uniform_allocations(round, 1)
+
+
 def generate_opposite_allocations(round, source_round):
     if round.tournament_id != source_round.tournament_id:
         raise SideAllocationError(_("The source round must belong to the same tournament."))
