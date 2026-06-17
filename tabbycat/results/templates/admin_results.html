@@ -8,6 +8,18 @@
   <a class="btn btn-outline-primary" href="{% tournamenturl 'admin-checkin-prescan' %}">
     {% trans "Check-In Ballots" %}
   </a>
+  {% if pref.ballot_export_format != 'off' %}
+    {% with s=ballot_export_summary %}
+      <a class="btn {% if s.complete %}btn-outline-primary{% else %}btn-outline-warning{% endif %}"
+         href="{% roundurl 'results-round-download-ballots' %}"
+         data-toggle="tooltip"
+         title="{% blocktrans trimmed with submitted=s.submitted total=s.debates notes=s.with_notes %}{{ submitted }} of {{ total }} ballots submitted; {{ notes }} of {{ submitted }} have notes.{% endblocktrans %}">
+        <i data-feather="download"></i> {% trans "Download Ballots" %}
+        <span class="badge badge-light ml-1">{% blocktrans trimmed with submitted=s.submitted total=s.debates %}{{ submitted }}/{{ total }} ballots{% endblocktrans %}</span>
+        <span class="badge badge-light ml-1">{% blocktrans trimmed with notes=s.with_notes total=s.submitted %}{{ notes }}/{{ total }} notes{% endblocktrans %}</span>
+      </a>
+    {% endwith %}
+  {% endif %}
   <a class="btn btn-outline-primary" href="" data-toggle="modal" data-target="#ironSpeeches">
     {% trans "Recent 'Iron-Persons'" %}
   </a>

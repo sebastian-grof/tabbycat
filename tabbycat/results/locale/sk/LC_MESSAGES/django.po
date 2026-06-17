@@ -1679,3 +1679,30 @@ msgstr "Rozhodca"
 #: results/views.py:1208
 msgid "Merge Ballots"
 msgstr "Zlúčiť balloty"
+
+#: results/templates/admin_results.html:17
+msgid "Download Ballots"
+msgstr "Stiahnuť balloty"
+
+#: results/templates/admin_results.html:18
+#, python-format
+msgid "%(submitted)s/%(total)s ballots"
+msgstr "%(submitted)s/%(total)s ballotov"
+
+#: results/templates/admin_results.html:19
+#, python-format
+msgid "%(notes)s/%(total)s notes"
+msgstr "%(notes)s/%(total)s poznámok"
+
+#: results/templates/admin_results.html:16
+#, python-format
+msgid ""
+"%(submitted)s of %(total)s ballots submitted; %(notes)s of %(submitted)s have "
+"notes."
+msgstr ""
+"Odovzdaných %(submitted)s z %(total)s ballotov; %(notes)s z %(submitted)s má "
+"poznámky."
+
+#: results/views.py:240
+msgid "There are no ballots available to download yet."
+msgstr "Zatiaľ nie sú k dispozícii žiadne balloty na stiahnutie."

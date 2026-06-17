@@ -1502,3 +1502,26 @@ msgstr "Váhy kôl pre tapered scoring boli úspešne nastavené."
 #: tournaments/views.py:589
 msgid "Tournament Schedule"
 msgstr "Harmonogram turnaja"
+
+#: tournaments/templates/tournament_index.html:12
+msgid "Download All Ballots"
+msgstr "Stiahnuť všetky balloty"
+
+#: tournaments/templates/tournament_index.html:13
+#, python-format
+msgid "%(submitted)s/%(total)s ballots"
+msgstr "%(submitted)s/%(total)s ballotov"
+
+#: tournaments/templates/tournament_index.html:14
+#, python-format
+msgid "%(notes)s/%(total)s notes"
+msgstr "%(notes)s/%(total)s poznámok"
+
+#: tournaments/templates/tournament_index.html:11
+#, python-format
+msgid ""
+"%(submitted)s of %(total)s ballots submitted; %(notes)s of %(submitted)s have "
+"notes."
+msgstr ""
+"Odovzdaných %(submitted)s z %(total)s ballotov; %(notes)s z %(submitted)s má "
+"poznámky."
