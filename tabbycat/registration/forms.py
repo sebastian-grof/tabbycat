@@ -324,6 +324,7 @@ class AdminTeamEditForm(CustomQuestionsFormMixin, forms.ModelForm):
         self.original_institution_id = self.instance.institution_id
         self.fields['institution'].queryset = Institution.objects.order_by('name')
         self.fields['break_categories'].queryset = BreakCategory.objects.filter(tournament=tournament).order_by('seq')
+        self.fields['emoji'].widget.attrs['data-emoji-select'] = 'true'
         self.add_question_fields()
         if self.instance.pk:
             self.initial.update(get_answers_initial(self.instance))

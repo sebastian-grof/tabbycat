@@ -1,109 +1,104 @@
 {% extends "base.html" %}
 {% load add_field_css debate_tags i18n %}
 
-{% block extra-css %}
-<style>
-  .registration-edit-shell { max-width: 960px; }
-  .registration-edit-hero {
-    border: 1px solid rgba(0, 0, 0, 0.08);
-    overflow: hidden;
-    background: #fff;
-  }
-  .registration-edit-hero .display-emoji {
-    font-size: 3.2rem;
-    line-height: 1;
-  }
-  .registration-edit-card {
-    border: 1px solid rgba(0, 0, 0, 0.08);
-    box-shadow: 0 10px 24px rgba(25, 42, 70, 0.05);
-  }
-  .registration-edit-card .card-header {
-    background: #fff;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-  }
-  .participant-edit-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 1rem;
-  }
-  .participant-edit-grid .form-group { margin-bottom: 0; }
-</style>
+{% block page-subnav-actions %}
+  <div class="d-flex flex-wrap align-items-start">
+    <a class="btn btn-outline-primary mr-2 mb-2" href="{% tournamenturl 'reg-adjudicator-list' %}">
+      <i data-feather="chevron-left"></i> {% trans "Back to adjudicators" %}
+    </a>
+    <button type="button" class="btn btn-outline-danger mb-2" data-toggle="modal" data-target="#deleteAdjudicatorModal">
+      {% trans "Delete adjudicator" %} <i data-feather="trash-2"></i>
+    </button>
+  </div>
 {% endblock %}
 
 {% block content %}
-<div class="registration-edit-shell mx-auto">
-  <form action="." method="POST" class="d-flex flex-column gap-3">
+<div class="row">
+  <form action="." method="POST" class="col-lg-8 mx-lg-auto d-flex flex-column gap-3">
     {% csrf_token %}
     {{ form.media }}
 
-    <div class="card registration-edit-hero">
-      <div class="card-body d-flex flex-column flex-md-row align-items-md-center justify-content-between">
-        <div class="d-flex align-items-center mb-3 mb-md-0">
-          <div class="display-emoji mr-3">👂</div>
+    <div class="card">
+      <div class="card-body">
+        <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between mb-2">
           <div>
-            <div class="text-uppercase small text-muted font-weight-bold mb-1">{% trans "Adjudicator registration" %}</div>
-            <h3 class="mb-1">{{ adjudicator.name }}</h3>
-            <div class="text-muted">
-              {% if adjudicator.institution %}{{ adjudicator.institution.name }}{% else %}{% trans "Independent / no institution" %}{% endif %}
-              · {{ adjudicator.get_registration_status_display }}
-            </div>
+            <h4 class="card-title mb-1">{% trans "Adjudicator details" %}</h4>
+            <p class="text-muted mb-0">{% trans "Common tab fields stay visible. Feedback is managed separately." %}</p>
           </div>
+          <button class="btn btn-sm btn-link p-0 mt-2 mt-md-0" type="button" data-toggle="collapse" data-target="#adjudicator-extra" aria-expanded="false" aria-controls="adjudicator-extra">
+            {% trans "Additional settings" %}
+          </button>
         </div>
-        <a class="btn btn-outline-secondary" href="{% tournamenturl 'reg-adjudicator-list' %}">{% trans "Back to adjudicators" %}</a>
-      </div>
-    </div>
 
-    <div class="card registration-edit-card">
-      <div class="card-header d-flex align-items-center justify-content-between">
-        <div>
-          <h5 class="mb-0">{% trans "Adjudicator details" %}</h5>
-          <small class="text-muted">{% trans "Common tab fields stay visible. Feedback is managed separately." %}</small>
-        </div>
-        <button class="btn btn-sm btn-link" type="button" data-toggle="collapse" data-target="#adjudicator-extra" aria-expanded="false" aria-controls="adjudicator-extra">
-          {% trans "Additional settings" %}
-        </button>
-      </div>
-      <div class="p-3">
         {% if form.non_field_errors %}
           {% include "components/form-errors.html" with errors=form.non_field_errors %}
         {% endif %}
-        <div class="participant-edit-grid">
-          {% include "components/form-field.html" with field=form.name %}
-          {% include "components/form-field.html" with field=form.email %}
-          {% include "components/form-field.html" with field=form.institution %}
-          {% include "components/form-field.html" with field=form.base_score %}
-          {% include "components/form-field.html" with field=form.trainee %}
+
+        <div class="row">
+          {% include "components/form-field.html" with field=form.name double=True %}
+          {% include "components/form-field.html" with field=form.email double=True %}
+          {% include "components/form-field.html" with field=form.institution double=True %}
+          {% include "components/form-field.html" with field=form.base_score double=True %}
+          {% include "components/form-field.html" with field=form.trainee double=True %}
         </div>
+
         <div class="collapse mt-3" id="adjudicator-extra">
-          <div class="participant-edit-grid">
-            {% include "components/form-field.html" with field=form.phone %}
-            {% include "components/form-field.html" with field=form.gender %}
-            {% include "components/form-field.html" with field=form.pronoun %}
-            {% include "components/form-field.html" with field=form.anonymous %}
-            {% include "components/form-field.html" with field=form.code_name %}
-            {% include "components/form-field.html" with field=form.breaking %}
-            {% include "components/form-field.html" with field=form.independent %}
-            {% include "components/form-field.html" with field=form.adj_core %}
-            {% include "components/form-field.html" with field=form.registration_status %}
+          <div class="row">
+            {% include "components/form-field.html" with field=form.phone double=True %}
+            {% include "components/form-field.html" with field=form.gender double=True %}
+            {% include "components/form-field.html" with field=form.pronoun double=True %}
+            {% include "components/form-field.html" with field=form.anonymous double=True %}
+            {% include "components/form-field.html" with field=form.code_name double=True %}
+            {% include "components/form-field.html" with field=form.breaking double=True %}
+            {% include "components/form-field.html" with field=form.independent double=True %}
+            {% include "components/form-field.html" with field=form.adj_core double=True %}
+            {% include "components/form-field.html" with field=form.registration_status double=True %}
             {% for field in form.visible_fields %}
               {% if field.name|slice:":1" == "q" %}
-                {% include "components/form-field.html" %}
+                {% include "components/form-field.html" with field=field double=True %}
               {% endif %}
             {% endfor %}
           </div>
         </div>
+
         <div hidden>
           {% for hidden in form.hidden_fields %}{{ hidden }}{% endfor %}
         </div>
       </div>
     </div>
 
-    <div class="card registration-edit-card">
-      {% trans "Save adjudicator" context "button" as title %}
-      {% trans "Back to adjudicator registration" as subtitle %}
-      {% tournamenturl 'reg-adjudicator-list' as suburl %}
+    {% trans "Save adjudicator" context "button" as title %}
+    {% trans "Back to adjudicator registration" as subtitle %}
+    {% tournamenturl 'reg-adjudicator-list' as suburl %}
+    <div class="card">
       {% include "components/form-submit.html" %}
     </div>
   </form>
+</div>
+
+<div class="modal fade" id="deleteAdjudicatorModal" tabindex="-1" role="dialog" aria-labelledby="deleteAdjudicatorModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteAdjudicatorModalLabel">{% trans "Delete adjudicator" %}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="{% trans 'Close' %}">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>{% blocktrans trimmed with name=adjudicator.name %}
+          Are you sure you want to permanently delete <strong>{{ name }}</strong>?
+        {% endblocktrans %}</p>
+        <p class="text-muted mb-0">{% trans "This also removes their registration response, and cannot be undone." %}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">{% trans "Cancel" %}</button>
+        <form action="{% tournamenturl 'reg-adjudicator-delete' adjudicator.pk %}" method="POST">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-danger">{% trans "Delete adjudicator" %}</button>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock %}
