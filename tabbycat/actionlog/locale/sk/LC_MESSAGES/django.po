@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tabbycat\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-06 09:38+1000\n"
+"POT-Creation-Date: 2026-06-17 09:00+0200\n"
 "PO-Revision-Date: 2026-04-26 23:06+0200\n"
 "Last-Translator: \n"
 "Language-Team: Slovak\n"
@@ -17,438 +17,450 @@ msgstr ""
 "X-Crowdin-File: /develop/tabbycat/actionlog/locale/en/LC_MESSAGES/django.po\n"
 "X-Generator: Poedit 3.7\n"
 
-#: actionlog/apps.py
+#: actionlog/apps.py:7
 msgid "Action Log"
 msgstr "Záznam akcií"
 
-#: actionlog/models.py
+#: actionlog/models.py:25
 msgid "Changed adjudicator breaking status"
 msgstr "Zmenený postupový stav rozhodcu/rozhodkyne"
 
-#: actionlog/models.py
+#: actionlog/models.py:26
 msgid "Created adjudicator"
 msgstr "Vytvorený rozhodca/rozhodkyňa"
 
-#: actionlog/models.py
+#: actionlog/models.py:27
 msgid "Edited adjudicator"
 msgstr "Upravený rozhodca/rozhodkyňa"
 
-#: actionlog/models.py
+#: actionlog/models.py:28
 msgid "Set adjudicator note"
 msgstr "Nastavená poznámka k rozhodcovi/rozhodkyni"
 
-#: actionlog/models.py
+#: actionlog/models.py:29
 msgid "Auto-allocated adjudicators"
 msgstr "Automaticky pridelení rozhodcovia/rozhodkyne"
 
-#: actionlog/models.py
+#: actionlog/models.py:30
 msgid "Saved adjudicator allocation"
 msgstr "Uložená alokácia rozhodcov/rozhodkýň"
 
-#: actionlog/models.py
+#: actionlog/models.py:31
 msgid "Edited adjudicators availability"
 msgstr "Upravená dostupnosť rozhodcov/rozhodkýň"
 
-#: actionlog/models.py
+#: actionlog/models.py:32
 msgid "Edited availability"
 msgstr "Upravená dostupnosť"
 
-#: actionlog/models.py
+#: actionlog/models.py:33
 msgid "Edited teams availability"
 msgstr "Upravená dostupnosť tímov"
 
-#: actionlog/models.py
+#: actionlog/models.py:34
 msgid "Edited room availability"
 msgstr "Upravená dostupnosť miestností"
 
-#: actionlog/models.py
+#: actionlog/models.py:35
 msgid "Checked in ballot set"
 msgstr "Sada ballotov označená ako prijatá"
 
-#: actionlog/models.py
+#: actionlog/models.py:36
 msgid "Confirmed ballot set"
 msgstr "Potvrdený set ballotov"
 
-#: actionlog/models.py
+#: actionlog/models.py:37
 msgid "Created ballot set"
 msgstr "Vytvorený set ballotov"
 
-#: actionlog/models.py
+#: actionlog/models.py:38
 msgid "Discarded ballot set"
 msgstr "Set ballotov bol zahodený"
 
-#: actionlog/models.py
+#: actionlog/models.py:39
 msgid "Edited ballot set"
 msgstr "Set ballotov bol upravený"
 
-#: actionlog/models.py
+#: actionlog/models.py:40
 msgid "Submitted ballot set from the public form"
 msgstr "Sada hlasovacích lístkov odoslaná z verejného formulára"
 
-#: actionlog/models.py
+#: actionlog/models.py:41
 msgid "Edited break categories"
 msgstr "Upravené postupové kategórie"
 
-#: actionlog/models.py
+#: actionlog/models.py:42
 msgid "Deleted team break for category"
 msgstr "Vymazaný postup tímu v kategórii"
 
-#: actionlog/models.py
+#: actionlog/models.py:43
 msgid "Edited breaking team remarks"
 msgstr "Upravené poznámky k postupujúcim tímom"
 
-#: actionlog/models.py
+#: actionlog/models.py:44
 msgid "Edited break eligibility"
 msgstr "Upravená oprávnenosť na postup"
 
-#: actionlog/models.py
+#: actionlog/models.py:45
 msgid "Generated the team break for all categories"
 msgstr "Vygenerovaný postup tímov pre všetky kategórie"
 
-#: actionlog/models.py
+#: actionlog/models.py:46
 msgid "Generated the team break for one category"
 msgstr "Vygenerovaný postup tímov pre jednu kategóriu"
 
-#: actionlog/models.py
+#: actionlog/models.py:47
 msgid "Edited breaking team remarks and updated all team breaks"
 msgstr "Upravené poznámky k postupujúcim tímom a aktualizované všetky tímové postupy"
 
-#: actionlog/models.py
+#: actionlog/models.py:48
 msgid "Edited breaking team remarks and updated this team break"
 msgstr "Upravené poznámky k postupujúcim tímom a aktualizovaný tento tímový postup"
 
-#: actionlog/models.py
+#: actionlog/models.py:49
 msgid "Generated check in identifiers for adjudicators"
 msgstr "Vygenerované identifikátory kontroly prítomnosti pre rozhodcov/rozhodkyne"
 
-#: actionlog/models.py
+#: actionlog/models.py:50
 msgid "Generated check in identifiers for speakers"
 msgstr "Vygenerované identifikátory kontroly prítomnosti pre rečníkov/rečníčky"
 
-#: actionlog/models.py
+#: actionlog/models.py:51
 msgid "Generated check in identifiers for rooms"
 msgstr "Vygenerované identifikátory kontroly prítomnosti pre miestnosti"
 
-#: actionlog/models.py
+#: actionlog/models.py:52
 msgid "Edited adjudicator-adjudicator conflicts"
 msgstr "Upravené konflikty rozhodca-rozhodca"
 
-#: actionlog/models.py
+#: actionlog/models.py:53
 msgid "Edited adjudicator-institution conflicts"
 msgstr "Upravené konflikty rozhodca-inštitúcia"
 
-#: actionlog/models.py
+#: actionlog/models.py:54
 msgid "Edited adjudicator-team conflicts"
 msgstr "Upravené konflikty rozhodca-tím"
 
-#: actionlog/models.py
+#: actionlog/models.py:55
 msgid "Edited team-institution conflicts"
 msgstr "Upravené konflikty tím-inštitúcia"
 
-#: actionlog/models.py
+#: actionlog/models.py:56
 msgid "Created debate"
 msgstr "Vytvorená debata"
 
-#: actionlog/models.py
+#: actionlog/models.py:57
 msgid "Edited debate"
 msgstr "Upravená debata"
 
-#: actionlog/models.py
+#: actionlog/models.py:58
 msgid "Auto-prioritized debate importance"
 msgstr "Automaticky prioritizovaná dôležitosť debát"
 
-#: actionlog/models.py
+#: actionlog/models.py:59
 msgid "Edited debate importance"
 msgstr "Upravená dôležitosť debaty"
 
-#: actionlog/models.py
+#: actionlog/models.py:60
 msgid "Saved divisions"
 msgstr "Uložené divízie"
 
-#: actionlog/models.py
+#: actionlog/models.py:61
 msgid "Confirmed draw"
 msgstr "Potvrdený pairing"
 
-#: actionlog/models.py
+#: actionlog/models.py:62
 msgid "Created draw"
 msgstr "Vytvorený pairing"
 
-#: actionlog/models.py
+#: actionlog/models.py:63
 msgid "Regenerated draw"
 msgstr "Znovu vygenerovaný pairing"
 
-#: actionlog/models.py
+#: actionlog/models.py:64
 msgid "Released draw"
 msgstr "Zverejnený pairing"
 
-#: actionlog/models.py
+#: actionlog/models.py:65
 msgid "Unreleased draw"
 msgstr "Pairing stiahnutý zo zverejnenia"
 
-#: actionlog/models.py
+#: actionlog/models.py:66
 msgid "Created feedback question"
 msgstr "Vytvorená otázka spätnej väzby"
 
-#: actionlog/models.py
+#: actionlog/models.py:67
 msgid "Edited feedback question"
 msgstr "Upravená otázka spätnej väzby"
 
-#: actionlog/models.py
+#: actionlog/models.py:68
 msgid "Saved feedback"
 msgstr "Uložená spätná väzba"
 
-#: actionlog/models.py
+#: actionlog/models.py:69
 msgid "Submitted feedback from the public form"
 msgstr "Spätná väzba odoslaná z verejného formulára"
 
-#: actionlog/models.py
+#: actionlog/models.py:70
 msgid "Created institution"
 msgstr "Vytvorená inštitúcia"
 
-#: actionlog/models.py
+#: actionlog/models.py:71
 msgid "Edited institution"
 msgstr "Upravená inštitúcia"
 
-#: actionlog/models.py
+#: actionlog/models.py:72
 msgid "Saved a matchup manual edit"
 msgstr "Uložená manuálna úprava párovania"
 
-#: actionlog/models.py
+#: actionlog/models.py:73
 msgid "Added/edited motion"
 msgstr "Pridaná/upravená téza"
 
-#: actionlog/models.py
+#: actionlog/models.py:74
 msgid "Released motions"
 msgstr "Zverejnené tézy"
 
-#: actionlog/models.py
+#: actionlog/models.py:75
 msgid "Unreleased motions"
 msgstr "Tézy stiahnuté zo zverejnenia"
 
-#: actionlog/models.py
+#: actionlog/models.py:76
 msgid "Edited tournament options"
 msgstr "Upravené nastavenia turnaja"
 
-#: actionlog/models.py
+#: actionlog/models.py:77
 msgid "Auto-allocated adjudicators to preformed panels"
 msgstr "Rozhodcovia/rozhodkyne automaticky pridelení do predpripravených panelov"
 
-#: actionlog/models.py
+#: actionlog/models.py:78
 msgid "Edited preformed panel adjudicator"
 msgstr "Upravený rozhodca/rozhodkyňa v predpripravenom paneli"
 
-#: actionlog/models.py
+#: actionlog/models.py:79
 msgid "Created preformed panels"
 msgstr "Vytvorené predpripravené panely"
 
-#: actionlog/models.py
+#: actionlog/models.py:80
 msgid "Auto-allocated preformed panels to debates"
 msgstr "Predpripravené panely automaticky pridelené k debatám"
 
-#: actionlog/models.py
+#: actionlog/models.py:81
 msgid "Deleted preformed panels"
 msgstr "Vymazané predpripravené panely"
 
-#: actionlog/models.py
+#: actionlog/models.py:82
 msgid "Auto-prioritized preformed panels"
 msgstr "Automaticky prioritizované predpripravené panely"
 
-#: actionlog/models.py
+#: actionlog/models.py:83
 msgid "Edited preformed panel importance"
 msgstr "Upravená dôležitosť predpripraveného panelu"
 
-#: actionlog/models.py
+#: actionlog/models.py:84
 msgid "Advanced the current round to"
 msgstr "Aktuálne kolo posunuté na"
 
-#: actionlog/models.py
+#: actionlog/models.py:85
 msgid "Marked round as completed"
 msgstr "Kolo označené ako dokončené"
 
-#: actionlog/models.py
+#: actionlog/models.py:86
 msgid "Created round"
 msgstr "Vytvorené kolo"
 
-#: actionlog/models.py
+#: actionlog/models.py:87
 msgid "Edited round"
 msgstr "Upravené kolo"
 
-#: actionlog/models.py
+#: actionlog/models.py:88
 msgid "Set start time"
 msgstr "Nastavený čas začiatku"
 
-#: actionlog/models.py
+#: actionlog/models.py:89
 msgid "Saved the sides status of a matchup"
 msgstr "Uložený stav strán v párovaní"
 
-#: actionlog/models.py
+#: actionlog/models.py:90
 msgid "Imported adjudicators using the simple importer"
 msgstr "Rozhodcovia/rozhodkyne importovaní cez jednoduchý importér"
 
-#: actionlog/models.py
+#: actionlog/models.py:91
 msgid "Imported institutions using the simple importer"
 msgstr "Inštitúcie importované cez jednoduchý importér"
 
-#: actionlog/models.py
+#: actionlog/models.py:92
 msgid "Imported teams using the simple importer"
 msgstr "Tímy importované cez jednoduchý importér"
 
-#: actionlog/models.py
+#: actionlog/models.py:93
 msgid "Imported rooms using the simple importer"
 msgstr "Miestnosti importované cez jednoduchý importér"
 
-#: actionlog/models.py
+#: actionlog/models.py:94
 msgid "Edited speaker categories"
 msgstr "Upravené rečnícke kategórie"
 
-#: actionlog/models.py
+#: actionlog/models.py:95
 msgid "Created speaker"
 msgstr "Vytvorený rečník/rečníčka"
 
-#: actionlog/models.py
+#: actionlog/models.py:96
 msgid "Edited speaker"
 msgstr "Upravený rečník/rečníčka"
 
-#: actionlog/models.py
+#: actionlog/models.py:97
 msgid "Edited speaker category eligibility"
 msgstr "Upravená oprávnenosť pre rečnícku kategóriu"
 
-#: actionlog/models.py
+#: actionlog/models.py:98
 msgid "Created team"
 msgstr "Vytvorený tím"
 
-#: actionlog/models.py
+#: actionlog/models.py:99
 msgid "Edited team"
 msgstr "Upravený tím"
 
-#: actionlog/models.py
+#: actionlog/models.py:100
 msgid "Edited adjudicator base score"
 msgstr "Upravené základné skóre rozhodcu/rozhodkyne"
 
-#: actionlog/models.py
+#: actionlog/models.py:101
 msgid "Created tournament"
 msgstr "Vytvorený turnaj"
 
-#: actionlog/models.py
+#: actionlog/models.py:102
 msgid "Edited tournament"
 msgstr "Upravený turnaj"
 
-#: actionlog/models.py
+#: actionlog/models.py:103
 msgid "Updated adjudicator scores in bulk"
 msgstr "Hromadne aktualizované skóre rozhodcov/rozhodkýň"
 
-#: actionlog/models.py
+#: actionlog/models.py:104
 msgid "Invited user to the instance"
 msgstr "Používateľ pozvaný do inštancie"
 
-#: actionlog/models.py
+#: actionlog/models.py:105
 msgid "Edited room categories"
 msgstr "Upravené kategórie miestností"
 
-#: actionlog/models.py
+#: actionlog/models.py:106
 msgid "Created room category"
 msgstr "Vytvorená kategória miestností"
 
-#: actionlog/models.py
+#: actionlog/models.py:107
 msgid "Edited room constraints"
 msgstr "Upravené obmedzenia miestností"
 
-#: actionlog/models.py
+#: actionlog/models.py:108
 msgid "Created room"
 msgstr "Vytvorená miestnosť"
 
-#: actionlog/models.py
+#: actionlog/models.py:109
 msgid "Edited room"
 msgstr "Upravená miestnosť"
 
-#: actionlog/models.py
+#: actionlog/models.py:110
 msgid "Auto-allocated rooms"
 msgstr "Miestnosti automaticky pridelené"
 
-#: actionlog/models.py
+#: actionlog/models.py:111
 msgid "Saved a room manual edit"
 msgstr "Uložená manuálna úprava miestnosti"
 
-#: actionlog/models.py
+#: actionlog/models.py:112
 msgid "Created question"
 msgstr "Vytvorená otázka"
 
-#: actionlog/models.py
+#: actionlog/models.py:113
 msgid "Edited question"
 msgstr "Upravená otázka"
 
-#: actionlog/models.py
+#: actionlog/models.py:114
 msgid "Registered institution"
 msgstr "Zaregistrovaná inštitúcia"
 
-#: actionlog/models.py
+#: actionlog/models.py:115
 msgid "Registered team"
 msgstr "Zaregistrovaný tím"
 
-#: actionlog/models.py
+#: actionlog/models.py:116
 msgid "Registered adjudicator"
 msgstr "Zaregistrovaný rozhodca/rozhodkyňa"
 
-#: actionlog/models.py
+#: actionlog/models.py:117
 msgid "Registered speaker"
 msgstr "Zaregistrovaný rečník/rečníčka"
 
-#: actionlog/models.py
+#: actionlog/models.py:118
+msgid "Confirmed registration"
+msgstr "Potvrdená registrácia"
+
+#: actionlog/models.py:119
+msgid "Created schedule event"
+msgstr "Vytvorená udalosť rozvrhu"
+
+#: actionlog/models.py:120
+msgid "Edited schedule event"
+msgstr "Upravená udalosť rozvrhu"
+
+#: actionlog/models.py:123
 msgid "API"
 msgstr "API"
 
-#: actionlog/models.py
+#: actionlog/models.py:124
 msgid "Web"
 msgstr "Web"
 
-#: actionlog/models.py
+#: actionlog/models.py:127
 msgid "type"
 msgstr "typ"
 
-#: actionlog/models.py
+#: actionlog/models.py:129
 msgid "timestamp"
 msgstr "časová pečiatka"
 
-#: actionlog/models.py
+#: actionlog/models.py:132
 msgid "user"
 msgstr "používateľ"
 
-#: actionlog/models.py
+#: actionlog/models.py:134
 msgid "IP address"
 msgstr "IP adresa"
 
-#: actionlog/models.py
+#: actionlog/models.py:138
 msgid "tournament"
 msgstr "turnaj"
 
-#: actionlog/models.py
+#: actionlog/models.py:140
 msgid "round"
 msgstr "kolo"
 
-#: actionlog/models.py
+#: actionlog/models.py:144
 msgid "content type"
 msgstr "typ obsahu"
 
-#: actionlog/models.py
+#: actionlog/models.py:146
 msgid "object ID"
 msgstr "ID objektu"
 
-#: actionlog/models.py
+#: actionlog/models.py:149
 msgid "agent"
 msgstr "agent"
 
-#: actionlog/models.py
+#: actionlog/models.py:154
 msgid "action log"
 msgstr "záznam akcií"
 
-#: actionlog/models.py
+#: actionlog/models.py:155
 msgid "action log entries"
 msgstr "položky záznamu akcií"
 
-#: actionlog/models.py
+#: actionlog/models.py:163
 msgid "All log entries require at least one of a user and an IP address."
 msgstr "Každá položka záznamu akcií vyžaduje aspoň používateľa alebo IP adresu."
 
-#: actionlog/models.py
+#: actionlog/models.py:202
 msgid "anonymous"
 msgstr "anonymné"

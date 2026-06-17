@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tabbycat\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-25 15:42+0200\n"
+"POT-Creation-Date: 2026-06-17 09:00+0200\n"
 "PO-Revision-Date: 2026-04-28 13:00+0200\n"
 "Last-Translator: \n"
 "Language-Team: Slovak\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "Application Programming Interface"
 msgstr "Aplikačné programovacie rozhranie"
 
-#: checkins/admin.py:39 seasonbreaks/templates/seasonbreaks/tournaments.html:43
+#: checkins/admin.py:39 seasonbreaks/templates/seasonbreaks/tournaments.html:49
 msgid "Type"
 msgstr "Typ"
 
@@ -35,15 +35,15 @@ msgstr "Čas registrácie"
 msgid "Check-Ins"
 msgstr "Príchody"
 
-#: checkins/consumers.py:76
+#: checkins/consumers.py:45
 msgid "Sent checkin identifier doesn't exist"
 msgstr "Odoslaný identifikátor príchodu neexistuje"
 
-#: checkins/consumers.py:77 checkins/consumers.py:82
+#: checkins/consumers.py:46 checkins/consumers.py:78
 msgid "Checkins"
 msgstr "Príchody"
 
-#: checkins/consumers.py:81
+#: checkins/consumers.py:77
 msgid "No checkin identifiers exist for sent barcodes"
 msgstr "Pre odoslané čiarové kódy neexistujú žiadne identifikátory príchodu"
 
@@ -106,7 +106,7 @@ msgstr "čas príchodu"
 
 #: checkins/models.py:92 feedbackexport/models.py:86 registration/models.py:90
 #: registration/models.py:150 registration/models.py:176
-#: seasonbreaks/models.py:90 users/models.py:15 users/models.py:36
+#: seasonbreaks/models.py:96 users/models.py:15 users/models.py:36
 msgid "tournament"
 msgstr "turnaj"
 
@@ -135,51 +135,20 @@ msgid "Generate all identifiers"
 msgstr "Vygenerovať všetky identifikátory"
 
 #: checkins/templates/checkin_ids.html:49
-msgid ""
-"There are no identifiers available to view. An admin will need to generate "
-"them."
-msgstr ""
-"Nie sú dostupné žiadne identifikátory na zobrazenie. Administrátor ich musí "
-"vygenerovať."
+msgid "There are no identifiers available to view. An admin will need to generate them."
+msgstr "Nie sú dostupné žiadne identifikátory na zobrazenie. Administrátor ich musí vygenerovať."
 
 #: checkins/templates/checkin_printables.html:10
-msgid ""
-"Each of the barcodes below is also an image file that can be downloaded "
-"individually. If you want to download them all at once try using a 'bulk "
-"downloader' extension/plugin for your browser, such as <a href=\"https://"
-"chrome.google.com/webstore/detail/svg-export/"
-"naeaaedieihlkmdajjefioajbbdbdjgp?hl=en-GB\">this one (for Chrome)</a>. To "
-"download them as a list you can go to Check-Ins section of the Edit Database "
-"area and copy/paste from the relevant table."
-msgstr ""
-"Každý z čiarových kódov nižšie je aj samostatný obrázkový súbor, ktorý si "
-"môžeš stiahnuť osobitne. Ak ich chceš stiahnuť všetky naraz, skús použiť "
-"rozšírenie alebo doplnok prehliadača na hromadné sťahovanie, napríklad <a "
-"href=\"https://chrome.google.com/webstore/detail/svg-export/"
-"naeaaedieihlkmdajjefioajbbdbdjgp?hl=en-GB\">toto rozšírenie pre Chrome</a>. "
-"Ak ich chceš stiahnuť ako zoznam, prejdi do sekcie Príchody v časti Upraviť "
-"databázu a skopíruj ich z príslušnej tabuľky."
+msgid "Each of the barcodes below is also an image file that can be downloaded individually. If you want to download them all at once try using a 'bulk downloader' extension/plugin for your browser, such as <a href=\"https://chrome.google.com/webstore/detail/svg-export/naeaaedieihlkmdajjefioajbbdbdjgp?hl=en-GB\">this one (for Chrome)</a>. To download them as a list you can go to Check-Ins section of the Edit Database area and copy/paste from the relevant table."
+msgstr "Každý z čiarových kódov nižšie je aj samostatný obrázkový súbor, ktorý si môžeš stiahnuť osobitne. Ak ich chceš stiahnuť všetky naraz, skús použiť rozšírenie alebo doplnok prehliadača na hromadné sťahovanie, napríklad <a href=\"https://chrome.google.com/webstore/detail/svg-export/naeaaedieihlkmdajjefioajbbdbdjgp?hl=en-GB\">toto rozšírenie pre Chrome</a>. Ak ich chceš stiahnuť ako zoznam, prejdi do sekcie Príchody v časti Upraviť databázu a skopíruj ich z príslušnej tabuľky."
 
 #: checkins/templates/checkin_printables.html:15
-msgid ""
-"You can use Ctrl+P for printing or saving the barcodes PDF. Be sure to set "
-"the appropriate <strong>page orientation</strong>, to turn off "
-"<strong>headers/footers</strong> and turn on <strong>background graphics</"
-"strong>. Works best in Chrome."
-msgstr ""
-"Na tlač alebo uloženie PDF s čiarovými kódmi môžeš použiť Ctrl+P. Nastav "
-"správnu <strong>orientáciu stránky</strong>, vypni <strong>hlavičky/päty</"
-"strong> a zapni <strong>grafiku pozadia</strong>. Najlepšie funguje v Chrome."
+msgid "You can use Ctrl+P for printing or saving the barcodes PDF. Be sure to set the appropriate <strong>page orientation</strong>, to turn off <strong>headers/footers</strong> and turn on <strong>background graphics</strong>. Works best in Chrome."
+msgstr "Na tlač alebo uloženie PDF s čiarovými kódmi môžeš použiť Ctrl+P. Nastav správnu <strong>orientáciu stránky</strong>, vypni <strong>hlavičky/päty</strong> a zapni <strong>grafiku pozadia</strong>. Najlepšie funguje v Chrome."
 
 #: checkins/templates/checkin_scan.html:18
-msgid ""
-"To scan an identifier type the number below (it will auto-submit). You can "
-"also use a barcode scanner (configured to work as a keyboard) or scan from a "
-"webcam or phone camera using the button below."
-msgstr ""
-"Na naskenovanie identifikátora napíš číslo nižšie (odošle sa automaticky). "
-"Môžeš použiť aj skener čiarových kódov nastavený ako klávesnica alebo "
-"skenovať cez webkameru či fotoaparát telefónu tlačidlom nižšie."
+msgid "To scan an identifier type the number below (it will auto-submit). You can also use a barcode scanner (configured to work as a keyboard) or scan from a webcam or phone camera using the button below."
+msgstr "Na naskenovanie identifikátora napíš číslo nižšie (odošle sa automaticky). Môžeš použiť aj skener čiarových kódov nastavený ako klávesnica alebo skenovať cez webkameru či fotoaparát telefónu tlačidlom nižšie."
 
 #: checkins/utils.py:61
 #, python-format
@@ -205,75 +174,71 @@ msgstr "%(speaker)s má potvrdenú prítomnosť o %(time)s."
 msgid "%(speaker)s is missing."
 msgstr "%(speaker)s chýba."
 
-#: checkins/views.py:31 templates/nav/admin_nav.html:156
+#: checkins/views.py:32 templates/nav/admin_nav.html:156
 #: templates/nav/assistant_nav.html:42
 msgid "Scan Identifiers"
 msgstr "Skenovať identifikátory"
 
-#: checkins/views.py:65
+#: checkins/views.py:67
 msgid "People's Check-In Statuses"
 msgstr "Stav príchodov osôb"
 
-#: checkins/views.py:137
+#: checkins/views.py:151
 msgid "Rooms' Check-In Statuses"
 msgstr "Stav príchodov miestností"
 
-#: checkins/views.py:188 templates/nav/admin_nav.html:152
+#: checkins/views.py:202 templates/nav/admin_nav.html:152
 msgid "Make Identifiers"
 msgstr "Vytvoriť identifikátory"
 
-#: checkins/views.py:195 registration/templates/answer_tables/teams.html:12
+#: checkins/views.py:209 registration/templates/answer_tables/teams.html:12
 #: registration/templates/registration/team_edit.html:86
-#: seasonbreaks/templates/seasonbreaks/identities.html:29
-#: seasonbreaks/templates/seasonbreaks/overview.html:37
-#: seasonbreaks/views.py:106 seasonbreaks/views.py:133
+#: seasonbreaks/templates/seasonbreaks/identities.html:22
+#: seasonbreaks/templates/seasonbreaks/overview.html:38
+#: seasonbreaks/views.py:113 seasonbreaks/views.py:141
 #: templates/nav/admin_nav.html:261
 msgid "Speakers"
 msgstr "Rečníci"
 
-#: checkins/views.py:200 registration/views.py:528 registration/views.py:1123
-#: seasonbreaks/templates/seasonbreaks/identities.html:41
-#: seasonbreaks/templates/seasonbreaks/overview.html:38
-#: seasonbreaks/views.py:109 seasonbreaks/views.py:142
-#: seasonbreaks/views.py:143 templates/nav/admin_nav.html:136
+#: checkins/views.py:214 registration/views.py:527 registration/views.py:1122
+#: seasonbreaks/templates/seasonbreaks/identities.html:34
+#: seasonbreaks/templates/seasonbreaks/overview.html:39
+#: seasonbreaks/views.py:117 seasonbreaks/views.py:152
+#: seasonbreaks/views.py:153 templates/nav/admin_nav.html:136
 #: templates/nav/public_nav.html:145
 msgid "Adjudicators"
 msgstr "Rozhodcovia"
 
-#: checkins/views.py:205 users/forms.py:50
+#: checkins/views.py:219 users/forms.py:50
 msgid "Rooms"
 msgstr "Miestnosti"
 
-#: checkins/views.py:247
+#: checkins/views.py:261
 #, python-format
 msgid "Generated identifiers for %s"
 msgstr "Vygenerované identifikátory pre %s"
 
-#: checkins/views.py:254
+#: checkins/views.py:268
 msgid "Identifiers"
 msgstr "Identifikátory"
 
-#: checkins/views.py:290
-msgid ""
-"Could not check you in as you do not have an identifying code — your tab "
-"director may need to make you an identifier."
-msgstr ""
-"Nepodarilo sa potvrdiť tvoju prítomnosť, pretože nemáš identifikačný kód. "
-"Vedúci tabu ti možno musí vytvoriť identifikátor."
+#: checkins/views.py:304
+msgid "Could not check you in as you do not have an identifying code — your tab director may need to make you an identifier."
+msgstr "Nepodarilo sa potvrdiť tvoju prítomnosť, pretože nemáš identifikačný kód. Vedúci tabu ti možno musí vytvoriť identifikátor."
 
-#: checkins/views.py:301
+#: checkins/views.py:315
 msgid "You have revoked your check-in."
 msgstr "Zrušil/a si svoje potvrdenie prítomnosti."
 
-#: checkins/views.py:303
+#: checkins/views.py:317
 msgid "Whoops! Looks like your check-in was already revoked."
 msgstr "Ups! Vyzerá to, že tvoje potvrdenie prítomnosti už bolo zrušené."
 
-#: checkins/views.py:307
+#: checkins/views.py:321
 msgid "Whoops! Looks like you're already checked in."
 msgstr "Ups! Vyzerá to, že už máš potvrdenú prítomnosť."
 
-#: checkins/views.py:313
+#: checkins/views.py:327
 msgid "You are now checked in."
 msgstr "Vaša prítomnosť bola potvrdená."
 
@@ -284,17 +249,17 @@ msgstr "API exporty"
 
 #: feedbackexport/forms.py:14
 #: feedbackexport/templates/feedbackexport/access.html:38
-#: seasonbreaks/forms.py:135 seasonbreaks/templates/seasonbreaks/access.html:38
-#: users/forms.py:272 xmlconverter/forms.py:22
+#: seasonbreaks/forms.py:141 seasonbreaks/templates/seasonbreaks/access.html:41
+#: users/forms.py:273 xmlconverter/forms.py:30
 #: xmlconverter/templates/xmlconverter/access.html:48
 msgid "User"
 msgstr "Používateľ"
 
 #: feedbackexport/forms.py:19
 #: feedbackexport/templates/feedbackexport/access.html:38
-#: seasonbreaks/forms.py:140 seasonbreaks/templates/seasonbreaks/access.html:38
-#: seasonbreaks/views.py:149 users/admin.py:51 users/forms.py:218
-#: xmlconverter/forms.py:27 xmlconverter/templates/xmlconverter/access.html:49
+#: seasonbreaks/forms.py:146 seasonbreaks/templates/seasonbreaks/access.html:41
+#: seasonbreaks/views.py:159 users/admin.py:51 users/forms.py:219
+#: xmlconverter/forms.py:35 xmlconverter/templates/xmlconverter/access.html:49
 msgid "Permissions"
 msgstr "Povolenia"
 
@@ -417,7 +382,7 @@ msgid "sent at"
 msgstr "odoslané o"
 
 #: feedbackexport/models.py:47 feedbackexport/models.py:106
-#: registration/models.py:190 seasonbreaks/models.py:38
+#: registration/models.py:190 seasonbreaks/models.py:40
 msgid "created at"
 msgstr "vytvorené"
 
@@ -434,9 +399,9 @@ msgstr "exportný event spätnej väzby"
 msgid "feedback export events"
 msgstr "exportné eventy spätnej väzby"
 
-#: feedbackexport/models.py:88 seasonbreaks/models.py:102
-#: seasonbreaks/models.py:176 seasonbreaks/models.py:197
-#: seasonbreaks/models.py:250
+#: feedbackexport/models.py:88 seasonbreaks/models.py:108
+#: seasonbreaks/models.py:182 seasonbreaks/models.py:226
+#: seasonbreaks/models.py:279
 msgid "break tournament"
 msgstr "postup turnaj"
 
@@ -465,29 +430,27 @@ msgid "adjudicator stats export events"
 msgstr "exportné eventy štatistík rozhodcov"
 
 #: feedbackexport/templates/feedbackexport/access.html:7
-#: feedbackexport/views.py:59 seasonbreaks/templates/seasonbreaks/index.html:16
-#: seasonbreaks/views.py:110
+#: feedbackexport/views.py:59 seasonbreaks/templates/seasonbreaks/base.html:105
+#: seasonbreaks/views.py:118
 msgid "Access"
 msgstr "Prístupy"
 
 #: feedbackexport/templates/feedbackexport/access.html:8
 msgid "Grant global access to API Exports. Manage implies view access."
-msgstr ""
-"Udeľ globálny prístup k API exportom. Správa automaticky zahŕňa aj "
-"zobrazenie."
+msgstr "Udeľ globálny prístup k API exportom. Správa automaticky zahŕňa aj zobrazenie."
 
 #: feedbackexport/templates/feedbackexport/access.html:15
 msgid "Grant access"
 msgstr "Udeliť prístup"
 
 #: feedbackexport/templates/feedbackexport/access.html:26
-#: seasonbreaks/templates/seasonbreaks/access.html:32
+#: seasonbreaks/templates/seasonbreaks/access.html:33
 #: xmlconverter/templates/xmlconverter/access.html:36
 msgid "Save access"
 msgstr "Uložiť prístup"
 
 #: feedbackexport/templates/feedbackexport/access.html:33
-#: seasonbreaks/templates/seasonbreaks/access.html:36
+#: seasonbreaks/templates/seasonbreaks/access.html:39
 #: xmlconverter/templates/xmlconverter/access.html:43
 msgid "Current access"
 msgstr "Aktuálny prístup"
@@ -497,51 +460,27 @@ msgid "No users have explicit API export access yet."
 msgstr "Zatiaľ nikto nemá explicitný prístup k API exportom."
 
 #: feedbackexport/templates/feedbackexport/base.html:421
-msgid ""
-"Live feedback export is disabled. Queueing still works, but sending requires "
-"SDA_JUDGES_FEEDBACK_EXPORT_ENABLED=True."
-msgstr ""
-"Live export spätnej väzby je vypnutý. Zaraďovanie stále funguje, ale "
-"odosielanie vyžaduje SDA_JUDGES_FEEDBACK_EXPORT_ENABLED=True."
+msgid "Live feedback export is disabled. Queueing still works, but sending requires SDA_JUDGES_FEEDBACK_EXPORT_ENABLED=True."
+msgstr "Live export spätnej väzby je vypnutý. Zaraďovanie stále funguje, ale odosielanie vyžaduje SDA_JUDGES_FEEDBACK_EXPORT_ENABLED=True."
 
 #: feedbackexport/templates/feedbackexport/base.html:425
-msgid ""
-"No external feedback API endpoint is configured. Set "
-"SDA_JUDGES_FEEDBACK_API_URL before processing feedback sends."
-msgstr ""
-"Nie je nastavený externý API endpoint pre spätnú väzbu. Pred odosielaním "
-"nastav SDA_JUDGES_FEEDBACK_API_URL."
+msgid "No external feedback API endpoint is configured. Set SDA_JUDGES_FEEDBACK_API_URL before processing feedback sends."
+msgstr "Nie je nastavený externý API endpoint pre spätnú väzbu. Pred odosielaním nastav SDA_JUDGES_FEEDBACK_API_URL."
 
 #: feedbackexport/templates/feedbackexport/base.html:429
-msgid ""
-"Live judge activity export is disabled. Manual queueing still works, but "
-"sending requires SDA_JUDGES_ACTIVITY_EXPORT_ENABLED=True."
-msgstr ""
-"Live export odrozhodovaných debát je vypnutý. Manuálne zaraďovanie stále "
-"funguje, ale odosielanie vyžaduje SDA_JUDGES_ACTIVITY_EXPORT_ENABLED=True."
+msgid "Live judge activity export is disabled. Manual queueing still works, but sending requires SDA_JUDGES_ACTIVITY_EXPORT_ENABLED=True."
+msgstr "Live export odrozhodovaných debát je vypnutý. Manuálne zaraďovanie stále funguje, ale odosielanie vyžaduje SDA_JUDGES_ACTIVITY_EXPORT_ENABLED=True."
 
 #: feedbackexport/templates/feedbackexport/base.html:433
-msgid ""
-"No external judge activity API endpoint is configured. Set "
-"SDA_JUDGES_ACTIVITY_API_URL before processing activity sends."
-msgstr ""
-"Nie je nastavený externý API endpoint pre odrozhodované debaty. Pred "
-"odosielaním nastav SDA_JUDGES_ACTIVITY_API_URL."
+msgid "No external judge activity API endpoint is configured. Set SDA_JUDGES_ACTIVITY_API_URL before processing activity sends."
+msgstr "Nie je nastavený externý API endpoint pre odrozhodované debaty. Pred odosielaním nastav SDA_JUDGES_ACTIVITY_API_URL."
 
 #: feedbackexport/templates/feedbackexport/base.html:447
-msgid ""
-"Export structured SDA data from Tabbycat to external systems. Judge exports "
-"are managed together here; feedback and activity still remain separate "
-"records under the hood."
-msgstr ""
-"Exportuj štruktúrované SDA dáta z Tabbycatu do externých systémov. Exporty "
-"rozhodcov sa spravujú spolu; feedbacky a odrozhodované debaty zostávajú "
-"technicky samostatné záznamy."
+msgid "Export structured SDA data from Tabbycat to external systems. Judge exports are managed together here; feedback and activity still remain separate records under the hood."
+msgstr "Exportuj štruktúrované SDA dáta z Tabbycatu do externých systémov. Exporty rozhodcov sa spravujú spolu; feedbacky a odrozhodované debaty zostávajú technicky samostatné záznamy."
 
 #: feedbackexport/templates/feedbackexport/base.html:451
-#: seasonbreaks/templates/seasonbreaks/access.html:13
-#: seasonbreaks/templates/seasonbreaks/base.html:1069
-#: seasonbreaks/templates/seasonbreaks/index.html:20
+#: seasonbreaks/templates/seasonbreaks/access.html:16
 #: xmlconverter/templates/xmlconverter/index.html:19
 msgid "Return to Site Tools"
 msgstr "Späť do Správy webu"
@@ -568,17 +507,12 @@ msgid "Judge Data"
 msgstr "Dáta rozhodcov"
 
 #: feedbackexport/templates/feedbackexport/events.html:8
-msgid ""
-"One workspace for exporting judge feedback and adjudicated debate counts to "
-"DR. They remain separate records, but are operated from one place."
-msgstr ""
-"Jedno pracovné miesto na export feedbackov rozhodcov a počtov "
-"odrozhodovaných debát do DR. Záznamy zostávajú samostatné, ale ovládajú sa z "
-"jedného miesta."
+msgid "One workspace for exporting judge feedback and adjudicated debate counts to DR. They remain separate records, but are operated from one place."
+msgstr "Jedno pracovné miesto na export feedbackov rozhodcov a počtov odrozhodovaných debát do DR. Záznamy zostávajú samostatné, ale ovládajú sa z jedného miesta."
 
 #: feedbackexport/templates/feedbackexport/events.html:15
 #: feedbackexport/templates/feedbackexport/events.html:150
-#: templates/nav/admin_nav.html:179 users/forms.py:100
+#: templates/nav/admin_nav.html:179 users/forms.py:101
 msgid "Feedback"
 msgstr "Spätná väzba"
 
@@ -590,12 +524,8 @@ msgid "Ready"
 msgstr "Pripravené"
 
 #: feedbackexport/templates/feedbackexport/events.html:18
-msgid ""
-"Confirmed feedback exports with source identifiers. DR handles judge "
-"matching and duplicate resolution."
-msgstr ""
-"Potvrdené feedbacky sa exportujú so zdrojovými identifikátormi. Párovanie "
-"rozhodcov a duplicity rieši DR."
+msgid "Confirmed feedback exports with source identifiers. DR handles judge matching and duplicate resolution."
+msgstr "Potvrdené feedbacky sa exportujú so zdrojovými identifikátormi. Párovanie rozhodcov a duplicity rieši DR."
 
 #: feedbackexport/templates/feedbackexport/events.html:29
 msgid "Queue feedback"
@@ -616,24 +546,16 @@ msgid "Judge activity"
 msgstr "Odrozhodované debaty"
 
 #: feedbackexport/templates/feedbackexport/events.html:50
-msgid ""
-"Tournament debate counts export with source identifiers. DR falls back to "
-"email, name or local ID."
-msgstr ""
-"Počty debát za turnaj sa exportujú so zdrojovými identifikátormi. DR použije "
-"e-mail, meno alebo lokálne ID."
+msgid "Tournament debate counts export with source identifiers. DR falls back to email, name or local ID."
+msgstr "Počty debát za turnaj sa exportujú so zdrojovými identifikátormi. DR použije e-mail, meno alebo lokálne ID."
 
 #: feedbackexport/templates/feedbackexport/events.html:78
 msgid "Tournament activity exports"
 msgstr "Export odrozhodovaných debát za turnaje"
 
 #: feedbackexport/templates/feedbackexport/events.html:79
-msgid ""
-"Select only the tournaments you want to export or re-export. Feedback is "
-"queued separately above."
-msgstr ""
-"Vyber iba turnaje, ktoré chceš exportovať alebo re-exportovať. Feedbacky sa "
-"zaraďujú samostatne vyššie."
+msgid "Select only the tournaments you want to export or re-export. Feedback is queued separately above."
+msgstr "Vyber iba turnaje, ktoré chceš exportovať alebo re-exportovať. Feedbacky sa zaraďujú samostatne vyššie."
 
 #: feedbackexport/templates/feedbackexport/events.html:83
 msgid "Queue selected activity"
@@ -645,7 +567,7 @@ msgstr "Vynútiť re-export vybraných"
 
 #: feedbackexport/templates/feedbackexport/events.html:94
 #: feedbackexport/templates/feedbackexport/events.html:199
-#: seasonbreaks/templates/seasonbreaks/tournaments.html:43
+#: seasonbreaks/templates/seasonbreaks/tournaments.html:49
 msgid "Tournament"
 msgstr "Turnaj"
 
@@ -679,12 +601,8 @@ msgid "Feedback export history"
 msgstr "História exportu feedbackov"
 
 #: feedbackexport/templates/feedbackexport/events.html:139
-msgid ""
-"Recent feedback export events. Use the status filter if you only need "
-"failures or pending sends."
-msgstr ""
-"Nedávne exportné eventy feedbackov. Ak potrebuješ iba zlyhané alebo čakajúce "
-"odoslania, použi filter stavov."
+msgid "Recent feedback export events. Use the status filter if you only need failures or pending sends."
+msgstr "Nedávne exportné eventy feedbackov. Ak potrebuješ iba zlyhané alebo čakajúce odoslania, použi filter stavov."
 
 #: feedbackexport/templates/feedbackexport/events.html:143
 msgid "Filter"
@@ -697,7 +615,7 @@ msgstr "Cieľ"
 #: feedbackexport/templates/feedbackexport/events.html:152
 #: feedbackexport/templates/feedbackexport/events.html:199
 #: registration/utils.py:97
-#: seasonbreaks/templates/seasonbreaks/ranking_region.html:32
+#: seasonbreaks/templates/seasonbreaks/ranking_region.html:60
 msgid "Status"
 msgstr "Stav"
 
@@ -727,28 +645,20 @@ msgid "Archived local activity events"
 msgstr "Archivované lokálne eventy odrozhodovaných debát"
 
 #: feedbackexport/templates/feedbackexport/events.html:194
-msgid ""
-"These local export events still exist, but their source tournament has been "
-"removed from Tabbycat."
-msgstr ""
-"Tieto lokálne exportné eventy stále existujú, ale ich zdrojový turnaj bol z "
-"Tabbycatu odstránený."
+msgid "These local export events still exist, but their source tournament has been removed from Tabbycat."
+msgstr "Tieto lokálne exportné eventy stále existujú, ale ich zdrojový turnaj bol z Tabbycatu odstránený."
 
 #: feedbackexport/templates/feedbackexport/index.html:7
-#: feedbackexport/views.py:57 seasonbreaks/views.py:101
-#: seasonbreaks/views.py:116 seasonbreaks/views.py:117
+#: feedbackexport/views.py:57 seasonbreaks/views.py:108
+#: seasonbreaks/views.py:124 seasonbreaks/views.py:125
 #: templates/nav/admin_nav.html:63 templates/nav/admin_nav.html:186
 #: templates/nav/admin_nav.html:241 templates/nav/admin_nav.html:300
 msgid "Overview"
 msgstr "Prehľad"
 
 #: feedbackexport/templates/feedbackexport/index.html:8
-msgid ""
-"A short control room for judge data exports. DR owns judge identity "
-"matching; Tabbycat sends source names, emails and local IDs."
-msgstr ""
-"Krátky riadiaci panel exportov dát rozhodcov. Párovanie identít rieši DR; "
-"Tabbycat posiela zdrojové mená, e-maily a lokálne ID."
+msgid "A short control room for judge data exports. DR owns judge identity matching; Tabbycat sends source names, emails and local IDs."
+msgstr "Krátky riadiaci panel exportov dát rozhodcov. Párovanie identít rieši DR; Tabbycat posiela zdrojové mená, e-maily a lokálne ID."
 
 #: feedbackexport/templates/feedbackexport/index.html:15
 msgid "Feedback export"
@@ -760,12 +670,8 @@ msgid "Needs attention"
 msgstr "Vyžaduje pozornosť"
 
 #: feedbackexport/templates/feedbackexport/index.html:22
-msgid ""
-"Exports confirmed adjudicator feedback to DR. DR matches judges by exported "
-"ID when present, then email, name and local fallback."
-msgstr ""
-"Exportuje potvrdený feedback rozhodcov do DR. DR páruje podľa exportovaného "
-"ID, ak existuje, potom podľa e-mailu, mena a lokálneho fallbacku."
+msgid "Exports confirmed adjudicator feedback to DR. DR matches judges by exported ID when present, then email, name and local fallback."
+msgstr "Exportuje potvrdený feedback rozhodcov do DR. DR páruje podľa exportovaného ID, ak existuje, potom podľa e-mailu, mena a lokálneho fallbacku."
 
 #: feedbackexport/templates/feedbackexport/index.html:24
 msgid "Confirmed feedback"
@@ -785,13 +691,8 @@ msgid "Queued"
 msgstr "Zaradené"
 
 #: feedbackexport/templates/feedbackexport/index.html:44
-msgid ""
-"Exports adjudicated debate counts by tournament. DR matches judges by "
-"exported ID when present, then email, name and local fallback."
-msgstr ""
-"Exportuje počty odrozhodovaných debát podľa turnaja. DR páruje podľa "
-"exportovaného ID, ak existuje, potom podľa e-mailu, mena a lokálneho "
-"fallbacku."
+msgid "Exports adjudicated debate counts by tournament. DR matches judges by exported ID when present, then email, name and local fallback."
+msgstr "Exportuje počty odrozhodovaných debát podľa turnaja. DR páruje podľa exportovaného ID, ak existuje, potom podľa e-mailu, mena a lokálneho fallbacku."
 
 #: feedbackexport/templates/feedbackexport/index.html:46
 msgid "Export events"
@@ -800,16 +701,12 @@ msgstr "Exportné eventy"
 #: feedbackexport/views.py:94 feedbackexport/views.py:170
 #, python-format
 msgid "%(queued)s feedback export events queued; %(skipped)s skipped."
-msgstr ""
-"Zaradené exportné eventy feedbackov: %(queued)s; preskočené: %(skipped)s."
+msgstr "Zaradené exportné eventy feedbackov: %(queued)s; preskočené: %(skipped)s."
 
 #: feedbackexport/views.py:97 feedbackexport/views.py:167
 #, python-format
-msgid ""
-"%(processed)s export events processed; %(sent)s sent; %(failed)s failed."
-msgstr ""
-"Spracované exportné eventy: %(processed)s; odoslané: %(sent)s; zlyhané: "
-"%(failed)s."
+msgid "%(processed)s export events processed; %(sent)s sent; %(failed)s failed."
+msgstr "Spracované exportné eventy: %(processed)s; odoslané: %(sent)s; zlyhané: %(failed)s."
 
 #: feedbackexport/views.py:156
 msgid "Feedback export event was queued for retry."
@@ -828,17 +725,12 @@ msgstr "Zaradené eventy exportu odrozhodovaných debát: %(queued)s."
 #: feedbackexport/views.py:202
 #, python-format
 msgid "%(queued)s failed judge activity events queued for retry."
-msgstr ""
-"Zlyhané eventy odrozhodovaných debát zaradené na opakovanie: %(queued)s."
+msgstr "Zlyhané eventy odrozhodovaných debát zaradené na opakovanie: %(queued)s."
 
 #: feedbackexport/views.py:205
 #, python-format
-msgid ""
-"%(processed)s judge activity events processed; %(sent)s sent; %(failed)s "
-"failed."
-msgstr ""
-"Spracované eventy odrozhodovaných debát: %(processed)s; odoslané: %(sent)s; "
-"zlyhané: %(failed)s."
+msgid "%(processed)s judge activity events processed; %(sent)s sent; %(failed)s failed."
+msgstr "Spracované eventy odrozhodovaných debát: %(processed)s; odoslané: %(sent)s; zlyhané: %(failed)s."
 
 #: feedbackexport/views.py:213
 msgid "Not exported"
@@ -877,7 +769,7 @@ msgid "This field is required."
 msgstr "Toto pole je povinné."
 
 #: registration/forms.py:24 registration/forms.py:523
-#: registration/views.py:1213
+#: registration/views.py:1212
 msgid "Institution name"
 msgstr "Názov debatného klubu"
 
@@ -890,8 +782,7 @@ msgid "Institution region"
 msgstr "Región debatného klubu"
 
 #: registration/forms.py:56
-msgid ""
-"An institution with this name is already registered for this tournament."
+msgid "An institution with this name is already registered for this tournament."
 msgstr "Debatný klub s týmto názvom je na tento turnaj už zaregistrovaný."
 
 #: registration/forms.py:99
@@ -933,17 +824,14 @@ msgstr "Skrátený názov/prípona tímu"
 
 #: registration/forms.py:348
 #, python-format
-msgid ""
-"The team can't be in a break category of a different tournament. Please "
-"remove: %(category)s"
-msgstr ""
-"Tím nemôže byť v postupovej kategórii iného turnaja. Odober: %(category)s"
+msgid "The team can't be in a break category of a different tournament. Please remove: %(category)s"
+msgstr "Tím nemôže byť v postupovej kategórii iného turnaja. Odober: %(category)s"
 
 #: registration/forms.py:517
 #: registration/templates/registration/institution_edit.html:12
 #: registration/templates/registration/institution_view_response.html:16
-#: seasonbreaks/templates/seasonbreaks/identities_adjudicators.html:67
-#: seasonbreaks/templates/seasonbreaks/teams.html:21
+#: seasonbreaks/templates/seasonbreaks/identities_adjudicators.html:60
+#: seasonbreaks/templates/seasonbreaks/teams.html:20
 msgid "Institution"
 msgstr "Debatný klub"
 
@@ -952,9 +840,7 @@ msgid "Institution not listed"
 msgstr "Klub nie je uvedený"
 
 #: registration/forms.py:525
-msgid ""
-"If the institution is not listed above, enter the name of the receiving "
-"institution here."
+msgid "If the institution is not listed above, enter the name of the receiving institution here."
 msgstr "Ak klub nie je uvedený vyššie, zadaj tu názov prijímajúceho klubu."
 
 #: registration/forms.py:528
@@ -962,11 +848,8 @@ msgid "Contact email"
 msgstr "Kontaktný e-mail"
 
 #: registration/forms.py:530
-msgid ""
-"If the institution is not listed above, enter the contact email for the "
-"receiving institution here."
-msgstr ""
-"Ak klub nie je uvedený vyššie, zadaj tu kontaktný e-mail prijímajúceho klubu."
+msgid "If the institution is not listed above, enter the contact email for the receiving institution here."
+msgstr "Ak klub nie je uvedený vyššie, zadaj tu kontaktný e-mail prijímajúceho klubu."
 
 #: registration/forms.py:535
 msgid "Team slots to transfer"
@@ -1065,9 +948,7 @@ msgid "sequence number"
 msgstr "poradové číslo"
 
 #: registration/models.py:98
-msgid ""
-"The question displayed to participants, e.g., \"Did you agree with the "
-"decision?\""
+msgid "The question displayed to participants, e.g., \"Did you agree with the decision?\""
 msgstr "Otázka zobrazená účastníkom, napr. „Súhlasili ste s rozhodnutím?“"
 
 #: registration/models.py:99
@@ -1079,9 +960,9 @@ msgid "Additional context for the question"
 msgstr "Dodatočný kontext k otázke"
 
 #: registration/models.py:102 seasonbreaks/models.py:29
-#: seasonbreaks/models.py:57 seasonbreaks/models.py:71
-#: seasonbreaks/models.py:115 seasonbreaks/models.py:147
-#: seasonbreaks/models.py:217 users/models.py:35
+#: seasonbreaks/models.py:59 seasonbreaks/models.py:73
+#: seasonbreaks/models.py:121 seasonbreaks/models.py:153
+#: seasonbreaks/models.py:246 users/models.py:35
 msgid "name"
 msgstr "meno"
 
@@ -1106,44 +987,35 @@ msgid "minimum value"
 msgstr "minimálna hodnota"
 
 #: registration/models.py:112
-msgid ""
-"Minimum allowed value for numeric fields (ignored for text or boolean fields)"
-msgstr ""
-"Minimálna povolená hodnota pre číselné polia (ignoruje sa pre textové alebo "
-"logické polia)"
+msgid "Minimum allowed value for numeric fields (ignored for text or boolean fields)"
+msgstr "Minimálna povolená hodnota pre číselné polia (ignoruje sa pre textové alebo logické polia)"
 
 #: registration/models.py:114
 msgid "maximum value"
 msgstr "maximálna hodnota"
 
 #: registration/models.py:115
-msgid ""
-"Maximum allowed value for numeric fields (ignored for text or boolean fields)"
-msgstr ""
-"Maximálna povolená hodnota pre číselné polia (ignoruje sa pre textové alebo "
-"logické polia)"
+msgid "Maximum allowed value for numeric fields (ignored for text or boolean fields)"
+msgstr "Maximálna povolená hodnota pre číselné polia (ignoruje sa pre textové alebo logické polia)"
 
 #: registration/models.py:120
 msgid "choices"
 msgstr "možnosti"
 
 #: registration/models.py:121
-msgid ""
-"Permissible choices for select one/multiple fields (ignored for other fields)"
-msgstr ""
-"Povolené možnosti pre polia s výberom jednej alebo viacerých možností "
-"(ignoruje sa pre ostatné polia)"
+msgid "Permissible choices for select one/multiple fields (ignored for other fields)"
+msgstr "Povolené možnosti pre polia s výberom jednej alebo viacerých možností (ignoruje sa pre ostatné polia)"
 
 #: registration/models.py:126
 msgid "questions"
 msgstr "otázky"
 
-#: registration/models.py:153 seasonbreaks/models.py:117
-#: seasonbreaks/models.py:220
+#: registration/models.py:153 seasonbreaks/models.py:123
+#: seasonbreaks/models.py:249
 msgid "institution"
 msgstr "debatný klub"
 
-#: registration/models.py:154 seasonbreaks/models.py:134
+#: registration/models.py:154 seasonbreaks/models.py:140
 msgid "team"
 msgstr "tím"
 
@@ -1214,6 +1086,7 @@ msgid "Register as Adjudicator"
 msgstr "Registrovať sa ako rozhodca"
 
 #: registration/templates/adjudicator_registration_form.html:25
+#: registration/templates/speaker_registration_form.html:17
 #: registration/templates/wizard_registration_form.html:35
 #: templates/registration/password_change_form.html:34
 #: templates/registration/password_reset_confirm.html:26
@@ -1289,11 +1162,11 @@ msgstr "Registrovaní rozhodcovia: <strong>%(num)s</strong>"
 msgid "Save allocations"
 msgstr "Uložiť alokácie"
 
-#: registration/templates/answer_tables/teams.html:9 registration/views.py:535
-#: registration/views.py:1122
-#: seasonbreaks/templates/seasonbreaks/identities.html:17
-#: seasonbreaks/templates/seasonbreaks/overview.html:36
-#: seasonbreaks/views.py:105 seasonbreaks/views.py:131
+#: registration/templates/answer_tables/teams.html:9 registration/views.py:534
+#: registration/views.py:1121
+#: seasonbreaks/templates/seasonbreaks/identities.html:10
+#: seasonbreaks/templates/seasonbreaks/overview.html:37
+#: seasonbreaks/views.py:112 seasonbreaks/views.py:139
 #: templates/nav/admin_nav.html:132 templates/nav/admin_nav.html:247
 msgid "Teams"
 msgstr "Tímy"
@@ -1310,16 +1183,8 @@ msgstr "pre %(name)s (%(institution)s)"
 
 #: registration/templates/coach_private_url.html:14
 #, python-format
-msgid ""
-"The URL of this page is personalised to you, %(name)s. <strong>Do not share "
-"it with anyone;</strong> anyone who knows this URL can manage participants "
-"for %(institution)s. Bookmark this page as you may need it for a next phase "
-"of registration."
-msgstr ""
-"URL tejto stránky je osobná pre teba, %(name)s. <strong>Nikomu ju nezdieľaj;"
-"</strong> ktokoľvek, kto pozná túto URL, môže spravovať účastníkov za "
-"%(institution)s. Ulož si túto stránku do záložiek, keďže ju môžeš potrebovať "
-"v ďalšej fáze registrácie."
+msgid "The URL of this page is personalised to you, %(name)s. <strong>Do not share it with anyone;</strong> anyone who knows this URL can manage participants for %(institution)s. Bookmark this page as you may need it for a next phase of registration."
+msgstr "URL tejto stránky je osobná pre teba, %(name)s. <strong>Nikomu ju nezdieľaj;</strong> ktokoľvek, kto pozná túto URL, môže spravovať účastníkov za %(institution)s. Ulož si túto stránku do záložiek, keďže ju môžeš potrebovať v ďalšej fáze registrácie."
 
 #: registration/templates/coach_private_url.html:28
 msgid "View your registration form response"
@@ -1330,12 +1195,8 @@ msgid "Register Adjudicator"
 msgstr "Registrovať rozhodcu"
 
 #: registration/templates/coach_private_url.html:120
-msgid ""
-"or distribute this link to allow members to register themselves as "
-"adjudicators:"
-msgstr ""
-"alebo rozpošli tento odkaz, aby sa členovia mohli zaregistrovať ako "
-"rozhodcovia:"
+msgid "or distribute this link to allow members to register themselves as adjudicators:"
+msgstr "alebo rozpošli tento odkaz, aby sa členovia mohli zaregistrovať ako rozhodcovia:"
 
 #: registration/templates/coach_private_url.html:128
 msgid "Adjudicator registration is not yet open"
@@ -1362,21 +1223,13 @@ msgid "View invoice"
 msgstr "Zobraziť faktúru"
 
 #: registration/templates/questions_edit.html:12
-msgid ""
-"These questions appear as extra fields for participants to answer, in "
-"feedback or registration forms."
-msgstr ""
-"Tieto otázky sa zobrazia ako dodatočné polia pre účastníkov vo formulároch "
-"spätnej väzby alebo registrácie."
+msgid "These questions appear as extra fields for participants to answer, in feedback or registration forms."
+msgstr "Tieto otázky sa zobrazia ako dodatočné polia pre účastníkov vo formulároch spätnej väzby alebo registrácie."
 
 #: registration/templates/questions_edit.html:17
 #, python-format
-msgid ""
-"If you want to delete questions (and their associated answers), use the <a "
-"href=\"%(edit_db_url)s\" class=\"alert-link\">Edit Database</a> area."
-msgstr ""
-"Ak chceš vymazať otázky aj ich súvisiace odpovede, použi časť <a "
-"href=\"%(edit_db_url)s\" class=\"alert-link\">Upraviť databázu</a>."
+msgid "If you want to delete questions (and their associated answers), use the <a href=\"%(edit_db_url)s\" class=\"alert-link\">Edit Database</a> area."
+msgstr "Ak chceš vymazať otázky aj ich súvisiace odpovede, použi časť <a href=\"%(edit_db_url)s\" class=\"alert-link\">Upraviť databázu</a>."
 
 #: registration/templates/questions_edit.html:23
 msgid "Save Questions"
@@ -1432,12 +1285,8 @@ msgid "Back to institution list"
 msgstr "Späť na zoznam klubov"
 
 #: registration/templates/registration/institution_view_response.html:10
-msgid ""
-"This form is read-only. You can view your institution's registration "
-"response below but cannot edit it here."
-msgstr ""
-"Tento formulár je len na čítanie. Odpoveď na registráciu svojho klubu si "
-"môžeš zobraziť nižšie, ale tu ju nemôžeš upraviť."
+msgid "This form is read-only. You can view your institution's registration response below but cannot edit it here."
+msgstr "Tento formulár je len na čítanie. Odpoveď na registráciu svojho klubu si môžeš zobraziť nižšie, ale tu ju nemôžeš upraviť."
 
 #: registration/templates/registration/institution_view_response.html:31
 msgid "Back to your private URL"
@@ -1460,8 +1309,7 @@ msgid "Team details"
 msgstr "Údaje tímu"
 
 #: registration/templates/registration/team_edit.html:77
-msgid ""
-"Edit the team name, institution, emoji, categories and registration status."
+msgid "Edit the team name, institution, emoji, categories and registration status."
 msgstr "Uprav názov tímu, klub, emoji, kategórie a stav registrácie."
 
 #: registration/templates/registration/team_edit.html:87
@@ -1501,15 +1349,14 @@ msgstr "Odoslať žiadosť"
 msgid "Cancel and return to private URL"
 msgstr "Zrušiť a vrátiť sa na súkromnú URL"
 
+#: registration/templates/speaker_registration_form.html:16
+msgctxt "button"
+msgid "Register as Speaker"
+msgstr "Registrovať sa ako rečník/rečníčka"
+
 #: registration/templates/team_wizard_speakers.html:6
-msgid ""
-"You may register speakers for the team, but if not all speakers are "
-"included, a link will be generated to let speakers register themselves to "
-"the team after submission which you can then distribute."
-msgstr ""
-"Môžeš registrovať rečníkov tímu, ale ak nezahrnieš všetkých rečníkov, po "
-"odoslaní sa vygeneruje odkaz, cez ktorý sa rečníci môžu do tímu "
-"zaregistrovať sami a ktorý im môžeš rozposlať."
+msgid "You may register speakers for the team, but if not all speakers are included, a link will be generated to let speakers register themselves to the team after submission which you can then distribute."
+msgstr "Môžeš registrovať rečníkov tímu, ale ak nezahrnieš všetkých rečníkov, po odoslaní sa vygeneruje odkaz, cez ktorý sa rečníci môžu do tímu zaregistrovať sami a ktorý im môžeš rozposlať."
 
 #: registration/templates/wizard_registration_form.html:31
 msgctxt "button"
@@ -1526,7 +1373,6 @@ msgid "Confirm"
 msgstr "Potvrdiť"
 
 #: registration/utils.py:70 registration/utils.py:73
-#: seasonbreaks/templates/seasonbreaks/index.html:158
 #: users/templates/role_management.html:335
 msgid "Edit"
 msgstr "Upraviť"
@@ -1557,31 +1403,19 @@ msgstr[3] "Registrovať rečníkov/rečníčky"
 msgid "from %s"
 msgstr "od %s"
 
-#: registration/views.py:230 registration/views.py:1040
+#: registration/views.py:230 registration/views.py:1039
 #, python-format
 msgid "for %s"
 msgstr "pre %s"
 
 #: registration/views.py:279
 #, python-format
-msgid ""
-"Your team only has %(num)d speaker! Invite the other speakers to register "
-"using this link: <a href='%(link)s'>%(link)s</a>"
-msgid_plural ""
-"Your team only has %(num)d speakers! Invite the other speakers to register "
-"using this link: <a href='%(link)s'>%(link)s</a>"
-msgstr[0] ""
-"Tvoj tím má iba %(num)d rečníka/rečníčku! Pozvi ostatných rečníkov "
-"zaregistrovať sa cez tento odkaz: <a href='%(link)s'>%(link)s</a>"
-msgstr[1] ""
-"Tvoj tím má iba %(num)d rečníkov/rečníčky! Pozvi ostatných rečníkov "
-"zaregistrovať sa cez tento odkaz: <a href='%(link)s'>%(link)s</a>"
-msgstr[2] ""
-"Tvoj tím má iba %(num)d rečníkov! Pozvi ostatných rečníkov zaregistrovať sa "
-"cez tento odkaz: <a href='%(link)s'>%(link)s</a>"
-msgstr[3] ""
-"Tvoj tím má iba %(num)d rečníkov! Pozvi ostatných rečníkov zaregistrovať sa "
-"cez tento odkaz: <a href='%(link)s'>%(link)s</a>"
+msgid "Your team only has %(num)d speaker! Invite the other speakers to register using this link: <a href='%(link)s'>%(link)s</a>"
+msgid_plural "Your team only has %(num)d speakers! Invite the other speakers to register using this link: <a href='%(link)s'>%(link)s</a>"
+msgstr[0] "Tvoj tím má iba %(num)d rečníka/rečníčku! Pozvi ostatných rečníkov zaregistrovať sa cez tento odkaz: <a href='%(link)s'>%(link)s</a>"
+msgstr[1] "Tvoj tím má iba %(num)d rečníkov/rečníčky! Pozvi ostatných rečníkov zaregistrovať sa cez tento odkaz: <a href='%(link)s'>%(link)s</a>"
+msgstr[2] "Tvoj tím má iba %(num)d rečníkov! Pozvi ostatných rečníkov zaregistrovať sa cez tento odkaz: <a href='%(link)s'>%(link)s</a>"
+msgstr[3] "Tvoj tím má iba %(num)d rečníkov! Pozvi ostatných rečníkov zaregistrovať sa cez tento odkaz: <a href='%(link)s'>%(link)s</a>"
 
 #: registration/views.py:284
 #, python-format
@@ -1592,200 +1426,196 @@ msgstr "Tvoj tím %s bol zaregistrovaný!"
 msgid "You have been registered as an adjudicator!"
 msgstr "Bol/a si zaregistrovaný/á ako rozhodca!"
 
-#: registration/views.py:509
+#: registration/views.py:508
 msgid "You have been registered as a speaker!"
 msgstr "Bol/a si zaregistrovaný/á ako rečník/rečníčka!"
 
-#: registration/views.py:594
+#: registration/views.py:593
 msgid "Edit institution registration"
 msgstr "Upraviť registráciu debatného klubu"
 
-#: registration/views.py:641
+#: registration/views.py:640
 #, python-format
 msgid "Institution %s updated."
 msgstr "Debatný klub %s bol aktualizovaný."
 
-#: registration/views.py:649
+#: registration/views.py:648
 msgid "Edit team registration"
 msgstr "Upraviť registráciu tímu"
 
-#: registration/views.py:684
+#: registration/views.py:683
 #, python-format
 msgid "Team %s updated."
 msgstr "Tím %s bol aktualizovaný."
 
-#: registration/views.py:692
+#: registration/views.py:691
 msgid "Edit adjudicator registration"
 msgstr "Upraviť registráciu rozhodcu"
 
-#: registration/views.py:724
+#: registration/views.py:723
 #, python-format
 msgid "Adjudicator %s updated."
 msgstr "Rozhodca %s bol aktualizovaný."
 
-#: registration/views.py:733
+#: registration/views.py:732
 msgid "Registration form response"
 msgstr "Odpoveď na registračný formulár"
 
-#: registration/views.py:772
+#: registration/views.py:771
 msgid "Transfer slots"
 msgstr "Previesť sloty"
 
-#: registration/views.py:796
+#: registration/views.py:795
 msgid "Your slot transfer request has been submitted and is pending approval."
 msgstr "Tvoja žiadosť o prevedenie slotov bola odoslaná a čaká na schválenie."
 
-#: registration/views.py:832
+#: registration/views.py:831
 msgid "Institutional Registration"
 msgstr "Registrácia debatného klubu"
 
-#: registration/views.py:847 registration/views.py:974
-#: registration/views.py:1000
+#: registration/views.py:846 registration/views.py:973
+#: registration/views.py:999
 msgid "Responses"
 msgstr "Odpovede"
 
-#: registration/views.py:848 seasonbreaks/templates/seasonbreaks/index.html:167
+#: registration/views.py:847 seasonbreaks/templates/seasonbreaks/index.html:59
+#: seasonbreaks/templates/seasonbreaks/regions.html:55
 msgid "Name"
 msgstr "Meno"
 
-#: registration/views.py:852
+#: registration/views.py:851
 msgid "Code"
 msgstr "Kód"
 
-#: registration/views.py:853
+#: registration/views.py:852
 msgid "Coach"
 msgstr "Tréner"
 
-#: registration/views.py:857 registration/views.py:983
-#: registration/views.py:1002
-#: seasonbreaks/templates/seasonbreaks/speakers.html:21
+#: registration/views.py:856 registration/views.py:982
+#: registration/views.py:1001
+#: seasonbreaks/templates/seasonbreaks/speakers.html:20
 msgid "Email"
 msgstr "E-mail"
 
-#: registration/views.py:869
+#: registration/views.py:868
 msgid "Teams Requested"
 msgstr "Požadované tímy"
 
-#: registration/views.py:872
+#: registration/views.py:871
 msgid "Teams Allocated"
 msgstr "Pridelené tímy"
 
-#: registration/views.py:877
+#: registration/views.py:876
 msgid "Teams Registered"
 msgstr "Registrované tímy"
 
-#: registration/views.py:880
+#: registration/views.py:879
 msgid "Adjudicators Requested"
 msgstr "Požadovaní rozhodcovia"
 
-#: registration/views.py:883
+#: registration/views.py:882
 msgid "Adjudicators Allocated"
 msgstr "Pridelení rozhodcovia"
 
-#: registration/views.py:888
+#: registration/views.py:887
 msgid "Adjudicators Registered"
 msgstr "Registrovaní rozhodcovia"
 
-#: registration/views.py:891
-#: seasonbreaks/templates/seasonbreaks/overview.html:50
+#: registration/views.py:890
+#: seasonbreaks/templates/seasonbreaks/overview.html:54
 #: seasonbreaks/templates/seasonbreaks/public_table.html:9
-#: seasonbreaks/templates/seasonbreaks/quotas.html:20
-#: seasonbreaks/templates/seasonbreaks/teams.html:21
-#: seasonbreaks/templates/seasonbreaks/tournaments.html:43
+#: seasonbreaks/templates/seasonbreaks/quotas.html:18
+#: seasonbreaks/templates/seasonbreaks/regions.html:90
+#: seasonbreaks/templates/seasonbreaks/teams.html:20
+#: seasonbreaks/templates/seasonbreaks/tournaments.html:49
 msgid "Region"
 msgstr "Región"
 
-#: registration/views.py:938
+#: registration/views.py:937
 msgid "Successfully modified institution allocations"
 msgstr "Pridelenia debatného klubu boli úspešne upravené"
 
-#: registration/views.py:956
+#: registration/views.py:955
 msgid "Team Registration"
 msgstr "Registrácia tímov"
 
-#: registration/views.py:982
+#: registration/views.py:981
 #, python-format
 msgid "Speaker %d"
 msgstr "Rečník/rečníčka %d"
 
-#: registration/views.py:992
+#: registration/views.py:991
 msgid "Adjudicator Registration"
 msgstr "Registrácia rozhodcu"
 
-#: registration/views.py:1029
+#: registration/views.py:1028
 msgid "Custom Questions"
 msgstr "Vlastné otázky"
 
-#: registration/views.py:1057
+#: registration/views.py:1056
 #, python-format
 msgid "Questions for %(model)s were successfully saved."
 msgstr "Otázky pre %(model)s boli úspešne uložené."
 
-#: registration/views.py:1059
+#: registration/views.py:1058
 msgid "No changes were made to the questions."
 msgstr "V otázkach neboli vykonané žiadne zmeny."
 
-#: registration/views.py:1080
+#: registration/views.py:1079
 #, python-format
 msgid "%s has been confirmed."
 msgstr "%s bolo potvrdené."
 
-#: registration/views.py:1102 registration/views.py:1119
+#: registration/views.py:1101 registration/views.py:1118
 msgid "Slot transfer requests"
 msgstr "Žiadosti o prevedenie slotov"
 
-#: registration/views.py:1120
+#: registration/views.py:1119
 msgid "From"
 msgstr "Od"
 
-#: registration/views.py:1121
+#: registration/views.py:1120
 msgid "To"
 msgstr "Pre"
 
-#: registration/views.py:1140
+#: registration/views.py:1139
 msgid "Transfer request rejected."
 msgstr "Žiadosť o prevedenie bola zamietnutá."
 
-#: registration/views.py:1144
+#: registration/views.py:1143
 msgid "Invalid request or transfer is no longer pending."
 msgstr "Neplatná žiadosť alebo prevedenie už nečaká na schválenie."
 
-#: registration/views.py:1177
-msgid ""
-"Transfer approved. An invitation email has been sent to the provided "
-"address. "
+#: registration/views.py:1176
+msgid "Transfer approved. An invitation email has been sent to the provided address. "
 msgstr "Prevedenie schválené. Na zadanú adresu bol odoslaný pozývací e-mail. "
 
-#: registration/views.py:1178
+#: registration/views.py:1177
 #, python-format
-msgid ""
-"You can also share this link: <a href=\"%(url)s\" class=\"alert-"
-"link\">%(url)s</a>"
-msgstr ""
-"Môžeš tiež zdieľať tento odkaz: <a href=\"%(url)s\" class=\"alert-"
-"link\">%(url)s</a>"
+msgid "You can also share this link: <a href=\"%(url)s\" class=\"alert-link\">%(url)s</a>"
+msgstr "Môžeš tiež zdieľať tento odkaz: <a href=\"%(url)s\" class=\"alert-link\">%(url)s</a>"
 
-#: registration/views.py:1182
+#: registration/views.py:1181
 msgid "Transfer approved."
 msgstr "Prevedenie schválené."
 
-#: registration/views.py:1191 registration/views.py:1212
+#: registration/views.py:1190 registration/views.py:1211
 msgid "Slot transfer summary"
 msgstr "Prehľad prevedení slotov"
 
-#: registration/views.py:1214
+#: registration/views.py:1213
 msgid "Teams allocated"
 msgstr "Pridelené tímy"
 
-#: registration/views.py:1215
+#: registration/views.py:1214
 msgid "Adjudicators allocated"
 msgstr "Pridelení rozhodcovia"
 
-#: registration/views.py:1216
+#: registration/views.py:1215
 msgid "Net new teams"
 msgstr "Čisté nové tímy"
 
-#: registration/views.py:1217
+#: registration/views.py:1216
 msgid "Net new adjudicators"
 msgstr "Čistí noví rozhodcovia"
 
@@ -1817,7 +1647,7 @@ msgstr "globálne povolenie postupov"
 msgid "global breaks permissions"
 msgstr "globálne povolenia postupov"
 
-#: seasonbreaks/models.py:30 seasonbreaks/models.py:58
+#: seasonbreaks/models.py:30 seasonbreaks/models.py:60
 msgid "slug"
 msgstr "slug"
 
@@ -1837,242 +1667,257 @@ msgstr "pozvané tímy"
 msgid "active"
 msgstr "aktívny"
 
-#: seasonbreaks/models.py:35 seasonbreaks/models.py:75
+#: seasonbreaks/models.py:35 seasonbreaks/models.py:81
 msgid "show on public Breaks page"
 msgstr "zobraziť na verejnej stránke postupov"
 
-#: seasonbreaks/models.py:36
+#: seasonbreaks/models.py:37
+msgid "show global ranking across regions on public Breaks page"
+msgstr "zobraziť globálne poradie naprieč regiónmi na verejnej stránke postupov"
+
+#: seasonbreaks/models.py:38
 msgid "public snapshot published at"
 msgstr "verejný snapshot publikovaný"
 
-#: seasonbreaks/models.py:37
+#: seasonbreaks/models.py:39
 msgid "public snapshot"
 msgstr "verejný snapshot"
 
-#: seasonbreaks/models.py:42
+#: seasonbreaks/models.py:44
 msgid "break season"
 msgstr "postupová sezóna"
 
-#: seasonbreaks/models.py:43
+#: seasonbreaks/models.py:45
 msgid "break seasons"
 msgstr "postupové sezóny"
 
-#: seasonbreaks/models.py:62
+#: seasonbreaks/models.py:64
 msgid "break league"
 msgstr "postupová liga"
 
-#: seasonbreaks/models.py:63
+#: seasonbreaks/models.py:65
 msgid "break leagues"
 msgstr "postupové ligy"
 
-#: seasonbreaks/models.py:70 seasonbreaks/models.py:88
-#: seasonbreaks/models.py:114 seasonbreaks/models.py:132
-#: seasonbreaks/models.py:146 seasonbreaks/models.py:160
-#: seasonbreaks/models.py:216 seasonbreaks/models.py:233
+#: seasonbreaks/models.py:72 seasonbreaks/models.py:94
+#: seasonbreaks/models.py:120 seasonbreaks/models.py:138
+#: seasonbreaks/models.py:152 seasonbreaks/models.py:166
+#: seasonbreaks/models.py:245 seasonbreaks/models.py:262
 msgid "season"
 msgstr "sezóna"
 
-#: seasonbreaks/models.py:72 seasonbreaks/models.py:92
+#: seasonbreaks/models.py:74 seasonbreaks/models.py:98
 msgid "sequence"
 msgstr "poradie"
 
-#: seasonbreaks/models.py:74
+#: seasonbreaks/models.py:76
+msgid "expected tournaments this season"
+msgstr "očakávané turnaje v tejto sezóne"
+
+#: seasonbreaks/models.py:77
+msgid "Drives the best N−1 ranking rule. Leave at 0 to use the number of counting tournaments already added to this region."
+msgstr "Riadi pravidlo najlepších N−1. Nechaj na 0, ak chceš použiť počet turnajov zahrnutých do poradia už pridaných do tohto regiónu."
+
+#: seasonbreaks/models.py:80
 msgid "source region"
 msgstr "zdrojový región"
 
-#: seasonbreaks/models.py:80
+#: seasonbreaks/models.py:86
 msgid "break region"
 msgstr "postupový región"
 
-#: seasonbreaks/models.py:81
+#: seasonbreaks/models.py:87
 msgid "break regions"
 msgstr "postupové regióny"
 
-#: seasonbreaks/models.py:91
+#: seasonbreaks/models.py:97 seasonbreaks/models.py:211
 msgid "region"
 msgstr "región"
 
-#: seasonbreaks/models.py:93
+#: seasonbreaks/models.py:99
 msgid "counts for team and speaker break"
 msgstr "zahrnutý do postupu tímov a rečníkov"
 
-#: seasonbreaks/models.py:94
-msgid ""
-"If unchecked, this tournament only counts toward adjudicator statistics."
-msgstr ""
-"Ak nie je zaškrtnuté, tento turnaj sa počíta iba do štatistík rozhodcov."
+#: seasonbreaks/models.py:100
+msgid "If unchecked, this tournament only counts toward adjudicator statistics."
+msgstr "Ak nie je zaškrtnuté, tento turnaj sa počíta iba do štatistík rozhodcov."
 
-#: seasonbreaks/models.py:95
+#: seasonbreaks/models.py:101
 msgid "frozen at"
 msgstr "zmrazené"
 
-#: seasonbreaks/models.py:103
+#: seasonbreaks/models.py:109
 msgid "break tournaments"
 msgstr "postupové turnaje"
 
-#: seasonbreaks/models.py:119
+#: seasonbreaks/models.py:125
 msgid "home region"
 msgstr "domáci región"
 
-#: seasonbreaks/models.py:124
+#: seasonbreaks/models.py:130
 msgid "season break team"
 msgstr "tím postupovej sezóny"
 
-#: seasonbreaks/models.py:125
+#: seasonbreaks/models.py:131
 msgid "season break teams"
 msgstr "tímy postupovej sezóny"
 
-#: seasonbreaks/models.py:133 seasonbreaks/models.py:178
-#: seasonbreaks/models.py:201
+#: seasonbreaks/models.py:139 seasonbreaks/models.py:184
+#: seasonbreaks/models.py:213 seasonbreaks/models.py:230
 msgid "season team"
 msgstr "tím sezóny"
 
-#: seasonbreaks/models.py:138
+#: seasonbreaks/models.py:144
 msgid "break team link"
 msgstr "prepojenie postupového tímu"
 
-#: seasonbreaks/models.py:139
+#: seasonbreaks/models.py:145
 msgid "break team links"
 msgstr "prepojenia postupových tímov"
 
-#: seasonbreaks/models.py:148 seasonbreaks/models.py:218
+#: seasonbreaks/models.py:154 seasonbreaks/models.py:247
 msgid "email"
 msgstr "e-mail"
 
-#: seasonbreaks/models.py:152
+#: seasonbreaks/models.py:158
 msgid "season break speaker"
 msgstr "rečník/rečníčka postupovej sezóny"
 
-#: seasonbreaks/models.py:153
+#: seasonbreaks/models.py:159
 msgid "season break speakers"
 msgstr "rečníci/rečníčky postupovej sezóny"
 
-#: seasonbreaks/models.py:161 seasonbreaks/models.py:199
+#: seasonbreaks/models.py:167 seasonbreaks/models.py:228
 msgid "season speaker"
 msgstr "rečník/rečníčka sezóny"
 
-#: seasonbreaks/models.py:163
+#: seasonbreaks/models.py:169
 msgid "speaker"
 msgstr "rečník/rečníčka"
 
-#: seasonbreaks/models.py:167
+#: seasonbreaks/models.py:173
 msgid "break speaker link"
 msgstr "prepojenie postupového rečníka"
 
-#: seasonbreaks/models.py:168
+#: seasonbreaks/models.py:174
 msgid "break speaker links"
 msgstr "prepojenia postupových rečníkov"
 
-#: seasonbreaks/models.py:179
+#: seasonbreaks/models.py:185
+#: seasonbreaks/templates/seasonbreaks/ranking_region.html:28
 msgid "wins"
 msgstr "výhry"
 
-#: seasonbreaks/models.py:180
+#: seasonbreaks/models.py:186
+#: seasonbreaks/templates/seasonbreaks/ranking_region.html:29
 msgid "ballots"
 msgstr "balloty"
 
-#: seasonbreaks/models.py:181
+#: seasonbreaks/models.py:187
 msgid "speaker score"
 msgstr "rečnícke body"
 
-#: seasonbreaks/models.py:182
+#: seasonbreaks/models.py:188
 msgid "rounds debated"
 msgstr "oddebaté kolá"
 
-#: seasonbreaks/models.py:183
+#: seasonbreaks/models.py:189
 msgid "debated majority of rounds"
 msgstr "oddebaté väčšina kôl"
 
-#: seasonbreaks/models.py:188
+#: seasonbreaks/models.py:194
 msgid "break team tournament result"
 msgstr "výsledok postupového tímu z turnaja"
 
-#: seasonbreaks/models.py:189
+#: seasonbreaks/models.py:195
 msgid "break team tournament results"
 msgstr "výsledky postupových tímov z turnajov"
 
-#: seasonbreaks/models.py:202
+#: seasonbreaks/models.py:217
+msgid "break cutoff advancement"
+msgstr "postup na hranici breaku"
+
+#: seasonbreaks/models.py:218
+msgid "break cutoff advancements"
+msgstr "postupy na hranici breaku"
+
+#: seasonbreaks/models.py:231
 msgid "speeches"
 msgstr "reči"
 
-#: seasonbreaks/models.py:203
+#: seasonbreaks/models.py:232
 msgid "rounds"
 msgstr "kolá"
 
-#: seasonbreaks/models.py:208
+#: seasonbreaks/models.py:237
 msgid "break speaker tournament participation"
 msgstr "účasť postupového rečníka na turnaji"
 
-#: seasonbreaks/models.py:209
+#: seasonbreaks/models.py:238
 msgid "break speaker tournament participations"
 msgstr "účasti postupových rečníkov na turnajoch"
 
-#: seasonbreaks/models.py:224
+#: seasonbreaks/models.py:253
 msgid "season break adjudicator"
 msgstr "rozhodca postupovej sezóny"
 
-#: seasonbreaks/models.py:225
+#: seasonbreaks/models.py:254
 msgid "season break adjudicators"
 msgstr "rozhodcovia postupovej sezóny"
 
-#: seasonbreaks/models.py:235 seasonbreaks/models.py:252
+#: seasonbreaks/models.py:264 seasonbreaks/models.py:281
 msgid "season adjudicator"
 msgstr "rozhodca sezóny"
 
-#: seasonbreaks/models.py:237
+#: seasonbreaks/models.py:266
 msgid "adjudicator"
 msgstr "rozhodca"
 
-#: seasonbreaks/models.py:241
+#: seasonbreaks/models.py:270
 msgid "break adjudicator link"
 msgstr "prepojenie postupového rozhodcu"
 
-#: seasonbreaks/models.py:242
+#: seasonbreaks/models.py:271
 msgid "break adjudicator links"
 msgstr "prepojenia postupových rozhodcov"
 
-#: seasonbreaks/models.py:253
+#: seasonbreaks/models.py:282
 msgid "chairs"
 msgstr "chairs"
 
-#: seasonbreaks/models.py:254
+#: seasonbreaks/models.py:283
 msgid "panellists"
 msgstr "panelisti"
 
-#: seasonbreaks/models.py:255
+#: seasonbreaks/models.py:284
 msgid "trainees"
 msgstr "shadows"
 
-#: seasonbreaks/models.py:256
+#: seasonbreaks/models.py:285
 msgid "total"
 msgstr "spolu"
 
-#: seasonbreaks/models.py:261 seasonbreaks/models.py:262
+#: seasonbreaks/models.py:290 seasonbreaks/models.py:291
 msgid "break adjudicator tournament stats"
 msgstr "štatistiky rozhodcu z turnaja (postup)"
 
-#: seasonbreaks/templates/seasonbreaks/access.html:7 seasonbreaks/views.py:52
-#: templates/nav/top_nav_base.html:75
-msgid "Break management"
-msgstr "Správa postupov"
-
-#: seasonbreaks/templates/seasonbreaks/access.html:8
+#: seasonbreaks/templates/seasonbreaks/access.html:6
 msgid "Breaks access"
 msgstr "Prístup k postupom"
 
-#: seasonbreaks/templates/seasonbreaks/access.html:9
+#: seasonbreaks/templates/seasonbreaks/access.html:7
 msgid "Grant global access to the Breaks section."
 msgstr "Udeľ globálny prístup k sekcii Postupy."
 
-#: seasonbreaks/templates/seasonbreaks/access.html:16
+#: seasonbreaks/templates/seasonbreaks/access.html:13
 msgid "Return to Breaks"
 msgstr "Späť na Postupy"
 
-#: seasonbreaks/templates/seasonbreaks/access.html:23
+#: seasonbreaks/templates/seasonbreaks/access.html:24
 msgid "Grant Breaks access"
 msgstr "Udeliť prístup k Postupom"
 
-#: seasonbreaks/templates/seasonbreaks/access.html:43
+#: seasonbreaks/templates/seasonbreaks/access.html:46
 msgid "No users have explicit Breaks access yet."
 msgstr "Zatiaľ nikto nemá explicitný prístup k Postupom."
 
@@ -2081,38 +1926,34 @@ msgid "Adjudicator stats"
 msgstr "Štatistiky rozhodcov"
 
 #: seasonbreaks/templates/seasonbreaks/adjudicators.html:9
-msgid ""
-"Season totals from confirmed preliminary debates, grouped by adjudicator "
-"identity. Trainee debates are shown but excluded from totals."
-msgstr ""
-"Súčty za sezónu z potvrdených predbežných debát, zoskupené podľa identity "
-"rozhodcu. Shadow debaty sú zobrazené, ale nezahrnuté do súčtov."
+msgid "Season totals from confirmed preliminary debates. Trainee debates are shown but excluded from totals."
+msgstr "Súčty za sezónu z potvrdených predbežných debát. Shadow debaty sú zobrazené, ale nezahrnuté do súčtov."
 
 #: seasonbreaks/templates/seasonbreaks/adjudicators.html:13
 msgid "Manage adjudicator identities"
 msgstr "Spravovať identity rozhodcov"
 
-#: seasonbreaks/templates/seasonbreaks/adjudicators.html:21
+#: seasonbreaks/templates/seasonbreaks/adjudicators.html:20
 msgid "Adjudicator"
 msgstr "Rozhodca"
 
-#: seasonbreaks/templates/seasonbreaks/adjudicators.html:21
+#: seasonbreaks/templates/seasonbreaks/adjudicators.html:20
 msgid "Chair"
 msgstr "Chair"
 
-#: seasonbreaks/templates/seasonbreaks/adjudicators.html:21
+#: seasonbreaks/templates/seasonbreaks/adjudicators.html:20
 msgid "Panellist"
 msgstr "Panelista"
 
-#: seasonbreaks/templates/seasonbreaks/adjudicators.html:21
+#: seasonbreaks/templates/seasonbreaks/adjudicators.html:20
 msgid "Trainee"
 msgstr "Shadow"
 
-#: seasonbreaks/templates/seasonbreaks/adjudicators.html:21
+#: seasonbreaks/templates/seasonbreaks/adjudicators.html:20
 msgid "Total"
 msgstr "Spolu"
 
-#: seasonbreaks/templates/seasonbreaks/adjudicators.html:21
+#: seasonbreaks/templates/seasonbreaks/adjudicators.html:20
 msgid "Tournament detail"
 msgstr "Detail turnaja"
 
@@ -2129,348 +1970,301 @@ msgstr "+%(count)s shadow"
 msgid "Freeze tournaments to calculate adjudicator stats."
 msgstr "Zmraz turnaje, aby sa dali vypočítať štatistiky rozhodcov."
 
-#: seasonbreaks/templates/seasonbreaks/base.html:1059
-msgid "Break season"
-msgstr "Postupová sezóna"
+#: seasonbreaks/templates/seasonbreaks/base.html:21 seasonbreaks/views.py:59
+#: templates/nav/top_nav_base.html:75
+msgid "Break management"
+msgstr "Správa postupov"
 
-#: seasonbreaks/templates/seasonbreaks/base.html:1062
+#: seasonbreaks/templates/seasonbreaks/base.html:27
 #, python-format
 msgid "%(league)s · %(slots)s regional slots · %(invited)s invited teams"
-msgstr ""
-"%(league)s · %(slots)s regionálnych slotov · %(invited)s pozvaných tímov"
+msgstr "%(league)s · %(slots)s regionálnych slotov · %(invited)s pozvaných tímov"
 
-#: seasonbreaks/templates/seasonbreaks/base.html:1072
-msgid "Back to seasons"
-msgstr "Späť na sezóny"
+#: seasonbreaks/templates/seasonbreaks/base.html:31
+msgid "Seasons, leagues, snapshots and regional break quotas."
+msgstr "Sezóny, ligy, snapshoty a regionálne postupové kvóty."
 
-#: seasonbreaks/templates/seasonbreaks/base.html:1077
-msgid "Break management navigation"
-msgstr "Navigácia Správy postupov"
-
-#: seasonbreaks/templates/seasonbreaks/base.html:1091
-msgid "Section navigation"
-msgstr "Navigácia sekcie"
-
-#: seasonbreaks/templates/seasonbreaks/identities.html:6
-msgid "Choose what you want to repair"
-msgstr "Vyber, čo chceš opraviť"
-
-#: seasonbreaks/templates/seasonbreaks/identities.html:8
-msgid ""
-"Start with a category, then choose the source tournament. No thousand-person "
-"scroll wall."
-msgstr ""
-"Začni kategóriou, potom vyber zdrojový turnaj. Bez nekonečného rolovania."
-
-#: seasonbreaks/templates/seasonbreaks/identities.html:18
-msgid "Link tournament teams to season team identities."
-msgstr "Prepoj tímy turnaja s tímovými identitami sezóny."
-
-#: seasonbreaks/templates/seasonbreaks/identities.html:19
-#: seasonbreaks/templates/seasonbreaks/identities.html:31
-#: seasonbreaks/templates/seasonbreaks/identities.html:43
-msgid "identities"
-msgstr "identity"
-
-#: seasonbreaks/templates/seasonbreaks/identities.html:19
-#: seasonbreaks/templates/seasonbreaks/identities.html:31
-#: seasonbreaks/templates/seasonbreaks/identities.html:43
-msgid "links"
-msgstr "prepojenia"
-
-#: seasonbreaks/templates/seasonbreaks/identities.html:30
-msgid "Link tournament speakers to season speaker identities."
-msgstr "Prepoj rečníkov turnaja s rečníckymi identitami sezóny."
-
-#: seasonbreaks/templates/seasonbreaks/identities.html:42
-msgid "Link tournament adjudicators to season adjudicator identities."
-msgstr "Prepoj rozhodcov turnaja s identitami rozhodcov sezóny."
-
-#: seasonbreaks/templates/seasonbreaks/identities.html:54
-#: seasonbreaks/templates/seasonbreaks/identities.html:64
-msgid "Clean stale identities"
-msgstr "Vyčistiť zastarané identity"
-
-#: seasonbreaks/templates/seasonbreaks/identities.html:56
-msgid ""
-"Remove unlinked team, speaker and adjudicator identities that no longer have "
-"frozen results or statistics."
-msgstr ""
-"Odober tímové, rečnícke a rozhodcovské identity bez prepojení, ktoré už "
-"nemajú zmrazené výsledky ani štatistiky."
-
-#: seasonbreaks/templates/seasonbreaks/identities.html:62
-msgid "Remove all stale unlinked identities from this Breaks season?"
-msgstr "Odstrániť všetky zastarané neprepojené identity z tejto postupovej sezóny?"
-
-#: seasonbreaks/templates/seasonbreaks/identities_adjudicators.html:8
-msgid "Adjudicator identities"
-msgstr "Identity rozhodcov"
-
-#: seasonbreaks/templates/seasonbreaks/identities_adjudicators.html:9
-msgid ""
-"Choose a source tournament, then repair only that tournament's adjudicator "
-"links."
-msgstr "Vyber zdrojový turnaj a oprav iba prepojenia rozhodcov tohto turnaja."
-
-#: seasonbreaks/templates/seasonbreaks/identities_adjudicators.html:12
-#: seasonbreaks/templates/seasonbreaks/identities_speakers.html:12
-#: seasonbreaks/templates/seasonbreaks/identities_teams.html:12
-msgid "Back to identity categories"
-msgstr "Späť na kategórie identít"
-
-#: seasonbreaks/templates/seasonbreaks/identities_adjudicators.html:20
-msgid "Create adjudicator identity"
-msgstr "Vytvoriť identitu rozhodcu"
-
-#: seasonbreaks/templates/seasonbreaks/identities_adjudicators.html:31
-#: seasonbreaks/templates/seasonbreaks/identities_speakers.html:30
-#: seasonbreaks/templates/seasonbreaks/identities_teams.html:31
-msgid "Create"
-msgstr "Vytvoriť"
-
-#: seasonbreaks/templates/seasonbreaks/identities_adjudicators.html:40
-#: seasonbreaks/templates/seasonbreaks/identities_speakers.html:39
-#: seasonbreaks/templates/seasonbreaks/identities_teams.html:40
-msgid "Choose tournament"
-msgstr "Vyber turnaj"
-
-#: seasonbreaks/templates/seasonbreaks/identities_adjudicators.html:52
-msgid "Freeze a tournament to create adjudicator links."
-msgstr "Zmraz turnaj, aby sa dali vytvoriť prepojenia rozhodcov."
-
-#: seasonbreaks/templates/seasonbreaks/identities_adjudicators.html:61
-msgid "Tournament adjudicator to season adjudicator"
-msgstr "Rozhodca turnaja → rozhodca sezóny"
-
-#: seasonbreaks/templates/seasonbreaks/identities_adjudicators.html:66
-msgid "Tournament adjudicator"
-msgstr "Rozhodca turnaja"
-
-#: seasonbreaks/templates/seasonbreaks/identities_adjudicators.html:68
-#: seasonbreaks/templates/seasonbreaks/identities_speakers.html:67
-#: seasonbreaks/templates/seasonbreaks/identities_teams.html:67
-msgid "Season identity"
-msgstr "Identita sezóny"
-
-#: seasonbreaks/templates/seasonbreaks/identities_adjudicators.html:95
-#: seasonbreaks/templates/seasonbreaks/identities_speakers.html:94
-#: seasonbreaks/templates/seasonbreaks/identities_teams.html:93
-#: seasonbreaks/templates/seasonbreaks/index.html:175
-#: seasonbreaks/templates/seasonbreaks/regions.html:82
-#: seasonbreaks/templates/seasonbreaks/tournaments.html:60
-msgid "Save"
-msgstr "Uložiť"
-
-#: seasonbreaks/templates/seasonbreaks/identities_adjudicators.html:107
-msgid "Pick a tournament above to edit its adjudicator links."
-msgstr "Vyber turnaj vyššie, aby si mohol/a upraviť prepojenia rozhodcov."
-
-#: seasonbreaks/templates/seasonbreaks/identities_speakers.html:8
-msgid "Speaker identities"
-msgstr "Identity rečníkov"
-
-#: seasonbreaks/templates/seasonbreaks/identities_speakers.html:9
-msgid ""
-"Choose a source tournament, then repair only that tournament's speaker links."
-msgstr "Vyber zdrojový turnaj a oprav iba prepojenia rečníkov tohto turnaja."
-
-#: seasonbreaks/templates/seasonbreaks/identities_speakers.html:20
-msgid "Create speaker identity"
-msgstr "Vytvoriť identitu rečníka"
-
-#: seasonbreaks/templates/seasonbreaks/identities_speakers.html:51
-msgid "Freeze a tournament to create speaker links."
-msgstr "Zmraz turnaj, aby sa dali vytvoriť prepojenia rečníkov."
-
-#: seasonbreaks/templates/seasonbreaks/identities_speakers.html:60
-msgid "Tournament speaker to season speaker"
-msgstr "Rečník turnaja → rečník sezóny"
-
-#: seasonbreaks/templates/seasonbreaks/identities_speakers.html:65
-msgid "Tournament speaker"
-msgstr "Rečník turnaja"
-
-#: seasonbreaks/templates/seasonbreaks/identities_speakers.html:66
-#: seasonbreaks/templates/seasonbreaks/identities_teams.html:66
-msgid "Tournament team"
-msgstr "Tím turnaja"
-
-#: seasonbreaks/templates/seasonbreaks/identities_speakers.html:106
-msgid "Pick a tournament above to edit its speaker links."
-msgstr "Vyber turnaj vyššie, aby si mohol/a upraviť prepojenia rečníkov."
-
-#: seasonbreaks/templates/seasonbreaks/identities_teams.html:8
-msgid "Team identities"
-msgstr "Identity tímov"
-
-#: seasonbreaks/templates/seasonbreaks/identities_teams.html:9
-msgid ""
-"Choose a source tournament, then repair only that tournament's team links."
-msgstr "Vyber zdrojový turnaj a oprav iba prepojenia tímov tohto turnaja."
-
-#: seasonbreaks/templates/seasonbreaks/identities_teams.html:20
-msgid "Create team identity"
-msgstr "Vytvoriť identitu tímu"
-
-#: seasonbreaks/templates/seasonbreaks/identities_teams.html:52
-msgid "Freeze a tournament to create team links."
-msgstr "Zmraz turnaj, aby sa dali vytvoriť prepojenia tímov."
-
-#: seasonbreaks/templates/seasonbreaks/identities_teams.html:61
-msgid "Tournament team to season team"
-msgstr "Tím turnaja → tím sezóny"
-
-#: seasonbreaks/templates/seasonbreaks/identities_teams.html:105
-msgid "Pick a tournament above to edit its team links."
-msgstr "Vyber turnaj vyššie, aby si mohol/a upraviť prepojenia tímov."
-
-#: seasonbreaks/templates/seasonbreaks/index.html:7
-msgid "Seasons"
-msgstr "Sezóny"
-
-#: seasonbreaks/templates/seasonbreaks/index.html:11
-#: seasonbreaks/templates/seasonbreaks/index.html:99
-#: seasonbreaks/templates/seasonbreaks/index.html:108
-#: seasonbreaks/templates/seasonbreaks/index.html:126
-msgid "Create season"
-msgstr "Vytvoriť sezónu"
-
-#: seasonbreaks/templates/seasonbreaks/index.html:12
-#: seasonbreaks/templates/seasonbreaks/index.html:133
-msgid "Manage leagues"
-msgstr "Spravovať ligy"
-
-#: seasonbreaks/templates/seasonbreaks/index.html:25
-msgid "Filter seasons by league"
-msgstr "Filtrovať sezóny podľa ligy"
-
-#: seasonbreaks/templates/seasonbreaks/index.html:27
+#: seasonbreaks/templates/seasonbreaks/base.html:74
 msgid "All"
 msgstr "Všetko"
 
-#: seasonbreaks/templates/seasonbreaks/index.html:41
-msgid "Break seasons"
-msgstr "Prehľad sezón"
+#: seasonbreaks/templates/seasonbreaks/base.html:90
+msgid "Back to seasons"
+msgstr "Späť na sezóny"
 
-#: seasonbreaks/templates/seasonbreaks/index.html:43
-#, python-format
-msgid "Filtered by league %(league)s."
-msgstr "Filtrované podľa ligy %(league)s."
-
+#: seasonbreaks/templates/seasonbreaks/base.html:96
 #: seasonbreaks/templates/seasonbreaks/index.html:45
-msgid "All break seasons in one place."
-msgstr "Všetky postupové sezóny na jednom mieste."
+msgid "Manage leagues"
+msgstr "Spravovať ligy"
 
-#: seasonbreaks/templates/seasonbreaks/index.html:56
-msgid "Public"
-msgstr "Verejné"
+#: seasonbreaks/templates/seasonbreaks/base.html:100
+#: seasonbreaks/templates/seasonbreaks/index.html:11
+#: seasonbreaks/templates/seasonbreaks/index.html:34
+msgid "Create season"
+msgstr "Vytvoriť sezónu"
 
-#: seasonbreaks/templates/seasonbreaks/index.html:58
-msgid "Waiting to publish"
-msgstr "Čaká na publish"
+#: seasonbreaks/templates/seasonbreaks/global_ranking.html:8
+#: seasonbreaks/templates/seasonbreaks/public_season.html:31
+#: seasonbreaks/tests/test_breaks.py:449 seasonbreaks/tests/test_breaks.py:457
+#: seasonbreaks/views.py:116 seasonbreaks/views.py:149
+msgid "Global ranking"
+msgstr "Globálne poradie"
 
-#: seasonbreaks/templates/seasonbreaks/index.html:60
-msgid "Hidden"
-msgstr "Skryté"
+#: seasonbreaks/templates/seasonbreaks/global_ranking.html:10
+msgid "Live ranking across all public regions. No published snapshot required."
+msgstr "Živé poradie naprieč všetkými verejnými regiónmi. Zverejnený snapshot nie je potrebný."
 
-#: seasonbreaks/templates/seasonbreaks/index.html:69
-#: seasonbreaks/templates/seasonbreaks/overview.html:20
-#: seasonbreaks/templates/seasonbreaks/public_season.html:15
-#: seasonbreaks/templates/seasonbreaks/regions.html:7 seasonbreaks/views.py:102
-#: seasonbreaks/views.py:120 seasonbreaks/views.py:121
-msgid "Regions"
-msgstr "Regióny"
+#: seasonbreaks/templates/seasonbreaks/global_ranking.html:14
+msgid "Shown on public page"
+msgstr "Zobrazené na verejnej stránke"
 
-#: seasonbreaks/templates/seasonbreaks/index.html:73 seasonbreaks/views.py:103
-#: seasonbreaks/views.py:124 seasonbreaks/views.py:125
-msgid "Tournaments"
-msgstr "Turnaje"
+#: seasonbreaks/templates/seasonbreaks/global_ranking.html:16
+#: seasonbreaks/templates/seasonbreaks/regions.html:74
+#: seasonbreaks/tests/test_breaks.py:142
+msgid "Hidden from public page"
+msgstr "Skryté z verejnej stránky"
 
-#: seasonbreaks/templates/seasonbreaks/index.html:77
-#: seasonbreaks/templates/seasonbreaks/overview.html:50
-msgid "Slots"
-msgstr "Sloty"
+#: seasonbreaks/templates/seasonbreaks/identities.html:11
+msgid "Link tournament teams to season team identities."
+msgstr "Prepoj tímy turnaja s tímovými identitami sezóny."
 
-#: seasonbreaks/templates/seasonbreaks/index.html:83
-msgid "Last published"
-msgstr "Posledný publish"
+#: seasonbreaks/templates/seasonbreaks/identities.html:12
+#: seasonbreaks/templates/seasonbreaks/identities.html:24
+#: seasonbreaks/templates/seasonbreaks/identities.html:36
+msgid "identities"
+msgstr "identity"
 
-#: seasonbreaks/templates/seasonbreaks/index.html:85
-#: seasonbreaks/templates/seasonbreaks/overview.html:80
-msgid "Never"
-msgstr "Nikdy"
+#: seasonbreaks/templates/seasonbreaks/identities.html:12
+#: seasonbreaks/templates/seasonbreaks/identities.html:24
+#: seasonbreaks/templates/seasonbreaks/identities.html:36
+msgid "links"
+msgstr "prepojenia"
 
-#: seasonbreaks/templates/seasonbreaks/index.html:88
-msgid "Open"
-msgstr "Otvoriť"
+#: seasonbreaks/templates/seasonbreaks/identities.html:23
+msgid "Link tournament speakers to season speaker identities."
+msgstr "Prepoj rečníkov turnaja s rečníckymi identitami sezóny."
 
-#: seasonbreaks/templates/seasonbreaks/index.html:93
-msgid "No seasons"
-msgstr "Žiadne sezóny"
+#: seasonbreaks/templates/seasonbreaks/identities.html:35
+msgid "Link tournament adjudicators to season adjudicator identities."
+msgstr "Prepoj rozhodcov turnaja s identitami rozhodcov sezóny."
 
-#: seasonbreaks/templates/seasonbreaks/index.html:95
-msgid "This league does not have a break season yet."
-msgstr "Táto liga ešte nemá vytvorenú postupovú sezónu."
+#: seasonbreaks/templates/seasonbreaks/identities.html:47
+#: seasonbreaks/templates/seasonbreaks/identities.html:57
+msgid "Clean stale identities"
+msgstr "Vyčistiť zastarané identity"
 
-#: seasonbreaks/templates/seasonbreaks/index.html:97
-msgid "Start by creating the first season."
-msgstr "Začni vytvorením prvej sezóny."
+#: seasonbreaks/templates/seasonbreaks/identities.html:49
+msgid "Remove unlinked team, speaker and adjudicator identities that no longer have frozen results or statistics."
+msgstr "Odober tímové, rečnícke a rozhodcovské identity bez prepojení, ktoré už nemajú zmrazené výsledky ani štatistiky."
 
-#: seasonbreaks/templates/seasonbreaks/index.html:109
-msgid "Basic settings for a new break season"
-msgstr "Základné nastavenia novej postupovej sezóny"
+#: seasonbreaks/templates/seasonbreaks/identities.html:55
+msgid "Remove all stale unlinked identities from this Breaks season?"
+msgstr "Odstrániť všetky zastarané neprepojené identity z tejto postupovej sezóny?"
 
-#: seasonbreaks/templates/seasonbreaks/index.html:134
-msgid "Leagues are metadata for filters and API exports"
-msgstr "Ligy sú metadáta pre filtre a API exporty"
+#: seasonbreaks/templates/seasonbreaks/identities_adjudicators.html:7
+msgid "Choose a source tournament, then repair only that tournament's adjudicator links."
+msgstr "Vyber zdrojový turnaj a oprav iba prepojenia rozhodcov tohto turnaja."
 
-#: seasonbreaks/templates/seasonbreaks/index.html:145
+#: seasonbreaks/templates/seasonbreaks/identities_adjudicators.html:9
+#: seasonbreaks/templates/seasonbreaks/identities_speakers.html:9
+#: seasonbreaks/templates/seasonbreaks/identities_teams.html:9
+msgid "Identity categories"
+msgstr "Kategórie identít"
+
+#: seasonbreaks/templates/seasonbreaks/identities_adjudicators.html:15
+msgid "Create adjudicator identity"
+msgstr "Vytvoriť identitu rozhodcu"
+
+#: seasonbreaks/templates/seasonbreaks/identities_adjudicators.html:25
+#: seasonbreaks/templates/seasonbreaks/identities_speakers.html:24
+#: seasonbreaks/templates/seasonbreaks/identities_teams.html:25
+msgid "Create"
+msgstr "Vytvoriť"
+
+#: seasonbreaks/templates/seasonbreaks/identities_adjudicators.html:33
+#: seasonbreaks/templates/seasonbreaks/identities_speakers.html:32
+#: seasonbreaks/templates/seasonbreaks/identities_teams.html:33
+msgid "Choose tournament"
+msgstr "Vyber turnaj"
+
+#: seasonbreaks/templates/seasonbreaks/identities_adjudicators.html:44
+msgid "Freeze a tournament to create adjudicator links."
+msgstr "Zmraz turnaj, aby sa dali vytvoriť prepojenia rozhodcov."
+
+#: seasonbreaks/templates/seasonbreaks/identities_adjudicators.html:53
+msgid "Tournament adjudicator to season adjudicator"
+msgstr "Rozhodca turnaja → rozhodca sezóny"
+
+#: seasonbreaks/templates/seasonbreaks/identities_adjudicators.html:59
+msgid "Tournament adjudicator"
+msgstr "Rozhodca turnaja"
+
+#: seasonbreaks/templates/seasonbreaks/identities_adjudicators.html:61
+#: seasonbreaks/templates/seasonbreaks/identities_speakers.html:60
+#: seasonbreaks/templates/seasonbreaks/identities_teams.html:60
+msgid "Season identity"
+msgstr "Identita sezóny"
+
+#: seasonbreaks/templates/seasonbreaks/identities_adjudicators.html:88
+#: seasonbreaks/templates/seasonbreaks/identities_speakers.html:87
+#: seasonbreaks/templates/seasonbreaks/identities_teams.html:86
+#: seasonbreaks/templates/seasonbreaks/index.html:73
+#: seasonbreaks/templates/seasonbreaks/regions.html:78
+#: seasonbreaks/templates/seasonbreaks/tournaments.html:67
+msgid "Save"
+msgstr "Uložiť"
+
+#: seasonbreaks/templates/seasonbreaks/identities_adjudicators.html:101
+msgid "Pick a tournament above to edit its adjudicator links."
+msgstr "Vyber turnaj vyššie, aby si mohol/a upraviť prepojenia rozhodcov."
+
+#: seasonbreaks/templates/seasonbreaks/identities_speakers.html:7
+msgid "Choose a source tournament, then repair only that tournament's speaker links."
+msgstr "Vyber zdrojový turnaj a oprav iba prepojenia rečníkov tohto turnaja."
+
+#: seasonbreaks/templates/seasonbreaks/identities_speakers.html:15
+msgid "Create speaker identity"
+msgstr "Vytvoriť identitu rečníka"
+
+#: seasonbreaks/templates/seasonbreaks/identities_speakers.html:43
+msgid "Freeze a tournament to create speaker links."
+msgstr "Zmraz turnaj, aby sa dali vytvoriť prepojenia rečníkov."
+
+#: seasonbreaks/templates/seasonbreaks/identities_speakers.html:52
+msgid "Tournament speaker to season speaker"
+msgstr "Rečník turnaja → rečník sezóny"
+
+#: seasonbreaks/templates/seasonbreaks/identities_speakers.html:58
+msgid "Tournament speaker"
+msgstr "Rečník turnaja"
+
+#: seasonbreaks/templates/seasonbreaks/identities_speakers.html:59
+#: seasonbreaks/templates/seasonbreaks/identities_teams.html:59
+msgid "Tournament team"
+msgstr "Tím turnaja"
+
+#: seasonbreaks/templates/seasonbreaks/identities_speakers.html:100
+msgid "Pick a tournament above to edit its speaker links."
+msgstr "Vyber turnaj vyššie, aby si mohol/a upraviť prepojenia rečníkov."
+
+#: seasonbreaks/templates/seasonbreaks/identities_teams.html:7
+msgid "Choose a source tournament, then repair only that tournament's team links."
+msgstr "Vyber zdrojový turnaj a oprav iba prepojenia tímov tohto turnaja."
+
+#: seasonbreaks/templates/seasonbreaks/identities_teams.html:15
+msgid "Create team identity"
+msgstr "Vytvoriť identitu tímu"
+
+#: seasonbreaks/templates/seasonbreaks/identities_teams.html:44
+msgid "Freeze a tournament to create team links."
+msgstr "Zmraz turnaj, aby sa dali vytvoriť prepojenia tímov."
+
+#: seasonbreaks/templates/seasonbreaks/identities_teams.html:53
+msgid "Tournament team to season team"
+msgstr "Tím turnaja → tím sezóny"
+
+#: seasonbreaks/templates/seasonbreaks/identities_teams.html:99
+msgid "Pick a tournament above to edit its team links."
+msgstr "Vyber turnaj vyššie, aby si mohol/a upraviť prepojenia tímov."
+
+#: seasonbreaks/templates/seasonbreaks/index.html:46
+msgid "Leagues group seasons for filtering and API exports."
+msgstr "Ligy zoskupujú sezóny pre filtre a API exporty."
+
+#: seasonbreaks/templates/seasonbreaks/index.html:54
 msgid "Add league"
 msgstr "Pridať ligu"
 
-#: seasonbreaks/templates/seasonbreaks/index.html:156
-msgid "seasons"
-msgstr "sezón"
-
-#: seasonbreaks/templates/seasonbreaks/index.html:171
+#: seasonbreaks/templates/seasonbreaks/index.html:59
 msgid "Slug"
 msgstr "Slug"
 
-#: seasonbreaks/templates/seasonbreaks/index.html:183
-msgid "Delete unused league"
-msgstr "Odstrániť nepoužitú ligu"
+#: seasonbreaks/templates/seasonbreaks/index.html:59
+msgid "Seasons"
+msgstr "Sezóny"
 
-#: seasonbreaks/templates/seasonbreaks/index.html:188
+#: seasonbreaks/templates/seasonbreaks/index.html:83
+msgid "Delete"
+msgstr "Odstrániť"
+
+#: seasonbreaks/templates/seasonbreaks/index.html:88
 msgid "No break leagues have been created yet."
 msgstr "Zatiaľ neboli vytvorené žiadne ligy."
 
-#: seasonbreaks/templates/seasonbreaks/overview.html:7
-msgid "Season overview"
-msgstr "Prehľad sezóny"
+#: seasonbreaks/templates/seasonbreaks/index.html:108
+#: seasonbreaks/templates/seasonbreaks/overview.html:77
+#: seasonbreaks/templates/seasonbreaks/regions.html:90
+msgid "Public"
+msgstr "Verejné"
 
-#: seasonbreaks/templates/seasonbreaks/overview.html:9
-#, python-format
-msgid ""
-"A calm summary of the %(league)s season: structure, frozen data, quotas and "
-"public snapshot."
-msgstr ""
-"Pokojný súhrn sezóny %(league)s: štruktúra, zmrazené dáta, kvóty a verejný "
-"snapshot."
+#: seasonbreaks/templates/seasonbreaks/index.html:110
+msgid "Waiting"
+msgstr "Čaká sa"
 
-#: seasonbreaks/templates/seasonbreaks/overview.html:16
-msgid "Season summary"
-msgstr "Súhrn sezóny"
+#: seasonbreaks/templates/seasonbreaks/index.html:112
+#: seasonbreaks/templates/seasonbreaks/overview.html:79
+#: seasonbreaks/templates/seasonbreaks/regions.html:103
+msgid "Hidden"
+msgstr "Skryté"
 
+#: seasonbreaks/templates/seasonbreaks/index.html:117
+#: seasonbreaks/templates/seasonbreaks/tournaments.html:64
+#: seasonbreaks/templates/seasonbreaks/tournaments.html:70
+msgid "League"
+msgstr "Liga"
+
+#: seasonbreaks/templates/seasonbreaks/index.html:121
+#: seasonbreaks/templates/seasonbreaks/overview.html:17
+#: seasonbreaks/templates/seasonbreaks/public_season.html:13
+#: seasonbreaks/views.py:109 seasonbreaks/views.py:128
+#: seasonbreaks/views.py:129
+msgid "Regions"
+msgstr "Regióny"
+
+#: seasonbreaks/templates/seasonbreaks/index.html:124 seasonbreaks/views.py:110
+#: seasonbreaks/views.py:132 seasonbreaks/views.py:133
+msgid "Tournaments"
+msgstr "Turnaje"
+
+#: seasonbreaks/templates/seasonbreaks/index.html:127
 #: seasonbreaks/templates/seasonbreaks/overview.html:18
-msgid "Structure"
-msgstr "Štruktúra"
-
-#: seasonbreaks/templates/seasonbreaks/overview.html:21
 msgid "Regional slots"
 msgstr "Regionálne sloty"
 
-#: seasonbreaks/templates/seasonbreaks/overview.html:22
+#: seasonbreaks/templates/seasonbreaks/index.html:130
+msgid "Last published"
+msgstr "Posledný publish"
+
+#: seasonbreaks/templates/seasonbreaks/index.html:134
+#: seasonbreaks/templates/seasonbreaks/overview.html:86
+msgid "Never"
+msgstr "Nikdy"
+
+#: seasonbreaks/templates/seasonbreaks/index.html:139
+msgid "Open season"
+msgstr "Otvorená sezóna"
+
+#: seasonbreaks/templates/seasonbreaks/index.html:149
+msgid "No seasons"
+msgstr "Žiadne sezóny"
+
+#: seasonbreaks/templates/seasonbreaks/index.html:151
+msgid "This league does not have a break season yet."
+msgstr "Táto liga ešte nemá vytvorenú postupovú sezónu."
+
+#: seasonbreaks/templates/seasonbreaks/index.html:153
+msgid "Start by creating the first season."
+msgstr "Začni vytvorením prvej sezóny."
+
+#: seasonbreaks/templates/seasonbreaks/overview.html:6
+msgid "Public Breaks use a manually published snapshot. Live edits appear only after you publish a new snapshot."
+msgstr "Verejné postupy používajú manuálne publikovaný snapshot. Live úpravy sa zobrazia až po publikovaní nového snapshotu."
+
+#: seasonbreaks/templates/seasonbreaks/overview.html:16
+msgid "Structure"
+msgstr "Štruktúra"
+
+#: seasonbreaks/templates/seasonbreaks/overview.html:19
 msgid "Invited teams"
 msgstr "Pozvané tímy"
 
@@ -2478,155 +2272,147 @@ msgstr "Pozvané tímy"
 msgid "Snapshots"
 msgstr "Snapshoty"
 
-#: seasonbreaks/templates/seasonbreaks/overview.html:28
+#: seasonbreaks/templates/seasonbreaks/overview.html:27
 msgid "League tournaments"
 msgstr "Ligové turnaje"
 
-#: seasonbreaks/templates/seasonbreaks/overview.html:29
+#: seasonbreaks/templates/seasonbreaks/overview.html:28
 msgid "Non-league tournaments"
 msgstr "Neligové turnaje"
 
-#: seasonbreaks/templates/seasonbreaks/overview.html:30
-#: seasonbreaks/templates/seasonbreaks/tournaments.html:43
+#: seasonbreaks/templates/seasonbreaks/overview.html:29
+#: seasonbreaks/templates/seasonbreaks/tournaments.html:49
+#: seasonbreaks/templates/seasonbreaks/tournaments.html:77
 msgid "Frozen"
 msgstr "Zmrazené"
 
-#: seasonbreaks/templates/seasonbreaks/overview.html:34
-#: seasonbreaks/views.py:104
+#: seasonbreaks/templates/seasonbreaks/overview.html:36
+#: seasonbreaks/views.py:111
 msgid "Identities"
 msgstr "Identity"
 
-#: seasonbreaks/templates/seasonbreaks/overview.html:46
+#: seasonbreaks/templates/seasonbreaks/overview.html:50
 msgid "Region quotas"
 msgstr "Kvóty regiónov"
 
-#: seasonbreaks/templates/seasonbreaks/overview.html:47
+#: seasonbreaks/templates/seasonbreaks/overview.html:51
 msgid "Largest remainder"
 msgstr "Najväčší zvyšok"
 
-#: seasonbreaks/templates/seasonbreaks/overview.html:50
+#: seasonbreaks/templates/seasonbreaks/overview.html:54
 #: seasonbreaks/templates/seasonbreaks/public_table.html:14
-#: seasonbreaks/templates/seasonbreaks/quotas.html:20
-#: seasonbreaks/templates/seasonbreaks/ranking_region.html:33
+#: seasonbreaks/templates/seasonbreaks/quotas.html:19
+#: seasonbreaks/templates/seasonbreaks/ranking_region.html:61
 msgid "Participations"
 msgstr "Účasti"
 
-#: seasonbreaks/templates/seasonbreaks/overview.html:55
+#: seasonbreaks/templates/seasonbreaks/overview.html:54
+msgid "Slots"
+msgstr "Sloty"
+
+#: seasonbreaks/templates/seasonbreaks/overview.html:63
 msgid "Add regions and tournaments before calculating quotas."
 msgstr "Pridaj regióny a turnaje, aby sa dali vypočítať kvóty."
 
-#: seasonbreaks/templates/seasonbreaks/overview.html:64
+#: seasonbreaks/templates/seasonbreaks/overview.html:75
 msgid "Public snapshot"
 msgstr "Verejný snapshot"
 
-#: seasonbreaks/templates/seasonbreaks/overview.html:66
-msgid "Public season"
-msgstr "Verejná sezóna"
+#: seasonbreaks/templates/seasonbreaks/overview.html:83
+msgid "The public Breaks page shows the last published snapshot, not live data."
+msgstr "Verejná stránka postupov zobrazuje posledný publikovaný snapshot, nie live dáta."
 
-#: seasonbreaks/templates/seasonbreaks/overview.html:68
-msgid "Hidden season"
-msgstr "Skrytá sezóna"
-
-#: seasonbreaks/templates/seasonbreaks/overview.html:73
-msgid ""
-"Public Breaks use a manually published snapshot. Live changes appear only "
-"after a new publish."
-msgstr ""
-"Verejné postupy používajú manuálne publikovaný snapshot. Live zmeny sa "
-"zobrazia až po novom publishi."
-
-#: seasonbreaks/templates/seasonbreaks/overview.html:76
+#: seasonbreaks/templates/seasonbreaks/overview.html:85
 msgid "Last published:"
 msgstr "Naposledy publikované:"
 
-#: seasonbreaks/templates/seasonbreaks/overview.html:86
+#: seasonbreaks/templates/seasonbreaks/overview.html:95
+msgid "Show the global ranking across regions on the public page"
+msgstr "Zobraziť globálne poradie naprieč regiónmi na verejnej stránke"
+
+#: seasonbreaks/templates/seasonbreaks/overview.html:98
 msgid "Publish public snapshot"
 msgstr "Publikovať verejný snapshot"
 
-#: seasonbreaks/templates/seasonbreaks/overview.html:96
-#: seasonbreaks/views.py:147
+#: seasonbreaks/templates/seasonbreaks/overview.html:101
+msgid "Preview global ranking"
+msgstr "Náhľad globálneho poradia"
+
+#: seasonbreaks/templates/seasonbreaks/overview.html:112
+#: seasonbreaks/views.py:157
 msgid "Season settings"
 msgstr "Nastavenia sezóny"
 
-#: seasonbreaks/templates/seasonbreaks/overview.html:97
-msgid "Public visibility, name, league, slots and dangerous actions"
-msgstr "Verejnosť, názov, liga, sloty a nebezpečné akcie"
-
-#: seasonbreaks/templates/seasonbreaks/overview.html:113
+#: seasonbreaks/templates/seasonbreaks/overview.html:134
 msgid "Save settings"
 msgstr "Uložiť nastavenia"
 
-#: seasonbreaks/templates/seasonbreaks/overview.html:118
-#: seasonbreaks/templates/seasonbreaks/overview.html:124
-msgid "Delete season"
-msgstr "Odstrániť sezónu"
+#: seasonbreaks/templates/seasonbreaks/overview.html:141
+msgid "Danger zone"
+msgstr "Nebezpečná zóna"
 
-#: seasonbreaks/templates/seasonbreaks/overview.html:119
-msgid ""
-"This permanently deletes the break season, its regions, frozen tournament "
-"snapshots, identities, rankings and public snapshot."
-msgstr ""
-"Toto natrvalo odstráni postupovú sezónu, jej regióny, zmrazené snapshoty "
-"turnajov, identity, poradia a verejný snapshot."
+#: seasonbreaks/templates/seasonbreaks/overview.html:143
+msgid "Permanently deletes the season, its regions, frozen snapshots, identities, rankings and public snapshot."
+msgstr "Natrvalo odstráni sezónu, jej regióny, zmrazené snapshoty, identity, poradia a verejný snapshot."
 
-#: seasonbreaks/templates/seasonbreaks/overview.html:120
+#: seasonbreaks/templates/seasonbreaks/overview.html:144
 msgid "Delete this break season permanently?"
 msgstr "Natrvalo odstrániť túto postupovú sezónu?"
 
-#: seasonbreaks/templates/seasonbreaks/public_index.html:9
+#: seasonbreaks/templates/seasonbreaks/overview.html:148
+msgid "Delete season"
+msgstr "Odstrániť sezónu"
+
+#: seasonbreaks/templates/seasonbreaks/public_index.html:7
 msgid "Published Break seasons"
 msgstr "Publikované postupové sezóny"
 
-#: seasonbreaks/templates/seasonbreaks/public_index.html:14
+#: seasonbreaks/templates/seasonbreaks/public_index.html:12
 #, python-format
 msgid "%(league)s · published %(published)s"
 msgstr "%(league)s · publikované %(published)s"
 
-#: seasonbreaks/templates/seasonbreaks/public_index.html:20
+#: seasonbreaks/templates/seasonbreaks/public_index.html:18
 msgid "No public Breaks seasons have been published yet."
 msgstr "Zatiaľ neboli publikované žiadne postupové sezóny."
 
-#: seasonbreaks/templates/seasonbreaks/public_region.html:7
-#: seasonbreaks/templates/seasonbreaks/public_season.html:7
+#: seasonbreaks/templates/seasonbreaks/public_region.html:6
+#: seasonbreaks/templates/seasonbreaks/public_season.html:6
 msgid "Return back"
 msgstr "Vrátiť sa späť"
 
-#: seasonbreaks/templates/seasonbreaks/public_season.html:20
+#: seasonbreaks/templates/seasonbreaks/public_season.html:18
 #, python-format
 msgid "%(slots)s slots · %(participations)s participations"
 msgstr "%(slots)s slotov · %(participations)s účastí"
 
-#: seasonbreaks/templates/seasonbreaks/public_season.html:25
+#: seasonbreaks/templates/seasonbreaks/public_season.html:23
 msgid "No regions were published in this snapshot."
 msgstr "V tomto zverejnení neboli publikované žiadne regióny."
 
-#: seasonbreaks/templates/seasonbreaks/public_season.html:32
-msgid "Global ranking"
-msgstr "Globálne poradie"
-
 #: seasonbreaks/templates/seasonbreaks/public_table.html:6
-#: seasonbreaks/templates/seasonbreaks/rankings.html:34
+#: seasonbreaks/templates/seasonbreaks/rankings.html:26
 msgid "Rank"
 msgstr "Poradie"
 
 #: seasonbreaks/templates/seasonbreaks/public_table.html:7
-#: seasonbreaks/templates/seasonbreaks/ranking_region.html:31
-#: seasonbreaks/templates/seasonbreaks/rankings.html:35
+#: seasonbreaks/templates/seasonbreaks/ranking_region.html:59
+#: seasonbreaks/templates/seasonbreaks/rankings.html:26
 msgid "Team"
 msgstr "Tím"
 
 #: seasonbreaks/templates/seasonbreaks/public_table.html:11
-#: seasonbreaks/templates/seasonbreaks/ranking_region.html:35
+#: seasonbreaks/templates/seasonbreaks/ranking_region.html:63
 msgid "Wins"
 msgstr "Výhry"
 
 #: seasonbreaks/templates/seasonbreaks/public_table.html:12
-#: seasonbreaks/templates/seasonbreaks/ranking_region.html:36
+#: seasonbreaks/templates/seasonbreaks/ranking_region.html:64
 msgid "Ballots"
 msgstr "Balloty"
 
 #: seasonbreaks/templates/seasonbreaks/public_table.html:13
-#: seasonbreaks/tests/test_breaks.py:338
+#: seasonbreaks/tests/test_breaks.py:436
 msgid "Speaker points"
 msgstr "Rečnícke body"
 
@@ -2634,120 +2420,117 @@ msgstr "Rečnícke body"
 msgid "No ranking rows were published in this snapshot."
 msgstr "V tomto zverejnení neboli publikované žiadne riadky poradia."
 
-#: seasonbreaks/templates/seasonbreaks/quotas.html:6
-msgid "Regional quotas"
-msgstr "Regionálne kvóty"
-
-#: seasonbreaks/templates/seasonbreaks/quotas.html:8
-#, python-format
-msgid ""
-"Regional slots used for quota calculation: %(slots)s. Invited teams: "
-"%(invited)s."
-msgstr ""
-"Regionálne sloty použité na výpočet kvót: %(slots)s. Pozvané tímy: "
-"%(invited)s."
-
-#: seasonbreaks/templates/seasonbreaks/quotas.html:16
+#: seasonbreaks/templates/seasonbreaks/quotas.html:7
 msgid "Largest remainder calculation"
 msgstr "Výpočet metódou najväčšieho zvyšku"
 
-#: seasonbreaks/templates/seasonbreaks/quotas.html:17
-msgid "Raw quota, floor and remainder are shown for auditability."
-msgstr "Hrubá kvóta, spodný limit a zvyšok sú zobrazené na overenie."
+#: seasonbreaks/templates/seasonbreaks/quotas.html:9
+#, python-format
+msgid "%(slots)s regional slots · %(invited)s invited teams. Raw quota, floor and remainder are shown for auditability."
+msgstr "%(slots)s regionálnych slotov · %(invited)s pozvaných tímov. Hrubá kvóta, spodný limit a zvyšok sú zobrazené na overenie."
 
 #: seasonbreaks/templates/seasonbreaks/quotas.html:20
 msgid "Raw quota"
 msgstr "Hrubá kvóta"
 
-#: seasonbreaks/templates/seasonbreaks/quotas.html:20
+#: seasonbreaks/templates/seasonbreaks/quotas.html:21
 msgid "Floor"
 msgstr "Spodný limit"
 
-#: seasonbreaks/templates/seasonbreaks/quotas.html:20
+#: seasonbreaks/templates/seasonbreaks/quotas.html:22
 msgid "Remainder"
 msgstr "Zvyšok"
 
-#: seasonbreaks/templates/seasonbreaks/quotas.html:20
+#: seasonbreaks/templates/seasonbreaks/quotas.html:23
 msgid "Allocated"
 msgstr "Pridelených"
 
-#: seasonbreaks/templates/seasonbreaks/quotas.html:32
-#: seasonbreaks/templates/seasonbreaks/rankings.html:62
+#: seasonbreaks/templates/seasonbreaks/quotas.html:37
+#: seasonbreaks/templates/seasonbreaks/rankings.html:52
 msgid "No regions yet."
 msgstr "Zatiaľ žiadne regióny."
 
-#: seasonbreaks/templates/seasonbreaks/ranking_region.html:9
+#: seasonbreaks/templates/seasonbreaks/ranking_region.html:8
 #, python-format
-msgid "%(region)s ranking"
-msgstr "Poradie %(region)s"
+msgid "1 final seat is tied — resolve it manually"
+msgid_plural "%(counter)s final seats are tied — resolve them manually"
+msgstr[0] "1 posledné miesto je viazané remízou — vyriešiť ručne"
+msgstr[1] "%(counter)s posledné miesta sú viazané remízou — vyriešiť ručne"
+msgstr[2] "%(counter)s posledných miest je viazaných remízou — vyriešiť ručne"
+msgstr[3] "%(counter)s posledných miest je viazaných remízou — vyriešiť ručne"
 
-#: seasonbreaks/templates/seasonbreaks/ranking_region.html:12
-msgid ""
-"Full ranking details for this region, including eligibility reasons, counted "
-"results and tie warnings."
-msgstr ""
-"Kompletné podrobnosti poradia pre tento región vrátane dôvodov eligibility, "
-"zahrnutých výsledkov a upozornení na remízy."
+#: seasonbreaks/templates/seasonbreaks/ranking_region.html:16
+msgid "These teams are tied on every ranking metric at the break cutoff. Tabbycat will not pick between identical records automatically — apply your league's tiebreak rule and choose who advances."
+msgstr "Tieto tímy sú zhodné vo všetkých metrikách poradia na hranici postupu. Tabbycat automaticky nevyberie medzi totožnými výsledkami — uplatni tiebreak pravidlo tvojej ligy a vyber, kto postupuje."
 
-#: seasonbreaks/templates/seasonbreaks/ranking_region.html:17
+#: seasonbreaks/templates/seasonbreaks/ranking_region.html:30
+msgid "speaks"
+msgstr "reči"
+
+#: seasonbreaks/templates/seasonbreaks/ranking_region.html:35
+msgid "Save resolution"
+msgstr "Uložiť rozhodnutie"
+
+#: seasonbreaks/templates/seasonbreaks/ranking_region.html:37
+msgid "Resolved"
+msgstr "Vyriešená"
+
+#: seasonbreaks/templates/seasonbreaks/ranking_region.html:41
+msgid "An editor must resolve this tie before it is final."
+msgstr "Redaktor musí túto remízu vyriešiť skôr, ako bude záväzná."
+
+#: seasonbreaks/templates/seasonbreaks/ranking_region.html:48
+msgid "ranking"
+msgstr "poradie"
+
+#: seasonbreaks/templates/seasonbreaks/ranking_region.html:51
 msgid "Back to all regions"
 msgstr "Späť na všetky regióny"
 
-#: seasonbreaks/templates/seasonbreaks/ranking_region.html:25
-msgid "Ordered by wins, ballots, speaker score"
-msgstr "Zoradené podľa výhier, ballotov, rečníckych bodov"
-
-#: seasonbreaks/templates/seasonbreaks/ranking_region.html:34
-#: seasonbreaks/templates/seasonbreaks/rankings.html:36
+#: seasonbreaks/templates/seasonbreaks/ranking_region.html:62
+#: seasonbreaks/templates/seasonbreaks/rankings.html:26
 msgid "Eligible speakers"
 msgstr "Oprávnení rečníci"
 
-#: seasonbreaks/templates/seasonbreaks/ranking_region.html:37
+#: seasonbreaks/templates/seasonbreaks/ranking_region.html:65
 msgid "Speaks"
 msgstr "Reči"
 
-#: seasonbreaks/templates/seasonbreaks/ranking_region.html:38
+#: seasonbreaks/templates/seasonbreaks/ranking_region.html:66
 msgid "Notes"
 msgstr "Poznámky"
 
-#: seasonbreaks/templates/seasonbreaks/ranking_region.html:48
+#: seasonbreaks/templates/seasonbreaks/ranking_region.html:76
+#: seasonbreaks/templates/seasonbreaks/rankings.html:34
 msgid "Advancing"
 msgstr "Postupujúci"
 
-#: seasonbreaks/templates/seasonbreaks/ranking_region.html:50
+#: seasonbreaks/templates/seasonbreaks/ranking_region.html:78
+msgid "Tied for final seat"
+msgstr "Remíza o posledné miesto"
+
+#: seasonbreaks/templates/seasonbreaks/ranking_region.html:80
 msgid "Eligible"
 msgstr "Oprávnený"
 
-#: seasonbreaks/templates/seasonbreaks/ranking_region.html:52
+#: seasonbreaks/templates/seasonbreaks/ranking_region.html:82
 msgid "Ineligible"
 msgstr "Neoprávnený"
 
-#: seasonbreaks/templates/seasonbreaks/ranking_region.html:60
-#: seasonbreaks/templates/seasonbreaks/rankings.html:48
+#: seasonbreaks/templates/seasonbreaks/ranking_region.html:90
+#: seasonbreaks/templates/seasonbreaks/rankings.html:40
 msgid "None"
 msgstr "Žiadne"
 
-#: seasonbreaks/templates/seasonbreaks/ranking_region.html:68
+#: seasonbreaks/templates/seasonbreaks/ranking_region.html:97
 msgid "Tie at cutoff"
 msgstr "Remíza na hranici postupu"
 
-#: seasonbreaks/templates/seasonbreaks/ranking_region.html:74
+#: seasonbreaks/templates/seasonbreaks/ranking_region.html:102
 msgid "No frozen results for this region."
 msgstr "Pre tento región nie sú žiadne zmrazené výsledky."
 
-#: seasonbreaks/templates/seasonbreaks/rankings.html:6
-msgid "Rankings by region"
-msgstr "Poradia podľa regiónov"
-
-#: seasonbreaks/templates/seasonbreaks/rankings.html:8
-msgid ""
-"A compact overview of eligible teams in each region. Open a region for full "
-"scores, eligibility notes and tie warnings."
-msgstr ""
-"Kompaktný prehľad oprávnených tímov v každom regióne. Otvor región pre úplné "
-"skóre, poznámky k eligibility a upozornenia na remízy."
-
-#: seasonbreaks/templates/seasonbreaks/rankings.html:19
+#: seasonbreaks/templates/seasonbreaks/rankings.html:12
 #, python-format
 msgid "1 eligible team"
 msgid_plural "%(teams_count)s eligible teams"
@@ -2756,94 +2539,83 @@ msgstr[1] "%(teams_count)s oprávnené tímy"
 msgstr[2] "%(teams_count)s oprávneného tímu"
 msgstr[3] "%(teams_count)s oprávnených tímov"
 
-#: seasonbreaks/templates/seasonbreaks/rankings.html:28
+#: seasonbreaks/templates/seasonbreaks/rankings.html:21
 msgid "Open full ranking"
 msgstr "Otvoriť kompletné poradie"
 
-#: seasonbreaks/templates/seasonbreaks/rankings.html:54
+#: seasonbreaks/templates/seasonbreaks/rankings.html:45
 msgid "No eligible teams in this region yet."
 msgstr "V tomto regióne zatiaľ nie sú žiadne oprávnené tímy."
 
-#: seasonbreaks/templates/seasonbreaks/regions.html:9
-msgid "Manage region names, ordering, source mappings and public visibility."
-msgstr ""
-"Spravuj názvy regiónov, poradie, napojenie na zdrojové regióny a verejnú "
-"viditeľnosť."
-
-#: seasonbreaks/templates/seasonbreaks/regions.html:17
-#: seasonbreaks/templates/seasonbreaks/regions.html:34
+#: seasonbreaks/templates/seasonbreaks/regions.html:11
+#: seasonbreaks/templates/seasonbreaks/regions.html:31
 msgid "Add region"
 msgstr "Pridať región"
 
-#: seasonbreaks/templates/seasonbreaks/regions.html:18
-msgid "Regional catalog"
-msgstr "Katalóg regiónov"
-
-#: seasonbreaks/templates/seasonbreaks/regions.html:43
+#: seasonbreaks/templates/seasonbreaks/regions.html:41
 msgid "Season regions"
 msgstr "Regióny sezóny"
 
-#: seasonbreaks/templates/seasonbreaks/regions.html:44
-msgid ""
-"Hidden regions remain available internally, but are excluded from the next "
-"public snapshot."
-msgstr ""
-"Skryté regióny ostanú interne dostupné, ale budú vynechané z ďalšieho "
-"verejného snapshotu."
+#: seasonbreaks/templates/seasonbreaks/regions.html:42
+msgid "Hidden regions stay internal but are excluded from the next public snapshot."
+msgstr "Skryté regióny ostanú interné, ale budú vynechané z ďalšieho verejného snapshotu."
 
-#: seasonbreaks/templates/seasonbreaks/regions.html:55
-#: seasonbreaks/templates/seasonbreaks/tournaments.html:43
-msgid "Seq"
-msgstr "Poradie"
-
-#: seasonbreaks/templates/seasonbreaks/regions.html:56
+#: seasonbreaks/templates/seasonbreaks/regions.html:58
+#: seasonbreaks/templates/seasonbreaks/regions.html:90
 msgid "Source region"
 msgstr "Zdrojový región"
 
-#: seasonbreaks/templates/seasonbreaks/regions.html:60
-msgid "Visible on public page"
-msgstr "Viditeľné na verejnej stránke"
-
-#: seasonbreaks/templates/seasonbreaks/regions.html:62
-#: seasonbreaks/tests/test_breaks.py:138
-msgid "Hidden from public page"
-msgstr "Skryté z verejnej stránky"
-
+#: seasonbreaks/templates/seasonbreaks/regions.html:61
 #: seasonbreaks/templates/seasonbreaks/regions.html:90
-msgid "No regions yet"
-msgstr "Zatiaľ žiadne regióny"
+#: seasonbreaks/templates/seasonbreaks/tournaments.html:49
+msgid "Seq"
+msgstr "Poradie"
 
-#: seasonbreaks/templates/seasonbreaks/regions.html:91
+#: seasonbreaks/templates/seasonbreaks/regions.html:64
+#: seasonbreaks/templates/seasonbreaks/regions.html:90
+msgid "Expected tournaments"
+msgstr "Očakávané turnaje"
+
+#: seasonbreaks/templates/seasonbreaks/regions.html:69
+#: seasonbreaks/templates/seasonbreaks/regions.html:101
+msgid "Visible"
+msgstr "Viditeľný"
+
+#: seasonbreaks/templates/seasonbreaks/regions.html:83
+#: seasonbreaks/templates/seasonbreaks/regions.html:108
 msgid "Create regions before assigning source tournaments."
 msgstr "Vytvor regióny pred priraďovaním zdrojových turnajov."
+
+#: seasonbreaks/templates/seasonbreaks/regions.html:98
+msgid "Auto"
+msgstr "Automaticky"
 
 #: seasonbreaks/templates/seasonbreaks/speakers.html:8
 msgid "Season speakers"
 msgstr "Rečníci sezóny"
 
 #: seasonbreaks/templates/seasonbreaks/speakers.html:9
-msgid ""
-"These are the season-level speaker identities used for eligibility checks."
-msgstr "Toto sú identity rečníkov na úrovni sezóny, použité na overenie eligibility."
+msgid "Season-level speaker identities used for eligibility checks."
+msgstr "Identity rečníkov na úrovni sezóny, použité na overenie eligibility."
 
 #: seasonbreaks/templates/seasonbreaks/speakers.html:13
 msgid "Manage speaker identities"
 msgstr "Spravovať identity rečníkov"
 
-#: seasonbreaks/templates/seasonbreaks/speakers.html:21
+#: seasonbreaks/templates/seasonbreaks/speakers.html:20
 msgid "Season speaker"
 msgstr "Rečník sezóny"
 
-#: seasonbreaks/templates/seasonbreaks/speakers.html:21
+#: seasonbreaks/templates/seasonbreaks/speakers.html:20
 msgid "Linked speakers"
 msgstr "Prepojení rečníci"
 
-#: seasonbreaks/templates/seasonbreaks/speakers.html:27
-#: seasonbreaks/templates/seasonbreaks/teams.html:28
+#: seasonbreaks/templates/seasonbreaks/speakers.html:31
+#: seasonbreaks/templates/seasonbreaks/teams.html:32
 msgid "No links"
 msgstr "Žiadne prepojenia"
 
-#: seasonbreaks/templates/seasonbreaks/speakers.html:30
+#: seasonbreaks/templates/seasonbreaks/speakers.html:36
 msgid "Freeze a tournament to create speaker mappings."
 msgstr "Zmraz turnaj, aby sa dali vytvoriť mapovanie rečníkov."
 
@@ -2852,380 +2624,367 @@ msgid "Season teams"
 msgstr "Tímy sezóny"
 
 #: seasonbreaks/templates/seasonbreaks/teams.html:9
-msgid ""
-"These are the season-level team identities used for ranking and eligibility."
-msgstr "Toto sú identity tímov na úrovni sezóny, použité na poradie a eligibility."
+msgid "Season-level team identities used for ranking and eligibility."
+msgstr "Identity tímov na úrovni sezóny, použité na poradie a eligibility."
 
 #: seasonbreaks/templates/seasonbreaks/teams.html:13
 msgid "Manage team identities"
 msgstr "Spravovať identity tímov"
 
-#: seasonbreaks/templates/seasonbreaks/teams.html:21
+#: seasonbreaks/templates/seasonbreaks/teams.html:20
 msgid "Season team"
 msgstr "Tím sezóny"
 
-#: seasonbreaks/templates/seasonbreaks/teams.html:21
+#: seasonbreaks/templates/seasonbreaks/teams.html:20
 msgid "Linked tournament teams"
 msgstr "Prepojené tímy turnaja"
 
-#: seasonbreaks/templates/seasonbreaks/teams.html:31
+#: seasonbreaks/templates/seasonbreaks/teams.html:37
 msgid "Freeze a tournament to create team mappings."
 msgstr "Zmraz turnaj, aby sa dali vytvoriť mapovania tímov."
 
-#: seasonbreaks/templates/seasonbreaks/tournaments.html:7
-msgid "Tournaments and snapshots"
-msgstr "Turnaje a snapshoty"
-
-#: seasonbreaks/templates/seasonbreaks/tournaments.html:9
-msgid ""
-"Attach source tournaments to regions, then freeze their confirmed results "
-"into the season model."
-msgstr ""
-"Prirad zdrojové turnaje k regiónom a potom zmraz ich potvrdené výsledky do "
-"modelu sezóny."
-
-#: seasonbreaks/templates/seasonbreaks/tournaments.html:17
-#: seasonbreaks/templates/seasonbreaks/tournaments.html:31
+#: seasonbreaks/templates/seasonbreaks/tournaments.html:11
+#: seasonbreaks/templates/seasonbreaks/tournaments.html:33
 msgid "Add tournament"
 msgstr "Pridať turnaj"
 
-#: seasonbreaks/templates/seasonbreaks/tournaments.html:18
-msgid "Source snapshot"
-msgstr "Zdrojový snapshot"
-
-#: seasonbreaks/templates/seasonbreaks/tournaments.html:38
+#: seasonbreaks/templates/seasonbreaks/tournaments.html:43
 msgid "Assigned tournaments"
 msgstr "Priradené turnaje"
 
-#: seasonbreaks/templates/seasonbreaks/tournaments.html:39
+#: seasonbreaks/templates/seasonbreaks/tournaments.html:44
 msgid "Non-league tournaments count only for adjudicator statistics."
 msgstr "Neligové turnaje sa počítajú iba do štatistík rozhodcov."
 
-#: seasonbreaks/templates/seasonbreaks/tournaments.html:57
-#: seasonbreaks/templates/seasonbreaks/tournaments.html:63
-msgid "League"
-msgstr "Liga"
-
-#: seasonbreaks/templates/seasonbreaks/tournaments.html:58
 #: seasonbreaks/templates/seasonbreaks/tournaments.html:65
+#: seasonbreaks/templates/seasonbreaks/tournaments.html:72
 msgid "Non-league"
 msgstr "Neligový"
 
-#: seasonbreaks/templates/seasonbreaks/tournaments.html:68
-msgid "Not frozen"
-msgstr "Nezmrazené"
+#: seasonbreaks/templates/seasonbreaks/tournaments.html:79
+msgid "Live"
+msgstr "Živé"
 
-#: seasonbreaks/templates/seasonbreaks/tournaments.html:76
-msgid "Freeze / Update results"
-msgstr "Zmraziť / Aktualizovať výsledky"
+#: seasonbreaks/templates/seasonbreaks/tournaments.html:89
+msgid "Freeze / Update"
+msgstr "Zmraziť / Aktualizovať"
 
-#: seasonbreaks/templates/seasonbreaks/tournaments.html:82
+#: seasonbreaks/templates/seasonbreaks/tournaments.html:95
 msgid "Remove this tournament from this Breaks season?"
 msgstr "Odstrániť tento turnaj z tejto postupovej sezóny?"
 
-#: seasonbreaks/templates/seasonbreaks/tournaments.html:83
+#: seasonbreaks/templates/seasonbreaks/tournaments.html:96
 msgid "Remove"
 msgstr "Odstrániť"
 
-#: seasonbreaks/templates/seasonbreaks/tournaments.html:90
+#: seasonbreaks/templates/seasonbreaks/tournaments.html:103
 msgid "No tournaments are assigned to this season yet."
 msgstr "Zatiaľ nie sú pridelené žiadne turnaje tejto sezóny."
 
-#: seasonbreaks/views.py:107 seasonbreaks/views.py:137
+#: seasonbreaks/views.py:114 seasonbreaks/views.py:145
 msgid "Quotas"
 msgstr "Kvóty"
 
-#: seasonbreaks/views.py:108 seasonbreaks/views.py:139
+#: seasonbreaks/views.py:115 seasonbreaks/views.py:147
 msgid "Rankings"
 msgstr "Poradie"
 
-#: seasonbreaks/views.py:118
+#: seasonbreaks/views.py:126
 msgid "Status, frozen data and quotas"
 msgstr "Stav, zmrazené dáta a kvóty"
 
-#: seasonbreaks/views.py:122
+#: seasonbreaks/views.py:130
 msgid "Region settings and public visibility"
 msgstr "Nastavenia regiónov a verejná viditeľnosť"
 
-#: seasonbreaks/views.py:126
+#: seasonbreaks/views.py:134
 msgid "Source tournaments and snapshots"
 msgstr "Zdrojové turnaje a snapshoty"
 
-#: seasonbreaks/views.py:128
+#: seasonbreaks/views.py:136
 msgid "Identity"
 msgstr "Identita"
 
-#: seasonbreaks/views.py:129
+#: seasonbreaks/views.py:137
 msgid "Identity hub"
 msgstr "Centrum identít"
 
-#: seasonbreaks/views.py:130
+#: seasonbreaks/views.py:138
 msgid "Teams, speakers and adjudicators"
 msgstr "Tímy, rečníci a rozhodcovia"
 
-#: seasonbreaks/views.py:132
+#: seasonbreaks/views.py:140
 msgid "Season team identities"
 msgstr "Tímové identity sezóny"
 
-#: seasonbreaks/views.py:134
+#: seasonbreaks/views.py:142
 msgid "Season speaker identities"
 msgstr "Rečnícke identity sezóny"
 
-#: seasonbreaks/views.py:136 seasonbreaks/views.py:262
-#: templates/nav/admin_nav.html:294 users/forms.py:110
+#: seasonbreaks/views.py:144 seasonbreaks/views.py:281
+#: templates/nav/admin_nav.html:294 users/forms.py:111
 msgid "Breaks"
 msgstr "Postupy"
 
-#: seasonbreaks/views.py:138
+#: seasonbreaks/views.py:146
 msgid "Regional slot calculation"
 msgstr "Výpočet regionálnych slotov"
 
-#: seasonbreaks/views.py:140
+#: seasonbreaks/views.py:148
 msgid "Team rankings and eligibility"
 msgstr "Poradie tímov a eligibility"
 
-#: seasonbreaks/views.py:144
+#: seasonbreaks/views.py:150
+msgid "Cross-region ranking preview"
+msgstr "Náhľad poradia naprieč regiónmi"
+
+#: seasonbreaks/views.py:154
 msgid "Chair, panel and trainee statistics"
 msgstr "Chair, panel a trainee štatistiky"
 
-#: seasonbreaks/views.py:146
+#: seasonbreaks/views.py:156
 msgid "Settings"
 msgstr "Nastavenia"
 
-#: seasonbreaks/views.py:148
+#: seasonbreaks/views.py:158
 msgid "Public visibility, season fields and dangerous actions"
 msgstr "Verejnosť, polia sezóny a nebezpečné akcie"
 
-#: seasonbreaks/views.py:149
+#: seasonbreaks/views.py:159
 msgid "Global Breaks permissions"
 msgstr "Globálne povolenia pre postupy"
 
-#: seasonbreaks/views.py:190
+#: seasonbreaks/views.py:200
 #, python-format
 msgid "Break league %(league)s was created."
 msgstr "Liga %(league)s bola vytvorená."
 
-#: seasonbreaks/views.py:198
+#: seasonbreaks/views.py:208
 #, python-format
 msgid "Break league %(league)s was updated."
 msgstr "Liga %(league)s bola upravená."
 
-#: seasonbreaks/views.py:207
+#: seasonbreaks/views.py:217
 #, python-format
 msgid "Break league %(league)s cannot be deleted because it still has seasons."
 msgstr "Ligu %(league)s nemožno odstrániť, pretože má priradené sezóny."
 
-#: seasonbreaks/views.py:209
+#: seasonbreaks/views.py:219
 #, python-format
 msgid "Break league %(league)s was deleted."
 msgstr "Liga %(league)s bola odstránená."
 
-#: seasonbreaks/views.py:214
+#: seasonbreaks/views.py:224
 #, python-format
 msgid "Break season %(season)s was created."
 msgstr "Postupová sezóna %(season)s bola vytvorená."
 
-#: seasonbreaks/views.py:234
+#: seasonbreaks/views.py:248
 msgid "Public Breaks snapshot was published."
 msgstr "Verejný snapshot postupov bol zverejnený."
 
-#: seasonbreaks/views.py:244
-#, python-format
-msgid ""
-"Break season %(season)s cannot be deleted because it still has protected "
-"data."
-msgstr ""
-"Postupovú sezónu %(season)s nemožno odstrániť, pretože stále obsahuje "
-"chránené dáta."
+#: seasonbreaks/views.py:251
+msgid "A tie at the break cutoff is still unresolved. The affected teams are published as not advancing until an editor resolves the tie on the region ranking page and republishes."
+msgstr "Remíza na hranici postupu je stále nevyriešená. Dotknuté tímy sú zverejnené ako nepostupujúce, kým redaktor remízu nevyrieši na stránke regionálneho poradia a znova nezverejní."
 
-#: seasonbreaks/views.py:248
+#: seasonbreaks/views.py:263
+#, python-format
+msgid "Break season %(season)s cannot be deleted because it still has protected data."
+msgstr "Postupovú sezónu %(season)s nemožno odstrániť, pretože stále obsahuje chránené dáta."
+
+#: seasonbreaks/views.py:267
 #, python-format
 msgid "Break season %(season)s was deleted."
 msgstr "Postupová sezóna %(season)s bola odstránená."
 
-#: seasonbreaks/views.py:253
+#: seasonbreaks/views.py:272
 msgid "Break season settings were updated."
 msgstr "Nastavenia postupovej sezóny boli aktualizované."
 
-#: seasonbreaks/views.py:339
+#: seasonbreaks/views.py:361
 #, python-format
 msgid "Region %(region)s was added."
 msgstr "Región %(region)s bol pridaný."
 
-#: seasonbreaks/views.py:347
+#: seasonbreaks/views.py:369
 #, python-format
 msgid "Region %(region)s was updated."
 msgstr "Región %(region)s bol upravený."
 
-#: seasonbreaks/views.py:370
+#: seasonbreaks/views.py:392
 #, python-format
 msgid "Tournament %(tournament)s was added."
 msgstr "Turnaj %(tournament)s bol pridaný."
 
-#: seasonbreaks/views.py:395
+#: seasonbreaks/views.py:417
 msgid "Tournament type was updated."
 msgstr "Typ turnaja bol aktualizovaný."
 
-#: seasonbreaks/views.py:417
+#: seasonbreaks/views.py:439
 #, python-format
 msgid "Tournament %(tournament)s was removed from this Breaks season."
 msgstr "Turnaj %(tournament)s bol odstránený z tejto postupovej sezóny."
 
-#: seasonbreaks/views.py:422
+#: seasonbreaks/views.py:444
 #, python-format
-msgid ""
-"Updated snapshot: %(teams)d teams, %(speakers)d speaker links, "
-"%(adjudicators)d adjudicators."
-msgstr ""
-"Aktualizovaný snapshot: %(teams)d tímov, %(speakers)d prepojení rečníkov, "
-"%(adjudicators)d rozhodcov."
+msgid "Updated snapshot: %(teams)d teams, %(speakers)d speaker links, %(adjudicators)d adjudicators."
+msgstr "Aktualizovaný snapshot: %(teams)d tímov, %(speakers)d prepojení rečníkov, %(adjudicators)d rozhodcov."
 
-#: seasonbreaks/views.py:489
+#: seasonbreaks/views.py:511
 #, python-format
-msgid ""
-"Cleaned stale identities: %(teams)d teams, %(speakers)d speakers, "
-"%(adjudicators)d adjudicators."
-msgstr ""
-"Vyčistené zastarané identity: %(teams)d tímov, %(speakers)d rečníkov, "
-"%(adjudicators)d rozhodcov."
+msgid "Cleaned stale identities: %(teams)d teams, %(speakers)d speakers, %(adjudicators)d adjudicators."
+msgstr "Vyčistené zastarané identity: %(teams)d tímov, %(speakers)d rečníkov, %(adjudicators)d rozhodcov."
 
-#: seasonbreaks/views.py:502 seasonbreaks/views.py:546
+#: seasonbreaks/views.py:524 seasonbreaks/views.py:567
 msgid "Unknown tournament"
 msgstr "Neznámy turnaj"
 
-#: seasonbreaks/views.py:521
+#: seasonbreaks/views.py:543
 #, python-format
 msgid "Season team %(team)s was created."
 msgstr "Tím sezóny %(team)s bol vytvorený."
 
-#: seasonbreaks/views.py:531
+#: seasonbreaks/views.py:552
 msgid "Team link was updated."
 msgstr "Prepojenie tímu bolo aktualizované."
 
-#: seasonbreaks/views.py:565
+#: seasonbreaks/views.py:586
 #, python-format
 msgid "Season speaker %(speaker)s was created."
 msgstr "Rečník sezóny %(speaker)s bol vytvorený."
 
-#: seasonbreaks/views.py:575
+#: seasonbreaks/views.py:595
 msgid "Speaker link was updated."
 msgstr "Prepojenie rečníka bolo aktualizované."
 
-#: seasonbreaks/views.py:590
+#: seasonbreaks/views.py:610
 msgid "Shared adjudicators"
 msgstr "Zdieľaní rozhodcovia"
 
-#: seasonbreaks/views.py:609
+#: seasonbreaks/views.py:629
 #, python-format
 msgid "Season adjudicator %(adjudicator)s was created."
 msgstr "Rozhodca sezóny %(adjudicator)s bol vytvorený."
 
-#: seasonbreaks/views.py:619
+#: seasonbreaks/views.py:638
 msgid "Adjudicator link was updated."
 msgstr "Prepojenie rozhodcu bolo aktualizované."
 
+#: seasonbreaks/views.py:709
+msgid "There is no tie to resolve in this region."
+msgstr "V tomto regióne nie je žiadna remíza na vyriešenie."
+
 #: seasonbreaks/views.py:724
+#, python-format
+msgid "Select exactly %(n)d team(s) to take the remaining seat(s)."
+msgstr "Vyber presne %(n)d tím(-y) na obsadenie zostávajúceho(-ich) miesta(-miest)."
+
+#: seasonbreaks/views.py:732
+msgid "The tie at the cutoff was resolved."
+msgstr "Remíza na hranici postupu bola vyriešená."
+
+#: seasonbreaks/views.py:793
 #, python-format
 msgid "Breaks access updated for %(user)s."
 msgstr "Prístup k postupom bol aktualizovaný pre %(user)s."
 
-#: settings/core.py:60
+#: settings/core.py:68
 msgid "Arabic"
 msgstr "Arabčina"
 
-#: settings/core.py:61
+#: settings/core.py:69
 msgid "Asturian"
 msgstr "Astúrčina"
 
-#: settings/core.py:62
+#: settings/core.py:70
 msgid "Bengali"
 msgstr "Bengálčina"
 
-#: settings/core.py:63
+#: settings/core.py:71
 msgid "Bulgarian"
 msgstr "Bulharčina"
 
-#: settings/core.py:64
+#: settings/core.py:72
 msgid "Catalan"
 msgstr "Katalánčina"
 
-#: settings/core.py:65
+#: settings/core.py:73
 msgid "Czech"
 msgstr "Čeština"
 
-#: settings/core.py:66
+#: settings/core.py:74
 msgid "German"
 msgstr "Nemčina"
 
-#: settings/core.py:67
+#: settings/core.py:75
 msgid "English"
 msgstr "Angličtina"
 
-#: settings/core.py:68
+#: settings/core.py:76
 msgid "Spanish"
 msgstr "Španielčina"
 
-#: settings/core.py:69
+#: settings/core.py:77
 msgid "French"
 msgstr "Francúzština"
 
-#: settings/core.py:70
+#: settings/core.py:78
 msgid "Hebrew"
 msgstr "Hebrejčina"
 
-#: settings/core.py:71
+#: settings/core.py:79
 msgid "Hindi"
 msgstr "Hindčina"
 
-#: settings/core.py:72
+#: settings/core.py:80
 msgid "Indonesian"
 msgstr "Indonézština"
 
-#: settings/core.py:73
+#: settings/core.py:81
 msgid "Italian"
 msgstr "Taliančina"
 
-#: settings/core.py:74
+#: settings/core.py:82
 msgid "Japanese"
 msgstr "Japončina"
 
-#: settings/core.py:75
+#: settings/core.py:83
 msgid "Kazakh"
 msgstr "Kazaština"
 
-#: settings/core.py:76
+#: settings/core.py:84
 msgid "Malay"
 msgstr "Malajčina"
 
-#: settings/core.py:77
+#: settings/core.py:85
 msgid "Portuguese"
 msgstr "Portugalčina"
 
-#: settings/core.py:78
+#: settings/core.py:86
 msgid "Romanian"
 msgstr "Rumunčina"
 
-#: settings/core.py:79
+#: settings/core.py:87
 msgid "Russian"
 msgstr "Ruština"
 
-#: settings/core.py:80
+#: settings/core.py:88
 msgid "Slovak"
 msgstr "Slovenčina"
 
-#: settings/core.py:81
+#: settings/core.py:89
 msgid "Turkish"
 msgstr "Turečtina"
 
-#: settings/core.py:82
+#: settings/core.py:90
 msgid "Vietnamese"
 msgstr "Vietnamčina"
 
-#: settings/core.py:83
+#: settings/core.py:91
 msgid "Simplified Chinese"
 msgstr "Zjednodušená čínština"
 
-#: settings/core.py:84
+#: settings/core.py:92
 msgid "Translation"
 msgstr "Preklad"
 
@@ -3234,17 +2993,12 @@ msgid "You need to delete the above objects first."
 msgstr "Najprv musíš vymazať objekty uvedené vyššie."
 
 #: templates/admin/style_guide.html:30
-msgid ""
-"This style of info card announces critical information. <a href=\"\">Link</"
-"a>."
-msgstr ""
-"Tento štýl informačnej karty oznamuje kritické informácie. <a "
-"href=\"\">Odkaz</a>."
+msgid "This style of info card announces critical information. <a href=\"\">Link</a>."
+msgstr "Tento štýl informačnej karty oznamuje kritické informácie. <a href=\"\">Odkaz</a>."
 
 #: templates/admin/style_guide.html:33
 msgid "This style of info card announces general <a href=\"\">information</a>."
-msgstr ""
-"Tento štýl informačnej karty oznamuje všeobecné <a href=\"\">informácie</a>."
+msgstr "Tento štýl informačnej karty oznamuje všeobecné <a href=\"\">informácie</a>."
 
 #: templates/admin/style_guide.html:160
 msgctxt "page title"
@@ -3271,20 +3025,12 @@ msgstr "Tabbycat"
 
 #: templates/base.html:13
 #, python-format
-msgid ""
-"The tab for %(tournament)s runs on Tabbycat, a source-available tab system "
-"for a variety of parliamentary debating formats"
-msgstr ""
-"Tab pre %(tournament)s beží na Tabbycate, tabovacom systéme s dostupným "
-"zdrojovým kódom pre rôzne formáty parlamentnej debaty"
+msgid "The tab for %(tournament)s runs on Tabbycat, a source-available tab system for a variety of parliamentary debating formats"
+msgstr "Tab pre %(tournament)s beží na Tabbycate, tabovacom systéme s dostupným zdrojovým kódom pre rôzne formáty parlamentnej debaty"
 
 #: templates/base.html:17
-msgid ""
-"This tab runs on Tabbycat, a source-available tab system for a variety of "
-"parliamentary debating formats"
-msgstr ""
-"Tento tab beží na Tabbycate, tabovacom systéme s dostupným zdrojovým kódom "
-"pre rôzne formáty parlamentnej debaty"
+msgid "This tab runs on Tabbycat, a source-available tab system for a variety of parliamentary debating formats"
+msgstr "Tento tab beží na Tabbycate, tabovacom systéme s dostupným zdrojovým kódom pre rôzne formáty parlamentnej debaty"
 
 #: templates/components/form-errors.html:4
 msgid "Whoops! There was an error with one or more fields."
@@ -3301,153 +3047,62 @@ msgstr "Prístup zamietnutý (403)"
 
 #: templates/errors/assistant_403.html:13
 #, python-format
-msgid ""
-"This assistant page isn't enabled for this tournament. <a "
-"href=\"%(url)s\">Back to the assistant home page.</a>"
-msgstr ""
-"Táto stránka pre asistentov nie je pre tento turnaj zapnutá. <a "
-"href=\"%(url)s\">Späť na domovskú stránku asistencie.</a>"
+msgid "This assistant page isn't enabled for this tournament. <a href=\"%(url)s\">Back to the assistant home page.</a>"
+msgstr "Táto stránka pre asistentov nie je pre tento turnaj zapnutá. <a href=\"%(url)s\">Späť na domovskú stránku asistencie.</a>"
 
 #: templates/errors/database_limit_warning.html:9
 #, python-format
-msgid ""
-"You're currently using %(nrows)s row in your database. If you haven't "
-"already upgraded your Heroku database to a paid tier, it's limited to a "
-"maximum of 10,000 rows. As you're close to this limit, you should "
-"<strong>not create new tournaments</strong> on this site unless and until "
-"you've <a href=\"https://devcenter.heroku.com/articles/upgrading-heroku-"
-"postgres-databases\">upgraded your database</a> to a paid tier."
-msgid_plural ""
-"You're currently using %(nrows)s rows in your database. If you haven't "
-"already upgraded your Heroku database to a paid tier, it's limited to a "
-"maximum of 10,000 rows. As you're close to this limit, you should "
-"<strong>not create new tournaments</strong> on this site unless and until "
-"you've <a href=\"https://devcenter.heroku.com/articles/upgrading-heroku-"
-"postgres-databases\">upgraded your database</a> to a paid tier."
-msgstr[0] ""
-"Momentálne používaš %(nrows)s riadok v databáze. Ak si Heroku databázu ešte "
-"neupgradoval/a na platený tier, je obmedzená na maximum 10 000 riadkov. "
-"Keďže sa blížiš k limitu, <strong>nevytváraj nové turnaje</strong> na tejto "
-"stránke, kým <a href=\"https://devcenter.heroku.com/articles/upgrading-"
-"heroku-postgres-databases\">neupgraduješ databázu</a> na platený tier."
-msgstr[1] ""
-"Momentálne používaš %(nrows)s riadky v databáze. Ak si Heroku databázu ešte "
-"neupgradoval/a na platený tier, je obmedzená na maximum 10 000 riadkov. "
-"Keďže sa blížiš k limitu, <strong>nevytváraj nové turnaje</strong> na tejto "
-"stránke, kým <a href=\"https://devcenter.heroku.com/articles/upgrading-"
-"heroku-postgres-databases\">neupgraduješ databázu</a> na platený tier."
-msgstr[2] ""
-"Momentálne používaš %(nrows)s riadkov v databáze. Ak si Heroku databázu ešte "
-"neupgradoval/a na platený tier, je obmedzená na maximum 10 000 riadkov. "
-"Keďže sa blížiš k limitu, <strong>nevytváraj nové turnaje</strong> na tejto "
-"stránke, kým <a href=\"https://devcenter.heroku.com/articles/upgrading-"
-"heroku-postgres-databases\">neupgraduješ databázu</a> na platený tier."
-msgstr[3] ""
-"Momentálne používaš %(nrows)s riadkov v databáze. Ak si Heroku databázu ešte "
-"neupgradoval/a na platený tier, je obmedzená na maximum 10 000 riadkov. "
-"Keďže sa blížiš k limitu, <strong>nevytváraj nové turnaje</strong> na tejto "
-"stránke, kým <a href=\"https://devcenter.heroku.com/articles/upgrading-"
-"heroku-postgres-databases\">neupgraduješ databázu</a> na platený tier."
+msgid "You're currently using %(nrows)s row in your database. If you haven't already upgraded your Heroku database to a paid tier, it's limited to a maximum of 10,000 rows. As you're close to this limit, you should <strong>not create new tournaments</strong> on this site unless and until you've <a href=\"https://devcenter.heroku.com/articles/upgrading-heroku-postgres-databases\">upgraded your database</a> to a paid tier."
+msgid_plural "You're currently using %(nrows)s rows in your database. If you haven't already upgraded your Heroku database to a paid tier, it's limited to a maximum of 10,000 rows. As you're close to this limit, you should <strong>not create new tournaments</strong> on this site unless and until you've <a href=\"https://devcenter.heroku.com/articles/upgrading-heroku-postgres-databases\">upgraded your database</a> to a paid tier."
+msgstr[0] "Momentálne používaš %(nrows)s riadok v databáze. Ak si Heroku databázu ešte neupgradoval/a na platený tier, je obmedzená na maximum 10 000 riadkov. Keďže sa blížiš k limitu, <strong>nevytváraj nové turnaje</strong> na tejto stránke, kým <a href=\"https://devcenter.heroku.com/articles/upgrading-heroku-postgres-databases\">neupgraduješ databázu</a> na platený tier."
+msgstr[1] "Momentálne používaš %(nrows)s riadky v databáze. Ak si Heroku databázu ešte neupgradoval/a na platený tier, je obmedzená na maximum 10 000 riadkov. Keďže sa blížiš k limitu, <strong>nevytváraj nové turnaje</strong> na tejto stránke, kým <a href=\"https://devcenter.heroku.com/articles/upgrading-heroku-postgres-databases\">neupgraduješ databázu</a> na platený tier."
+msgstr[2] "Momentálne používaš %(nrows)s riadkov v databáze. Ak si Heroku databázu ešte neupgradoval/a na platený tier, je obmedzená na maximum 10 000 riadkov. Keďže sa blížiš k limitu, <strong>nevytváraj nové turnaje</strong> na tejto stránke, kým <a href=\"https://devcenter.heroku.com/articles/upgrading-heroku-postgres-databases\">neupgraduješ databázu</a> na platený tier."
+msgstr[3] "Momentálne používaš %(nrows)s riadkov v databáze. Ak si Heroku databázu ešte neupgradoval/a na platený tier, je obmedzená na maximum 10 000 riadkov. Keďže sa blížiš k limitu, <strong>nevytváraj nové turnaje</strong> na tejto stránke, kým <a href=\"https://devcenter.heroku.com/articles/upgrading-heroku-postgres-databases\">neupgraduješ databázu</a> na platený tier."
 
 #: templates/errors/legacy_sendgrid_warning.html:11
-msgid ""
-"It looks like you're using the old SendGrid config vars on Heroku, "
-"<code>SENDGRID_USERNAME</code> and <code>SENDGRID_PASSWORD</code>. These are "
-"now deprecated (as of version 2.6), and will stop working in a future "
-"version of Tabbycat. Please change your config vars to use "
-"<code>SENDGRID_API_KEY</code> instead. For more information, please see <a "
-"href=\"https://tabbycat.readthedocs.io/en/stable/features/"
-"notifications.html#configuring-an-email-provider\"> our documentation on "
-"this topic</a>."
-msgstr ""
-"Vyzerá to, že na Heroku používaš staré konfiguračné premenné SendGridu, "
-"<code>SENDGRID_USERNAME</code> a <code>SENDGRID_PASSWORD</code>. Od verzie "
-"2.6 sú zastarané a v budúcej verzii Tabbycatu prestanú fungovať. Zmeň "
-"konfiguráciu tak, aby používala <code>SENDGRID_API_KEY</code>. Viac "
-"informácií nájdeš v <a href=\"https://tabbycat.readthedocs.io/en/stable/"
-"features/notifications.html#configuring-an-email-provider\">našej "
-"dokumentácii k tejto téme</a>."
+msgid "It looks like you're using the old SendGrid config vars on Heroku, <code>SENDGRID_USERNAME</code> and <code>SENDGRID_PASSWORD</code>. These are now deprecated (as of version 2.6), and will stop working in a future version of Tabbycat. Please change your config vars to use <code>SENDGRID_API_KEY</code> instead. For more information, please see <a href=\"https://tabbycat.readthedocs.io/en/stable/features/notifications.html#configuring-an-email-provider\"> our documentation on this topic</a>."
+msgstr "Vyzerá to, že na Heroku používaš staré konfiguračné premenné SendGridu, <code>SENDGRID_USERNAME</code> a <code>SENDGRID_PASSWORD</code>. Od verzie 2.6 sú zastarané a v budúcej verzii Tabbycatu prestanú fungovať. Zmeň konfiguráciu tak, aby používala <code>SENDGRID_API_KEY</code>. Viac informácií nájdeš v <a href=\"https://tabbycat.readthedocs.io/en/stable/features/notifications.html#configuring-an-email-provider\">našej dokumentácii k tejto téme</a>."
 
 #: templates/errors/public_403.html:14
 #, python-format
-msgid ""
-"Whoops! This page isn't enabled for this tournament. <a "
-"href=\"%(url)s\">Back to the tournament home page.</a>"
-msgstr ""
-"Ups! Táto stránka nie je pre tento turnaj zapnutá. <a href=\"%(url)s\">Späť "
-"na domovskú stránku turnaja.</a>"
+msgid "Whoops! This page isn't enabled for this tournament. <a href=\"%(url)s\">Back to the tournament home page.</a>"
+msgstr "Ups! Táto stránka nie je pre tento turnaj zapnutá. <a href=\"%(url)s\">Späť na domovskú stránku turnaja.</a>"
 
 #: templates/errors/public_403.html:20
 #, python-format
-msgid ""
-"Whoops! This page isn't enabled for this tournament. <a "
-"href=\"%(url)s\">Back to the home page.</a>"
-msgstr ""
-"Ups! Táto stránka nie je pre tento turnaj zapnutá. <a href=\"%(url)s\">Späť "
-"na domovskú stránku.</a>"
+msgid "Whoops! This page isn't enabled for this tournament. <a href=\"%(url)s\">Back to the home page.</a>"
+msgstr "Ups! Táto stránka nie je pre tento turnaj zapnutá. <a href=\"%(url)s\">Späť na domovskú stránku.</a>"
 
 #: templates/footer.html:14
 #, python-format
-msgid ""
-"%(tournament)s runs on Tabbycat %(tabbycat_version)s (%(tabbycat_codename)s)"
-msgstr ""
-"%(tournament)s beží na Tabbycat %(tabbycat_version)s (%(tabbycat_codename)s)"
+msgid "%(tournament)s runs on Tabbycat %(tabbycat_version)s (%(tabbycat_codename)s)"
+msgstr "%(tournament)s beží na Tabbycat %(tabbycat_version)s (%(tabbycat_codename)s)"
 
 #: templates/footer.html:16
 #, python-format
 msgid "This site runs on Tabbycat %(tabbycat_version)s (%(tabbycat_codename)s)"
-msgstr ""
-"Táto stránka beží na Tabbycat %(tabbycat_version)s (%(tabbycat_codename)s)"
+msgstr "Táto stránka beží na Tabbycat %(tabbycat_version)s (%(tabbycat_codename)s)"
 
 #: templates/footer.html:20
-msgid ""
-"This SDA-hosted version is an unofficial modified fork maintained by <strong "
-"class=\"font-weight-bold text-dark\">Sebastian Grof</strong>. The official "
-"Tabbycat project is available at <strong><a href=\"https://tabbycat-"
-"debate.org/\">tabbycat-debate.org</a></strong>. See <a href=\"https://"
-"github.com/sebastian-grof/tabbycat/blob/develop/"
-"MODIFICATIONS.md\">Modifications</a> and <a href=\"https://github.com/"
-"sebastian-grof/tabbycat\">Source Code</a>."
-msgstr ""
-"Táto SDA hostovaná verzia je neoficiálny upravený fork, ktorý spravuje "
-"<strong class=\"font-weight-bold text-dark\">Sebastian Grof</strong>. "
-"Oficiálny projekt Tabbycat je dostupný na <strong><a href=\"https://tabbycat-"
-"debate.org/\">tabbycat-debate.org</a></strong>. Pozrite si <a href=\"https://"
-"github.com/sebastian-grof/tabbycat/blob/develop/MODIFICATIONS.md\">úpravy</"
-"a> a <a href=\"https://github.com/sebastian-grof/tabbycat\">zdrojový kód</a>."
+msgid "This SDA-hosted version is an unofficial modified fork maintained by <strong class=\"font-weight-bold text-dark\">Sebastian Grof</strong>. The official Tabbycat project is available at <strong><a href=\"https://tabbycat-debate.org/\">tabbycat-debate.org</a></strong>. See <a href=\"https://github.com/sebastian-grof/tabbycat/blob/develop/MODIFICATIONS.md\">Modifications</a> and <a href=\"https://github.com/sebastian-grof/tabbycat\">Source Code</a>."
+msgstr "Táto SDA hostovaná verzia je neoficiálny upravený fork, ktorý spravuje <strong class=\"font-weight-bold text-dark\">Sebastian Grof</strong>. Oficiálny projekt Tabbycat je dostupný na <strong><a href=\"https://tabbycat-debate.org/\">tabbycat-debate.org</a></strong>. Pozrite si <a href=\"https://github.com/sebastian-grof/tabbycat/blob/develop/MODIFICATIONS.md\">úpravy</a> a <a href=\"https://github.com/sebastian-grof/tabbycat\">zdrojový kód</a>."
 
 #: templates/footer.html:25
-msgid ""
-"Tabbycat is an open-source project developed by volunteers and is free to "
-"use."
-msgstr ""
-"Tabbycat je projekt s otvoreným zdrojovým kódom, vyvíjaný dobrovoľníkmi a "
-"dostupný zadarmo."
+msgid "Tabbycat is an open-source project developed by volunteers and is free to use."
+msgstr "Tabbycat je projekt s otvoreným zdrojovým kódom, vyvíjaný dobrovoľníkmi a dostupný zadarmo."
 
 #: templates/footer.html:29
 #, python-format
-msgid ""
-"For a tournament of this size, we suggest <a href=\"https://"
-"opencollective.com/tabbycat/contribute/licensing-29466/checkout?"
-"amount=%(amount)s\">a donation of <strong>$%(amount)s</strong></a>."
-msgstr ""
-"Pre turnaj tejto veľkosti odporúčame <a href=\"https://opencollective.com/"
-"tabbycat/contribute/licensing-29466/checkout?amount=%(amount)s\">dar vo "
-"výške <strong>$%(amount)s</strong></a>."
+msgid "For a tournament of this size, we suggest <a href=\"https://opencollective.com/tabbycat/contribute/licensing-29466/checkout?amount=%(amount)s\">a donation of <strong>$%(amount)s</strong></a>."
+msgstr "Pre turnaj tejto veľkosti odporúčame <a href=\"https://opencollective.com/tabbycat/contribute/licensing-29466/checkout?amount=%(amount)s\">dar vo výške <strong>$%(amount)s</strong></a>."
 
 #: templates/footer.html:33
 msgid "Learn more about donating."
 msgstr "Získajte viac informácií o darovaní."
 
 #: templates/footer.html:36
-msgid ""
-"<a href=\"https://opencollective.com/tabbycat\">Donations to Tabbycat from "
-"individuals or organisations</a> are much appreciated and help us to "
-"continue to develop, support, and maintain Tabbycat."
-msgstr ""
-"<a href=\"https://opencollective.com/tabbycat\">Dary pre Tabbycat od "
-"jednotlivcov alebo organizácií</a> sú veľmi vítané a pomáhajú nám pokračovať "
-"v rozvoji, podpore a údržbe Tabbycat."
+msgid "<a href=\"https://opencollective.com/tabbycat\">Donations to Tabbycat from individuals or organisations</a> are much appreciated and help us to continue to develop, support, and maintain Tabbycat."
+msgstr "<a href=\"https://opencollective.com/tabbycat\">Dary pre Tabbycat od jednotlivcov alebo organizácií</a> sú veľmi vítané a pomáhajú nám pokračovať v rozvoji, podpore a údržbe Tabbycat."
 
 #: templates/footer.html:44
 msgid "Still timing debates with the stopwatch app?"
@@ -3455,34 +3110,16 @@ msgstr "Stále meriate čas debát pomocou aplikácie stopky?"
 
 #: templates/footer.html:46
 #, python-format
-msgid ""
-"Using an app designed for debate timekeeping makes speaking and adjudicating "
-"easier! Check out <a href=\"https://itunes.apple.com/app/apple-store/"
-"id1156065589?pt=814172&ct=Tabbycat%%20Installs&mt=8\">Timekept</a> (iPhone/"
-"iPad) or <a href=\"https://play.google.com/store/apps/details?"
-"id=net.czlee.debatekeeper&referrer=utm_source%%3Dtabbycat%%26utm_medium%%3Dfooter\">Debatekeeper</"
-"a> (Android)."
-msgstr ""
-"Použitie aplikácie určenej na meranie času počas debát uľahčuje vystupovanie "
-"a rozhodovanie! Pozrite si <a href=\"https://itunes.apple.com/app/apple-"
-"store/id1156065589?pt=814172&ct=Tabbycat%%20Installs&mt=8\">Timekept</a> "
-"(iPhone/iPad) alebo <a href=\"https://play.google.com/store/apps/details?"
-"id=net.czlee.debatekeeper&referrer=utm_source%%3Dtabbycat%%26utm_medium%%3Dfooter\">Debatekeeper</"
-"a> (Android)."
+msgid "Using an app designed for debate timekeeping makes speaking and adjudicating easier! Check out <a href=\"https://itunes.apple.com/app/apple-store/id1156065589?pt=814172&ct=Tabbycat%%20Installs&mt=8\">Timekept</a> (iPhone/iPad) or <a href=\"https://play.google.com/store/apps/details?id=net.czlee.debatekeeper&referrer=utm_source%%3Dtabbycat%%26utm_medium%%3Dfooter\">Debatekeeper</a> (Android)."
+msgstr "Použitie aplikácie určenej na meranie času počas debát uľahčuje vystupovanie a rozhodovanie! Pozrite si <a href=\"https://itunes.apple.com/app/apple-store/id1156065589?pt=814172&ct=Tabbycat%%20Installs&mt=8\">Timekept</a> (iPhone/iPad) alebo <a href=\"https://play.google.com/store/apps/details?id=net.czlee.debatekeeper&referrer=utm_source%%3Dtabbycat%%26utm_medium%%3Dfooter\">Debatekeeper</a> (Android)."
 
 #: templates/footer.html:55
 msgid "Our Organisation"
 msgstr "Naša organizácia"
 
 #: templates/footer.html:57
-msgid ""
-"Tabbycat is supported by the <a href=\"https://tabbycat-debate.org/"
-"\">Tabbycat Debate Association</a>, a non-profit for advancing open debate "
-"technology."
-msgstr ""
-"Tabbycat podporuje <a href=\"https://tabbycat-debate.org/\">Tabbycat Debate "
-"Association</a>, nezisková organizácia rozvíjajúca otvorené debatné "
-"technológie."
+msgid "Tabbycat is supported by the <a href=\"https://tabbycat-debate.org/\">Tabbycat Debate Association</a>, a non-profit for advancing open debate technology."
+msgstr "Tabbycat podporuje <a href=\"https://tabbycat-debate.org/\">Tabbycat Debate Association</a>, nezisková organizácia rozvíjajúca otvorené debatné technológie."
 
 #: templates/footer.html:70
 msgid "Language"
@@ -3642,7 +3279,7 @@ msgid "Bulk Update"
 msgstr "Hromadná aktualizácia"
 
 #: templates/nav/admin_nav.html:234 templates/nav/public_nav.html:165
-#: users/forms.py:92
+#: users/forms.py:93
 msgid "Standings"
 msgstr "Výsledky"
 
@@ -3849,12 +3486,8 @@ msgid "Your username and password didn't match."
 msgstr "Tvoje prihlasovacie meno a heslo sa nezhodujú."
 
 #: templates/registration/login.html:46
-msgid ""
-"Your account doesn't have access to this page. To proceed, please log in "
-"with an account that has access."
-msgstr ""
-"Váš účet nemá prístup k tejto stránke. Ak chcete pokračovať, prihláste sa "
-"pomocou účtu, ktorý má prístup."
+msgid "Your account doesn't have access to this page. To proceed, please log in with an account that has access."
+msgstr "Váš účet nemá prístup k tejto stránke. Ak chcete pokračovať, prihláste sa pomocou účtu, ktorý má prístup."
 
 #: templates/registration/login.html:49
 msgid "Please log in to see this page."
@@ -3886,12 +3519,8 @@ msgid "API Token: <samp>%(api_token)s</samp>"
 msgstr "API token: <samp>%(api_token)s</samp>"
 
 #: templates/registration/password_change_form.html:19
-msgid ""
-"The API token will allow you to authorize external applications to access "
-"the site as staff."
-msgstr ""
-"API token umožní externým aplikáciám pristupovať na stránku s oprávneniami "
-"personálu."
+msgid "The API token will allow you to authorize external applications to access the site as staff."
+msgstr "API token umožní externým aplikáciám pristupovať na stránku s oprávneniami personálu."
 
 #: templates/registration/password_change_form.html:28
 msgid "Please enter your old password, then enter a new one."
@@ -3934,12 +3563,8 @@ msgid "Please enter a new password (twice):"
 msgstr "Zadajte nové heslo (dvakrát):"
 
 #: templates/registration/password_reset_confirm.html:33
-msgid ""
-"The password reset link was invalid, possibly because it has already been "
-"used.  Please request a new password reset."
-msgstr ""
-"Odkaz na obnovenie hesla bol neplatný, pravdepodobne preto, že už bol "
-"použitý.  Požiadajte o nové obnovenie hesla."
+msgid "The password reset link was invalid, possibly because it has already been used.  Please request a new password reset."
+msgstr "Odkaz na obnovenie hesla bol neplatný, pravdepodobne preto, že už bol použitý.  Požiadajte o nové obnovenie hesla."
 
 #: templates/registration/password_reset_done.html:4
 #: templates/registration/password_reset_done.html:5
@@ -3948,20 +3573,12 @@ msgid "Password reset email sent"
 msgstr "E-mail na obnovenie hesla odoslaný"
 
 #: templates/registration/password_reset_done.html:11
-msgid ""
-"We've emailed you instructions for setting your password, if an account "
-"exists with the email address you entered. You should receive them shortly."
-msgstr ""
-"Ak existuje účet s e-mailovou adresou, ktorú ste zadali, zaslali sme vám e-"
-"mailom pokyny na nastavenie hesla. Mali by ste ich dostať čoskoro."
+msgid "We've emailed you instructions for setting your password, if an account exists with the email address you entered. You should receive them shortly."
+msgstr "Ak existuje účet s e-mailovou adresou, ktorú ste zadali, zaslali sme vám e-mailom pokyny na nastavenie hesla. Mali by ste ich dostať čoskoro."
 
 #: templates/registration/password_reset_done.html:12
-msgid ""
-"If you don't receive an email, please make sure you've entered the address "
-"you registered with, and check your spam folder."
-msgstr ""
-"Ak ste e-mail nedostali, skontrolujte, či ste zadali správnu adresu, ktorú "
-"ste použili pri registrácii, a skontrolujte priečinok so spamom."
+msgid "If you don't receive an email, please make sure you've entered the address you registered with, and check your spam folder."
+msgstr "Ak ste e-mail nedostali, skontrolujte, či ste zadali správnu adresu, ktorú ste použili pri registrácii, a skontrolujte priečinok so spamom."
 
 #: templates/registration/password_reset_email.html:2
 #, python-format
@@ -3975,12 +3592,8 @@ msgstr "Tvoje používateľské meno je: %(user)s"
 
 #: templates/registration/password_reset_email.html:10
 #, python-format
-msgid ""
-"Someone asked for a password reset for the email address %(email)s on the "
-"Tabbycat site at %(protocol)s://%(domain)s."
-msgstr ""
-"Niekto požiadal o resetovanie hesla pre e-mailovú adresu %(email)s na "
-"stránke Tabbycat na adrese %(protocol)s://%(domain)s."
+msgid "Someone asked for a password reset for the email address %(email)s on the Tabbycat site at %(protocol)s://%(domain)s."
+msgstr "Niekto požiadal o resetovanie hesla pre e-mailovú adresu %(email)s na stránke Tabbycat na adrese %(protocol)s://%(domain)s."
 
 #: templates/registration/password_reset_email.html:14
 msgid "If this was you, follow the link below to reset your password:"
@@ -3988,25 +3601,16 @@ msgstr "Ak si to bol/a ty, klikni na odkaz nižšie a obnov si heslo:"
 
 #: templates/registration/password_reset_email.html:17
 #, python-format
-msgid ""
-"If this wasn't you, that probably means someone else typed your email "
-"address into the password reset form on the Tabbycat site at %(protocol)s://"
-"%(domain)s."
-msgstr ""
-"Ak si to nebol/a ty, pravdepodobne niekto iný zadal tvoju e-mailovú adresu "
-"do formulára na obnovenie hesla na stránke Tabbycat na adrese %(protocol)s://"
-"%(domain)s."
+msgid "If this wasn't you, that probably means someone else typed your email address into the password reset form on the Tabbycat site at %(protocol)s://%(domain)s."
+msgstr "Ak si to nebol/a ty, pravdepodobne niekto iný zadal tvoju e-mailovú adresu do formulára na obnovenie hesla na stránke Tabbycat na adrese %(protocol)s://%(domain)s."
 
 #: templates/registration/password_reset_form.html:19
 msgid "Password Reset"
 msgstr "Obnovenie hesla"
 
 #: templates/registration/password_reset_form.html:20
-msgid ""
-"Enter your email address below, and we'll email you a password reset link."
-msgstr ""
-"Zadajte nižšie svoju e-mailovú adresu a my vám zašleme odkaz na obnovenie "
-"hesla."
+msgid "Enter your email address below, and we'll email you a password reset link."
+msgstr "Zadajte nižšie svoju e-mailovú adresu a my vám zašleme odkaz na obnovenie hesla."
 
 #: templates/registration/password_reset_form.html:25
 msgctxt "button"
@@ -4032,13 +3636,8 @@ msgid "Welcome! You just logged in!"
 msgstr "Vitajte! Práve ste sa prihlásili!"
 
 #: users/admin.py:32
-msgid ""
-"Users with staff status can view and edit the Edit Database area. This is "
-"potentially dangerous and should be reserved for the actual tab director(s)."
-msgstr ""
-"Používatelia s príznakom personálu môžu zobrazovať a upravovať časť Upraviť "
-"databázu. Je to potenciálne nebezpečné a malo by to byť vyhradené iba "
-"skutočným vedúcim tabu."
+msgid "Users with staff status can view and edit the Edit Database area. This is potentially dangerous and should be reserved for the actual tab director(s)."
+msgstr "Používatelia s príznakom personálu môžu zobrazovať a upravovať časť Upraviť databázu. Je to potenciálne nebezpečné a malo by to byť vyhradené iba skutočným vedúcim tabu."
 
 #: users/admin.py:50
 msgid "Personal info"
@@ -4060,53 +3659,49 @@ msgstr "Pairing"
 msgid "Ballots and Results"
 msgstr "Balloty a výsledky"
 
-#: users/forms.py:83
+#: users/forms.py:84
 msgid "Motions and Release"
 msgstr "Tézy a zverejnenie"
 
-#: users/forms.py:125
+#: users/forms.py:126
 msgid "Check-Ins and Private URLs"
 msgstr "Check-iny a súkromné URL"
 
-#: users/forms.py:133
+#: users/forms.py:134
 msgid "Rounds and Schedule"
 msgstr "Kolá a rozvrh"
 
-#: users/forms.py:142
+#: users/forms.py:143
 msgid "Settings, Data and Registration"
 msgstr "Nastavenia, dáta a registrácia"
 
-#: users/forms.py:164
+#: users/forms.py:165
 msgid "Email address"
 msgstr "E-mailová adresa"
 
-#: users/forms.py:202
+#: users/forms.py:203
 msgid "Username"
 msgstr "Používateľské meno"
 
-#: users/forms.py:213
+#: users/forms.py:214
 msgid "Role name"
 msgstr "Názov roly"
 
-#: users/forms.py:242
+#: users/forms.py:243
 msgid "A role with this name already exists in this tournament."
 msgstr "Rola s týmto názvom v tomto turnaji už existuje."
 
-#: users/forms.py:277
+#: users/forms.py:278
 msgid "Roles"
 msgstr "Roly"
 
-#: users/forms.py:283
+#: users/forms.py:284
 msgid "Individual permissions"
 msgstr "Individuálne oprávnenia"
 
-#: users/forms.py:284
-msgid ""
-"Optional permissions granted directly to this user, in addition to their "
-"roles."
-msgstr ""
-"Voliteľné oprávnenia udelené priamo tomuto používateľovi, okrem oprávnení "
-"z ich rolí."
+#: users/forms.py:285
+msgid "Optional permissions granted directly to this user, in addition to their roles."
+msgstr "Voliteľné oprávnenia udelené priamo tomuto používateľovi, okrem oprávnení z ich rolí."
 
 #: users/groups.py:31
 msgid "Equity"
@@ -4620,18 +4215,18 @@ msgstr "upraviť odpovede na registráciu"
 msgid "confirm registration responses"
 msgstr "potvrdiť odpovede na registráciu"
 
+#: users/permissions.py:166
+msgid "access the assistant area"
+msgstr "prístup do oblasti asistencie"
+
 #: users/templates/account_invitation_email.html:2
 msgid "Hello!"
 msgstr "Ahoj!"
 
 #: users/templates/account_invitation_email.html:6
 #, python-format
-msgid ""
-"An administrator for the Tabbycat site hosting %(name)s has invited you to "
-"create an user account on their site, at %(protocol)s://%(domain)s."
-msgstr ""
-"Administrátor Tabbycat stránky hostujúcej %(name)s ťa pozval vytvoriť si "
-"používateľský účet na stránke %(protocol)s://%(domain)s."
+msgid "An administrator for the Tabbycat site hosting %(name)s has invited you to create an user account on their site, at %(protocol)s://%(domain)s."
+msgstr "Administrátor Tabbycat stránky hostujúcej %(name)s ťa pozval vytvoriť si používateľský účet na stránke %(protocol)s://%(domain)s."
 
 #: users/templates/account_invitation_email.html:10
 msgid "If you accept, please use the link below to activate your account"
@@ -4647,19 +4242,8 @@ msgid "Invitation to join Tabbycat site for %(name)s"
 msgstr "Pozvánka na Tabbycat stránku pre %(name)s"
 
 #: users/templates/admin/auth/delete_user_warning.html:6
-msgid ""
-"<strong>Warning:</strong> You shouldn't delete users from the database once "
-"they've done something, because the database logs actions taken by those "
-"users, and deleting the users also deletes the related logs. If you wish to "
-"deactivate a user account, go back to edit the user, click on the "
-"“Permissions” tab, unchecked the “Active” box, and save the user."
-msgstr ""
-"<strong>Upozornenie:</strong> Nemali by ste odstraňovať používateľov z "
-"databázy, keď už niečo urobili, pretože databáza zaznamenáva akcie vykonané "
-"týmito používateľmi a odstránenie používateľov vedie aj k odstráneniu "
-"súvisiacich záznamov. Ak chcete deaktivovať používateľský účet, vráťte sa "
-"späť k úpravám používateľa, kliknite na kartu „Oprávnenia“, zrušte "
-"začiarknutie políčka „Aktívny“ a uložte používateľa."
+msgid "<strong>Warning:</strong> You shouldn't delete users from the database once they've done something, because the database logs actions taken by those users, and deleting the users also deletes the related logs. If you wish to deactivate a user account, go back to edit the user, click on the “Permissions” tab, unchecked the “Active” box, and save the user."
+msgstr "<strong>Upozornenie:</strong> Nemali by ste odstraňovať používateľov z databázy, keď už niečo urobili, pretože databáza zaznamenáva akcie vykonané týmito používateľmi a odstránenie používateľov vedie aj k odstráneniu súvisiacich záznamov. Ak chcete deaktivovať používateľský účet, vráťte sa späť k úpravám používateľa, kliknite na kartu „Oprávnenia“, zrušte začiarknutie políčka „Aktívny“ a uložte používateľa."
 
 #: users/templates/invite_user.html:8
 msgid "Back to Configuration"
@@ -4671,11 +4255,8 @@ msgid "Invite User"
 msgstr "Pozvať používateľa"
 
 #: users/templates/invite_user.html:21
-msgid ""
-"Note: if you submit this multiple times, multiple invite emails will be sent."
-msgstr ""
-"Poznámka: ak tento formulár odošlete viackrát, bude odoslaných viacero "
-"pozývacích e-mailov."
+msgid "Note: if you submit this multiple times, multiple invite emails will be sent."
+msgstr "Poznámka: ak tento formulár odošlete viackrát, bude odoslaných viacero pozývacích e-mailov."
 
 #: users/templates/role_management.html:4
 #: users/templates/role_management.html:5 users/views.py:108
@@ -4695,12 +4276,8 @@ msgid "User Access"
 msgstr "Prístup používateľov"
 
 #: users/templates/role_management.html:110
-msgid ""
-"Assign existing users to roles, with optional individual permission "
-"overrides."
-msgstr ""
-"Prirad existujúcich používateľov k rolám s voliteľnými individuálnymi "
-"výnimkami oprávnení."
+msgid "Assign existing users to roles, with optional individual permission overrides."
+msgstr "Prirad existujúcich používateľov k rolám s voliteľnými individuálnymi výnimkami oprávnení."
 
 #: users/templates/role_management.html:117
 msgid "Back to User Access"
@@ -4778,10 +4355,8 @@ msgid "Edit User Access"
 msgstr "Upraviť prístup používateľa"
 
 #: users/templates/role_management.html:241
-msgid ""
-"Use roles for normal access, then direct permissions only for exceptions."
-msgstr ""
-"Použi roly na bežný prístup a priame oprávnenia iba pre výnimky."
+msgid "Use roles for normal access, then direct permissions only for exceptions."
+msgstr "Použi roly na bežný prístup a priame oprávnenia iba pre výnimky."
 
 #: users/templates/role_management.html:262
 msgid "Recommended"
@@ -4842,11 +4417,8 @@ msgid "Create Account"
 msgstr "Vytvoriť účet"
 
 #: users/views.py:54
-msgid ""
-"Whoops! It looks like someone's already created the first user account. "
-"Please log in."
-msgstr ""
-"Ups! Vyzerá to, že niekto už vytvoril prvý používateľský účet. Prihláste sa."
+msgid "Whoops! It looks like someone's already created the first user account. Please log in."
+msgstr "Ups! Vyzerá to, že niekto už vytvoril prvý používateľský účet. Prihláste sa."
 
 #: users/views.py:62
 #, python-format
@@ -4875,21 +4447,22 @@ msgstr "Prístup pre %(user)s bol uložený."
 msgid "XML converter"
 msgstr "XML konvertor"
 
-#: xmlconverter/forms.py:10
+#: xmlconverter/forms.py:14
 msgid "DebateXML file"
 msgstr "Súbor DebateXML"
 
-#: xmlconverter/forms.py:11
-msgid ""
-"Upload a Tabbycat DebateXML export. The converter returns an SDA-style XLSX "
-"results workbook."
-msgstr ""
-"Nahraj export Tabbycat DebateXML. Konvertor vráti XLSX zošit s výsledkami "
-"vo formáte SDA."
+#: xmlconverter/forms.py:15
+msgid "Upload a Tabbycat DebateXML export. The converter returns an SDA-style XLSX results workbook."
+msgstr "Nahraj export Tabbycat DebateXML. Konvertor vráti XLSX zošit s výsledkami vo formáte SDA."
 
-#: xmlconverter/forms.py:17
+#: xmlconverter/forms.py:21
 msgid "Please upload an XML file."
 msgstr "Nahrajte prosím XML súbor."
+
+#: xmlconverter/forms.py:24
+#, python-format
+msgid "This file is too large (limit %(limit)d MB)."
+msgstr "Tento súbor je príliš veľký (limit %(limit)d MB)."
 
 #: xmlconverter/models.py:9
 msgid "use converter"
@@ -4932,12 +4505,8 @@ msgid "Convert DebateXML"
 msgstr "Konvertovať DebateXML"
 
 #: xmlconverter/templates/xmlconverter/index.html:14
-msgid ""
-"Upload a Tabbycat DebateXML export and download an SDA-style XLSX results "
-"workbook."
-msgstr ""
-"Nahrajte export Tabbycat DebateXML a stiahnite XLSX zošit s výsledkami vo "
-"formáte SDA."
+msgid "Upload a Tabbycat DebateXML export and download an SDA-style XLSX results workbook."
+msgstr "Nahrajte export Tabbycat DebateXML a stiahnite XLSX zošit s výsledkami vo formáte SDA."
 
 #: xmlconverter/templates/xmlconverter/index.html:23
 msgid "Manage access"
@@ -4948,465 +4517,10 @@ msgid "Convert"
 msgstr "Konvertovať"
 
 #: xmlconverter/views.py:45
-msgid ""
-"This file could not be converted. Please make sure it is a valid Tabbycat "
-"DebateXML export."
-msgstr ""
-"Tento súbor sa nepodarilo konvertovať. Uistite sa, že ide o platný export "
-"Tabbycat DebateXML."
+msgid "This file could not be converted. Please make sure it is a valid Tabbycat DebateXML export."
+msgstr "Tento súbor sa nepodarilo konvertovať. Uistite sa, že ide o platný export Tabbycat DebateXML."
 
 #: xmlconverter/views.py:80
 #, python-format
 msgid "Converter access updated for %(user)s."
 msgstr "Prístup ku konvertoru bol aktualizovaný pre %(user)s."
-
-#~| msgid "Emails"
-#~ msgid "Extra emails"
-#~ msgstr "Ďalšie e-maily"
-
-#~ msgid "One email per line."
-#~ msgstr "Jeden e-mail na riadok."
-
-#~| msgid "Judge Activity"
-#~ msgid "Judge identity"
-#~ msgstr "Identita rozhodcu"
-
-#~| msgid "add adjudicators"
-#~ msgid "Tabbycat adjudicator"
-#~ msgstr "Tabbycat rozhodca"
-
-#, fuzzy
-#~| msgid "Test email"
-#~ msgid "extra emails"
-#~ msgstr "Testovací e-mail"
-
-#~ msgid ""
-#~ "Export adjudicated debate counts from selected tournaments to the SDA "
-#~ "database. Break management metadata is used only when available."
-#~ msgstr ""
-#~ "Exportuje počty odrozhodovaných debát z vybraných turnajov do SDA "
-#~ "databázy. Metadáta zo Správy postupov sa použijú iba vtedy, keď existujú."
-
-#~ msgid "Queue selected"
-#~ msgstr "Zaradiť vybrané"
-
-#, fuzzy
-#~| msgid "No Break management metadata"
-#~ msgid "Break metadata"
-#~ msgstr "Bez metadát zo Správy postupov"
-
-#~ msgid "Archived local events"
-#~ msgstr "Archivované lokálne eventy"
-
-#~ msgid ""
-#~ "These export events still exist locally, but their source tournament has "
-#~ "been removed from Tabbycat."
-#~ msgstr ""
-#~ "Tieto exportné eventy stále existujú lokálne, ale ich zdrojový turnaj bol "
-#~ "z Tabbycatu odstránený."
-
-#~ msgid "Shared judge identity mapping"
-#~ msgstr "Spoločné mapovanie identít rozhodcov"
-
-#~| msgid "Generate missing identifiers"
-#~ msgid "Missing identities"
-#~ msgstr "Chýbajúce identity"
-
-#~ msgid ""
-#~ "Confirmed feedback exports only when the target judge is linked to a "
-#~ "judge identity."
-#~ msgstr ""
-#~ "Potvrdený feedback sa exportuje iba vtedy, keď je cieľový rozhodca "
-#~ "prepojený s identitou rozhodcu."
-
-#~| msgid "Season speaker identities"
-#~ msgid "Blocked identities"
-#~ msgstr "Blokujúce identity"
-
-#~| msgid "Identities"
-#~ msgid "Identity warnings"
-#~ msgstr "Upozornenia identít"
-
-#, python-format
-#~| msgid "%(count)s season"
-#~| msgid_plural "%(count)s seasons"
-#~ msgid "%(count)s warning"
-#~ msgid_plural "%(count)s warnings"
-#~ msgstr[0] "%(count)s upozornenie"
-#~ msgstr[1] "%(count)s upozornenia"
-#~ msgstr[2] "%(count)s upozornení"
-#~ msgstr[3] "%(count)s upozornenia"
-
-#~ msgid "Mapped"
-#~ msgstr "Namapované"
-
-#~ msgid "Blocked"
-#~ msgstr "Blokované"
-
-#~| msgid "Identities"
-#~ msgid "Fix identities"
-#~ msgstr "Opraviť identity"
-
-#~ msgid "Incomplete"
-#~ msgstr "Neúplné"
-
-#~ msgid ""
-#~ "One shared mapping connects Tabbycat adjudicators to DR judge records. "
-#~ "Feedback requires it; activity benefits from it."
-#~ msgstr ""
-#~ "Jedno spoločné mapovanie prepája rozhodcov v Tabbycate so záznamami "
-#~ "rozhodcov v DR. Feedback ho vyžaduje; odrozhodované debaty z neho "
-#~ "profitujú."
-
-#~| msgid "debate identifiers"
-#~ msgid "Judge identities"
-#~ msgstr "Identity rozhodcov"
-
-#~| msgid "view adjudicators"
-#~ msgid "Linked adjudicators"
-#~ msgstr "Prepojení rozhodcovia"
-
-#~ msgid "Unmapped"
-#~ msgstr "Nenamapované"
-
-#~| msgid "Make Identifiers"
-#~ msgid "Manage identities"
-#~ msgstr "Spravovať identity"
-
-#~ msgid "Auto-create missing"
-#~ msgstr "Automaticky vytvoriť chýbajúce"
-
-#~| msgid "Judge Activity"
-#~ msgid "Judge Identity"
-#~ msgstr "Identita rozhodcov"
-
-#~ msgid ""
-#~ "Shared identity mapping for judge data exports. Feedback requires it; "
-#~ "activity uses it when available and falls back when needed."
-#~ msgstr ""
-#~ "Spoločné mapovanie identít pre exporty dát rozhodcov. Feedback ho "
-#~ "vyžaduje; odrozhodované debaty ho použijú, keď je dostupné, inak použijú "
-#~ "náhradné párovanie."
-
-#~ msgid "Coverage"
-#~ msgstr "Pokrytie"
-
-#~ msgid "Complete"
-#~ msgstr "Kompletné"
-
-#~ msgid ""
-#~ "Map Tabbycat adjudicators to stable DR judge records once, then reuse "
-#~ "that identity for all judge exports."
-#~ msgstr ""
-#~ "Namapuj rozhodcov z Tabbycatu na stabilné záznamy rozhodcov v DR raz a "
-#~ "potom túto identitu používaj pri všetkých exportoch rozhodcov."
-
-#~| msgid "Feedback Progress"
-#~ msgid "Feedback blockers"
-#~ msgstr "Blokery feedbacku"
-
-#~ msgid "Activity warnings"
-#~ msgstr "Upozornenia aktivity"
-
-#~| msgid "With identifiers"
-#~ msgid "Existing identities"
-#~ msgstr "Existujúce identity"
-
-#~| msgid "Generate missing identifiers"
-#~ msgid "Auto-create missing identities"
-#~ msgstr "Automaticky vytvoriť chýbajúce identity"
-
-#~ msgid "Create judge identity"
-#~ msgstr "Vytvoriť identitu rozhodcu"
-
-#~ msgid "Create a canonical DR-facing judge record"
-#~ msgstr "Vytvorí kanonický záznam rozhodcu pre DR"
-
-#~| msgid "debate identifier"
-#~ msgid "Create identity"
-#~ msgstr "Vytvoriť identitu"
-
-#~| msgid "add adjudicators"
-#~ msgid "Link Tabbycat adjudicator"
-#~ msgstr "Prepojiť Tabbycat rozhodcu"
-
-#~ msgid "Attach a local adjudicator to an existing judge identity"
-#~ msgstr "Pripojí lokálneho rozhodcu k existujúcej identite rozhodcu"
-
-#~| msgid "Create season"
-#~ msgid "Create link"
-#~ msgstr "Vytvoriť prepojenie"
-
-#~| msgid "Season speaker identities"
-#~ msgid "Unmapped judge identities"
-#~ msgstr "Nenamapované identity rozhodcov"
-
-#~ msgid ""
-#~ "Feedback rows below are blockers. Activity rows are warnings and can "
-#~ "still export with fallback matching."
-#~ msgstr ""
-#~ "Feedbackové riadky nižšie sú blokery. Riadky odrozhodovaných debát sú "
-#~ "upozornenia a stále sa môžu exportovať s náhradným párovaním."
-
-#~ msgid "Impact"
-#~ msgstr "Dopad"
-
-#~| msgid "add feedback"
-#~ msgid "Blocks feedback"
-#~ msgstr "Blokuje feedback"
-
-#~ msgid "Activity warning"
-#~ msgstr "Upozornenie aktivity"
-
-#~ msgid "All judge data export adjudicators are mapped."
-#~ msgstr "Všetci rozhodcovia v exportoch dát rozhodcov sú namapovaní."
-
-#~ msgid ""
-#~ "Canonical identities and the Tabbycat adjudicators currently linked to "
-#~ "them."
-#~ msgstr ""
-#~ "Kanonické identity a Tabbycat rozhodcovia, ktorí sú na ne aktuálne "
-#~ "prepojení."
-
-#~ msgid "External ID"
-#~ msgstr "Externé ID"
-
-#~| msgid "negative"
-#~ msgid "inactive"
-#~ msgstr "neaktívne"
-
-#~| msgid "view adjudicators"
-#~ msgid "No linked adjudicators"
-#~ msgstr "Žiadni prepojení rozhodcovia"
-
-#~| msgid "No break leagues have been created yet."
-#~ msgid "No judge identities have been created yet."
-#~ msgstr "Zatiaľ neboli vytvorené žiadne identity rozhodcov."
-
-#, python-format
-#~ msgid ""
-#~ "%(created_profiles)s judge identities and %(created_links)s links created."
-#~ msgstr ""
-#~ "Vytvorené identity rozhodcov: %(created_profiles)s; vytvorené prepojenia: "
-#~ "%(created_links)s."
-
-#, python-format
-#~| msgid "Break league %(league)s was created."
-#~ msgid "Judge identity %(profile)s was created."
-#~ msgstr "Identita rozhodcu %(profile)s bola vytvorená."
-
-#, python-format
-#~ msgid "Linked %(adjudicator)s to %(profile)s."
-#~ msgstr "%(adjudicator)s bol/a prepojený/á s %(profile)s."
-
-#~ msgid ""
-#~ "Minimum allowed score for cross-examinations when using a single cross "
-#~ "total"
-#~ msgstr ""
-#~ "Minimálne povolené skóre pre krížové výsluchy pri ich používaní, bez "
-#~ "nastavených kategórií"
-
-#~ msgid "Minimum cross-examination score"
-#~ msgstr "Minimálny počet bodov za krížový výsluch"
-
-#~ msgid ""
-#~ "Maximum allowed score for cross-examinations when using a single cross "
-#~ "total"
-#~ msgstr ""
-#~ "Maximálny povolený počet bodov za krížové výsluchy pri ich používaní, bez "
-#~ "nastavených kategórií"
-
-#~ msgid "Maximum cross-examination score"
-#~ msgstr "Maximálny počet bodov za krížový výsluch"
-
-#~ msgid ""
-#~ "Score steps allowed for cross-examinations when using a single cross "
-#~ "total, e.g. full points (1) or half points (0.5)"
-#~ msgstr ""
-#~ "Povolené kroky bodovania krížových výsluchov pri použití jedného "
-#~ "celkového skóre, napr. celé body (1) alebo polovičné body (0,5)"
-
-#~ msgid "Cross-examination score step"
-#~ msgstr "Krok bodovania krížových výsluchov"
-
-#~ msgid ""
-#~ "Whether this style includes scored cross-examinations that contribute to "
-#~ "team totals"
-#~ msgstr "Využitie krížových výsluchov v tomto formáte"
-
-#~ msgid "Cross-examination scores"
-#~ msgstr "Zapnúť krížové výsluchy"
-
-#~ msgid ""
-#~ "Use collapsible slider controls on online ballot entry pages while "
-#~ "keeping the classic numeric inputs available as a fallback on the page"
-#~ msgstr ""
-#~ "Použiť rozbaľovacie posuvníky na online stránkach zadávania ballotov a "
-#~ "zároveň ponechať klasické číselné vstupy ako záložnú možnosť"
-
-#~ msgid "Use slider ballot UI"
-#~ msgstr "Použiť ballotové rozhranie s posuvníkmi"
-
-#~ msgid "Cross-examinations"
-#~ msgstr "Krížové výsluchy"
-
-#~ msgid "Cross-examinations total"
-#~ msgstr "Krížové výsluchy celkovo"
-
-#~ msgid "cross-examination"
-#~ msgstr "krížový výsluch"
-
-#~ msgid "cross-examinations"
-#~ msgstr "krížové výsluchy"
-
-#~ msgid "cross-examination score"
-#~ msgstr "body za krížový výsluch"
-
-#~ msgid "cross-examination scores"
-#~ msgstr "body za krížové výsluchy"
-
-#~ msgid ""
-#~ "Cross-examination must be from the same tournament as this ballot "
-#~ "submission."
-#~ msgstr ""
-#~ "Krížový výsluch musí patriť do rovnakého turnaja ako tento odoslaný "
-#~ "ballot."
-
-#~ msgid "cross-examination score by adjudicator"
-#~ msgstr "skóre krížového výsluchu rozhodcom"
-
-#~ msgid "cross-examination scores by adjudicator"
-#~ msgstr "skóre krížového výsluchu podľa rozhodcu"
-
-#~ msgid "Cross-examination scores are not identical"
-#~ msgstr "Výsledky krížového výsluchu nie sú identické"
-
-#~ msgid "Cross-examination totals are not identical"
-#~ msgstr "Súčty krížových výsluchov nie sú identické"
-
-#~ msgid ""
-#~ "There are some problems with this scoresheet. Please review and correct "
-#~ "them."
-#~ msgstr "V tomto hlasovacom hárku sú chyby. Skontrolujte ich a opravte."
-
-#~ msgid "Use classic ballot UI"
-#~ msgstr "Použiť klasické ballotové rozhranie"
-
-#~ msgid "Reply"
-#~ msgstr "Záverečná reč"
-
-#~ msgid "Result"
-#~ msgstr "Výsledok"
-
-#~ msgid "Margin"
-#~ msgstr "Rozdiel"
-
-#~ msgid "only the confirmed ballot set will affect this debate's result"
-#~ msgstr "výsledok debaty ovplyvní iba potvrdená sada ballotov"
-
-#~ msgid "Debate Status"
-#~ msgstr "Stav debaty"
-
-#~ msgid "all debates must be confirmed to complete the round"
-#~ msgstr "na ukončenie kola musia byť potvrdené všetky debaty"
-
-#~ msgid "Save Ballot"
-#~ msgstr "Uložiť ballot"
-
-#~ msgid "Cancel Entry"
-#~ msgstr "Zrušiť zadávanie"
-
-#~ msgid "discarded"
-#~ msgstr "zahodené"
-
-#~ msgid "The ballot set can't be both discarded and confirmed."
-#~ msgstr "Sada ballotov nemôže byť zároveň zahodená aj potvrdená."
-
-#~ msgid ""
-#~ "The debate status can't be confirmed unless one of the ballot sets is "
-#~ "confirmed."
-#~ msgstr ""
-#~ "Stav debaty nemôže byť potvrdený, kým nie je potvrdená aspoň jedna sada "
-#~ "ballotov."
-
-#~ msgid "A ballot can't be both confirmed and discarded!"
-#~ msgstr "Ballot nemôže byť zároveň potvrdený aj zahodený!"
-
-#~ msgid "Confirmed ballot set"
-#~ msgstr "Potvrdená sada ballotov"
-
-#~ msgid "Discarded ballot set"
-#~ msgstr "Zahodená sada ballotov"
-
-#~ msgid "affirmative"
-#~ msgstr "súhlas"
-
-#~ msgid "affirmative team"
-#~ msgstr "súhlasný tím"
-
-#~ msgid "Aff"
-#~ msgstr "S"
-
-#, python-format
-#~ msgid "%(league)s · %(slots)s regional slots"
-#~ msgstr "%(league)s · %(slots)s regionálnych slotov"
-
-#~ msgid "Manage the league labels used by break seasons and exports."
-#~ msgstr "Spravuj označenia líg používané v postupových sezónach a exportoch."
-
-#~ msgid "Actions"
-#~ msgstr "Akcie"
-
-#~ msgid "Return to Site Home"
-#~ msgstr "Späť na homepage"
-
-#~ msgid "Tournaments, imports, breaks, exports and operations"
-#~ msgstr "Turnaje, importy, postupy, exporty a prevádzka"
-
-#~ msgid "Create a new Tabbycat tournament from a preset."
-#~ msgstr "Vytvor nový Tabbycat turnaj z presetu."
-
-#~ msgid "Group tournaments on the homepage and set their visibility."
-#~ msgstr "Zoskupuj turnaje na homepage a nastav ich viditeľnosť."
-
-#~ msgid "Upload a tournament archive from a DebateXML export."
-#~ msgstr "Nahraj archív turnaja z DebateXML exportu."
-
-#~ msgid "Breaks and exports"
-#~ msgstr "Postupy a exporty"
-
-#~ msgid "Manage seasons, leagues, snapshots and break rankings."
-#~ msgstr "Spravuj sezóny, ligy, snapshoty a postupové poradia."
-
-#~ msgid "Send or inspect feedback exports to the SDA database."
-#~ msgstr "Pošli alebo skontroluj feedback export do SDA databázy."
-
-#~ msgid "Convert DebateXML results into the output workbook."
-#~ msgstr "Premeň DebateXML výsledky na výstupný workbook."
-
-#~ msgid "Operations"
-#~ msgstr "Prevádzka"
-
-#~ msgid "Django administration"
-#~ msgstr "Django administrácia"
-
-#~ msgid "Open the database administration area."
-#~ msgstr "Otvor databázovú administračnú oblasť."
-
-#~ msgid "Check whether the server can send email notifications."
-#~ msgstr "Over, či server vie odosielať e-mailové notifikácie."
-
-#~ msgid "Regions, source tournaments and snapshots"
-#~ msgstr "Regióny, zdrojové turnaje a snapshoty"
-
-#~ msgid "Send or inspect exports to the SDA database."
-#~ msgstr "Pošli alebo skontroluj exporty do SDA databázy."
-
-#~ msgid "Judge activity events"
-#~ msgstr "Eventy odrozhodovaných debát"
-
-#~ msgid "Open judge activity export"
-#~ msgstr "Otvoriť export odrozhodovaných debát"
-
-#~ msgid "Judge activity outbox"
-#~ msgstr "Outbox odrozhodovaných debát"

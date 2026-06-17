@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tabbycat\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-06 09:38+1000\n"
+"POT-Creation-Date: 2026-06-17 09:00+0200\n"
 "PO-Revision-Date: 2026-04-26 00:00+0200\n"
 "Last-Translator: \n"
 "Language-Team: Slovak\n"
@@ -17,26 +17,26 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 3;\n"
 
-#: importer/forms.py
+#: importer/forms.py:28
 #, python-format
 msgid "line %(lineno)d: %(message)s"
 msgstr "riadok %(lineno)d: %(message)s"
 
-#: importer/forms.py
+#: importer/forms.py:55
 #, python-format
 msgid "This line (for %(institution)s) didn't have a code"
 msgstr "Tento riadok (pre %(institution)s) neobsahoval kód"
 
-#: importer/forms.py
+#: importer/forms.py:60
 #, python-format
 msgid "This line (for %(institution)s) had too many columns"
 msgstr "Tento riadok (pre %(institution)s) mal príliš veľa stĺpcov"
 
-#: importer/forms.py
+#: importer/forms.py:70
 msgid "There were no institutions to import."
 msgstr "Neboli žiadne inštitúcie na import."
 
-#: importer/forms.py
+#: importer/forms.py:75
 #, python-format
 msgid "Sorry, you can only import up to %(max_allowed)d institution at a time. (You currently have %(given)d.) Try splitting your import into smaller chunks."
 msgid_plural "Sorry, you can only import up to %(max_allowed)d institutions at a time. (You currently have %(given)d.) Try splitting your import into smaller chunks."
@@ -45,11 +45,11 @@ msgstr[1] "Prepáč, naraz môžeš importovať najviac %(max_allowed)d inštit�
 msgstr[2] "Prepáč, naraz môžeš importovať najviac %(max_allowed)d inštitúcie. (Momentálne ich máš %(given)d.) Skús rozdeliť import na menšie časti."
 msgstr[3] "Prepáč, naraz môžeš importovať najviac %(max_allowed)d inštitúcií. (Momentálne ich máš %(given)d.) Skús rozdeliť import na menšie časti."
 
-#: importer/forms.py
+#: importer/forms.py:107
 msgid "There were no rooms to import."
 msgstr "Neboli žiadne miestnosti na import."
 
-#: importer/forms.py
+#: importer/forms.py:112
 #, python-format
 msgid "Sorry, you can only import up to %(max_allowed)d room at a time. (You currently have %(given)d.) Try splitting your import into smaller chunks."
 msgid_plural "Sorry, you can only import up to %(max_allowed)d rooms at a time. (You currently have %(given)d.) Try splitting your import into smaller chunks."
@@ -58,104 +58,104 @@ msgstr[1] "Prepáč, naraz môžeš importovať najviac %(max_allowed)d miestnos
 msgstr[2] "Prepáč, naraz môžeš importovať najviac %(max_allowed)d miestnosti. (Momentálne ich máš %(given)d.) Skús rozdeliť import na menšie časti."
 msgstr[3] "Prepáč, naraz môžeš importovať najviac %(max_allowed)d miestností. (Momentálne ich máš %(given)d.) Skús rozdeliť import na menšie časti."
 
-#: importer/forms.py
+#: importer/forms.py:202
 msgid "Speakers' names"
 msgstr "Mená rečníkov"
 
-#: importer/forms.py
+#: importer/forms.py:202
 msgid "Can be separated by newlines, tabs, commas or ampersands"
 msgstr "Môžu byť oddelené novými riadkami, tabulátormi, čiarkami alebo znakom &"
 
-#: importer/forms.py
+#: importer/forms.py:203
 msgid "Speakers' email addresses"
 msgstr "E-mailové adresy rečníkov"
 
-#: importer/forms.py
+#: importer/forms.py:204
 msgid "Optional, useful to include if distributing private URLs, list in same order as speakers' names"
 msgstr "Voliteľné, užitočné pri distribúcii súkromných URL; uveď v rovnakom poradí ako mená rečníkov"
 
-#: importer/forms.py
+#: importer/forms.py:213
 msgid "Name (excluding institution name)"
 msgstr "Názov (bez názvu inštitúcie)"
 
-#: importer/forms.py
+#: importer/forms.py:214
 msgid "Prefix team name with institution name?"
 msgstr "Pridať pred názov tímu názov inštitúcie?"
 
-#: importer/forms.py
+#: importer/forms.py:217
 msgid "Do not include institution name (check the \"Prefix team name with institution name?\" field instead)"
 msgstr "Nezahŕňaj názov inštitúcie (namiesto toho zaškrtni pole „Pridať pred názov tímu názov inštitúcie?”)"
 
-#: importer/forms.py
+#: importer/forms.py:226
 msgid "(Not applicable to unaffiliated teams)"
 msgstr "(Nevzťahuje sa na tímy bez inštitúcie)"
 
-#: importer/forms.py
+#: importer/forms.py:231
 msgid "One speaker's name per line"
 msgstr "Jedno meno rečníka na riadok"
 
-#: importer/forms.py
+#: importer/forms.py:233
 #, python-format
 msgid "Speaker %d"
 msgstr "Rečník %d"
 
-#: importer/forms.py
+#: importer/forms.py:235
 #, python-format
 msgid "speaker%d@example.edu"
 msgstr "speaker%d@example.edu"
 
-#: importer/forms.py
+#: importer/forms.py:243
 msgid "Unseeded"
 msgstr "Bez nasadenia"
 
-#: importer/forms.py
+#: importer/forms.py:244
 msgid "Free seed"
 msgstr "Voľné nasadenie"
 
-#: importer/forms.py
+#: importer/forms.py:245
 msgid "Half seed"
 msgstr "Polovičné nasadenie"
 
-#: importer/forms.py
+#: importer/forms.py:246
 msgid "Full seed"
 msgstr "Plné nasadenie"
 
-#: importer/forms.py
+#: importer/forms.py:263
 msgid "There must be at least one speaker."
 msgstr "Musí byť aspoň jeden rečník."
 
-#: importer/forms.py
+#: importer/forms.py:272
 #, python-format
 msgid "%(email)s is not a valid email address."
 msgstr "%(email)s nie je platná e-mailová adresa."
 
-#: importer/forms.py
+#: importer/forms.py:285
 msgid "There are more email addresses than speakers."
 msgstr "Je tu viac e-mailových adries než rečníkov."
 
-#: importer/forms.py
+#: importer/forms.py:327
 msgid "Every team in a single tournament from the same institution must have a different name. Please correct the duplicate data."
 msgstr "Každý tím v rámci jedného turnaja z rovnakej inštitúcie musí mať jedinečný názov. Oprav duplicitné údaje."
 
-#: importer/forms.py
+#: importer/forms.py:339
 msgid "Rating"
 msgstr "Hodnotenie"
 
-#: importer/forms.py
+#: importer/forms.py:347
 #, python-format
 msgid "This value must be between %(min)d and %(max)d."
 msgstr "Táto hodnota musí byť medzi %(min)d a %(max)d."
 
-#: importer/forms.py
+#: importer/forms.py:374
 msgid "Unaffiliated (no institution)"
 msgstr "Bez inštitúcie"
 
-#: importer/forms.py
+#: importer/forms.py:386
 #, python-format
 msgid "%(name)s (%(code)s)"
 msgstr "%(name)s (%(code)s)"
 
-#: importer/forms.py
+#: importer/forms.py:407
 #, python-format
 msgid "Sorry, you can only import up to %(max_allowed)d team at a time. (These numbers currently add to %(given)d.) Try splitting your import into smaller chunks."
 msgid_plural "Sorry, you can only import up to %(max_allowed)d teams at a time. (These numbers currently add to %(given)d.) Try splitting your import into smaller chunks."
@@ -164,7 +164,7 @@ msgstr[1] "Prepáč, naraz môžeš importovať najviac %(max_allowed)d tímy. (
 msgstr[2] "Prepáč, naraz môžeš importovať najviac %(max_allowed)d tímu. (Tieto čísla momentálne dávajú dokopy %(given)d.) Skús rozdeliť import na menšie časti."
 msgstr[3] "Prepáč, naraz môžeš importovať najviac %(max_allowed)d tímov. (Tieto čísla momentálne dávajú dokopy %(given)d.) Skús rozdeliť import na menšie časti."
 
-#: importer/forms.py
+#: importer/forms.py:420
 #, python-format
 msgid "Sorry, you can only import up to %(max_allowed)d adjudicator at a time. (These numbers currently add to %(given)d.) Try splitting your import into smaller chunks."
 msgid_plural "Sorry, you can only import up to %(max_allowed)d adjudicators at a time. (These numbers currently add to %(given)d.) Try splitting your import into smaller chunks."
@@ -173,232 +173,279 @@ msgstr[1] "Prepáč, naraz môžeš importovať najviac %(max_allowed)d rozhodco
 msgstr[2] "Prepáč, naraz môžeš importovať najviac %(max_allowed)d rozhodcu. (Tieto čísla momentálne dávajú dokopy %(given)d.) Skús rozdeliť import na menšie časti."
 msgstr[3] "Prepáč, naraz môžeš importovať najviac %(max_allowed)d rozhodcov. (Tieto čísla momentálne dávajú dokopy %(given)d.) Skús rozdeliť import na menšie časti."
 
-#: importer/forms.py
+#: importer/forms.py:435
 msgid "XML"
 msgstr "XML"
 
-#: importer/forms.py
-msgid "The Debate XML archive to parse"
-msgstr "XML archív debaty na spracovanie"
+#: importer/forms.py:436
+msgid "Paste the Debate XML archive here."
+msgstr "Vlož sem archív Debate XML."
 
-#: importer/templates/archive_export_index.html
+#: importer/forms.py:437
+msgid "XML file"
+msgstr "XML súbor"
+
+#: importer/forms.py:438
+msgid "Or upload the exported Debate XML archive file."
+msgstr "Alebo nahraj exportovaný archívny súbor Debate XML."
+
+#: importer/forms.py:440
+msgid "Adjudicator weighting"
+msgstr "Váha rozhodcov/rozhodkýň"
+
+#: importer/forms.py:443
+msgid "Use archive setting (Tabbycat default if the archive does not say)"
+msgstr "Použiť nastavenie archívu (predvolené Tabbycat, ak archív nešpecifikuje)"
+
+#: importer/forms.py:444
+msgid "Tabbycat default"
+msgstr "Predvolené Tabbycat"
+
+#: importer/forms.py:445
+msgid "Weighted to three votes"
+msgstr "Vážené na tri hlasy"
+
+#: importer/forms.py:449
+msgid "Choose how per-adjudicator ballots should be aggregated. For old SDA XML archives from weighted tournaments, choose \"Weighted to three votes\"."
+msgstr "Vyber, ako sa majú agregovať balloty jednotlivých rozhodcov. Pre staré SDA XML archívy z vážených turnajov zvol „Vážené na tri hlasy\"."
+
+#: importer/forms.py:466
+msgid "Provide XML text or upload an XML file."
+msgstr "Zadaj XML text alebo nahraj XML súbor."
+
+#: importer/forms.py:471
+msgid "The provided file does not contain valid Debate XML."
+msgstr "Nahraný súbor neobsahuje platné Debate XML."
+
+#: importer/templates/archive_export_index.html:4
+#: importer/templates/archive_export_index.html:5
 msgid "Export Tournament Archive"
 msgstr "Exportovať archív turnaja"
 
-#: importer/templates/archive_export_index.html
+#: importer/templates/archive_export_index.html:9
 msgid "Tournaments can be exported in an <a href=\"https://en.wikipedia.org/wiki/XML\">XML format</a> for use outside Tabbycat."
 msgstr "Turnaje možno exportovať vo formáte <a href=\"https://en.wikipedia.org/wiki/XML\">XML</a> na použitie mimo Tabbycat."
 
-#: importer/templates/archive_export_index.html
+#: importer/templates/archive_export_index.html:17
 msgid "Export all data"
 msgstr "Exportovať všetky dáta"
 
-#: importer/templates/archive_importer.html
+#: importer/templates/archive_importer.html:6
+#: importer/templates/archive_importer.html:18
 msgctxt "page title"
 msgid "Import Tournament Archive"
 msgstr "Importovať archív turnaja"
 
-#: importer/templates/archive_importer.html
+#: importer/templates/archive_importer.html:19
 msgid "This form will create a tournament with the data provided as a Debate XML format."
 msgstr "Tento formulár vytvorí turnaj z údajov vo formáte Debate XML."
 
-#: importer/templates/archive_importer.html
+#: importer/templates/archive_importer.html:24
 msgid "Import"
 msgstr "Importovať"
 
-#: importer/templates/archive_importer.html
+#: importer/templates/archive_importer.html:25
 msgid "Go back to the site home page"
 msgstr "Späť na hlavnú stránku"
 
-#: importer/templates/simple_import_adjudicators_details.html
-#: importer/templates/simple_import_adjudicators_numbers.html
+#: importer/templates/simple_import_adjudicators_details.html:4
+#: importer/templates/simple_import_adjudicators_details.html:6
+#: importer/templates/simple_import_adjudicators_numbers.html:4
+#: importer/templates/simple_import_adjudicators_numbers.html:6
 msgctxt "page title"
 msgid "Add Adjudicators"
 msgstr "Pridať rozhodcov"
 
-#: importer/templates/simple_import_adjudicators_details.html
-#: importer/templates/simple_import_adjudicators_numbers.html
-#: importer/templates/simple_import_institutions_details.html
-#: importer/templates/simple_import_institutions_raw.html
-#: importer/templates/simple_import_teams_details.html
-#: importer/templates/simple_import_teams_numbers.html
-#: importer/templates/simple_import_venues_details.html
-#: importer/templates/simple_import_venues_raw.html
+#: importer/templates/simple_import_adjudicators_details.html:5
+#: importer/templates/simple_import_adjudicators_numbers.html:5
+#: importer/templates/simple_import_institutions_details.html:5
+#: importer/templates/simple_import_institutions_raw.html:5
+#: importer/templates/simple_import_teams_details.html:5
+#: importer/templates/simple_import_teams_numbers.html:5
+#: importer/templates/simple_import_venues_details.html:5
+#: importer/templates/simple_import_venues_raw.html:5
 #, python-format
 msgid "(Step %(step)s of %(count)s)"
 msgstr "(Krok %(step)s z %(count)s)"
 
-#: importer/templates/simple_import_adjudicators_details.html
-#: importer/templates/simple_import_institutions_details.html
-#: importer/templates/simple_import_teams_details.html
-#: importer/templates/simple_import_venues_details.html
+#: importer/templates/simple_import_adjudicators_details.html:13
+#: importer/templates/simple_import_institutions_details.html:17
+#: importer/templates/simple_import_teams_details.html:17
+#: importer/templates/simple_import_venues_details.html:13
 msgid "Previous Step"
 msgstr "Predchádzajúci krok"
 
-#: importer/templates/simple_import_adjudicators_details.html
+#: importer/templates/simple_import_adjudicators_details.html:18
 #, python-format
 msgid "As per <a href=\"%(options_feedback)s\" class=\"alert-link\">this tournament's configuration</a>, an adjudicator's rating must be between <strong>%(min)s</strong> and <strong>%(max)s</strong>. Providing email addresses is optional but can be useful if using <a href=\"%(privateurls_url)s\" class=\"alert-link\">private URLs</a> for feedback or ballots."
 msgstr "Podľa <a href=\"%(options_feedback)s\" class=\"alert-link\">nastavení tohto turnaja</a> musí byť hodnotenie rozhodcu medzi <strong>%(min)s</strong> a <strong>%(max)s</strong>. Zadanie e-mailových adries je voliteľné, ale môže byť užitočné pri používaní <a href=\"%(privateurls_url)s\" class=\"alert-link\">súkromných URL</a> pre spätnú väzbu alebo balloty."
 
-#: importer/templates/simple_import_adjudicators_details.html
+#: importer/templates/simple_import_adjudicators_details.html:48
 #, python-format
 msgid "Adjudicators for %(institution)s"
 msgstr "Rozhodcovia pre %(institution)s"
 
-#: importer/templates/simple_import_adjudicators_details.html
+#: importer/templates/simple_import_adjudicators_details.html:52
 msgid "Unaffiliated Adjudicators"
 msgstr "Rozhodcovia bez inštitúcie"
 
-#: importer/templates/simple_import_adjudicators_details.html
+#: importer/templates/simple_import_adjudicators_details.html:72
 msgid "Save All Adjudicators"
 msgstr "Uložiť všetkých rozhodcov"
 
-#: importer/templates/simple_import_adjudicators_numbers.html
+#: importer/templates/simple_import_adjudicators_numbers.html:14
 #, python-format
 msgid "You need to <a href=\"%(import_institutions_url)s\" class=\"alert-link\">add institutions</a> before adding adjudicators."
 msgstr "Pred pridaním rozhodcov musíš <a href=\"%(import_institutions_url)s\" class=\"alert-link\">pridať inštitúcie</a>."
 
-#: importer/templates/simple_import_adjudicators_numbers.html
+#: importer/templates/simple_import_adjudicators_numbers.html:23
 msgid "Specify the number of new adjudicators to add per institution. In the next step you can specify their names and ratings."
 msgstr "Zadaj počet nových rozhodcov na pridanie pre každú inštitúciu. V ďalšom kroku môžeš zadať ich mená a hodnotenia."
 
-#: importer/templates/simple_import_adjudicators_numbers.html
+#: importer/templates/simple_import_adjudicators_numbers.html:27
 msgid "You can add up to 198 adjudicators at a time. If you have more than 198 adjudicators, split them into chunks. (Please don't try to add more than 198 in one go; the system will crash, and you will lose data.)"
 msgstr "Naraz môžeš pridať najviac 198 rozhodcov. Ak máš viac ako 198 rozhodcov, rozdeľ ich do skupín. (Nepokúšaj sa pridať viac ako 198 naraz; systém môže zlyhať a stratíš údaje.)"
 
-#: importer/templates/simple_import_adjudicators_numbers.html
-#: importer/templates/simple_import_teams_numbers.html
+#: importer/templates/simple_import_adjudicators_numbers.html:59
+#: importer/templates/simple_import_teams_numbers.html:60
 msgctxt "button"
 msgid "Next Step"
 msgstr "Ďalší krok"
 
-#: importer/templates/simple_import_index.html
+#: importer/templates/simple_import_index.html:4
+#: importer/templates/simple_import_index.html:5
 msgid "Simple Importer"
 msgstr "Jednoduchý import"
 
-#: importer/templates/simple_import_index.html
+#: importer/templates/simple_import_index.html:9
 msgid "There are <a href=\"https://tabbycat.readthedocs.io/en/stable/use/importing-data.html\" target=\"_blank\">several ways to import data into Tabbycat</a>. Which one is best depends on the size of your tournament and your technical background. This <strong>simple importer</strong> is the easiest to use and works well for small- and medium-sized tournaments."
 msgstr "Existuje <a href=\"https://tabbycat.readthedocs.io/en/stable/use/importing-data.html\" target=\"_blank\">niekoľko spôsobov, ako importovať dáta do Tabbycat</a>. Ktorý je najvhodnejší závisí od veľkosti tvojho turnaja a technických znalostí. Tento <strong>jednoduchý import</strong> je najľahší na použitie a funguje dobre pre malé a stredné turnaje."
 
-#: importer/templates/simple_import_index.html
+#: importer/templates/simple_import_index.html:16
 msgid "Add Institutions"
 msgstr "Pridať inštitúcie"
 
-#: importer/templates/simple_import_index.html
+#: importer/templates/simple_import_index.html:21
 msgid "Add Teams"
 msgstr "Pridať tímy"
 
-#: importer/templates/simple_import_index.html
+#: importer/templates/simple_import_index.html:25
 msgid "Add Adjudicators"
 msgstr "Pridať rozhodcov"
 
-#: importer/templates/simple_import_index.html
+#: importer/templates/simple_import_index.html:29
 msgid "Add Rooms"
 msgstr "Pridať miestnosti"
 
-#: importer/templates/simple_import_index.html
+#: importer/templates/simple_import_index.html:36
 msgid "Add/Edit Room Categories"
 msgstr "Pridať/upraviť kategórie miestností"
 
-#: importer/templates/simple_import_index.html
+#: importer/templates/simple_import_index.html:40
 msgid "Add/Edit Room Constraints"
 msgstr "Pridať/upraviť obmedzenia miestností"
 
-#: importer/templates/simple_import_index.html
+#: importer/templates/simple_import_index.html:47
 msgid "Add/Edit Adjudicator-Team Conflicts"
 msgstr "Pridať/upraviť konflikty rozhodca–tím"
 
-#: importer/templates/simple_import_index.html
+#: importer/templates/simple_import_index.html:51
 msgid "Add/Edit Adjudicator-Adjudicator Conflicts"
 msgstr "Pridať/upraviť konflikty rozhodca–rozhodca"
 
-#: importer/templates/simple_import_index.html
+#: importer/templates/simple_import_index.html:55
 msgid "Add/Edit Adjudicator-Institution Conflicts"
 msgstr "Pridať/upraviť konflikty rozhodca–inštitúcia"
 
-#: importer/templates/simple_import_index.html
+#: importer/templates/simple_import_index.html:59
 msgid "Add/Edit Team-Institution Conflicts"
 msgstr "Pridať/upraviť konflikty tím–inštitúcia"
 
-#: importer/templates/simple_import_index.html
+#: importer/templates/simple_import_index.html:66
 msgid "Add/Edit Break Categories"
 msgstr "Pridať/upraviť postupové kategórie"
 
-#: importer/templates/simple_import_index.html
+#: importer/templates/simple_import_index.html:70
 msgid "Add/Edit Speaker Categories"
 msgstr "Pridať/upraviť kategórie rečníkov"
 
-#: importer/templates/simple_import_institutions_details.html
-#: importer/templates/simple_import_institutions_raw.html
+#: importer/templates/simple_import_institutions_details.html:4
+#: importer/templates/simple_import_institutions_details.html:6
+#: importer/templates/simple_import_institutions_raw.html:4
+#: importer/templates/simple_import_institutions_raw.html:6
 msgctxt "page title"
 msgid "Add Institutions"
 msgstr "Pridať inštitúcie"
 
-#: importer/templates/simple_import_institutions_details.html
+#: importer/templates/simple_import_institutions_details.html:37
 msgid "Save All Institutions"
 msgstr "Uložiť všetky inštitúcie"
 
-#: importer/templates/simple_import_institutions_raw.html
-#: importer/templates/simple_import_venues_raw.html
+#: importer/templates/simple_import_institutions_raw.html:30
+#: importer/templates/simple_import_venues_raw.html:30
 msgid "There are some problems with the data on this form:"
 msgstr "V údajoch tohto formulára sú niektoré problémy:"
 
-#: importer/templates/simple_import_institutions_raw.html
-#: importer/templates/simple_import_venues_raw.html
+#: importer/templates/simple_import_institutions_raw.html:41
+#: importer/templates/simple_import_venues_raw.html:41
 msgid "Next Step"
 msgstr "Ďalší krok"
 
-#: importer/templates/simple_import_teams_details.html
-#: importer/templates/simple_import_teams_numbers.html
+#: importer/templates/simple_import_teams_details.html:4
+#: importer/templates/simple_import_teams_details.html:6
+#: importer/templates/simple_import_teams_numbers.html:4
+#: importer/templates/simple_import_teams_numbers.html:6
 msgctxt "page title"
 msgid "Add Teams"
 msgstr "Pridať tímy"
 
-#: importer/templates/simple_import_teams_details.html
+#: importer/templates/simple_import_teams_details.html:33
 #, python-format
 msgid "Teams for %(institution)s"
 msgstr "Tímy pre %(institution)s"
 
-#: importer/templates/simple_import_teams_details.html
+#: importer/templates/simple_import_teams_details.html:37
 msgid "Unaffiliated Teams"
 msgstr "Tímy bez inštitúcie"
 
-#: importer/templates/simple_import_teams_details.html
+#: importer/templates/simple_import_teams_details.html:51
 msgid "Save All Teams"
 msgstr "Uložiť všetky tímy"
 
-#: importer/templates/simple_import_teams_numbers.html
+#: importer/templates/simple_import_teams_numbers.html:15
 #, python-format
 msgid "You need to <a href=\"%(import_institutions_url)s\" class=\"alert-link\">add institutions</a> before adding teams."
 msgstr "Pred pridaním tímov musíš <a href=\"%(import_institutions_url)s\" class=\"alert-link\">pridať inštitúcie</a>."
 
-#: importer/templates/simple_import_teams_numbers.html
+#: importer/templates/simple_import_teams_numbers.html:24
 msgid "Specify the number of new teams to add per institution. In the next step you can specify team and speaker names."
 msgstr "Zadaj počet nových tímov na pridanie pre každú inštitúciu. V ďalšom kroku môžeš zadať názvy tímov a mená rečníkov."
 
-#: importer/templates/simple_import_teams_numbers.html
+#: importer/templates/simple_import_teams_numbers.html:28
 msgid "You can add up to 141 teams at a time. If you have more than 141 teams, split them into chunks. (Please don't try to add more than 141 in one go; the system will crash, and you will lose data.)"
 msgstr "Naraz môžeš pridať najviac 141 tímov. Ak máš viac ako 141 tímov, rozdeľ ich do skupín. (Nepokúšaj sa pridať viac ako 141 naraz; systém môže zlyhať a stratíš údaje.)"
 
-#: importer/templates/simple_import_venues_details.html
-#: importer/templates/simple_import_venues_raw.html
+#: importer/templates/simple_import_venues_details.html:4
+#: importer/templates/simple_import_venues_details.html:6
+#: importer/templates/simple_import_venues_raw.html:4
+#: importer/templates/simple_import_venues_raw.html:6
 msgctxt "page title"
 msgid "Add Rooms"
 msgstr "Pridať miestnosti"
 
-#: importer/templates/simple_import_venues_details.html
+#: importer/templates/simple_import_venues_details.html:16
 msgid "Priorities indicate how much you want to use the room. Larger numbers indicate higher priority. If you have more rooms than debates, the rooms with the lowest priorities will not be used."
 msgstr "Priority určujú, ako veľmi chceš danú miestnosť využívať. Vyššie číslo znamená vyššiu prioritu. Ak máš viac miestností ako debát, miestnosti s najnižšou prioritou sa nepoužijú."
 
-#: importer/templates/simple_import_venues_details.html
+#: importer/templates/simple_import_venues_details.html:33
 msgid "Save All Rooms"
 msgstr "Uložiť všetky miestnosti"
 
-#: importer/templates/simple_import_venues_raw.html
+#: importer/templates/simple_import_venues_raw.html:15
 msgid "Paste a list of rooms with one room per line and following the format of: <code>name,priority</code>. For example:"
 msgstr "Vlož zoznam miestností, jedna miestnosť na riadok, vo formáte: <code>name,priority</code>. Napríklad:"
 
-#: importer/views.py
+#: importer/views.py:110
 #, python-format
 msgid "Added %(count)d institution."
 msgid_plural "Added %(count)d institutions."
@@ -407,7 +454,7 @@ msgstr[1] "Pridané %(count)d inštitúcie."
 msgstr[2] "Pridané %(count)d inštitúcie."
 msgstr[3] "Pridaných %(count)d inštitúcií."
 
-#: importer/views.py
+#: importer/views.py:132
 #, python-format
 msgid "Added %(count)d room."
 msgid_plural "Added %(count)d rooms."
@@ -416,7 +463,7 @@ msgstr[1] "Pridané %(count)d miestnosti."
 msgstr[2] "Pridané %(count)d miestnosti."
 msgstr[3] "Pridaných %(count)d miestností."
 
-#: importer/views.py
+#: importer/views.py:193
 #, python-format
 msgid "Added %(count)d team."
 msgid_plural "Added %(count)d teams."
@@ -425,12 +472,12 @@ msgstr[1] "Pridané %(count)d tímy."
 msgstr[2] "Pridané %(count)d tímu."
 msgstr[3] "Pridaných %(count)d tímov."
 
-#: importer/views.py
+#: importer/views.py:215
 #, python-format
 msgid "Adjudicator %(number)d"
 msgstr "Rozhodca %(number)d"
 
-#: importer/views.py
+#: importer/views.py:226
 #, python-format
 msgid "Added %(count)d adjudicator."
 msgid_plural "Added %(count)d adjudicators."
@@ -439,14 +486,14 @@ msgstr[1] "Pridaní %(count)d rozhodcovia."
 msgstr[2] "Pridaní %(count)d rozhodcovia."
 msgstr[3] "Pridaných %(count)d rozhodcov."
 
-#: importer/views.py
+#: importer/views.py:242
 msgid "<p>There were one or more errors creating the demo tournament. Before retrying, please delete the existing demo tournament <strong>and</strong> the institutions in the Edit Database Area.</p><p><i>Technical information: The errors are as follows:</i></p>"
 msgstr "<p>Pri vytváraní ukážkového turnaja nastala jedna alebo viac chýb. Pred ďalším pokusom vymaž existujúci ukážkový turnaj <strong>a</strong> inštitúcie v oblasti Upraviť databázu.</p><p><i>Technické informácie: Chyby sú nasledovné:</i></p>"
 
-#: importer/views.py
+#: importer/views.py:250
 msgid "Created new demo tournament. You can now configure it below."
 msgstr "Vytvorený nový ukážkový turnaj. Môžeš ho teraz nakonfigurovať nižšie."
 
-#: importer/views.py
+#: importer/views.py:271
 msgid "Tournament archive has been imported."
 msgstr "Archív turnaja bol importovaný."
