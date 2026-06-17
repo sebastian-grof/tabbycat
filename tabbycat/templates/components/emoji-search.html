@@ -1,0 +1,142 @@
+{% load i18n %}
+{% comment %}
+  Progressive enhancement that turns any <select data-emoji-select> into a
+  searchable Bootstrap dropdown (similar to the database/admin area). The
+  original <select> stays in the DOM (hidden) so the form still submits
+  normally and the page degrades gracefully if JavaScript is unavailable.
+{% endcomment %}
+
+<style>
+  .emoji-search-field .emoji-search-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    text-align: left;
+    background-color: #fff;
+  }
+  .emoji-search-field .emoji-search-toggle .emoji-search-current {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .emoji-search-menu { width: 100%; padding-top: 0; }
+  .emoji-search-input-wrap {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    padding: .5rem;
+    background: #fff;
+    border-bottom: 1px solid rgba(0, 0, 0, .08);
+  }
+  .emoji-search-list { max-height: 16rem; overflow-y: auto; }
+  .emoji-search-list .dropdown-item { white-space: normal; }
+  .emoji-search-empty { padding: .5rem 1rem; }
+</style>
+
+<script>
+  (function () {
+    function enhance (select) {
+      if (select.dataset.emojiEnhanced) return
+      select.dataset.emojiEnhanced = 'true'
+
+      var wrapper = document.createElement('div')
+      wrapper.className = 'dropdown emoji-search-field'
+      select.parentNode.insertBefore(wrapper, select)
+      wrapper.appendChild(select)
+      select.classList.add('d-none')
+
+      var toggle = document.createElement('button')
+      toggle.type = 'button'
+      toggle.className = 'form-control emoji-search-toggle dropdown-toggle text-left'
+      toggle.setAttribute('data-toggle', 'dropdown')
+      toggle.setAttribute('aria-haspopup', 'true')
+      toggle.setAttribute('aria-expanded', 'false')
+      var current = document.createElement('span')
+      current.className = 'emoji-search-current'
+      toggle.appendChild(current)
+      wrapper.appendChild(toggle)
+
+      var menu = document.createElement('div')
+      menu.className = 'dropdown-menu emoji-search-menu'
+      var inputWrap = document.createElement('div')
+      inputWrap.className = 'emoji-search-input-wrap'
+      var input = document.createElement('input')
+      input.type = 'search'
+      input.className = 'form-control form-control-sm'
+      input.setAttribute('placeholder', '{% trans "Search emoji…" as s %}{{ s|escapejs }}')
+      input.setAttribute('autocomplete', 'off')
+      inputWrap.appendChild(input)
+      menu.appendChild(inputWrap)
+      var list = document.createElement('div')
+      list.className = 'emoji-search-list'
+      menu.appendChild(list)
+      var empty = document.createElement('div')
+      empty.className = 'emoji-search-empty text-muted small d-none'
+      empty.textContent = '{% trans "No emoji match your search." as e %}{{ e|escapejs }}'
+      menu.appendChild(empty)
+      wrapper.appendChild(menu)
+
+      function updateCurrent () {
+        var opt = select.options[select.selectedIndex]
+        current.textContent = opt && opt.value ? opt.text : '{% trans "Choose an emoji…" as c %}{{ c|escapejs }}'
+      }
+      updateCurrent()
+
+      var items = []
+      var built = false
+      function build () {
+        if (built) return
+        built = true
+        Array.prototype.forEach.call(select.options, function (opt) {
+          var item = document.createElement('button')
+          item.type = 'button'
+          item.className = 'dropdown-item'
+          item.textContent = opt.value ? opt.text : '{% trans "(no emoji)" as n %}{{ n|escapejs }}'
+          item.dataset.search = item.textContent.toLowerCase()
+          item.addEventListener('click', function () {
+            select.value = opt.value
+            select.dispatchEvent(new Event('change', { bubbles: true }))
+            updateCurrent()
+          })
+          list.appendChild(item)
+          items.push(item)
+        })
+      }
+
+      function filter () {
+        var query = input.value.trim().toLowerCase()
+        var visible = 0
+        items.forEach(function (item) {
+          var match = query === '' || item.dataset.search.indexOf(query) !== -1
+          item.classList.toggle('d-none', !match)
+          if (match) visible += 1
+        })
+        empty.classList.toggle('d-none', visible !== 0)
+      }
+
+      input.addEventListener('input', filter)
+      input.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') {
+          e.preventDefault()
+          for (var i = 0; i < items.length; i++) {
+            if (!items[i].classList.contains('d-none')) { items[i].click(); break }
+          }
+        }
+      })
+
+      toggle.addEventListener('click', build)
+      if (window.jQuery) {
+        window.jQuery(wrapper).on('shown.bs.dropdown', function () {
+          input.value = ''
+          filter()
+          input.focus()
+        })
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      document.querySelectorAll('select[data-emoji-select]').forEach(enhance)
+    })
+  })()
+</script>

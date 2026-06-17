@@ -724,6 +724,41 @@ class AdminEditAdjudicatorRegistrationView(LogActionMixin, TournamentMixin, Admi
         return super().form_valid(form)
 
 
+class BaseDeleteRegistrationView(LogActionMixin, TournamentMixin, AdministratorMixin, PostOnlyRedirectView):
+    """Deletes a registered team or adjudicator and redirects to its list."""
+    edit_permission = Permission.EDIT_REGISTRATION
+
+    def get_object(self):
+        return get_object_or_404(self.model.objects.all_with_unconfirmed, tournament=self.tournament, pk=self.kwargs['pk'])
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        name = getattr(self.object, self.name_field)
+        self.object.delete()
+        self.log_action()
+        messages.success(request, self.success_message % name)
+        return super().post(request, *args, **kwargs)
+
+    def get_redirect_url(self, *args, **kwargs):
+        return reverse_tournament(self.tournament_redirect_pattern_name, self.tournament)
+
+
+class DeleteTeamRegistrationView(BaseDeleteRegistrationView):
+    model = Team
+    name_field = 'short_name'
+    success_message = gettext_lazy("Team %s was deleted.")
+    action_log_type = ActionLogEntry.ActionType.TEAM_DELETE
+    tournament_redirect_pattern_name = 'reg-team-list'
+
+
+class DeleteAdjudicatorRegistrationView(BaseDeleteRegistrationView):
+    model = Adjudicator
+    name_field = 'name'
+    success_message = gettext_lazy("Adjudicator %s was deleted.")
+    action_log_type = ActionLogEntry.ActionType.ADJUDICATOR_DELETE
+    tournament_redirect_pattern_name = 'reg-adjudicator-list'
+
+
 class CoachViewResponseFormView(PublicTournamentPageMixin, InstitutionalRegistrationMixin, FormView):
     # This form is read-only: coaches can view their institution and primary contact response but cannot edit.
     form_class = InstitutionEditForm
