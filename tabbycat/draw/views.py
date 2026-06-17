@@ -59,6 +59,8 @@ from .manager import DrawManager
 from .models import ByeTeamOverride, Debate, TeamSideAllocation, get_effective_side_allocation_mode
 from .side_allocations import (
     SideAllocationError,
+    generate_all_affirmation_allocations,
+    generate_all_negation_allocations,
     generate_opposite_allocations,
     generate_random_allocations,
     get_bye_override_team,
@@ -1161,11 +1163,23 @@ class SideAllocationsView(AdministratorMixin, TournamentMixin, TemplateView):
                     messages.success(self.request, _("Random side allocations generated for %(round)s.") % {"round": target_round.name})
                 elif mode == SideAllocationGenerateForm.MODE_OPPOSITE:
                     source_round = generate_form.cleaned_data["source_round"]
-                    generate_opposite_allocations(target_round, source_round)
+                    allocations = generate_opposite_allocations(target_round, source_round)
                     messages.success(self.request, _("Side allocations for %(target)s were copied as the opposite of %(source)s.") % {
                         "target": target_round.name,
                         "source": source_round.name,
                     })
+                    assigned_sides = {side for side in allocations.values() if side is not None}
+                    if len(allocations) >= 2 and len(assigned_sides) == 1:
+                        messages.warning(self.request, _("All teams in %(target)s were assigned the same side because %(source)s has one-sided side allocations, so this round can't be paired. Balance the sides before pairing this round.") % {
+                            "target": target_round.name,
+                            "source": source_round.name,
+                        })
+                elif mode == SideAllocationGenerateForm.MODE_ALL_AFF:
+                    generate_all_affirmation_allocations(target_round)
+                    messages.success(self.request, _("All teams set to affirmation for %(round)s.") % {"round": target_round.name})
+                elif mode == SideAllocationGenerateForm.MODE_ALL_NEG:
+                    generate_all_negation_allocations(target_round)
+                    messages.success(self.request, _("All teams set to negation for %(round)s.") % {"round": target_round.name})
                 else:
                     replace_round_allocations(target_round, {})
                     messages.success(self.request, _("Cleared saved side allocations for %(round)s. This round will pair first and assign sides afterwards.") % {

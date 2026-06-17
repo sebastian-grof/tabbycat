@@ -24,6 +24,8 @@ class ConfirmDrawDeletionForm(forms.Form):
 class SideAllocationGenerateForm(forms.Form):
     MODE_RANDOM = "random"
     MODE_OPPOSITE = "opposite"
+    MODE_ALL_AFF = "all_aff"
+    MODE_ALL_NEG = "all_neg"
     MODE_CLEAR = "clear"
 
     mode = forms.ChoiceField(
@@ -31,6 +33,8 @@ class SideAllocationGenerateForm(forms.Form):
         choices=(
             (MODE_RANDOM, _("Random")),
             (MODE_OPPOSITE, _("Opposite of round")),
+            (MODE_ALL_AFF, _("All affirmation")),
+            (MODE_ALL_NEG, _("All negation")),
             (MODE_CLEAR, _("Clear selection")),
         ),
         widget=forms.Select(attrs={"class": "custom-select form-control"}),
