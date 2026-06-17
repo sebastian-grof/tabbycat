@@ -1,0 +1,916 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-06-17 14:39+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);\n"
+
+#: admin.py:34
+msgid "Source"
+msgstr "Zdroj"
+
+#: admin.py:38
+msgid "Receiving"
+msgstr "Prijímajúci"
+
+#. Translators: Please leave this blank, it should be left for the base Django translations.
+#: form_utils.py:41
+msgid "Yes"
+msgstr "Ano"
+
+#. Translators: Please leave this blank, it should be left for the base Django translations.
+#: form_utils.py:43
+msgid "No"
+msgstr "Nie"
+
+#. Translators: Please leave this blank, it should be left for the base Django translations.
+#: form_utils.py:58
+msgid "This field is required."
+msgstr "Toto pole je povinné."
+
+#: forms.py:24 forms.py:524 views.py:1247
+msgid "Institution name"
+msgstr "Názov debatného klubu"
+
+#: forms.py:25
+msgid "Institution abbreviation"
+msgstr "Skratka debatného klubu"
+
+#: forms.py:28
+msgid "Institution region"
+msgstr "Región debatného klubu"
+
+#: forms.py:56
+msgid "An institution with this name is already registered for this tournament."
+msgstr "Debatný klub s týmto názvom je na tento turnaj už zaregistrovaný."
+
+#: forms.py:99
+msgid "Name of primary contact"
+msgstr "Meno hlavného kontaktu"
+
+#: forms.py:189
+msgid "Unseeded"
+msgstr "Bez seedu"
+
+#: forms.py:190
+msgid "Free seed"
+msgstr "Voľný seed"
+
+#: forms.py:191
+msgid "Half seed"
+msgstr "Polovičný seed"
+
+#: forms.py:192
+msgid "Full seed"
+msgstr "Plný seed"
+
+#: forms.py:208
+msgid "Team name (excluding institution)"
+msgstr "Názov tímu (bez klubu)"
+
+#: forms.py:263 forms.py:299 forms.py:387 forms.py:458
+msgid "Full name for tab"
+msgstr "Celé meno do tabu"
+
+#: forms.py:340
+msgid "Full team name/suffix"
+msgstr "Celý názov/prípona tímu"
+
+#: forms.py:341
+msgid "Short team name/suffix"
+msgstr "Skrátený názov/prípona tímu"
+
+#: forms.py:349
+#, python-format
+msgid "The team can't be in a break category of a different tournament. Please remove: %(category)s"
+msgstr "Tím nemôže byť v postupovej kategórii iného turnaja. Odober: %(category)s"
+
+#: forms.py:518 templates/registration/institution_edit.html:12
+#: templates/registration/institution_view_response.html:16
+msgid "Institution"
+msgstr "Debatný klub"
+
+#: forms.py:520
+msgid "Institution not listed"
+msgstr "Klub nie je uvedený"
+
+#: forms.py:526
+msgid "If the institution is not listed above, enter the name of the receiving institution here."
+msgstr "Ak klub nie je uvedený vyššie, zadaj tu názov prijímajúceho klubu."
+
+#: forms.py:529
+msgid "Contact email"
+msgstr "Kontaktný e-mail"
+
+#: forms.py:531
+msgid "If the institution is not listed above, enter the contact email for the receiving institution here."
+msgstr "Ak klub nie je uvedený vyššie, zadaj tu kontaktný e-mail prijímajúceho klubu."
+
+#: forms.py:536
+msgid "Team slots to transfer"
+msgstr "Tímové sloty na prevedenie"
+
+#: forms.py:541
+msgid "Adjudicator slots to transfer"
+msgstr "Sloty rozhodcov na prevedenie"
+
+#: forms.py:562
+msgid "Please enter the name of the receiving institution."
+msgstr "Zadaj názov prijímajúceho debatného klubu."
+
+#: forms.py:564
+msgid "Please enter the contact email for the receiving institution."
+msgstr "Zadaj kontaktný e-mail prijímajúceho debatného klubu."
+
+#: forms.py:569
+msgid "Transfer at least one team or adjudicator slot."
+msgstr "Preveď aspoň jeden tímový alebo rozhodcovský slot."
+
+#: forms.py:571
+msgid "You cannot transfer more team slots than you have."
+msgstr "Nemôžeš previesť viac tímových slotov, ako máš."
+
+#: forms.py:573
+msgid "You cannot transfer more adjudicator slots than you have."
+msgstr "Nemôžeš previesť viac rozhodcovských slotov, ako máš."
+
+#: models.py:31
+msgid "content type"
+msgstr "typ obsahu"
+
+#: models.py:32
+msgid "object id"
+msgstr "ID objektu"
+
+#: models.py:36 models.py:125
+msgid "question"
+msgstr "otázka"
+
+#: models.py:37 models.py:40
+msgid "answer"
+msgstr "odpoveď"
+
+#: models.py:41
+msgid "answers"
+msgstr "odpovede"
+
+#: models.py:65
+msgid "checkbox"
+msgstr "zaškrtávacie políčko"
+
+#: models.py:66
+msgid "yes/no (dropdown)"
+msgstr "áno/nie (rozbaľovacie menu)"
+
+#: models.py:67
+msgid "integer (textbox)"
+msgstr "celé číslo (textové pole)"
+
+#: models.py:68
+msgid "integer scale"
+msgstr "číselná škála"
+
+#: models.py:69
+msgid "float"
+msgstr "desatinné číslo"
+
+#: models.py:70 models.py:97
+msgid "text"
+msgstr "text"
+
+#: models.py:71
+msgid "long text"
+msgstr "dlhý text"
+
+#: models.py:72
+msgid "select one"
+msgstr "výber jednej možnosti"
+
+#: models.py:73
+msgid "select multiple"
+msgstr "výber viacerých možností"
+
+#: models.py:74
+msgid "date + time"
+msgstr "dátum + čas"
+
+#: models.py:90 models.py:150 models.py:176
+msgid "tournament"
+msgstr "turnaj"
+
+#: models.py:93 models.py:152
+msgid "for content type"
+msgstr "pre typ obsahu"
+
+#: models.py:95
+msgid "sequence number"
+msgstr "poradové číslo"
+
+#: models.py:98
+msgid "The question displayed to participants, e.g., \"Did you agree with the decision?\""
+msgstr "Otázka zobrazená účastníkom, napr. „Súhlasili ste s rozhodnutím?“"
+
+#: models.py:99
+msgid "help text"
+msgstr "pomocný text"
+
+#: models.py:100
+msgid "Additional context for the question"
+msgstr "Dodatočný kontext k otázke"
+
+#: models.py:102
+msgid "name"
+msgstr "meno"
+
+#: models.py:103
+msgid "A short name for the question, e.g., \"Agree with decision\""
+msgstr "Krátky názov otázky, napr. „Súhlas s rozhodnutím“"
+
+#: models.py:106
+msgid "answer type"
+msgstr "typ odpovede"
+
+#: models.py:108
+msgid "required"
+msgstr "povinné"
+
+#: models.py:109
+msgid "Whether participants are required to fill out this field"
+msgstr "Či musia účastníci toto pole vyplniť"
+
+#: models.py:111
+msgid "minimum value"
+msgstr "minimálna hodnota"
+
+#: models.py:112
+msgid "Minimum allowed value for numeric fields (ignored for text or boolean fields)"
+msgstr "Minimálna povolená hodnota pre číselné polia (ignoruje sa pre textové alebo logické polia)"
+
+#: models.py:114
+msgid "maximum value"
+msgstr "maximálna hodnota"
+
+#: models.py:115
+msgid "Maximum allowed value for numeric fields (ignored for text or boolean fields)"
+msgstr "Maximálna povolená hodnota pre číselné polia (ignoruje sa pre textové alebo logické polia)"
+
+#: models.py:120
+msgid "choices"
+msgstr "možnosti"
+
+#: models.py:121
+msgid "Permissible choices for select one/multiple fields (ignored for other fields)"
+msgstr "Povolené možnosti pre polia s výberom jednej alebo viacerých možností (ignoruje sa pre ostatné polia)"
+
+#: models.py:126
+msgid "questions"
+msgstr "otázky"
+
+#: models.py:153
+msgid "institution"
+msgstr "debatný klub"
+
+#: models.py:154
+msgid "team"
+msgstr "tím"
+
+#: models.py:155
+msgid "URL key"
+msgstr "URL kľúč"
+
+#: models.py:156
+msgid "created on"
+msgstr "vytvorené"
+
+#: models.py:158 models.py:194
+msgid "slot transfer request"
+msgstr "žiadosť o prevedenie slotu"
+
+#: models.py:161
+msgid "invitation"
+msgstr "pozvánka"
+
+#: models.py:162
+msgid "invitations"
+msgstr "pozvánky"
+
+#: models.py:171
+msgid "Pending"
+msgstr "Čaká sa"
+
+#: models.py:172
+msgid "Approved"
+msgstr "Schválená"
+
+#: models.py:173
+msgid "Rejected"
+msgstr "Zamietnutá"
+
+#: models.py:179
+msgid "source institution"
+msgstr "zdrojový debatný klub"
+
+#: models.py:181
+msgid "team slots transferred"
+msgstr "prevedené tímové sloty"
+
+#: models.py:182
+msgid "adjudicator slots transferred"
+msgstr "prevedené sloty rozhodcov"
+
+#: models.py:184
+msgid "receiving institution"
+msgstr "prijímajúci debatný klub"
+
+#: models.py:186
+msgid "receiving institution name"
+msgstr "názov prijímajúceho debatného klubu"
+
+#: models.py:187
+msgid "receiving institution contact email"
+msgstr "kontaktný e-mail prijímajúceho debatného klubu"
+
+#: models.py:190
+msgid "created at"
+msgstr "vytvorené"
+
+#: models.py:191
+msgid "updated at"
+msgstr "aktualizované"
+
+#: models.py:195
+msgid "slot transfer requests"
+msgstr "žiadosti o prevedenie slotov"
+
+#: models.py:199
+#, python-format
+msgid "%(source)s → %(recipient)s (%(status)s)"
+msgstr "%(source)s → %(recipient)s (%(status)s)"
+
+#: templates/adjudicator_registration_form.html:24
+msgctxt "button"
+msgid "Register as Adjudicator"
+msgstr "Registrovať sa ako rozhodca"
+
+#: templates/adjudicator_registration_form.html:25
+#: templates/speaker_registration_form.html:17
+#: templates/wizard_registration_form.html:35
+msgid "Cancel and go back to the site home page"
+msgstr "Zrušiť a vrátiť sa na domovskú stránku"
+
+#: templates/answer_tables/adjudicators.html:8
+msgid "Questions"
+msgstr "Otázky"
+
+#: templates/answer_tables/institutions.html:8
+msgid "Slot transfers"
+msgstr "Prevedenia slotov"
+
+#: templates/answer_tables/institutions.html:11
+msgid "Transfer summary"
+msgstr "Prehľad prevedení"
+
+#: templates/answer_tables/institutions.html:15
+#: templates/answer_tables/teams.html:7
+msgid "Questions for"
+msgstr "Otázky pre"
+
+#: templates/answer_tables/institutions.html:17
+msgid "Institutions"
+msgstr "Debatné kluby"
+
+#: templates/answer_tables/institutions.html:20
+msgid "Coaches"
+msgstr "Tréneri"
+
+#: templates/answer_tables/institutions.html:30
+#: templates/coach_private_url.html:70
+#, python-format
+msgid "Teams Requested: <strong>%(num)s</strong>"
+msgstr "Požadované tímy: <strong>%(num)s</strong>"
+
+#: templates/answer_tables/institutions.html:38
+#: templates/coach_private_url.html:77
+#, python-format
+msgid "Teams Allocated: <strong>%(num)s</strong>"
+msgstr "Pridelené tímy: <strong>%(num)s</strong>"
+
+#: templates/answer_tables/institutions.html:46
+#: templates/coach_private_url.html:85 templates/coach_private_url.html:96
+#, python-format
+msgid "Teams Registered: <strong>%(num)s</strong>"
+msgstr "Registrované tímy: <strong>%(num)s</strong>"
+
+#: templates/answer_tables/institutions.html:56
+#: templates/coach_private_url.html:43
+#, python-format
+msgid "Adjudicators Requested: <strong>%(num)s</strong>"
+msgstr "Požadovaní rozhodcovia: <strong>%(num)s</strong>"
+
+#: templates/answer_tables/institutions.html:64
+#: templates/coach_private_url.html:50
+#, python-format
+msgid "Adjudicators Allocated: <strong>%(num)s</strong>"
+msgstr "Pridelení rozhodcovia: <strong>%(num)s</strong>"
+
+#: templates/answer_tables/institutions.html:72
+#: templates/coach_private_url.html:58 templates/coach_private_url.html:103
+#, python-format
+msgid "Adjudicators Registered: <strong>%(num)s</strong>"
+msgstr "Registrovaní rozhodcovia: <strong>%(num)s</strong>"
+
+#: templates/answer_tables/institutions.html:87
+msgid "Save allocations"
+msgstr "Uložiť alokácie"
+
+#: templates/answer_tables/teams.html:9 views.py:534 views.py:1156
+msgid "Teams"
+msgstr "Tímy"
+
+#: templates/answer_tables/teams.html:12
+#: templates/registration/team_edit.html:34
+msgid "Speakers"
+msgstr "Rečníci"
+
+#: templates/coach_private_url.html:4 templates/coach_private_url.html:5
+msgid "Private URL"
+msgstr "Súkromná URL"
+
+#: templates/coach_private_url.html:9
+#, python-format
+msgid "for %(name)s (%(institution)s)"
+msgstr "pre %(name)s (%(institution)s)"
+
+#: templates/coach_private_url.html:14
+#, python-format
+msgid "The URL of this page is personalised to you, %(name)s. <strong>Do not share it with anyone;</strong> anyone who knows this URL can manage participants for %(institution)s. Bookmark this page as you may need it for a next phase of registration."
+msgstr "URL tejto stránky je osobná pre teba, %(name)s. <strong>Nikomu ju nezdieľaj;</strong> ktokoľvek, kto pozná túto URL, môže spravovať účastníkov za %(institution)s. Ulož si túto stránku do záložiek, keďže ju môžeš potrebovať v ďalšej fáze registrácie."
+
+#: templates/coach_private_url.html:28
+msgid "View your registration form response"
+msgstr "Zobraziť odpoveď na registračný formulár"
+
+#: templates/coach_private_url.html:115 views.py:394
+msgid "Register Adjudicator"
+msgstr "Registrovať rozhodcu"
+
+#: templates/coach_private_url.html:120
+msgid "or distribute this link to allow members to register themselves as adjudicators:"
+msgstr "alebo rozpošli tento odkaz, aby sa členovia mohli zaregistrovať ako rozhodcovia:"
+
+#: templates/coach_private_url.html:128
+msgid "Adjudicator registration is not yet open"
+msgstr "Registrácia rozhodcov ešte nie je otvorená"
+
+#: templates/coach_private_url.html:136 views.py:208
+msgid "Register Team"
+msgstr "Registrovať tím"
+
+#: templates/coach_private_url.html:140
+msgid "or distribute this link to allow members to register their teams:"
+msgstr "alebo rozpošli tento odkaz, aby členovia mohli registrovať svoje tímy:"
+
+#: templates/coach_private_url.html:148
+msgid "Team registration is not yet open"
+msgstr "Registrácia tímov ešte nie je otvorená"
+
+#: templates/coach_private_url.html:157
+msgid "Transfer slots to another institution"
+msgstr "Previesť sloty do iného debatného klubu"
+
+#: templates/coach_private_url.html:165
+msgid "View invoice"
+msgstr "Zobraziť faktúru"
+
+#: templates/questions_edit.html:12
+msgid "These questions appear as extra fields for participants to answer, in feedback or registration forms."
+msgstr "Tieto otázky sa zobrazia ako dodatočné polia pre účastníkov vo formulároch spätnej väzby alebo registrácie."
+
+#: templates/questions_edit.html:17
+#, python-format
+msgid "If you want to delete questions (and their associated answers), use the <a href=\"%(edit_db_url)s\" class=\"alert-link\">Edit Database</a> area."
+msgstr "Ak chceš vymazať otázky aj ich súvisiace odpovede, použi časť <a href=\"%(edit_db_url)s\" class=\"alert-link\">Upraviť databázu</a>."
+
+#: templates/questions_edit.html:23
+msgid "Save Questions"
+msgstr "Uložiť otázky"
+
+#: templates/registration/adjudicator_edit.html:7
+msgid "Back to adjudicators"
+msgstr "Späť na rozhodcov"
+
+#: templates/registration/adjudicator_edit.html:10
+#: templates/registration/adjudicator_edit.html:83
+#: templates/registration/adjudicator_edit.html:98
+msgid "Delete adjudicator"
+msgstr "Vymazať rozhodcu/rozhodkyňu"
+
+#: templates/registration/adjudicator_edit.html:25
+msgid "Adjudicator details"
+msgstr "Údaje rozhodcu"
+
+#: templates/registration/adjudicator_edit.html:26
+msgid "Common tab fields stay visible. Feedback is managed separately."
+msgstr "Bežné polia tabu ostávajú viditeľné. Spätná väzba sa spravuje osobitne."
+
+#: templates/registration/adjudicator_edit.html:29
+#: templates/registration/team_edit.html:55
+#: templates/registration/team_edit.html:110
+msgid "Additional settings"
+msgstr "Ďalšie nastavenia"
+
+#: templates/registration/adjudicator_edit.html:70
+msgctxt "button"
+msgid "Save adjudicator"
+msgstr "Uložiť rozhodcu"
+
+#: templates/registration/adjudicator_edit.html:71
+msgid "Back to adjudicator registration"
+msgstr "Späť na registráciu rozhodcov"
+
+#: templates/registration/adjudicator_edit.html:84
+#: templates/registration/team_edit.html:141
+msgid "Close"
+msgstr "Zavrieť"
+
+#: templates/registration/adjudicator_edit.html:89
+#: templates/registration/team_edit.html:146
+#, python-format
+msgid "Are you sure you want to permanently delete <strong>%(name)s</strong>?"
+msgstr "Naozaj chceš natrvalo vymazať <strong>%(name)s</strong>?"
+
+#: templates/registration/adjudicator_edit.html:92
+msgid "This also removes their registration response, and cannot be undone."
+msgstr "Tým sa odstráni aj ich registračná odpoveď a túto akciu nie je možné vrátiť späť."
+
+#: templates/registration/adjudicator_edit.html:95
+#: templates/registration/team_edit.html:152
+msgid "Cancel"
+msgstr "Zrušiť"
+
+#: templates/registration/institution_edit.html:19
+#: templates/registration/institution_view_response.html:23
+msgid "Primary contact"
+msgstr "Hlavný kontakt"
+
+#: templates/registration/institution_edit.html:25
+msgctxt "button"
+msgid "Save changes"
+msgstr "Uložiť zmeny"
+
+#: templates/registration/institution_edit.html:26
+msgid "Back to institution list"
+msgstr "Späť na zoznam klubov"
+
+#: templates/registration/institution_view_response.html:10
+msgid "This form is read-only. You can view your institution's registration response below but cannot edit it here."
+msgstr "Tento formulár je len na čítanie. Odpoveď na registráciu svojho klubu si môžeš zobraziť nižšie, ale tu ju nemôžeš upraviť."
+
+#: templates/registration/institution_view_response.html:31
+msgid "Back to your private URL"
+msgstr "Späť na svoju súkromnú URL"
+
+#: templates/registration/team_edit.html:7
+msgid "Back to teams"
+msgstr "Späť na tímy"
+
+#: templates/registration/team_edit.html:10
+#: templates/registration/team_edit.html:140
+#: templates/registration/team_edit.html:155
+msgid "Delete team"
+msgstr "Vymazať tím"
+
+#: templates/registration/team_edit.html:24
+msgid "Team details"
+msgstr "Údaje tímu"
+
+#: templates/registration/team_edit.html:25
+msgid "Edit the team name, institution, emoji, categories and registration status."
+msgstr "Uprav názov tímu, klub, emoji, kategórie a stav registrácie."
+
+#: templates/registration/team_edit.html:35
+msgid "Name and email stay visible; less common fields are tucked away."
+msgstr "Meno a e-mail ostávajú viditeľné; menej časté polia sú skryté."
+
+#: templates/registration/team_edit.html:38
+msgid "Add speaker"
+msgstr "Pridať rečníka"
+
+#: templates/registration/team_edit.html:52
+msgid "Speaker"
+msgstr "Rečník/rečníčka"
+
+#: templates/registration/team_edit.html:89
+msgid "No speakers are listed yet. Add the first speaker when you need one."
+msgstr "Zatiaľ nie sú pridaní žiadni rečníci. Pridaj prvého rečníka, keď budeš potrebovať."
+
+#: templates/registration/team_edit.html:96
+msgctxt "button"
+msgid "Save team"
+msgstr "Uložiť tím"
+
+#: templates/registration/team_edit.html:97
+msgid "Back to team registration"
+msgstr "Späť na registráciu tímov"
+
+#: templates/registration/team_edit.html:108
+msgid "New speaker"
+msgstr "Nový rečník"
+
+#: templates/registration/team_edit.html:149
+msgid "This also removes its speakers and registration response, and cannot be undone."
+msgstr "Tým sa odstránia aj jeho rečníci/rečníčky a registračná odpoveď a túto akciu nie je možné vrátiť späť."
+
+#: templates/slot_transfer_request_form.html:16
+msgid "Submit request"
+msgstr "Odoslať žiadosť"
+
+#: templates/slot_transfer_request_form.html:17
+msgid "Cancel and return to private URL"
+msgstr "Zrušiť a vrátiť sa na súkromnú URL"
+
+#: templates/speaker_registration_form.html:16
+msgctxt "button"
+msgid "Register as Speaker"
+msgstr "Registrovať sa ako rečník/rečníčka"
+
+#: templates/team_wizard_speakers.html:6
+msgid "You may register speakers for the team, but if not all speakers are included, a link will be generated to let speakers register themselves to the team after submission which you can then distribute."
+msgstr "Môžeš registrovať rečníkov tímu, ale ak nezahrnieš všetkých rečníkov, po odoslaní sa vygeneruje odkaz, cez ktorý sa rečníci môžu do tímu zaregistrovať sami a ktorý im môžeš rozposlať."
+
+#: templates/wizard_registration_form.html:31
+msgctxt "button"
+msgid "Continue"
+msgstr "Pokračovať"
+
+#: templates/wizard_registration_form.html:33
+msgctxt "button"
+msgid "Register"
+msgstr "Registrovať sa"
+
+#: utils.py:62
+msgid "Confirm"
+msgstr "Potvrdiť"
+
+#: utils.py:70 utils.py:73
+msgid "Edit"
+msgstr "Upraviť"
+
+#: utils.py:92
+msgid "Approve"
+msgstr "Schváliť"
+
+#: utils.py:97
+msgid "Status"
+msgstr "Stav"
+
+#: views.py:100
+msgid "Register Institution"
+msgstr "Registrovať debatný klub"
+
+#: views.py:170
+#, python-format
+msgid "Your institution %s has been registered!"
+msgstr "Tvoj debatný klub %s bol zaregistrovaný!"
+
+#: views.py:210 views.py:473
+msgid "Register Speaker"
+msgid_plural "Register Speakers"
+msgstr[0] "Zaregistrovať rečníka/rečníčku"
+msgstr[1] "Zaregistrovať rečníkov/rečníčky"
+
+#: views.py:226 views.py:402
+#, python-format
+msgid "from %s"
+msgstr "od %s"
+
+#: views.py:230 views.py:1074
+#, python-format
+msgid "for %s"
+msgstr "pre %s"
+
+#: views.py:279
+#, python-format
+msgid "Your team only has %(num)d speaker! Invite the other speakers to register using this link: <a href='%(link)s'>%(link)s</a>"
+msgid_plural "Your team only has %(num)d speakers! Invite the other speakers to register using this link: <a href='%(link)s'>%(link)s</a>"
+msgstr[0] "Tvoj tím má len %(num)d rečníka/rečníčku! Pozvi ostatných rečníkov/rečníčky, aby sa zaregistrovali cez tento odkaz: <a href='%(link)s'>%(link)s</a>"
+msgstr[1] "Tvoj tím má len %(num)d rečníkov/rečníčky! Pozvi ostatných rečníkov/rečníčky, aby sa zaregistrovali cez tento odkaz: <a href='%(link)s'>%(link)s</a>"
+
+#: views.py:284
+#, python-format
+msgid "Your team %s has been registered!"
+msgstr "Tvoj tím %s bol zaregistrovaný!"
+
+#: views.py:410
+msgid "You have been registered as an adjudicator!"
+msgstr "Bol/a si zaregistrovaný/á ako rozhodca!"
+
+#: views.py:508
+msgid "You have been registered as a speaker!"
+msgstr "Bol/a si zaregistrovaný/á ako rečník/rečníčka!"
+
+#: views.py:527 views.py:1157
+msgid "Adjudicators"
+msgstr "Rozhodcovia"
+
+#: views.py:593
+msgid "Edit institution registration"
+msgstr "Upraviť registráciu debatného klubu"
+
+#: views.py:640
+#, python-format
+msgid "Institution %s updated."
+msgstr "Debatný klub %s bol aktualizovaný."
+
+#: views.py:648
+msgid "Edit team registration"
+msgstr "Upraviť registráciu tímu"
+
+#: views.py:683
+#, python-format
+msgid "Team %s updated."
+msgstr "Tím %s bol aktualizovaný."
+
+#: views.py:691
+msgid "Edit adjudicator registration"
+msgstr "Upraviť registráciu rozhodcu"
+
+#: views.py:723
+#, python-format
+msgid "Adjudicator %s updated."
+msgstr "Rozhodca %s bol aktualizovaný."
+
+#: views.py:749
+#, python-format
+msgid "Team %s was deleted."
+msgstr "Tím %s bol vymazaný."
+
+#: views.py:757
+#, python-format
+msgid "Adjudicator %s was deleted."
+msgstr "Rozhodca/rozhodkyňa %s bol/a vymazaný/á."
+
+#: views.py:767
+msgid "Registration form response"
+msgstr "Odpoveď na registračný formulár"
+
+#: views.py:806
+msgid "Transfer slots"
+msgstr "Previesť sloty"
+
+#: views.py:830
+msgid "Your slot transfer request has been submitted and is pending approval."
+msgstr "Tvoja žiadosť o prevedenie slotov bola odoslaná a čaká na schválenie."
+
+#: views.py:866
+msgid "Institutional Registration"
+msgstr "Registrácia debatného klubu"
+
+#: views.py:881 views.py:1008 views.py:1034
+msgid "Responses"
+msgstr "Odpovede"
+
+#: views.py:882
+msgid "Name"
+msgstr "Meno"
+
+#: views.py:886
+msgid "Code"
+msgstr "Kód"
+
+#: views.py:887
+msgid "Coach"
+msgstr "Tréner"
+
+#: views.py:891 views.py:1017 views.py:1036
+msgid "Email"
+msgstr "E-mail"
+
+#: views.py:903
+msgid "Teams Requested"
+msgstr "Požadované tímy"
+
+#: views.py:906
+msgid "Teams Allocated"
+msgstr "Pridelené tímy"
+
+#: views.py:911
+msgid "Teams Registered"
+msgstr "Registrované tímy"
+
+#: views.py:914
+msgid "Adjudicators Requested"
+msgstr "Požadovaní rozhodcovia"
+
+#: views.py:917
+msgid "Adjudicators Allocated"
+msgstr "Pridelení rozhodcovia"
+
+#: views.py:922
+msgid "Adjudicators Registered"
+msgstr "Registrovaní rozhodcovia"
+
+#: views.py:925
+msgid "Region"
+msgstr "Región"
+
+#: views.py:972
+msgid "Successfully modified institution allocations"
+msgstr "Pridelenia debatného klubu boli úspešne upravené"
+
+#: views.py:990
+msgid "Team Registration"
+msgstr "Registrácia tímov"
+
+#: views.py:1016
+#, python-format
+msgid "Speaker %d"
+msgstr "Rečník/rečníčka %d"
+
+#: views.py:1026
+msgid "Adjudicator Registration"
+msgstr "Registrácia rozhodcu"
+
+#: views.py:1063
+msgid "Custom Questions"
+msgstr "Vlastné otázky"
+
+#: views.py:1091
+#, python-format
+msgid "Questions for %(model)s were successfully saved."
+msgstr "Otázky pre %(model)s boli úspešne uložené."
+
+#: views.py:1093
+msgid "No changes were made to the questions."
+msgstr "V otázkach neboli vykonané žiadne zmeny."
+
+#: views.py:1114
+#, python-format
+msgid "%s has been confirmed."
+msgstr "%s bolo potvrdené."
+
+#: views.py:1136 views.py:1153
+msgid "Slot transfer requests"
+msgstr "Žiadosti o prevedenie slotov"
+
+#: views.py:1154
+msgid "From"
+msgstr "Od"
+
+#: views.py:1155
+msgid "To"
+msgstr "Pre"
+
+#: views.py:1174
+msgid "Transfer request rejected."
+msgstr "Žiadosť o prevedenie bola zamietnutá."
+
+#: views.py:1178
+msgid "Invalid request or transfer is no longer pending."
+msgstr "Neplatná žiadosť alebo prevedenie už nečaká na schválenie."
+
+#: views.py:1211
+msgid "Transfer approved. An invitation email has been sent to the provided address. "
+msgstr "Prevedenie schválené. Na zadanú adresu bol odoslaný pozývací e-mail. "
+
+#: views.py:1212
+#, python-format
+msgid "You can also share this link: <a href=\"%(url)s\" class=\"alert-link\">%(url)s</a>"
+msgstr "Môžeš tiež zdieľať tento odkaz: <a href=\"%(url)s\" class=\"alert-link\">%(url)s</a>"
+
+#: views.py:1216
+msgid "Transfer approved."
+msgstr "Prevedenie schválené."
+
+#: views.py:1225 views.py:1246
+msgid "Slot transfer summary"
+msgstr "Prehľad prevedení slotov"
+
+#: views.py:1248
+msgid "Teams allocated"
+msgstr "Pridelené tímy"
+
+#: views.py:1249
+msgid "Adjudicators allocated"
+msgstr "Pridelení rozhodcovia"
+
+#: views.py:1250
+msgid "Net new teams"
+msgstr "Čisté nové tímy"
+
+#: views.py:1251
+msgid "Net new adjudicators"
+msgstr "Čistí noví rozhodcovia"

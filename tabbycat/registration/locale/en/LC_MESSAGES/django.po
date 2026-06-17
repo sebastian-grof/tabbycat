@@ -1,0 +1,916 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-06-17 14:39+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: admin.py:34
+msgid "Source"
+msgstr ""
+
+#: admin.py:38
+msgid "Receiving"
+msgstr ""
+
+#. Translators: Please leave this blank, it should be left for the base Django translations.
+#: form_utils.py:41
+msgid "Yes"
+msgstr ""
+
+#. Translators: Please leave this blank, it should be left for the base Django translations.
+#: form_utils.py:43
+msgid "No"
+msgstr ""
+
+#. Translators: Please leave this blank, it should be left for the base Django translations.
+#: form_utils.py:58
+msgid "This field is required."
+msgstr ""
+
+#: forms.py:24 forms.py:524 views.py:1247
+msgid "Institution name"
+msgstr ""
+
+#: forms.py:25
+msgid "Institution abbreviation"
+msgstr ""
+
+#: forms.py:28
+msgid "Institution region"
+msgstr ""
+
+#: forms.py:56
+msgid "An institution with this name is already registered for this tournament."
+msgstr ""
+
+#: forms.py:99
+msgid "Name of primary contact"
+msgstr ""
+
+#: forms.py:189
+msgid "Unseeded"
+msgstr ""
+
+#: forms.py:190
+msgid "Free seed"
+msgstr ""
+
+#: forms.py:191
+msgid "Half seed"
+msgstr ""
+
+#: forms.py:192
+msgid "Full seed"
+msgstr ""
+
+#: forms.py:208
+msgid "Team name (excluding institution)"
+msgstr ""
+
+#: forms.py:263 forms.py:299 forms.py:387 forms.py:458
+msgid "Full name for tab"
+msgstr ""
+
+#: forms.py:340
+msgid "Full team name/suffix"
+msgstr ""
+
+#: forms.py:341
+msgid "Short team name/suffix"
+msgstr ""
+
+#: forms.py:349
+#, python-format
+msgid "The team can't be in a break category of a different tournament. Please remove: %(category)s"
+msgstr ""
+
+#: forms.py:518 templates/registration/institution_edit.html:12
+#: templates/registration/institution_view_response.html:16
+msgid "Institution"
+msgstr ""
+
+#: forms.py:520
+msgid "Institution not listed"
+msgstr ""
+
+#: forms.py:526
+msgid "If the institution is not listed above, enter the name of the receiving institution here."
+msgstr ""
+
+#: forms.py:529
+msgid "Contact email"
+msgstr ""
+
+#: forms.py:531
+msgid "If the institution is not listed above, enter the contact email for the receiving institution here."
+msgstr ""
+
+#: forms.py:536
+msgid "Team slots to transfer"
+msgstr ""
+
+#: forms.py:541
+msgid "Adjudicator slots to transfer"
+msgstr ""
+
+#: forms.py:562
+msgid "Please enter the name of the receiving institution."
+msgstr ""
+
+#: forms.py:564
+msgid "Please enter the contact email for the receiving institution."
+msgstr ""
+
+#: forms.py:569
+msgid "Transfer at least one team or adjudicator slot."
+msgstr ""
+
+#: forms.py:571
+msgid "You cannot transfer more team slots than you have."
+msgstr ""
+
+#: forms.py:573
+msgid "You cannot transfer more adjudicator slots than you have."
+msgstr ""
+
+#: models.py:31
+msgid "content type"
+msgstr ""
+
+#: models.py:32
+msgid "object id"
+msgstr ""
+
+#: models.py:36 models.py:125
+msgid "question"
+msgstr ""
+
+#: models.py:37 models.py:40
+msgid "answer"
+msgstr ""
+
+#: models.py:41
+msgid "answers"
+msgstr ""
+
+#: models.py:65
+msgid "checkbox"
+msgstr ""
+
+#: models.py:66
+msgid "yes/no (dropdown)"
+msgstr ""
+
+#: models.py:67
+msgid "integer (textbox)"
+msgstr ""
+
+#: models.py:68
+msgid "integer scale"
+msgstr ""
+
+#: models.py:69
+msgid "float"
+msgstr ""
+
+#: models.py:70 models.py:97
+msgid "text"
+msgstr ""
+
+#: models.py:71
+msgid "long text"
+msgstr ""
+
+#: models.py:72
+msgid "select one"
+msgstr ""
+
+#: models.py:73
+msgid "select multiple"
+msgstr ""
+
+#: models.py:74
+msgid "date + time"
+msgstr ""
+
+#: models.py:90 models.py:150 models.py:176
+msgid "tournament"
+msgstr ""
+
+#: models.py:93 models.py:152
+msgid "for content type"
+msgstr ""
+
+#: models.py:95
+msgid "sequence number"
+msgstr ""
+
+#: models.py:98
+msgid "The question displayed to participants, e.g., \"Did you agree with the decision?\""
+msgstr ""
+
+#: models.py:99
+msgid "help text"
+msgstr ""
+
+#: models.py:100
+msgid "Additional context for the question"
+msgstr ""
+
+#: models.py:102
+msgid "name"
+msgstr ""
+
+#: models.py:103
+msgid "A short name for the question, e.g., \"Agree with decision\""
+msgstr ""
+
+#: models.py:106
+msgid "answer type"
+msgstr ""
+
+#: models.py:108
+msgid "required"
+msgstr ""
+
+#: models.py:109
+msgid "Whether participants are required to fill out this field"
+msgstr ""
+
+#: models.py:111
+msgid "minimum value"
+msgstr ""
+
+#: models.py:112
+msgid "Minimum allowed value for numeric fields (ignored for text or boolean fields)"
+msgstr ""
+
+#: models.py:114
+msgid "maximum value"
+msgstr ""
+
+#: models.py:115
+msgid "Maximum allowed value for numeric fields (ignored for text or boolean fields)"
+msgstr ""
+
+#: models.py:120
+msgid "choices"
+msgstr ""
+
+#: models.py:121
+msgid "Permissible choices for select one/multiple fields (ignored for other fields)"
+msgstr ""
+
+#: models.py:126
+msgid "questions"
+msgstr ""
+
+#: models.py:153
+msgid "institution"
+msgstr ""
+
+#: models.py:154
+msgid "team"
+msgstr ""
+
+#: models.py:155
+msgid "URL key"
+msgstr ""
+
+#: models.py:156
+msgid "created on"
+msgstr ""
+
+#: models.py:158 models.py:194
+msgid "slot transfer request"
+msgstr ""
+
+#: models.py:161
+msgid "invitation"
+msgstr ""
+
+#: models.py:162
+msgid "invitations"
+msgstr ""
+
+#: models.py:171
+msgid "Pending"
+msgstr ""
+
+#: models.py:172
+msgid "Approved"
+msgstr ""
+
+#: models.py:173
+msgid "Rejected"
+msgstr ""
+
+#: models.py:179
+msgid "source institution"
+msgstr ""
+
+#: models.py:181
+msgid "team slots transferred"
+msgstr ""
+
+#: models.py:182
+msgid "adjudicator slots transferred"
+msgstr ""
+
+#: models.py:184
+msgid "receiving institution"
+msgstr ""
+
+#: models.py:186
+msgid "receiving institution name"
+msgstr ""
+
+#: models.py:187
+msgid "receiving institution contact email"
+msgstr ""
+
+#: models.py:190
+msgid "created at"
+msgstr ""
+
+#: models.py:191
+msgid "updated at"
+msgstr ""
+
+#: models.py:195
+msgid "slot transfer requests"
+msgstr ""
+
+#: models.py:199
+#, python-format
+msgid "%(source)s → %(recipient)s (%(status)s)"
+msgstr ""
+
+#: templates/adjudicator_registration_form.html:24
+msgctxt "button"
+msgid "Register as Adjudicator"
+msgstr ""
+
+#: templates/adjudicator_registration_form.html:25
+#: templates/speaker_registration_form.html:17
+#: templates/wizard_registration_form.html:35
+msgid "Cancel and go back to the site home page"
+msgstr ""
+
+#: templates/answer_tables/adjudicators.html:8
+msgid "Questions"
+msgstr ""
+
+#: templates/answer_tables/institutions.html:8
+msgid "Slot transfers"
+msgstr ""
+
+#: templates/answer_tables/institutions.html:11
+msgid "Transfer summary"
+msgstr ""
+
+#: templates/answer_tables/institutions.html:15
+#: templates/answer_tables/teams.html:7
+msgid "Questions for"
+msgstr ""
+
+#: templates/answer_tables/institutions.html:17
+msgid "Institutions"
+msgstr ""
+
+#: templates/answer_tables/institutions.html:20
+msgid "Coaches"
+msgstr ""
+
+#: templates/answer_tables/institutions.html:30
+#: templates/coach_private_url.html:70
+#, python-format
+msgid "Teams Requested: <strong>%(num)s</strong>"
+msgstr ""
+
+#: templates/answer_tables/institutions.html:38
+#: templates/coach_private_url.html:77
+#, python-format
+msgid "Teams Allocated: <strong>%(num)s</strong>"
+msgstr ""
+
+#: templates/answer_tables/institutions.html:46
+#: templates/coach_private_url.html:85 templates/coach_private_url.html:96
+#, python-format
+msgid "Teams Registered: <strong>%(num)s</strong>"
+msgstr ""
+
+#: templates/answer_tables/institutions.html:56
+#: templates/coach_private_url.html:43
+#, python-format
+msgid "Adjudicators Requested: <strong>%(num)s</strong>"
+msgstr ""
+
+#: templates/answer_tables/institutions.html:64
+#: templates/coach_private_url.html:50
+#, python-format
+msgid "Adjudicators Allocated: <strong>%(num)s</strong>"
+msgstr ""
+
+#: templates/answer_tables/institutions.html:72
+#: templates/coach_private_url.html:58 templates/coach_private_url.html:103
+#, python-format
+msgid "Adjudicators Registered: <strong>%(num)s</strong>"
+msgstr ""
+
+#: templates/answer_tables/institutions.html:87
+msgid "Save allocations"
+msgstr ""
+
+#: templates/answer_tables/teams.html:9 views.py:534 views.py:1156
+msgid "Teams"
+msgstr ""
+
+#: templates/answer_tables/teams.html:12
+#: templates/registration/team_edit.html:34
+msgid "Speakers"
+msgstr ""
+
+#: templates/coach_private_url.html:4 templates/coach_private_url.html:5
+msgid "Private URL"
+msgstr ""
+
+#: templates/coach_private_url.html:9
+#, python-format
+msgid "for %(name)s (%(institution)s)"
+msgstr ""
+
+#: templates/coach_private_url.html:14
+#, python-format
+msgid "The URL of this page is personalised to you, %(name)s. <strong>Do not share it with anyone;</strong> anyone who knows this URL can manage participants for %(institution)s. Bookmark this page as you may need it for a next phase of registration."
+msgstr ""
+
+#: templates/coach_private_url.html:28
+msgid "View your registration form response"
+msgstr ""
+
+#: templates/coach_private_url.html:115 views.py:394
+msgid "Register Adjudicator"
+msgstr ""
+
+#: templates/coach_private_url.html:120
+msgid "or distribute this link to allow members to register themselves as adjudicators:"
+msgstr ""
+
+#: templates/coach_private_url.html:128
+msgid "Adjudicator registration is not yet open"
+msgstr ""
+
+#: templates/coach_private_url.html:136 views.py:208
+msgid "Register Team"
+msgstr ""
+
+#: templates/coach_private_url.html:140
+msgid "or distribute this link to allow members to register their teams:"
+msgstr ""
+
+#: templates/coach_private_url.html:148
+msgid "Team registration is not yet open"
+msgstr ""
+
+#: templates/coach_private_url.html:157
+msgid "Transfer slots to another institution"
+msgstr ""
+
+#: templates/coach_private_url.html:165
+msgid "View invoice"
+msgstr ""
+
+#: templates/questions_edit.html:12
+msgid "These questions appear as extra fields for participants to answer, in feedback or registration forms."
+msgstr ""
+
+#: templates/questions_edit.html:17
+#, python-format
+msgid "If you want to delete questions (and their associated answers), use the <a href=\"%(edit_db_url)s\" class=\"alert-link\">Edit Database</a> area."
+msgstr ""
+
+#: templates/questions_edit.html:23
+msgid "Save Questions"
+msgstr ""
+
+#: templates/registration/adjudicator_edit.html:7
+msgid "Back to adjudicators"
+msgstr ""
+
+#: templates/registration/adjudicator_edit.html:10
+#: templates/registration/adjudicator_edit.html:83
+#: templates/registration/adjudicator_edit.html:98
+msgid "Delete adjudicator"
+msgstr ""
+
+#: templates/registration/adjudicator_edit.html:25
+msgid "Adjudicator details"
+msgstr ""
+
+#: templates/registration/adjudicator_edit.html:26
+msgid "Common tab fields stay visible. Feedback is managed separately."
+msgstr ""
+
+#: templates/registration/adjudicator_edit.html:29
+#: templates/registration/team_edit.html:55
+#: templates/registration/team_edit.html:110
+msgid "Additional settings"
+msgstr ""
+
+#: templates/registration/adjudicator_edit.html:70
+msgctxt "button"
+msgid "Save adjudicator"
+msgstr ""
+
+#: templates/registration/adjudicator_edit.html:71
+msgid "Back to adjudicator registration"
+msgstr ""
+
+#: templates/registration/adjudicator_edit.html:84
+#: templates/registration/team_edit.html:141
+msgid "Close"
+msgstr ""
+
+#: templates/registration/adjudicator_edit.html:89
+#: templates/registration/team_edit.html:146
+#, python-format
+msgid "Are you sure you want to permanently delete <strong>%(name)s</strong>?"
+msgstr ""
+
+#: templates/registration/adjudicator_edit.html:92
+msgid "This also removes their registration response, and cannot be undone."
+msgstr ""
+
+#: templates/registration/adjudicator_edit.html:95
+#: templates/registration/team_edit.html:152
+msgid "Cancel"
+msgstr ""
+
+#: templates/registration/institution_edit.html:19
+#: templates/registration/institution_view_response.html:23
+msgid "Primary contact"
+msgstr ""
+
+#: templates/registration/institution_edit.html:25
+msgctxt "button"
+msgid "Save changes"
+msgstr ""
+
+#: templates/registration/institution_edit.html:26
+msgid "Back to institution list"
+msgstr ""
+
+#: templates/registration/institution_view_response.html:10
+msgid "This form is read-only. You can view your institution's registration response below but cannot edit it here."
+msgstr ""
+
+#: templates/registration/institution_view_response.html:31
+msgid "Back to your private URL"
+msgstr ""
+
+#: templates/registration/team_edit.html:7
+msgid "Back to teams"
+msgstr ""
+
+#: templates/registration/team_edit.html:10
+#: templates/registration/team_edit.html:140
+#: templates/registration/team_edit.html:155
+msgid "Delete team"
+msgstr ""
+
+#: templates/registration/team_edit.html:24
+msgid "Team details"
+msgstr ""
+
+#: templates/registration/team_edit.html:25
+msgid "Edit the team name, institution, emoji, categories and registration status."
+msgstr ""
+
+#: templates/registration/team_edit.html:35
+msgid "Name and email stay visible; less common fields are tucked away."
+msgstr ""
+
+#: templates/registration/team_edit.html:38
+msgid "Add speaker"
+msgstr ""
+
+#: templates/registration/team_edit.html:52
+msgid "Speaker"
+msgstr ""
+
+#: templates/registration/team_edit.html:89
+msgid "No speakers are listed yet. Add the first speaker when you need one."
+msgstr ""
+
+#: templates/registration/team_edit.html:96
+msgctxt "button"
+msgid "Save team"
+msgstr ""
+
+#: templates/registration/team_edit.html:97
+msgid "Back to team registration"
+msgstr ""
+
+#: templates/registration/team_edit.html:108
+msgid "New speaker"
+msgstr ""
+
+#: templates/registration/team_edit.html:149
+msgid "This also removes its speakers and registration response, and cannot be undone."
+msgstr ""
+
+#: templates/slot_transfer_request_form.html:16
+msgid "Submit request"
+msgstr ""
+
+#: templates/slot_transfer_request_form.html:17
+msgid "Cancel and return to private URL"
+msgstr ""
+
+#: templates/speaker_registration_form.html:16
+msgctxt "button"
+msgid "Register as Speaker"
+msgstr ""
+
+#: templates/team_wizard_speakers.html:6
+msgid "You may register speakers for the team, but if not all speakers are included, a link will be generated to let speakers register themselves to the team after submission which you can then distribute."
+msgstr ""
+
+#: templates/wizard_registration_form.html:31
+msgctxt "button"
+msgid "Continue"
+msgstr ""
+
+#: templates/wizard_registration_form.html:33
+msgctxt "button"
+msgid "Register"
+msgstr ""
+
+#: utils.py:62
+msgid "Confirm"
+msgstr ""
+
+#: utils.py:70 utils.py:73
+msgid "Edit"
+msgstr ""
+
+#: utils.py:92
+msgid "Approve"
+msgstr ""
+
+#: utils.py:97
+msgid "Status"
+msgstr ""
+
+#: views.py:100
+msgid "Register Institution"
+msgstr ""
+
+#: views.py:170
+#, python-format
+msgid "Your institution %s has been registered!"
+msgstr ""
+
+#: views.py:210 views.py:473
+msgid "Register Speaker"
+msgid_plural "Register Speakers"
+msgstr[0] ""
+msgstr[1] ""
+
+#: views.py:226 views.py:402
+#, python-format
+msgid "from %s"
+msgstr ""
+
+#: views.py:230 views.py:1074
+#, python-format
+msgid "for %s"
+msgstr ""
+
+#: views.py:279
+#, python-format
+msgid "Your team only has %(num)d speaker! Invite the other speakers to register using this link: <a href='%(link)s'>%(link)s</a>"
+msgid_plural "Your team only has %(num)d speakers! Invite the other speakers to register using this link: <a href='%(link)s'>%(link)s</a>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: views.py:284
+#, python-format
+msgid "Your team %s has been registered!"
+msgstr ""
+
+#: views.py:410
+msgid "You have been registered as an adjudicator!"
+msgstr ""
+
+#: views.py:508
+msgid "You have been registered as a speaker!"
+msgstr ""
+
+#: views.py:527 views.py:1157
+msgid "Adjudicators"
+msgstr ""
+
+#: views.py:593
+msgid "Edit institution registration"
+msgstr ""
+
+#: views.py:640
+#, python-format
+msgid "Institution %s updated."
+msgstr ""
+
+#: views.py:648
+msgid "Edit team registration"
+msgstr ""
+
+#: views.py:683
+#, python-format
+msgid "Team %s updated."
+msgstr ""
+
+#: views.py:691
+msgid "Edit adjudicator registration"
+msgstr ""
+
+#: views.py:723
+#, python-format
+msgid "Adjudicator %s updated."
+msgstr ""
+
+#: views.py:749
+#, python-format
+msgid "Team %s was deleted."
+msgstr ""
+
+#: views.py:757
+#, python-format
+msgid "Adjudicator %s was deleted."
+msgstr ""
+
+#: views.py:767
+msgid "Registration form response"
+msgstr ""
+
+#: views.py:806
+msgid "Transfer slots"
+msgstr ""
+
+#: views.py:830
+msgid "Your slot transfer request has been submitted and is pending approval."
+msgstr ""
+
+#: views.py:866
+msgid "Institutional Registration"
+msgstr ""
+
+#: views.py:881 views.py:1008 views.py:1034
+msgid "Responses"
+msgstr ""
+
+#: views.py:882
+msgid "Name"
+msgstr ""
+
+#: views.py:886
+msgid "Code"
+msgstr ""
+
+#: views.py:887
+msgid "Coach"
+msgstr ""
+
+#: views.py:891 views.py:1017 views.py:1036
+msgid "Email"
+msgstr ""
+
+#: views.py:903
+msgid "Teams Requested"
+msgstr ""
+
+#: views.py:906
+msgid "Teams Allocated"
+msgstr ""
+
+#: views.py:911
+msgid "Teams Registered"
+msgstr ""
+
+#: views.py:914
+msgid "Adjudicators Requested"
+msgstr ""
+
+#: views.py:917
+msgid "Adjudicators Allocated"
+msgstr ""
+
+#: views.py:922
+msgid "Adjudicators Registered"
+msgstr ""
+
+#: views.py:925
+msgid "Region"
+msgstr ""
+
+#: views.py:972
+msgid "Successfully modified institution allocations"
+msgstr ""
+
+#: views.py:990
+msgid "Team Registration"
+msgstr ""
+
+#: views.py:1016
+#, python-format
+msgid "Speaker %d"
+msgstr ""
+
+#: views.py:1026
+msgid "Adjudicator Registration"
+msgstr ""
+
+#: views.py:1063
+msgid "Custom Questions"
+msgstr ""
+
+#: views.py:1091
+#, python-format
+msgid "Questions for %(model)s were successfully saved."
+msgstr ""
+
+#: views.py:1093
+msgid "No changes were made to the questions."
+msgstr ""
+
+#: views.py:1114
+#, python-format
+msgid "%s has been confirmed."
+msgstr ""
+
+#: views.py:1136 views.py:1153
+msgid "Slot transfer requests"
+msgstr ""
+
+#: views.py:1154
+msgid "From"
+msgstr ""
+
+#: views.py:1155
+msgid "To"
+msgstr ""
+
+#: views.py:1174
+msgid "Transfer request rejected."
+msgstr ""
+
+#: views.py:1178
+msgid "Invalid request or transfer is no longer pending."
+msgstr ""
+
+#: views.py:1211
+msgid "Transfer approved. An invitation email has been sent to the provided address. "
+msgstr ""
+
+#: views.py:1212
+#, python-format
+msgid "You can also share this link: <a href=\"%(url)s\" class=\"alert-link\">%(url)s</a>"
+msgstr ""
+
+#: views.py:1216
+msgid "Transfer approved."
+msgstr ""
+
+#: views.py:1225 views.py:1246
+msgid "Slot transfer summary"
+msgstr ""
+
+#: views.py:1248
+msgid "Teams allocated"
+msgstr ""
+
+#: views.py:1249
+msgid "Adjudicators allocated"
+msgstr ""
+
+#: views.py:1250
+msgid "Net new teams"
+msgstr ""
+
+#: views.py:1251
+msgid "Net new adjudicators"
+msgstr ""

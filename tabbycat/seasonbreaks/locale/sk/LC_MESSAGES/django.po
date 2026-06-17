@@ -1,0 +1,1376 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-06-17 14:40+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);\n"
+
+#: apps.py:7
+msgid "Season Breaks"
+msgstr "Postupy sezóny"
+
+#: forms.py:33
+msgid "Enter a valid slug."
+msgstr "Zadaj platný slug."
+
+#: forms.py:141 templates/seasonbreaks/access.html:41
+msgid "User"
+msgstr "Používateľ"
+
+#: forms.py:146 templates/seasonbreaks/access.html:41 views.py:159
+msgid "Permissions"
+msgstr "Povolenia"
+
+#: models.py:10
+msgid "view global breaks"
+msgstr "zobraziť globálne postupy"
+
+#: models.py:11
+msgid "edit global breaks"
+msgstr "upraviť globálne postupy"
+
+#: models.py:12
+msgid "manage global breaks access"
+msgstr "spravovať prístup ku globálnym postupom"
+
+#: models.py:16
+msgid "user"
+msgstr "používateľ"
+
+#: models.py:17
+msgid "permission"
+msgstr "povolenie"
+
+#: models.py:21
+msgid "global breaks permission"
+msgstr "globálne povolenie postupov"
+
+#: models.py:22
+msgid "global breaks permissions"
+msgstr "globálne povolenia postupov"
+
+#: models.py:29 models.py:59 models.py:73 models.py:121 models.py:153
+#: models.py:246
+msgid "name"
+msgstr "meno"
+
+#: models.py:30 models.py:60
+msgid "slug"
+msgstr "slug"
+
+#: models.py:31
+msgid "league"
+msgstr "liga"
+
+#: models.py:32
+msgid "regional final slots"
+msgstr "sloty do regionálneho finále"
+
+#: models.py:33
+msgid "invited teams"
+msgstr "pozvané tímy"
+
+#: models.py:34
+msgid "active"
+msgstr "aktívny"
+
+#: models.py:35 models.py:81
+msgid "show on public Breaks page"
+msgstr "zobraziť na verejnej stránke postupov"
+
+#: models.py:37
+msgid "show global ranking across regions on public Breaks page"
+msgstr "zobraziť globálne poradie naprieč regiónmi na verejnej stránke postupov"
+
+#: models.py:38
+msgid "public snapshot published at"
+msgstr "verejný snapshot publikovaný"
+
+#: models.py:39
+msgid "public snapshot"
+msgstr "verejný snapshot"
+
+#: models.py:40
+msgid "created at"
+msgstr "vytvorené"
+
+#: models.py:44
+msgid "break season"
+msgstr "postupová sezóna"
+
+#: models.py:45
+msgid "break seasons"
+msgstr "postupové sezóny"
+
+#: models.py:64
+msgid "break league"
+msgstr "postupová liga"
+
+#: models.py:65
+msgid "break leagues"
+msgstr "postupové ligy"
+
+#: models.py:72 models.py:94 models.py:120 models.py:138 models.py:152
+#: models.py:166 models.py:245 models.py:262
+msgid "season"
+msgstr "sezóna"
+
+#: models.py:74 models.py:98
+msgid "sequence"
+msgstr "poradie"
+
+#: models.py:76
+msgid "expected tournaments this season"
+msgstr "očakávané turnaje v tejto sezóne"
+
+#: models.py:77
+msgid "Drives the best N−1 ranking rule. Leave at 0 to use the number of counting tournaments already added to this region."
+msgstr "Riadi pravidlo najlepších N−1. Nechaj na 0, ak chceš použiť počet turnajov zahrnutých do poradia už pridaných do tohto regiónu."
+
+#: models.py:80
+msgid "source region"
+msgstr "zdrojový región"
+
+#: models.py:86
+msgid "break region"
+msgstr "postupový región"
+
+#: models.py:87
+msgid "break regions"
+msgstr "postupové regióny"
+
+#: models.py:96
+msgid "tournament"
+msgstr "turnaj"
+
+#: models.py:97 models.py:211
+msgid "region"
+msgstr "región"
+
+#: models.py:99
+msgid "counts for team and speaker break"
+msgstr "zahrnutý do postupu tímov a rečníkov"
+
+#: models.py:100
+msgid "If unchecked, this tournament only counts toward adjudicator statistics."
+msgstr "Ak nie je zaškrtnuté, tento turnaj sa počíta iba do štatistík rozhodcov."
+
+#: models.py:101
+msgid "frozen at"
+msgstr "zmrazené"
+
+#: models.py:108 models.py:182 models.py:226 models.py:279
+msgid "break tournament"
+msgstr "postup turnaj"
+
+#: models.py:109
+msgid "break tournaments"
+msgstr "postupové turnaje"
+
+#: models.py:123 models.py:249
+msgid "institution"
+msgstr "debatný klub"
+
+#: models.py:125
+msgid "home region"
+msgstr "domáci región"
+
+#: models.py:130
+msgid "season break team"
+msgstr "tím postupovej sezóny"
+
+#: models.py:131
+msgid "season break teams"
+msgstr "tímy postupovej sezóny"
+
+#: models.py:139 models.py:184 models.py:213 models.py:230
+msgid "season team"
+msgstr "tím sezóny"
+
+#: models.py:140
+msgid "team"
+msgstr "tím"
+
+#: models.py:144
+msgid "break team link"
+msgstr "prepojenie postupového tímu"
+
+#: models.py:145
+msgid "break team links"
+msgstr "prepojenia postupových tímov"
+
+#: models.py:154 models.py:247
+msgid "email"
+msgstr "e-mail"
+
+#: models.py:158
+msgid "season break speaker"
+msgstr "rečník/rečníčka postupovej sezóny"
+
+#: models.py:159
+msgid "season break speakers"
+msgstr "rečníci/rečníčky postupovej sezóny"
+
+#: models.py:167 models.py:228
+msgid "season speaker"
+msgstr "rečník/rečníčka sezóny"
+
+#: models.py:169
+msgid "speaker"
+msgstr "rečník/rečníčka"
+
+#: models.py:173
+msgid "break speaker link"
+msgstr "prepojenie postupového rečníka"
+
+#: models.py:174
+msgid "break speaker links"
+msgstr "prepojenia postupových rečníkov"
+
+#: models.py:185 templates/seasonbreaks/ranking_region.html:28
+msgid "wins"
+msgstr "výhry"
+
+#: models.py:186 templates/seasonbreaks/ranking_region.html:29
+msgid "ballots"
+msgstr "balloty"
+
+#: models.py:187
+msgid "speaker score"
+msgstr "rečnícke body"
+
+#: models.py:188
+msgid "rounds debated"
+msgstr "oddebaté kolá"
+
+#: models.py:189
+msgid "debated majority of rounds"
+msgstr "oddebaté väčšina kôl"
+
+#: models.py:194
+msgid "break team tournament result"
+msgstr "výsledok postupového tímu z turnaja"
+
+#: models.py:195
+msgid "break team tournament results"
+msgstr "výsledky postupových tímov z turnajov"
+
+#: models.py:217
+msgid "break cutoff advancement"
+msgstr "postup na hranici breaku"
+
+#: models.py:218
+msgid "break cutoff advancements"
+msgstr "postupy na hranici breaku"
+
+#: models.py:231
+msgid "speeches"
+msgstr "reči"
+
+#: models.py:232
+msgid "rounds"
+msgstr "kolá"
+
+#: models.py:237
+msgid "break speaker tournament participation"
+msgstr "účasť postupového rečníka na turnaji"
+
+#: models.py:238
+msgid "break speaker tournament participations"
+msgstr "účasti postupových rečníkov na turnajoch"
+
+#: models.py:253
+msgid "season break adjudicator"
+msgstr "rozhodca postupovej sezóny"
+
+#: models.py:254
+msgid "season break adjudicators"
+msgstr "rozhodcovia postupovej sezóny"
+
+#: models.py:264 models.py:281
+msgid "season adjudicator"
+msgstr "rozhodca sezóny"
+
+#: models.py:266
+msgid "adjudicator"
+msgstr "rozhodca"
+
+#: models.py:270
+msgid "break adjudicator link"
+msgstr "prepojenie postupového rozhodcu"
+
+#: models.py:271
+msgid "break adjudicator links"
+msgstr "prepojenia postupových rozhodcov"
+
+#: models.py:282
+msgid "chairs"
+msgstr "chairs"
+
+#: models.py:283
+msgid "panellists"
+msgstr "panelisti"
+
+#: models.py:284
+msgid "trainees"
+msgstr "shadows"
+
+#: models.py:285
+msgid "total"
+msgstr "spolu"
+
+#: models.py:290 models.py:291
+msgid "break adjudicator tournament stats"
+msgstr "štatistiky rozhodcu z turnaja (postup)"
+
+#: templates/seasonbreaks/access.html:6
+msgid "Breaks access"
+msgstr "Prístup k postupom"
+
+#: templates/seasonbreaks/access.html:7
+msgid "Grant global access to the Breaks section."
+msgstr "Udeľ globálny prístup k sekcii Postupy."
+
+#: templates/seasonbreaks/access.html:13
+msgid "Return to Breaks"
+msgstr "Späť na Postupy"
+
+#: templates/seasonbreaks/access.html:16
+msgid "Return to Site Tools"
+msgstr "Späť do Správy webu"
+
+#: templates/seasonbreaks/access.html:24
+msgid "Grant Breaks access"
+msgstr "Udeliť prístup k Postupom"
+
+#: templates/seasonbreaks/access.html:33
+msgid "Save access"
+msgstr "Uložiť prístup"
+
+#: templates/seasonbreaks/access.html:39
+msgid "Current access"
+msgstr "Aktuálny prístup"
+
+#: templates/seasonbreaks/access.html:46
+msgid "No users have explicit Breaks access yet."
+msgstr "Zatiaľ nikto nemá explicitný prístup k Postupom."
+
+#: templates/seasonbreaks/adjudicators.html:8
+msgid "Adjudicator stats"
+msgstr "Štatistiky rozhodcov"
+
+#: templates/seasonbreaks/adjudicators.html:9
+msgid "Season totals from confirmed preliminary debates. Trainee debates are shown but excluded from totals."
+msgstr "Súčty za sezónu z potvrdených predbežných debát. Shadow debaty sú zobrazené, ale nezahrnuté do súčtov."
+
+#: templates/seasonbreaks/adjudicators.html:13
+msgid "Manage adjudicator identities"
+msgstr "Spravovať identity rozhodcov"
+
+#: templates/seasonbreaks/adjudicators.html:20
+msgid "Adjudicator"
+msgstr "Rozhodca"
+
+#: templates/seasonbreaks/adjudicators.html:20
+msgid "Chair"
+msgstr "Chair"
+
+#: templates/seasonbreaks/adjudicators.html:20
+msgid "Panellist"
+msgstr "Panelista"
+
+#: templates/seasonbreaks/adjudicators.html:20
+msgid "Trainee"
+msgstr "Shadow"
+
+#: templates/seasonbreaks/adjudicators.html:20
+msgid "Total"
+msgstr "Spolu"
+
+#: templates/seasonbreaks/adjudicators.html:20
+msgid "Tournament detail"
+msgstr "Detail turnaja"
+
+#: templates/seasonbreaks/adjudicators.html:34
+msgid "non-league"
+msgstr "neligový"
+
+#: templates/seasonbreaks/adjudicators.html:35
+#, python-format
+msgid "+%(count)s trainee"
+msgstr "+%(count)s shadow"
+
+#: templates/seasonbreaks/adjudicators.html:41
+msgid "Freeze tournaments to calculate adjudicator stats."
+msgstr "Zmraz turnaje, aby sa dali vypočítať štatistiky rozhodcov."
+
+#: templates/seasonbreaks/base.html:21 views.py:59
+msgid "Break management"
+msgstr "Správa postupov"
+
+#: templates/seasonbreaks/base.html:27
+#, python-format
+msgid "%(league)s · %(slots)s regional slots · %(invited)s invited teams"
+msgstr "%(league)s · %(slots)s regionálnych slotov · %(invited)s pozvaných tímov"
+
+#: templates/seasonbreaks/base.html:31
+msgid "Seasons, leagues, snapshots and regional break quotas."
+msgstr "Sezóny, ligy, snapshoty a regionálne postupové kvóty."
+
+#: templates/seasonbreaks/base.html:74
+msgid "All"
+msgstr "Všetky"
+
+#: templates/seasonbreaks/base.html:90
+msgid "Back to seasons"
+msgstr "Späť na sezóny"
+
+#: templates/seasonbreaks/base.html:96 templates/seasonbreaks/index.html:45
+msgid "Manage leagues"
+msgstr "Spravovať ligy"
+
+#: templates/seasonbreaks/base.html:100 templates/seasonbreaks/index.html:11
+#: templates/seasonbreaks/index.html:34
+msgid "Create season"
+msgstr "Vytvoriť sezónu"
+
+#: templates/seasonbreaks/base.html:105 views.py:118
+msgid "Access"
+msgstr "Prístupy"
+
+#: templates/seasonbreaks/global_ranking.html:8
+#: templates/seasonbreaks/public_season.html:31 tests/test_breaks.py:449
+#: tests/test_breaks.py:457 views.py:116 views.py:149
+msgid "Global ranking"
+msgstr "Globálne poradie"
+
+#: templates/seasonbreaks/global_ranking.html:10
+msgid "Live ranking across all public regions. No published snapshot required."
+msgstr "Živé poradie naprieč všetkými verejnými regiónmi. Zverejnený snapshot nie je potrebný."
+
+#: templates/seasonbreaks/global_ranking.html:14
+msgid "Shown on public page"
+msgstr "Zobrazené na verejnej stránke"
+
+#: templates/seasonbreaks/global_ranking.html:16
+#: templates/seasonbreaks/regions.html:74 tests/test_breaks.py:142
+msgid "Hidden from public page"
+msgstr "Skryté z verejnej stránky"
+
+#: templates/seasonbreaks/identities.html:10
+#: templates/seasonbreaks/overview.html:37 views.py:112 views.py:139
+msgid "Teams"
+msgstr "Tímy"
+
+#: templates/seasonbreaks/identities.html:11
+msgid "Link tournament teams to season team identities."
+msgstr "Prepoj tímy turnaja s tímovými identitami sezóny."
+
+#: templates/seasonbreaks/identities.html:12
+#: templates/seasonbreaks/identities.html:24
+#: templates/seasonbreaks/identities.html:36
+msgid "identities"
+msgstr "identity"
+
+#: templates/seasonbreaks/identities.html:12
+#: templates/seasonbreaks/identities.html:24
+#: templates/seasonbreaks/identities.html:36
+msgid "links"
+msgstr "prepojenia"
+
+#: templates/seasonbreaks/identities.html:22
+#: templates/seasonbreaks/overview.html:38 views.py:113 views.py:141
+msgid "Speakers"
+msgstr "Rečníci"
+
+#: templates/seasonbreaks/identities.html:23
+msgid "Link tournament speakers to season speaker identities."
+msgstr "Prepoj rečníkov turnaja s rečníckymi identitami sezóny."
+
+#: templates/seasonbreaks/identities.html:34
+#: templates/seasonbreaks/overview.html:39 views.py:117 views.py:152
+#: views.py:153
+msgid "Adjudicators"
+msgstr "Rozhodcovia"
+
+#: templates/seasonbreaks/identities.html:35
+msgid "Link tournament adjudicators to season adjudicator identities."
+msgstr "Prepoj rozhodcov turnaja s identitami rozhodcov sezóny."
+
+#: templates/seasonbreaks/identities.html:47
+#: templates/seasonbreaks/identities.html:57
+msgid "Clean stale identities"
+msgstr "Vyčistiť zastarané identity"
+
+#: templates/seasonbreaks/identities.html:49
+msgid "Remove unlinked team, speaker and adjudicator identities that no longer have frozen results or statistics."
+msgstr "Odober tímové, rečnícke a rozhodcovské identity bez prepojení, ktoré už nemajú zmrazené výsledky ani štatistiky."
+
+#: templates/seasonbreaks/identities.html:55
+msgid "Remove all stale unlinked identities from this Breaks season?"
+msgstr "Odstrániť všetky zastarané neprepojené identity z tejto postupovej sezóny?"
+
+#: templates/seasonbreaks/identities_adjudicators.html:7
+msgid "Choose a source tournament, then repair only that tournament's adjudicator links."
+msgstr "Vyber zdrojový turnaj a oprav iba prepojenia rozhodcov tohto turnaja."
+
+#: templates/seasonbreaks/identities_adjudicators.html:9
+#: templates/seasonbreaks/identities_speakers.html:9
+#: templates/seasonbreaks/identities_teams.html:9
+msgid "Identity categories"
+msgstr "Kategórie identít"
+
+#: templates/seasonbreaks/identities_adjudicators.html:15
+msgid "Create adjudicator identity"
+msgstr "Vytvoriť identitu rozhodcu"
+
+#: templates/seasonbreaks/identities_adjudicators.html:25
+#: templates/seasonbreaks/identities_speakers.html:24
+#: templates/seasonbreaks/identities_teams.html:25
+msgid "Create"
+msgstr "Vytvoriť"
+
+#: templates/seasonbreaks/identities_adjudicators.html:33
+#: templates/seasonbreaks/identities_speakers.html:32
+#: templates/seasonbreaks/identities_teams.html:33
+msgid "Choose tournament"
+msgstr "Vyber turnaj"
+
+#: templates/seasonbreaks/identities_adjudicators.html:44
+msgid "Freeze a tournament to create adjudicator links."
+msgstr "Zmraz turnaj, aby sa dali vytvoriť prepojenia rozhodcov."
+
+#: templates/seasonbreaks/identities_adjudicators.html:53
+msgid "Tournament adjudicator to season adjudicator"
+msgstr "Rozhodca turnaja → rozhodca sezóny"
+
+#: templates/seasonbreaks/identities_adjudicators.html:59
+msgid "Tournament adjudicator"
+msgstr "Rozhodca turnaja"
+
+#: templates/seasonbreaks/identities_adjudicators.html:60
+#: templates/seasonbreaks/teams.html:20
+msgid "Institution"
+msgstr "Debatný klub"
+
+#: templates/seasonbreaks/identities_adjudicators.html:61
+#: templates/seasonbreaks/identities_speakers.html:60
+#: templates/seasonbreaks/identities_teams.html:60
+msgid "Season identity"
+msgstr "Identita sezóny"
+
+#: templates/seasonbreaks/identities_adjudicators.html:88
+#: templates/seasonbreaks/identities_speakers.html:87
+#: templates/seasonbreaks/identities_teams.html:86
+#: templates/seasonbreaks/index.html:73 templates/seasonbreaks/regions.html:78
+#: templates/seasonbreaks/tournaments.html:67
+msgid "Save"
+msgstr "Uložiť"
+
+#: templates/seasonbreaks/identities_adjudicators.html:101
+msgid "Pick a tournament above to edit its adjudicator links."
+msgstr "Vyber turnaj vyššie, aby si mohol/a upraviť prepojenia rozhodcov."
+
+#: templates/seasonbreaks/identities_speakers.html:7
+msgid "Choose a source tournament, then repair only that tournament's speaker links."
+msgstr "Vyber zdrojový turnaj a oprav iba prepojenia rečníkov tohto turnaja."
+
+#: templates/seasonbreaks/identities_speakers.html:15
+msgid "Create speaker identity"
+msgstr "Vytvoriť identitu rečníka"
+
+#: templates/seasonbreaks/identities_speakers.html:43
+msgid "Freeze a tournament to create speaker links."
+msgstr "Zmraz turnaj, aby sa dali vytvoriť prepojenia rečníkov."
+
+#: templates/seasonbreaks/identities_speakers.html:52
+msgid "Tournament speaker to season speaker"
+msgstr "Rečník turnaja → rečník sezóny"
+
+#: templates/seasonbreaks/identities_speakers.html:58
+msgid "Tournament speaker"
+msgstr "Rečník turnaja"
+
+#: templates/seasonbreaks/identities_speakers.html:59
+#: templates/seasonbreaks/identities_teams.html:59
+msgid "Tournament team"
+msgstr "Tím turnaja"
+
+#: templates/seasonbreaks/identities_speakers.html:100
+msgid "Pick a tournament above to edit its speaker links."
+msgstr "Vyber turnaj vyššie, aby si mohol/a upraviť prepojenia rečníkov."
+
+#: templates/seasonbreaks/identities_teams.html:7
+msgid "Choose a source tournament, then repair only that tournament's team links."
+msgstr "Vyber zdrojový turnaj a oprav iba prepojenia tímov tohto turnaja."
+
+#: templates/seasonbreaks/identities_teams.html:15
+msgid "Create team identity"
+msgstr "Vytvoriť identitu tímu"
+
+#: templates/seasonbreaks/identities_teams.html:44
+msgid "Freeze a tournament to create team links."
+msgstr "Zmraz turnaj, aby sa dali vytvoriť prepojenia tímov."
+
+#: templates/seasonbreaks/identities_teams.html:53
+msgid "Tournament team to season team"
+msgstr "Tím turnaja → tím sezóny"
+
+#: templates/seasonbreaks/identities_teams.html:99
+msgid "Pick a tournament above to edit its team links."
+msgstr "Vyber turnaj vyššie, aby si mohol/a upraviť prepojenia tímov."
+
+#: templates/seasonbreaks/index.html:46
+msgid "Leagues group seasons for filtering and API exports."
+msgstr "Ligy zoskupujú sezóny pre filtre a API exporty."
+
+#: templates/seasonbreaks/index.html:54
+msgid "Add league"
+msgstr "Pridať ligu"
+
+#: templates/seasonbreaks/index.html:59 templates/seasonbreaks/regions.html:55
+msgid "Name"
+msgstr "Meno"
+
+#: templates/seasonbreaks/index.html:59
+msgid "Slug"
+msgstr "Slug"
+
+#: templates/seasonbreaks/index.html:59
+msgid "Seasons"
+msgstr "Sezóny"
+
+#: templates/seasonbreaks/index.html:83
+msgid "Delete"
+msgstr "Odstrániť"
+
+#: templates/seasonbreaks/index.html:88
+msgid "No break leagues have been created yet."
+msgstr "Zatiaľ neboli vytvorené žiadne ligy."
+
+#: templates/seasonbreaks/index.html:108
+#: templates/seasonbreaks/overview.html:77
+#: templates/seasonbreaks/regions.html:90
+msgid "Public"
+msgstr "Verejné"
+
+#: templates/seasonbreaks/index.html:110
+msgid "Waiting"
+msgstr "Čaká sa"
+
+#: templates/seasonbreaks/index.html:112
+#: templates/seasonbreaks/overview.html:79
+#: templates/seasonbreaks/regions.html:103
+msgid "Hidden"
+msgstr "Skryté"
+
+#: templates/seasonbreaks/index.html:117
+#: templates/seasonbreaks/tournaments.html:64
+#: templates/seasonbreaks/tournaments.html:70
+msgid "League"
+msgstr "Liga"
+
+#: templates/seasonbreaks/index.html:121
+#: templates/seasonbreaks/overview.html:17
+#: templates/seasonbreaks/public_season.html:13 views.py:109 views.py:128
+#: views.py:129
+msgid "Regions"
+msgstr "Regióny"
+
+#: templates/seasonbreaks/index.html:124 views.py:110 views.py:132 views.py:133
+msgid "Tournaments"
+msgstr "Turnaje"
+
+#: templates/seasonbreaks/index.html:127
+#: templates/seasonbreaks/overview.html:18
+msgid "Regional slots"
+msgstr "Regionálne sloty"
+
+#: templates/seasonbreaks/index.html:130
+msgid "Last published"
+msgstr "Posledný publish"
+
+#: templates/seasonbreaks/index.html:134
+#: templates/seasonbreaks/overview.html:86
+msgid "Never"
+msgstr "Nikdy"
+
+#: templates/seasonbreaks/index.html:139
+msgid "Open season"
+msgstr "Otvorená sezóna"
+
+#: templates/seasonbreaks/index.html:149
+msgid "No seasons"
+msgstr "Žiadne sezóny"
+
+#: templates/seasonbreaks/index.html:151
+msgid "This league does not have a break season yet."
+msgstr "Táto liga ešte nemá vytvorenú postupovú sezónu."
+
+#: templates/seasonbreaks/index.html:153
+msgid "Start by creating the first season."
+msgstr "Začni vytvorením prvej sezóny."
+
+#: templates/seasonbreaks/overview.html:6
+msgid "Public Breaks use a manually published snapshot. Live edits appear only after you publish a new snapshot."
+msgstr "Verejné postupy používajú manuálne publikovaný snapshot. Live úpravy sa zobrazia až po publikovaní nového snapshotu."
+
+#: templates/seasonbreaks/overview.html:16
+msgid "Structure"
+msgstr "Štruktúra"
+
+#: templates/seasonbreaks/overview.html:19
+msgid "Invited teams"
+msgstr "Pozvané tímy"
+
+#: templates/seasonbreaks/overview.html:26
+msgid "Snapshots"
+msgstr "Snapshoty"
+
+#: templates/seasonbreaks/overview.html:27
+msgid "League tournaments"
+msgstr "Ligové turnaje"
+
+#: templates/seasonbreaks/overview.html:28
+msgid "Non-league tournaments"
+msgstr "Neligové turnaje"
+
+#: templates/seasonbreaks/overview.html:29
+#: templates/seasonbreaks/tournaments.html:49
+#: templates/seasonbreaks/tournaments.html:77
+msgid "Frozen"
+msgstr "Zmrazené"
+
+#: templates/seasonbreaks/overview.html:36 views.py:111
+msgid "Identities"
+msgstr "Identity"
+
+#: templates/seasonbreaks/overview.html:50
+msgid "Region quotas"
+msgstr "Kvóty regiónov"
+
+#: templates/seasonbreaks/overview.html:51
+msgid "Largest remainder"
+msgstr "Najväčší zvyšok"
+
+#: templates/seasonbreaks/overview.html:54
+#: templates/seasonbreaks/public_table.html:9
+#: templates/seasonbreaks/quotas.html:18 templates/seasonbreaks/regions.html:90
+#: templates/seasonbreaks/teams.html:20
+#: templates/seasonbreaks/tournaments.html:49
+msgid "Region"
+msgstr "Región"
+
+#: templates/seasonbreaks/overview.html:54
+#: templates/seasonbreaks/public_table.html:14
+#: templates/seasonbreaks/quotas.html:19
+#: templates/seasonbreaks/ranking_region.html:61
+msgid "Participations"
+msgstr "Účasti"
+
+#: templates/seasonbreaks/overview.html:54
+msgid "Slots"
+msgstr "Sloty"
+
+#: templates/seasonbreaks/overview.html:63
+msgid "Add regions and tournaments before calculating quotas."
+msgstr "Pridaj regióny a turnaje, aby sa dali vypočítať kvóty."
+
+#: templates/seasonbreaks/overview.html:75
+msgid "Public snapshot"
+msgstr "Verejný snapshot"
+
+#: templates/seasonbreaks/overview.html:83
+msgid "The public Breaks page shows the last published snapshot, not live data."
+msgstr "Verejná stránka postupov zobrazuje posledný publikovaný snapshot, nie live dáta."
+
+#: templates/seasonbreaks/overview.html:85
+msgid "Last published:"
+msgstr "Naposledy publikované:"
+
+#: templates/seasonbreaks/overview.html:95
+msgid "Show the global ranking across regions on the public page"
+msgstr "Zobraziť globálne poradie naprieč regiónmi na verejnej stránke"
+
+#: templates/seasonbreaks/overview.html:98
+msgid "Publish public snapshot"
+msgstr "Publikovať verejný snapshot"
+
+#: templates/seasonbreaks/overview.html:101
+msgid "Preview global ranking"
+msgstr "Náhľad globálneho poradia"
+
+#: templates/seasonbreaks/overview.html:112 views.py:157
+msgid "Season settings"
+msgstr "Nastavenia sezóny"
+
+#: templates/seasonbreaks/overview.html:134
+msgid "Save settings"
+msgstr "Uložiť nastavenia"
+
+#: templates/seasonbreaks/overview.html:141
+msgid "Danger zone"
+msgstr "Nebezpečná zóna"
+
+#: templates/seasonbreaks/overview.html:143
+msgid "Permanently deletes the season, its regions, frozen snapshots, identities, rankings and public snapshot."
+msgstr "Natrvalo odstráni sezónu, jej regióny, zmrazené snapshoty, identity, poradia a verejný snapshot."
+
+#: templates/seasonbreaks/overview.html:144
+msgid "Delete this break season permanently?"
+msgstr "Natrvalo odstrániť túto postupovú sezónu?"
+
+#: templates/seasonbreaks/overview.html:148
+msgid "Delete season"
+msgstr "Odstrániť sezónu"
+
+#: templates/seasonbreaks/public_index.html:7
+msgid "Published Break seasons"
+msgstr "Publikované postupové sezóny"
+
+#: templates/seasonbreaks/public_index.html:12
+#, python-format
+msgid "%(league)s · published %(published)s"
+msgstr "%(league)s · publikované %(published)s"
+
+#: templates/seasonbreaks/public_index.html:18
+msgid "No public Breaks seasons have been published yet."
+msgstr "Zatiaľ neboli publikované žiadne postupové sezóny."
+
+#: templates/seasonbreaks/public_region.html:6
+#: templates/seasonbreaks/public_season.html:6
+msgid "Return back"
+msgstr "Vrátiť sa späť"
+
+#: templates/seasonbreaks/public_season.html:18
+#, python-format
+msgid "%(slots)s slots · %(participations)s participations"
+msgstr "%(slots)s slotov · %(participations)s účastí"
+
+#: templates/seasonbreaks/public_season.html:23
+msgid "No regions were published in this snapshot."
+msgstr "V tomto zverejnení neboli publikované žiadne regióny."
+
+#: templates/seasonbreaks/public_table.html:6
+#: templates/seasonbreaks/rankings.html:26
+msgid "Rank"
+msgstr "Poradie"
+
+#: templates/seasonbreaks/public_table.html:7
+#: templates/seasonbreaks/ranking_region.html:59
+#: templates/seasonbreaks/rankings.html:26
+msgid "Team"
+msgstr "Tím"
+
+#: templates/seasonbreaks/public_table.html:11
+#: templates/seasonbreaks/ranking_region.html:63
+msgid "Wins"
+msgstr "Výhry"
+
+#: templates/seasonbreaks/public_table.html:12
+#: templates/seasonbreaks/ranking_region.html:64
+msgid "Ballots"
+msgstr "Balloty"
+
+#: templates/seasonbreaks/public_table.html:13 tests/test_breaks.py:436
+msgid "Speaker points"
+msgstr "Rečnícke body"
+
+#: templates/seasonbreaks/public_table.html:33
+msgid "No ranking rows were published in this snapshot."
+msgstr "V tomto zverejnení neboli publikované žiadne riadky poradia."
+
+#: templates/seasonbreaks/quotas.html:7
+msgid "Largest remainder calculation"
+msgstr "Výpočet metódou najväčšieho zvyšku"
+
+#: templates/seasonbreaks/quotas.html:9
+#, python-format
+msgid "%(slots)s regional slots · %(invited)s invited teams. Raw quota, floor and remainder are shown for auditability."
+msgstr "%(slots)s regionálnych slotov · %(invited)s pozvaných tímov. Hrubá kvóta, spodný limit a zvyšok sú zobrazené na overenie."
+
+#: templates/seasonbreaks/quotas.html:20
+msgid "Raw quota"
+msgstr "Hrubá kvóta"
+
+#: templates/seasonbreaks/quotas.html:21
+msgid "Floor"
+msgstr "Spodný limit"
+
+#: templates/seasonbreaks/quotas.html:22
+msgid "Remainder"
+msgstr "Zvyšok"
+
+#: templates/seasonbreaks/quotas.html:23
+msgid "Allocated"
+msgstr "Pridelených"
+
+#: templates/seasonbreaks/quotas.html:37
+#: templates/seasonbreaks/rankings.html:52
+msgid "No regions yet."
+msgstr "Zatiaľ žiadne regióny."
+
+#: templates/seasonbreaks/ranking_region.html:8
+#, python-format
+msgid "1 final seat is tied — resolve it manually"
+msgid_plural "%(counter)s final seats are tied — resolve them manually"
+msgstr[0] "1 finálne miesto je nerozhodné — vyrieš ho manuálne"
+msgstr[1] "%(counter)s finálne miesta sú nerozhodné — vyrieš ich manuálne"
+
+#: templates/seasonbreaks/ranking_region.html:16
+msgid "These teams are tied on every ranking metric at the break cutoff. Tabbycat will not pick between identical records automatically — apply your league's tiebreak rule and choose who advances."
+msgstr "Tieto tímy sú zhodné vo všetkých metrikách poradia na hranici postupu. Tabbycat automaticky nevyberie medzi totožnými výsledkami — uplatni tiebreak pravidlo tvojej ligy a vyber, kto postupuje."
+
+#: templates/seasonbreaks/ranking_region.html:30
+msgid "speaks"
+msgstr "reči"
+
+#: templates/seasonbreaks/ranking_region.html:35
+msgid "Save resolution"
+msgstr "Uložiť rozhodnutie"
+
+#: templates/seasonbreaks/ranking_region.html:37
+msgid "Resolved"
+msgstr "Vyriešená"
+
+#: templates/seasonbreaks/ranking_region.html:41
+msgid "An editor must resolve this tie before it is final."
+msgstr "Redaktor musí túto remízu vyriešiť skôr, ako bude záväzná."
+
+#: templates/seasonbreaks/ranking_region.html:48
+msgid "ranking"
+msgstr "poradie"
+
+#: templates/seasonbreaks/ranking_region.html:51
+msgid "Back to all regions"
+msgstr "Späť na všetky regióny"
+
+#: templates/seasonbreaks/ranking_region.html:60
+msgid "Status"
+msgstr "Stav"
+
+#: templates/seasonbreaks/ranking_region.html:62
+#: templates/seasonbreaks/rankings.html:26
+msgid "Eligible speakers"
+msgstr "Oprávnení rečníci"
+
+#: templates/seasonbreaks/ranking_region.html:65
+msgid "Speaks"
+msgstr "Reči"
+
+#: templates/seasonbreaks/ranking_region.html:66
+msgid "Notes"
+msgstr "Poznámky"
+
+#: templates/seasonbreaks/ranking_region.html:76
+#: templates/seasonbreaks/rankings.html:34
+msgid "Advancing"
+msgstr "Postupujúci"
+
+#: templates/seasonbreaks/ranking_region.html:78
+msgid "Tied for final seat"
+msgstr "Remíza o posledné miesto"
+
+#: templates/seasonbreaks/ranking_region.html:80
+msgid "Eligible"
+msgstr "Oprávnený"
+
+#: templates/seasonbreaks/ranking_region.html:82
+msgid "Ineligible"
+msgstr "Neoprávnený"
+
+#: templates/seasonbreaks/ranking_region.html:90
+#: templates/seasonbreaks/rankings.html:40
+msgid "None"
+msgstr "Žiadne"
+
+#: templates/seasonbreaks/ranking_region.html:97
+msgid "Tie at cutoff"
+msgstr "Remíza na hranici postupu"
+
+#: templates/seasonbreaks/ranking_region.html:102
+msgid "No frozen results for this region."
+msgstr "Pre tento región nie sú žiadne zmrazené výsledky."
+
+#: templates/seasonbreaks/rankings.html:12
+#, python-format
+msgid "1 eligible team"
+msgid_plural "%(teams_count)s eligible teams"
+msgstr[0] "1 oprávnený tím"
+msgstr[1] "%(teams_count)s oprávnené tímy"
+
+#: templates/seasonbreaks/rankings.html:21
+msgid "Open full ranking"
+msgstr "Otvoriť kompletné poradie"
+
+#: templates/seasonbreaks/rankings.html:45
+msgid "No eligible teams in this region yet."
+msgstr "V tomto regióne zatiaľ nie sú žiadne oprávnené tímy."
+
+#: templates/seasonbreaks/regions.html:11
+#: templates/seasonbreaks/regions.html:31
+msgid "Add region"
+msgstr "Pridať región"
+
+#: templates/seasonbreaks/regions.html:41
+msgid "Season regions"
+msgstr "Regióny sezóny"
+
+#: templates/seasonbreaks/regions.html:42
+msgid "Hidden regions stay internal but are excluded from the next public snapshot."
+msgstr "Skryté regióny ostanú interné, ale budú vynechané z ďalšieho verejného snapshotu."
+
+#: templates/seasonbreaks/regions.html:58
+#: templates/seasonbreaks/regions.html:90
+msgid "Source region"
+msgstr "Zdrojový región"
+
+#: templates/seasonbreaks/regions.html:61
+#: templates/seasonbreaks/regions.html:90
+#: templates/seasonbreaks/tournaments.html:49
+msgid "Seq"
+msgstr "Poradie"
+
+#: templates/seasonbreaks/regions.html:64
+#: templates/seasonbreaks/regions.html:90
+msgid "Expected tournaments"
+msgstr "Očakávané turnaje"
+
+#: templates/seasonbreaks/regions.html:69
+#: templates/seasonbreaks/regions.html:101
+msgid "Visible"
+msgstr "Viditeľný"
+
+#: templates/seasonbreaks/regions.html:83
+#: templates/seasonbreaks/regions.html:108
+msgid "Create regions before assigning source tournaments."
+msgstr "Vytvor regióny pred priraďovaním zdrojových turnajov."
+
+#: templates/seasonbreaks/regions.html:98
+msgid "Auto"
+msgstr "Automaticky"
+
+#: templates/seasonbreaks/speakers.html:8
+msgid "Season speakers"
+msgstr "Rečníci sezóny"
+
+#: templates/seasonbreaks/speakers.html:9
+msgid "Season-level speaker identities used for eligibility checks."
+msgstr "Identity rečníkov na úrovni sezóny, použité na overenie eligibility."
+
+#: templates/seasonbreaks/speakers.html:13
+msgid "Manage speaker identities"
+msgstr "Spravovať identity rečníkov"
+
+#: templates/seasonbreaks/speakers.html:20
+msgid "Season speaker"
+msgstr "Rečník sezóny"
+
+#: templates/seasonbreaks/speakers.html:20
+msgid "Email"
+msgstr "E-mail"
+
+#: templates/seasonbreaks/speakers.html:20
+msgid "Linked speakers"
+msgstr "Prepojení rečníci"
+
+#: templates/seasonbreaks/speakers.html:31 templates/seasonbreaks/teams.html:32
+msgid "No links"
+msgstr "Žiadne prepojenia"
+
+#: templates/seasonbreaks/speakers.html:36
+msgid "Freeze a tournament to create speaker mappings."
+msgstr "Zmraz turnaj, aby sa dali vytvoriť mapovanie rečníkov."
+
+#: templates/seasonbreaks/teams.html:8
+msgid "Season teams"
+msgstr "Tímy sezóny"
+
+#: templates/seasonbreaks/teams.html:9
+msgid "Season-level team identities used for ranking and eligibility."
+msgstr "Identity tímov na úrovni sezóny, použité na poradie a eligibility."
+
+#: templates/seasonbreaks/teams.html:13
+msgid "Manage team identities"
+msgstr "Spravovať identity tímov"
+
+#: templates/seasonbreaks/teams.html:20
+msgid "Season team"
+msgstr "Tím sezóny"
+
+#: templates/seasonbreaks/teams.html:20
+msgid "Linked tournament teams"
+msgstr "Prepojené tímy turnaja"
+
+#: templates/seasonbreaks/teams.html:37
+msgid "Freeze a tournament to create team mappings."
+msgstr "Zmraz turnaj, aby sa dali vytvoriť mapovania tímov."
+
+#: templates/seasonbreaks/tournaments.html:11
+#: templates/seasonbreaks/tournaments.html:33
+msgid "Add tournament"
+msgstr "Pridať turnaj"
+
+#: templates/seasonbreaks/tournaments.html:43
+msgid "Assigned tournaments"
+msgstr "Priradené turnaje"
+
+#: templates/seasonbreaks/tournaments.html:44
+msgid "Non-league tournaments count only for adjudicator statistics."
+msgstr "Neligové turnaje sa počítajú iba do štatistík rozhodcov."
+
+#: templates/seasonbreaks/tournaments.html:49
+msgid "Tournament"
+msgstr "Turnaj"
+
+#: templates/seasonbreaks/tournaments.html:49
+msgid "Type"
+msgstr "Typ"
+
+#: templates/seasonbreaks/tournaments.html:65
+#: templates/seasonbreaks/tournaments.html:72
+msgid "Non-league"
+msgstr "Neligový"
+
+#: templates/seasonbreaks/tournaments.html:79
+msgid "Live"
+msgstr "Živé"
+
+#: templates/seasonbreaks/tournaments.html:89
+msgid "Freeze / Update"
+msgstr "Zmraziť / Aktualizovať"
+
+#: templates/seasonbreaks/tournaments.html:95
+msgid "Remove this tournament from this Breaks season?"
+msgstr "Odstrániť tento turnaj z tejto postupovej sezóny?"
+
+#: templates/seasonbreaks/tournaments.html:96
+msgid "Remove"
+msgstr "Odstrániť"
+
+#: templates/seasonbreaks/tournaments.html:103
+msgid "No tournaments are assigned to this season yet."
+msgstr "Zatiaľ nie sú pridelené žiadne turnaje tejto sezóny."
+
+#: views.py:108 views.py:124 views.py:125
+msgid "Overview"
+msgstr "Prehľad"
+
+#: views.py:114 views.py:145
+msgid "Quotas"
+msgstr "Kvóty"
+
+#: views.py:115 views.py:147
+msgid "Rankings"
+msgstr "Poradie"
+
+#: views.py:126
+msgid "Status, frozen data and quotas"
+msgstr "Stav, zmrazené dáta a kvóty"
+
+#: views.py:130
+msgid "Region settings and public visibility"
+msgstr "Nastavenia regiónov a verejná viditeľnosť"
+
+#: views.py:134
+msgid "Source tournaments and snapshots"
+msgstr "Zdrojové turnaje a snapshoty"
+
+#: views.py:136
+msgid "Identity"
+msgstr "Identita"
+
+#: views.py:137
+msgid "Identity hub"
+msgstr "Centrum identít"
+
+#: views.py:138
+msgid "Teams, speakers and adjudicators"
+msgstr "Tímy, rečníci a rozhodcovia"
+
+#: views.py:140
+msgid "Season team identities"
+msgstr "Tímové identity sezóny"
+
+#: views.py:142
+msgid "Season speaker identities"
+msgstr "Rečnícke identity sezóny"
+
+#: views.py:144 views.py:281
+msgid "Breaks"
+msgstr "Postupy"
+
+#: views.py:146
+msgid "Regional slot calculation"
+msgstr "Výpočet regionálnych slotov"
+
+#: views.py:148
+msgid "Team rankings and eligibility"
+msgstr "Poradie tímov a eligibility"
+
+#: views.py:150
+msgid "Cross-region ranking preview"
+msgstr "Náhľad poradia naprieč regiónmi"
+
+#: views.py:154
+msgid "Chair, panel and trainee statistics"
+msgstr "Chair, panel a trainee štatistiky"
+
+#: views.py:156
+msgid "Settings"
+msgstr "Nastavenia"
+
+#: views.py:158
+msgid "Public visibility, season fields and dangerous actions"
+msgstr "Verejnosť, polia sezóny a nebezpečné akcie"
+
+#: views.py:159
+msgid "Global Breaks permissions"
+msgstr "Globálne povolenia pre postupy"
+
+#: views.py:200
+#, python-format
+msgid "Break league %(league)s was created."
+msgstr "Liga %(league)s bola vytvorená."
+
+#: views.py:208
+#, python-format
+msgid "Break league %(league)s was updated."
+msgstr "Liga %(league)s bola upravená."
+
+#: views.py:217
+#, python-format
+msgid "Break league %(league)s cannot be deleted because it still has seasons."
+msgstr "Ligu %(league)s nemožno odstrániť, pretože má priradené sezóny."
+
+#: views.py:219
+#, python-format
+msgid "Break league %(league)s was deleted."
+msgstr "Liga %(league)s bola odstránená."
+
+#: views.py:224
+#, python-format
+msgid "Break season %(season)s was created."
+msgstr "Postupová sezóna %(season)s bola vytvorená."
+
+#: views.py:248
+msgid "Public Breaks snapshot was published."
+msgstr "Verejný snapshot postupov bol zverejnený."
+
+#: views.py:251
+msgid "A tie at the break cutoff is still unresolved. The affected teams are published as not advancing until an editor resolves the tie on the region ranking page and republishes."
+msgstr "Remíza na hranici postupu je stále nevyriešená. Dotknuté tímy sú zverejnené ako nepostupujúce, kým redaktor remízu nevyrieši na stránke regionálneho poradia a znova nezverejní."
+
+#: views.py:263
+#, python-format
+msgid "Break season %(season)s cannot be deleted because it still has protected data."
+msgstr "Postupovú sezónu %(season)s nemožno odstrániť, pretože stále obsahuje chránené dáta."
+
+#: views.py:267
+#, python-format
+msgid "Break season %(season)s was deleted."
+msgstr "Postupová sezóna %(season)s bola odstránená."
+
+#: views.py:272
+msgid "Break season settings were updated."
+msgstr "Nastavenia postupovej sezóny boli aktualizované."
+
+#: views.py:361
+#, python-format
+msgid "Region %(region)s was added."
+msgstr "Región %(region)s bol pridaný."
+
+#: views.py:369
+#, python-format
+msgid "Region %(region)s was updated."
+msgstr "Región %(region)s bol upravený."
+
+#: views.py:392
+#, python-format
+msgid "Tournament %(tournament)s was added."
+msgstr "Turnaj %(tournament)s bol pridaný."
+
+#: views.py:417
+msgid "Tournament type was updated."
+msgstr "Typ turnaja bol aktualizovaný."
+
+#: views.py:439
+#, python-format
+msgid "Tournament %(tournament)s was removed from this Breaks season."
+msgstr "Turnaj %(tournament)s bol odstránený z tejto postupovej sezóny."
+
+#: views.py:444
+#, python-format
+msgid "Updated snapshot: %(teams)d teams, %(speakers)d speaker links, %(adjudicators)d adjudicators."
+msgstr "Aktualizovaný snapshot: %(teams)d tímov, %(speakers)d prepojení rečníkov, %(adjudicators)d rozhodcov."
+
+#: views.py:511
+#, python-format
+msgid "Cleaned stale identities: %(teams)d teams, %(speakers)d speakers, %(adjudicators)d adjudicators."
+msgstr "Vyčistené zastarané identity: %(teams)d tímov, %(speakers)d rečníkov, %(adjudicators)d rozhodcov."
+
+#: views.py:524 views.py:567
+msgid "Unknown tournament"
+msgstr "Neznámy turnaj"
+
+#: views.py:543
+#, python-format
+msgid "Season team %(team)s was created."
+msgstr "Tím sezóny %(team)s bol vytvorený."
+
+#: views.py:552
+msgid "Team link was updated."
+msgstr "Prepojenie tímu bolo aktualizované."
+
+#: views.py:586
+#, python-format
+msgid "Season speaker %(speaker)s was created."
+msgstr "Rečník sezóny %(speaker)s bol vytvorený."
+
+#: views.py:595
+msgid "Speaker link was updated."
+msgstr "Prepojenie rečníka bolo aktualizované."
+
+#: views.py:610
+msgid "Shared adjudicators"
+msgstr "Zdieľaní rozhodcovia"
+
+#: views.py:629
+#, python-format
+msgid "Season adjudicator %(adjudicator)s was created."
+msgstr "Rozhodca sezóny %(adjudicator)s bol vytvorený."
+
+#: views.py:638
+msgid "Adjudicator link was updated."
+msgstr "Prepojenie rozhodcu bolo aktualizované."
+
+#: views.py:709
+msgid "There is no tie to resolve in this region."
+msgstr "V tomto regióne nie je žiadna remíza na vyriešenie."
+
+#: views.py:724
+#, python-format
+msgid "Select exactly %(n)d team(s) to take the remaining seat(s)."
+msgstr "Vyber presne %(n)d tím(-y) na obsadenie zostávajúceho(-ich) miesta(-miest)."
+
+#: views.py:732
+msgid "The tie at the cutoff was resolved."
+msgstr "Remíza na hranici postupu bola vyriešená."
+
+#: views.py:793
+#, python-format
+msgid "Breaks access updated for %(user)s."
+msgstr "Prístup k postupom bol aktualizovaný pre %(user)s."

@@ -1,0 +1,877 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-06-17 14:40+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);\n"
+
+#: admin.py:32
+msgid "Users with staff status can view and edit the Edit Database area. This is potentially dangerous and should be reserved for the actual tab director(s)."
+msgstr "Používatelia s príznakom personálu môžu zobrazovať a upravovať časť Upraviť databázu. Je to potenciálne nebezpečné a malo by to byť vyhradené iba skutočným vedúcim tabu."
+
+#: admin.py:50
+msgid "Personal info"
+msgstr "Osobné informácie"
+
+#: admin.py:51 forms.py:219
+msgid "Permissions"
+msgstr "Povolenia"
+
+#: admin.py:52
+msgid "Important dates"
+msgstr "Dôležité dátumy"
+
+#: forms.py:13
+msgid "Conflicts"
+msgstr "Konflikty"
+
+#: forms.py:23
+msgid "Participants"
+msgstr "Účastníci"
+
+#: forms.py:40
+msgid "Availability"
+msgstr "Dostupnosť"
+
+#: forms.py:50
+msgid "Rooms"
+msgstr "Miestnosti"
+
+#: forms.py:56
+msgid "Pairing"
+msgstr "Pairing"
+
+#: forms.py:72
+msgid "Ballots and Results"
+msgstr "Balloty a výsledky"
+
+#: forms.py:84
+msgid "Motions and Release"
+msgstr "Tézy a zverejnenie"
+
+#: forms.py:93
+msgid "Standings"
+msgstr "Výsledky"
+
+#: forms.py:101
+msgid "Feedback"
+msgstr "Spätná väzba"
+
+#: forms.py:111
+msgid "Breaks"
+msgstr "Postupy"
+
+#: forms.py:126
+msgid "Check-Ins and Private URLs"
+msgstr "Check-iny a súkromné URL"
+
+#: forms.py:134
+msgid "Rounds and Schedule"
+msgstr "Kolá a rozvrh"
+
+#: forms.py:143
+msgid "Settings, Data and Registration"
+msgstr "Nastavenia, dáta a registrácia"
+
+#: forms.py:165
+msgid "Email address"
+msgstr "E-mailová adresa"
+
+#: forms.py:203
+msgid "Username"
+msgstr "Používateľské meno"
+
+#: forms.py:214
+msgid "Role name"
+msgstr "Názov roly"
+
+#: forms.py:243
+msgid "A role with this name already exists in this tournament."
+msgstr "Rola s týmto názvom v tomto turnaji už existuje."
+
+#: forms.py:273
+msgid "User"
+msgstr "Používateľ"
+
+#: forms.py:278
+msgid "Roles"
+msgstr "Roly"
+
+#: forms.py:284
+msgid "Individual permissions"
+msgstr "Individuálne oprávnenia"
+
+#: forms.py:285
+msgid "Optional permissions granted directly to this user, in addition to their roles."
+msgstr "Voliteľné oprávnenia udelené priamo tomuto používateľovi, okrem oprávnení z ich rolí."
+
+#: groups.py:31
+msgid "Equity"
+msgstr "Equity tím"
+
+#: groups.py:69
+msgid "Adjudication Core"
+msgstr "Adjudikačný tím"
+
+#: groups.py:78
+msgid "Tabulation Director"
+msgstr "Vedúci tabu"
+
+#: groups.py:84
+msgid "Tabulation Assistant"
+msgstr "Asistent tabu"
+
+#: groups.py:89
+msgid "Registration"
+msgstr "Registrácia"
+
+#: models.py:13 models.py:51
+msgid "user"
+msgstr "používateľ"
+
+#: models.py:14
+msgid "permission"
+msgstr "povolenie"
+
+#: models.py:15 models.py:36
+msgid "tournament"
+msgstr "turnaj"
+
+#: models.py:19
+msgid "user permission"
+msgstr "používateľské povolenie"
+
+#: models.py:20
+msgid "user permissions"
+msgstr "používateľské povolenia"
+
+#: models.py:35
+msgid "name"
+msgstr "meno"
+
+#: models.py:38
+msgid "permissions"
+msgstr "povolenia"
+
+#: models.py:43 models.py:52
+msgid "group"
+msgstr "skupina"
+
+#: models.py:44
+msgid "groups"
+msgstr "skupiny"
+
+#: models.py:56
+msgid "group membership"
+msgstr "členstvo v skupine"
+
+#: models.py:57
+msgid "group memberships"
+msgstr "členstvá v skupinách"
+
+#: permissions.py:17
+msgid "view adjudicator-team conflicts"
+msgstr "zobraziť rozhodca-tím konflikty (bloky)"
+
+#: permissions.py:18
+msgid "edit adjudicator-team conflicts"
+msgstr "upraviť rozhodca-tím konflikty (bloky)"
+
+#: permissions.py:19
+msgid "view adjudicator-adjudicator conflicts"
+msgstr "zobraziť rozhodca-rozhodca konflikty (bloky)"
+
+#: permissions.py:20
+msgid "edit adjudicator-adjudicator conflicts"
+msgstr "upraviť rozhodca-rozhodca konflikty (bloky)"
+
+#: permissions.py:21
+msgid "view adjudicator-institution conflicts"
+msgstr "zobraziť rozhodca-klub konflikty (bloky)"
+
+#: permissions.py:22
+msgid "edit adjudicator-institution conflicts"
+msgstr "upraviť rozhodca-klub konflikty (bloky)"
+
+#: permissions.py:23
+msgid "view team-institution conflicts"
+msgstr "zobraziť tím-klub konflikty (bloky)"
+
+#: permissions.py:24
+msgid "edit team-institution conflicts"
+msgstr "upraviť tím-klub konflikty (bloky)"
+
+#: permissions.py:26
+msgid "view action log entries"
+msgstr "zobraziť záznamy denníka akcií"
+
+#: permissions.py:29
+msgid "view teams"
+msgstr "zobraziť tímy"
+
+#: permissions.py:30
+msgid "add teams"
+msgstr "pridať tímy"
+
+#: permissions.py:31
+msgid "view decoded team names"
+msgstr "zobraziť dekódované názvy tímov"
+
+#: permissions.py:32
+msgid "View names of anonymized participants"
+msgstr "Zobraziť mená anonymizovaných účastníkov"
+
+#: permissions.py:33
+msgid "view adjudicators"
+msgstr "zobraziť rozhodcov"
+
+#: permissions.py:34
+msgid "add adjudicators"
+msgstr "pridať rozhodcov"
+
+#: permissions.py:35
+msgid "view rooms"
+msgstr "zobraziť miestnosti"
+
+#: permissions.py:36
+msgid "add rooms"
+msgstr "pridať miestnosti"
+
+#: permissions.py:37
+msgid "view institutions"
+msgstr "zobraziť debatné kluby"
+
+#: permissions.py:38
+msgid "add institutions"
+msgstr "pridať debatné kluby"
+
+#: permissions.py:39
+msgid "view participants"
+msgstr "zobraziť účastníkov"
+
+#: permissions.py:40
+msgid "view participants' gender information"
+msgstr "zobraziť informácie o pohlaví účastníkov"
+
+#: permissions.py:41
+msgid "view participants' contact information"
+msgstr "zobraziť kontaktné údaje účastníkov"
+
+#: permissions.py:42
+msgid "view participants' real names"
+msgstr "zobraziť reálne mená účastníkov"
+
+#: permissions.py:43
+msgid "view participants' institution"
+msgstr "zobraziť klub účastníkov"
+
+#: permissions.py:45
+msgid "view round availabilities for teams"
+msgstr "zobraziť dostupnosť tímov pre kolo"
+
+#: permissions.py:46
+msgid "view round availabilities for adjudicators"
+msgstr "zobraziť dostupnosť rozhodcov pre kolo"
+
+#: permissions.py:47
+msgid "view round availabilities for rooms"
+msgstr "zobraziť dostupnosť miestností pre kolo"
+
+#: permissions.py:48
+msgid "edit round availabilities for teams"
+msgstr "upraviť dostupnosť tímov pre kolo"
+
+#: permissions.py:49
+msgid "edit round availabilities for adjudicators"
+msgstr "upraviť dostupnosť rozhodcov pre kolo"
+
+#: permissions.py:50
+msgid "edit round availabilities for rooms"
+msgstr "upraviť dostupnosť miestností pre kolo"
+
+#: permissions.py:51
+msgid "view round availabilities"
+msgstr "zobraziť dostupnosť pre kolo"
+
+#: permissions.py:52
+msgid "edit round availabilities"
+msgstr "upraviť dostupnosť pre kolo"
+
+#: permissions.py:54
+msgid "view room constraints"
+msgstr "zobraziť obmedzenia miestností"
+
+#: permissions.py:55
+msgid "view room categories"
+msgstr "zobraziť kategórie miestností"
+
+#: permissions.py:56
+msgid "edit room constraints"
+msgstr "upraviť obmedzenia miestností"
+
+#: permissions.py:57
+msgid "edit room categories"
+msgstr "upraviť kategórie miestností"
+
+#: permissions.py:59
+msgid "view debates (draw)"
+msgstr "zobraziť debaty (pairing)"
+
+#: permissions.py:60
+msgid "view debates (detailed draw)"
+msgstr "zobraziť debaty (detailný pairing)"
+
+#: permissions.py:61
+msgid "generate debates (draw)"
+msgstr "vygenerovať debaty (pairing)"
+
+#: permissions.py:62
+msgid "delete debates (draw)"
+msgstr "vymazať debaty (pairing)"
+
+#: permissions.py:63
+msgid "edit debate teams (pairings)"
+msgstr "upraviť tímy v debate (pairingy)"
+
+#: permissions.py:64
+msgid "view debate adjudicators (allocations)"
+msgstr "zobraziť rozhodcov debát (alokácie)"
+
+#: permissions.py:65
+msgid "edit debate adjudicators (allocations)"
+msgstr "upraviť rozhodcov debát (alokácie)"
+
+#: permissions.py:66
+msgid "view room allocations"
+msgstr "zobraziť pridelenie miestností"
+
+#: permissions.py:67
+msgid "edit room allocations"
+msgstr "upraviť pridelenie miestností"
+
+#: permissions.py:68
+msgid "edit and confirm outround team positions"
+msgstr "upraviť a potvrdiť pozície tímov vo vyraďovacích kolách"
+
+#: permissions.py:73
+msgid "view confirmed ballots"
+msgstr "zobraziť potvrdené balloty"
+
+#: permissions.py:74
+msgid "edit non-confirmed ballots"
+msgstr "upraviť nepotvrdené balloty"
+
+#: permissions.py:75
+msgid "view any ballot"
+msgstr "zobraziť akýkoľvek ballot"
+
+#: permissions.py:76
+msgid "edit any ballot"
+msgstr "upraviť akýkoľvek ballot"
+
+#: permissions.py:77
+msgid "create ballots"
+msgstr "vytvoriť balloty"
+
+#: permissions.py:78
+msgid "confirm/discard any ballot"
+msgstr "potvrdiť/zahodiť akýkoľvek ballot"
+
+#: permissions.py:79
+msgid "confirm/discard others' ballots"
+msgstr "potvrdiť/zahodiť balloty iných"
+
+#: permissions.py:80
+msgid "view ballot graph"
+msgstr "zobraziť graf ballotov"
+
+#: permissions.py:81
+msgid "view results entry page"
+msgstr "zobraziť stránku zadávania výsledkov"
+
+#: permissions.py:83
+msgid "view motion per round"
+msgstr "zobraziť tézu pre kolo"
+
+#: permissions.py:84
+msgid "edit motion per round"
+msgstr "zmeniť tézu pre kolo"
+
+#: permissions.py:85
+msgid "release draw to public"
+msgstr "zverejniť pairing pre verejnosť"
+
+#: permissions.py:86
+msgid "release motion to public"
+msgstr "zverejniť tézu pre verejnosť"
+
+#: permissions.py:87
+msgid "unrelease draw to public"
+msgstr "zrušiť zverejnenie pairingu pre verejnosť"
+
+#: permissions.py:88
+msgid "unrelease motion to public"
+msgstr "zrušiť zverejnenie tézy pre verejnosť"
+
+#: permissions.py:89
+msgid "add debate start time"
+msgstr "pridať čas začiatku debaty"
+
+#: permissions.py:91
+msgid "view draws (for the briefing room)"
+msgstr "zobraziť pairingy (pre briefingovú miestnosť)"
+
+#: permissions.py:92
+msgid "display motion (for the briefing room)"
+msgstr "zobraziť tézu (pre briefingovú miestnosť)"
+
+#: permissions.py:94
+msgid "view existing preformed panels"
+msgstr "zobraziť existujúce predformované panely"
+
+#: permissions.py:95
+msgid "edit preformed panels"
+msgstr "upraviť predformované panely"
+
+#: permissions.py:98
+msgid "view the overviews of standings"
+msgstr "zobraziť prehľad poradia"
+
+#: permissions.py:99
+msgid "view the most recent team standings"
+msgstr "zobraziť najnovšie poradie tímov"
+
+#: permissions.py:100
+msgid "view the most recent speaker standings"
+msgstr "zobraziť najnovšie poradie rečníkov"
+
+#: permissions.py:101
+msgid "view the most recent replies standings"
+msgstr "zobraziť najnovšie poradie záverečných rečí"
+
+#: permissions.py:102
+msgid "view the most recent motions tab"
+msgstr "zobraziť najnovšie tézy"
+
+#: permissions.py:103
+msgid "view the diversity tab"
+msgstr "zobraziť prehľad diverzity"
+
+#: permissions.py:106
+msgid "view overview of judge feedback"
+msgstr "zobraziť prehľad spätnej väzby rozhodcov"
+
+#: permissions.py:107
+msgid "edit base scores of judges"
+msgstr "upraviť základné skóre rozhodcov"
+
+#: permissions.py:108
+msgid "view feedback"
+msgstr "zobraziť spätnú väzbu"
+
+#: permissions.py:109
+msgid "toggle ignore feedback"
+msgstr "prepnúť ignorovať spätnú väzbu"
+
+#: permissions.py:110
+msgid "toggle confirm feedback"
+msgstr "prepnúť potvrdenie spätnej väzby"
+
+#: permissions.py:111
+msgid "view feedback unsubmitted tab"
+msgstr "zobraziť neodoslanú spätnú väzbu"
+
+#: permissions.py:112
+msgid "add feedback"
+msgstr "pridať spätnú väzbu"
+
+#: permissions.py:113
+msgid "view adjudicator break"
+msgstr "zobraziť postup rozhodcov"
+
+#: permissions.py:114
+msgid "edit adjudicator break"
+msgstr "upraviť postup rozhodcov"
+
+#: permissions.py:115
+msgid "edit feedback questions"
+msgstr "upraviť otázky spätnej väzby"
+
+#: permissions.py:118
+msgid "edit break eligibility"
+msgstr "upraviť oprávnenosť na postup"
+
+#: permissions.py:119
+msgid "view break eligibility"
+msgstr "zobraziť oprávnenosť na postup"
+
+#: permissions.py:120
+msgid "edit break categories"
+msgstr "upraviť postupové kategórie"
+
+#: permissions.py:121
+msgid "view break categories"
+msgstr "zobraziť postupové kategórie"
+
+#: permissions.py:122
+msgid "view speaker categories"
+msgstr "zobraziť kategórie rečníkov"
+
+#: permissions.py:123
+msgid "edit speaker categories"
+msgstr "upraviť kategórie rečníkov"
+
+#: permissions.py:124
+msgid "view speaker eligibility"
+msgstr "zobraziť oprávnenosť rečníka"
+
+#: permissions.py:125
+msgid "edit speaker eligibility"
+msgstr "upraviť oprávnenie rečníka"
+
+#: permissions.py:126
+msgid "view break overview"
+msgstr "zobraziť prehľad postupu"
+
+#: permissions.py:127
+msgid "view breaks"
+msgstr "zobraziť postupy"
+
+#: permissions.py:128
+msgid "generate all breaks"
+msgstr "vygenerovať všetky postupy"
+
+#: permissions.py:130
+msgid "view private urls"
+msgstr "zobraziť súkromné URL"
+
+#: permissions.py:131
+msgid "generate private URLs"
+msgstr "vytvoriť súkromné URL"
+
+#: permissions.py:133
+msgid "view checkins"
+msgstr "zobraziť registrácie"
+
+#: permissions.py:134
+msgid "edit participant check-in"
+msgstr "upraviť príchod účastníka"
+
+#: permissions.py:135
+msgid "edit room check-in"
+msgstr "upraviť príchod miestnosti"
+
+#: permissions.py:136
+msgid "edit debate check-in"
+msgstr "upraviť príchod debaty"
+
+#: permissions.py:138
+msgid "edit round attributes"
+msgstr "upraviť atribúty kola"
+
+#: permissions.py:139
+msgid "delete rounds"
+msgstr "vymazať kolá"
+
+#: permissions.py:140
+msgid "create rounds"
+msgstr "vytvoriť kolá"
+
+#: permissions.py:141
+msgid "confirm rounds"
+msgstr "potvrdiť kolá"
+
+#: permissions.py:142
+msgid "silence rounds"
+msgstr "stíšiť kolá"
+
+#: permissions.py:144
+msgid "view email statuses"
+msgstr "zobraziť stavy e-mailov"
+
+#: permissions.py:145
+msgid "send participants email messages"
+msgstr "posielať účastníkom e-mailové správy"
+
+#: permissions.py:147
+msgid "export DebateXML"
+msgstr "exportovať DebateXML"
+
+#: permissions.py:149
+msgid "view settings"
+msgstr "zobraziť nastavenia"
+
+#: permissions.py:150
+msgid "edit settings"
+msgstr "upraviť nastavenia"
+
+#: permissions.py:152
+msgid "edit general questions"
+msgstr "upraviť všeobecné otázky"
+
+#: permissions.py:153
+msgid "delete general questions"
+msgstr "vymazať všeobecné otázky"
+
+#: permissions.py:154
+msgid "view answers to general questions"
+msgstr "zobraziť odpovede na všeobecné otázky"
+
+#: permissions.py:157
+msgid "edit events"
+msgstr "upraviť udalosti"
+
+#: permissions.py:158
+msgid "view events"
+msgstr "zobraziť udalosti"
+
+#: permissions.py:160
+msgid "view registration responses"
+msgstr "zobraziť odpovede na registráciu"
+
+#: permissions.py:161
+msgid "edit registration responses"
+msgstr "upraviť odpovede na registráciu"
+
+#: permissions.py:162
+msgid "confirm registration responses"
+msgstr "potvrdiť odpovede na registráciu"
+
+#: permissions.py:166
+msgid "access the assistant area"
+msgstr "prístup do oblasti asistencie"
+
+#: templates/account_invitation_email.html:2
+msgid "Hello!"
+msgstr "Ahoj!"
+
+#: templates/account_invitation_email.html:6
+#, python-format
+msgid "An administrator for the Tabbycat site hosting %(name)s has invited you to create an user account on their site, at %(protocol)s://%(domain)s."
+msgstr "Administrátor Tabbycat stránky hostujúcej %(name)s ťa pozval vytvoriť si používateľský účet na stránke %(protocol)s://%(domain)s."
+
+#: templates/account_invitation_email.html:10
+msgid "If you accept, please use the link below to activate your account"
+msgstr "Ak pozvanie prijímaš, použi odkaz nižšie na aktiváciu účtu"
+
+#: templates/account_invitation_email.html:13
+msgid "If you do not accept, there is no action to be taken."
+msgstr "Ak pozvanie neprijímaš, nemusíš robiť nič."
+
+#: templates/account_invitation_subject.txt:2
+#, python-format
+msgid "Invitation to join Tabbycat site for %(name)s"
+msgstr "Pozvánka na Tabbycat stránku pre %(name)s"
+
+#: templates/admin/auth/delete_user_warning.html:6
+msgid "<strong>Warning:</strong> You shouldn't delete users from the database once they've done something, because the database logs actions taken by those users, and deleting the users also deletes the related logs. If you wish to deactivate a user account, go back to edit the user, click on the “Permissions” tab, unchecked the “Active” box, and save the user."
+msgstr "<strong>Upozornenie:</strong> Nemali by ste odstraňovať používateľov z databázy, keď už niečo urobili, pretože databáza zaznamenáva akcie vykonané týmito používateľmi a odstránenie používateľov vedie aj k odstráneniu súvisiacich záznamov. Ak chcete deaktivovať používateľský účet, vráťte sa späť k úpravám používateľa, kliknite na kartu „Oprávnenia“, zrušte začiarknutie políčka „Aktívny“ a uložte používateľa."
+
+#: templates/invite_user.html:8
+msgid "Back to Configuration"
+msgstr "Späť na konfiguráciu"
+
+#: templates/invite_user.html:20
+msgctxt "button"
+msgid "Invite User"
+msgstr "Pozvať používateľa"
+
+#: templates/invite_user.html:21
+msgid "Note: if you submit this multiple times, multiple invite emails will be sent."
+msgstr "Poznámka: ak tento formulár odošlete viackrát, bude odoslaných viacero pozývacích e-mailov."
+
+#: templates/role_management.html:4 templates/role_management.html:5
+#: views.py:108
+msgid "User Roles"
+msgstr "Roly používateľov"
+
+#: templates/role_management.html:103
+msgid "Role Editor"
+msgstr "Editor rolí"
+
+#: templates/role_management.html:105
+msgid "Create reusable role templates and edit their permissions."
+msgstr "Vytvor opakovane použiteľné šablóny rolí a uprav ich oprávnenia."
+
+#: templates/role_management.html:108
+msgid "User Access"
+msgstr "Prístup používateľov"
+
+#: templates/role_management.html:110
+msgid "Assign existing users to roles, with optional individual permission overrides."
+msgstr "Prirad existujúcich používateľov k rolám s voliteľnými individuálnymi výnimkami oprávnení."
+
+#: templates/role_management.html:117
+msgid "Back to User Access"
+msgstr "Späť na prístup používateľov"
+
+#: templates/role_management.html:118
+msgid "New Role"
+msgstr "Nová rola"
+
+#: templates/role_management.html:121 views.py:75
+msgid "Invite User"
+msgstr "Pozvať používateľa"
+
+#: templates/role_management.html:122 templates/role_management.html:244
+msgid "Manage Roles"
+msgstr "Spravovať roly"
+
+#: templates/role_management.html:135
+msgid "Role Library"
+msgstr "Knižnica rolí"
+
+#: templates/role_management.html:136
+msgid "Reusable permission sets for this tournament."
+msgstr "Opakovane použiteľné sady oprávnení pre tento turnaj."
+
+#: templates/role_management.html:138
+msgid "New"
+msgstr "Nová"
+
+#: templates/role_management.html:148
+#, python-format
+msgid "%(count)s user assigned"
+msgid_plural "%(count)s users assigned"
+msgstr[0] "%(count)s priradený používateľ"
+msgstr[1] "%(count)s priradení používatelia"
+
+#: templates/role_management.html:157
+msgid "No roles yet. Start by creating one on the right."
+msgstr "Zatiaľ žiadne roly. Začni vytvorením roly vpravo."
+
+#: templates/role_management.html:169
+msgid "Edit Role"
+msgstr "Upraviť rolu"
+
+#: templates/role_management.html:171 templates/role_management.html:224
+msgid "Create Role"
+msgstr "Vytvoriť rolu"
+
+#: templates/role_management.html:175
+msgid "Role permissions apply to every user assigned to that role."
+msgstr "Oprávnenia roly sa vzťahujú na každého používateľa priradeného k tejto roli."
+
+#: templates/role_management.html:193
+msgid "Role permissions"
+msgstr "Oprávnenia roly"
+
+#: templates/role_management.html:194
+msgid "Grouped by admin area"
+msgstr "Zoskupené podľa oblasti administrácie"
+
+#: templates/role_management.html:221
+msgid "Changing a role updates everyone using it."
+msgstr "Zmena roly aktualizuje všetkých, ktorí ju používajú."
+
+#: templates/role_management.html:224
+msgid "Save Role"
+msgstr "Uložiť rolu"
+
+#: templates/role_management.html:239
+msgid "Edit User Access"
+msgstr "Upraviť prístup používateľa"
+
+#: templates/role_management.html:241
+msgid "Use roles for normal access, then direct permissions only for exceptions."
+msgstr "Použi roly na bežný prístup a priame oprávnenia iba pre výnimky."
+
+#: templates/role_management.html:262
+msgid "Recommended"
+msgstr "Odporúčané"
+
+#: templates/role_management.html:275
+msgid "No roles exist yet."
+msgstr "Zatiaľ neexistujú žiadne roly."
+
+#: templates/role_management.html:276
+msgid "Create one first."
+msgstr "Najprv nejakú vytvor."
+
+#: templates/role_management.html:285
+msgid "Exception access"
+msgstr "Výnimočný prístup"
+
+#: templates/role_management.html:316
+msgid "Direct permissions are added on top of selected roles."
+msgstr "Priame oprávnenia sa pridávajú nad rámec vybraných rolí."
+
+#: templates/role_management.html:318
+msgid "Save User Access"
+msgstr "Uložiť prístup používateľa"
+
+#: templates/role_management.html:327
+msgid "User Access Directory"
+msgstr "Zoznam prístupov používateľov"
+
+#: templates/role_management.html:328
+msgid "Open a user to edit roles and individual permissions."
+msgstr "Otvor používateľa, aby si mohol upraviť roly a individuálne oprávnenia."
+
+#: templates/role_management.html:335
+msgid "Edit"
+msgstr "Upraviť"
+
+#: templates/role_management.html:341
+msgid "No roles"
+msgstr "Žiadne roly"
+
+#: templates/role_management.html:346
+#, python-format
+msgid "%(count)s direct permission"
+msgid_plural "%(count)s direct permissions"
+msgstr[0] "%(count)s priame oprávnenie"
+msgstr[1] "%(count)s priame oprávnenia"
+
+#: templates/role_management.html:356
+msgid "No users have tournament access yet."
+msgstr "Zatiaľ nemá nikto prístup k turnaju."
+
+#: templates/signup.html:12
+msgctxt "page title"
+msgid "Create a new Account"
+msgstr "Vytvorte nový účet"
+
+#: templates/signup.html:18
+msgid "Create Account"
+msgstr "Vytvoriť účet"
+
+#: views.py:54
+msgid "Whoops! It looks like someone's already created the first user account. Please log in."
+msgstr "Ups! Vyzerá to, že niekto už vytvoril prvý používateľský účet. Prihláste sa."
+
+#: views.py:62
+#, python-format
+msgid "Welcome! You've created an account for %s."
+msgstr "Vitajte! Vytvorili ste účet pre %s."
+
+#: views.py:90
+msgid "Successfully invited user to create an account for the tournament."
+msgstr "Používateľ bol úspešne pozvaný, aby si vytvoril účet pre turnaj."
+
+#: views.py:98
+msgid "Accept Invitation"
+msgstr "Prijať pozvánku"
+
+#: views.py:199
+#, python-format
+msgid "Role '%(role)s' saved."
+msgstr "Rola „%(role)s“ bola uložená."
+
+#: views.py:210
+#, python-format
+msgid "Access for %(user)s saved."
+msgstr "Prístup pre %(user)s bol uložený."

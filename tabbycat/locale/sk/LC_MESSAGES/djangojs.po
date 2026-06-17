@@ -605,3 +605,359 @@ msgstr "Remíza"
 #: templates/js-bundles/enter_results.js:169
 msgid "TIE"
 msgstr "REMÍZA"
+
+#: (vue)
+msgid "Chair"
+msgstr "Chair"
+
+#: (vue)
+msgid "Code Names"
+msgstr "Kódové mená"
+
+#: (vue)
+msgid "Institution"
+msgstr "Debatný klub"
+
+#: (vue)
+msgid "N/A"
+msgstr "N/A"
+
+#: (vue)
+msgid "Open"
+msgstr "Open"
+
+#: (vue)
+msgid "Order"
+msgstr "Poradie"
+
+#: (vue)
+msgid "Postponed"
+msgstr "Odložené"
+
+#: (vue)
+msgid "confirmed"
+msgstr "potvrdené"
+
+#: (vue)
+msgid "unconfirmed"
+msgstr "nepotvrdené"
+
+#: (vue)
+msgid " Set Checked-In as Available"
+msgstr " Nastaviť prihlásených ako dostupných"
+
+#: (vue)
+msgid " Set Not Checked-In as Unavailable"
+msgstr " Nastaviť neprihlásených ako nedostupných"
+
+#: (vue)
+msgid "Allocate"
+msgstr "Prideliť"
+
+#: (vue)
+msgid "Allocates panels in exact order going from top to bottom (ignoring debate priority and conflicts.)"
+msgstr "Prideľuje panely v presnom poradí zhora nadol (ignoruje prioritu debaty a konflikty)."
+
+#: (vue)
+msgid "Allocates preformed panels to debates of similar priority level, while avoiding conflicts."
+msgstr "Prideľuje predpripravené panely debatám s podobnou úrovňou priority a zároveň sa vyhýba konfliktom."
+
+#: (vue)
+msgid "Assign Automatic Priorities by Bracket"
+msgstr "Priradiť automatické priority podľa koša"
+
+#: (vue)
+msgid "Assign Automatic Priorities by Liveness"
+msgstr "Priradiť automatické priority podľa liveness"
+
+#: (vue)
+msgid "Auto-Allocate Adjudicators"
+msgstr "Automaticky prideliť rozhodcov"
+
+#: (vue)
+msgid "Auto-Allocate Individual Adjudicators"
+msgstr "Automaticky prideliť jednotlivých rozhodcov"
+
+#: (vue)
+msgid "Auto-Allocate Preformed Panels"
+msgstr "Automaticky prideliť predpripravené panely"
+
+#: (vue)
+msgid "Auto-Allocate Rooms to Debates"
+msgstr "Automaticky prideliť miestnosti debatám"
+
+#: (vue)
+msgid "Auto-allocate will remove adjudicators from all debates\n        and create new panels in their place."
+msgstr "Automatické pridelenie odstráni rozhodcov zo všetkých debát a vytvorí nové panely na ich mieste."
+
+#: (vue)
+msgid "Auto-allocate will remove adjudicators from panels and create a new\n  allocation in their place."
+msgstr "Automatické pridelenie odstráni rozhodcov z panelov a vytvorí nové pridelenie na ich mieste."
+
+#: (vue)
+msgid "Average score of panel (excluding trainees)"
+msgstr "Priemerné skóre panelu (bez shadows)"
+
+#: (vue)
+msgid "Average score of voting majority in panel"
+msgstr "Priemerné skóre hlasovacej väčšiny v paneli"
+
+#: (vue)
+msgid "By "
+msgstr "Od "
+
+#: (vue)
+msgid "Close Shard"
+msgstr "Zatvoriť shard"
+
+#: (vue)
+msgid "Conflict"
+msgstr "Konflikt"
+
+#: (vue)
+msgid "Conflict penalty — higher numbers will more strongly avoid recorded conflicts"
+msgstr "Pokuta za konflikt — vyššie čísla budú silnejšie predchádzať zaznamenaným konfliktom"
+
+#: (vue)
+msgid "Constraint"
+msgstr "Obmedzenie"
+
+#: (vue)
+msgid "Create Panels"
+msgstr "Vytvoriť panely"
+
+#: (vue)
+msgid "Create Preformed Panels"
+msgstr "Vytvoriť predpripravené panely"
+
+#: (vue)
+msgid "Create preformed panels by estimating the general brackets that will\n                              occur during this round."
+msgstr "Vytvor predpripravené panely odhadnutím všeobecných košov, ktoré sa vyskytnú počas tohto kola."
+
+#: (vue)
+msgid "Debate has no room."
+msgstr "Debata nemá priradenú miestnosť."
+
+#: (vue)
+msgid "Direct Allocate"
+msgstr "Priame pridelenie"
+
+#: (vue)
+msgid "Do not allocate panellists"
+msgstr "Neprideľovať panelistov"
+
+#: (vue)
+msgid "Do not allocate trainees"
+msgstr "Neprideľovať shadows"
+
+#: (vue)
+msgid "History penalty — higher numbers will more strongly avoid\n                                         matching adjudicators to teams or panellists they have seen\n                                         before"
+msgstr "Pokuta za históriu — vyššie čísla budú silnejšie predchádzať tomu, aby rozhodcovia posudzovali tímy alebo panelistov, ktorých už videli predtým"
+
+#: (vue)
+msgid "Importance mismatch penalty — higher numbers will more\n                                         strongly match panel strengths to assigned importances"
+msgstr "Pokuta za nesúlad dôležitosti — vyššie čísla budú silnejšie priraďovať silu panelov k prideleným dôležitostiam"
+
+#: (vue)
+msgid "In "
+msgstr "V "
+
+#: (vue)
+msgid "Incomplete"
+msgstr "Neúplné"
+
+#: (vue)
+msgid "Loading..."
+msgstr "Načítavam..."
+
+#: (vue)
+msgid "Merge Ballot(s)"
+msgstr "Zlúčiť ballot(y)"
+
+#: (vue)
+msgid "Minimum feedback score required to be a chair or panellist"
+msgstr "Minimálne skóre spätnej väzby potrebné na to, aby mohol byť chair alebo panelista"
+
+#: (vue)
+msgid "Missing"
+msgstr "Chýba"
+
+#: (vue)
+msgid "Motion is:"
+msgstr "Téza je:"
+
+#: (vue)
+msgid "No "
+msgstr "Nie "
+
+#: (vue)
+msgid "No Results Yet"
+msgstr "Zatiaľ žiadne výsledky"
+
+#: (vue)
+msgid "No preformed panels exist for this round. You can create some by going to Setup, and then Preformed Panels."
+msgstr "Pre toto kolo neexistujú žiadne predpripravené panely. Môžeš ich vytvoriť v časti Nastavenie a potom Predpripravené panely."
+
+#: (vue)
+msgid "Not Checked In"
+msgstr "Neprihlásený"
+
+#: (vue)
+msgid "Note that 'liveness' doesn't factor in special rules other than a\n                              strict mathematical break. Be sure to double-check the results"
+msgstr "Upozornenie: liveness nezohľadňuje špeciálne pravidlá okrem prísneho matematického postupu. Nezabudni si výsledky dvojito skontrolovať."
+
+#: (vue)
+msgid "Note: You should almost certainly not being using this page once results\n                               have been released. Be sure to fill all gaps before leaving."
+msgstr "Poznámka: po zverejnení výsledkov by si túto stránku takmer určite nemal/a používať. Pred odchodom sa uisti, že si vyplnil/a všetky medzery."
+
+#: (vue)
+msgid "Prioritise"
+msgstr "Prioritizovať"
+
+#: (vue)
+msgid "Prioritise by bracket will split the draw into quartiles by bracket\n                              and give higher priorities to higher brackets."
+msgstr "Prioritizácia podľa koša rozdelí pairing do kvartilov podľa koša a priradí vyšším košom vyššie priority."
+
+#: (vue)
+msgid "Prioritise by liveness assign live rooms to be important,\n                              safe rooms (where all teams are guaranteed to break) to be neutral>,\n                              and dead rooms (where all teams cannot break) to be meh. This is\n                              typically only useful in the very last preliminary rounds, when many\n                              teams are ruled out of the break."
+msgstr "Prioritizácia podľa liveness priradí live miestnostiam dôležitosť, bezpečným miestnostiam (kde je postup všetkých tímov zaručený) neutrálnu hodnotu a mŕtvym miestnostiam (kde žiadny tím nemôže postúpiť) nízku hodnotu. Toto je spravidla užitočné iba v posledných predkolách, keď sú mnohé tímy vylúčené z postupu."
+
+#: (vue)
+msgid "Real Names"
+msgstr "Skutočné mená"
+
+#: (vue)
+msgid "Seen"
+msgstr "Videný"
+
+#: (vue)
+msgid "Select a count, sort, and mix to open a shard"
+msgstr "Vyber počet, zoradenie a miešanie na otvorenie shardu"
+
+#: (vue)
+msgid "Set Breaking"
+msgstr "Nastaviť postupujúcich"
+
+#: (vue)
+msgid "Set all the availabilities to exactly match\n                                     what they were in the previous round."
+msgstr "Nastaví všetku dostupnosť presne podľa predchádzajúceho kola."
+
+#: (vue)
+msgid "Set people who are checked in as available\n                                     (leave people not checked in unchanged)"
+msgstr "Nastaví prihlásených ľudí ako dostupných (neprihlásených ponechá bez zmeny)."
+
+#: (vue)
+msgid "Set people who are not checked in as unavailable\n                                     (leave people who are checked in unchanged)"
+msgstr "Nastaví neprihlásených ľudí ako nedostupných (prihlásených ponechá bez zmeny)."
+
+#: (vue)
+msgid "Shard Mix"
+msgstr "Shard Mix"
+
+#: (vue)
+msgid "Shard Sort"
+msgstr "Shard Sort"
+
+#: (vue)
+msgid "Shard Split"
+msgstr "Shard Split"
+
+#: (vue)
+msgid "Sharding narrows the debates displayed to show only a specific subset of the\n  overall draw"
+msgstr "Sharding zúži zobrazené debaty tak, aby sa zobrazila iba konkrétna podmnožina celkového pairingu."
+
+#: (vue)
+msgid "Sharding narrows the panels displayed to show only a specific subset of all\n  panels available."
+msgstr "Sharding zúži zobrazené panely tak, aby sa zobrazila iba konkrétna podmnožina všetkých dostupných panelov."
+
+#: (vue)
+msgid "Smart Allocate"
+msgstr "Smart pridelenie"
+
+#: (vue)
+msgid "Solo speech mode: adjudicators can be assigned to multiple speeches in this round. Drag a judge from the bottom pool to every speech they judge; drag from a speech back to the pool to remove only that assignment. Auto-allocation is disabled for this format."
+msgstr "Režim sólovej reči: rozhodcov možno priradiť k viacerým rečiam v tomto kole. Pretiahni rozhodcu zo spodného zoznamu ku každej reči, ktorú posudzuje; pretiahnutím reči späť do zoznamu odstrániš iba toto priradenie. Automatické pridelenie je pre tento formát vypnuté."
+
+#: (vue)
+msgid "TKTK"
+msgstr "TKTK"
+
+#: (vue)
+msgid "The allocator assigns rooms to debates while trying to match\n                               all of the room constraints that have been specified."
+msgstr "Prideľovač priradí miestnosti debatám a pritom sa snaží splniť všetky zadané obmedzenia miestností."
+
+#: (vue)
+msgid "The allocator creates stronger panels for debates that were given\n                                  higher importances. If importances have not been set it will allocate\n                                  stronger panels to debates in higher brackets."
+msgstr "Prideľovač vytvorí silnejšie panely pre debaty s vyššou dôležitosťou. Ak dôležitosti neboli nastavené, priradí silnejšie panely debatám vo vyšších košoch."
+
+#: (vue)
+msgid "The debate's room rank (break rank of highest-ranked team)"
+msgstr "Poradie miestnosti debaty (poradie postupu najvyššie umiestneného tímu)"
+
+#: (vue)
+msgid "The maximum possible number of live teams in\n              the hypothetical debate for the open category"
+msgstr "Maximálny možný počet live tímov v hypotetickej debate pre open kategóriu"
+
+#: (vue)
+msgid "The time of the last saved change (changes are automatically saved)"
+msgstr "Čas poslednej uloženej zmeny (zmeny sa ukladajú automaticky)"
+
+#: (vue)
+msgid "The total number of live break categories across\n              all teams"
+msgstr "Celkový počet live break kategórií naprieč všetkými tímami"
+
+#: (vue)
+msgid "There are no Preformed Panels for this round. You will need to create\n  some first by using the button in the top-left."
+msgstr "Pre toto kolo neexistujú žiadne predpripravené panely. Najprv ich musíš vytvoriť pomocou tlačidla v ľavom hornom rohu."
+
+#: (vue)
+msgid "There are no debates created for this round."
+msgstr "Pre toto kolo neboli vytvorené žiadne debaty."
+
+#: (vue)
+msgid "This adjudicator or team has an unmet room constraint."
+msgstr "Tento rozhodca alebo tím má nesplnené obmedzenie miestnosti."
+
+#: (vue)
+msgid "This helps allow this page to be edited across several computers as it\n    guarantees that changes made in one shard wont affect the others. However, you need to\n    ensure that each computer uses identical split/mix/sort settings and selects a different\n    shard from the others"
+msgstr "Toto umožňuje úpravu tejto stránky na viacerých počítačoch súčasne, pretože zaručuje, že zmeny vykonané v jednom shard neovplyvnia ostatné. Musíš však zabezpečiť, aby každý počítač používal rovnaké nastavenia rozdelenia/miešania/zoradenia a zvolil iný shard."
+
+#: (vue)
+msgid "Top-to-Bottom mixing will sort the draw so the first shard contains the\n    top-most brackets, priority, or liveness while the last shard contains the bottom-most\n    brackets, priority, or liveness. In contrast, Interleave will distribute an even mix of each\n    characteristic amongst each shard"
+msgstr "Miešanie zhora nadol zoradí pairing tak, že prvý shard bude obsahovať najvyššie koše, priority alebo liveness, zatiaľ čo posledný shard bude obsahovať najnižšie. Naopak, Interleave rozdelí rovnomernú zmes každej vlastnosti medzi jednotlivé shardy."
+
+#: (vue)
+msgid "Unavailable"
+msgstr "Nedostupný"
+
+#: (vue)
+msgid "Unknown Adj"
+msgstr "Neznámy rozhodca"
+
+#: (vue)
+msgid "Using auto-prioritise will remove all existing debate priorities and assign\n  new ones."
+msgstr "Automatická prioritizácia odstráni všetky existujúce priority debát a priradí nové."
+
+#: (vue)
+msgid "Using auto-prioritise will remove all existing panel priorities and\n  assign new ones."
+msgstr "Automatická prioritizácia odstráni všetky existujúce priority panelov a priradí nové."
+
+#: (vue)
+msgid "feedback scores analysed"
+msgstr "analyzovaných skóre spätnej väzby"
+
+#: (vue)
+msgid "speaker scores analysed"
+msgstr "analyzovaných skóre rečníkov"
+
+#: (vue)
+msgid "x04"
+msgstr "x04"
+
+#: (vue)
+msgid "☓ All"
+msgstr "☓ Všetky"
+
+#: (vue)
+msgid "✓ All"
+msgstr "✓ Všetky"
