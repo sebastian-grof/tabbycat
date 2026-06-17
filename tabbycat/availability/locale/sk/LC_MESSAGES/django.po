@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tabbycat\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-05 07:37+1000\n"
+"POT-Creation-Date: 2026-06-17 09:00+0200\n"
 "PO-Revision-Date: 2026-04-26 00:00+0200\n"
 "Last-Translator: \n"
 "Language-Team: Slovak\n"
@@ -17,85 +17,98 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 3;\n"
 
-#: availability/apps.py availability/views.py
+#: availability/apps.py:7 availability/views.py:39
 msgid "Availability"
 msgstr "Dostupnosť"
 
-#: availability/models.py
+#: availability/models.py:17
 msgid "content type"
 msgstr "typ obsahu"
 
-#: availability/models.py
+#: availability/models.py:18
 msgid "object id"
 msgstr "ID objektu"
 
-#: availability/models.py
+#: availability/models.py:22
 msgid "round"
 msgstr "kolo"
 
-#: availability/models.py
+#: availability/models.py:28
 msgid "round availability"
 msgstr "dostupnosť v kole"
 
-#: availability/models.py
+#: availability/models.py:29
 msgid "round availabilities"
 msgstr "dostupnosti v kole"
 
-#: availability/templates/availability_index.html
+#: availability/templates/availability_index.html:11
 msgid "Mark All Breaking Adjs as Available"
 msgstr "Označiť všetkých postupujúcich rozhodcov ako dostupných"
 
-#: availability/templates/availability_index.html
+#: availability/templates/availability_index.html:18
 msgid "Mark Everything as Available"
 msgstr "Označiť všetko ako dostupné"
 
-#: availability/templates/availability_index.html
+#: availability/templates/availability_index.html:25
 #, python-format
 msgid "Copy Availability from %(prev_round)s"
 msgstr "Kopírovať dostupnosť z %(prev_round)s"
 
-#: availability/templates/availability_index.html
+#: availability/templates/availability_index.html:42
+#: availability/templates/availability_index.html:51
+msgid "Side Allocations"
+msgstr "Pridelenie strán"
+
+#: availability/templates/availability_index.html:45
 msgid "View Draw"
 msgstr "Zobraziť pairing"
 
-#: availability/templates/availability_index.html
+#: availability/templates/availability_index.html:57
 #, python-format
-msgid "%(previous_unconfirmed)s debates from %(round)s do not have a completed ballot — this may lead to a draw that fails or is incorrect"
-msgstr "%(previous_unconfirmed)s debát z %(round)s nemá vyplnený ballot — môže to viesť k nesprávnemu alebo nefunkčnému pairingu"
+msgid "%(previous_unconfirmed)s debates from %(round)s do not have a completed ballot &mdash; this may lead to a draw that fails or is incorrect"
+msgstr "%(previous_unconfirmed)s debát z %(round)s nemá vyplnený ballot &mdash; môže to viesť k nesprávnemu alebo nefunkčnému pairingu"
 
-#: availability/templates/availability_index.html
+#: availability/templates/availability_index.html:59
+#: availability/templates/availability_index.html:64
+#: availability/templates/availability_index.html:69
+#: availability/templates/availability_index.html:74
+#: availability/templates/availability_index.html:79
+#: availability/templates/availability_index.html:84
+#: availability/templates/availability_index.html:89
+#: availability/templates/availability_index.html:94
+#: availability/templates/availability_index.html:98
 msgid "Generate Draw"
 msgstr "Vygenerovať pairing"
 
-#: availability/templates/availability_index.html
+#: availability/templates/availability_index.html:63
 msgid "The draw cannot be generated until some teams have been marked as available."
 msgstr "Pairing nie je možné vygenerovať, kým neoznačíš nejaké tímy ako dostupné."
 
-#: availability/templates/availability_index.html
+#: availability/templates/availability_index.html:68
 msgid "The draw cannot be generated until some adjudicators have been marked as available."
 msgstr "Pairing nie je možné vygenerovať, kým neoznačíš nejakých rozhodcov ako dostupných."
 
-#: availability/templates/availability_index.html
-msgid "The draw cannot be generated until some rooms have been marked as available."
-msgstr "Pairing nie je možné vygenerovať, kým neoznačíš nejaké miestnosti ako dostupné."
+#: availability/templates/availability_index.html:73
+msgid "No rooms are marked as available. You can still generate the draw and assign rooms later."
+msgstr "Žiadne miestnosti nie sú označené ako dostupné. Pairing môžeš vygenerovať aj teraz a miestnosti priradiť neskôr."
 
-#: availability/templates/availability_index.html
-msgid "There aren't enough rooms marked as available for the number of debates — the draw may not generate properly."
-msgstr "Nie je dostatok miestností označených ako dostupné pre počet debát — pairing sa nemusí vygenerovať správne."
+#: availability/templates/availability_index.html:78
+msgid "There aren't enough rooms marked as available for the number of debates &mdash; the draw may not generate properly."
+msgstr "Nie je dostatok miestností označených ako dostupné pre počet debát &mdash; pairing sa nemusí vygenerovať správne."
 
-#: availability/templates/availability_index.html
-msgid "There aren't enough adjudicators marked as available for the number of debates — the draw may not generate properly."
-msgstr "Nie je dostatok rozhodcov označených ako dostupní pre počet debát — pairing sa nemusí vygenerovať správne."
+#: availability/templates/availability_index.html:83
+msgid "There aren't enough adjudicators marked as available for the number of debates &mdash; the draw may not generate properly."
+msgstr "Nie je dostatok rozhodcov označených ako dostupní pre počet debát &mdash; pairing sa nemusí vygenerovať správne."
 
-#: availability/templates/availability_index.html
-msgid "There is an uneven number of teams marked as available — the draw may not generate properly."
-msgstr "Nepárny počet tímov je označených ako dostupné — pairing sa nemusí vygenerovať správne."
+#: availability/templates/availability_index.html:88
+msgid "There is an uneven number of teams marked as available &mdash; the draw may not generate properly."
+msgstr "Nepárny počet tímov je označených ako dostupné &mdash; pairing sa nemusí vygenerovať správne."
 
-#: availability/templates/availability_index.html
-msgid "The number of teams marked as available is not a multiple of 4 — the draw may not generate properly."
-msgstr "Počet tímov označených ako dostupné nie je násobkom 4 — pairing sa nemusí vygenerovať správne."
+#: availability/templates/availability_index.html:93
+msgid "The number of teams marked as available is not a multiple of 4 &mdash; the draw may not generate properly."
+msgstr "Počet tímov označených ako dostupné nie je násobkom 4 &mdash; pairing sa nemusí vygenerovať správne."
 
-#: availability/templates/availability_index.html
+#: availability/templates/availability_index.html:113
 #, python-format
 msgid "One debate from %(prev_round)s <strong>does not have a completed ballot</strong>. This may lead to a draw that fails or is incorrect, depending on your draw rules. <a href=\"%(prev_round_results_url)s\" class=\"alert-link\"> Enter results from %(prev_round)s. </a>"
 msgid_plural "%(previous_unconfirmed)s debates from %(prev_round)s <strong>do not have a completed ballot</strong>. This may lead to a draw that fails or is incorrect, depending on your draw rules. <a href=\"%(prev_round_results_url)s\" class=\"alert-link\"> Enter results from %(prev_round)s. </a>"
@@ -104,98 +117,110 @@ msgstr[1] "%(previous_unconfirmed)s debaty z %(prev_round)s <strong>nemajú vypl
 msgstr[2] "%(previous_unconfirmed)s debaty z %(prev_round)s <strong>nemajú vyplnený ballot</strong>. V závislosti od pravidiel pairingu to môže viesť k jeho zlyhaniu alebo chybe. <a href=\"%(prev_round_results_url)s\" class=\"alert-link\"> Zadaj výsledky z %(prev_round)s. </a>"
 msgstr[3] "%(previous_unconfirmed)s debát z %(prev_round)s <strong>nemá vyplnený ballot</strong>. V závislosti od pravidiel pairingu to môže viesť k jeho zlyhaniu alebo chybe. <a href=\"%(prev_round_results_url)s\" class=\"alert-link\"> Zadaj výsledky z %(prev_round)s. </a>"
 
-#: availability/templates/availability_index.html
+#: availability/templates/availability_index.html:135
 #, python-format
 msgid "This is a page for <strong>%(round)s</strong>, but the previous round is still not marked as completed. Did you forget to <a href=\"%(complete_prev_round_url)s\" class=\"alert-link\"> mark %(prev_round)s as completed? </a>"
 msgstr "Táto stránka je pre <strong>%(round)s</strong>, ale predchádzajúce kolo ešte nie je označené ako dokončené. Nezabudol si <a href=\"%(complete_prev_round_url)s\" class=\"alert-link\"> označiť %(prev_round)s ako dokončené? </a>"
 
-#: availability/templates/availability_index.html
+#: availability/templates/availability_index.html:155
 #, python-format
 msgid "This is the first round, but its draw type is <strong>%(draw_type)s</strong>. Did you intend for it to be <strong>Random</strong> or <strong>Seeded</strong> instead? You can <a href=\"%(change_round_url)s\" class=\"alert-link\">edit this round's draw type in the Edit Database area.</a>"
 msgstr "Toto je prvé kolo, ale jeho typ pairingu je <strong>%(draw_type)s</strong>. Chcel si namiesto toho zvoliť <strong>Náhodný</strong> alebo <strong>Nasadený</strong>? Môžeš <a href=\"%(change_round_url)s\" class=\"alert-link\">upraviť typ pairingu tohto kola v oblasti Upraviť databázu.</a>"
 
-#: availability/templates/availability_index.html
+#: availability/templates/availability_index.html:169
 #, python-format
 msgid "This is an elimination round, but it doesn't have a break category. Elimination rounds must be associated with a break category. Please <a href=\"%(change_round_url)s\" class=\"alert-link\"> set this round's break category in the Edit Database area.</a>"
 msgstr "Toto je vyraďovacie kolo, ale nemá priradenú postupovú kategóriu. Vyraďovacie kolá musia mať priradenú postupovú kategóriu. Prosím <a href=\"%(change_round_url)s\" class=\"alert-link\"> nastav postupovú kategóriu tohto kola v oblasti Upraviť databázu.</a>"
 
-#: availability/templates/availability_index.html
+#: availability/templates/availability_index.html:181
 #, python-format
 msgid "This is an elimination round, but its draw type is <strong>%(draw_type)s</strong>. The draw type of all elimination rounds must be \"Elimination\". Please <a href=\"%(change_round_url)s\" class=\"alert-link\"> change this round's draw type in the Edit Database area.</a>"
 msgstr "Toto je vyraďovacie kolo, ale jeho typ pairingu je <strong>%(draw_type)s</strong>. Typ pairingu všetkých vyraďovacích kôl musí byť „Vyraďovací”. Prosím <a href=\"%(change_round_url)s\" class=\"alert-link\"> zmeň typ pairingu tohto kola v oblasti Upraviť databázu.</a>"
 
-#: availability/templates/availability_index.html
+#: availability/templates/availability_index.html:194
 #, python-format
 msgid "There don't appear to be any teams breaking in the %(break_category)s Break. Have you <a href=\"%(breakqual_teams_url)s\" class=\"alert-link\"> generated the break for the %(break_category)s Break</a> yet?"
 msgstr "Zdá sa, že žiadne tímy nepostupujú cez %(break_category)s postup. Vygeneroval si už <a href=\"%(breakqual_teams_url)s\" class=\"alert-link\"> postup pre %(break_category)s</a>?"
 
-#: availability/templates/availability_index.html
+#: availability/templates/availability_index.html:206
 #, python-format
-msgid "There's only one team breaking in the %(break_category)s Break. You can't generate an elimination round draw with only one team — you might like to <a href=\"%(breakqual_teams_url)s\" class=\"alert-link\"> review the break for the %(break_category)s Break</a>."
-msgstr "Cez %(break_category)s postup postupuje len jeden tím. Vyraďovacie kolo s jediným tímom nie je možné vygenerovať — možno si chceš <a href=\"%(breakqual_teams_url)s\" class=\"alert-link\"> skontrolovať postup pre %(break_category)s</a>."
+msgid "There's only one team breaking in the %(break_category)s Break. You can't generate an elimination round draw with only one team &mdash; you might like to <a href=\"%(breakqual_teams_url)s\" class=\"alert-link\"> review the break for the %(break_category)s Break</a>."
+msgstr "Cez %(break_category)s postup postupuje len jeden tím. Vyraďovacie kolo s jediným tímom nie je možné vygenerovať &mdash; možno si chceš <a href=\"%(breakqual_teams_url)s\" class=\"alert-link\"> skontrolovať postup pre %(break_category)s</a>."
 
-#: availability/templates/availability_index.html
+#: availability/templates/availability_index.html:223
+msgid "One or more teams have a <strong>seed</strong> assigned, but this round's draw type is not <strong>Seeded</strong>."
+msgstr "Jeden alebo viac tímov má priradený <strong>seed</strong>, ale typ pairingu tohto kola nie je <strong>Nasadený</strong>."
+
+#: availability/templates/availability_index.html:230
+msgid "Set draw type to Seeded"
+msgstr "Nastaviť typ pairingu na Nasadený"
+
+#: availability/templates/availability_index.html:239
 #, python-format
 msgid "The team standings precedence is empty. This means that teams aren't ranked according to any metrics, so all teams will be in a single bracket containing everyone. If this isn't what you intended, set the team standings precedence in the <a href=\"%(standings_config_url)s\" class=\"alert-link\">Standings section of this tournament's configuration</a> before creating the draw. In most tournaments, the first metric should be points or wins."
 msgstr "Poradie tímových metrík je prázdne. To znamená, že tímy nie sú zoradené podľa žiadnych kritérií a všetky budú v jednom koši. Ak to nebol tvoj zámer, nastav poradie metrík v sekcii <a href=\"%(standings_config_url)s\" class=\"alert-link\">Poradie v nastaveniach turnaja</a> pred vytvorením pairingu. Vo väčšine turnajov by prvou metrikou mali byť body alebo výhry."
 
-#: availability/templates/base_availability.html
+#: availability/templates/availability_index.html:289
+msgid "Request failed"
+msgstr "Požiadavka zlyhala"
+
+#: availability/templates/base_availability.html:38
 msgid "Select All"
 msgstr "Vybrať všetko"
 
-#: availability/templates/base_availability.html
+#: availability/templates/base_availability.html:39
 msgid "Select None"
 msgstr "Zrušiť výber"
 
-#: availability/templates/base_availability.html
+#: availability/templates/base_availability.html:40
 msgid "Check-Ins"
 msgstr "Prihlásenia"
 
-#: availability/templates/base_availability.html
+#: availability/templates/base_availability.html:41
 msgid "Check In All Breaking"
 msgstr "Prihlásiť všetkých postupujúcich"
 
-#: availability/templates/base_availability.html
+#: availability/templates/base_availability.html:42
 msgid "Copy from Previous"
 msgstr "Kopírovať z predchádzajúceho"
 
-#: availability/templates/base_availability.html
+#: availability/templates/base_availability.html:43
 msgid "Save Selected"
 msgstr "Uložiť vybrané"
 
-#: availability/templates/checkin_progress.html
+#: availability/templates/checkin_progress.html:7
 msgid "Teams"
 msgstr "Tímy"
 
-#: availability/templates/checkin_progress.html
+#: availability/templates/checkin_progress.html:8
 msgid "Adjudicators"
 msgstr "Rozhodcovia"
 
-#: availability/templates/checkin_progress.html
+#: availability/templates/checkin_progress.html:9
 msgid "Rooms"
 msgstr "Miestnosti"
 
-#: availability/templates/checkin_progress.html
+#: availability/templates/checkin_progress.html:43
 msgid "Mark teams as available"
 msgstr "Označiť tímy ako dostupné"
 
-#: availability/templates/checkin_progress.html
+#: availability/templates/checkin_progress.html:46
 msgid "No need to set team availability"
 msgstr "Dostupnosť tímov nie je potrebné nastavovať"
 
-#: availability/templates/checkin_progress.html
+#: availability/templates/checkin_progress.html:49
 msgid "There is an uneven number of teams marked as available for this round."
 msgstr "Pre toto kolo je označený nepárny počet tímov ako dostupných."
 
-#: availability/templates/checkin_progress.html
+#: availability/templates/checkin_progress.html:53
 msgid "The number of teams marked as available for this round is not a multiple of 4."
 msgstr "Počet tímov označených ako dostupné pre toto kolo nie je násobkom 4."
 
-#: availability/templates/checkin_progress.html
+#: availability/templates/checkin_progress.html:59
 msgid "Edit team availability"
 msgstr "Upraviť dostupnosť tímov"
 
-#: availability/templates/checkin_progress.html
+#: availability/templates/checkin_progress.html:68
 #, python-format
 msgid "One adjudicator does not have an associated tournament. Set their 'Tournament' field in the Edit Database area if you want them to be marked as available."
 msgid_plural "%(count)s adjudicators do not have an associated tournament. Set their 'Tournament' field in the Edit Database area if you want them to be marked as available."
@@ -204,7 +229,7 @@ msgstr[1] "%(count)s rozhodcovia nemajú priradený turnaj. Nastav ich pole „T
 msgstr[2] "%(count)s rozhodcovia nemajú priradený turnaj. Nastav ich pole „Turnaj” v oblasti Upraviť databázu, ak chceš, aby boli označení ako dostupní."
 msgstr[3] "%(count)s rozhodcov nemá priradený turnaj. Nastav ich pole „Turnaj” v oblasti Upraviť databázu, ak chceš, aby boli označení ako dostupní."
 
-#: availability/templates/checkin_progress.html
+#: availability/templates/checkin_progress.html:77
 #, python-format
 msgid "%(count)s adjudicator who was not available last round, is available this round."
 msgid_plural "%(count)s adjudicators who were not available last round, are available this round."
@@ -213,7 +238,7 @@ msgstr[1] "%(count)s rozhodcovia, ktorí neboli dostupní v minulom kole, sú do
 msgstr[2] "%(count)s rozhodcovia, ktorí neboli dostupní v minulom kole, sú dostupní v tomto kole."
 msgstr[3] "%(count)s rozhodcov, ktorí neboli dostupní v minulom kole, je dostupných v tomto kole."
 
-#: availability/templates/checkin_progress.html
+#: availability/templates/checkin_progress.html:84
 #, python-format
 msgid "The following %(count)s adjudicator, who was not available last round, is available this round: %(adjs_list)s"
 msgid_plural "The following %(count)s adjudicators, who were not available last round, are available this round: %(adjs_list)s"
@@ -222,7 +247,7 @@ msgstr[1] "Nasledujúci %(count)s rozhodcovia, ktorí neboli dostupní v minulom
 msgstr[2] "Nasledujúci %(count)s rozhodcovia, ktorí neboli dostupní v minulom kole, sú dostupní v tomto kole: %(adjs_list)s"
 msgstr[3] "Nasledujúcich %(count)s rozhodcov, ktorí neboli dostupní v minulom kole, je dostupných v tomto kole: %(adjs_list)s"
 
-#: availability/templates/checkin_progress.html
+#: availability/templates/checkin_progress.html:93
 #, python-format
 msgid "%(count)s adjudicator who was available last round, is not available this round."
 msgid_plural "%(count)s adjudicators who were available last round, are not available this round."
@@ -231,7 +256,7 @@ msgstr[1] "%(count)s rozhodcovia, ktorí boli dostupní v minulom kole, nie sú 
 msgstr[2] "%(count)s rozhodcovia, ktorí boli dostupní v minulom kole, nie sú dostupní v tomto kole."
 msgstr[3] "%(count)s rozhodcov, ktorí boli dostupní v minulom kole, nie je dostupných v tomto kole."
 
-#: availability/templates/checkin_progress.html
+#: availability/templates/checkin_progress.html:100
 #, python-format
 msgid "The following %(count)s adjudicator, who was available last round, is not available this round: %(adjs_list)s"
 msgid_plural "The following %(count)s adjudicators, who were available last round, are not available this round: %(adjs_list)s"
@@ -240,12 +265,12 @@ msgstr[1] "Nasledujúci %(count)s rozhodcovia, ktorí boli dostupní v minulom k
 msgstr[2] "Nasledujúci %(count)s rozhodcovia, ktorí boli dostupní v minulom kole, nie sú dostupní v tomto kole: %(adjs_list)s"
 msgstr[3] "Nasledujúcich %(count)s rozhodcov, ktorí boli dostupní v minulom kole, nie je dostupných v tomto kole: %(adjs_list)s"
 
-#: availability/templates/checkin_progress.html
+#: availability/templates/checkin_progress.html:108
 msgid "Mark adjudicators as available"
 msgstr "Označiť rozhodcov ako dostupných"
 
 #. Translators: required_count is a word for a number (e.g. "two", "three", etc.)
-#: availability/templates/checkin_progress.html
+#: availability/templates/checkin_progress.html:111
 #, python-format
 msgid "There needs to be at least one adjudicator marked as available, given the number of debates."
 msgid_plural "There need to be at least %(required_count)s adjudicators marked as available, given the number of debates."
@@ -254,11 +279,11 @@ msgstr[1] "Pre daný počet debát musia byť označení aspoň %(required_count
 msgstr[2] "Pre daný počet debát musia byť označení aspoň %(required_count)s rozhodcovia ako dostupní."
 msgstr[3] "Pre daný počet debát musí byť označených aspoň %(required_count)s rozhodcov ako dostupných."
 
-#: availability/templates/checkin_progress.html
+#: availability/templates/checkin_progress.html:121
 msgid "Edit adjudicator availability"
 msgstr "Upraviť dostupnosť rozhodcov"
 
-#: availability/templates/checkin_progress.html
+#: availability/templates/checkin_progress.html:130
 #, python-format
 msgid "%(count)s room that was not available last round, is available this round."
 msgid_plural "%(count)s rooms that were not available last round, are available this round."
@@ -267,7 +292,7 @@ msgstr[1] "%(count)s miestnosti, ktoré neboli dostupné v minulom kole, sú dos
 msgstr[2] "%(count)s miestnosti, ktoré neboli dostupné v minulom kole, sú dostupné v tomto kole."
 msgstr[3] "%(count)s miestností, ktoré neboli dostupné v minulom kole, je dostupných v tomto kole."
 
-#: availability/templates/checkin_progress.html
+#: availability/templates/checkin_progress.html:137
 #, python-format
 msgid "The following %(count)s room, which was not available last round, is available this round: %(rooms_list)s"
 msgid_plural "The following %(count)s rooms, which were not available last round, are available this round: %(rooms_list)s"
@@ -276,7 +301,7 @@ msgstr[1] "Nasledujúce %(count)s miestnosti, ktoré neboli dostupné v minulom 
 msgstr[2] "Nasledujúce %(count)s miestnosti, ktoré neboli dostupné v minulom kole, sú dostupné v tomto kole: %(rooms_list)s"
 msgstr[3] "Nasledujúcich %(count)s miestností, ktoré neboli dostupné v minulom kole, je dostupných v tomto kole: %(rooms_list)s"
 
-#: availability/templates/checkin_progress.html
+#: availability/templates/checkin_progress.html:146
 #, python-format
 msgid "%(count)s room that was available last round, is not available this round."
 msgid_plural "%(count)s rooms that were available last round, are not available this round."
@@ -285,7 +310,7 @@ msgstr[1] "%(count)s miestnosti, ktoré boli dostupné v minulom kole, nie sú d
 msgstr[2] "%(count)s miestnosti, ktoré boli dostupné v minulom kole, nie sú dostupné v tomto kole."
 msgstr[3] "%(count)s miestností, ktoré boli dostupné v minulom kole, nie je dostupných v tomto kole."
 
-#: availability/templates/checkin_progress.html
+#: availability/templates/checkin_progress.html:153
 #, python-format
 msgid "The following %(count)s room, which was available last round, is not available this round: %(rooms_list)s"
 msgid_plural "The following %(count)s rooms, which were available last round, are not available this round: %(rooms_list)s"
@@ -294,7 +319,7 @@ msgstr[1] "Nasledujúce %(count)s miestnosti, ktoré boli dostupné v minulom ko
 msgstr[2] "Nasledujúce %(count)s miestnosti, ktoré boli dostupné v minulom kole, nie sú dostupné v tomto kole: %(rooms_list)s"
 msgstr[3] "Nasledujúcich %(count)s miestností, ktoré boli dostupné v minulom kole, nie je dostupných v tomto kole: %(rooms_list)s"
 
-#: availability/templates/checkin_progress.html
+#: availability/templates/checkin_progress.html:162
 #, python-format
 msgid "One room does not have an associated tournament. Set its 'Tournament' field in the Edit Database area if you want it to be marked as available."
 msgid_plural "%(count)s rooms do not have an associated tournament. Set their 'Tournament' field in the Edit Database area if you want them to be marked as available."
@@ -303,12 +328,12 @@ msgstr[1] "%(count)s miestnosti nemajú priradený turnaj. Nastav ich pole „Tu
 msgstr[2] "%(count)s miestnosti nemajú priradený turnaj. Nastav ich pole „Turnaj” v oblasti Upraviť databázu, ak chceš, aby boli označené ako dostupné."
 msgstr[3] "%(count)s miestností nemá priradený turnaj. Nastav ich pole „Turnaj” v oblasti Upraviť databázu, ak chceš, aby boli označené ako dostupné."
 
-#: availability/templates/checkin_progress.html
+#: availability/templates/checkin_progress.html:170
 msgid "Mark rooms as available"
 msgstr "Označiť miestnosti ako dostupné"
 
 #. Translators: required_count is a word for a number (e.g. "two", "three", etc.)
-#: availability/templates/checkin_progress.html
+#: availability/templates/checkin_progress.html:173
 #, python-format
 msgid "There needs to be at least one room marked as available, given the number of debates."
 msgid_plural "There need to be at least %(required_count)s rooms marked as available, given the number of debates."
@@ -317,16 +342,25 @@ msgstr[1] "Pre daný počet debát musia byť označené aspoň %(required_count
 msgstr[2] "Pre daný počet debát musia byť označené aspoň %(required_count)s miestnosti ako dostupné."
 msgstr[3] "Pre daný počet debát musí byť označených aspoň %(required_count)s miestností ako dostupných."
 
-#: availability/templates/checkin_progress.html
+#: availability/templates/checkin_progress.html:185
 msgid "Edit room availability"
 msgstr "Upraviť dostupnosť miestností"
 
-#: availability/views.py
+#: availability/views.py:106
 msgid "no teams are debating"
 msgstr "žiadne tímy nedebatujú"
 
+#: availability/views.py:115
+#, python-format
+msgid "%(nteams)d breaking team is debating this round"
+msgid_plural "%(nteams)d breaking teams are debating this round"
+msgstr[0] "%(nteams)d postupujúci tím debatuje v tomto kole"
+msgstr[1] "%(nteams)d postupujúce tímy debatujú v tomto kole"
+msgstr[2] "%(nteams)d postupujúce tímy debatujú v tomto kole"
+msgstr[3] "%(nteams)d postupujúcich tímov debatuje v tomto kole"
+
 #. Translators: nteams in this string can only be 0 or 1
-#: availability/views.py
+#: availability/views.py:122
 #, python-format
 msgid "%(nteams)d breaking team — no debates can happen"
 msgid_plural "%(nteams)d breaking teams — no debates can happen"
@@ -336,7 +370,7 @@ msgstr[2] "%(nteams)d postupujúce tímy — nemôže sa konať žiadna debata"
 msgstr[3] "%(nteams)d postupujúcich tímov — nemôže sa konať žiadna debata"
 
 #. Translators: ndebating in this string is always at least 2
-#: availability/views.py
+#: availability/views.py:130
 #, python-format
 msgid "%(ndebating)d breaking team is debating this round"
 msgid_plural "%(ndebating)d breaking teams are debating this round"
@@ -348,7 +382,7 @@ msgstr[3] "%(ndebating)d postupujúcich tímov debatuje v tomto kole"
 #. Translators: This gets appended to the previous string (the one with
 #. ndebating in it) if (and only if) nbypassing is greater than 0.
 #. "It" refers to this round.
-#: availability/views.py
+#: availability/views.py:138
 #, python-format
 msgid "; %(nbypassing)d team is bypassing it"
 msgid_plural "; %(nbypassing)d teams are bypassing it"
@@ -358,7 +392,7 @@ msgstr[2] "; %(nbypassing)d tímy ho obchádzajú"
 msgstr[3] "; %(nbypassing)d tímov ho obchádza"
 
 #. Translators: nadvancing in this string is always at least 2
-#: availability/views.py
+#: availability/views.py:157
 #, python-format
 msgid "%(nadvancing)s advancing team is debating this round"
 msgid_plural "%(nadvancing)s advancing teams are debating this round"
@@ -367,59 +401,59 @@ msgstr[1] "%(nadvancing)s postupujúce tímy debatujú v tomto kole"
 msgstr[2] "%(nadvancing)s postupujúce tímy debatujú v tomto kole"
 msgstr[3] "%(nadvancing)s postupujúcich tímov debatuje v tomto kole"
 
-#: availability/views.py
+#: availability/views.py:197
 msgid "Active Now"
 msgstr "Aktívny teraz"
 
-#: availability/views.py
+#: availability/views.py:208
 #, python-format
 msgid "Active in %(prev_round)s"
 msgstr "Aktívny v %(prev_round)s"
 
-#: availability/views.py
+#: availability/views.py:214
 msgid "Checked-In"
 msgstr "Prihlásený"
 
-#: availability/views.py
+#: availability/views.py:229
 msgid "Team Availability"
 msgstr "Dostupnosť tímov"
 
-#: availability/views.py
+#: availability/views.py:252
 msgid "Adjudicator Availability"
 msgstr "Dostupnosť rozhodcov"
 
-#: availability/views.py
+#: availability/views.py:275
 msgid "Room Availability"
 msgstr "Dostupnosť miestností"
 
-#: availability/views.py
+#: availability/views.py:289
 msgid "Room"
 msgstr "Miestnosť"
 
-#: availability/views.py
+#: availability/views.py:291
 msgid "Display Name (for the draw)"
 msgstr "Zobrazovaný názov (pre pairing)"
 
-#: availability/views.py
+#: availability/views.py:294
 msgid "Categories"
 msgstr "Kategórie"
 
-#: availability/views.py
+#: availability/views.py:295
 msgid "Priority"
 msgstr "Priorita"
 
-#: availability/views.py
+#: availability/views.py:316
 msgid "Failed to update some or all availabilities due to an integrityerror. You should retry this action or make individual updates."
 msgstr "Aktualizácia niektorých alebo všetkých dostupností zlyhala kvôli chybe integrity. Skús akciu zopakovať alebo vykonaj zmeny jednotlivo."
 
-#: availability/views.py
+#: availability/views.py:324
 msgid "Checked in all teams, adjudicators and rooms."
 msgstr "Prihlásené všetky tímy, rozhodcovia a miestnosti."
 
-#: availability/views.py
+#: availability/views.py:331
 msgid "Checked in all breaking adjudicators."
 msgstr "Prihlásení všetci postupujúci rozhodcovia."
 
-#: availability/views.py
+#: availability/views.py:339
 msgid "Checked in all teams, adjudicators and rooms from previous round."
 msgstr "Prihlásené všetky tímy, rozhodcovia a miestnosti z predchádzajúceho kola."

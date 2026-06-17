@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tabbycat\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-06 09:38+1000\n"
+"POT-Creation-Date: 2026-06-17 09:00+0200\n"
 "PO-Revision-Date: 2026-04-26 13:16+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -19,31 +19,31 @@ msgstr ""
 "X-Criadokdin-File: /develop/tabbycat/adjspätná väzba/locale/en/LC_správaS/django.po\n"
 "X-Generator: Poedit 3.7\n"
 
-#: adjfeedback/admin.py
+#: adjfeedback/admin.py:44
 msgid "Integer scales must have a minimum and maximum"
 msgstr "Celočíselné škály musia mať minimum aj maximum"
 
-#: adjfeedback/admin.py
+#: adjfeedback/admin.py:46
 msgid "Maximum value must be greater than the minimum"
 msgstr "Maximálna hodnota musí byť väčšia ako minimum"
 
-#: adjfeedback/admin.py
+#: adjfeedback/admin.py:105
 msgid "target"
 msgstr "cieľ"
 
-#: adjfeedback/admin.py adjfeedback/models.py
+#: adjfeedback/admin.py:106 adjfeedback/models.py:71
 msgid "source adjudicator"
 msgstr "zdrojový rozhodca/rozhodkyňa"
 
-#: adjfeedback/admin.py adjfeedback/models.py
+#: adjfeedback/admin.py:107 adjfeedback/models.py:73
 msgid "source team"
 msgstr "zdrojový tím"
 
-#: adjfeedback/admin.py
+#: adjfeedback/admin.py:124
 msgid "Source"
 msgstr "Zdroj"
 
-#: adjfeedback/admin.py
+#: adjfeedback/admin.py:141
 #, python-format
 msgid "1 feedback submission was marked as confirmed. Note that this may have caused other feedback submissions to be marked as unconfirmed."
 msgid_plural "%(count)d feedback submissions were marked as confirmed. Note that this may have caused other feedback submissions to be marked as unconfirmed."
@@ -52,7 +52,7 @@ msgstr[1] "%(count)d odoslania spätnej väzby boli označené ako potvrdené. U
 msgstr[2] "%(count)d odoslaní spätnej väzby boli označené ako potvrdené. Upozorňujeme, že to mohlo spôsobiť, že iné odoslania spätnej väzby boli označené ako nepotvrdené."
 msgstr[3] "%(count)d odoslaní spätnej väzby boli označené ako potvrdené. Upozorňujeme, že to mohlo spôsobiť, že iné odoslania spätnej väzby boli označené ako nepotvrdené."
 
-#: adjfeedback/admin.py
+#: adjfeedback/admin.py:153
 #, python-format
 msgid "1 feedback submission was not marked as confirmed, probably because other feedback submissions that conflict with it were also marked as confirmed."
 msgid_plural "%(count)d feedback submissions were not marked as confirmed, probably because other feedback submissions that conflict with them were also marked as confirmed."
@@ -61,7 +61,7 @@ msgstr[1] "%(count)d odoslania spätnej väzby neboli označené ako potvrdené,
 msgstr[2] "%(count)d odoslaní spätnej väzby neboli označené ako potvrdené, pravdepodobne preto, že iné odoslania spätnej väzby, ktoré sú s nimi v konflikte, boli tiež označené ako potvrdené."
 msgstr[3] "%(count)d odoslaní spätnej väzby neboli označené ako potvrdené, pravdepodobne preto, že iné odoslania spätnej väzby, ktoré sú s nimi v konflikte, boli tiež označené ako potvrdené."
 
-#: adjfeedback/admin.py
+#: adjfeedback/admin.py:168
 #, python-format
 msgid "1 feedback submission was marked as unconfirmed."
 msgid_plural "%(count)d feedback submissions were marked as unconfirmed."
@@ -70,7 +70,7 @@ msgstr[1] "%(count)d odoslania spätnej väzby boli označené as nepotvrdené."
 msgstr[2] "%(count)d odoslania spätnej väzby boli označené as nepotvrdené."
 msgstr[3] "%(count)d odoslania spätnej väzby boli označené as nepotvrdené."
 
-#: adjfeedback/admin.py
+#: adjfeedback/admin.py:180
 #, python-format
 msgid "1 feedback submission is now ignored."
 msgid_plural "%(count)d feedback submissions are now ignored."
@@ -79,7 +79,7 @@ msgstr[1] "%(count)d odoslania spätnej väzby sú now ignorované."
 msgstr[2] "%(count)d odoslania spätnej väzby sú now ignorované."
 msgstr[3] "%(count)d odoslania spätnej väzby sú now ignorované."
 
-#: adjfeedback/admin.py
+#: adjfeedback/admin.py:192
 #, python-format
 msgid "1 feedback submission is now recognized."
 msgid_plural "%(count)d feedback submissions are now recognized."
@@ -88,252 +88,252 @@ msgstr[1] "%(count)d odoslania spätnej väzby sú now uznané."
 msgstr[2] "%(count)d odoslania spätnej väzby sú now uznané."
 msgstr[3] "%(count)d odoslania spätnej väzby sú now uznané."
 
-#: adjfeedback/apps.py
+#: adjfeedback/apps.py:7
 msgid "Adjudicator Feedback"
 msgstr "Spätná väzba na rozhodcu/rozhodkyňu"
 
-#: adjfeedback/forms.py
+#: adjfeedback/forms.py:26
 msgid "chair"
 msgstr "chair"
 
-#: adjfeedback/forms.py
+#: adjfeedback/forms.py:27
 msgid "solo"
 msgstr "solo"
 
-#: adjfeedback/forms.py
+#: adjfeedback/forms.py:28
 msgid "panellist"
 msgstr "panelista"
 
-#: adjfeedback/forms.py
+#: adjfeedback/forms.py:29
 msgid "trainee"
 msgstr "shadow"
 
 #. Translators: Please leave this blank, it should be left for the base Django translations.
-#: adjfeedback/forms.py
+#: adjfeedback/forms.py:43
 msgid "This field is required."
 msgstr "Toto pole je povinné."
 
-#: adjfeedback/forms.py
+#: adjfeedback/forms.py:84
 #, python-format
 msgid "Overall score (%(min)d=worst; %(max)d=best)*"
 msgstr "Overall skóre (%(min)d=worst; %(max)d=best)*"
 
-#: adjfeedback/forms.py
+#: adjfeedback/forms.py:96
 msgid "Ignored"
 msgstr "Ignorované"
 
 #. Translators: e.g. "Megan Pearson (chair)", with adjpos="chair"
-#: adjfeedback/forms.py
+#: adjfeedback/forms.py:151 adjfeedback/forms.py:214
 msgid "Submitted - "
 msgstr "Odoslané - "
 
 #. Translators: e.g. "Megan Pearson (panellist)", with round="Round 3", adjpos="panellist"
-#: adjfeedback/forms.py
+#: adjfeedback/forms.py:152 adjfeedback/forms.py:219
 #, python-format
 msgid "%(name)s (%(adjpos)s)"
 msgstr "%(name)s (%(adjpos)s)"
 
-#: adjfeedback/forms.py
+#: adjfeedback/forms.py:175 adjfeedback/forms.py:249
 msgid "-- Adjudicators --"
 msgstr "-- Rozhodcovia/rozhodkyne --"
 
-#: adjfeedback/forms.py
+#: adjfeedback/forms.py:192
 msgid "Adjudicator this feedback is about"
 msgstr "Rozhodca/rozhodkyňa toto spätná väzba je about"
 
-#: adjfeedback/forms.py
+#: adjfeedback/forms.py:216
 #, python-format
 msgid "%(name)s"
 msgstr "%(name)s"
 
-#: adjfeedback/forms.py
+#: adjfeedback/forms.py:222
 #, python-format
 msgid "%(name)s (chair gave oral)"
 msgstr "%(name)s (chair gave oral)"
 
-#: adjfeedback/forms.py
+#: adjfeedback/forms.py:224
 #, python-format
 msgid "%(name)s (panellist gave oral as chair rolled)"
 msgstr "%(name)s (panelista/panelistka gave oral as chair rolled)"
 
-#: adjfeedback/forms.py
+#: adjfeedback/forms.py:317
 #, python-format
 msgid "This line (for %(adjudicator)s) didn't have a score"
 msgstr "Tento riadok (pre %(adjudicator)s) nemal skóre"
 
-#: adjfeedback/forms.py
+#: adjfeedback/forms.py:322
 #, python-format
 msgid "This line (for %(adjudicator)s) had too many columns"
 msgstr "Tento riadok (pre %(adjudicator)s) mal príliš veľa stĺpcov"
 
-#: adjfeedback/forms.py
+#: adjfeedback/forms.py:335
 #, python-format
 msgid "There are several adjudicators called \"%(adjudicator)s\", so you can't use the bulk importer to update their score. Please do so in the Feedback Overview page instead."
 msgstr "Je tu viacero rozhodcovia/rozhodkyne nazvané \"%(adjudicator)s\", so Môžeš't použiť bulk importovaťer na aktualizovať ich skóre. Prosím do so v Spätná väzba Overview stránka namiesto toho."
 
-#: adjfeedback/forms.py
+#: adjfeedback/forms.py:341
 #, python-format
 msgid "There is no adjudicator in this tournament with the name \"%(adjudicator)s\""
 msgstr "V tomto turnaji nie je žiadny rozhodca/rozhodkyňa s menom „%(adjudicator)s“."
 
-#: adjfeedback/forms.py
+#: adjfeedback/forms.py:349
 #, python-format
 msgid "The score for %(adjudicator)s, \"%(score)s\", isn't a number"
 msgstr "Skóre pre %(adjudicator)s, „%(score)s“, nie je číslo"
 
-#: adjfeedback/forms.py
+#: adjfeedback/forms.py:364
 msgid "There were no scores to import."
 msgstr "Neboli dostupné žiadne skóre na importovať."
 
-#: adjfeedback/models.py
+#: adjfeedback/models.py:16 adjfeedback/models.py:66
 msgid "adjudicator"
 msgstr "rozhodca"
 
-#: adjfeedback/models.py
+#: adjfeedback/models.py:19
 msgid "round"
 msgstr "kolo"
 
-#: adjfeedback/models.py
+#: adjfeedback/models.py:20 adjfeedback/models.py:67
 msgid "score"
 msgstr "skóre"
 
-#: adjfeedback/models.py
+#: adjfeedback/models.py:21
 msgid "timestamp"
 msgstr "časová pečiatka"
 
-#: adjfeedback/models.py
+#: adjfeedback/models.py:24
 msgid "adjudicator base score history"
 msgstr "história základného skóre rozhodcu"
 
-#: adjfeedback/models.py
+#: adjfeedback/models.py:25
 msgid "adjudicator base score histories"
 msgstr "rozhodca/rozhodkyňa základné skóre - história"
 
-#: adjfeedback/models.py
+#: adjfeedback/models.py:34
 msgid "reference"
 msgstr "referencia"
 
-#: adjfeedback/models.py
+#: adjfeedback/models.py:35
 msgid "Code-compatible reference, e.g., \"agree_with_decision\""
 msgstr "Code-compatible reference, napr., \"agree_with_decision\""
 
-#: adjfeedback/models.py
+#: adjfeedback/models.py:38
 msgid "from adjudicator"
 msgstr "od rozhodcu/rozhodkyne"
 
-#: adjfeedback/models.py
+#: adjfeedback/models.py:39
 msgid "Adjudicators should be asked this question (about other adjudicators)"
 msgstr "Rozhodcovia/rozhodkyne má be asked toto question (about ostatné rozhodcovia/rozhodkyne)"
 
-#: adjfeedback/models.py
+#: adjfeedback/models.py:41
 msgid "from team"
 msgstr "od tímu"
 
-#: adjfeedback/models.py
+#: adjfeedback/models.py:42
 msgid "Teams should be asked this question"
 msgstr "Tímy má be asked toto question"
 
-#: adjfeedback/models.py
+#: adjfeedback/models.py:45
 msgid "adjudicator feedback question"
 msgstr "rozhodca/rozhodkyňa spätná väzba question"
 
-#: adjfeedback/models.py
+#: adjfeedback/models.py:46
 msgid "adjudicator feedback questions"
 msgstr "rozhodca/rozhodkyňa spätná väzba questions"
 
-#: adjfeedback/models.py adjfeedback/views.py
+#: adjfeedback/models.py:76 adjfeedback/views.py:819
 msgid "ignored"
 msgstr "ignorované"
 
-#: adjfeedback/models.py
+#: adjfeedback/models.py:77
 msgid "Whether the feedback should affect the adjudicator's score"
 msgstr "Či má spätná väzba ovplyvniť skóre rozhodcu/rozhodkyne"
 
-#: adjfeedback/models.py
+#: adjfeedback/models.py:85
 msgid "adjudicator feedback"
 msgstr "spätná väzba rozhodcu/rozhodkyne"
 
-#: adjfeedback/models.py
+#: adjfeedback/models.py:86
 msgid "adjudicator feedbacks"
 msgstr "spätné väzby rozhodcov"
 
-#: adjfeedback/models.py
+#: adjfeedback/models.py:141
 msgid "Either the source adjudicator or source team wasn't specified."
 msgstr "Nebol určený zdrojový rozhodca/rozhodkyňa ani zdrojový tím."
 
-#: adjfeedback/models.py
+#: adjfeedback/models.py:144
 msgid "There was both a source adjudicator and a source team."
 msgstr "Bol zadaný zdrojový rozhodca/rozhodkyňa aj zdrojový tím."
 
-#: adjfeedback/models.py
+#: adjfeedback/models.py:146
 msgid "There is no adjudicator specified as the target for this feedback. Perhaps they were deleted?"
 msgstr "Pre túto spätnú väzbu nie je určený cieľový rozhodca/rozhodkyňa. Možno bol/a vymazaný/á?"
 
-#: adjfeedback/models.py
+#: adjfeedback/models.py:148
 msgid "Adjudicator did not see this debate."
 msgstr "Rozhodca/rozhodkyňa túto debatu nevidel/a."
 
-#: adjfeedback/tables.py
+#: adjfeedback/tables.py:19
 msgid "Whether the adj is marked as breaking (click to mark)"
 msgstr "Či je rozhodca/rozhodkyňa označený/á ako breakujúci/a (kliknutím označíš)"
 
-#: adjfeedback/tables.py
+#: adjfeedback/tables.py:35
 msgid "N/A"
 msgstr "N/A"
 
-#: adjfeedback/tables.py
+#: adjfeedback/tables.py:45
 msgid "Current weighted score"
 msgstr "Aktuálne weighted skóre"
 
-#: adjfeedback/tables.py
+#: adjfeedback/tables.py:50
 msgid "This adjudicator's current rating."
 msgstr "Aktuálne skóre rozhodcu/rozhodkyne."
 
-#: adjfeedback/tables.py
+#: adjfeedback/tables.py:58
 msgid "Base score result"
 msgstr "Základné skóre výsledok"
 
-#: adjfeedback/tables.py
+#: adjfeedback/tables.py:65
 msgid "Click to edit base score"
 msgstr "Klikni pre úpravu základného skóre"
 
-#: adjfeedback/tables.py
+#: adjfeedback/tables.py:71
 msgid "Assigned base score"
 msgstr "Pridelené základné skóre"
 
-#: adjfeedback/tables.py
+#: adjfeedback/tables.py:81
 msgid "Feedback average"
 msgstr "Priemer spätnej väzby"
 
-#: adjfeedback/tables.py
+#: adjfeedback/tables.py:86
 msgid "This adjudicator's feedback average"
 msgstr "Priemer spätnej väzby tohto rozhodcu/tejto rozhodkyne"
 
-#: adjfeedback/tables.py
+#: adjfeedback/tables.py:95
 msgid "The current difference between an adjudicator's base score and current score"
 msgstr "Aktuálny rozdiel medzi základným skóre aktuálnym skóre rozhodcu/rozhodkyne"
 
-#: adjfeedback/tables.py
+#: adjfeedback/tables.py:100
 msgid "The difference between this adjudicator's base score and current score"
 msgstr "Rozdiel medzi základným skóre aktuálnym skóre tohto rozhodcu/tejto rozhodkyne"
 
-#: adjfeedback/tables.py
+#: adjfeedback/tables.py:109
 msgid "The standard deviation of this adjudicator's current scores; with larger numbers meaning less consistent feedback scores."
 msgstr "Štandardná odchýlka aktuálnych skóre tohto rozhodcu/tejto rozhodkyne; vyššie čísla znamenajú menej konzistentné skóre spätnej väzby."
 
-#: adjfeedback/tables.py
+#: adjfeedback/tables.py:114
 msgid "The standard deviation of this adjudicator's current scores"
 msgstr "Štandardná odchýlka aktuálnych skóre tohto rozhodcu/tejto rozhodkyne"
 
-#: adjfeedback/tables.py
+#: adjfeedback/tables.py:123
 msgid "Feedback Per Round"
 msgstr "Spätná väzba podľa kola"
 
-#: adjfeedback/tables.py
+#: adjfeedback/tables.py:124
 msgid "Hover over the data points to show the average score received in that round"
 msgstr "Prejdením kurzorom ponad dátové body zobrazíš priemerné skóre získané v danom kole"
 
-#: adjfeedback/tables.py
+#: adjfeedback/tables.py:142
 #, python-format
 msgid "View %(count)s<br>feedback"
 msgid_plural "View %(count)s<br>feedbacks"
@@ -342,231 +342,245 @@ msgstr[1] "Zobraziť %(count)s<br> spätné väzby"
 msgstr[2] "Zobraziť %(count)s<br> spätných väzieb"
 msgstr[3] "Zobraziť %(count)s<br> spätných väzieb"
 
-#: adjfeedback/tables.py
+#: adjfeedback/tables.py:165
 msgid "Unsubmitted feedback ballots"
 msgstr "Unodoslané spätná väzba balloty"
 
-#: adjfeedback/tables.py
+#: adjfeedback/tables.py:181
+msgid "% Submitted"
+msgstr "% Odoslané"
+
+#: adjfeedback/tables.py:205
 msgid "View Missing Feedback"
 msgstr "Zobrazi? chýbajúcu spätnú väzbu"
 
-#: adjfeedback/templates/add_feedback.html
+#: adjfeedback/templates/add_feedback.html:5
 msgid "Who is the feedback from?"
 msgstr "Od koho je spätná väzba?"
 
-#: adjfeedback/templates/add_feedback.html
-#: adjfeedback/templates/enter_feedback.html
+#: adjfeedback/templates/add_feedback.html:6
+#: adjfeedback/templates/enter_feedback.html:5
 msgid "Enter Feedback"
 msgstr "Zadať spätnú väzbu"
 
-#: adjfeedback/templates/enter_feedback.html
-#: adjfeedback/templates/public_add_feedback.html
+#: adjfeedback/templates/enter_feedback.html:9
+#: adjfeedback/templates/public_add_feedback.html:14
+#: adjfeedback/templates/public_add_feedback.html:21
 #, python-format
 msgid "Add Feedback from %(name)s"
 msgstr "Pridať spätnú väzbu od %(name)s"
 
-#: adjfeedback/templates/enter_feedback.html
-#: adjfeedback/templates/feedback_base.html
+#: adjfeedback/templates/enter_feedback.html:13
+#: adjfeedback/templates/feedback_base.html:42
 msgid "Add Feedback"
 msgstr "Pridať spätnú väzbu"
 
-#: adjfeedback/templates/enter_feedback.html
+#: adjfeedback/templates/enter_feedback.html:21
 msgid "There are no feedback options because no rounds have been released to the public yet. Check back when they have!"
 msgstr "Možnosti spätnej väzby nie sú k dispozícii, pretože zatiaľ neboli zverejnené žiadne kolá. Skúste to neskôr, keď už budú!"
 
-#: adjfeedback/templates/enter_feedback.html
+#: adjfeedback/templates/enter_feedback.html:27
 msgid "This tournament expects you to submit feedback <strong>only on the adjudicator who delivered the adjudication</strong>. Do not submit feedback on other adjudicators."
 msgstr "Tento turnaj očakáva spätnú väzbu <strong>iba na rozhodcu/rozhodkyňu, ktorý/ktorá predniesol/a rozhodnutie</strong>. Neodosielaj spätnú väzbu na ostatných rozhodcov."
 
-#: adjfeedback/templates/enter_feedback.html
+#: adjfeedback/templates/enter_feedback.html:29
 msgid "This tournament expects you to submit feedback on all of the adjudicators on the panel (including trainees)."
 msgstr "Tento turnaj očakáva spätnú väzbu na všetkých rozhodcov/rozhodkyne v paneli vrátane trainees."
 
-#: adjfeedback/templates/enter_feedback.html
+#: adjfeedback/templates/enter_feedback.html:31
 msgid "This tournament doesn't expect you to submit feedback on any of the adjudicators on the panel (including trainees)."
 msgstr "Tento turnaj neočakáva spätnú väzbu na žiadneho rozhodcu/rozhodkyňu v paneli vrátane trainees."
 
-#: adjfeedback/templates/enter_feedback.html
+#: adjfeedback/templates/enter_feedback.html:45
 msgid "There are some problems with this feedback submission. Please review and correct them."
 msgstr "Sú tu problémy s toto odoslanie spätnej väzby. Prosím skontrolovať correct ich."
 
-#: adjfeedback/templates/enter_feedback.html
+#: adjfeedback/templates/enter_feedback.html:60
 msgid "Save Feedback"
 msgstr "Save Spätná väzba"
 
-#: adjfeedback/templates/enter_feedback.html
+#: adjfeedback/templates/enter_feedback.html:61
 msgid "When submitting this form your IP address will be stored for logging purposes."
 msgstr "Pri odoslani tohto formulárulára sa pre účely logovania uloží tvoja IP adresa."
 
-#: adjfeedback/templates/feedback_base.html
+#: adjfeedback/templates/feedback_base.html:8
 msgid "Overview"
 msgstr "Prehľad"
 
-#: adjfeedback/templates/feedback_base.html
+#: adjfeedback/templates/feedback_base.html:12
 msgid "Latest"
 msgstr "Najnovšie"
 
-#: adjfeedback/templates/feedback_base.html
+#: adjfeedback/templates/feedback_base.html:16
 msgid "Unsubmitted"
 msgstr "Neposlané"
 
-#: adjfeedback/templates/feedback_base.html
+#: adjfeedback/templates/feedback_base.html:20
 msgid "Important"
 msgstr "Dôležité"
 
-#: adjfeedback/templates/feedback_base.html
+#: adjfeedback/templates/feedback_base.html:24
 msgid "Comments"
 msgstr "Komentáre"
 
-#: adjfeedback/templates/feedback_base.html
+#: adjfeedback/templates/feedback_base.html:28
 msgid "By Source"
 msgstr "Podľa Zdroja"
 
-#: adjfeedback/templates/feedback_base.html
+#: adjfeedback/templates/feedback_base.html:32
 msgid "By Target"
 msgstr "Podľa Cieľa"
 
-#: adjfeedback/templates/feedback_base.html
+#: adjfeedback/templates/feedback_base.html:39
 msgid "Bulk Update Scores"
 msgstr "Hromadne aktualizovať skóre"
 
-#: adjfeedback/templates/feedback_by_source.html
+#: adjfeedback/templates/feedback_by_source.html:4
+#: adjfeedback/templates/feedback_by_source.html:5
 #, python-format
 msgid "Feedback %(source_type)s %(source_name)s"
 msgstr "Spätná väzba %(source_type)s %(source_name)s"
 
-#: adjfeedback/templates/feedback_by_source.html
+#: adjfeedback/templates/feedback_by_source.html:12
 #, python-format
 msgid "%(source_name)s hasn't submitted any feedback yet."
 msgstr "%(source_name)s ešte neodoslal/a žiadnu spätná väzba yet."
 
-#: adjfeedback/templates/feedback_by_source.html
+#: adjfeedback/templates/feedback_by_source.html:17
 #, python-format
 msgid "%(source_name)s hasn't received any feedback yet."
 msgstr "%(source_name)s ešte nedostal/a žiadnu spätná väzba yet."
 
-#: adjfeedback/templates/feedback_card.html
+#: adjfeedback/templates/feedback_card.html:8
 msgid "This is most likely because the team or adjudicator who submitted this feedback has submitted several times on the same person; or because a team has submitted feedback on multiple panellists (rather than just the orallist)."
 msgstr "Toto je pravdepodobne pretože tím alebo rozhodca/rozhodkyňa ktorý/ktorá odoslala túto spätnú väzbu poslala ju viac krát na tú istú osobu; alebo pretože tím má odoslanú spätná väzbu na niekoľko panelistov."
 
-#: adjfeedback/templates/feedback_card.html
+#: adjfeedback/templates/feedback_card.html:9
 msgid "Unconfirmed; will not affect this adjudicator's score."
 msgstr "Nepotvrdené; nebude meniť skóre rozhodcu."
 
-#: adjfeedback/templates/feedback_card.html
+#: adjfeedback/templates/feedback_card.html:14
 msgid "The feedback is counted for the adjudicator, but is not taken into account when calculating scores."
 msgstr "Táto spätná väzba je započítaná pre rozhodcu, ale neráta sa pri počítaní skóre."
 
-#: adjfeedback/templates/feedback_card.html
+#: adjfeedback/templates/feedback_card.html:15
 msgid "Ignored; will not affect this adjudicator's score."
 msgstr "Ignorované: Neovplyvní skóre rozhodcu."
 
-#: adjfeedback/templates/feedback_card.html
+#: adjfeedback/templates/feedback_card.html:20
 msgid "This feedback is submitted on an adjudicator but it looks like they have been since been removed from the debate. You should probably go to the Edit Database area and delete this feedback."
 msgstr "Táto spätná väzba je odoslaná na rozhodcu/rozhodkyňu, ale vyzerá to, že od tej doby boli z debaty odstránení/odstránené. Pravdepodobne by si mal/a prejsť do sekcie Upraviť databázu a túto spätnú väzbu vymazať."
 
-#: adjfeedback/templates/feedback_card.html
+#: adjfeedback/templates/feedback_card.html:30
 msgid "The score given in this piece of feedback."
 msgstr "Skóre v tejto časti spätnej väzby."
 
-#: adjfeedback/templates/feedback_card.html
+#: adjfeedback/templates/feedback_card.html:31
 #, python-format
 msgid "%(round)s %(score)s"
 msgstr "%(round)s %(score)s"
 
-#: adjfeedback/templates/feedback_card.html
+#: adjfeedback/templates/feedback_card.html:37
+msgid "Feedback ratings are disabled and this feedback does not affect adjudicator scores."
+msgstr "Hodnotenia zo spätnej väzby sú vypnuté a táto spätná väzba neovplyvňuje skóre rozhodcov/rozhodkýň."
+
+#: adjfeedback/templates/feedback_card.html:38
+msgid "Rating disabled"
+msgstr "Hodnotenie vypnuté"
+
+#: adjfeedback/templates/feedback_card.html:42
 #, python-format
 msgid "On %(adjudicator)s"
 msgstr "Na %(adjudicator)s"
 
-#: adjfeedback/templates/feedback_card.html
+#: adjfeedback/templates/feedback_card.html:48
 #, python-format
 msgid "Received as %(as_type)s"
 msgstr "Prijaté ako %(as_type)s"
 
-#: adjfeedback/templates/feedback_card.html
+#: adjfeedback/templates/feedback_card.html:53
 #, python-format
 msgid "Base %(base)s"
 msgstr "Základ %(base)s"
 
-#: adjfeedback/templates/feedback_card.html
+#: adjfeedback/templates/feedback_card.html:61
 #, python-format
 msgid "From %(source)s <span class=\"text-secondary small\">(their %(relationship)s)</span>"
 msgstr "Od %(source)s <span class=\"text-secondary small\">(ich %(relationship)s)</span>"
 
-#: adjfeedback/templates/feedback_card.html
+#: adjfeedback/templates/feedback_card.html:65
 #, python-format
 msgid "From %(source)s <span class=\"text-secondary small\">(%(relationship)s from %(side)s)</span>"
 msgstr "Od %(source)s <span class=\"text-secondary small\">(%(relationship)s od %(side)s)</span>"
 
-#: adjfeedback/templates/feedback_card.html
+#: adjfeedback/templates/feedback_card.html:69
 msgid "From unknown"
 msgstr "Od neznámeho"
 
-#: adjfeedback/templates/feedback_card.html
+#: adjfeedback/templates/feedback_card.html:97
 #, python-format
 msgid "%(time)s"
 msgstr "%(time)s"
 
-#: adjfeedback/templates/feedback_card.html
+#: adjfeedback/templates/feedback_card.html:102
 msgid "Unconfirmed feedback is not counted as having been submitted and does not affect this adjudicator's score."
 msgstr "Nepotvrdené spätná väzba je nie započítané as having been odoslané does nie affect toto rozhodca/rozhodkyňa's skóre."
 
-#: adjfeedback/templates/feedback_card.html
+#: adjfeedback/templates/feedback_card.html:107
 msgid "Un-confirm"
 msgstr "Zrušiť potvrdenie"
 
-#: adjfeedback/templates/feedback_card.html
+#: adjfeedback/templates/feedback_card.html:107
 msgid "Confirm"
 msgstr "Potvrdiť"
 
-#: adjfeedback/templates/feedback_card.html
+#: adjfeedback/templates/feedback_card.html:112
 msgid "Ignored feedback is counted as having been submitted, but does not affect this adjudicator's score."
 msgstr "Ignorovaná spätná väzba sa považuje za odoslanú, ale nemá vplyv na skóre daného rozhodcu."
 
-#: adjfeedback/templates/feedback_card.html
+#: adjfeedback/templates/feedback_card.html:117
 msgid "Un-ignore"
 msgstr "Zrušiť ignorovanie"
 
-#: adjfeedback/templates/feedback_card.html
+#: adjfeedback/templates/feedback_card.html:117
 msgid "Ignore"
 msgstr "Ignorovať"
 
-#: adjfeedback/templates/feedback_cards_list.html
+#: adjfeedback/templates/feedback_cards_list.html:17
 msgid "No feedback has been submitted yet"
 msgstr "Žiadne spätná väzba má been odoslané yet"
 
-#: adjfeedback/templates/feedback_overview.html
+#: adjfeedback/templates/feedback_overview.html:4
 #, python-format
 msgid "<span id=\"c_breaking\">%(c_breaking)s</span> marked as breaking"
 msgstr "<span id=\"c_breaking\">%(c_breaking)s</span> označené ako breaking"
 
-#: adjfeedback/templates/feedback_overview.html
+#: adjfeedback/templates/feedback_overview.html:10
 #, python-format
 msgid "The current <a href=\"%(option_url)s\" class=\"alert-link\">feedback configuration</a> allows and expects only chairs to submit feedback (on their panellists and trainees)."
 msgstr "Súčasná <a href=\"%(option_url)s\" class=\"alert-link\">konfigurácia spätnej väzby</a> umožňuje a predpokladá, že spätnú väzbu môžu zasielať iba chairovia (o svojich členoch panelu a shadows)."
 
-#: adjfeedback/templates/feedback_overview.html
+#: adjfeedback/templates/feedback_overview.html:14
 #, python-format
 msgid "The current <a href=\"%(option_url)s\" class=\"alert-link\">feedback configuration</a> allows and expects both chairs and panellists to submit feedback on each other, and also chairs to submit feedback on trainees."
 msgstr "Súčasná <a href=\"%(option_url)s\" class=\"alert-link\">konfigurácia spätnej väzby</a> umožňuje a predpokladá, že si chairovia aj členovia panelu budú navzájom poskytovať spätnú väzbu, a že chairovia budú poskytovať spätnú väzbu aj na shadows."
 
-#: adjfeedback/templates/feedback_overview.html
+#: adjfeedback/templates/feedback_overview.html:18
 #, python-format
 msgid "The current <a href=\"%(option_url)s\" class=\"alert-link\">feedback configuration</a> allows and expects both panellists and trainees to submit feedback on chairs, and chairs to submit feedback on every other member of the panel (including trainees)."
 msgstr "Súčasná <a href=\"%(option_url)s\" class=\"alert-link\">konfigurácia spätnej väzby</a> umožňuje a predpokladá, že panelisti aj shadows budú posielať spätnú väzbu na chaira a že chairovia budú posielať spätnú väzbu na ostatných panelistov (vrátane shadows)."
 
-#: adjfeedback/templates/feedback_overview.html
+#: adjfeedback/templates/feedback_overview.html:22
 #, python-format
 msgid "The current <a href=\"%(option_url)s\" class=\"alert-link\">feedback configuration</a> allows and expects all adjudicators (including trainees) to submit feedback on every other member of the panel (including trainees)."
 msgstr "Aktuálna <a href=\"%(option_url)s\" class=\"alert-link\">konfigurácia spätnej väzby</a> umožňuje všetkým rozhodcom a rozhodkyniam (vrátane shadows) zaslať spätnú väzbu každému inému členovi komisie (vrátane shadows)."
 
-#: adjfeedback/templates/feedback_overview.html
+#: adjfeedback/templates/feedback_overview.html:26
 #, python-format
 msgid "The current <a href=\"%(option_url)s\" class=\"alert-link\">feedback configuration</a> disallows adjudicators to submit feedback on other members of the panel (including trainees)."
 msgstr "Súčasná <a href=\"%(option_url)s\" class=\"alert-link\">konfigurácia spätnej väzby</a> neumožňuje hodnotiteľom posielať spätnú väzbu na ostatných členov panelu (vrátane shadows)."
 
-#: adjfeedback/templates/feedback_overview.html
+#: adjfeedback/templates/feedback_overview.html:34
 #, python-format
 msgid "There is <strong>%(nadjs_outside_range)s adjudicator</strong> with a score <strong>outside the permitted range</strong> of adjudicator scores, which is currently set as %(min_score)s to %(max_score)s. This can cause adjudicator auto-allocation to behave in unexpected ways. If you'd like to use a wider score range, you can configure this in <a href=\"%(feedback_settings_url)s\" class=\"alert-link\"> feedback settings</a>."
 msgid_plural "There are <strong>%(nadjs_outside_range)s adjudicators</strong> with scores <strong>outside the permitted range</strong> of adjudicator scores, which is currently set as %(min_score)s to %(max_score)s. This can cause adjudicator auto-allocation to behave in unexpected ways. If you'd like to use a wider score range, you can configure this in <a href=\"%(feedback_settings_url)s\" class=\"alert-link\"> feedback settings</a>."
@@ -575,7 +589,7 @@ msgstr[1] "Sú tu <strong>%(nadjs_outside_range)s rozhodcovia/rozhodkyne</strong
 msgstr[2] "Sú tu <strong>%(nadjs_outside_range)s rozhodcovia/rozhodkyne</strong> so skóre <strong>mimo povoleného rozsahu</strong> skóre rozhodcov/rozhodkýň, ktorý je momentálne nastavený ako %(min_score)s až %(max_score)s. Toto môže spôsobiť, že automatická alokácia rozhodcov/rozhodkýň sa bude správať nečakane. Ak chceš použiť širší rozsah skóre, môžeš to nastaviť v <a href=\"%(feedback_settings_url)s\" class=\"alert-link\">nastaveniach spätnej väzby</a>."
 msgstr[3] "Sú tu <strong>%(nadjs_outside_range)s rozhodcovia/rozhodkyne</strong> so skóre <strong>mimo povoleného rozsahu</strong> skóre rozhodcov/rozhodkýň, ktorý je momentálne nastavený ako %(min_score)s až %(max_score)s. Toto môže spôsobiť, že automatická alokácia rozhodcov/rozhodkýň sa bude správať nečakane. Ak chceš použiť širší rozsah skóre, môžeš to nastaviť v <a href=\"%(feedback_settings_url)s\" class=\"alert-link\">nastaveniach spätnej väzby</a>."
 
-#: adjfeedback/templates/overview_breakdowns.html
+#: adjfeedback/templates/overview_breakdowns.html:13
 #, python-format
 msgid "%(count)s adjudicator currently has a score equal to or above %(min)s and below %(max)s. That is %(percent)s%% of the adjudicator pool."
 msgid_plural "%(count)s adjudicators currently have a score equal to or above %(min)s and below %(max)s. That is %(percent)s%% of the adjudicator pool."
@@ -584,29 +598,37 @@ msgstr[1] "%(count)s rozhodcovia/rozhodkyne majú momentálne skóre rovné aleb
 msgstr[2] "%(count)s rozhodcovia/rozhodkyne majú momentálne skóre rovné alebo vyššie ako %(min)s a nižšie ako %(max)s. To je %(percent)s%% zo všetkých rozhodcov/rozhodkýň."
 msgstr[3] "%(count)s rozhodcovia/rozhodkyne majú momentálne skóre rovné alebo vyššie ako %(min)s a nižšie ako %(max)s. To je %(percent)s%% zo všetkých rozhodcov/rozhodkýň."
 
-#: adjfeedback/templates/overview_breakdowns.html
+#: adjfeedback/templates/overview_breakdowns.html:27
 #, python-format
 msgid "Score Distributions (range is %(min_score)s–%(max_score)s)"
 msgstr "Skóre Distributions (rozsah je %(min_score)s–%(max_score)s)"
 
-#: adjfeedback/templates/overview_breakdowns.html
+#: adjfeedback/templates/overview_breakdowns.html:43
 msgid "Base"
 msgstr "Základ"
 
-#: adjfeedback/templates/overview_breakdowns.html
+#: adjfeedback/templates/overview_breakdowns.html:49
 msgid "Feedback"
 msgstr "Spätná väzba"
 
-#: adjfeedback/templates/overview_breakdowns.html
+#: adjfeedback/templates/overview_breakdowns.html:54
 #, python-format
-msgid "The proportion of an adjudicator's score determined by feedback vs the test is set on a per-round basis. Click this link and edit the 'Feedback weight' field to modify this ratio for %(round)s."
-msgstr "Podiel bodov udelených rozhodcom na základe spätnej väzby a na základe testu sa stanovuje pre každé kolo zvlášť. Kliknite na tento odkaz a upravte pole „Váha spätnej väzby“, ak chcete zmeniť tento pomer pre %(round)s."
+msgid "The proportion of an adjudicator's score determined by feedback vs the base score is set on a per-round basis. Click to edit the feedback weight for %(round)s."
+msgstr "Podiel skóre rozhodcu/rozhodkyne určený spätnou väzbou oproti základnému skóre sa nastavuje pre každé kolo zvlášť. Klikni na úpravu váhy spätnej väzby pre %(round)s."
 
-#: adjfeedback/templates/overview_breakdowns.html
+#: adjfeedback/templates/overview_breakdowns.html:58
+msgid "Feedback ratings are disabled, so adjudicator scores are currently based only on base scores."
+msgstr "Hodnotenia zo spätnej väzby sú vypnuté, takže skóre rozhodcov/rozhodkýň je momentálne založené iba na základnom skóre."
+
+#: adjfeedback/templates/overview_breakdowns.html:62
 msgid "Score Ratio"
 msgstr "Pomer skóre"
 
-#: adjfeedback/templates/overview_breakdowns.html
+#: adjfeedback/templates/overview_breakdowns.html:65
+msgid "Feedback Disabled"
+msgstr "Spätná väzba bez skóre"
+
+#: adjfeedback/templates/overview_breakdowns.html:80
 #, python-format
 msgid "There is %(c_chairs)s debate per round, so there needs to be %(c_chairs)s chair."
 msgid_plural "There are %(c_chairs)s debates per round, so there need to be %(c_chairs)s chairs."
@@ -615,7 +637,7 @@ msgstr[1] "Sú %(c_chairs)s debát na kolo, čiže musia byť %(c_chairs)s chair
 msgstr[2] "Je %(c_chairs)s debát na kolo, čiže musí byť %(c_chairs)s chairov."
 msgstr[3] "Je %(c_chairs)s debát na kolo, čiže musí byť %(c_chairs)s chairov."
 
-#: adjfeedback/templates/overview_breakdowns.html
+#: adjfeedback/templates/overview_breakdowns.html:86
 #, python-format
 msgid "There is %(c_debates)s debate per round, but only %(c_chairs)s above the minimum voting score."
 msgid_plural "There are %(c_debates)s debates per round, but only %(c_chairs)s above the minimum voting score."
@@ -624,7 +646,7 @@ msgstr[1] "Sú %(c_debates)s debaty na kolo, ale iba %(c_chairs)s vyššie ako m
 msgstr[2] "Je %(c_debates)s debát na kolo, ale iba %(c_chairs)s vyššie ako minimálne hlasovacie skóre."
 msgstr[3] "Je %(c_debates)s debát na kolo, ale iba %(c_chairs)s vyššie ako minimálne hlasovacie skóre."
 
-#: adjfeedback/templates/overview_breakdowns.html
+#: adjfeedback/templates/overview_breakdowns.html:93
 #, python-format
 msgid "%(c_chairs)s chair"
 msgid_plural "%(c_chairs)s chairs"
@@ -633,11 +655,11 @@ msgstr[1] "%(c_chairs)s chairovia"
 msgstr[2] "%(c_chairs)s chairov"
 msgstr[3] "%(c_chairs)s chairov"
 
-#: adjfeedback/templates/overview_breakdowns.html
+#: adjfeedback/templates/overview_breakdowns.html:103
 msgid "All adjudicators with a score high enough to vote, but who aren't allocated as chairs, are allocated as panellists by the auto-allocator."
 msgstr "All rozhodcovia/rozhodkyne s skóre high dosť na vote, ale ktorý/ktorá nie sú pridelené as chairi, sú pridelené as panelista/panelistky by autoalokátor."
 
-#: adjfeedback/templates/overview_breakdowns.html
+#: adjfeedback/templates/overview_breakdowns.html:107
 #, python-format
 msgid "%(c_panellists)s panellist"
 msgid_plural "%(c_panellists)s panellists"
@@ -646,12 +668,12 @@ msgstr[1] "%(c_panellists)s panelisti/panelistky"
 msgstr[2] "%(c_panellists)s panelistov/panelistiek"
 msgstr[3] "%(c_panellists)s panelistov/panelistiek"
 
-#: adjfeedback/templates/overview_breakdowns.html
+#: adjfeedback/templates/overview_breakdowns.html:117
 #, python-format
 msgid "Adjudicators are allocated as trainees by the auto-allocator if their score is less than the 'minimum voting score' (currently %(min_voting)s) set in this tournament's Draw Rules configuration."
 msgstr "Rozhodcovia sú automatickým prideľovačom zaradení medzi shadows, ak ich skóre nedosahuje „minimálne skóre potrebné na hlasovanie“ (v súčasnosti %(min_voting)s), ktoré je nastavené v konfigurácii pravidiel párovania tohto turnaja."
 
-#: adjfeedback/templates/overview_breakdowns.html
+#: adjfeedback/templates/overview_breakdowns.html:122
 #, python-format
 msgid "%(c_trainees)s trainee"
 msgid_plural "%(c_trainees)s trainees"
@@ -660,76 +682,95 @@ msgstr[1] "%(c_trainees)s shadows"
 msgstr[2] "%(c_trainees)s shadows"
 msgstr[3] "%(c_trainees)s shadows"
 
-#: adjfeedback/templates/overview_breakdowns.html
+#: adjfeedback/templates/overview_breakdowns.html:131
 #, python-format
 msgid "Auto-Allocate Distributions (%(min_voting_score)s+ to vote)"
 msgstr "Automaticky priradiť distribúcie (%(min_voting_score)s+ na hlasovanie)"
 
-#: adjfeedback/templates/overview_modals.html
+#: adjfeedback/templates/overview_modals.html:10
 msgid "Change Base Score"
 msgstr "Zmeniť základné skóre"
 
-#: adjfeedback/templates/overview_modals.html
+#: adjfeedback/templates/overview_modals.html:17
 #, python-format
-msgid "The score range for adjudicators is between <strong>%(pref.adj_min_score)s</strong> and <strong>%(pref.adj_max_score)s</strong>. Decimals are permitted. This can be configured in <a href=\"%(feedback_options)s\">Feedback settings</a>."
-msgstr "Rozsah bodovania pre rozhodcov je v rozmedzí <strong>%(pref.adj_min_score)s</strong> a <strong>%(pref.adj_max_score)s</strong>. Desatinné miesta sú povolené. Toto nastavenie je možné konfigurovať v <a href=\"%(feedback_options)s\">Nastaveniach spätnej väzby</a>."
+msgid "The score range for adjudicators is between <strong>%(min_score)s</strong> and <strong>%(max_score)s</strong>. Decimals are permitted. This can be configured in <a href=\"%(feedback_options)s\">Feedback settings</a>."
+msgstr "Rozsah skóre pre rozhodcov/rozhodkyne je v rozmedzí <strong>%(min_score)s</strong> a <strong>%(max_score)s</strong>. Desatinné miesta sú povolené. Toto nastavenie je možné konfigurovať v <a href=\"%(feedback_options)s\">Nastaveniach spätnej väzby</a>."
 
-#: adjfeedback/templates/overview_modals.html
+#: adjfeedback/templates/overview_modals.html:25
 #, python-format
 msgid "The minimum score require to be allocated as a panellist or chair (when using the auto-allocator) is <strong>%(min_voting_score)s</strong>. This can be configured in <a href=\"%(draw_rules)s\">Draw settings</a>."
 msgstr "Minimálne skóre potrebné na rozhodovanie alebo chairovanie (pri použití automatického prideľovača) je <strong>%(min_voting_score)s</strong>. Toto nastavenie je možné konfigurovať v <a href=\"%(draw_rules)s\">Nastaveniach párovania</a>."
 
-#: adjfeedback/templates/overview_modals.html
+#: adjfeedback/templates/overview_modals.html:34
 msgid "Base score"
 msgstr "Základné skóre"
 
-#: adjfeedback/templates/overview_modals.html
+#: adjfeedback/templates/overview_modals.html:41
 msgid "Save Base Score"
 msgstr "Uložiť základné skóre"
 
-#: adjfeedback/templates/public_add_feedback.html
+#: adjfeedback/templates/overview_modals.html:58
+msgid "Change Feedback Weight"
+msgstr "Zmeniť váhu spätnej väzby"
+
+#: adjfeedback/templates/overview_modals.html:64
+#, python-format
+msgid "The feedback weight determines the proportion of an adjudicator's score that comes from feedback versus their base score. At <strong>0%%</strong>, the score is 100%% base score. At <strong>100%%</strong>, the score is 100%% feedback. This setting applies to <strong>%(round)s</strong>."
+msgstr "Váha spätnej väzby určuje podiel skóre rozhodcu tvorený spätnou väzbou oproti základnému skóre. Pri <strong>0%%</strong> je skóre 100%% základné skóre. Pri <strong>100%%</strong> je skóre 100%% spätná väzba. Toto nastavenie platí pre <strong>%(round)s</strong>."
+
+#: adjfeedback/templates/overview_modals.html:73
+#, python-format
+msgid "Feedback weight (%%)"
+msgstr "Váha spätnej väzby (%%)"
+
+#: adjfeedback/templates/overview_modals.html:80
+msgid "Save Feedback Weight"
+msgstr "Uložiť váhu spätnej väzby"
+
+#: adjfeedback/templates/public_add_feedback.html:4
 msgid "Who are you?"
 msgstr "Kto si?"
 
-#: adjfeedback/templates/public_add_feedback.html
+#: adjfeedback/templates/public_add_feedback.html:5
 msgid "click your name or your team on this list"
 msgstr "klikni na vaše meno, alebo meno vášho tímu v zozname"
 
-#: adjfeedback/templates/update_adjudicator_scores.html
+#: adjfeedback/templates/update_adjudicator_scores.html:4
+#: adjfeedback/templates/update_adjudicator_scores.html:6
 msgctxt "page title"
 msgid "Update Adjudicator Scores"
 msgstr "Aktualizovať skóre rozhodcov/rozhodkýň"
 
-#: adjfeedback/templates/update_adjudicator_scores.html
+#: adjfeedback/templates/update_adjudicator_scores.html:11
 #, python-format
 msgid "There aren't any adjudicators in this tournament, so you can't update any scores. You might want to <a href=\"%(import_url)s\" class=\"alert-link\">import some adjudicators</a> first."
 msgstr "V tomto turnaji nie sú žiadni rozhodcovia, takže nemôžete aktualizovať žiadne skóre. Možno by ste mali najprv <a href=\"%(import_url)s\" class=\"alert-link\">importovať nejakých rozhodcov</a>."
 
-#: adjfeedback/templates/update_adjudicator_scores.html
+#: adjfeedback/templates/update_adjudicator_scores.html:28
 msgid "Paste a list of adjudicators' names and their new scores, in the format: <code>adjudicator,score</code>. For example:"
 msgstr "Vložte zoznam mien porotcov a ich nových bodových hodnotení v tomto formáte: <code>rozhodca,skóre</code>. Napríklad:"
 
-#: adjfeedback/templates/update_adjudicator_scores.html
+#: adjfeedback/templates/update_adjudicator_scores.html:40
 msgid "The adjudicators' names must match their names in the tab system exactly."
 msgstr "Mená rozhodcov sa musia presne zhodovať s menami v systéme kariet."
 
-#: adjfeedback/templates/update_adjudicator_scores.html
+#: adjfeedback/templates/update_adjudicator_scores.html:47
 msgid "There are some problems with the data on this form:"
 msgstr "Sú tu problémy s data na Tento formulárulár:"
 
-#: adjfeedback/templates/update_adjudicator_scores.html
+#: adjfeedback/templates/update_adjudicator_scores.html:58
 msgid "Submit"
 msgstr "Odoslať"
 
-#: adjfeedback/views.py
+#: adjfeedback/views.py:127
 msgid "Feedback Overview"
 msgstr "Prehľad spätnej väzby"
 
-#: adjfeedback/views.py
+#: adjfeedback/views.py:153
 msgid "Find Feedback on Adjudicator"
 msgstr "Nájsť Spätnú väzba na Rozhodcu/Rozhodkyňu"
 
-#: adjfeedback/views.py
+#: adjfeedback/views.py:165 adjfeedback/views.py:191 adjfeedback/views.py:207
 #, python-format
 msgid "%(count)d feedback"
 msgid_plural "%(count)d feedbacks"
@@ -738,90 +779,95 @@ msgstr[1] "%(count)d spätné väzby"
 msgstr[2] "%(count)d spätné väzby"
 msgstr[3] "%(count)d spätné väzby"
 
-#: adjfeedback/views.py
+#: adjfeedback/views.py:169 adjfeedback/views.py:197 adjfeedback/views.py:213
 msgid "Feedbacks"
 msgstr "Spätné väzby"
 
-#: adjfeedback/views.py
+#: adjfeedback/views.py:176
 msgid "Find Feedback"
 msgstr "Nájsť spätnú väzbu"
 
-#: adjfeedback/views.py
+#: adjfeedback/views.py:185 adjfeedback/views.py:756
 msgid "From Teams"
 msgstr "Od tímov"
 
-#: adjfeedback/views.py
+#: adjfeedback/views.py:201 adjfeedback/views.py:750
 msgid "From Adjudicators"
 msgstr "Od rozhodcov/rozhodkýň"
 
-#: adjfeedback/views.py
+#: adjfeedback/views.py:288
 msgid "Latest Feedback"
 msgstr "Najnovšia spätná väzba"
 
-#: adjfeedback/views.py
+#: adjfeedback/views.py:289
 msgid "(30 most recent)"
 msgstr "(30 najnovších)"
 
-#: adjfeedback/views.py
+#: adjfeedback/views.py:299
 msgid "Only Comments"
 msgstr "Iba komentáre"
 
-#: adjfeedback/views.py
+#: adjfeedback/views.py:300
 msgid "(250 most recent)"
 msgstr "(250 najnovších)"
 
-#: adjfeedback/views.py
+#: adjfeedback/views.py:311
 msgid "Important Feedback"
 msgstr "Dôležitá spätná väzba"
 
-#: adjfeedback/views.py
+#: adjfeedback/views.py:312
 msgid "(rating was much higher/lower than expected)"
 msgstr "(skóre bolo oveľa vyššie/nižšie než bolo očakávané)"
 
-#: adjfeedback/views.py
+#: adjfeedback/views.py:379
 msgid "A Team"
 msgstr "Tím"
 
-#: adjfeedback/views.py
+#: adjfeedback/views.py:384
 msgid "Team"
 msgstr "Tím"
 
-#: adjfeedback/views.py
+#: adjfeedback/views.py:391 adjfeedback/views.py:408
 msgid "Institution"
 msgstr "Inštitúcia"
 
-#: adjfeedback/views.py
+#: adjfeedback/views.py:394
 msgid "An Adjudicator"
 msgstr "Rozhodca/rozhodkyňa"
 
-#: adjfeedback/views.py
+#: adjfeedback/views.py:401
 msgid "Adjudicator"
 msgstr "Rozhodca/rozhodkyňa"
 
-#: adjfeedback/views.py
+#: adjfeedback/views.py:529
 #, python-format
 msgid "Feedback from %(source)s on %(target)s added."
 msgstr "Spätná väzba od %(source)s na %(target)s bola pridaná."
 
-#: adjfeedback/views.py
+#: adjfeedback/views.py:559
 #, python-format
 msgid "Thanks, %(source)s! Your feedback on %(target)s has been recorded."
 msgstr "Ďakujeme, %(source)s! tvoj/tvoja spätná väzba na %(target)s má bola zaznamenaná."
 
-#: adjfeedback/views.py
+#: adjfeedback/views.py:643
 #, python-format
 msgid "Whoops! I didn't recognise that adjudicator: %(adjudicator)s"
 msgstr "Ups! Nerozpoznal som tohto rozhodcu: %(adjudicator)s"
 
-#: adjfeedback/views.py
+#: adjfeedback/views.py:667
 msgid "Whoops! The value isn't a valid base score."
 msgstr "Ups! toto nie je platné základné skóre."
 
-#: adjfeedback/views.py
+#: adjfeedback/views.py:709
+#, python-format
+msgid "Feedback weight for %(round)s updated to %(weight)d%%."
+msgstr "Váha spätnej väzby pre %(round)s bola aktualizovaná na %(weight)d%%."
+
+#: adjfeedback/views.py:721
 msgid "Feedback Progress"
 msgstr "Progres spätnej väzby"
 
-#: adjfeedback/views.py
+#: adjfeedback/views.py:742
 #, python-format
 msgid "%(nmissing)d missing feedback submission (%(fulfilled).1f%% returned)"
 msgid_plural "%(nmissing)d missing feedback submissions (%(fulfilled).1f%% returned)"
@@ -830,24 +876,24 @@ msgstr[1] "%(nmissing)d chýbajúce odoslania spätnej väzby (%(fulfilled).1f%%
 msgstr[2] "%(nmissing)d chýbajúcich odoslaní spätnej väzby (%(fulfilled).1f%% vrátených)"
 msgstr[3] "%(nmissing)d chýbajúcich odoslaní spätnej väzby (%(fulfilled).1f%% vrátených)"
 
-#: adjfeedback/views.py
+#: adjfeedback/views.py:790
 #, python-format
 msgid "Feedback for %(adjudicator)s from %(source)s is now %(result)s."
 msgstr "Spätná väzba pre %(adjudicator)s od %(source)s je teraz %(result)s."
 
-#: adjfeedback/views.py
+#: adjfeedback/views.py:805
 msgid "confirmed"
 msgstr "potvrdené"
 
-#: adjfeedback/views.py
+#: adjfeedback/views.py:805
 msgid "un-confirmed"
 msgstr "ne-potvrdené"
 
-#: adjfeedback/views.py
+#: adjfeedback/views.py:819
 msgid "un-ignored"
 msgstr "ne-ignorované"
 
-#: adjfeedback/views.py
+#: adjfeedback/views.py:856
 #, python-format
 msgid "Updated base score for %(count)d adjudicator."
 msgid_plural "Updated base scores for %(count)d adjudicators."
@@ -856,22 +902,6 @@ msgstr[1] "Aktualizované základné skóre pre %(count)d rozhodcov/rozhodkyne."
 msgstr[2] "Aktualizované základné skóre pre %(count)d rozhodcov/rozhodkýň."
 msgstr[3] "Aktualizované základné skóre pre %(count)d rozhodcov/rozhodkýň."
 
-#: adjfeedback/views.py
+#: adjfeedback/views.py:880
 msgid "Custom Feedback Questions"
 msgstr "Vlastné otázky spätnej väzby"
-
-#: added manually for SDA feedback score toggle
-msgid "Feedback ratings are disabled, so adjudicator scores are currently based only on base scores."
-msgstr "Hodnotenia zo spätnej väzby sú vypnuté, takže skóre rozhodcov/rozhodkýň je momentálne založené iba na základnom skóre."
-
-#: added manually for SDA feedback score toggle
-msgid "Feedback Disabled"
-msgstr "Spätná väzba bez skóre"
-
-#: added manually for SDA feedback score toggle
-msgid "Feedback ratings are disabled and this feedback does not affect adjudicator scores."
-msgstr "Hodnotenia zo spätnej väzby sú vypnuté a táto spätná väzba neovplyvňuje skóre rozhodcov/rozhodkýň."
-
-#: added manually for SDA feedback score toggle
-msgid "Rating disabled"
-msgstr "Hodnotenie vypnuté"

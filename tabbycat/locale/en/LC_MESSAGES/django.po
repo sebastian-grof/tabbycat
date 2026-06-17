@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-06 09:40+1000\n"
+"POT-Creation-Date: 2026-06-17 09:02+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,1989 +17,4495 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: api/apps.py
+#: api/apps.py:7
 msgid "Application Programming Interface"
 msgstr ""
 
-#: checkins/admin.py
+#: checkins/admin.py:39 seasonbreaks/templates/seasonbreaks/tournaments.html:49
 msgid "Type"
 msgstr ""
 
-#: checkins/admin.py
+#: checkins/admin.py:47
 msgid "Checkin time"
 msgstr ""
 
-#: checkins/apps.py templates/nav/admin_nav.html
-#: templates/nav/assistant_nav.html templates/nav/public_nav.html
+#: checkins/apps.py:7 templates/nav/admin_nav.html:145
+#: templates/nav/assistant_nav.html:38 templates/nav/public_nav.html:105
 msgid "Check-Ins"
 msgstr ""
 
-#: checkins/consumers.py
+#: checkins/consumers.py:45
 msgid "Sent checkin identifier doesn't exist"
 msgstr ""
 
-#: checkins/consumers.py
+#: checkins/consumers.py:46 checkins/consumers.py:78
 msgid "Checkins"
 msgstr ""
 
-#: checkins/consumers.py
+#: checkins/consumers.py:77
 msgid "No checkin identifiers exist for sent barcodes"
 msgstr ""
 
-#: checkins/models.py
+#: checkins/models.py:29
 msgid "The barcode must contain exactly six digits."
 msgstr ""
 
-#: checkins/models.py
+#: checkins/models.py:32
 msgid "barcode"
 msgstr ""
 
-#: checkins/models.py
+#: checkins/models.py:37
 msgid "<Not the child instance>"
 msgstr ""
 
-#: checkins/models.py
+#: checkins/models.py:41
 #, python-format
 msgid "%(classname)s %(barcode)s"
 msgstr ""
 
-#: checkins/models.py
+#: checkins/models.py:52
 msgid "person"
 msgstr ""
 
-#: checkins/models.py
+#: checkins/models.py:55
 msgid "person identifier"
 msgstr ""
 
-#: checkins/models.py
+#: checkins/models.py:56
 msgid "person identifiers"
 msgstr ""
 
-#: checkins/models.py
+#: checkins/models.py:64
 msgid "debate"
 msgstr ""
 
-#: checkins/models.py
+#: checkins/models.py:67
 msgid "debate identifier"
 msgstr ""
 
-#: checkins/models.py
+#: checkins/models.py:68
 msgid "debate identifiers"
 msgstr ""
 
-#: checkins/models.py
+#: checkins/models.py:79
 msgid "room identifier"
 msgstr ""
 
-#: checkins/models.py
+#: checkins/models.py:80
 msgid "room identifiers"
 msgstr ""
 
-#: checkins/models.py
+#: checkins/models.py:87
 msgid "identifier"
 msgstr ""
 
-#: checkins/models.py
+#: checkins/models.py:90
 msgid "check-in time"
 msgstr ""
 
-#: checkins/models.py registration/models.py users/models.py
+#: checkins/models.py:92 feedbackexport/models.py:86 registration/models.py:90
+#: registration/models.py:150 registration/models.py:176
+#: seasonbreaks/models.py:96 users/models.py:15 users/models.py:36
 msgid "tournament"
 msgstr ""
 
-#: checkins/models.py
+#: checkins/models.py:95
 msgid "check-in event"
 msgstr ""
 
-#: checkins/models.py
+#: checkins/models.py:96
 msgid "check-in events"
 msgstr ""
 
-#: checkins/templates/checkin_ids.html
+#: checkins/templates/checkin_ids.html:18
 msgid "With identifiers"
 msgstr ""
 
-#: checkins/templates/checkin_ids.html
+#: checkins/templates/checkin_ids.html:30
 msgid "View as barcodes"
 msgstr ""
 
-#: checkins/templates/checkin_ids.html
+#: checkins/templates/checkin_ids.html:36
 msgid "Generate missing identifiers"
 msgstr ""
 
-#: checkins/templates/checkin_ids.html
+#: checkins/templates/checkin_ids.html:38
 msgid "Generate all identifiers"
 msgstr ""
 
-#: checkins/templates/checkin_ids.html
+#: checkins/templates/checkin_ids.html:49
 msgid "There are no identifiers available to view. An admin will need to generate them."
 msgstr ""
 
-#: checkins/templates/checkin_printables.html
+#: checkins/templates/checkin_printables.html:10
 msgid "Each of the barcodes below is also an image file that can be downloaded individually. If you want to download them all at once try using a 'bulk downloader' extension/plugin for your browser, such as <a href=\"https://chrome.google.com/webstore/detail/svg-export/naeaaedieihlkmdajjefioajbbdbdjgp?hl=en-GB\">this one (for Chrome)</a>. To download them as a list you can go to Check-Ins section of the Edit Database area and copy/paste from the relevant table."
 msgstr ""
 
-#: checkins/templates/checkin_printables.html
+#: checkins/templates/checkin_printables.html:15
 msgid "You can use Ctrl+P for printing or saving the barcodes PDF. Be sure to set the appropriate <strong>page orientation</strong>, to turn off <strong>headers/footers</strong> and turn on <strong>background graphics</strong>. Works best in Chrome."
 msgstr ""
 
-#: checkins/templates/checkin_scan.html
+#: checkins/templates/checkin_scan.html:18
 msgid "To scan an identifier type the number below (it will auto-submit). You can also use a barcode scanner (configured to work as a keyboard) or scan from a webcam or phone camera using the button below."
 msgstr ""
 
-#: checkins/utils.py
+#: checkins/utils.py:61
 #, python-format
 msgid "Not checked in (barcode %(barcode)s)"
 msgstr ""
 
-#: checkins/utils.py
+#: checkins/utils.py:65
 msgid "Not checked in; no barcode assigned"
 msgstr ""
 
-#: checkins/utils.py
+#: checkins/utils.py:72
 #, python-format
 msgid "checked in at %(time)s"
 msgstr ""
 
-#: checkins/utils.py
+#: checkins/utils.py:84
 #, python-format
 msgid "%(speaker)s checked in at %(time)s."
 msgstr ""
 
-#: checkins/utils.py
+#: checkins/utils.py:86
 #, python-format
 msgid "%(speaker)s is missing."
 msgstr ""
 
-#: checkins/views.py templates/nav/admin_nav.html
-#: templates/nav/assistant_nav.html
+#: checkins/views.py:32 templates/nav/admin_nav.html:156
+#: templates/nav/assistant_nav.html:42
 msgid "Scan Identifiers"
 msgstr ""
 
-#: checkins/views.py
+#: checkins/views.py:67
 msgid "People's Check-In Statuses"
 msgstr ""
 
-#: checkins/views.py
+#: checkins/views.py:151
 msgid "Rooms' Check-In Statuses"
 msgstr ""
 
-#: checkins/views.py templates/nav/admin_nav.html
+#: checkins/views.py:202 templates/nav/admin_nav.html:152
 msgid "Make Identifiers"
 msgstr ""
 
-#: checkins/views.py registration/templates/answer_tables/teams.html
-#: templates/nav/admin_nav.html
+#: checkins/views.py:209 registration/templates/answer_tables/teams.html:12
+#: registration/templates/registration/team_edit.html:86
+#: seasonbreaks/templates/seasonbreaks/identities.html:22
+#: seasonbreaks/templates/seasonbreaks/overview.html:38
+#: seasonbreaks/views.py:113 seasonbreaks/views.py:141
+#: templates/nav/admin_nav.html:261
 msgid "Speakers"
 msgstr ""
 
-#: checkins/views.py registration/views.py templates/nav/admin_nav.html
-#: templates/nav/public_nav.html
+#: checkins/views.py:214 registration/views.py:527 registration/views.py:1122
+#: seasonbreaks/templates/seasonbreaks/identities.html:34
+#: seasonbreaks/templates/seasonbreaks/overview.html:39
+#: seasonbreaks/views.py:117 seasonbreaks/views.py:152
+#: seasonbreaks/views.py:153 templates/nav/admin_nav.html:136
+#: templates/nav/public_nav.html:145
 msgid "Adjudicators"
 msgstr ""
 
-#: checkins/views.py
+#: checkins/views.py:219 users/forms.py:50
 msgid "Rooms"
 msgstr ""
 
-#: checkins/views.py
+#: checkins/views.py:261
 #, python-format
 msgid "Generated identifiers for %s"
 msgstr ""
 
-#: checkins/views.py
+#: checkins/views.py:268
 msgid "Identifiers"
 msgstr ""
 
-#: checkins/views.py
+#: checkins/views.py:304
 msgid "Could not check you in as you do not have an identifying code — your tab director may need to make you an identifier."
 msgstr ""
 
-#: checkins/views.py
+#: checkins/views.py:315
 msgid "You have revoked your check-in."
 msgstr ""
 
-#: checkins/views.py
+#: checkins/views.py:317
 msgid "Whoops! Looks like your check-in was already revoked."
 msgstr ""
 
-#: checkins/views.py
+#: checkins/views.py:321
 msgid "Whoops! Looks like you're already checked in."
 msgstr ""
 
-#: checkins/views.py
+#: checkins/views.py:327
 msgid "You are now checked in."
 msgstr ""
 
+#: feedbackexport/apps.py:7 feedbackexport/views.py:38
+#: templates/nav/top_nav_base.html:81
+msgid "API Exports"
+msgstr ""
+
+#: feedbackexport/forms.py:14
+#: feedbackexport/templates/feedbackexport/access.html:38
+#: seasonbreaks/forms.py:141 seasonbreaks/templates/seasonbreaks/access.html:41
+#: users/forms.py:273 xmlconverter/forms.py:30
+#: xmlconverter/templates/xmlconverter/access.html:48
+msgid "User"
+msgstr ""
+
+#: feedbackexport/forms.py:19
+#: feedbackexport/templates/feedbackexport/access.html:38
+#: seasonbreaks/forms.py:146 seasonbreaks/templates/seasonbreaks/access.html:41
+#: seasonbreaks/views.py:159 users/admin.py:51 users/forms.py:219
+#: xmlconverter/forms.py:35 xmlconverter/templates/xmlconverter/access.html:49
+msgid "Permissions"
+msgstr ""
+
+#: feedbackexport/forms.py:37
+msgid "All statuses"
+msgstr ""
+
+#: feedbackexport/forms.py:38
+#: feedbackexport/templates/feedbackexport/events.html:20
+#: feedbackexport/templates/feedbackexport/events.html:52
+#: feedbackexport/templates/feedbackexport/index.html:25
+#: feedbackexport/templates/feedbackexport/index.html:47
+#: registration/models.py:171
+msgid "Pending"
+msgstr ""
+
+#: feedbackexport/forms.py:39
+#: feedbackexport/templates/feedbackexport/events.html:21
+#: feedbackexport/templates/feedbackexport/events.html:53
+#: feedbackexport/templates/feedbackexport/events.html:199
+msgid "Sent"
+msgstr ""
+
+#: feedbackexport/forms.py:40
+#: feedbackexport/templates/feedbackexport/events.html:22
+#: feedbackexport/templates/feedbackexport/events.html:54
+#: feedbackexport/templates/feedbackexport/index.html:26
+#: feedbackexport/templates/feedbackexport/index.html:48
+msgid "Failed"
+msgstr ""
+
+#: feedbackexport/forms.py:41
+msgid "Permanently failed"
+msgstr ""
+
+#: feedbackexport/models.py:10
+msgid "view feedback export"
+msgstr ""
+
+#: feedbackexport/models.py:11
+msgid "manage feedback export"
+msgstr ""
+
+#: feedbackexport/models.py:15 seasonbreaks/models.py:16 users/models.py:13
+#: users/models.py:51 xmlconverter/models.py:14
+msgid "user"
+msgstr ""
+
+#: feedbackexport/models.py:16 seasonbreaks/models.py:17 users/models.py:14
+#: xmlconverter/models.py:15
+msgid "permission"
+msgstr ""
+
+#: feedbackexport/models.py:20
+msgid "global feedback export permission"
+msgstr ""
+
+#: feedbackexport/models.py:21
+msgid "global feedback export permissions"
+msgstr ""
+
+#: feedbackexport/models.py:29 feedbackexport/models.py:80
+msgid "pending"
+msgstr ""
+
+#: feedbackexport/models.py:30 feedbackexport/models.py:81
+msgid "sent"
+msgstr ""
+
+#: feedbackexport/models.py:31 feedbackexport/models.py:82
+msgid "failed"
+msgstr ""
+
+#: feedbackexport/models.py:32 feedbackexport/models.py:83
+msgid "permanently failed"
+msgstr ""
+
+#: feedbackexport/models.py:35
+msgid "feedback"
+msgstr ""
+
+#: feedbackexport/models.py:37 feedbackexport/models.py:96
+msgid "status"
+msgstr ""
+
+#: feedbackexport/models.py:38 feedbackexport/models.py:97
+msgid "idempotency key"
+msgstr ""
+
+#: feedbackexport/models.py:39 feedbackexport/models.py:98
+msgid "attempts"
+msgstr ""
+
+#: feedbackexport/models.py:40 feedbackexport/models.py:99
+msgid "next attempt at"
+msgstr ""
+
+#: feedbackexport/models.py:41 feedbackexport/models.py:100
+msgid "last error"
+msgstr ""
+
+#: feedbackexport/models.py:42 feedbackexport/models.py:101
+msgid "last HTTP status"
+msgstr ""
+
+#: feedbackexport/models.py:43 feedbackexport/models.py:102
+msgid "payload hash"
+msgstr ""
+
+#: feedbackexport/models.py:44 feedbackexport/models.py:103
+msgid "payload"
+msgstr ""
+
+#: feedbackexport/models.py:45 feedbackexport/models.py:104
+msgid "remote response"
+msgstr ""
+
+#: feedbackexport/models.py:46 feedbackexport/models.py:105
+msgid "sent at"
+msgstr ""
+
+#: feedbackexport/models.py:47 feedbackexport/models.py:106
+#: registration/models.py:190 seasonbreaks/models.py:40
+msgid "created at"
+msgstr ""
+
+#: feedbackexport/models.py:48 feedbackexport/models.py:107
+#: registration/models.py:191
+msgid "updated at"
+msgstr ""
+
+#: feedbackexport/models.py:52
+msgid "feedback export event"
+msgstr ""
+
+#: feedbackexport/models.py:53
+msgid "feedback export events"
+msgstr ""
+
+#: feedbackexport/models.py:88 seasonbreaks/models.py:108
+#: seasonbreaks/models.py:182 seasonbreaks/models.py:226
+#: seasonbreaks/models.py:279
+msgid "break tournament"
+msgstr ""
+
+#: feedbackexport/models.py:90
+msgid "source tournament ID"
+msgstr ""
+
+#: feedbackexport/models.py:91
+msgid "source tournament slug"
+msgstr ""
+
+#: feedbackexport/models.py:92
+msgid "source tournament name"
+msgstr ""
+
+#: feedbackexport/models.py:94
+msgid "source tournament short name"
+msgstr ""
+
+#: feedbackexport/models.py:111
+msgid "adjudicator stats export event"
+msgstr ""
+
+#: feedbackexport/models.py:112
+msgid "adjudicator stats export events"
+msgstr ""
+
+#: feedbackexport/templates/feedbackexport/access.html:7
+#: feedbackexport/views.py:59 seasonbreaks/templates/seasonbreaks/base.html:105
+#: seasonbreaks/views.py:118
+msgid "Access"
+msgstr ""
+
+#: feedbackexport/templates/feedbackexport/access.html:8
+msgid "Grant global access to API Exports. Manage implies view access."
+msgstr ""
+
+#: feedbackexport/templates/feedbackexport/access.html:15
+msgid "Grant access"
+msgstr ""
+
+#: feedbackexport/templates/feedbackexport/access.html:26
+#: seasonbreaks/templates/seasonbreaks/access.html:33
+#: xmlconverter/templates/xmlconverter/access.html:36
+msgid "Save access"
+msgstr ""
+
+#: feedbackexport/templates/feedbackexport/access.html:33
+#: seasonbreaks/templates/seasonbreaks/access.html:39
+#: xmlconverter/templates/xmlconverter/access.html:43
+msgid "Current access"
+msgstr ""
+
+#: feedbackexport/templates/feedbackexport/access.html:53
+msgid "No users have explicit API export access yet."
+msgstr ""
+
+#: feedbackexport/templates/feedbackexport/base.html:421
+msgid "Live feedback export is disabled. Queueing still works, but sending requires SDA_JUDGES_FEEDBACK_EXPORT_ENABLED=True."
+msgstr ""
+
+#: feedbackexport/templates/feedbackexport/base.html:425
+msgid "No external feedback API endpoint is configured. Set SDA_JUDGES_FEEDBACK_API_URL before processing feedback sends."
+msgstr ""
+
+#: feedbackexport/templates/feedbackexport/base.html:429
+msgid "Live judge activity export is disabled. Manual queueing still works, but sending requires SDA_JUDGES_ACTIVITY_EXPORT_ENABLED=True."
+msgstr ""
+
+#: feedbackexport/templates/feedbackexport/base.html:433
+msgid "No external judge activity API endpoint is configured. Set SDA_JUDGES_ACTIVITY_API_URL before processing activity sends."
+msgstr ""
+
+#: feedbackexport/templates/feedbackexport/base.html:447
+msgid "Export structured SDA data from Tabbycat to external systems. Judge exports are managed together here; feedback and activity still remain separate records under the hood."
+msgstr ""
+
+#: feedbackexport/templates/feedbackexport/base.html:451
+#: seasonbreaks/templates/seasonbreaks/access.html:16
+#: xmlconverter/templates/xmlconverter/index.html:19
+msgid "Return to Site Tools"
+msgstr ""
+
+#: feedbackexport/templates/feedbackexport/base.html:456
+msgid "API export navigation"
+msgstr ""
+
+#: feedbackexport/templates/feedbackexport/base.html:461
+msgid "Pipeline health and next actions"
+msgstr ""
+
+#: feedbackexport/templates/feedbackexport/base.html:463
+msgid "Feedback and adjudicated debate counts"
+msgstr ""
+
+#: feedbackexport/templates/feedbackexport/base.html:465
+msgid "Global permissions"
+msgstr ""
+
+#: feedbackexport/templates/feedbackexport/events.html:7
+#: feedbackexport/views.py:58
+msgid "Judge Data"
+msgstr ""
+
+#: feedbackexport/templates/feedbackexport/events.html:8
+msgid "One workspace for exporting judge feedback and adjudicated debate counts to DR. They remain separate records, but are operated from one place."
+msgstr ""
+
+#: feedbackexport/templates/feedbackexport/events.html:15
+#: feedbackexport/templates/feedbackexport/events.html:150
+#: templates/nav/admin_nav.html:179 users/forms.py:101
+msgid "Feedback"
+msgstr ""
+
+#: feedbackexport/templates/feedbackexport/events.html:16
+#: feedbackexport/templates/feedbackexport/events.html:48
+#: feedbackexport/templates/feedbackexport/index.html:19
+#: feedbackexport/templates/feedbackexport/index.html:41
+msgid "Ready"
+msgstr ""
+
+#: feedbackexport/templates/feedbackexport/events.html:18
+msgid "Confirmed feedback exports with source identifiers. DR handles judge matching and duplicate resolution."
+msgstr ""
+
+#: feedbackexport/templates/feedbackexport/events.html:29
+msgid "Queue feedback"
+msgstr ""
+
+#: feedbackexport/templates/feedbackexport/events.html:34
+#: feedbackexport/templates/feedbackexport/events.html:61
+msgid "Retry failed"
+msgstr ""
+
+#: feedbackexport/templates/feedbackexport/events.html:39
+#: feedbackexport/templates/feedbackexport/events.html:66
+msgid "Send pending"
+msgstr ""
+
+#: feedbackexport/templates/feedbackexport/events.html:47
+msgid "Judge activity"
+msgstr ""
+
+#: feedbackexport/templates/feedbackexport/events.html:50
+msgid "Tournament debate counts export with source identifiers. DR falls back to email, name or local ID."
+msgstr ""
+
+#: feedbackexport/templates/feedbackexport/events.html:78
+msgid "Tournament activity exports"
+msgstr ""
+
+#: feedbackexport/templates/feedbackexport/events.html:79
+msgid "Select only the tournaments you want to export or re-export. Feedback is queued separately above."
+msgstr ""
+
+#: feedbackexport/templates/feedbackexport/events.html:83
+msgid "Queue selected activity"
+msgstr ""
+
+#: feedbackexport/templates/feedbackexport/events.html:84
+msgid "Force re-export selected"
+msgstr ""
+
+#: feedbackexport/templates/feedbackexport/events.html:94
+#: feedbackexport/templates/feedbackexport/events.html:199
+#: seasonbreaks/templates/seasonbreaks/tournaments.html:49
+msgid "Tournament"
+msgstr ""
+
+#: feedbackexport/templates/feedbackexport/events.html:95
+msgid "Catalog metadata"
+msgstr ""
+
+#: feedbackexport/templates/feedbackexport/events.html:96
+msgid "Activity status"
+msgstr ""
+
+#: feedbackexport/templates/feedbackexport/events.html:97
+msgid "Last sent"
+msgstr ""
+
+#: feedbackexport/templates/feedbackexport/events.html:98
+#: feedbackexport/templates/feedbackexport/events.html:155
+msgid "Last error"
+msgstr ""
+
+#: feedbackexport/templates/feedbackexport/events.html:118
+msgid "No Break management metadata"
+msgstr ""
+
+#: feedbackexport/templates/feedbackexport/events.html:127
+msgid "No tournaments exist yet."
+msgstr ""
+
+#: feedbackexport/templates/feedbackexport/events.html:138
+msgid "Feedback export history"
+msgstr ""
+
+#: feedbackexport/templates/feedbackexport/events.html:139
+msgid "Recent feedback export events. Use the status filter if you only need failures or pending sends."
+msgstr ""
+
+#: feedbackexport/templates/feedbackexport/events.html:143
+msgid "Filter"
+msgstr ""
+
+#: feedbackexport/templates/feedbackexport/events.html:151
+msgid "Target"
+msgstr ""
+
+#: feedbackexport/templates/feedbackexport/events.html:152
+#: feedbackexport/templates/feedbackexport/events.html:199
+#: registration/utils.py:97
+#: seasonbreaks/templates/seasonbreaks/ranking_region.html:60
+msgid "Status"
+msgstr ""
+
+#: feedbackexport/templates/feedbackexport/events.html:153
+msgid "Attempts"
+msgstr ""
+
+#: feedbackexport/templates/feedbackexport/events.html:154
+msgid "HTTP"
+msgstr ""
+
+#: feedbackexport/templates/feedbackexport/events.html:156
+#: feedbackexport/templates/feedbackexport/events.html:199
+msgid "Updated"
+msgstr ""
+
+#: feedbackexport/templates/feedbackexport/events.html:176
+msgid "Retry"
+msgstr ""
+
+#: feedbackexport/templates/feedbackexport/events.html:182
+msgid "No feedback export events match this filter."
+msgstr ""
+
+#: feedbackexport/templates/feedbackexport/events.html:193
+msgid "Archived local activity events"
+msgstr ""
+
+#: feedbackexport/templates/feedbackexport/events.html:194
+msgid "These local export events still exist, but their source tournament has been removed from Tabbycat."
+msgstr ""
+
+#: feedbackexport/templates/feedbackexport/index.html:7
+#: feedbackexport/views.py:57 seasonbreaks/views.py:108
+#: seasonbreaks/views.py:124 seasonbreaks/views.py:125
+#: templates/nav/admin_nav.html:63 templates/nav/admin_nav.html:186
+#: templates/nav/admin_nav.html:241 templates/nav/admin_nav.html:300
+msgid "Overview"
+msgstr ""
+
+#: feedbackexport/templates/feedbackexport/index.html:8
+msgid "A short control room for judge data exports. DR owns judge identity matching; Tabbycat sends source names, emails and local IDs."
+msgstr ""
+
+#: feedbackexport/templates/feedbackexport/index.html:15
+msgid "Feedback export"
+msgstr ""
+
+#: feedbackexport/templates/feedbackexport/index.html:17
+#: feedbackexport/templates/feedbackexport/index.html:37
+msgid "Needs attention"
+msgstr ""
+
+#: feedbackexport/templates/feedbackexport/index.html:22
+msgid "Exports confirmed adjudicator feedback to DR. DR matches judges by exported ID when present, then email, name and local fallback."
+msgstr ""
+
+#: feedbackexport/templates/feedbackexport/index.html:24
+msgid "Confirmed feedback"
+msgstr ""
+
+#: feedbackexport/templates/feedbackexport/index.html:29
+#: feedbackexport/templates/feedbackexport/index.html:51
+msgid "Open Judge Data"
+msgstr ""
+
+#: feedbackexport/templates/feedbackexport/index.html:35
+msgid "Judge activity export"
+msgstr ""
+
+#: feedbackexport/templates/feedbackexport/index.html:39
+msgid "Queued"
+msgstr ""
+
+#: feedbackexport/templates/feedbackexport/index.html:44
+msgid "Exports adjudicated debate counts by tournament. DR matches judges by exported ID when present, then email, name and local fallback."
+msgstr ""
+
+#: feedbackexport/templates/feedbackexport/index.html:46
+msgid "Export events"
+msgstr ""
+
+#: feedbackexport/views.py:94 feedbackexport/views.py:170
+#, python-format
+msgid "%(queued)s feedback export events queued; %(skipped)s skipped."
+msgstr ""
+
+#: feedbackexport/views.py:97 feedbackexport/views.py:167
+#, python-format
+msgid "%(processed)s export events processed; %(sent)s sent; %(failed)s failed."
+msgstr ""
+
+#: feedbackexport/views.py:156
+msgid "Feedback export event was queued for retry."
+msgstr ""
+
+#: feedbackexport/views.py:164
+#, python-format
+msgid "%(count)s failed export events were queued for retry."
+msgstr ""
+
+#: feedbackexport/views.py:182
+#, python-format
+msgid "%(queued)s judge activity export events queued."
+msgstr ""
+
+#: feedbackexport/views.py:202
+#, python-format
+msgid "%(queued)s failed judge activity events queued for retry."
+msgstr ""
+
+#: feedbackexport/views.py:205
+#, python-format
+msgid "%(processed)s judge activity events processed; %(sent)s sent; %(failed)s failed."
+msgstr ""
+
+#: feedbackexport/views.py:213
+msgid "Not exported"
+msgstr ""
+
+#: feedbackexport/views.py:219
+msgid "Needs re-export"
+msgstr ""
+
+#: feedbackexport/views.py:257
+#, python-format
+msgid "API export access updated for %(user)s."
+msgstr ""
+
+#: registration/admin.py:34
+msgid "Source"
+msgstr ""
+
+#: registration/admin.py:38
+msgid "Receiving"
+msgstr ""
+
 #. Translators: Please leave this blank, it should be left for the base Django translations.
-#: registration/form_utils.py
+#: registration/form_utils.py:41
 msgid "Yes"
 msgstr ""
 
 #. Translators: Please leave this blank, it should be left for the base Django translations.
-#: registration/form_utils.py
+#: registration/form_utils.py:43
 msgid "No"
 msgstr ""
 
 #. Translators: Please leave this blank, it should be left for the base Django translations.
-#: registration/form_utils.py
+#: registration/form_utils.py:58
 msgid "This field is required."
 msgstr ""
 
-#: registration/forms.py
-msgid "Coach name"
+#: registration/forms.py:24 registration/forms.py:523
+#: registration/views.py:1212
+msgid "Institution name"
 msgstr ""
 
-#: registration/forms.py
+#: registration/forms.py:25
+msgid "Institution abbreviation"
+msgstr ""
+
+#: registration/forms.py:28
+msgid "Institution region"
+msgstr ""
+
+#: registration/forms.py:56
+msgid "An institution with this name is already registered for this tournament."
+msgstr ""
+
+#: registration/forms.py:99
+msgid "Name of primary contact"
+msgstr ""
+
+#: registration/forms.py:189
 msgid "Unseeded"
 msgstr ""
 
-#: registration/forms.py
+#: registration/forms.py:190
 msgid "Free seed"
 msgstr ""
 
-#: registration/forms.py
+#: registration/forms.py:191
 msgid "Half seed"
 msgstr ""
 
-#: registration/forms.py
+#: registration/forms.py:192
 msgid "Full seed"
 msgstr ""
 
-#: registration/forms.py
+#: registration/forms.py:208
+msgid "Team name (excluding institution)"
+msgstr ""
+
+#: registration/forms.py:263 registration/forms.py:299
+#: registration/forms.py:386 registration/forms.py:457
 msgid "Full name for tab"
 msgstr ""
 
-#: registration/models.py
+#: registration/forms.py:339
+msgid "Full team name/suffix"
+msgstr ""
+
+#: registration/forms.py:340
+msgid "Short team name/suffix"
+msgstr ""
+
+#: registration/forms.py:348
+#, python-format
+msgid "The team can't be in a break category of a different tournament. Please remove: %(category)s"
+msgstr ""
+
+#: registration/forms.py:517
+#: registration/templates/registration/institution_edit.html:12
+#: registration/templates/registration/institution_view_response.html:16
+#: seasonbreaks/templates/seasonbreaks/identities_adjudicators.html:60
+#: seasonbreaks/templates/seasonbreaks/teams.html:20
+msgid "Institution"
+msgstr ""
+
+#: registration/forms.py:519
+msgid "Institution not listed"
+msgstr ""
+
+#: registration/forms.py:525
+msgid "If the institution is not listed above, enter the name of the receiving institution here."
+msgstr ""
+
+#: registration/forms.py:528
+msgid "Contact email"
+msgstr ""
+
+#: registration/forms.py:530
+msgid "If the institution is not listed above, enter the contact email for the receiving institution here."
+msgstr ""
+
+#: registration/forms.py:535
+msgid "Team slots to transfer"
+msgstr ""
+
+#: registration/forms.py:540
+msgid "Adjudicator slots to transfer"
+msgstr ""
+
+#: registration/forms.py:561
+msgid "Please enter the name of the receiving institution."
+msgstr ""
+
+#: registration/forms.py:563
+msgid "Please enter the contact email for the receiving institution."
+msgstr ""
+
+#: registration/forms.py:568
+msgid "Transfer at least one team or adjudicator slot."
+msgstr ""
+
+#: registration/forms.py:570
+msgid "You cannot transfer more team slots than you have."
+msgstr ""
+
+#: registration/forms.py:572
+msgid "You cannot transfer more adjudicator slots than you have."
+msgstr ""
+
+#: registration/models.py:31
 msgid "content type"
 msgstr ""
 
-#: registration/models.py
+#: registration/models.py:32
 msgid "object id"
 msgstr ""
 
-#: registration/models.py
+#: registration/models.py:36 registration/models.py:125
 msgid "question"
 msgstr ""
 
-#: registration/models.py
+#: registration/models.py:37 registration/models.py:40
 msgid "answer"
 msgstr ""
 
-#: registration/models.py
+#: registration/models.py:41
 msgid "answers"
 msgstr ""
 
-#: registration/models.py
+#: registration/models.py:65
 msgid "checkbox"
 msgstr ""
 
-#: registration/models.py
+#: registration/models.py:66
 msgid "yes/no (dropdown)"
 msgstr ""
 
-#: registration/models.py
+#: registration/models.py:67
 msgid "integer (textbox)"
 msgstr ""
 
-#: registration/models.py
+#: registration/models.py:68
 msgid "integer scale"
 msgstr ""
 
-#: registration/models.py
+#: registration/models.py:69
 msgid "float"
 msgstr ""
 
-#: registration/models.py
+#: registration/models.py:70 registration/models.py:97
 msgid "text"
 msgstr ""
 
-#: registration/models.py
+#: registration/models.py:71
 msgid "long text"
 msgstr ""
 
-#: registration/models.py
+#: registration/models.py:72
 msgid "select one"
 msgstr ""
 
-#: registration/models.py
+#: registration/models.py:73
 msgid "select multiple"
 msgstr ""
 
-#: registration/models.py
+#: registration/models.py:74
 msgid "date + time"
 msgstr ""
 
-#: registration/models.py
+#: registration/models.py:93 registration/models.py:152
 msgid "for content type"
 msgstr ""
 
-#: registration/models.py
+#: registration/models.py:95
 msgid "sequence number"
 msgstr ""
 
-#: registration/models.py
+#: registration/models.py:98
 msgid "The question displayed to participants, e.g., \"Did you agree with the decision?\""
 msgstr ""
 
-#: registration/models.py
+#: registration/models.py:99
 msgid "help text"
 msgstr ""
 
-#: registration/models.py
+#: registration/models.py:100
 msgid "Additional context for the question"
 msgstr ""
 
-#: registration/models.py users/models.py
+#: registration/models.py:102 seasonbreaks/models.py:29
+#: seasonbreaks/models.py:59 seasonbreaks/models.py:73
+#: seasonbreaks/models.py:121 seasonbreaks/models.py:153
+#: seasonbreaks/models.py:246 users/models.py:35
 msgid "name"
 msgstr ""
 
-#: registration/models.py
+#: registration/models.py:103
 msgid "A short name for the question, e.g., \"Agree with decision\""
 msgstr ""
 
-#: registration/models.py
+#: registration/models.py:106
 msgid "answer type"
 msgstr ""
 
-#: registration/models.py
+#: registration/models.py:108
 msgid "required"
 msgstr ""
 
-#: registration/models.py
+#: registration/models.py:109
 msgid "Whether participants are required to fill out this field"
 msgstr ""
 
-#: registration/models.py
+#: registration/models.py:111
 msgid "minimum value"
 msgstr ""
 
-#: registration/models.py
+#: registration/models.py:112
 msgid "Minimum allowed value for numeric fields (ignored for text or boolean fields)"
 msgstr ""
 
-#: registration/models.py
+#: registration/models.py:114
 msgid "maximum value"
 msgstr ""
 
-#: registration/models.py
+#: registration/models.py:115
 msgid "Maximum allowed value for numeric fields (ignored for text or boolean fields)"
 msgstr ""
 
-#: registration/models.py
+#: registration/models.py:120
 msgid "choices"
 msgstr ""
 
-#: registration/models.py
+#: registration/models.py:121
 msgid "Permissible choices for select one/multiple fields (ignored for other fields)"
 msgstr ""
 
-#: registration/models.py
+#: registration/models.py:126
 msgid "questions"
 msgstr ""
 
-#: registration/models.py
+#: registration/models.py:153 seasonbreaks/models.py:123
+#: seasonbreaks/models.py:249
 msgid "institution"
 msgstr ""
 
-#: registration/models.py
+#: registration/models.py:154 seasonbreaks/models.py:140
 msgid "team"
 msgstr ""
 
-#: registration/models.py
+#: registration/models.py:155
 msgid "URL key"
 msgstr ""
 
-#: registration/models.py
+#: registration/models.py:156
 msgid "created on"
 msgstr ""
 
-#: registration/models.py
+#: registration/models.py:158 registration/models.py:194
+msgid "slot transfer request"
+msgstr ""
+
+#: registration/models.py:161
 msgid "invitation"
 msgstr ""
 
-#: registration/models.py
+#: registration/models.py:162
 msgid "invitations"
 msgstr ""
 
-#: registration/templates/adjudicator_registration_form.html
+#: registration/models.py:172
+msgid "Approved"
+msgstr ""
+
+#: registration/models.py:173
+msgid "Rejected"
+msgstr ""
+
+#: registration/models.py:179
+msgid "source institution"
+msgstr ""
+
+#: registration/models.py:181
+msgid "team slots transferred"
+msgstr ""
+
+#: registration/models.py:182
+msgid "adjudicator slots transferred"
+msgstr ""
+
+#: registration/models.py:184
+msgid "receiving institution"
+msgstr ""
+
+#: registration/models.py:186
+msgid "receiving institution name"
+msgstr ""
+
+#: registration/models.py:187
+msgid "receiving institution contact email"
+msgstr ""
+
+#: registration/models.py:195
+msgid "slot transfer requests"
+msgstr ""
+
+#: registration/models.py:199
+#, python-format
+msgid "%(source)s → %(recipient)s (%(status)s)"
+msgstr ""
+
+#: registration/templates/adjudicator_registration_form.html:24
 msgctxt "button"
 msgid "Register as Adjudicator"
 msgstr ""
 
-#: registration/templates/adjudicator_registration_form.html
-#: registration/templates/wizard_registration_form.html
-#: templates/registration/password_change_form.html
-#: templates/registration/password_reset_confirm.html
+#: registration/templates/adjudicator_registration_form.html:25
+#: registration/templates/speaker_registration_form.html:17
+#: registration/templates/wizard_registration_form.html:35
+#: templates/registration/password_change_form.html:34
+#: templates/registration/password_reset_confirm.html:26
 msgid "Cancel and go back to the site home page"
 msgstr ""
 
-#: registration/templates/answer_tables/adjudicators.html
+#: registration/templates/answer_tables/adjudicators.html:8
 msgid "Questions"
 msgstr ""
 
-#: registration/templates/answer_tables/institutions.html
-#: registration/templates/answer_tables/teams.html
+#: registration/templates/answer_tables/institutions.html:8
+msgid "Slot transfers"
+msgstr ""
+
+#: registration/templates/answer_tables/institutions.html:11
+msgid "Transfer summary"
+msgstr ""
+
+#: registration/templates/answer_tables/institutions.html:15
+#: registration/templates/answer_tables/teams.html:7
 msgid "Questions for"
 msgstr ""
 
-#: registration/templates/answer_tables/institutions.html
-#: templates/nav/admin_nav.html templates/nav/assistant_nav.html
-#: templates/nav/public_nav.html
+#: registration/templates/answer_tables/institutions.html:17
+#: templates/nav/admin_nav.html:129 templates/nav/assistant_nav.html:25
+#: templates/nav/public_nav.html:180
 msgid "Institutions"
 msgstr ""
 
-#: registration/templates/answer_tables/institutions.html
+#: registration/templates/answer_tables/institutions.html:20
 msgid "Coaches"
 msgstr ""
 
-#: registration/templates/answer_tables/institutions.html
+#: registration/templates/answer_tables/institutions.html:30
+#: registration/templates/coach_private_url.html:70
 #, python-format
 msgid "Teams Requested: <strong>%(num)s</strong>"
 msgstr ""
 
-#: registration/templates/answer_tables/institutions.html
+#: registration/templates/answer_tables/institutions.html:38
+#: registration/templates/coach_private_url.html:77
 #, python-format
 msgid "Teams Allocated: <strong>%(num)s</strong>"
 msgstr ""
 
-#: registration/templates/answer_tables/institutions.html
+#: registration/templates/answer_tables/institutions.html:46
+#: registration/templates/coach_private_url.html:85
+#: registration/templates/coach_private_url.html:96
 #, python-format
 msgid "Teams Registered: <strong>%(num)s</strong>"
 msgstr ""
 
-#: registration/templates/answer_tables/institutions.html
+#: registration/templates/answer_tables/institutions.html:56
+#: registration/templates/coach_private_url.html:43
 #, python-format
 msgid "Adjudicators Requested: <strong>%(num)s</strong>"
 msgstr ""
 
-#: registration/templates/answer_tables/institutions.html
+#: registration/templates/answer_tables/institutions.html:64
+#: registration/templates/coach_private_url.html:50
 #, python-format
 msgid "Adjudicators Allocated: <strong>%(num)s</strong>"
 msgstr ""
 
-#: registration/templates/answer_tables/institutions.html
+#: registration/templates/answer_tables/institutions.html:72
+#: registration/templates/coach_private_url.html:58
+#: registration/templates/coach_private_url.html:103
 #, python-format
 msgid "Adjudicators Registered: <strong>%(num)s</strong>"
 msgstr ""
 
-#: registration/templates/answer_tables/institutions.html
+#: registration/templates/answer_tables/institutions.html:87
 msgid "Save allocations"
 msgstr ""
 
-#: registration/templates/answer_tables/teams.html registration/views.py
-#: templates/nav/admin_nav.html
+#: registration/templates/answer_tables/teams.html:9 registration/views.py:534
+#: registration/views.py:1121
+#: seasonbreaks/templates/seasonbreaks/identities.html:10
+#: seasonbreaks/templates/seasonbreaks/overview.html:37
+#: seasonbreaks/views.py:112 seasonbreaks/views.py:139
+#: templates/nav/admin_nav.html:132 templates/nav/admin_nav.html:247
 msgid "Teams"
 msgstr ""
 
-#: registration/templates/coach_private_url.html
+#: registration/templates/coach_private_url.html:4
+#: registration/templates/coach_private_url.html:5
 msgid "Private URL"
 msgstr ""
 
-#: registration/templates/coach_private_url.html
+#: registration/templates/coach_private_url.html:9
 #, python-format
 msgid "for %(name)s (%(institution)s)"
 msgstr ""
 
-#: registration/templates/coach_private_url.html
+#: registration/templates/coach_private_url.html:14
 #, python-format
-msgid "The URL of this page is personalised to you, %(name)s. <strong>Do not share it with anyone;</strong> anyone who knows this URL can manage participants for %(institution)s. You may bookmark this page and return here after each debate for the available actions."
+msgid "The URL of this page is personalised to you, %(name)s. <strong>Do not share it with anyone;</strong> anyone who knows this URL can manage participants for %(institution)s. Bookmark this page as you may need it for a next phase of registration."
 msgstr ""
 
-#: registration/templates/coach_private_url.html registration/views.py
+#: registration/templates/coach_private_url.html:28
+msgid "View your registration form response"
+msgstr ""
+
+#: registration/templates/coach_private_url.html:115 registration/views.py:394
 msgid "Register Adjudicator"
 msgstr ""
 
-#: registration/templates/coach_private_url.html
-msgid "Participant registration is not yet open"
-msgstr ""
-
-#: registration/templates/coach_private_url.html
+#: registration/templates/coach_private_url.html:120
 msgid "or distribute this link to allow members to register themselves as adjudicators:"
 msgstr ""
 
-#: registration/templates/coach_private_url.html registration/views.py
+#: registration/templates/coach_private_url.html:128
+msgid "Adjudicator registration is not yet open"
+msgstr ""
+
+#: registration/templates/coach_private_url.html:136 registration/views.py:208
 msgid "Register Team"
 msgstr ""
 
-#: registration/templates/coach_private_url.html
+#: registration/templates/coach_private_url.html:140
 msgid "or distribute this link to allow members to register their teams:"
 msgstr ""
 
-#: registration/templates/coach_private_url.html
+#: registration/templates/coach_private_url.html:148
+msgid "Team registration is not yet open"
+msgstr ""
+
+#: registration/templates/coach_private_url.html:157
+msgid "Transfer slots to another institution"
+msgstr ""
+
+#: registration/templates/coach_private_url.html:165
 msgid "View invoice"
 msgstr ""
 
-#: registration/templates/questions_edit.html
+#: registration/templates/questions_edit.html:12
 msgid "These questions appear as extra fields for participants to answer, in feedback or registration forms."
 msgstr ""
 
-#: registration/templates/questions_edit.html
+#: registration/templates/questions_edit.html:17
 #, python-format
 msgid "If you want to delete questions (and their associated answers), use the <a href=\"%(edit_db_url)s\" class=\"alert-link\">Edit Database</a> area."
 msgstr ""
 
-#: registration/templates/questions_edit.html
+#: registration/templates/questions_edit.html:23
 msgid "Save Questions"
 msgstr ""
 
-#: registration/templates/team_wizard_speakers.html
+#: registration/templates/registration/adjudicator_edit.html:44
+msgid "Adjudicator registration"
+msgstr ""
+
+#: registration/templates/registration/adjudicator_edit.html:47
+msgid "Independent / no institution"
+msgstr ""
+
+#: registration/templates/registration/adjudicator_edit.html:52
+msgid "Back to adjudicators"
+msgstr ""
+
+#: registration/templates/registration/adjudicator_edit.html:59
+msgid "Adjudicator details"
+msgstr ""
+
+#: registration/templates/registration/adjudicator_edit.html:60
+msgid "Common tab fields stay visible. Feedback is managed separately."
+msgstr ""
+
+#: registration/templates/registration/adjudicator_edit.html:63
+#: registration/templates/registration/team_edit.html:106
+#: registration/templates/registration/team_edit.html:159
+msgid "Additional settings"
+msgstr ""
+
+#: registration/templates/registration/adjudicator_edit.html:102
+msgctxt "button"
+msgid "Save adjudicator"
+msgstr ""
+
+#: registration/templates/registration/adjudicator_edit.html:103
+msgid "Back to adjudicator registration"
+msgstr ""
+
+#: registration/templates/registration/institution_edit.html:19
+#: registration/templates/registration/institution_view_response.html:23
+msgid "Primary contact"
+msgstr ""
+
+#: registration/templates/registration/institution_edit.html:25
+msgctxt "button"
+msgid "Save changes"
+msgstr ""
+
+#: registration/templates/registration/institution_edit.html:26
+msgid "Back to institution list"
+msgstr ""
+
+#: registration/templates/registration/institution_view_response.html:10
+msgid "This form is read-only. You can view your institution's registration response below but cannot edit it here."
+msgstr ""
+
+#: registration/templates/registration/institution_view_response.html:31
+msgid "Back to your private URL"
+msgstr ""
+
+#: registration/templates/registration/team_edit.html:61
+msgid "Team registration"
+msgstr ""
+
+#: registration/templates/registration/team_edit.html:64
+msgid "No institution"
+msgstr ""
+
+#: registration/templates/registration/team_edit.html:69
+msgid "Back to teams"
+msgstr ""
+
+#: registration/templates/registration/team_edit.html:76
+msgid "Team details"
+msgstr ""
+
+#: registration/templates/registration/team_edit.html:77
+msgid "Edit the team name, institution, emoji, categories and registration status."
+msgstr ""
+
+#: registration/templates/registration/team_edit.html:87
+msgid "Name and email stay visible; less common fields are tucked away."
+msgstr ""
+
+#: registration/templates/registration/team_edit.html:90
+msgid "Add speaker"
+msgstr ""
+
+#: registration/templates/registration/team_edit.html:103
+msgid "Speaker"
+msgstr ""
+
+#: registration/templates/registration/team_edit.html:138
+msgid "No speakers are listed yet. Add the first speaker when you need one."
+msgstr ""
+
+#: registration/templates/registration/team_edit.html:146
+msgctxt "button"
+msgid "Save team"
+msgstr ""
+
+#: registration/templates/registration/team_edit.html:147
+msgid "Back to team registration"
+msgstr ""
+
+#: registration/templates/registration/team_edit.html:157
+msgid "New speaker"
+msgstr ""
+
+#: registration/templates/slot_transfer_request_form.html:16
+msgid "Submit request"
+msgstr ""
+
+#: registration/templates/slot_transfer_request_form.html:17
+msgid "Cancel and return to private URL"
+msgstr ""
+
+#: registration/templates/speaker_registration_form.html:16
+msgctxt "button"
+msgid "Register as Speaker"
+msgstr ""
+
+#: registration/templates/team_wizard_speakers.html:6
 msgid "You may register speakers for the team, but if not all speakers are included, a link will be generated to let speakers register themselves to the team after submission which you can then distribute."
 msgstr ""
 
-#: registration/templates/wizard_registration_form.html
+#: registration/templates/wizard_registration_form.html:31
 msgctxt "button"
 msgid "Continue"
 msgstr ""
 
-#: registration/templates/wizard_registration_form.html
+#: registration/templates/wizard_registration_form.html:33
 msgctxt "button"
 msgid "Register"
 msgstr ""
 
-#: registration/views.py
+#: registration/utils.py:62
+msgid "Confirm"
+msgstr ""
+
+#: registration/utils.py:70 registration/utils.py:73
+#: users/templates/role_management.html:335
+msgid "Edit"
+msgstr ""
+
+#: registration/utils.py:92
+msgid "Approve"
+msgstr ""
+
+#: registration/views.py:100
 msgid "Register Institution"
 msgstr ""
 
-#: registration/views.py
+#: registration/views.py:170
 #, python-format
 msgid "Your institution %s has been registered!"
 msgstr ""
 
-#: registration/views.py
+#: registration/views.py:210 registration/views.py:473
 msgid "Register Speaker"
 msgid_plural "Register Speakers"
 msgstr[0] ""
 msgstr[1] ""
 
-#: registration/views.py
+#: registration/views.py:226 registration/views.py:402
 #, python-format
 msgid "from %s"
 msgstr ""
 
-#: registration/views.py
+#: registration/views.py:230 registration/views.py:1039
 #, python-format
 msgid "for %s"
 msgstr ""
 
-#: registration/views.py
+#: registration/views.py:279
 #, python-format
 msgid "Your team only has %(num)d speaker! Invite the other speakers to register using this link: <a href='%(link)s'>%(link)s</a>"
 msgid_plural "Your team only has %(num)d speakers! Invite the other speakers to register using this link: <a href='%(link)s'>%(link)s</a>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: registration/views.py
+#: registration/views.py:284
 #, python-format
 msgid "Your team %s has been registered!"
 msgstr ""
 
-#: registration/views.py
+#: registration/views.py:410
 msgid "You have been registered as an adjudicator!"
 msgstr ""
 
-#: registration/views.py
+#: registration/views.py:508
 msgid "You have been registered as a speaker!"
 msgstr ""
 
-#: registration/views.py
+#: registration/views.py:593
+msgid "Edit institution registration"
+msgstr ""
+
+#: registration/views.py:640
+#, python-format
+msgid "Institution %s updated."
+msgstr ""
+
+#: registration/views.py:648
+msgid "Edit team registration"
+msgstr ""
+
+#: registration/views.py:683
+#, python-format
+msgid "Team %s updated."
+msgstr ""
+
+#: registration/views.py:691
+msgid "Edit adjudicator registration"
+msgstr ""
+
+#: registration/views.py:723
+#, python-format
+msgid "Adjudicator %s updated."
+msgstr ""
+
+#: registration/views.py:732
+msgid "Registration form response"
+msgstr ""
+
+#: registration/views.py:771
+msgid "Transfer slots"
+msgstr ""
+
+#: registration/views.py:795
+msgid "Your slot transfer request has been submitted and is pending approval."
+msgstr ""
+
+#: registration/views.py:831
 msgid "Institutional Registration"
 msgstr ""
 
-#: registration/views.py
+#: registration/views.py:846 registration/views.py:973
+#: registration/views.py:999
 msgid "Responses"
 msgstr ""
 
-#: registration/views.py
+#: registration/views.py:847 seasonbreaks/templates/seasonbreaks/index.html:59
+#: seasonbreaks/templates/seasonbreaks/regions.html:55
 msgid "Name"
 msgstr ""
 
-#: registration/views.py
+#: registration/views.py:851
+msgid "Code"
+msgstr ""
+
+#: registration/views.py:852
 msgid "Coach"
 msgstr ""
 
-#: registration/views.py
+#: registration/views.py:856 registration/views.py:982
+#: registration/views.py:1001
+#: seasonbreaks/templates/seasonbreaks/speakers.html:20
+msgid "Email"
+msgstr ""
+
+#: registration/views.py:868
 msgid "Teams Requested"
 msgstr ""
 
-#: registration/views.py
+#: registration/views.py:871
 msgid "Teams Allocated"
 msgstr ""
 
-#: registration/views.py
+#: registration/views.py:876
 msgid "Teams Registered"
 msgstr ""
 
-#: registration/views.py
+#: registration/views.py:879
 msgid "Adjudicators Requested"
 msgstr ""
 
-#: registration/views.py
+#: registration/views.py:882
 msgid "Adjudicators Allocated"
 msgstr ""
 
-#: registration/views.py
+#: registration/views.py:887
 msgid "Adjudicators Registered"
 msgstr ""
 
-#: registration/views.py
+#: registration/views.py:890
+#: seasonbreaks/templates/seasonbreaks/overview.html:54
+#: seasonbreaks/templates/seasonbreaks/public_table.html:9
+#: seasonbreaks/templates/seasonbreaks/quotas.html:18
+#: seasonbreaks/templates/seasonbreaks/regions.html:90
+#: seasonbreaks/templates/seasonbreaks/teams.html:20
+#: seasonbreaks/templates/seasonbreaks/tournaments.html:49
+msgid "Region"
+msgstr ""
+
+#: registration/views.py:937
 msgid "Successfully modified institution allocations"
 msgstr ""
 
-#: registration/views.py
+#: registration/views.py:955
 msgid "Team Registration"
 msgstr ""
 
-#: registration/views.py
+#: registration/views.py:981
 #, python-format
 msgid "Speaker %d"
 msgstr ""
 
-#: registration/views.py
-msgid "Email"
-msgstr ""
-
-#: registration/views.py
+#: registration/views.py:991
 msgid "Adjudicator Registration"
 msgstr ""
 
-#: registration/views.py
+#: registration/views.py:1028
 msgid "Custom Questions"
 msgstr ""
 
-#: registration/views.py
+#: registration/views.py:1056
 #, python-format
 msgid "Questions for %(model)s were successfully saved."
 msgstr ""
 
-#: registration/views.py
+#: registration/views.py:1058
 msgid "No changes were made to the questions."
 msgstr ""
 
-#: settings/core.py
+#: registration/views.py:1079
+#, python-format
+msgid "%s has been confirmed."
+msgstr ""
+
+#: registration/views.py:1101 registration/views.py:1118
+msgid "Slot transfer requests"
+msgstr ""
+
+#: registration/views.py:1119
+msgid "From"
+msgstr ""
+
+#: registration/views.py:1120
+msgid "To"
+msgstr ""
+
+#: registration/views.py:1139
+msgid "Transfer request rejected."
+msgstr ""
+
+#: registration/views.py:1143
+msgid "Invalid request or transfer is no longer pending."
+msgstr ""
+
+#: registration/views.py:1176
+msgid "Transfer approved. An invitation email has been sent to the provided address. "
+msgstr ""
+
+#: registration/views.py:1177
+#, python-format
+msgid "You can also share this link: <a href=\"%(url)s\" class=\"alert-link\">%(url)s</a>"
+msgstr ""
+
+#: registration/views.py:1181
+msgid "Transfer approved."
+msgstr ""
+
+#: registration/views.py:1190 registration/views.py:1211
+msgid "Slot transfer summary"
+msgstr ""
+
+#: registration/views.py:1213
+msgid "Teams allocated"
+msgstr ""
+
+#: registration/views.py:1214
+msgid "Adjudicators allocated"
+msgstr ""
+
+#: registration/views.py:1215
+msgid "Net new teams"
+msgstr ""
+
+#: registration/views.py:1216
+msgid "Net new adjudicators"
+msgstr ""
+
+#: seasonbreaks/apps.py:7
+msgid "Season Breaks"
+msgstr ""
+
+#: seasonbreaks/forms.py:33
+msgid "Enter a valid slug."
+msgstr ""
+
+#: seasonbreaks/models.py:10
+msgid "view global breaks"
+msgstr ""
+
+#: seasonbreaks/models.py:11
+msgid "edit global breaks"
+msgstr ""
+
+#: seasonbreaks/models.py:12
+msgid "manage global breaks access"
+msgstr ""
+
+#: seasonbreaks/models.py:21
+msgid "global breaks permission"
+msgstr ""
+
+#: seasonbreaks/models.py:22
+msgid "global breaks permissions"
+msgstr ""
+
+#: seasonbreaks/models.py:30 seasonbreaks/models.py:60
+msgid "slug"
+msgstr ""
+
+#: seasonbreaks/models.py:31
+msgid "league"
+msgstr ""
+
+#: seasonbreaks/models.py:32
+msgid "regional final slots"
+msgstr ""
+
+#: seasonbreaks/models.py:33
+msgid "invited teams"
+msgstr ""
+
+#: seasonbreaks/models.py:34
+msgid "active"
+msgstr ""
+
+#: seasonbreaks/models.py:35 seasonbreaks/models.py:81
+msgid "show on public Breaks page"
+msgstr ""
+
+#: seasonbreaks/models.py:37
+msgid "show global ranking across regions on public Breaks page"
+msgstr ""
+
+#: seasonbreaks/models.py:38
+msgid "public snapshot published at"
+msgstr ""
+
+#: seasonbreaks/models.py:39
+msgid "public snapshot"
+msgstr ""
+
+#: seasonbreaks/models.py:44
+msgid "break season"
+msgstr ""
+
+#: seasonbreaks/models.py:45
+msgid "break seasons"
+msgstr ""
+
+#: seasonbreaks/models.py:64
+msgid "break league"
+msgstr ""
+
+#: seasonbreaks/models.py:65
+msgid "break leagues"
+msgstr ""
+
+#: seasonbreaks/models.py:72 seasonbreaks/models.py:94
+#: seasonbreaks/models.py:120 seasonbreaks/models.py:138
+#: seasonbreaks/models.py:152 seasonbreaks/models.py:166
+#: seasonbreaks/models.py:245 seasonbreaks/models.py:262
+msgid "season"
+msgstr ""
+
+#: seasonbreaks/models.py:74 seasonbreaks/models.py:98
+msgid "sequence"
+msgstr ""
+
+#: seasonbreaks/models.py:76
+msgid "expected tournaments this season"
+msgstr ""
+
+#: seasonbreaks/models.py:77
+msgid "Drives the best N−1 ranking rule. Leave at 0 to use the number of counting tournaments already added to this region."
+msgstr ""
+
+#: seasonbreaks/models.py:80
+msgid "source region"
+msgstr ""
+
+#: seasonbreaks/models.py:86
+msgid "break region"
+msgstr ""
+
+#: seasonbreaks/models.py:87
+msgid "break regions"
+msgstr ""
+
+#: seasonbreaks/models.py:97 seasonbreaks/models.py:211
+msgid "region"
+msgstr ""
+
+#: seasonbreaks/models.py:99
+msgid "counts for team and speaker break"
+msgstr ""
+
+#: seasonbreaks/models.py:100
+msgid "If unchecked, this tournament only counts toward adjudicator statistics."
+msgstr ""
+
+#: seasonbreaks/models.py:101
+msgid "frozen at"
+msgstr ""
+
+#: seasonbreaks/models.py:109
+msgid "break tournaments"
+msgstr ""
+
+#: seasonbreaks/models.py:125
+msgid "home region"
+msgstr ""
+
+#: seasonbreaks/models.py:130
+msgid "season break team"
+msgstr ""
+
+#: seasonbreaks/models.py:131
+msgid "season break teams"
+msgstr ""
+
+#: seasonbreaks/models.py:139 seasonbreaks/models.py:184
+#: seasonbreaks/models.py:213 seasonbreaks/models.py:230
+msgid "season team"
+msgstr ""
+
+#: seasonbreaks/models.py:144
+msgid "break team link"
+msgstr ""
+
+#: seasonbreaks/models.py:145
+msgid "break team links"
+msgstr ""
+
+#: seasonbreaks/models.py:154 seasonbreaks/models.py:247
+msgid "email"
+msgstr ""
+
+#: seasonbreaks/models.py:158
+msgid "season break speaker"
+msgstr ""
+
+#: seasonbreaks/models.py:159
+msgid "season break speakers"
+msgstr ""
+
+#: seasonbreaks/models.py:167 seasonbreaks/models.py:228
+msgid "season speaker"
+msgstr ""
+
+#: seasonbreaks/models.py:169
+msgid "speaker"
+msgstr ""
+
+#: seasonbreaks/models.py:173
+msgid "break speaker link"
+msgstr ""
+
+#: seasonbreaks/models.py:174
+msgid "break speaker links"
+msgstr ""
+
+#: seasonbreaks/models.py:185
+#: seasonbreaks/templates/seasonbreaks/ranking_region.html:28
+msgid "wins"
+msgstr ""
+
+#: seasonbreaks/models.py:186
+#: seasonbreaks/templates/seasonbreaks/ranking_region.html:29
+msgid "ballots"
+msgstr ""
+
+#: seasonbreaks/models.py:187
+msgid "speaker score"
+msgstr ""
+
+#: seasonbreaks/models.py:188
+msgid "rounds debated"
+msgstr ""
+
+#: seasonbreaks/models.py:189
+msgid "debated majority of rounds"
+msgstr ""
+
+#: seasonbreaks/models.py:194
+msgid "break team tournament result"
+msgstr ""
+
+#: seasonbreaks/models.py:195
+msgid "break team tournament results"
+msgstr ""
+
+#: seasonbreaks/models.py:217
+msgid "break cutoff advancement"
+msgstr ""
+
+#: seasonbreaks/models.py:218
+msgid "break cutoff advancements"
+msgstr ""
+
+#: seasonbreaks/models.py:231
+msgid "speeches"
+msgstr ""
+
+#: seasonbreaks/models.py:232
+msgid "rounds"
+msgstr ""
+
+#: seasonbreaks/models.py:237
+msgid "break speaker tournament participation"
+msgstr ""
+
+#: seasonbreaks/models.py:238
+msgid "break speaker tournament participations"
+msgstr ""
+
+#: seasonbreaks/models.py:253
+msgid "season break adjudicator"
+msgstr ""
+
+#: seasonbreaks/models.py:254
+msgid "season break adjudicators"
+msgstr ""
+
+#: seasonbreaks/models.py:264 seasonbreaks/models.py:281
+msgid "season adjudicator"
+msgstr ""
+
+#: seasonbreaks/models.py:266
+msgid "adjudicator"
+msgstr ""
+
+#: seasonbreaks/models.py:270
+msgid "break adjudicator link"
+msgstr ""
+
+#: seasonbreaks/models.py:271
+msgid "break adjudicator links"
+msgstr ""
+
+#: seasonbreaks/models.py:282
+msgid "chairs"
+msgstr ""
+
+#: seasonbreaks/models.py:283
+msgid "panellists"
+msgstr ""
+
+#: seasonbreaks/models.py:284
+msgid "trainees"
+msgstr ""
+
+#: seasonbreaks/models.py:285
+msgid "total"
+msgstr ""
+
+#: seasonbreaks/models.py:290 seasonbreaks/models.py:291
+msgid "break adjudicator tournament stats"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/access.html:6
+msgid "Breaks access"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/access.html:7
+msgid "Grant global access to the Breaks section."
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/access.html:13
+msgid "Return to Breaks"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/access.html:24
+msgid "Grant Breaks access"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/access.html:46
+msgid "No users have explicit Breaks access yet."
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/adjudicators.html:8
+msgid "Adjudicator stats"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/adjudicators.html:9
+msgid "Season totals from confirmed preliminary debates. Trainee debates are shown but excluded from totals."
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/adjudicators.html:13
+msgid "Manage adjudicator identities"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/adjudicators.html:20
+msgid "Adjudicator"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/adjudicators.html:20
+msgid "Chair"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/adjudicators.html:20
+msgid "Panellist"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/adjudicators.html:20
+msgid "Trainee"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/adjudicators.html:20
+msgid "Total"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/adjudicators.html:20
+msgid "Tournament detail"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/adjudicators.html:34
+msgid "non-league"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/adjudicators.html:35
+#, python-format
+msgid "+%(count)s trainee"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/adjudicators.html:41
+msgid "Freeze tournaments to calculate adjudicator stats."
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/base.html:21 seasonbreaks/views.py:59
+#: templates/nav/top_nav_base.html:75
+msgid "Break management"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/base.html:27
+#, python-format
+msgid "%(league)s · %(slots)s regional slots · %(invited)s invited teams"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/base.html:31
+msgid "Seasons, leagues, snapshots and regional break quotas."
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/base.html:74
+msgid "All"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/base.html:90
+msgid "Back to seasons"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/base.html:96
+#: seasonbreaks/templates/seasonbreaks/index.html:45
+msgid "Manage leagues"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/base.html:100
+#: seasonbreaks/templates/seasonbreaks/index.html:11
+#: seasonbreaks/templates/seasonbreaks/index.html:34
+msgid "Create season"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/global_ranking.html:8
+#: seasonbreaks/templates/seasonbreaks/public_season.html:31
+#: seasonbreaks/tests/test_breaks.py:449 seasonbreaks/tests/test_breaks.py:457
+#: seasonbreaks/views.py:116 seasonbreaks/views.py:149
+msgid "Global ranking"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/global_ranking.html:10
+msgid "Live ranking across all public regions. No published snapshot required."
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/global_ranking.html:14
+msgid "Shown on public page"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/global_ranking.html:16
+#: seasonbreaks/templates/seasonbreaks/regions.html:74
+#: seasonbreaks/tests/test_breaks.py:142
+msgid "Hidden from public page"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/identities.html:11
+msgid "Link tournament teams to season team identities."
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/identities.html:12
+#: seasonbreaks/templates/seasonbreaks/identities.html:24
+#: seasonbreaks/templates/seasonbreaks/identities.html:36
+msgid "identities"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/identities.html:12
+#: seasonbreaks/templates/seasonbreaks/identities.html:24
+#: seasonbreaks/templates/seasonbreaks/identities.html:36
+msgid "links"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/identities.html:23
+msgid "Link tournament speakers to season speaker identities."
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/identities.html:35
+msgid "Link tournament adjudicators to season adjudicator identities."
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/identities.html:47
+#: seasonbreaks/templates/seasonbreaks/identities.html:57
+msgid "Clean stale identities"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/identities.html:49
+msgid "Remove unlinked team, speaker and adjudicator identities that no longer have frozen results or statistics."
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/identities.html:55
+msgid "Remove all stale unlinked identities from this Breaks season?"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/identities_adjudicators.html:7
+msgid "Choose a source tournament, then repair only that tournament's adjudicator links."
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/identities_adjudicators.html:9
+#: seasonbreaks/templates/seasonbreaks/identities_speakers.html:9
+#: seasonbreaks/templates/seasonbreaks/identities_teams.html:9
+msgid "Identity categories"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/identities_adjudicators.html:15
+msgid "Create adjudicator identity"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/identities_adjudicators.html:25
+#: seasonbreaks/templates/seasonbreaks/identities_speakers.html:24
+#: seasonbreaks/templates/seasonbreaks/identities_teams.html:25
+msgid "Create"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/identities_adjudicators.html:33
+#: seasonbreaks/templates/seasonbreaks/identities_speakers.html:32
+#: seasonbreaks/templates/seasonbreaks/identities_teams.html:33
+msgid "Choose tournament"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/identities_adjudicators.html:44
+msgid "Freeze a tournament to create adjudicator links."
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/identities_adjudicators.html:53
+msgid "Tournament adjudicator to season adjudicator"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/identities_adjudicators.html:59
+msgid "Tournament adjudicator"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/identities_adjudicators.html:61
+#: seasonbreaks/templates/seasonbreaks/identities_speakers.html:60
+#: seasonbreaks/templates/seasonbreaks/identities_teams.html:60
+msgid "Season identity"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/identities_adjudicators.html:88
+#: seasonbreaks/templates/seasonbreaks/identities_speakers.html:87
+#: seasonbreaks/templates/seasonbreaks/identities_teams.html:86
+#: seasonbreaks/templates/seasonbreaks/index.html:73
+#: seasonbreaks/templates/seasonbreaks/regions.html:78
+#: seasonbreaks/templates/seasonbreaks/tournaments.html:67
+msgid "Save"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/identities_adjudicators.html:101
+msgid "Pick a tournament above to edit its adjudicator links."
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/identities_speakers.html:7
+msgid "Choose a source tournament, then repair only that tournament's speaker links."
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/identities_speakers.html:15
+msgid "Create speaker identity"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/identities_speakers.html:43
+msgid "Freeze a tournament to create speaker links."
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/identities_speakers.html:52
+msgid "Tournament speaker to season speaker"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/identities_speakers.html:58
+msgid "Tournament speaker"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/identities_speakers.html:59
+#: seasonbreaks/templates/seasonbreaks/identities_teams.html:59
+msgid "Tournament team"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/identities_speakers.html:100
+msgid "Pick a tournament above to edit its speaker links."
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/identities_teams.html:7
+msgid "Choose a source tournament, then repair only that tournament's team links."
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/identities_teams.html:15
+msgid "Create team identity"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/identities_teams.html:44
+msgid "Freeze a tournament to create team links."
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/identities_teams.html:53
+msgid "Tournament team to season team"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/identities_teams.html:99
+msgid "Pick a tournament above to edit its team links."
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/index.html:46
+msgid "Leagues group seasons for filtering and API exports."
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/index.html:54
+msgid "Add league"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/index.html:59
+msgid "Slug"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/index.html:59
+msgid "Seasons"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/index.html:83
+msgid "Delete"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/index.html:88
+msgid "No break leagues have been created yet."
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/index.html:108
+#: seasonbreaks/templates/seasonbreaks/overview.html:77
+#: seasonbreaks/templates/seasonbreaks/regions.html:90
+msgid "Public"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/index.html:110
+msgid "Waiting"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/index.html:112
+#: seasonbreaks/templates/seasonbreaks/overview.html:79
+#: seasonbreaks/templates/seasonbreaks/regions.html:103
+msgid "Hidden"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/index.html:117
+#: seasonbreaks/templates/seasonbreaks/tournaments.html:64
+#: seasonbreaks/templates/seasonbreaks/tournaments.html:70
+msgid "League"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/index.html:121
+#: seasonbreaks/templates/seasonbreaks/overview.html:17
+#: seasonbreaks/templates/seasonbreaks/public_season.html:13
+#: seasonbreaks/views.py:109 seasonbreaks/views.py:128
+#: seasonbreaks/views.py:129
+msgid "Regions"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/index.html:124 seasonbreaks/views.py:110
+#: seasonbreaks/views.py:132 seasonbreaks/views.py:133
+msgid "Tournaments"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/index.html:127
+#: seasonbreaks/templates/seasonbreaks/overview.html:18
+msgid "Regional slots"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/index.html:130
+msgid "Last published"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/index.html:134
+#: seasonbreaks/templates/seasonbreaks/overview.html:86
+msgid "Never"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/index.html:139
+msgid "Open season"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/index.html:149
+msgid "No seasons"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/index.html:151
+msgid "This league does not have a break season yet."
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/index.html:153
+msgid "Start by creating the first season."
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/overview.html:6
+msgid "Public Breaks use a manually published snapshot. Live edits appear only after you publish a new snapshot."
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/overview.html:16
+msgid "Structure"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/overview.html:19
+msgid "Invited teams"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/overview.html:26
+msgid "Snapshots"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/overview.html:27
+msgid "League tournaments"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/overview.html:28
+msgid "Non-league tournaments"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/overview.html:29
+#: seasonbreaks/templates/seasonbreaks/tournaments.html:49
+#: seasonbreaks/templates/seasonbreaks/tournaments.html:77
+msgid "Frozen"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/overview.html:36
+#: seasonbreaks/views.py:111
+msgid "Identities"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/overview.html:50
+msgid "Region quotas"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/overview.html:51
+msgid "Largest remainder"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/overview.html:54
+#: seasonbreaks/templates/seasonbreaks/public_table.html:14
+#: seasonbreaks/templates/seasonbreaks/quotas.html:19
+#: seasonbreaks/templates/seasonbreaks/ranking_region.html:61
+msgid "Participations"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/overview.html:54
+msgid "Slots"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/overview.html:63
+msgid "Add regions and tournaments before calculating quotas."
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/overview.html:75
+msgid "Public snapshot"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/overview.html:83
+msgid "The public Breaks page shows the last published snapshot, not live data."
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/overview.html:85
+msgid "Last published:"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/overview.html:95
+msgid "Show the global ranking across regions on the public page"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/overview.html:98
+msgid "Publish public snapshot"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/overview.html:101
+msgid "Preview global ranking"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/overview.html:112
+#: seasonbreaks/views.py:157
+msgid "Season settings"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/overview.html:134
+msgid "Save settings"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/overview.html:141
+msgid "Danger zone"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/overview.html:143
+msgid "Permanently deletes the season, its regions, frozen snapshots, identities, rankings and public snapshot."
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/overview.html:144
+msgid "Delete this break season permanently?"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/overview.html:148
+msgid "Delete season"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/public_index.html:7
+msgid "Published Break seasons"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/public_index.html:12
+#, python-format
+msgid "%(league)s · published %(published)s"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/public_index.html:18
+msgid "No public Breaks seasons have been published yet."
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/public_region.html:6
+#: seasonbreaks/templates/seasonbreaks/public_season.html:6
+msgid "Return back"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/public_season.html:18
+#, python-format
+msgid "%(slots)s slots · %(participations)s participations"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/public_season.html:23
+msgid "No regions were published in this snapshot."
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/public_table.html:6
+#: seasonbreaks/templates/seasonbreaks/rankings.html:26
+msgid "Rank"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/public_table.html:7
+#: seasonbreaks/templates/seasonbreaks/ranking_region.html:59
+#: seasonbreaks/templates/seasonbreaks/rankings.html:26
+msgid "Team"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/public_table.html:11
+#: seasonbreaks/templates/seasonbreaks/ranking_region.html:63
+msgid "Wins"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/public_table.html:12
+#: seasonbreaks/templates/seasonbreaks/ranking_region.html:64
+msgid "Ballots"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/public_table.html:13
+#: seasonbreaks/tests/test_breaks.py:436
+msgid "Speaker points"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/public_table.html:33
+msgid "No ranking rows were published in this snapshot."
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/quotas.html:7
+msgid "Largest remainder calculation"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/quotas.html:9
+#, python-format
+msgid "%(slots)s regional slots · %(invited)s invited teams. Raw quota, floor and remainder are shown for auditability."
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/quotas.html:20
+msgid "Raw quota"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/quotas.html:21
+msgid "Floor"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/quotas.html:22
+msgid "Remainder"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/quotas.html:23
+msgid "Allocated"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/quotas.html:37
+#: seasonbreaks/templates/seasonbreaks/rankings.html:52
+msgid "No regions yet."
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/ranking_region.html:8
+#, python-format
+msgid "1 final seat is tied — resolve it manually"
+msgid_plural "%(counter)s final seats are tied — resolve them manually"
+msgstr[0] ""
+msgstr[1] ""
+
+#: seasonbreaks/templates/seasonbreaks/ranking_region.html:16
+msgid "These teams are tied on every ranking metric at the break cutoff. Tabbycat will not pick between identical records automatically — apply your league's tiebreak rule and choose who advances."
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/ranking_region.html:30
+msgid "speaks"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/ranking_region.html:35
+msgid "Save resolution"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/ranking_region.html:37
+msgid "Resolved"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/ranking_region.html:41
+msgid "An editor must resolve this tie before it is final."
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/ranking_region.html:48
+msgid "ranking"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/ranking_region.html:51
+msgid "Back to all regions"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/ranking_region.html:62
+#: seasonbreaks/templates/seasonbreaks/rankings.html:26
+msgid "Eligible speakers"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/ranking_region.html:65
+msgid "Speaks"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/ranking_region.html:66
+msgid "Notes"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/ranking_region.html:76
+#: seasonbreaks/templates/seasonbreaks/rankings.html:34
+msgid "Advancing"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/ranking_region.html:78
+msgid "Tied for final seat"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/ranking_region.html:80
+msgid "Eligible"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/ranking_region.html:82
+msgid "Ineligible"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/ranking_region.html:90
+#: seasonbreaks/templates/seasonbreaks/rankings.html:40
+msgid "None"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/ranking_region.html:97
+msgid "Tie at cutoff"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/ranking_region.html:102
+msgid "No frozen results for this region."
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/rankings.html:12
+#, python-format
+msgid "1 eligible team"
+msgid_plural "%(teams_count)s eligible teams"
+msgstr[0] ""
+msgstr[1] ""
+
+#: seasonbreaks/templates/seasonbreaks/rankings.html:21
+msgid "Open full ranking"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/rankings.html:45
+msgid "No eligible teams in this region yet."
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/regions.html:11
+#: seasonbreaks/templates/seasonbreaks/regions.html:31
+msgid "Add region"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/regions.html:41
+msgid "Season regions"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/regions.html:42
+msgid "Hidden regions stay internal but are excluded from the next public snapshot."
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/regions.html:58
+#: seasonbreaks/templates/seasonbreaks/regions.html:90
+msgid "Source region"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/regions.html:61
+#: seasonbreaks/templates/seasonbreaks/regions.html:90
+#: seasonbreaks/templates/seasonbreaks/tournaments.html:49
+msgid "Seq"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/regions.html:64
+#: seasonbreaks/templates/seasonbreaks/regions.html:90
+msgid "Expected tournaments"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/regions.html:69
+#: seasonbreaks/templates/seasonbreaks/regions.html:101
+msgid "Visible"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/regions.html:83
+#: seasonbreaks/templates/seasonbreaks/regions.html:108
+msgid "Create regions before assigning source tournaments."
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/regions.html:98
+msgid "Auto"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/speakers.html:8
+msgid "Season speakers"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/speakers.html:9
+msgid "Season-level speaker identities used for eligibility checks."
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/speakers.html:13
+msgid "Manage speaker identities"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/speakers.html:20
+msgid "Season speaker"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/speakers.html:20
+msgid "Linked speakers"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/speakers.html:31
+#: seasonbreaks/templates/seasonbreaks/teams.html:32
+msgid "No links"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/speakers.html:36
+msgid "Freeze a tournament to create speaker mappings."
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/teams.html:8
+msgid "Season teams"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/teams.html:9
+msgid "Season-level team identities used for ranking and eligibility."
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/teams.html:13
+msgid "Manage team identities"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/teams.html:20
+msgid "Season team"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/teams.html:20
+msgid "Linked tournament teams"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/teams.html:37
+msgid "Freeze a tournament to create team mappings."
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/tournaments.html:11
+#: seasonbreaks/templates/seasonbreaks/tournaments.html:33
+msgid "Add tournament"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/tournaments.html:43
+msgid "Assigned tournaments"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/tournaments.html:44
+msgid "Non-league tournaments count only for adjudicator statistics."
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/tournaments.html:65
+#: seasonbreaks/templates/seasonbreaks/tournaments.html:72
+msgid "Non-league"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/tournaments.html:79
+msgid "Live"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/tournaments.html:89
+msgid "Freeze / Update"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/tournaments.html:95
+msgid "Remove this tournament from this Breaks season?"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/tournaments.html:96
+msgid "Remove"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/tournaments.html:103
+msgid "No tournaments are assigned to this season yet."
+msgstr ""
+
+#: seasonbreaks/views.py:114 seasonbreaks/views.py:145
+msgid "Quotas"
+msgstr ""
+
+#: seasonbreaks/views.py:115 seasonbreaks/views.py:147
+msgid "Rankings"
+msgstr ""
+
+#: seasonbreaks/views.py:126
+msgid "Status, frozen data and quotas"
+msgstr ""
+
+#: seasonbreaks/views.py:130
+msgid "Region settings and public visibility"
+msgstr ""
+
+#: seasonbreaks/views.py:134
+msgid "Source tournaments and snapshots"
+msgstr ""
+
+#: seasonbreaks/views.py:136
+msgid "Identity"
+msgstr ""
+
+#: seasonbreaks/views.py:137
+msgid "Identity hub"
+msgstr ""
+
+#: seasonbreaks/views.py:138
+msgid "Teams, speakers and adjudicators"
+msgstr ""
+
+#: seasonbreaks/views.py:140
+msgid "Season team identities"
+msgstr ""
+
+#: seasonbreaks/views.py:142
+msgid "Season speaker identities"
+msgstr ""
+
+#: seasonbreaks/views.py:144 seasonbreaks/views.py:281
+#: templates/nav/admin_nav.html:294 users/forms.py:111
+msgid "Breaks"
+msgstr ""
+
+#: seasonbreaks/views.py:146
+msgid "Regional slot calculation"
+msgstr ""
+
+#: seasonbreaks/views.py:148
+msgid "Team rankings and eligibility"
+msgstr ""
+
+#: seasonbreaks/views.py:150
+msgid "Cross-region ranking preview"
+msgstr ""
+
+#: seasonbreaks/views.py:154
+msgid "Chair, panel and trainee statistics"
+msgstr ""
+
+#: seasonbreaks/views.py:156
+msgid "Settings"
+msgstr ""
+
+#: seasonbreaks/views.py:158
+msgid "Public visibility, season fields and dangerous actions"
+msgstr ""
+
+#: seasonbreaks/views.py:159
+msgid "Global Breaks permissions"
+msgstr ""
+
+#: seasonbreaks/views.py:200
+#, python-format
+msgid "Break league %(league)s was created."
+msgstr ""
+
+#: seasonbreaks/views.py:208
+#, python-format
+msgid "Break league %(league)s was updated."
+msgstr ""
+
+#: seasonbreaks/views.py:217
+#, python-format
+msgid "Break league %(league)s cannot be deleted because it still has seasons."
+msgstr ""
+
+#: seasonbreaks/views.py:219
+#, python-format
+msgid "Break league %(league)s was deleted."
+msgstr ""
+
+#: seasonbreaks/views.py:224
+#, python-format
+msgid "Break season %(season)s was created."
+msgstr ""
+
+#: seasonbreaks/views.py:248
+msgid "Public Breaks snapshot was published."
+msgstr ""
+
+#: seasonbreaks/views.py:251
+msgid "A tie at the break cutoff is still unresolved. The affected teams are published as not advancing until an editor resolves the tie on the region ranking page and republishes."
+msgstr ""
+
+#: seasonbreaks/views.py:263
+#, python-format
+msgid "Break season %(season)s cannot be deleted because it still has protected data."
+msgstr ""
+
+#: seasonbreaks/views.py:267
+#, python-format
+msgid "Break season %(season)s was deleted."
+msgstr ""
+
+#: seasonbreaks/views.py:272
+msgid "Break season settings were updated."
+msgstr ""
+
+#: seasonbreaks/views.py:361
+#, python-format
+msgid "Region %(region)s was added."
+msgstr ""
+
+#: seasonbreaks/views.py:369
+#, python-format
+msgid "Region %(region)s was updated."
+msgstr ""
+
+#: seasonbreaks/views.py:392
+#, python-format
+msgid "Tournament %(tournament)s was added."
+msgstr ""
+
+#: seasonbreaks/views.py:417
+msgid "Tournament type was updated."
+msgstr ""
+
+#: seasonbreaks/views.py:439
+#, python-format
+msgid "Tournament %(tournament)s was removed from this Breaks season."
+msgstr ""
+
+#: seasonbreaks/views.py:444
+#, python-format
+msgid "Updated snapshot: %(teams)d teams, %(speakers)d speaker links, %(adjudicators)d adjudicators."
+msgstr ""
+
+#: seasonbreaks/views.py:511
+#, python-format
+msgid "Cleaned stale identities: %(teams)d teams, %(speakers)d speakers, %(adjudicators)d adjudicators."
+msgstr ""
+
+#: seasonbreaks/views.py:524 seasonbreaks/views.py:567
+msgid "Unknown tournament"
+msgstr ""
+
+#: seasonbreaks/views.py:543
+#, python-format
+msgid "Season team %(team)s was created."
+msgstr ""
+
+#: seasonbreaks/views.py:552
+msgid "Team link was updated."
+msgstr ""
+
+#: seasonbreaks/views.py:586
+#, python-format
+msgid "Season speaker %(speaker)s was created."
+msgstr ""
+
+#: seasonbreaks/views.py:595
+msgid "Speaker link was updated."
+msgstr ""
+
+#: seasonbreaks/views.py:610
+msgid "Shared adjudicators"
+msgstr ""
+
+#: seasonbreaks/views.py:629
+#, python-format
+msgid "Season adjudicator %(adjudicator)s was created."
+msgstr ""
+
+#: seasonbreaks/views.py:638
+msgid "Adjudicator link was updated."
+msgstr ""
+
+#: seasonbreaks/views.py:709
+msgid "There is no tie to resolve in this region."
+msgstr ""
+
+#: seasonbreaks/views.py:724
+#, python-format
+msgid "Select exactly %(n)d team(s) to take the remaining seat(s)."
+msgstr ""
+
+#: seasonbreaks/views.py:732
+msgid "The tie at the cutoff was resolved."
+msgstr ""
+
+#: seasonbreaks/views.py:793
+#, python-format
+msgid "Breaks access updated for %(user)s."
+msgstr ""
+
+#: settings/core.py:68
 msgid "Arabic"
 msgstr ""
 
-#: settings/core.py
+#: settings/core.py:69
 msgid "Asturian"
 msgstr ""
 
-#: settings/core.py
+#: settings/core.py:70
 msgid "Bengali"
 msgstr ""
 
-#: settings/core.py
+#: settings/core.py:71
 msgid "Bulgarian"
 msgstr ""
 
-#: settings/core.py
+#: settings/core.py:72
 msgid "Catalan"
 msgstr ""
 
-#: settings/core.py
+#: settings/core.py:73
 msgid "Czech"
 msgstr ""
 
-#: settings/core.py
+#: settings/core.py:74
 msgid "German"
 msgstr ""
 
-#: settings/core.py
+#: settings/core.py:75
 msgid "English"
 msgstr ""
 
-#: settings/core.py
+#: settings/core.py:76
 msgid "Spanish"
 msgstr ""
 
-#: settings/core.py
+#: settings/core.py:77
 msgid "French"
 msgstr ""
 
-#: settings/core.py
+#: settings/core.py:78
 msgid "Hebrew"
 msgstr ""
 
-#: settings/core.py
+#: settings/core.py:79
 msgid "Hindi"
 msgstr ""
 
-#: settings/core.py
+#: settings/core.py:80
 msgid "Indonesian"
 msgstr ""
 
-#: settings/core.py
+#: settings/core.py:81
 msgid "Italian"
 msgstr ""
 
-#: settings/core.py
+#: settings/core.py:82
 msgid "Japanese"
 msgstr ""
 
-#: settings/core.py
+#: settings/core.py:83
 msgid "Kazakh"
 msgstr ""
 
-#: settings/core.py
+#: settings/core.py:84
 msgid "Malay"
 msgstr ""
 
-#: settings/core.py
+#: settings/core.py:85
 msgid "Portuguese"
 msgstr ""
 
-#: settings/core.py
+#: settings/core.py:86
 msgid "Romanian"
 msgstr ""
 
-#: settings/core.py
+#: settings/core.py:87
 msgid "Russian"
 msgstr ""
 
-#: settings/core.py
+#: settings/core.py:88
+msgid "Slovak"
+msgstr ""
+
+#: settings/core.py:89
 msgid "Turkish"
 msgstr ""
 
-#: settings/core.py
+#: settings/core.py:90
 msgid "Vietnamese"
 msgstr ""
 
-#: settings/core.py
+#: settings/core.py:91
 msgid "Simplified Chinese"
 msgstr ""
 
-#: settings/core.py
+#: settings/core.py:92
 msgid "Translation"
 msgstr ""
 
-#: templates/admin/delete_protected_message.html
+#: templates/admin/delete_protected_message.html:4
 msgid "You need to delete the above objects first."
 msgstr ""
 
-#: templates/admin/style_guide.html
+#: templates/admin/style_guide.html:30
 msgid "This style of info card announces critical information. <a href=\"\">Link</a>."
 msgstr ""
 
-#: templates/admin/style_guide.html
+#: templates/admin/style_guide.html:33
 msgid "This style of info card announces general <a href=\"\">information</a>."
 msgstr ""
 
-#: templates/admin/style_guide.html
+#: templates/admin/style_guide.html:160
 msgctxt "page title"
 msgid "Form Title"
 msgstr ""
 
-#: templates/admin/style_guide.html
+#: templates/admin/style_guide.html:161
 msgid "Sub Title Title"
 msgstr ""
 
-#: templates/admin/style_guide.html templates/registration/login.html
+#: templates/admin/style_guide.html:197 templates/registration/login.html:61
 msgctxt "button"
 msgid "Log In"
 msgstr ""
 
-#: templates/admin/style_guide.html templates/registration/login.html
+#: templates/admin/style_guide.html:198 templates/registration/login.html:62
 msgctxt "button"
 msgid "I forgot my password"
 msgstr ""
 
-#: templates/base.html
+#: templates/base.html:10
 msgid "Tabbycat"
 msgstr ""
 
-#: templates/base.html
+#: templates/base.html:13
 #, python-format
 msgid "The tab for %(tournament)s runs on Tabbycat, a source-available tab system for a variety of parliamentary debating formats"
 msgstr ""
 
-#: templates/base.html
+#: templates/base.html:17
 msgid "This tab runs on Tabbycat, a source-available tab system for a variety of parliamentary debating formats"
 msgstr ""
 
-#: templates/components/form-errors.html
+#: templates/components/form-errors.html:4
 msgid "Whoops! There was an error with one or more fields."
 msgstr ""
 
-#: templates/components/formset.html
+#: templates/components/formset.html:23
 msgid "Save and Add More"
 msgstr ""
 
-#: templates/errors/assistant_403.html templates/errors/public_403.html
+#: templates/errors/assistant_403.html:4 templates/errors/assistant_403.html:6
+#: templates/errors/public_403.html:4 templates/errors/public_403.html:6
 msgid "Permission Denied (403)"
 msgstr ""
 
-#: templates/errors/assistant_403.html
+#: templates/errors/assistant_403.html:13
 #, python-format
 msgid "This assistant page isn't enabled for this tournament. <a href=\"%(url)s\">Back to the assistant home page.</a>"
 msgstr ""
 
-#: templates/errors/database_limit_warning.html
+#: templates/errors/database_limit_warning.html:9
 #, python-format
 msgid "You're currently using %(nrows)s row in your database. If you haven't already upgraded your Heroku database to a paid tier, it's limited to a maximum of 10,000 rows. As you're close to this limit, you should <strong>not create new tournaments</strong> on this site unless and until you've <a href=\"https://devcenter.heroku.com/articles/upgrading-heroku-postgres-databases\">upgraded your database</a> to a paid tier."
 msgid_plural "You're currently using %(nrows)s rows in your database. If you haven't already upgraded your Heroku database to a paid tier, it's limited to a maximum of 10,000 rows. As you're close to this limit, you should <strong>not create new tournaments</strong> on this site unless and until you've <a href=\"https://devcenter.heroku.com/articles/upgrading-heroku-postgres-databases\">upgraded your database</a> to a paid tier."
 msgstr[0] ""
 msgstr[1] ""
 
-#: templates/errors/legacy_sendgrid_warning.html
+#: templates/errors/legacy_sendgrid_warning.html:11
 msgid "It looks like you're using the old SendGrid config vars on Heroku, <code>SENDGRID_USERNAME</code> and <code>SENDGRID_PASSWORD</code>. These are now deprecated (as of version 2.6), and will stop working in a future version of Tabbycat. Please change your config vars to use <code>SENDGRID_API_KEY</code> instead. For more information, please see <a href=\"https://tabbycat.readthedocs.io/en/stable/features/notifications.html#configuring-an-email-provider\"> our documentation on this topic</a>."
 msgstr ""
 
-#: templates/errors/public_403.html
+#: templates/errors/public_403.html:14
 #, python-format
 msgid "Whoops! This page isn't enabled for this tournament. <a href=\"%(url)s\">Back to the tournament home page.</a>"
 msgstr ""
 
-#: templates/errors/public_403.html
+#: templates/errors/public_403.html:20
 #, python-format
 msgid "Whoops! This page isn't enabled for this tournament. <a href=\"%(url)s\">Back to the home page.</a>"
 msgstr ""
 
-#: templates/footer.html
+#: templates/footer.html:14
 #, python-format
 msgid "%(tournament)s runs on Tabbycat %(tabbycat_version)s (%(tabbycat_codename)s)"
 msgstr ""
 
-#: templates/footer.html
+#: templates/footer.html:16
 #, python-format
 msgid "This site runs on Tabbycat %(tabbycat_version)s (%(tabbycat_codename)s)"
 msgstr ""
 
-#: templates/footer.html
+#: templates/footer.html:20
+msgid "This SDA-hosted version is an unofficial modified fork maintained by <strong class=\"font-weight-bold text-dark\">Sebastian Grof</strong>. The official Tabbycat project is available at <strong><a href=\"https://tabbycat-debate.org/\">tabbycat-debate.org</a></strong>. See <a href=\"https://github.com/sebastian-grof/tabbycat/blob/develop/MODIFICATIONS.md\">Modifications</a> and <a href=\"https://github.com/sebastian-grof/tabbycat\">Source Code</a>."
+msgstr ""
+
+#: templates/footer.html:25
 msgid "Tabbycat is an open-source project developed by volunteers and is free to use."
 msgstr ""
 
-#: templates/footer.html
+#: templates/footer.html:29
 #, python-format
 msgid "For a tournament of this size, we suggest <a href=\"https://opencollective.com/tabbycat/contribute/licensing-29466/checkout?amount=%(amount)s\">a donation of <strong>$%(amount)s</strong></a>."
 msgstr ""
 
-#: templates/footer.html
+#: templates/footer.html:33
 msgid "Learn more about donating."
 msgstr ""
 
-#: templates/footer.html
+#: templates/footer.html:36
 msgid "<a href=\"https://opencollective.com/tabbycat\">Donations to Tabbycat from individuals or organisations</a> are much appreciated and help us to continue to develop, support, and maintain Tabbycat."
 msgstr ""
 
-#: templates/footer.html
+#: templates/footer.html:44
 msgid "Still timing debates with the stopwatch app?"
 msgstr ""
 
-#: templates/footer.html
+#: templates/footer.html:46
 #, python-format
 msgid "Using an app designed for debate timekeeping makes speaking and adjudicating easier! Check out <a href=\"https://itunes.apple.com/app/apple-store/id1156065589?pt=814172&ct=Tabbycat%%20Installs&mt=8\">Timekept</a> (iPhone/iPad) or <a href=\"https://play.google.com/store/apps/details?id=net.czlee.debatekeeper&referrer=utm_source%%3Dtabbycat%%26utm_medium%%3Dfooter\">Debatekeeper</a> (Android)."
 msgstr ""
 
-#: templates/footer.html
+#: templates/footer.html:55
 msgid "Our Organisation"
 msgstr ""
 
-#: templates/footer.html
+#: templates/footer.html:57
 msgid "Tabbycat is supported by the <a href=\"https://tabbycat-debate.org/\">Tabbycat Debate Association</a>, a non-profit for advancing open debate technology."
 msgstr ""
 
-#: templates/footer.html users/groups.py
+#: templates/footer.html:70
 msgid "Language"
 msgstr ""
 
-#: templates/footer.html
+#: templates/footer.html:77
 msgid "GitHub"
 msgstr ""
 
-#: templates/footer.html
+#: templates/footer.html:83
+msgid "Source Code"
+msgstr ""
+
+#: templates/footer.html:89
+msgid "Modifications"
+msgstr ""
+
+#: templates/footer.html:95
 msgid "Documentation"
 msgstr ""
 
-#: templates/footer.html
+#: templates/footer.html:101
 msgid "Support"
 msgstr ""
 
-#: templates/footer.html
+#: templates/footer.html:107
 msgid "Facebook"
 msgstr ""
 
-#: templates/footer.html
+#: templates/footer.html:113
 msgid "Set Up A Copy"
 msgstr ""
 
-#: templates/footer.html
+#: templates/footer.html:128
 msgid "Change Language"
 msgstr ""
 
-#: templates/footer.html
+#: templates/footer.html:145
 msgid "Use this language"
 msgstr ""
 
-#: templates/nav/admin_nav.html templates/nav/top_nav_base.html
+#: templates/nav/admin_nav.html:9 templates/nav/top_nav_base.html:6
 msgid "Tabbycat Logo"
 msgstr ""
 
-#: templates/nav/admin_nav.html templates/nav/top_nav_base.html
+#: templates/nav/admin_nav.html:28 templates/nav/top_nav_base.html:91
 msgid "Site Home"
 msgstr ""
 
-#: templates/nav/admin_nav.html
+#: templates/nav/admin_nav.html:31
 msgid "New Tournament"
 msgstr ""
 
-#: templates/nav/admin_nav.html templates/nav/top_nav_base.html
+#: templates/nav/admin_nav.html:34 templates/nav/top_nav_base.html:62
 msgid "Edit Database"
 msgstr ""
 
-#: templates/nav/admin_nav.html
+#: templates/nav/admin_nav.html:44
 msgid "Admin Area"
 msgstr ""
 
-#: templates/nav/admin_nav.html
+#: templates/nav/admin_nav.html:49
 msgid "Assistant Area"
 msgstr ""
 
-#: templates/nav/admin_nav.html
+#: templates/nav/admin_nav.html:53
 msgid "Public Area"
 msgstr ""
 
-#: templates/nav/admin_nav.html
-msgid "Overview"
-msgstr ""
-
-#: templates/nav/admin_nav.html
+#: templates/nav/admin_nav.html:70
 msgid "Setup"
 msgstr ""
 
-#: templates/nav/admin_nav.html
+#: templates/nav/admin_nav.html:77
 msgid "Configuration"
 msgstr ""
 
-#: templates/nav/admin_nav.html
+#: templates/nav/admin_nav.html:80
 msgid "Import Data"
 msgstr ""
 
-#: templates/nav/admin_nav.html templates/nav/assistant_nav.html
-#: templates/nav/public_nav.html
+#: templates/nav/admin_nav.html:84 templates/nav/assistant_nav.html:18
+#: templates/nav/public_nav.html:175 users/forms.py:23
 msgid "Participants"
 msgstr ""
 
-#: templates/nav/admin_nav.html
+#: templates/nav/admin_nav.html:88
 msgid "Private URLs"
 msgstr ""
 
-#: templates/nav/admin_nav.html templates/nav/public_nav.html
+#: templates/nav/admin_nav.html:92 templates/nav/public_nav.html:190
 msgid "Schedule"
 msgstr ""
 
-#: templates/nav/admin_nav.html
+#: templates/nav/admin_nav.html:96
 msgid "Emails"
 msgstr ""
 
-#: templates/nav/admin_nav.html
+#: templates/nav/admin_nav.html:100
 msgid "Preformed Panels"
 msgstr ""
 
-#: templates/nav/admin_nav.html
+#: templates/nav/admin_nav.html:104
 msgid "Export XML"
 msgstr ""
 
-#: templates/nav/admin_nav.html templates/nav/public_nav.html
+#: templates/nav/admin_nav.html:114 templates/nav/public_nav.html:160
 msgid "Sides"
 msgstr ""
 
-#: templates/nav/admin_nav.html users/groups.py
+#: templates/nav/admin_nav.html:122 users/groups.py:89
 msgid "Registration"
 msgstr ""
 
-#: templates/nav/admin_nav.html templates/nav/assistant_nav.html
+#: templates/nav/admin_nav.html:160 templates/nav/assistant_nav.html:48
 msgid "People's Status"
 msgstr ""
 
-#: templates/nav/admin_nav.html
+#: templates/nav/admin_nav.html:164
 msgid "Rooms' Status"
 msgstr ""
 
-#: templates/nav/admin_nav.html
-msgid "Feedback"
-msgstr ""
-
-#: templates/nav/admin_nav.html
+#: templates/nav/admin_nav.html:191
 msgid "Latest"
 msgstr ""
 
-#: templates/nav/admin_nav.html
+#: templates/nav/admin_nav.html:194
 msgid "Important"
 msgstr ""
 
-#: templates/nav/admin_nav.html
+#: templates/nav/admin_nav.html:197
 msgid "Comments"
 msgstr ""
 
-#: templates/nav/admin_nav.html
+#: templates/nav/admin_nav.html:200
 msgid "Find by Source"
 msgstr ""
 
-#: templates/nav/admin_nav.html
+#: templates/nav/admin_nav.html:203
 msgid "Find by Target"
 msgstr ""
 
-#: templates/nav/admin_nav.html
+#: templates/nav/admin_nav.html:208
 msgid "Unsubmitted"
 msgstr ""
 
-#: templates/nav/admin_nav.html
+#: templates/nav/admin_nav.html:213
 msgid "Feedback Questions"
 msgstr ""
 
-#: templates/nav/admin_nav.html
+#: templates/nav/admin_nav.html:218
 msgid "Add Feedback"
 msgstr ""
 
-#: templates/nav/admin_nav.html
+#: templates/nav/admin_nav.html:223
 msgid "Bulk Update"
 msgstr ""
 
-#: templates/nav/admin_nav.html templates/nav/public_nav.html
+#: templates/nav/admin_nav.html:234 templates/nav/public_nav.html:165
+#: users/forms.py:93
 msgid "Standings"
 msgstr ""
 
-#: templates/nav/admin_nav.html
+#: templates/nav/admin_nav.html:245
 msgid "All Teams"
 msgstr ""
 
-#: templates/nav/admin_nav.html templates/nav/public_nav.html
+#: templates/nav/admin_nav.html:252 templates/nav/public_nav.html:13
 #, python-format
 msgid "%(category)s Teams"
 msgstr ""
 
-#: templates/nav/admin_nav.html
+#: templates/nav/admin_nav.html:259
 msgid "All Speakers"
 msgstr ""
 
-#: templates/nav/admin_nav.html templates/nav/public_nav.html
+#: templates/nav/admin_nav.html:266 templates/nav/public_nav.html:30
 #, python-format
 msgid "%(category)s Speakers"
 msgstr ""
 
-#: templates/nav/admin_nav.html
+#: templates/nav/admin_nav.html:274
 msgid "Replies"
 msgstr ""
 
-#: templates/nav/admin_nav.html templates/nav/public_nav.html
+#: templates/nav/admin_nav.html:278 templates/nav/public_nav.html:155
 msgid "Motions"
 msgstr ""
 
-#: templates/nav/admin_nav.html templates/nav/public_nav.html
+#: templates/nav/admin_nav.html:281 templates/nav/public_nav.html:170
 msgid "Diversity"
 msgstr ""
 
-#: templates/nav/admin_nav.html
-msgid "Breaks"
-msgstr ""
-
-#: templates/nav/admin_nav.html
+#: templates/nav/admin_nav.html:304
 #, python-format
 msgid "%(category)s"
 msgstr ""
 
-#: templates/nav/admin_nav.html
+#: templates/nav/admin_nav.html:308
 msgid "Adjudicators'"
 msgstr ""
 
-#: templates/nav/admin_nav.html
+#: templates/nav/admin_nav.html:311
 msgid "Edit Categories"
 msgstr ""
 
-#: templates/nav/admin_nav.html
+#: templates/nav/admin_nav.html:314
 msgid "Edit Eligibility"
 msgstr ""
 
-#: templates/nav/admin_nav.html templates/nav/top_nav_base.html
+#: templates/nav/admin_nav.html:330 templates/nav/top_nav_base.html:134
 msgid "Log Out"
 msgstr ""
 
-#: templates/nav/assistant_nav.html
+#: templates/nav/assistant_nav.html:5
 msgid "Enter Results"
 msgstr ""
 
-#: templates/nav/assistant_nav.html templates/nav/public_nav.html
+#: templates/nav/assistant_nav.html:11 templates/nav/public_nav.html:216
 msgid "Enter Feedback"
 msgstr ""
 
-#: templates/nav/assistant_nav.html
+#: templates/nav/assistant_nav.html:22
 msgid "Participants List"
 msgstr ""
 
-#: templates/nav/assistant_nav.html
+#: templates/nav/assistant_nav.html:29
 msgid "Code Names"
 msgstr ""
 
-#: templates/nav/assistant_nav.html
+#: templates/nav/assistant_nav.html:45
 msgid "View Identifiers"
 msgstr ""
 
-#: templates/nav/assistant_nav.html
+#: templates/nav/assistant_nav.html:51
 msgid "Room's Status"
 msgstr ""
 
-#: templates/nav/assistant_nav.html
+#: templates/nav/assistant_nav.html:59
 msgid "Display/Print Draw"
 msgstr ""
 
-#: templates/nav/public_nav.html
+#: templates/nav/public_nav.html:6
 msgid "Team Tab"
 msgstr ""
 
-#: templates/nav/public_nav.html
+#: templates/nav/public_nav.html:22
 msgid "Speaker Tab"
 msgstr ""
 
-#: templates/nav/public_nav.html
+#: templates/nav/public_nav.html:40
 msgid "Replies Tab"
 msgstr ""
 
-#: templates/nav/public_nav.html
+#: templates/nav/public_nav.html:45
 msgid "Adjudicator Tab"
 msgstr ""
 
-#: templates/nav/public_nav.html
+#: templates/nav/public_nav.html:53 templates/nav/public_nav.html:62
 msgid "Motions Tab"
 msgstr ""
 
-#: templates/nav/public_nav.html
+#: templates/nav/public_nav.html:56
 msgid "By round"
 msgstr ""
 
-#: templates/nav/public_nav.html
+#: templates/nav/public_nav.html:57
 msgid "Globally"
 msgstr ""
 
-#: templates/nav/public_nav.html
+#: templates/nav/public_nav.html:72
 msgid "Draws"
 msgstr ""
 
-#: templates/nav/public_nav.html
+#: templates/nav/public_nav.html:83
 msgid "No Draws Available"
 msgstr ""
 
-#: templates/nav/public_nav.html
+#: templates/nav/public_nav.html:91
 #, python-format
 msgid "Draw for %(round)s"
 msgstr ""
 
-#: templates/nav/public_nav.html
+#: templates/nav/public_nav.html:95
 msgid "Current Draws"
 msgstr ""
 
-#: templates/nav/public_nav.html templates/nav/round_panel.html
+#: templates/nav/public_nav.html:115 templates/nav/round_panel.html:52
 msgid "Results"
 msgstr ""
 
-#: templates/nav/public_nav.html
+#: templates/nav/public_nav.html:133
 msgid "Break"
 msgstr ""
 
-#: templates/nav/public_nav.html
+#: templates/nav/public_nav.html:185
 msgid "Feedback Progress"
 msgstr ""
 
-#: templates/nav/public_nav.html
+#: templates/nav/public_nav.html:196 templates/nav/public_nav.html:202
 msgid "Enter Ballot"
 msgstr ""
 
-#: templates/nav/round_panel.html
+#: templates/nav/round_panel.html:25 users/forms.py:40
 msgid "Availability"
 msgstr ""
 
-#: templates/nav/round_panel.html
+#: templates/nav/round_panel.html:34
 msgid "Draw"
 msgstr ""
 
-#: templates/nav/round_panel.html
+#: templates/nav/round_panel.html:44
 msgid "Display"
 msgstr ""
 
-#: templates/nav/top_nav_base.html
+#: templates/nav/top_nav_base.html:30
 #, python-format
 msgid "Administrator area for <strong>%(tournament)s</strong>"
 msgstr ""
 
-#: templates/nav/top_nav_base.html
+#: templates/nav/top_nav_base.html:39
 #, python-format
 msgid "Assistant area for <strong>%(tournament)s</strong>"
 msgstr ""
 
-#: templates/nav/top_nav_base.html
+#: templates/nav/top_nav_base.html:48
 #, python-format
 msgid "Public area for <strong>%(tournament)s</strong>"
 msgstr ""
 
-#: templates/nav/top_nav_base.html
+#: templates/nav/top_nav_base.html:69
+msgid "Site tools"
+msgstr ""
+
+#: templates/nav/top_nav_base.html:87 xmlconverter/views.py:26
+msgid "Converter"
+msgstr ""
+
+#: templates/nav/top_nav_base.html:139
 msgid "Login"
 msgstr ""
 
-#: templates/registration/logged_out.html
+#: templates/registration/logged_out.html:5
 msgid "Goodbye"
 msgstr ""
 
-#: templates/registration/logged_out.html
+#: templates/registration/logged_out.html:12
 #, python-format
 msgid "You have been logged out. <a href=\"%(login_url)s\">Log in again?</a>"
 msgstr ""
 
-#: templates/registration/login.html
+#: templates/registration/login.html:4
 msgctxt "page title"
 msgid "Login"
 msgstr ""
 
-#: templates/registration/login.html
+#: templates/registration/login.html:29
 msgctxt "page title"
 msgid "Log in to Tabbycat"
 msgstr ""
 
-#: templates/registration/login.html
+#: templates/registration/login.html:37
 msgid "Your username and password didn't match."
 msgstr ""
 
-#: templates/registration/login.html
+#: templates/registration/login.html:46
 msgid "Your account doesn't have access to this page. To proceed, please log in with an account that has access."
 msgstr ""
 
-#: templates/registration/login.html
+#: templates/registration/login.html:49
 msgid "Please log in to see this page."
 msgstr ""
 
-#: templates/registration/password_change_done.html
+#: templates/registration/password_change_done.html:4
+#: templates/registration/password_change_done.html:5
 msgctxt "page title"
 msgid "Password changed"
 msgstr ""
 
-#: templates/registration/password_change_done.html
+#: templates/registration/password_change_done.html:11
 msgid "Your password has been changed."
 msgstr ""
 
-#: templates/registration/password_change_done.html
+#: templates/registration/password_change_done.html:14
 msgid "Go to the home page"
 msgstr ""
 
-#: templates/registration/password_change_form.html
+#: templates/registration/password_change_form.html:4
+#: templates/registration/password_change_form.html:27
 msgctxt "page title"
 msgid "Password Change"
 msgstr ""
 
-#: templates/registration/password_change_form.html
+#: templates/registration/password_change_form.html:16
 #, python-format
 msgid "API Token: <samp>%(api_token)s</samp>"
 msgstr ""
 
-#: templates/registration/password_change_form.html
+#: templates/registration/password_change_form.html:19
 msgid "The API token will allow you to authorize external applications to access the site as staff."
 msgstr ""
 
-#: templates/registration/password_change_form.html
+#: templates/registration/password_change_form.html:28
 msgid "Please enter your old password, then enter a new one."
 msgstr ""
 
-#: templates/registration/password_change_form.html
-#: templates/registration/password_reset_confirm.html
+#: templates/registration/password_change_form.html:33
+#: templates/registration/password_reset_confirm.html:25
 msgctxt "button"
 msgid "Change my password"
 msgstr ""
 
-#: templates/registration/password_reset_complete.html
+#: templates/registration/password_reset_complete.html:4
+#: templates/registration/password_reset_complete.html:5
 msgctxt "page title"
 msgid "Password reset complete"
 msgstr ""
 
-#: templates/registration/password_reset_complete.html
+#: templates/registration/password_reset_complete.html:11
 msgid "Your password has been reset."
 msgstr ""
 
-#: templates/registration/password_reset_complete.html
-#: templates/registration/password_reset_done.html
+#: templates/registration/password_reset_complete.html:14
+#: templates/registration/password_reset_done.html:15
 msgid "Go to the login page"
 msgstr ""
 
-#: templates/registration/password_reset_confirm.html
+#: templates/registration/password_reset_confirm.html:4
 msgctxt "page title"
 msgid "Password Reset Confirmation"
 msgstr ""
 
-#: templates/registration/password_reset_confirm.html
-#: templates/registration/password_reset_form.html
+#: templates/registration/password_reset_confirm.html:16
+#: templates/registration/password_reset_form.html:4
 msgctxt "page title"
 msgid "Password Reset"
 msgstr ""
 
-#: templates/registration/password_reset_confirm.html
+#: templates/registration/password_reset_confirm.html:18
 msgid "Please enter a new password (twice):"
 msgstr ""
 
-#: templates/registration/password_reset_confirm.html
+#: templates/registration/password_reset_confirm.html:33
 msgid "The password reset link was invalid, possibly because it has already been used.  Please request a new password reset."
 msgstr ""
 
-#: templates/registration/password_reset_done.html
+#: templates/registration/password_reset_done.html:4
+#: templates/registration/password_reset_done.html:5
 msgctxt "page title"
 msgid "Password reset email sent"
 msgstr ""
 
-#: templates/registration/password_reset_done.html
+#: templates/registration/password_reset_done.html:11
 msgid "We've emailed you instructions for setting your password, if an account exists with the email address you entered. You should receive them shortly."
 msgstr ""
 
-#: templates/registration/password_reset_done.html
+#: templates/registration/password_reset_done.html:12
 msgid "If you don't receive an email, please make sure you've entered the address you registered with, and check your spam folder."
 msgstr ""
 
-#: templates/registration/password_reset_email.html
+#: templates/registration/password_reset_email.html:2
 #, python-format
 msgid "Hi, %(user)s!"
 msgstr ""
 
-#: templates/registration/password_reset_email.html
+#: templates/registration/password_reset_email.html:6
 #, python-format
 msgid "Your username is: %(user)s"
 msgstr ""
 
-#: templates/registration/password_reset_email.html
+#: templates/registration/password_reset_email.html:10
 #, python-format
 msgid "Someone asked for a password reset for the email address %(email)s on the Tabbycat site at %(protocol)s://%(domain)s."
 msgstr ""
 
-#: templates/registration/password_reset_email.html
+#: templates/registration/password_reset_email.html:14
 msgid "If this was you, follow the link below to reset your password:"
 msgstr ""
 
-#: templates/registration/password_reset_email.html
+#: templates/registration/password_reset_email.html:17
 #, python-format
 msgid "If this wasn't you, that probably means someone else typed your email address into the password reset form on the Tabbycat site at %(protocol)s://%(domain)s."
 msgstr ""
 
-#: templates/registration/password_reset_form.html
+#: templates/registration/password_reset_form.html:19
 msgid "Password Reset"
 msgstr ""
 
-#: templates/registration/password_reset_form.html
+#: templates/registration/password_reset_form.html:20
 msgid "Enter your email address below, and we'll email you a password reset link."
 msgstr ""
 
-#: templates/registration/password_reset_form.html
+#: templates/registration/password_reset_form.html:25
 msgctxt "button"
 msgid "Reset my password"
 msgstr ""
 
-#: templates/registration/password_reset_form.html
+#: templates/registration/password_reset_form.html:26
 msgid "Back to the login page"
 msgstr ""
 
-#: templates/registration/password_reset_subject.txt
+#: templates/registration/password_reset_subject.txt:2
 #, python-format
 msgid "Password reset on Tabbycat site at %(domain)s"
 msgstr ""
 
-#: urls.py
+#: urls.py:132
 #, python-format
 msgid "Hi, %(user)s — you just logged in!"
 msgstr ""
 
-#: urls.py
+#: urls.py:135
 msgid "Welcome! You just logged in!"
 msgstr ""
 
-#: users/admin.py
+#: users/admin.py:32
 msgid "Users with staff status can view and edit the Edit Database area. This is potentially dangerous and should be reserved for the actual tab director(s)."
 msgstr ""
 
-#: users/admin.py
+#: users/admin.py:50
 msgid "Personal info"
 msgstr ""
 
-#: users/admin.py
-msgid "Permissions"
-msgstr ""
-
-#: users/admin.py
+#: users/admin.py:52
 msgid "Important dates"
 msgstr ""
 
-#: users/forms.py
+#: users/forms.py:13
+msgid "Conflicts"
+msgstr ""
+
+#: users/forms.py:56
+msgid "Pairing"
+msgstr ""
+
+#: users/forms.py:72
+msgid "Ballots and Results"
+msgstr ""
+
+#: users/forms.py:84
+msgid "Motions and Release"
+msgstr ""
+
+#: users/forms.py:126
+msgid "Check-Ins and Private URLs"
+msgstr ""
+
+#: users/forms.py:134
+msgid "Rounds and Schedule"
+msgstr ""
+
+#: users/forms.py:143
+msgid "Settings, Data and Registration"
+msgstr ""
+
+#: users/forms.py:165
 msgid "Email address"
 msgstr ""
 
-#: users/forms.py
+#: users/forms.py:203
 msgid "Username"
 msgstr ""
 
-#: users/groups.py
+#: users/forms.py:214
+msgid "Role name"
+msgstr ""
+
+#: users/forms.py:243
+msgid "A role with this name already exists in this tournament."
+msgstr ""
+
+#: users/forms.py:278
+msgid "Roles"
+msgstr ""
+
+#: users/forms.py:284
+msgid "Individual permissions"
+msgstr ""
+
+#: users/forms.py:285
+msgid "Optional permissions granted directly to this user, in addition to their roles."
+msgstr ""
+
+#: users/groups.py:31
 msgid "Equity"
 msgstr ""
 
-#: users/groups.py
+#: users/groups.py:69
 msgid "Adjudication Core"
 msgstr ""
 
-#: users/groups.py
+#: users/groups.py:78
 msgid "Tabulation Director"
 msgstr ""
 
-#: users/groups.py
+#: users/groups.py:84
 msgid "Tabulation Assistant"
 msgstr ""
 
-#: users/models.py
-msgid "user"
-msgstr ""
-
-#: users/models.py
-msgid "permission"
-msgstr ""
-
-#: users/models.py
+#: users/models.py:19
 msgid "user permission"
 msgstr ""
 
-#: users/models.py
+#: users/models.py:20
 msgid "user permissions"
 msgstr ""
 
-#: users/models.py
+#: users/models.py:38
 msgid "permissions"
 msgstr ""
 
-#: users/models.py
+#: users/models.py:43 users/models.py:52
 msgid "group"
 msgstr ""
 
-#: users/models.py
+#: users/models.py:44
 msgid "groups"
 msgstr ""
 
-#: users/models.py
+#: users/models.py:56
 msgid "group membership"
 msgstr ""
 
-#: users/models.py
+#: users/models.py:57
 msgid "group memberships"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:17
 msgid "view adjudicator-team conflicts"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:18
 msgid "edit adjudicator-team conflicts"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:19
 msgid "view adjudicator-adjudicator conflicts"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:20
 msgid "edit adjudicator-adjudicator conflicts"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:21
 msgid "view adjudicator-institution conflicts"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:22
 msgid "edit adjudicator-institution conflicts"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:23
 msgid "view team-institution conflicts"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:24
 msgid "edit team-institution conflicts"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:26
 msgid "view action log entries"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:29
 msgid "view teams"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:30
 msgid "add teams"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:31
 msgid "view decoded team names"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:32
 msgid "View names of anonymized participants"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:33
 msgid "view adjudicators"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:34
 msgid "add adjudicators"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:35
 msgid "view rooms"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:36
 msgid "add rooms"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:37
 msgid "view institutions"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:38
 msgid "add institutions"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:39
 msgid "view participants"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:40
 msgid "view participants' gender information"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:41
 msgid "view participants' contact information"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:42
 msgid "view participants' real names"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:43
 msgid "view participants' institution"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:45
 msgid "view round availabilities for teams"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:46
 msgid "view round availabilities for adjudicators"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:47
 msgid "view round availabilities for rooms"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:48
 msgid "edit round availabilities for teams"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:49
 msgid "edit round availabilities for adjudicators"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:50
 msgid "edit round availabilities for rooms"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:51
 msgid "view round availabilities"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:52
 msgid "edit round availabilities"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:54
 msgid "view room constraints"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:55
 msgid "view room categories"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:56
 msgid "edit room constraints"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:57
 msgid "edit room categories"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:59
 msgid "view debates (draw)"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:60
 msgid "view debates (detailed draw)"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:61
 msgid "generate debates (draw)"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:62
 msgid "delete debates (draw)"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:63
 msgid "edit debate teams (pairings)"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:64
 msgid "view debate adjudicators (allocations)"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:65
 msgid "edit debate adjudicators (allocations)"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:66
 msgid "view room allocations"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:67
 msgid "edit room allocations"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:68
 msgid "edit and confirm outround team positions"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:73
 msgid "view confirmed ballots"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:74
 msgid "edit non-confirmed ballots"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:75
 msgid "view any ballot"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:76
 msgid "edit any ballot"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:77
 msgid "create ballots"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:78
 msgid "confirm/discard any ballot"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:79
 msgid "confirm/discard others' ballots"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:80
 msgid "view ballot graph"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:81
 msgid "view results entry page"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:83
 msgid "view motion per round"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:84
 msgid "edit motion per round"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:85
 msgid "release draw to public"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:86
 msgid "release motion to public"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:87
 msgid "unrelease draw to public"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:88
 msgid "unrelease motion to public"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:89
 msgid "add debate start time"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:91
 msgid "view draws (for the briefing room)"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:92
 msgid "display motion (for the briefing room)"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:94
 msgid "view existing preformed panels"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:95
 msgid "edit preformed panels"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:98
 msgid "view the overviews of standings"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:99
 msgid "view the most recent team standings"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:100
 msgid "view the most recent speaker standings"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:101
 msgid "view the most recent replies standings"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:102
 msgid "view the most recent motions tab"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:103
 msgid "view the diversity tab"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:106
 msgid "view overview of judge feedback"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:107
 msgid "edit base scores of judges"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:108
 msgid "view feedback"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:109
 msgid "toggle ignore feedback"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:110
 msgid "toggle confirm feedback"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:111
 msgid "view feedback unsubmitted tab"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:112
 msgid "add feedback"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:113
 msgid "view adjudicator break"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:114
 msgid "edit adjudicator break"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:115
 msgid "edit feedback questions"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:118
 msgid "edit break eligibility"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:119
 msgid "view break eligibility"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:120
 msgid "edit break categories"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:121
 msgid "view break categories"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:122
 msgid "view speaker categories"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:123
 msgid "edit speaker categories"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:124
 msgid "view speaker eligibility"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:125
 msgid "edit speaker eligibility"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:126
 msgid "view break overview"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:127
 msgid "view breaks"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:128
 msgid "generate all breaks"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:130
 msgid "view private urls"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:131
 msgid "generate private URLs"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:133
 msgid "view checkins"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:134
 msgid "edit participant check-in"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:135
 msgid "edit room check-in"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:136
+msgid "edit debate check-in"
+msgstr ""
+
+#: users/permissions.py:138
 msgid "edit round attributes"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:139
 msgid "delete rounds"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:140
 msgid "create rounds"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:141
 msgid "confirm rounds"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:142
 msgid "silence rounds"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:144
 msgid "view email statuses"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:145
 msgid "send participants email messages"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:147
 msgid "export DebateXML"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:149
 msgid "view settings"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:150
 msgid "edit settings"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:152
 msgid "edit general questions"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:153
 msgid "delete general questions"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:154
 msgid "view answers to general questions"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:157
 msgid "edit events"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:158
 msgid "view events"
 msgstr ""
 
-#: users/permissions.py
+#: users/permissions.py:160
 msgid "view registration responses"
 msgstr ""
 
-#: users/templates/account_invitation_email.html
+#: users/permissions.py:161
+msgid "edit registration responses"
+msgstr ""
+
+#: users/permissions.py:162
+msgid "confirm registration responses"
+msgstr ""
+
+#: users/permissions.py:166
+msgid "access the assistant area"
+msgstr ""
+
+#: users/templates/account_invitation_email.html:2
 msgid "Hello!"
 msgstr ""
 
-#: users/templates/account_invitation_email.html
+#: users/templates/account_invitation_email.html:6
 #, python-format
 msgid "An administrator for the Tabbycat site hosting %(name)s has invited you to create an user account on their site, at %(protocol)s://%(domain)s."
 msgstr ""
 
-#: users/templates/account_invitation_email.html
+#: users/templates/account_invitation_email.html:10
 msgid "If you accept, please use the link below to activate your account"
 msgstr ""
 
-#: users/templates/account_invitation_email.html
+#: users/templates/account_invitation_email.html:13
 msgid "If you do not accept, there is no action to be taken."
 msgstr ""
 
-#: users/templates/account_invitation_subject.txt
+#: users/templates/account_invitation_subject.txt:2
 #, python-format
 msgid "Invitation to join Tabbycat site for %(name)s"
 msgstr ""
 
-#: users/templates/admin/auth/delete_user_warning.html
+#: users/templates/admin/auth/delete_user_warning.html:6
 msgid "<strong>Warning:</strong> You shouldn't delete users from the database once they've done something, because the database logs actions taken by those users, and deleting the users also deletes the related logs. If you wish to deactivate a user account, go back to edit the user, click on the “Permissions” tab, unchecked the “Active” box, and save the user."
 msgstr ""
 
-#: users/templates/invite_user.html
+#: users/templates/invite_user.html:8
 msgid "Back to Configuration"
 msgstr ""
 
-#: users/templates/invite_user.html
+#: users/templates/invite_user.html:20
 msgctxt "button"
 msgid "Invite User"
 msgstr ""
 
-#: users/templates/invite_user.html
+#: users/templates/invite_user.html:21
 msgid "Note: if you submit this multiple times, multiple invite emails will be sent."
 msgstr ""
 
-#: users/templates/signup.html
+#: users/templates/role_management.html:4
+#: users/templates/role_management.html:5 users/views.py:108
+msgid "User Roles"
+msgstr ""
+
+#: users/templates/role_management.html:103
+msgid "Role Editor"
+msgstr ""
+
+#: users/templates/role_management.html:105
+msgid "Create reusable role templates and edit their permissions."
+msgstr ""
+
+#: users/templates/role_management.html:108
+msgid "User Access"
+msgstr ""
+
+#: users/templates/role_management.html:110
+msgid "Assign existing users to roles, with optional individual permission overrides."
+msgstr ""
+
+#: users/templates/role_management.html:117
+msgid "Back to User Access"
+msgstr ""
+
+#: users/templates/role_management.html:118
+msgid "New Role"
+msgstr ""
+
+#: users/templates/role_management.html:121 users/views.py:75
+msgid "Invite User"
+msgstr ""
+
+#: users/templates/role_management.html:122
+#: users/templates/role_management.html:244
+msgid "Manage Roles"
+msgstr ""
+
+#: users/templates/role_management.html:135
+msgid "Role Library"
+msgstr ""
+
+#: users/templates/role_management.html:136
+msgid "Reusable permission sets for this tournament."
+msgstr ""
+
+#: users/templates/role_management.html:138
+msgid "New"
+msgstr ""
+
+#: users/templates/role_management.html:148
+#, python-format
+msgid "%(count)s user assigned"
+msgid_plural "%(count)s users assigned"
+msgstr[0] ""
+msgstr[1] ""
+
+#: users/templates/role_management.html:157
+msgid "No roles yet. Start by creating one on the right."
+msgstr ""
+
+#: users/templates/role_management.html:169
+msgid "Edit Role"
+msgstr ""
+
+#: users/templates/role_management.html:171
+#: users/templates/role_management.html:224
+msgid "Create Role"
+msgstr ""
+
+#: users/templates/role_management.html:175
+msgid "Role permissions apply to every user assigned to that role."
+msgstr ""
+
+#: users/templates/role_management.html:193
+msgid "Role permissions"
+msgstr ""
+
+#: users/templates/role_management.html:194
+msgid "Grouped by admin area"
+msgstr ""
+
+#: users/templates/role_management.html:221
+msgid "Changing a role updates everyone using it."
+msgstr ""
+
+#: users/templates/role_management.html:224
+msgid "Save Role"
+msgstr ""
+
+#: users/templates/role_management.html:239
+msgid "Edit User Access"
+msgstr ""
+
+#: users/templates/role_management.html:241
+msgid "Use roles for normal access, then direct permissions only for exceptions."
+msgstr ""
+
+#: users/templates/role_management.html:262
+msgid "Recommended"
+msgstr ""
+
+#: users/templates/role_management.html:275
+msgid "No roles exist yet."
+msgstr ""
+
+#: users/templates/role_management.html:276
+msgid "Create one first."
+msgstr ""
+
+#: users/templates/role_management.html:285
+msgid "Exception access"
+msgstr ""
+
+#: users/templates/role_management.html:316
+msgid "Direct permissions are added on top of selected roles."
+msgstr ""
+
+#: users/templates/role_management.html:318
+msgid "Save User Access"
+msgstr ""
+
+#: users/templates/role_management.html:327
+msgid "User Access Directory"
+msgstr ""
+
+#: users/templates/role_management.html:328
+msgid "Open a user to edit roles and individual permissions."
+msgstr ""
+
+#: users/templates/role_management.html:341
+msgid "No roles"
+msgstr ""
+
+#: users/templates/role_management.html:346
+#, python-format
+msgid "%(count)s direct permission"
+msgid_plural "%(count)s direct permissions"
+msgstr[0] ""
+msgstr[1] ""
+
+#: users/templates/role_management.html:356
+msgid "No users have tournament access yet."
+msgstr ""
+
+#: users/templates/signup.html:12
 msgctxt "page title"
 msgid "Create a new Account"
 msgstr ""
 
-#: users/templates/signup.html
+#: users/templates/signup.html:18
 msgid "Create Account"
 msgstr ""
 
-#: users/views.py
+#: users/views.py:54
 msgid "Whoops! It looks like someone's already created the first user account. Please log in."
 msgstr ""
 
-#: users/views.py
+#: users/views.py:62
 #, python-format
 msgid "Welcome! You've created an account for %s."
 msgstr ""
 
-#: users/views.py
-msgid "Invite User"
-msgstr ""
-
-#: users/views.py
+#: users/views.py:90
 msgid "Successfully invited user to create an account for the tournament."
 msgstr ""
 
-#: users/views.py
+#: users/views.py:98
 msgid "Accept Invitation"
+msgstr ""
+
+#: users/views.py:199
+#, python-format
+msgid "Role '%(role)s' saved."
+msgstr ""
+
+#: users/views.py:210
+#, python-format
+msgid "Access for %(user)s saved."
+msgstr ""
+
+#: xmlconverter/apps.py:7
+msgid "XML converter"
+msgstr ""
+
+#: xmlconverter/forms.py:14
+msgid "DebateXML file"
+msgstr ""
+
+#: xmlconverter/forms.py:15
+msgid "Upload a Tabbycat DebateXML export. The converter returns an SDA-style XLSX results workbook."
+msgstr ""
+
+#: xmlconverter/forms.py:21
+msgid "Please upload an XML file."
+msgstr ""
+
+#: xmlconverter/forms.py:24
+#, python-format
+msgid "This file is too large (limit %(limit)d MB)."
+msgstr ""
+
+#: xmlconverter/models.py:9
+msgid "use converter"
+msgstr ""
+
+#: xmlconverter/models.py:10
+msgid "manage converter access"
+msgstr ""
+
+#: xmlconverter/models.py:19
+msgid "global converter permission"
+msgstr ""
+
+#: xmlconverter/models.py:20
+msgid "global converter permissions"
+msgstr ""
+
+#: xmlconverter/templates/xmlconverter/access.html:11 xmlconverter/views.py:61
+msgid "Converter access"
+msgstr ""
+
+#: xmlconverter/templates/xmlconverter/access.html:12
+msgid "Grant global access to the XML converter."
+msgstr ""
+
+#: xmlconverter/templates/xmlconverter/access.html:16
+msgid "Return to Converter"
+msgstr ""
+
+#: xmlconverter/templates/xmlconverter/access.html:26
+msgid "Grant converter access"
+msgstr ""
+
+#: xmlconverter/templates/xmlconverter/access.html:60
+msgid "No users have explicit converter access yet."
+msgstr ""
+
+#: xmlconverter/templates/xmlconverter/index.html:12
+msgid "Convert DebateXML"
+msgstr ""
+
+#: xmlconverter/templates/xmlconverter/index.html:14
+msgid "Upload a Tabbycat DebateXML export and download an SDA-style XLSX results workbook."
+msgstr ""
+
+#: xmlconverter/templates/xmlconverter/index.html:23
+msgid "Manage access"
+msgstr ""
+
+#: xmlconverter/templates/xmlconverter/index.html:54
+msgid "Convert"
+msgstr ""
+
+#: xmlconverter/views.py:45
+msgid "This file could not be converted. Please make sure it is a valid Tabbycat DebateXML export."
+msgstr ""
+
+#: xmlconverter/views.py:80
+#, python-format
+msgid "Converter access updated for %(user)s."
 msgstr ""
