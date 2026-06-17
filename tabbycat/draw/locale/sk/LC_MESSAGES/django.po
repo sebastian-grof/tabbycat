@@ -21,1100 +21,1104 @@ msgstr ""
 #, python-format
 msgid "%(count)d debate was marked as having its sides confirmed."
 msgid_plural "%(count)d debates were marked as having their sides confirmed."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "%(count)d debata bola označená ako s potvrdenými stranami."
+msgstr[1] "%(count)d debaty boli označené ako s potvrdenými stranami."
+msgstr[2] "%(count)d debaty boli označené ako s potvrdenými stranami."
+msgstr[3] "%(count)d debát bolo označených ako s potvrdenými stranami."
 
 #: draw/admin.py
 msgid "Mark sides as not confirmed"
-msgstr ""
+msgstr "Označiť strany ako nepotvrdené"
 
 #: draw/admin.py
 #, python-format
 msgid "%(count)d debate was marked as having its sides not confirmed."
 msgid_plural "%(count)d debates were marked as having their sides not confirmed."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "%(count)d debata bola označená ako s nepotvrdené stranami."
+msgstr[1] "%(count)d debaty boli označené ako s nepotvrdené stranami."
+msgstr[2] "%(count)d debaty boli označené ako s nepotvrdené stranami."
+msgstr[3] "%(count)d debát bolo označených ako s nepotvrdené stranami."
 
 #: draw/apps.py draw/views.py
 msgid "Draw"
-msgstr ""
+msgstr "Pairing"
 
 #: draw/forms.py
 msgid "Full round name"
-msgstr ""
+msgstr "Celý názov kola"
 
 #: draw/forms.py
 #, python-format
 msgid "You must type '%s' to confirm draw and results deletion."
-msgstr ""
+msgstr "Musíš zadať '%s' pre potvrdenie vymazania pairingu a výsledkov."
 
 #: draw/generator/__init__.py
 msgid "Too many swaps"
-msgstr ""
+msgstr "Príliš veľa zámen"
 
 #: draw/generator/__init__.py
 msgid "One-up-one-down (history)"
-msgstr ""
+msgstr "Jeden nahor-jeden nadol (história)"
 
 #: draw/generator/__init__.py
 msgid "One-up-one-down (institution)"
-msgstr ""
+msgstr "Jeden nahor-jeden nadol (inštitúcia)"
 
 #: draw/generator/__init__.py
 msgid "One-up-one-down (to accommodate)"
-msgstr ""
+msgstr "Jeden nahor-jeden nadol (prispôsobenie)"
 
 #: draw/generator/__init__.py
 msgid "Bubble up (history)"
-msgstr ""
+msgstr "Posun nahor (história)"
 
 #: draw/generator/__init__.py
 msgid "Bubble down (history)"
-msgstr ""
+msgstr "Posun nadol (história)"
 
 #: draw/generator/__init__.py
 msgid "Bubble up (institution)"
-msgstr ""
+msgstr "Posun nahor (inštitúcia)"
 
 #: draw/generator/__init__.py
 msgid "Bubble down (institution)"
-msgstr ""
+msgstr "Posun nadol (inštitúcia)"
 
 #: draw/generator/__init__.py
 msgid "Bubble up (to accommodate)"
-msgstr ""
+msgstr "Posun nahor (prispôsobenie)"
 
 #: draw/generator/__init__.py
 msgid "Bubble down (to accommodate)"
-msgstr ""
+msgstr "Posun nadol (prispôsobenie)"
 
 #: draw/generator/__init__.py
 msgid "Can't bubble up/down"
-msgstr ""
+msgstr "Nedá sa posunúť nahor/nadol"
 
 #: draw/generator/__init__.py
 msgid "Pull-up team"
-msgstr ""
+msgstr "Tím presunutý nahor"
 
 #: draw/generator/bpelimination.py draw/generator/elimination.py
 #, python-format
 msgid "%d debates in the previous round don't have a result."
-msgstr ""
+msgstr "%d debát z predchádzajúceho kola nemá výsledok."
 
 #: draw/generator/bpelimination.py
 #, python-format
 msgid "%d debates in the previous round don't have exactly two teams advancing."
-msgstr ""
+msgstr "%d debát z predchádzajúceho kola nemá presne dva postupujúce tímy."
 
 #: draw/generator/bpelimination.py
 #, python-format
 msgid "The room ranks of the partial elimination round indicate that an odd number of teams (%(nbypassing)d) bypassed it."
-msgstr ""
+msgstr "Poradie miestností v čiastočnom vyraďovacom kole naznačuje, že nepárny počet tímov (%(nbypassing)d) ho preskočil."
 
 #: draw/generator/bpelimination.py
 #, python-format
 msgid "The room ranks of the partial elimination round indicate that %(nbypassing)d teams bypassed it, but %(nadvancing)d teams advanced from it."
-msgstr ""
+msgstr "Poradie miestností v čiastočnom vyraďovacom kole naznačuje, že %(nbypassing)d tímov ho preskočilo, ale %(nadvancing)d tímov z neho postúpilo."
 
 #: draw/generator/bpelimination.py
 #, python-format
 msgid "The number of debates (%d) in the last round is not a power of two."
-msgstr ""
+msgstr "Počet debát (%d) v poslednom kole nie je mocninou dvoch."
 
 #: draw/generator/bphungarian.py
 #, python-format
 msgid "The Rényi order can't be negative, and it's currently set to %(alpha)f."
-msgstr ""
+msgstr "Rényiho rád nemôže byť záporný, momentálne je nastavený na %(alpha)f."
 
 #: draw/generator/common.py
 #, python-format
 msgid "The number of teams presented for the draw was not a multiple of %(num)d."
-msgstr ""
+msgstr "Počet tímov zaradených do pairingu nebol násobkom čísla %(num)d."
 
 #: draw/generator/common.py
 msgid "There were no teams for the draw."
-msgstr ""
+msgstr "Pre pairing neboli žiadne tímy."
 
 #: draw/generator/elimination.py
 #, python-format
 msgid "There are only %d teams breaking in this category; there need to be at least two to generate an elimination round draw."
-msgstr ""
+msgstr "V tejto kategórii postupujú len %d tímy; na generovanie pairingu vyraďovacieho kola sú potrebné aspoň dva tímy."
 
 #: draw/generator/elimination.py
 #, python-format
 msgid "The number of teams (%d) in this round is not a power of two."
-msgstr ""
+msgstr "Počet tímov (%d) v tomto kole nie je mocninou dvoch."
 
 #: draw/generator/powerpair.py
 #, python-format
 msgid "%(noninteger)d out of %(total)d teams have a noninteger first metric in the team standings. Intermediate brackets require the first team standings metric to be an integer (typically points or wins)."
-msgstr ""
+msgstr "%(noninteger)d z %(total)d tímov má necelé číslo ako prvú metriku v poradí tímov. Medzikošové pairingy vyžadujú, aby prvá metrika poradia tímov bola celé číslo (zvyčajne body alebo výhry)."
 
 #: draw/generator/random.py
 #, python-format
 msgid "There were %(aff_count)d affirmative teams but %(neg_count)d negative teams."
-msgstr ""
+msgstr "Bolo %(aff_count)d afirmatívnych tímov, ale %(neg_count)d negatívnych tímov."
 
 #: draw/generator/random.py
 msgid "One or more teams had an allocated side that wasn't affirmative or negative."
-msgstr ""
+msgstr "Jednému alebo viacerým tímom bola priradená strana, ktorá nebola ani afirmatívna, ani negatívna."
 
 #: draw/manager.py
 #, python-format
 msgid "The draw type %(type)s can't be used with two-team formats."
-msgstr ""
+msgstr "Typ pairingu %(type)s sa nedá použiť s formátmi pre dva tímy."
 
 #: draw/manager.py
 #, python-format
 msgid "The draw type %(type)s can't be used with British Parliamentary."
-msgstr ""
+msgstr "Typ pairingu %(type)s sa nedá použiť s British Parliamentary."
 
 #: draw/manager.py
 #, python-format
 msgid "Unrecognised \"teams in debate\" option: %(option)s"
-msgstr ""
+msgstr "Nerozpoznaná možnosť \"tímy v debate\": %(option)s"
 
 #: draw/manager.py
 #, python-format
 msgid "The break size (%(size)d) for this break category was invalid. It must be either six times or four times a power of two."
-msgstr ""
+msgstr "Veľkosť postupu (%(size)d) pre túto postupovú kategóriu je neplatná. Musí byť šesťnásobok alebo štvornásobok mocniny dvoch."
 
 #: draw/models.py
 msgid "none"
-msgstr ""
+msgstr "žiadny"
 
 #: draw/models.py
 msgid "postponed"
-msgstr ""
+msgstr "odložené"
 
 #: draw/models.py
 msgid "draft"
-msgstr ""
+msgstr "návrh"
 
 #: draw/models.py
 msgid "confirmed"
-msgstr ""
+msgstr "potvrdené"
 
 #: draw/models.py
 msgid "round"
-msgstr ""
+msgstr "kolo"
 
 #: draw/models.py
 msgid "room"
-msgstr ""
+msgstr "miestnosť"
 
 #: draw/models.py
 msgid "bracket"
-msgstr ""
+msgstr "kôš"
 
 #: draw/models.py
 msgid "room rank"
-msgstr ""
+msgstr "poradie miestnosti"
 
 #: draw/models.py
 msgid "importance"
-msgstr ""
+msgstr "dôležitosť"
 
 #: draw/models.py
 msgid "result status"
-msgstr ""
+msgstr "stav výsledku"
 
 #: draw/models.py
 msgid "sides confirmed"
-msgstr ""
+msgstr "strany potvrdené"
 
 #: draw/models.py
 msgid "If unchecked, the sides assigned to teams in this debate are just placeholders."
-msgstr ""
+msgstr "Ak nie je zaškrtnuté, strany priradené tímom v tejto debate sú len zástupné."
 
 #: draw/models.py
 msgid "debate"
-msgstr ""
+msgstr "debata"
 
 #: draw/models.py
 msgid "debates"
-msgstr ""
+msgstr "debaty"
 
 #. Translators: This is appended to a list of teams, e.g. "Auckland
 #. 1, Vic Wellington 1 (sides not confirmed)". Mind the leading
 #. space.
 #: draw/models.py
 msgid " (sides not confirmed)"
-msgstr ""
+msgstr " (strany nepotvrdené)"
 
 #. Translators: This goes between teams in a debate, e.g. "Auckland 1
 #. vs Vic Wellington 1". Mind the leading and trailing spaces.
 #: draw/models.py
 msgid " vs "
-msgstr ""
+msgstr " vs "
 
 #: draw/models.py
 msgid "team"
-msgstr ""
+msgstr "tím"
 
 #: draw/models.py
 msgid "side sequence"
-msgstr ""
+msgstr "poradie strán"
 
 #: draw/models.py
 msgid "debate team"
-msgstr ""
+msgstr "tím v debate"
 
 #: draw/models.py
 msgid "debate teams"
-msgstr ""
+msgstr "tímy v debate"
 
 #: draw/models.py
 #, python-format
 msgid "placed %(place)s"
-msgstr ""
+msgstr "umiestnený %(place)s"
 
 #: draw/models.py
 msgid "result unknown"
-msgstr ""
+msgstr "výsledok neznámy"
 
 #: draw/models.py
 msgid "won"
-msgstr ""
+msgstr "vyhral"
 
 #: draw/models.py
 msgid "lost"
-msgstr ""
+msgstr "prehral"
 
 #: draw/models.py
 #, python-format
 msgid "Team %d"
-msgstr ""
+msgstr "Tím %d"
 
 #: draw/models.py
 msgid "team side allocation"
-msgstr ""
+msgstr "priradenie strany tímu"
 
 #: draw/models.py
 msgid "team side allocations"
-msgstr ""
+msgstr "priradenia strán tímov"
 
 #. Translators: e.g. "Affirmative: Rank", "Government: Draw strength",
 #. "Opening government: Total speaker score", "Closing opposition: Number of firsts"
 #: draw/tables.py
 #, python-format
 msgid "%(side)s: %(metric)s"
-msgstr ""
+msgstr "%(side)s: %(metric)s"
 
 #: draw/tables.py
 msgid "Bye"
-msgstr ""
+msgstr "Bye"
 
 #: draw/tables.py
 #, python-format
 msgid "Team %(num)d"
-msgstr ""
+msgstr "Tím %(num)d"
 
 #: draw/tables.py
 msgid "Room rank of this debate"
-msgstr ""
+msgstr "Poradie miestnosti tejto debaty"
 
 #: draw/tables.py
 msgid "Bracket of this debate"
-msgstr ""
+msgstr "Kôš tejto debaty"
 
 #: draw/tables.py
 msgid ""
 "side history<br>\n"
 "(number of times the team has been on each side before this round)"
 msgstr ""
+"história strán<br>\n"
+"(počet ráz, keď bol tím na každej strane pred týmto kolom)"
 
 #. Translators: Abbreviation for "side history"
 #: draw/tables.py
 msgid "SH"
-msgstr ""
+msgstr "HS"
 
 #: draw/tables.py
 msgid "Went from balanced to imbalanced"
-msgstr ""
+msgstr "Prešlo z vyváženého do nevyváženého"
 
 #: draw/tables.py
 msgid "Went from imbalanced to balanced"
-msgstr ""
+msgstr "Prešlo z nevyváženého do vyváženého"
 
 #: draw/tables.py
 msgid "Best improvement possible, still imbalanced"
-msgstr ""
+msgstr "Najlepšie možné zlepšenie, stále nevyvážené"
 
 #: draw/tables.py
 msgid "Was imbalanced and still imbalanced"
-msgstr ""
+msgstr "Bolo nevyvážené a stále je nevyvážené"
 
 #: draw/tables.py
 msgid "No metrics in the team standings precedence"
-msgstr ""
+msgstr "Žiadne metriky v poradí tímov"
 
 #: draw/tables.py
 msgid "Side"
-msgstr ""
+msgstr "Strana"
 
 #: draw/tables.py
 msgid "Position this round"
-msgstr ""
+msgstr "Pozícia v tomto kole"
 
 #: draw/tables.py
 msgid "Before"
-msgstr ""
+msgstr "Pred"
 
 #: draw/tables.py
 msgid "Side history before this round"
-msgstr ""
+msgstr "História strán pred týmto kolom"
 
 #: draw/tables.py
 msgid "After"
-msgstr ""
+msgstr "Po"
 
 #: draw/tables.py
 msgid "Side history after this round"
-msgstr ""
+msgstr "História strán po tomto kole"
 
 #: draw/tables.py
 msgid "Cost"
-msgstr ""
+msgstr "Náklady"
 
 #: draw/tables.py
 msgid "Position cost"
-msgstr ""
+msgstr "Náklady na pozíciu"
 
 #: draw/tables.py
 msgid "Status"
-msgstr ""
+msgstr "Stav"
 
 #: draw/tables.py
 msgid ""
 "Teams with this many points are permitted in this debate<br>\n"
 "(bracket in bold)"
 msgstr ""
+"Tímy s týmto počtom bodov sú v tejto debate povolené<br>\n"
+"(kôš tučným písmom)"
 
 #: draw/tables.py
 #, python-format
 msgid "%(team)s: %(metric)s"
-msgstr ""
+msgstr "%(team)s: %(metric)s"
 
 #: draw/tables.py
 msgid "side history before this round"
-msgstr ""
+msgstr "história strán pred týmto kolom"
 
 #: draw/tables.py
 msgid "Sides"
-msgstr ""
+msgstr "Strany"
 
 #: draw/tables.py
 msgid "position cost"
-msgstr ""
+msgstr "náklady na pozíciu"
 
 #: draw/templates/admin/draw/debateteam/delete_warning.html
 msgid "STOP!!! Read this first! Deleting debate teams from the database may crash Tabbycat!"
-msgstr ""
+msgstr "STOP!!! Najprv si toto prečítaj! Vymazanie tímov debaty z databázy môže spôsobiť pád Tabbycat!"
 
 #: draw/templates/admin/draw/debateteam/delete_warning.html
 msgid "Tabbycat requires that all debates have <strong>exactly</strong> one debate team for each side, and no other debate teams, at all times. If you delete any debate teams, you must then either replace each one with a new debate team in the same debate, or delete the associated debate objects. If you don't do this correctly, many pages <strong>will</strong> crash."
-msgstr ""
+msgstr "Tabbycat vyžaduje, aby všetky debaty mali <strong>presne</strong> jeden tím pre každú stranu a žiadne iné tímy debaty, vždy. Ak vymažeš nejaké tímy debaty, musíš každý nahradiť novým tímom v tej istej debate alebo vymazať príslušné objekty debaty. Ak to neurobíš správne, mnoho stránok <strong>spadne</strong>."
 
 #: draw/templates/admin/draw/debateteam/delete_warning.html
 #: draw/templates/admin/draw/debateteam/edit_warning.html
 msgid "This is a common source of errors. If it happens to you, check the debates (under the Draw section in this Edit Database area) and ensure that all of them have exactly one affirmative and one negative team."
-msgstr ""
+msgstr "Toto je bežný zdroj chýb. Ak sa ti to stane, skontroluj debaty (v sekcii Pairing v oblasti Upraviť databázu) a uisti sa, že každá z nich má presne jeden afirmatívny a jeden negatívny tím."
 
 #: draw/templates/admin/draw/debateteam/edit_warning.html
 msgid "WARNING!!! If you are editing debate teams, read this first!"
-msgstr ""
+msgstr "UPOZORNENIE!!! Ak upravuješ tímy debaty, najprv si toto prečítaj!"
 
 #: draw/templates/admin/draw/debateteam/edit_warning.html
 msgid "Tabbycat requires that there be <strong>exactly</strong> one debate team for each side, and no other debate teams, in each debate. If you edit debate teams in the database, you must ensure that this remains the case. If you don't do this correctly, many pages <strong>will</strong> crash."
-msgstr ""
+msgstr "Tabbycat vyžaduje, aby v každej debate bol <strong>presne</strong> jeden tím pre každú stranu a žiadne iné tímy debaty. Ak upravuješ tímy debaty v databáze, musíš zabezpečiť, že to tak zostane. Ak to neurobíš správne, mnoho stránok <strong>spadne</strong>."
 
 #: draw/templates/draw_alerts_adjudicators.html
 #, python-format
 msgid "1 debate does not have a chair."
 msgid_plural "%(ndebates)s debates do not have a chair."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "1 debata nemá chair."
+msgstr[1] "%(ndebates)s debaty nemajú chair."
+msgstr[2] "%(ndebates)s debaty nemajú chair."
+msgstr[3] "%(ndebates)s debát nemá chair."
 
 #: draw/templates/draw_alerts_adjudicators.html
 #, python-format
 msgid "<strong>%(adjudicators)s</strong> is adjudicating multiple debates."
 msgid_plural "The following <strong>%(nadjs)s</strong> adjudicators are adjudicating multiple debates: <strong>%(adjudicators)s</strong>"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "<strong>%(adjudicators)s</strong> rozhoduje viaceré debaty."
+msgstr[1] "Nasledujúci <strong>%(nadjs)s</strong> rozhodcovia rozhodujú viaceré debaty: <strong>%(adjudicators)s</strong>"
+msgstr[2] "Nasledujúci <strong>%(nadjs)s</strong> rozhodcovia rozhodujú viaceré debaty: <strong>%(adjudicators)s</strong>"
+msgstr[3] "Nasledujúcich <strong>%(nadjs)s</strong> rozhodcov rozhoduje viaceré debaty: <strong>%(adjudicators)s</strong>"
 
 #: draw/templates/draw_alerts_adjudicators.html
 #, python-format
 msgid "1 debate has a panel with an even number of adjudicators."
 msgid_plural "%(ndebates)s debates have panels with an even number of adjudicators."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "1 debata má panel s párnym počtom rozhodcov."
+msgstr[1] "%(ndebates)s debaty majú panely s párnym počtom rozhodcov."
+msgstr[2] "%(ndebates)s debaty majú panely s párnym počtom rozhodcov."
+msgstr[3] "%(ndebates)s debát má panely s párnym počtom rozhodcov."
 
 #: draw/templates/draw_alerts_adjudicators.html
 #, python-format
 msgid "1 debate has an adjudicator conflict."
 msgid_plural "%(ndebates)s debates have adjudicator conflicts."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "1 debata má konflikt rozhodcu."
+msgstr[1] "%(ndebates)s debaty majú konflikty rozhodcov."
+msgstr[2] "%(ndebates)s debaty majú konflikty rozhodcov."
+msgstr[3] "%(ndebates)s debát má konflikty rozhodcov."
 
 #: draw/templates/draw_alerts_adjudicators.html
 #, python-format
 msgid "<strong>%(adjudicators)s</strong> is unavailable this round, but is assigned to a debate."
 msgid_plural "The following <strong>%(nadjs)s</strong> adjudicators are unavailable this round, but are assigned to debates: <strong>%(adjudicators)s</strong>"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "<strong>%(adjudicators)s</strong> nie je dostupný/á v tomto kole, ale je priradený/á do debaty."
+msgstr[1] "Nasledujúci <strong>%(nadjs)s</strong> rozhodcovia nie sú dostupní v tomto kole, ale sú priradení do debát: <strong>%(adjudicators)s</strong>"
+msgstr[2] "Nasledujúci <strong>%(nadjs)s</strong> rozhodcovia nie sú dostupní v tomto kole, ale sú priradení do debát: <strong>%(adjudicators)s</strong>"
+msgstr[3] "Nasledujúcich <strong>%(nadjs)s</strong> rozhodcov nie je dostupných v tomto kole, ale sú priradení do debát: <strong>%(adjudicators)s</strong>"
 
 #: draw/templates/draw_alerts_adjudicators.html
 #, python-format
 msgid "1 adjudicator is available but not assigned to a debate."
 msgid_plural "%(ndebates)s adjudicators are available but not assigned to a debate."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "1 rozhodca je dostupný, ale nie je priradený do debaty."
+msgstr[1] "%(ndebates)s rozhodcovia sú dostupní, ale nie sú priradení do debaty."
+msgstr[2] "%(ndebates)s rozhodcovia sú dostupní, ale nie sú priradení do debaty."
+msgstr[3] "%(ndebates)s rozhodcov je dostupných, ale nie sú priradení do debaty."
 
 #: draw/templates/draw_alerts_teams.html
 #, python-format
 msgid "<strong>%(teams)s</strong> is competing in multiple debates."
 msgid_plural "The following <strong>%(nteams)s</strong> teams are competing in multiple debates: <strong>%(teams)s</strong>"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "<strong>%(teams)s</strong> súťaží vo viacerých debatách."
+msgstr[1] "Nasledujúce <strong>%(nteams)s</strong> tímy súťažia vo viacerých debatách: <strong>%(teams)s</strong>"
+msgstr[2] "Nasledujúce <strong>%(nteams)s</strong> tímy súťažia vo viacerých debatách: <strong>%(teams)s</strong>"
+msgstr[3] "Nasledujúcich <strong>%(nteams)s</strong> tímov súťaží vo viacerých debatách: <strong>%(teams)s</strong>"
 
 #: draw/templates/draw_alerts_venues.html
 #, python-format
 msgid "1 debate does not have a room."
 msgid_plural "%(ndebates)s debates do not have a room."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "1 debata nemá miestnosť."
+msgstr[1] "%(ndebates)s debaty nemajú miestnosť."
+msgstr[2] "%(ndebates)s debaty nemajú miestnosť."
+msgstr[3] "%(ndebates)s debát nemá miestnosť."
 
 #: draw/templates/draw_alerts_venues.html
 #, python-format
 msgid "There are multiple debates in <strong>%(rooms)s</strong>."
 msgid_plural "The following <strong>%(ndebates)s</strong> rooms have multiple debates in them: <strong>%(rooms)s</strong>"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "V miestnosti <strong>%(rooms)s</strong> prebieha viacero debát."
+msgstr[1] "Nasledujúce <strong>%(ndebates)s</strong> miestnosti majú viacero debát: <strong>%(rooms)s</strong>"
+msgstr[2] "Nasledujúce <strong>%(ndebates)s</strong> miestnosti majú viacero debát: <strong>%(rooms)s</strong>"
+msgstr[3] "Nasledujúcich <strong>%(ndebates)s</strong> miestností má viacero debát: <strong>%(rooms)s</strong>"
 
 #: draw/templates/draw_alerts_venues.html
 #, python-format
 msgid "1 debate has a room constraint violation."
 msgid_plural "%(ndebates)s debates have room constraint violations."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "1 debata má porušenie obmedzenia miestnosti."
+msgstr[1] "%(ndebates)s debaty majú porušenia obmedzení miestností."
+msgstr[2] "%(ndebates)s debaty majú porušenia obmedzení miestností."
+msgstr[3] "%(ndebates)s debát má porušenia obmedzení miestností."
 
 #: draw/templates/draw_base.html
 msgid "Availability"
-msgstr ""
+msgstr "Dostupnosť"
 
 #: draw/templates/draw_base.html draw/templates/draw_status_draft.html
 msgid "Edit Sides/Matchups"
-msgstr ""
+msgstr "Upraviť strany/zápasy"
 
 #: draw/templates/draw_base.html
 msgid "Redo Draw"
-msgstr ""
+msgstr "Znovu generovať pairing"
 
 #: draw/templates/draw_base.html
 msgid "Draw Details"
-msgstr ""
+msgstr "Detaily pairingu"
 
 #: draw/templates/draw_base.html
 msgid "Position Balance"
-msgstr ""
+msgstr "Rovnováha pozícií"
 
 #: draw/templates/draw_base.html draw/templates/draw_display_admin.html
 #: draw/templates/draw_display_assistant.html
 msgid "Display Draw"
-msgstr ""
+msgstr "Zobraziť pairing"
 
 #: draw/templates/draw_confirm_regeneration.html
 msgid "Confirm draw regeneration"
-msgstr ""
+msgstr "Potvrdiť opätovné generovanie pairingu"
 
 #: draw/templates/draw_confirm_regeneration.html
 #: draw/templates/draw_subpage.html
 msgid "Back to Draw"
-msgstr ""
+msgstr "Späť na pairing"
 
 #: draw/templates/draw_confirm_regeneration.html
 #, python-format
 msgid "Confirm Draw Deletion for %(round)s"
-msgstr ""
+msgstr "Potvrdiť vymazanie pairingu pre %(round)s"
 
 #: draw/templates/draw_confirm_regeneration.html
 #, python-format
 msgid "Do you really want to regenerate the draw for %(round)s? This will delete <strong>all the debates in the current draw</strong> —  including their ballots and adjudicator allocations — and cannot be undone. You probably don't want to do this if any results have been entered!"
-msgstr ""
+msgstr "Naozaj chceš znovu vygenerovať pairing pre %(round)s? Tým sa vymažú <strong>všetky debaty v aktuálnom pairingu</strong> — vrátane ich ballotov a priradení rozhodcov — a túto akciu nemožno vrátiť. Pravdepodobne to nechceš robiť, ak už boli zadané nejaké výsledky!"
 
 #: draw/templates/draw_confirm_regeneration.html
 #, python-format
 msgid "Yes, I want to delete the current draw for %(round)s"
-msgstr ""
+msgstr "Áno, chcem vymazať aktuálny pairing pre %(round)s"
 
 #: draw/templates/draw_display_admin.html
 msgid "View Draw"
-msgstr ""
+msgstr "Zobraziť pairing"
 
 #: draw/templates/draw_display_admin.html
 #, python-format
 msgid "Debates start at %(start_time)s"
-msgstr ""
+msgstr "Debaty začínajú o %(start_time)s"
 
 #: draw/templates/draw_display_admin.html
 msgid "Add Start Time"
-msgstr ""
+msgstr "Pridať čas začiatku"
 
 #: draw/templates/draw_display_admin.html
 msgid "Enter Results"
-msgstr ""
+msgstr "Zadať výsledky"
 
 #: draw/templates/draw_display_admin.html
 msgid "Motion Details"
-msgstr ""
+msgstr "Detaily tézy"
 
 #: draw/templates/draw_display_admin.html
 #, python-format
 msgid "%(motions_count)s motion has been entered."
 msgid_plural "%(motions_count)s motions have been entered."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "%(motions_count)s téza bola zadaná."
+msgstr[1] "%(motions_count)s tézy boli zadané."
+msgstr[2] "%(motions_count)s tézy boli zadané."
+msgstr[3] "%(motions_count)s téz bolo zadaných."
 
 #: draw/templates/draw_display_admin.html
 msgid "Edit the motion"
 msgid_plural "Edit motions"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Upraviť tézu"
+msgstr[1] "Upraviť tézy"
+msgstr[2] "Upraviť tézy"
+msgstr[3] "Upraviť tézy"
 
 #: draw/templates/draw_display_admin.html
 msgid "Your configuration/format requires motions to be specified as part of ballot entry. Make sure they are added before results come in!"
-msgstr ""
+msgstr "Tvoja konfigurácia/formát vyžaduje, aby boli tézy zadané ako súčasť zadávania ballotu. Uisti sa, že sú pridané pred tým, ako prídu výsledky!"
 
 #: draw/templates/draw_display_admin.html
 msgid "A motion should be added if you want to display it during announcements, print it on your ballots, or to display it (later) on the public motions/statistics pages."
-msgstr ""
+msgstr "Tézu treba pridať, ak ju chceš zobrazovať počas oznámení, tlačiť na ballotoch alebo ju (neskôr) zobraziť na verejných stránkach téz/štatistík."
 
 #: draw/templates/draw_display_admin.html
 msgid "Enter a motion"
 msgid_plural "Enter motions"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Zadať tézu"
+msgstr[1] "Zadať tézy"
+msgstr[2] "Zadať tézy"
+msgstr[3] "Zadať tézy"
 
 #: draw/templates/draw_display_admin.html
 msgid "Release Draw"
-msgstr ""
+msgstr "Zverejniť pairing"
 
 #: draw/templates/draw_display_admin.html
 msgid "You have not generated a draw for this round yet. There is nothing to release."
-msgstr ""
+msgstr "Pre toto kolo ešte nebol vygenerovaný žiadny pairing. Nie je čo zverejňovať."
 
 #: draw/templates/draw_display_admin.html
 msgid "The draw for this round is still in a draft state. Confirm the draw before releasing it."
-msgstr ""
+msgstr "Pairing pre toto kolo je ešte v stave návrhu. Potvrď pairing pred jeho zverejnením."
 
 #: draw/templates/draw_display_admin.html
 msgid "Unrelease draw to public"
-msgstr ""
+msgstr "Zrušiť zverejnenie pairingu"
 
 #: draw/templates/draw_display_admin.html
 msgid "The draw has been released publicly."
-msgstr ""
+msgstr "Pairing bol verejne zverejnený."
 
 #: draw/templates/draw_display_admin.html
 msgid "View public draw page"
-msgstr ""
+msgstr "Zobraziť verejnú stránku pairingu"
 
 #: draw/templates/draw_display_admin.html
 #, python-format
 msgid "You have released the draw, so ballots and/or feedback can be submitted from the public forms (if enabled). However, the draw itself will not show to the public unless the \"public view of draw\" setting is enabled in <a class=\"alert-link\" href=\"%(alert_link)s\"> this tournament's configuration</a>."
-msgstr ""
+msgstr "Zverejnil/a si pairing, takže balloty a/alebo spätná väzba môžu byť odoslané cez verejné formuláre (ak sú povolené). Pairing samotný sa však verejnosti nezobrazí, pokiaľ nie je v <a class=\"alert-link\" href=\"%(alert_link)s\"> konfigurácii tohto turnaja</a> povolené nastavenie \"verejné zobrazenie pairingu\"."
 
 #: draw/templates/draw_display_admin.html
 #, python-format
 msgid "You have released the draw, but it will not show to the public unless the \"public view of draw\" setting is enabled in <a class=\"alert-link\" href=\"%(alert_link)s\"> this tournament's configuration</a>."
-msgstr ""
+msgstr "Zverejnil/a si pairing, ale verejnosti sa nezobrazí, pokiaľ nie je v <a class=\"alert-link\" href=\"%(alert_link)s\"> konfigurácii tohto turnaja</a> povolené nastavenie \"verejné zobrazenie pairingu\"."
 
 #: draw/templates/draw_display_admin.html
 msgid "Release draw to public"
-msgstr ""
+msgstr "Zverejniť pairing pre verejnosť"
 
 #: draw/templates/draw_display_admin.html
 msgid "Your tournament allows ballots and feedback to be submitted online by adjudicators. The draw must be released before they can do so."
-msgstr ""
+msgstr "Tvoj turnaj umožňuje rozhodcom odosielať balloty a spätnú väzbu online. Pairing musí byť zverejnený, aby to mohli urobiť."
 
 #: draw/templates/draw_display_admin.html
 msgid "Your tournament allows ballots to be submitted online by adjudicators. The draw must be released before they can do so."
-msgstr ""
+msgstr "Tvoj turnaj umožňuje rozhodcom odosielať balloty online. Pairing musí byť zverejnený, aby to mohli urobiť."
 
 #: draw/templates/draw_display_admin.html
 msgid "Your tournament allows feedback to be submitted online by participants. The draw must be released before they can do so."
-msgstr ""
+msgstr "Tvoj turnaj umožňuje účastníkom odosielať spätnú väzbu online. Pairing musí byť zverejnený, aby to mohli urobiť."
 
 #: draw/templates/draw_display_admin.html
 msgid "Your tournament is configured to show the draw publicly. Releasing a draw will allow it to show it on the public page."
-msgstr ""
+msgstr "Tvoj turnaj je nakonfigurovaný tak, aby zobrazoval pairing verejne. Zverejnenie pairingu ho umožní zobraziť na verejnej stránke."
 
 #: draw/templates/draw_display_admin.html
 msgid "Your configuration doesn't have a public draw page or feedback/ballot submissions. There's no reason to release the draw."
-msgstr ""
+msgstr "Tvoja konfigurácia nemá verejnú stránku pairingu ani odosielanie spätnej väzby/ballotov. Nie je dôvod zverejňovať pairing."
 
 #: draw/templates/draw_display_admin.html
 msgid "Release motion to public"
 msgid_plural "Release motions to public"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Zverejniť tézu pre verejnosť"
+msgstr[1] "Zverejniť tézy pre verejnosť"
+msgstr[2] "Zverejniť tézy pre verejnosť"
+msgstr[3] "Zverejniť tézy pre verejnosť"
 
 #: draw/templates/draw_display_admin.html
 msgid "Unrelease motion to public"
 msgid_plural "Unrelease motions to public"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Zrušiť zverejnenie tézy"
+msgstr[1] "Zrušiť zverejnenie téz"
+msgstr[2] "Zrušiť zverejnenie téz"
+msgstr[3] "Zrušiť zverejnenie téz"
 
 #: draw/templates/draw_display_admin.html
 msgid "Release Motion"
 msgid_plural "Release Motions"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Zverejniť tézu"
+msgstr[1] "Zverejniť tézy"
+msgstr[2] "Zverejniť tézy"
+msgstr[3] "Zverejniť tézy"
 
 #: draw/templates/draw_display_admin.html
 msgid "No motion is currently set for this round."
 msgid_plural "No motions are currently set for this round."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Pre toto kolo momentálne nie je nastavená žiadna téza."
+msgstr[1] "Pre toto kolo momentálne nie sú nastavené žiadne tézy."
+msgstr[2] "Pre toto kolo momentálne nie sú nastavené žiadne tézy."
+msgstr[3] "Pre toto kolo momentálne nie sú nastavené žiadne tézy."
 
 #: draw/templates/draw_display_admin.html
 msgid "Your tournament is configured to require motions to be selected in ballots and to allow ballots to be submitted by adjudicators. Ensure that you release the motions before debates finish, otherwise ballots will not be able to be submitted."
-msgstr ""
+msgstr "Tvoj turnaj je nakonfigurovaný tak, aby sa tézy vyberali v ballotoch a aby rozhodcovia mohli odosielať balloty. Uisti sa, že zverejníš tézy pred skončením debát, inak nebude možné odosielať balloty."
 
 #: draw/templates/draw_display_admin.html
 msgid "Your tournament is configured to allow motions to be vetoed and to allow ballots to be submitted by adjudicators. Ensure that you release the motions before debates finish, otherwise ballots will not be able to nominate vetoes."
-msgstr ""
+msgstr "Tvoj turnaj je nakonfigurovaný tak, aby bolo možné vetovať tézy a aby rozhodcovia mohli odosielať balloty. Uisti sa, že zverejníš tézy pred skončením debát, inak balloty nebudú môcť nominovať vetá."
 
 #: draw/templates/draw_display_admin.html
 msgid "Your tournament is configured to show the motion for each round on the public site. You'll need to first release the motion for it to show there."
 msgid_plural "Your tournament is configured to show the motions for each round on the public site. You'll need to first release the motions for it to show there."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Tvoj turnaj je nakonfigurovaný tak, aby zobrazoval tézu pre každé kolo na verejnej stránke. Tézu musíš najprv zverejniť, aby sa tam zobrazila."
+msgstr[1] "Tvoj turnaj je nakonfigurovaný tak, aby zobrazoval tézy pre každé kolo na verejnej stránke. Tézy musíš najprv zverejniť, aby sa tam zobrazili."
+msgstr[2] "Tvoj turnaj je nakonfigurovaný tak, aby zobrazoval tézy pre každé kolo na verejnej stránke. Tézy musíš najprv zverejniť, aby sa tam zobrazili."
+msgstr[3] "Tvoj turnaj je nakonfigurovaný tak, aby zobrazoval tézy pre každé kolo na verejnej stránke. Tézy musíš najprv zverejniť, aby sa tam zobrazili."
 
 #: draw/templates/draw_display_admin.html
 msgid "Your tournament is not configured to show the motion for each round on the public site. There's no need to release the motion."
 msgid_plural "Your tournament is not configured to show the motions for each round on the public site. There's no need to release the motions."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Tvoj turnaj nie je nakonfigurovaný tak, aby zobrazoval tézu pre každé kolo na verejnej stránke. Tézu nie je potrebné zverejňovať."
+msgstr[1] "Tvoj turnaj nie je nakonfigurovaný tak, aby zobrazoval tézy pre každé kolo na verejnej stránke. Tézy nie je potrebné zverejňovať."
+msgstr[2] "Tvoj turnaj nie je nakonfigurovaný tak, aby zobrazoval tézy pre každé kolo na verejnej stránke. Tézy nie je potrebné zverejňovať."
+msgstr[3] "Tvoj turnaj nie je nakonfigurovaný tak, aby zobrazoval tézy pre každé kolo na verejnej stránke. Tézy nie je potrebné zverejňovať."
 
 #: draw/templates/draw_display_admin.html
 msgid "The motion has been released publicly."
 msgid_plural "Motions have been released publicly."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Téza bola verejne zverejnená."
+msgstr[1] "Tézy boli verejne zverejnené."
+msgstr[2] "Tézy boli verejne zverejnené."
+msgstr[3] "Tézy boli verejne zverejnené."
 
 #: draw/templates/draw_display_admin.html
 msgid "View public motions page"
-msgstr ""
+msgstr "Zobraziť verejnú stránku téz"
 
 #: draw/templates/draw_display_admin.html
 #, python-format
 msgid "You have released the motions, but they will not show to the public unless the \"public view of motions\" setting is enabled in <a class=\"alert-link\" href=\"%(alert_link)s\">this tournament's configuration</a>."
-msgstr ""
+msgstr "Zverejnil/a si tézy, ale verejnosti sa nezobrazia, pokiaľ nie je v <a class=\"alert-link\" href=\"%(alert_link)s\">konfigurácii tohto turnaja</a> povolené nastavenie \"verejné zobrazenie téz\"."
 
 #: draw/templates/draw_display_admin.html
 #: draw/templates/draw_display_assistant.html
 msgid "(for the briefing room)"
-msgstr ""
+msgstr "(pre briefingovú miestnosť)"
 
 #: draw/templates/draw_display_admin.html
 #: draw/templates/draw_display_assistant.html
 msgid "Display Draw ordered by Room"
-msgstr ""
+msgstr "Zobraziť pairing zoradený podľa miestnosti"
 
 #: draw/templates/draw_display_admin.html
 #: draw/templates/draw_display_assistant.html
 msgid "Display Draw ordered by Team"
-msgstr ""
+msgstr "Zobraziť pairing zoradený podľa tímu"
 
 #: draw/templates/draw_display_admin.html
 #: draw/templates/draw_display_assistant.html
 msgid "Display Draws for <strong>All Current Rounds</strong> ordered by Room"
-msgstr ""
+msgstr "Zobraziť pairingy pre <strong>všetky aktuálne kolá</strong> zoradené podľa miestnosti"
 
 #: draw/templates/draw_display_admin.html
 #: draw/templates/draw_display_assistant.html
 msgid "Display Draws for <strong>All Current Rounds</strong> ordered by Team"
-msgstr ""
+msgstr "Zobraziť pairingy pre <strong>všetky aktuálne kolá</strong> zoradené podľa tímu"
 
 #: draw/templates/draw_display_admin.html
 #: draw/templates/draw_display_assistant.html
 #, python-format
 msgid "Display Draw for <strong>%(round)s</strong> ordered by Room"
-msgstr ""
+msgstr "Zobraziť pairing pre <strong>%(round)s</strong> zoradený podľa miestnosti"
 
 #: draw/templates/draw_display_admin.html
 #: draw/templates/draw_display_assistant.html
 #, python-format
 msgid "Display Draw for <strong>%(round)s</strong> ordered by Team"
-msgstr ""
+msgstr "Zobraziť pairing pre <strong>%(round)s</strong> zoradený podľa tímu"
 
 #: draw/templates/draw_display_admin.html
 #: draw/templates/draw_display_assistant.html
 msgid "Display Motions"
-msgstr ""
+msgstr "Zobraziť tézy"
 
 #: draw/templates/draw_display_admin.html
 msgid "Email Motions"
-msgstr ""
+msgstr "Poslať tézy e-mailom"
 
 #: draw/templates/draw_display_admin.html
 msgid "Email Motion"
-msgstr ""
+msgstr "Poslať tézu e-mailom"
 
 #: draw/templates/draw_display_admin.html
 msgid "Start at"
-msgstr ""
+msgstr "Začiatok o"
 
 #: draw/templates/draw_display_assistant.html
 msgid "(for printing)"
-msgstr ""
+msgstr "(na tlač)"
 
 #: draw/templates/draw_display_assistant.html
 msgid "View Ballot Forms"
-msgstr ""
+msgstr "Zobraziť formuláre ballotov"
 
 #: draw/templates/draw_display_assistant.html
 msgid "View Feedback Forms"
-msgstr ""
+msgstr "Zobraziť formuláre spätnej väzby"
 
 #: draw/templates/draw_display_by.html
 msgid "Scroll Speed"
-msgstr ""
+msgstr "Rýchlosť posúvania"
 
 #: draw/templates/draw_display_by.html
 msgid "Fast"
-msgstr ""
+msgstr "Rýchlo"
 
 #: draw/templates/draw_display_by.html
 msgid "Medium"
-msgstr ""
+msgstr "Stredne"
 
 #: draw/templates/draw_display_by.html
 msgid "Slow"
-msgstr ""
+msgstr "Pomaly"
 
 #: draw/templates/draw_display_by.html
 msgid "Extra Slow"
-msgstr ""
+msgstr "Veľmi pomaly"
 
 #: draw/templates/draw_display_by.html
 msgid "Hide Adjudicators"
-msgstr ""
+msgstr "Skryť rozhodcov"
 
 #: draw/templates/draw_display_by.html
 msgid "Show Adjudicators"
-msgstr ""
+msgstr "Zobraziť rozhodcov"
 
 #: draw/templates/draw_display_by.html
 msgid "Text Size"
-msgstr ""
+msgstr "Veľkosť textu"
 
 #: draw/templates/draw_display_by.html
 msgid "Tiny"
-msgstr ""
+msgstr "Veľmi malé"
 
 #: draw/templates/draw_display_by.html
 msgid "Small"
-msgstr ""
+msgstr "Malé"
 
 #: draw/templates/draw_display_by.html
 msgid "Large"
-msgstr ""
+msgstr "Veľké"
 
 #: draw/templates/draw_display_by.html
 msgid "Huge"
-msgstr ""
+msgstr "Obrovské"
 
 #: draw/templates/draw_display_by.html
 msgid "Stop Scroll"
-msgstr ""
+msgstr "Zastaviť posúvanie"
 
 #: draw/templates/draw_not_released.html
 #, python-format
 msgid "The draw for %(round)s has yet to be released."
-msgstr ""
+msgstr "Pairing pre %(round)s ešte nebol zverejnený."
 
 #: draw/templates/draw_not_released.html
 msgid "The draw for the next round has yet to be released."
-msgstr ""
+msgstr "Pairing pre nasledujúce kolo ešte nebol zverejnený."
 
 #: draw/templates/draw_status_confirmed.html
 msgid "Adjudicator Allocations"
-msgstr ""
+msgstr "Priradenia rozhodcov"
 
 #: draw/templates/draw_status_confirmed.html
 msgid "There are currently fewer adjudicators checked in than there are rooms."
-msgstr ""
+msgstr "Momentálne je prihlásených menej rozhodcov, ako je miestností."
 
 #: draw/templates/draw_status_confirmed.html
 msgid "Allocate adjudicators"
-msgstr ""
+msgstr "Priradiť rozhodcov"
 
 #: draw/templates/draw_status_confirmed.html
 msgid "Edit adjudicator allocation"
-msgstr ""
+msgstr "Upraviť priradenie rozhodcov"
 
 #: draw/templates/draw_status_confirmed.html
 msgid "Room Allocations"
-msgstr ""
+msgstr "Priradenia miestností"
 
 #: draw/templates/draw_status_confirmed.html
 msgid "Allocate rooms"
-msgstr ""
+msgstr "Priradiť miestnosti"
 
 #: draw/templates/draw_status_confirmed.html
 msgid "Edit room allocation"
-msgstr ""
+msgstr "Upraviť priradenie miestností"
 
 #: draw/templates/draw_status_confirmed.html
 msgid "Preformed Panels"
-msgstr ""
+msgstr "Predpripravené panely"
 
 #: draw/templates/draw_status_confirmed.html
 #, python-format
 msgid "There is %(npanels)s preformed panel available for this round."
 msgid_plural "There are %(npanels)s preformed panels available for this round."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Pre toto kolo je dostupný %(npanels)s predpripravený panel."
+msgstr[1] "Pre toto kolo sú dostupné %(npanels)s predpripravené panely."
+msgstr[2] "Pre toto kolo sú dostupné %(npanels)s predpripravené panely."
+msgstr[3] "Pre toto kolo je dostupných %(npanels)s predpripravených panelov."
 
 #: draw/templates/draw_status_confirmed.html
 msgid "There are no preformed panels available for this round"
-msgstr ""
+msgstr "Pre toto kolo nie sú dostupné žiadne predpripravené panely"
 
 #: draw/templates/draw_status_confirmed.html
 #, python-format
 msgid "Edit preformed panels for %(round)s"
-msgstr ""
+msgstr "Upraviť predpripravené panely pre %(round)s"
 
 #: draw/templates/draw_status_confirmed.html
 msgid "Side Allocations"
-msgstr ""
+msgstr "Priradenia strán"
 
 #: draw/templates/draw_status_confirmed.html
 #, python-format
 msgid "1 debate does not have its sides confirmed."
 msgid_plural "%(ndebates)s debates do not have their sides confirmed."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "1 debata nemá potvrdené strany."
+msgstr[1] "%(ndebates)s debaty nemajú potvrdené strany."
+msgstr[2] "%(ndebates)s debaty nemajú potvrdené strany."
+msgstr[3] "%(ndebates)s debát nemá potvrdené strany."
 
 #: draw/templates/draw_status_draft.html
 msgid "Delete Draw"
-msgstr ""
+msgstr "Vymazať pairing"
 
 #: draw/templates/draw_status_draft.html
 msgid "Confirm Draw"
-msgstr ""
+msgstr "Potvrdiť pairing"
 
 #: draw/templates/draw_status_draft.html
 #, python-format
 msgid "The team standings precedence is empty. This means that teams aren't ranked according to any metrics, so all teams are in a single bracket containing everyone. If this isn't what you intended, set the team standings precedence in the <a href=\"%(standings_config_url)s\" class=\"alert-link\">Standings section of this tournament's configuration</a>, then delete and recreate the draw. In most tournaments, the first metric should be points or wins."
-msgstr ""
+msgstr "Poradie tímov je prázdne. To znamená, že tímy nie sú zoradené podľa žiadnych metrík, takže všetky tímy sú v jedinom koši obsahujúcom všetkých. Ak to nie je to, čo si zamýšľal/a, nastav poradie tímov v <a href=\"%(standings_config_url)s\" class=\"alert-link\">sekcii Poradie konfigurácie tohto turnaja</a>, potom vymaž a znovu vytvor pairing. Vo väčšine turnajov by prvou metrikou mali byť body alebo výhry."
 
 #: draw/templates/draw_status_draft.html
 #, python-format
 msgid "Brackets are formed using the first metric in the team standings precedence, which is currently set to <strong>%(metric)s</strong>, rather than team points, which is the more usual convention. If this isn't what you wanted, you can <a href=\"%(standings_config_url)s\" class=\"alert-link\">change the team standings precedence in the standings configuration page</a>."
-msgstr ""
+msgstr "Koše sa tvoria pomocou prvej metriky v poradí tímov, ktorá je momentálne nastavená na <strong>%(metric)s</strong>, nie tímové body, čo je bežnejšia konvencia. Ak to nie je to, čo si chcel/a, môžeš <a href=\"%(standings_config_url)s\" class=\"alert-link\">zmeniť poradie tímov na stránke konfigurácie poradia</a>."
 
 #: draw/templates/draw_status_draft.html
 #, python-format
 msgid "The draw type for this round is set to <strong>manual</strong>, so Tabbycat has just made a blank draw. Head on over to <a href=\"%(edit_matchups_url)s\" class=\"alert-link\">Edit Sides/Matchups</a> to fill it in."
-msgstr ""
+msgstr "Typ pairingu pre toto kolo je nastavený na <strong>manuálny</strong>, takže Tabbycat práve vytvoril prázdny pairing. Prejdi na <a href=\"%(edit_matchups_url)s\" class=\"alert-link\">Upraviť strany/zápasy</a> a vyplň ho."
 
 #: draw/templates/draw_status_draft.html
 #, python-format
 msgid "The adjudicator score range is 0, and so adjudicator scores will be ignored when allocating. You can <a href=\"%(feedback_config_url)s\" class=\"alert-link\">change the adjudicator score range in the feedback configuration page</a>."
-msgstr ""
+msgstr "Rozsah skóre rozhodcu je 0, takže skóre rozhodcov sa pri priradení budú ignorovať. Môžeš <a href=\"%(feedback_config_url)s\" class=\"alert-link\">zmeniť rozsah skóre rozhodcu na stránke konfigurácie spätnej väzby</a>."
 
 #: draw/templates/draw_status_draft.html
 msgid "Tabbycat assigns sides in elimination rounds randomly. However, because in elimination rounds, many tournaments draw lots for sides in front of an audience, the sides are marked as \"unconfirmed\", so that it doesn't look like sides have been pre-assigned. After you confirm the draw, you'll need to confirm sides on the \"Edit Sides/Matchups\" page, even if you wish to accept Tabbycat's random assignment."
-msgstr ""
+msgstr "Tabbycat priraďuje strany vo vyraďovacích kolách náhodne. Keďže však mnohé turnaje losujú strany pred publikom, strany sú označené ako \"nepotvrdené\", aby nevyzeralo, že boli vopred priradené. Po potvrdení pairingu bude potrebné potvrdiť strany na stránke \"Upraviť strany/zápasy\", aj keď chceš akceptovať náhodné priradenie od Tabbycat."
 
 #: draw/templates/draw_status_draft.html
 msgid "Highlighted cells relate to changes in position balance, as follows: <ul> <li>Red cells indicates that the team could not be allocated a position that maintains position balance.</li> <li>Yellow cells indicate that the team was previously imbalanced, and is given the best position possible in this draw, but is nonetheless still imbalanced.</li> <li>Green cells indicate that the team's previous imbalance is resolved with this draw.</li> </ul>"
-msgstr ""
+msgstr "Zvýraznené bunky sa vzťahujú na zmeny rovnováhy pozícií takto: <ul> <li>Červené bunky označujú, že tímu nemohla byť priradená pozícia, ktorá udržiava rovnováhu pozícií.</li> <li>Žlté bunky označujú, že tím bol predtým nevyvážený a dostáva najlepšiu možnú pozíciu v tomto pairingu, ale napriek tomu je stále nevyvážený.</li> <li>Zelené bunky označujú, že predchádzajúca nevyváženosť tímu je týmto pairingom vyriešená.</li> </ul>"
 
 #: draw/templates/draw_status_none.html
 #, python-format
 msgid "A draw for %(round)s hasn't yet been generated. To generate one, go to the <a href=\"%(availability_url)s\" class=\"alert-link\">Availability section</a>."
-msgstr ""
+msgstr "Pairing pre %(round)s ešte nebol vygenerovaný. Ak ho chceš vygenerovať, prejdi do <a href=\"%(availability_url)s\" class=\"alert-link\">sekcie Dostupnosť</a>."
 
 #: draw/templates/position_balance.html
 msgid "It looks like sides aren't confirmed for some debates in this round. This position balance report is generated using the \"unconfirmed sides\" in the database, and as a consequence, may not make much sense. It's best to confirm sides in all debates before looking at this report."
-msgstr ""
+msgstr "Zdá sa, že strany nie sú potvrdené pre niektoré debaty v tomto kole. Tento report rovnováhy pozícií je generovaný pomocou \"nepotvrdených strán\" v databáze, a preto nemusí mať veľký zmysel. Pred prezeraním tohto reportu je najlepšie potvrdiť strany vo všetkých debatách."
 
 #: draw/templates/position_balance.html
 #, python-format
 msgid "Your current position cost function is <strong>%(cost_func)s</strong>, raised to an exponent of <strong>%(exponent)s</strong>. <a href=\"https://tabbycat.readthedocs.io/en/latest/features/draw-generation-bp.html#position-cost-options\" target=_\"blank\">Read more about how position cost functions work</a> in our documentation."
-msgstr ""
+msgstr "Tvoja aktuálna funkcia nákladov na pozíciu je <strong>%(cost_func)s</strong>, umocnená na exponent <strong>%(exponent)s</strong>. <a href=\"https://tabbycat.readthedocs.io/en/latest/features/draw-generation-bp.html#position-cost-options\" target=_\"blank\">Prečítaj si viac o tom, ako fungujú funkcie nákladov na pozíciu</a> v našej dokumentácii."
 
 #: draw/templates/position_balance_break.html
 msgid "Position balance reports aren't computed for elimination rounds."
-msgstr ""
+msgstr "Reporty rovnováhy pozícií sa nepočítajú pre vyraďovacie kolá."
 
 #: draw/templates/position_balance_nonbp.html
 msgid "Position balance reports are only available for British Parliamentary tournaments."
-msgstr ""
+msgstr "Reporty rovnováhy pozícií sú dostupné len pre turnaje v britskom parlamentnom formáte."
 
 #: draw/templates/position_balance_round1.html
 msgid "Position balance reports aren't computed for the first round of a tournament."
-msgstr ""
+msgstr "Reporty rovnováhy pozícií sa nepočítajú pre prvé kolo turnaja."
 
 #: draw/views.py
 msgid "No debates in this round"
-msgstr ""
+msgstr "V tomto kole nie sú žiadne debaty"
 
 #: draw/views.py
 #, python-format
 msgid "Draw for %(round)s"
-msgstr ""
+msgstr "Pairing pre %(round)s"
 
 #: draw/views.py
 msgid "Draws for Current Rounds"
-msgstr ""
+msgstr "Pairingy pre aktuálne kolá"
 
 #: draw/views.py
 #, python-format
 msgid "debates start at %(time)s (in %(time_zone)s)"
-msgstr ""
+msgstr "debaty začínajú o %(time)s (v %(time_zone)s)"
 
 #: draw/views.py
 #, python-format
 msgid "start times in time zone: %(time_zone)s"
-msgstr ""
+msgstr "časy začiatku v časovom pásme: %(time_zone)s"
 
 #: draw/views.py
 #, python-format
 msgid "debate starts at %(time)s"
 msgid_plural "debates start at %(time)s"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "debata začína o %(time)s"
+msgstr[1] "debaty začínajú o %(time)s"
+msgstr[2] "debaty začínajú o %(time)s"
+msgstr[3] "debaty začínajú o %(time)s"
 
 #: draw/views.py
 msgid "The draw for this round hasn't been released."
-msgstr ""
+msgstr "Pairing pre toto kolo ešte nebol zverejnený."
 
 #: draw/views.py
 #, python-format
 msgid "All Debates for All Rounds of %(tournament)s"
-msgstr ""
+msgstr "Všetky debaty pre všetky kolá turnaja %(tournament)s"
 
 #: draw/views.py
 msgid "Adjudicator Assignments"
-msgstr ""
+msgstr "Priradenia rozhodcov"
 
 #: draw/views.py
 msgid "Position"
-msgstr ""
+msgstr "Pozícia"
 
 #: draw/views.py
 msgid "Team Pairings"
-msgstr ""
+msgstr "Pairingy tímov"
 
 #: draw/views.py
 msgid "No Draw"
-msgstr ""
+msgstr "Žiadny pairing"
 
 #: draw/views.py
 msgid "Draft Draw"
-msgstr ""
+msgstr "Návrh pairingu"
 
 #. Translators: e.g. "Affirmative: Break rank"
 #: draw/views.py
 #, python-format
 msgid "%(side)s: Break rank"
-msgstr ""
+msgstr "%(side)s: poradie postupu"
 
 #. Translators: "BR" stands for "Break rank"
 #: draw/views.py
 msgid "BR"
-msgstr ""
+msgstr "PP"
 
 #: draw/views.py
 msgid "Draw with Details"
-msgstr ""
+msgstr "Pairing s detailmi"
 
 #: draw/views.py
 msgid "Position Balance Report"
-msgstr ""
+msgstr "Report rovnováhy pozícií"
 
 #: draw/views.py
 #, python-format
 msgid "Rényi entropy of order %(order)s"
-msgstr ""
+msgstr "Rényiho entropia rádu %(order)s"
 
 #. Translators: This is appended to the string "Rényi entropy of order 1.0"
 #: draw/views.py
 msgid " (<i>i.e.</i>, Shannon entropy)"
-msgstr ""
+msgstr " (<i>t.j.</i>, Shannonova entropia)"
 
 #: draw/views.py
 msgid "Teams with position imbalances"
-msgstr ""
+msgstr "Tímy s nevyvážením pozícií"
 
 #: draw/views.py
 msgid "No teams with position imbalances! Hooray!"
-msgstr ""
+msgstr "Žiadne tímy s nevyvážením pozícií! Skvelé!"
 
 #: draw/views.py
 msgid "Annotated draw"
-msgstr ""
+msgstr "Anotovaný pairing"
 
 #: draw/views.py
 #, python-format
 msgid "Could not create draw for %(round)s, there was already a draw!"
-msgstr ""
+msgstr "Nepodarilo sa vytvoriť pairing pre %(round)s, pairing už existoval!"
 
 #: draw/views.py
 #, python-format
@@ -1122,6 +1126,8 @@ msgid ""
 "<p>The draw could not be created, for the following reason: <em>%(message)s</em></p>\n"
 "<p>Please fix this issue before attempting to create the draw.</p>"
 msgstr ""
+"<p>Pairing sa nepodarilo vytvoriť z nasledujúceho dôvodu: <em>%(message)s</em></p>\n"
+"<p>Pred pokusom o vytvorenie pairingu oprav tento problém.</p>"
 
 #: draw/views.py
 #, python-format
@@ -1129,6 +1135,8 @@ msgid ""
 "<p>The draw could not be created, because the following error occurred: <em>%(message)s</em></p>\n"
 "<p>If this issue persists and you're not sure how to resolve it, please contact the developers.</p>"
 msgstr ""
+"<p>Pairing sa nepodarilo vytvoriť, pretože nastala nasledujúca chyba: <em>%(message)s</em></p>\n"
+"<p>Ak tento problém pretrváva a nevieš, ako ho vyriešiť, kontaktuj vývojárov.</p>"
 
 #: draw/views.py
 #, python-format
@@ -1136,52 +1144,54 @@ msgid ""
 "<p>The team standings could not be generated, because the following error occurred: <em>%(message)s</em></p>\n"
 "<p>Because generating the draw uses the current team standings, this prevents the draw from being generated.</p>"
 msgstr ""
+"<p>Poradie tímov sa nepodarilo vygenerovať, pretože nastala nasledujúca chyba: <em>%(message)s</em></p>\n"
+"<p>Keďže generovanie pairingu využíva aktuálne poradie tímov, toto bráni vygenerovaniu pairingu.</p>"
 
 #: draw/views.py
 msgid "Rooms were not auto-allocated because there are one or more adjudicator room constraints. You should run room allocations after allocating adjudicators."
-msgstr ""
+msgstr "Miestnosti neboli automaticky priradené, pretože existujú jedno alebo viacero obmedzení miestností pre rozhodcov. Priradenie miestností by si mal/a spustiť po priradení rozhodcov."
 
 #: draw/views.py
 msgid "There is no draw."
-msgstr ""
+msgstr "Neexistuje žiadny pairing."
 
 #: draw/views.py
 msgid "The draw had already been confirmed."
-msgstr ""
+msgstr "Pairing už bol potvrdený."
 
 #: draw/views.py
 msgid "Deleted the draw. You can now recreate it as normal."
-msgstr ""
+msgstr "Pairing bol vymazaný. Teraz ho môžeš znovu vytvoriť štandardným spôsobom."
 
 #: draw/views.py
 msgid "The draw has already been released."
-msgstr ""
+msgstr "Pairing už bol zverejnený."
 
 #: draw/views.py
 msgid "The draw must be confirmed before being released."
-msgstr ""
+msgstr "Pairing musí byť potvrdený pred zverejnením."
 
 #: draw/views.py
 msgid "Released the draw."
-msgstr ""
+msgstr "Pairing bol zverejnený."
 
 #: draw/views.py
 msgid "The draw had been unreleased."
-msgstr ""
+msgstr "Zverejnenie pairingu bolo zrušené."
 
 #: draw/views.py
 msgid "Unreleased the draw."
-msgstr ""
+msgstr "Zverejnenie pairingu bolo zrušené."
 
 #: draw/views.py
 #, python-format
 msgid "Sorry, \"%(input)s\" isn't a valid time. It must be in 24-hour format, with a colon, for example: \"13:57\"."
-msgstr ""
+msgstr "Ľutujem, \"%(input)s\" nie je platný čas. Musí byť v 24-hodinovom formáte s dvojbodkou, napríklad: \"13:57\"."
 
 #: draw/views.py
 msgid "Side Pre-Allocations"
-msgstr ""
+msgstr "Predpriradenia strán"
 
 #: draw/views.py
 msgid "Edit Matchups"
-msgstr ""
+msgstr "Upraviť zápasy"

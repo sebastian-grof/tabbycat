@@ -798,7 +798,7 @@ msgstr[3] "Stále zostáva %(num_unconfirmed)s nepotvrdených ballotov. <strong>
 
 #: tournaments/templates/round_complete_check.html
 msgid "<p>This round is a silent round.</p> <p> Even though public view of results is enabled, results for <em>this</em> round will still be hidden from public view after completing this round. <p> <p> You can change whether this round is silent using the button above. </p>"
-msgstr "<p>Toto kolo je tiché.</p> <p>Aj keď je verejné zobrazovanie výsledkov zapnuté, výsledky <em>tohto</em> kola zostanú po jeho dokončení skryté pred verejnosťou.</p> <p>To, či je toto kolo tiché, môžeš zmeniť tlačidlom vyššie.</p>"
+msgstr "<p>Toto kolo je tiché.</p> <p>Aj keď je verejné zobrazovanie výsledkov zapnuté, výsledky <em>tohto</em> kola zostanú po jeho dokončení skryté pred verejnosťou. <p> <p>To, či je toto kolo tiché, môžeš zmeniť tlačidlom vyššie. </p>"
 
 #: tournaments/templates/round_complete_check.html
 #, python-format

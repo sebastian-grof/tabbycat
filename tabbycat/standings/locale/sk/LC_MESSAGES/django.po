@@ -375,7 +375,7 @@ msgstr "Rečníci môžu vynechať až %(count)s záverečných rečí, kým neb
 
 #: standings/templates/reply_standings.html
 msgid "All reply speakers appear in these standings, no matter how many replies they've missed."
-msgstr ""
+msgstr "Všetci rečníci záverečných rečí sa zobrazujú v tomto poradí bez ohľadu na to, koľko záverečných rečí vynechali."
 
 #: standings/templates/reply_standings.html
 #: standings/templates/speaker_standings.html
@@ -386,7 +386,7 @@ msgstr "Tieto nastavenia je možné zmeniť v sekcii <a href=\"%(standings_confi
 #: standings/templates/speaker_standings.html
 #, python-format
 msgid "The speaker standings precedence is empty. This means that speakers aren't ranked according to any metrics, so everyone is first equal. If this isn't what you intended, set the speaker standings precedence in the <a href=\"%(standings_config_url)s\" class=\"alert-link\">Standings section of this tournament's configuration</a>. In most tournaments, the first metric should be total or average."
-msgstr ""
+msgstr "Poradie metrík rečníkov je prázdne. To znamená, že rečníci nie sú zoradení podľa žiadnych metrík a všetci sú na prvom mieste. Ak to nie je tvoj zámer, nastav poradie metrík rečníkov v sekcii <a href=\"%(standings_config_url)s\" class=\"alert-link\">Poradie v konfigurácii tohto turnaja</a>. Vo väčšine turnajov by prvou metrikou mal byť súčet alebo priemer."
 
 #: standings/templates/speaker_standings.html
 msgid "Speakers are ranked by their <strong>average score</strong>."
@@ -403,7 +403,7 @@ msgstr "Rečníci môžu vynechať až %(count)s debát, kým nebudú vyradení 
 
 #: standings/templates/speaker_standings.html
 msgid "All speakers appear in these standings, no matter how many debates they've missed."
-msgstr ""
+msgstr "Všetci rečníci sa zobrazujú v tomto poradí bez ohľadu na to, koľko debát vynechali."
 
 #: standings/templates/speaker_standings.html
 #, python-format
@@ -540,7 +540,7 @@ msgstr "Diverzita"
 #: standings/templates/team_standings.html
 #, python-format
 msgid "The team standings precedence is empty. This means that teams aren't ranked according to any metrics, so everyone is first equal. If this isn't what you intended, set the team standings precedence in the <a href=\"%(standings_config_url)s\" class=\"alert-link\">Standings section of this tournament's configuration</a>. In most tournaments, the first metric should be points or wins."
-msgstr ""
+msgstr "Poradie metrík tímov je prázdne. To znamená, že tímy nie sú zoradené podľa žiadnych metrík a všetky sú na prvom mieste. Ak to nie je tvoj zámer, nastav poradie metrík tímov v sekcii <a href=\"%(standings_config_url)s\" class=\"alert-link\">Poradie v konfigurácii tohto turnaja</a>. Vo väčšine turnajov by prvou metrikou mali byť body alebo výhry."
 
 #: standings/views.py
 #, python-format
@@ -633,4 +633,4 @@ msgstr "Prehľad spätnej väzby"
 
 #: standings/views.py
 msgid "An adjudicator's score is determined by a customisable mix of their base score and their feedback ratings. The current mix is specified below as the 'Score Components.' Feedback ratings are determined by averaging the results of all individual pieces of feedback across all rounds. <a href='https://tabbycat.readthedocs.io/en/stable/features/adjudicator-feedback.html#how-is-an-adjudicator-s-score-determined'>Read more</a>."
-msgstr "Hodnotenie rozhodcu sa určuje na základe individuálne nastaviteľného pomeru jeho základného skóre hodnotení spätnej väzby. Aktuálny pomer je uvedený nižšie ako „skóre components“. Hodnotenia spätnej väzby sa určujú ako priemer výsledkov všetkých jednotlivých hodnotení zo všetkých kôl. <a href=‚https://tabbycat.prečítaťthedocs.io/en/stable/features/rozhodca/rozhodkyňa-spätná väzba.html#ako-is-an-rozhodca/rozhodkyňa-s-skóre-determined‘>Prečítajte si viac</a>."
+msgstr "Hodnotenie rozhodcu sa určuje na základe individuálne nastaviteľného pomeru jeho základného skóre a hodnotení spätnej väzby. Aktuálny pomer je uvedený nižšie ako „Komponenty skóre”. Hodnotenia spätnej väzby sa určujú ako priemer výsledkov všetkých jednotlivých hodnotení zo všetkých kôl. <a href=’https://tabbycat.readthedocs.io/en/stable/features/adjudicator-feedback.html#how-is-an-adjudicator-s-score-determined’>Čítaj viac</a>."

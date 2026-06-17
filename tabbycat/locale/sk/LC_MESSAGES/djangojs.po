@@ -504,7 +504,7 @@ msgstr "Bez zmeny"
 
 #: utils/templates/DragAndDropActions.vue:8
 msgid "Return to Draw"
-msgstr "Return na?reb"
+msgstr "Späť na pairing"
 
 #: utils/templates/DragAndDropActions.vue:15
 msgid "Auto-Prioritise"

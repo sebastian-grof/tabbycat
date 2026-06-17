@@ -3,221 +3,217 @@ msgstr ""
 "Project-Id-Version: tabbycat\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-01-28 12:44-0400\n"
-"PO-Revision-Date: 2019-07-11 23:50\n"
-"Last-Translator: philip_tc\n"
-"Language-Team: English\n"
-"Language: en_US\n"
+"PO-Revision-Date: 2026-04-26 00:00+0200\n"
+"Last-Translator: \n"
+"Language-Team: Slovak\n"
+"Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: crowdin.com\n"
-"X-Crowdin-Project: tabbycat\n"
-"X-Crowdin-Language: en\n"
-"X-Crowdin-File: /develop/tabbycat/venues/locale/en/LC_MESSAGES/django.po\n"
+"Plural-Forms: nplurals=4; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 3;\n"
 
 #: venues/apps.py
 msgid "Rooms"
-msgstr ""
+msgstr "Miestnosti"
 
 #: venues/consumers.py
 msgid "Draw is already released, unrelease draw to assign rooms."
-msgstr ""
+msgstr "Pairing je už zverejnený. Zruš zverejnenie pairingu, aby si mohol priradiť miestnosti."
 
 #: venues/consumers.py
 msgid "Draw is not confirmed, confirm draw to assign rooms."
-msgstr ""
+msgstr "Pairing nie je potvrdený. Potvrď pairing, aby si mohol priradiť miestnosti."
 
 #: venues/consumers.py
 msgid "Successfully auto-allocated rooms to debates."
-msgstr ""
+msgstr "Miestnosti boli úspešne automaticky priradené k debatám."
 
 #: venues/models.py
 msgid "name"
-msgstr ""
+msgstr "názov"
 
 #: venues/models.py
 msgid "priority"
-msgstr ""
+msgstr "priorita"
 
 #: venues/models.py
 msgid "Rooms with a higher priority number will be preferred when allocating rooms to debates"
-msgstr ""
+msgstr "Miestnosti s vyšším číslom priority budú uprednostnené pri priraďovaní miestností k debatám"
 
 #: venues/models.py
 msgid "tournament"
-msgstr ""
+msgstr "turnaj"
 
 #: venues/models.py
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: venues/models.py
 msgid "A URL that contains extra information about this room, e.g. a map or a meeting link (for online tournaments)"
-msgstr ""
+msgstr "URL s ďalšími informáciami o tejto miestnosti, napr. mapa alebo odkaz na stretnutie (pre online turnaje)"
 
 #: venues/models.py
 msgid "room"
-msgstr ""
+msgstr "miestnosť"
 
 #: venues/models.py
 msgid "rooms"
-msgstr ""
+msgstr "miestnosti"
 
 #: venues/models.py
 msgid "Don't display in room name"
-msgstr ""
+msgstr "Nezobrazovať v názve miestnosti"
 
 #: venues/models.py
 msgid "Display as prefix"
-msgstr ""
+msgstr "Zobraziť ako predponu"
 
 #: venues/models.py
 msgid "Display as suffix"
-msgstr ""
+msgstr "Zobraziť ako príponu"
 
 #: venues/models.py
 msgid "Name of category, e.g., \"Purple\", \"Step-free access\", \"Close to tab room\". This name is shown when the category is prefixed or suffixed to a room name in the draw, e.g., \"Purple – G05\"."
-msgstr ""
+msgstr "Názov kategórie, napr. „Fialová”, „Bezbariérový prístup”, „Blízko tab room”. Tento názov sa zobrazuje, keď sa kategória pridáva ako predpona alebo prípona k názvu miestnosti v pairingu, napr. „Fialová – G05”."
 
 #: venues/models.py
 msgid "description"
-msgstr ""
+msgstr "popis"
 
 #: venues/models.py
 msgid "Description, as the predicate of a sentence, e.g. \"has step-free access\", \"is close to the briefing hall\". This description follows \"This room\" when shown in tooltips, e.g., \"This room is close to the briefing hall.\"."
-msgstr ""
+msgstr "Popis ako prísudok vety, napr. „má bezbariérový prístup”, „je blízko zasadačky”. Tento popis nasleduje za „Táto miestnosť” pri zobrazení v tiptitkách, napr. „Táto miestnosť je blízko zasadačky.”."
 
 #: venues/models.py
 msgid "display in room name"
-msgstr ""
+msgstr "zobraziť v názve miestnosti"
 
 #: venues/models.py
 msgid "Prefix: \"Purple – G05\", Suffix: \"G05 – Purple\""
-msgstr ""
+msgstr "Predpona: „Fialová – G05”, Prípona: „G05 – Fialová”"
 
 #: venues/models.py
 msgid "display in public tooltip"
-msgstr ""
+msgstr "zobraziť vo verejnom tiptitku"
 
 #: venues/models.py
 msgid "Displays the description in the tooltip for the room on public pages. The description, if not blank, will always show on admin pages."
-msgstr ""
+msgstr "Zobrazuje popis v tiptitku miestnosti na verejných stránkach. Popis, ak nie je prázdny, sa vždy zobrazí na admin stránkach."
 
 #: venues/models.py
 msgid "room category"
-msgstr ""
+msgstr "kategória miestnosti"
 
 #: venues/models.py
 msgid "room categories"
-msgstr ""
+msgstr "kategórie miestností"
 
 #: venues/models.py
 msgid "category"
-msgstr ""
+msgstr "kategória"
 
 #: venues/models.py
 msgid "subject content type"
-msgstr ""
+msgstr "typ obsahu subjektu"
 
 #: venues/models.py
 msgid "subject ID"
-msgstr ""
+msgstr "ID subjektu"
 
 #: venues/models.py
 msgid "room constraint"
-msgstr ""
+msgstr "obmedzenie miestnosti"
 
 #: venues/models.py
 msgid "room constraints"
-msgstr ""
+msgstr "obmedzenia miestností"
 
 #: venues/templates/venue_categories_edit.html
 msgid "Room Categories"
-msgstr ""
+msgstr "Kategórie miestností"
 
 #: venues/templates/venue_categories_edit.html
 msgid "Room categories allow you to group rooms together into \"zones\" to display in the draw and make navigation easier for participants, and/or specify constraints on room allocation that require teams, adjudicators or institutions to be put in a room in a particular category."
-msgstr ""
+msgstr "Kategórie miestností ti umožňujú zoskupovať miestnosti do „zón” na zobrazenie v pairingu a uľahčenie orientácie účastníkom, a/alebo definovať obmedzenia priraďovania miestností, ktoré vyžadujú, aby tímy, rozhodcovia alebo inštitúcie boli v miestnosti určitej kategórie."
 
 #: venues/templates/venue_categories_edit.html
 #, python-format
 msgid "If you want to delete room categories, use the <a href=\"%(edit_db_url)s\" class=\"alert-link\">Edit Database</a> area."
-msgstr ""
+msgstr "Ak chceš vymazať kategórie miestností, použi oblasť <a href=\"%(edit_db_url)s\" class=\"alert-link\">Upraviť databázu</a>."
 
 #: venues/templates/venue_categories_edit.html
 msgid "Save Room Categories"
-msgstr ""
+msgstr "Uložiť kategórie miestností"
 
 #: venues/templates/venue_constraints_edit.html
 msgid "Room Constraints"
-msgstr ""
+msgstr "Obmedzenia miestností"
 
 #: venues/templates/venue_constraints_edit.html
 msgid "Room constraints tell the room allocator to try to keep the specified team or adjudicator, or all teams (but not adjudicators) from the specified institution, in a room in the given category. The \"priority\" field resolves conflicting constraints: the higher priority takes precedence. You can also use the priority field to specify \"lower-preference\" constraints, which are taken if a higher-priority constraint couldn't be met."
-msgstr ""
+msgstr "Obmedzenia miestností inštruujú priraďovač miestností, aby sa pokúsil umiestniť zadaný tím alebo rozhodcu, alebo všetky tímy (nie rozhodcov) zo zadanej inštitúcie do miestnosti v danej kategórii. Pole „priorita” rieši konfliktné obmedzenia: vyššia priorita má prednosť. Pole priorita môžeš použiť aj na definovanie obmedzení s „nižšou preferenciou”, ktoré sa uplatnia, ak obmedzenie s vyššou prioritou nemohlo byť splnené."
 
 #: venues/templates/venue_constraints_edit.html
 msgid "Save Room Constraints"
-msgstr ""
+msgstr "Uložiť obmedzenia miestností"
 
 #: venues/utils.py
 #, python-format
 msgid "Room constraint of %(name)s met (%(category)s)"
-msgstr ""
+msgstr "Obmedzenie miestnosti pre %(name)s splnené (%(category)s)"
 
 #: venues/utils.py
 #, python-format
 msgid "Room does not meet any constraint of %(name)s"
-msgstr ""
+msgstr "Miestnosť nespĺňa žiadne obmedzenie pre %(name)s"
 
 #: venues/utils.py
 #, python-format
 msgid "Room constraint of %(team)s met (%(category)s, via institution %(institution)s)"
-msgstr ""
+msgstr "Obmedzenie miestnosti pre %(team)s splnené (%(category)s, cez inštitúciu %(institution)s)"
 
 #: venues/utils.py
 #, python-format
 msgid "Room does not meet any constraint of institution %(institution)s (%(team)s)"
-msgstr ""
+msgstr "Miestnosť nespĺňa žiadne obmedzenie inštitúcie %(institution)s (%(team)s)"
 
 #: venues/views.py
 msgid "Edit Rooms"
-msgstr ""
+msgstr "Upraviť miestnosti"
 
 #: venues/views.py
 #, python-format
 msgid "Saved room category: %(list)s"
 msgid_plural "Saved venue categories: %(list)s"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Uložená kategória miestnosti: %(list)s"
+msgstr[1] "Uložené kategórie miestností: %(list)s"
+msgstr[2] "Uložené kategórie miestností: %(list)s"
+msgstr[3] "Uložených kategórií miestností: %(list)s"
 
 #: venues/views.py
 msgid "No changes were made to the room categories."
-msgstr ""
+msgstr "V kategóriách miestností neboli vykonané žiadne zmeny."
 
 #: venues/views.py
 #, python-format
 msgid "%s (Adjudicator)"
-msgstr ""
+msgstr "%s (rozhodca)"
 
 #: venues/views.py
 #, python-format
 msgid "%s (Team)"
-msgstr ""
+msgstr "%s (tím)"
 
 #: venues/views.py
 #, python-format
 msgid "%s (Institution)"
-msgstr ""
+msgstr "%s (inštitúcia)"
 
 #: venues/views.py
 #, python-format
 msgid "Saved %(count)d room constraint."
 msgid_plural "Saved %(count)d room constraints."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Uložené %(count)d obmedzenie miestnosti."
+msgstr[1] "Uložené %(count)d obmedzenia miestností."
+msgstr[2] "Uložené %(count)d obmedzenia miestností."
+msgstr[3] "Uložených %(count)d obmedzení miestností."

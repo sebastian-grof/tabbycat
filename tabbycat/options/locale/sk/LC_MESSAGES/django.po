@@ -5,1914 +5,1914 @@ msgstr ""
 "POT-Creation-Date: 2025-07-06 09:38+1000\n"
 "PO-Revision-Date: 2019-07-11 23:49\n"
 "Last-Translator: philip_tc\n"
-"Language-Team: English\n"
-"Language: en_US\n"
+"Language-Team: Slovak\n"
+"Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=4; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : (n>=5 || n==0) ? 3 : 2;\n"
 "X-Generator: crowdin.com\n"
 "X-Crowdin-Project: tabbycat\n"
-"X-Crowdin-Language: en\n"
+"X-Crowdin-Language: sk\n"
 "X-Crowdin-File: /develop/tabbycat/options/locale/en/LC_MESSAGES/django.po\n"
 
 #: options/apps.py
 msgid "Tournament Options"
-msgstr ""
+msgstr "Nastavenia turnaja"
 
 #: options/forms.py
 msgid "Mininum score must be less than maximum score"
-msgstr ""
+msgstr "Minimálne skóre musí byť nižšie ako maximálne skóre"
 
 #: options/forms.py
 msgid "Intermediate 1 or 2 require preallocated sides"
-msgstr ""
+msgstr "Intermediate 1 alebo 2 vyžadujú vopred priradené strany"
 
 #: options/forms.py
 msgid "Four-team formats require consensus ballots"
-msgstr ""
+msgstr "Formáty so štyrmi tímami vyžadujú konsenzuálne balloty"
 
 #: options/forms.py
 msgid "Must set a password if using a password is enabled"
-msgstr ""
+msgstr "Ak je vyžadované heslo, musíš ho nastaviť"
 
 #: options/forms.py
 msgid "Showing team institutions defeats the purpose of code names"
-msgstr ""
+msgstr "Zobrazovanie inštitúcií tímov popiera zmysel kódových názvov"
 
 #: options/models.py
 msgid "instance"
-msgstr ""
+msgstr "inštancia"
 
 #: options/models.py
 msgid "tournament preference"
-msgstr ""
+msgstr "nastavenie turnaja"
 
 #: options/models.py
 msgid "tournament preferences"
-msgstr ""
+msgstr "nastavenia turnaja"
 
 #: options/preferences.py options/templates/preferences_index.html
 msgid "Score Rules"
-msgstr ""
+msgstr "Pravidlá bodov"
 
 #: options/preferences.py
 msgid "Minimum allowed score for substantive speeches"
-msgstr ""
+msgstr "Minimálne povolené skóre pre substantívne reči"
 
 #: options/preferences.py
 msgid "Minimum speaker score"
-msgstr ""
+msgstr "Minimálne skóre rečníka/rečníčky"
 
 #: options/preferences.py
 msgid "Maximum speaker score"
-msgstr ""
+msgstr "Maximálne skóre rečníka/rečníčky"
 
 #: options/preferences.py
 msgid "Maximum allowed score for substantive speeches"
-msgstr ""
+msgstr "Maximálne povolené skóre pre substantívne reči"
 
 #: options/preferences.py
 msgid "Speaker score step"
-msgstr ""
+msgstr "Krok skóre rečníka/rečníčky"
 
 #: options/preferences.py
 msgid "Score steps allowed for substantive speeches, e.g. full points (1) or half points (0.5)"
-msgstr ""
+msgstr "Povolené kroky skóre pre substantívne reči, napr. celé body (1) alebo polovičné body (0.5)"
 
 #: options/preferences.py
 msgid "The largest amount by which one team can beat another (0 means no limit)"
-msgstr ""
+msgstr "Maximálny rozdiel bodov, o ktorý môže jeden tím poraziť druhý (0 znamená bez obmedzenia)"
 
 #: options/preferences.py
 msgid "Maximum margin"
-msgstr ""
+msgstr "Maximálny rozdiel"
 
 #: options/preferences.py
 msgid "Minimum allowed score for reply speeches"
-msgstr ""
+msgstr "Minimálne povolené skóre pre záverečné reči"
 
 #: options/preferences.py
 msgid "Minimum reply score"
-msgstr ""
+msgstr "Minimálne skóre záverečnej reči"
 
 #: options/preferences.py
 msgid "Maximum allowed score for reply speeches"
-msgstr ""
+msgstr "Maximálne povolené skóre pre záverečné reči"
 
 #: options/preferences.py
 msgid "Maximum reply score"
-msgstr ""
+msgstr "Maximálne skóre záverečnej reči"
 
 #: options/preferences.py
 msgid "Score steps allowed for reply speeches, e.g. full points (1) or half points (0.5)"
-msgstr ""
+msgstr "Povolené kroky skóre pre záverečné reči, napr. celé body (1) alebo polovičné body (0.5)"
 
 #: options/preferences.py
 msgid "Reply score step"
-msgstr ""
+msgstr "Krok skóre záverečnej reči"
 
 #: options/preferences.py
 msgid "If checked, a team's winning margin includes dissenting adjudicators"
-msgstr ""
+msgstr "Ak je zaškrtnuté, rozdiel víťazného tímu zahŕňa aj nesúhlasiacich rozhodcov/rozhodkyne"
 
 #: options/preferences.py
 msgid "Margin includes dissenters"
-msgstr ""
+msgstr "Rozdiel zahŕňa nesúhlasiacich"
 
 #: options/preferences.py
 msgid "Any explanatory text needed to introduce the ballot form, e.g. speaker scale"
-msgstr ""
+msgstr "Akýkoľvek vysvetľujúci text k formuláru ballotu, napr. bodovacia škála"
 
 #: options/preferences.py
 msgid "Ballot introduction/explanation"
-msgstr ""
+msgstr "Úvod/vysvetlenie ballotu"
 
 #: options/preferences.py
 msgid "If checked, all speaker scores, including for duplicate speeches, will be counted for team scores"
-msgstr ""
+msgstr "Ak je zaškrtnuté, všetky rečnícke body vrátane duplicitných rečí sa zarátajú do tímového skóre"
 
 #: options/preferences.py
 msgid "Team score includes ghosts"
-msgstr ""
+msgstr "Tímové skóre zahŕňa duplikáty"
 
 #: options/preferences.py options/templates/preferences_index.html
 msgid "Draw Rules"
-msgstr ""
+msgstr "Pravidlá pairingu"
 
 #: options/preferences.py
 msgid "The auto-allocator will only take adjudicators at or above this score as voting panellists"
-msgstr ""
+msgstr "Automatický prideľovač bude brať ako hlasujúcich panelistov len rozhodcov/rozhodkyne s týmto skóre alebo vyšším"
 
 #: options/preferences.py
 msgid "Minimum adjudicator score to vote"
-msgstr ""
+msgstr "Minimálne skóre rozhodcu/rozhodkyne na hlasovanie"
 
 #: options/preferences.py
 msgid "Penalty applied by adjudicator auto-allocator for conflicts"
-msgstr ""
+msgstr "Penalizácia automatického prideľovača rozhodcov/rozhodkýň za konflikty"
 
 #: options/preferences.py
 msgid "Adjudicator conflict penalty"
-msgstr ""
+msgstr "Penalizácia za konflikt rozhodcu/rozhodkyne"
 
 #: options/preferences.py
 msgid "Penalty applied by adjudicator auto-allocator for history"
-msgstr ""
+msgstr "Penalizácia automatického prideľovača rozhodcov/rozhodkýň za históriu"
 
 #: options/preferences.py
 msgid "Adjudicator history penalty"
-msgstr ""
+msgstr "Penalizácia za históriu rozhodcu/rozhodkyne"
 
 #: options/preferences.py
 msgid "Penality applied by preformed panel auto-allocator for priority mismatch"
-msgstr ""
+msgstr "Penalizácia automatického prideľovača predpripravených panelov za nesúlad priorít"
 
 #: options/preferences.py
 msgid "Importance mismatch penalty"
-msgstr ""
+msgstr "Penalizácia za nesúlad dôležitosti"
 
 #: options/preferences.py
 msgid "Penalty applied by conflict avoidance method for teams seeing their own institution"
-msgstr ""
+msgstr "Penalizácia metódy vyhýbania sa konfliktom za stretnutie tímov z rovnakej inštitúcie"
 
 #: options/preferences.py
 msgid "Team institution penalty"
-msgstr ""
+msgstr "Penalizácia za inštitúciu tímu"
 
 #: options/preferences.py
 msgid "Penalty applied by conflict avoidance method for teams seeing each other twice or more"
-msgstr ""
+msgstr "Penalizácia metódy vyhýbania sa konfliktom za opakované stretnutia tímov"
 
 #: options/preferences.py
 msgid "Team history penalty"
-msgstr ""
+msgstr "Penalizácia za históriu tímu"
 
 #: options/preferences.py
 msgid "If checked, the draw will try to avoid pairing teams against their own institution"
-msgstr ""
+msgstr "Ak je zaškrtnuté, pairing sa pokúsi vyhnúť stretnutiu tímov z rovnakej inštitúcie"
 
 #: options/preferences.py
 msgid "Avoid same institution"
-msgstr ""
+msgstr "Vyhýbať sa rovnakej inštitúcii"
 
 #: options/preferences.py
 msgid "If checked, the draw will try to avoid having teams see each other twice"
-msgstr ""
+msgstr "Ak je zaškrtnuté, pairing sa pokúsi vyhnúť opakovanému stretnutiu tímov"
 
 #: options/preferences.py
 msgid "Avoid team history"
-msgstr ""
+msgstr "Vyhýbať sa histórii tímu"
 
 #: options/preferences.py
 msgid "Penalty applied by conflict avoidance method for teams being in a pullup many times. Leave 0 for no penalty."
-msgstr ""
+msgstr "Penalizácia metódy vyhýbania sa konfliktom za opakované pullup tímov. Nechaj 0 pre žiadnu penalizáciu."
 
 #: options/preferences.py
 msgid "Previously saw pullup penalty"
-msgstr ""
+msgstr "Penalizácia za predchádzajúci pullup"
 
 #: options/preferences.py
 msgid "Penalty applied by minimum cost matching to prefer pairings that balance sides."
-msgstr ""
+msgstr "Penalizácia párovacieho algoritmu minimálnych nákladov na uprednostnenie pairingov, ktoré vyvážia strany."
 
 #: options/preferences.py
 msgid "Side balance penalty"
-msgstr ""
+msgstr "Penalizácia za nevyváženie strán"
 
 #: options/preferences.py
 msgid "Penalty applied by minimum cost matching to prefer pairings that follow the draw pairing method."
-msgstr ""
+msgstr "Penalizácia párovacieho algoritmu minimálnych nákladov na uprednostnenie pairingov zodpovedajúcich metóde pairingu."
 
 #: options/preferences.py
 msgid "Pairing deviation penalty"
-msgstr ""
+msgstr "Penalizácia za odchýlku pairingu"
 
 #: options/preferences.py
 msgid "Hard preference applied by minimum cost matching to disallow pairings where a team would debate                   more than this many times on the same side. WARNING: if you set this to a low value, the draw                   algorithm may be unable to find a valid draw."
-msgstr ""
+msgstr "Pevné obmedzenie párovacieho algoritmu minimálnych nákladov zakazujúce pairingy, pri ktorých by tím debatoval viac ako toľkokrát na rovnakej strane. POZOR: ak nastavíš nízku hodnotu, algoritmus pairingu nemusí byť schopný nájsť platný pairing."
 
 #: options/preferences.py
 msgid "Maximum number of times per side"
-msgstr ""
+msgstr "Maximálny počet opakovaní na jednej strane"
 
 #: options/preferences.py
 msgid "How odd brackets are resolved (see documentation for further details)"
-msgstr ""
+msgstr "Ako sa riešia nepárne koše (ďalšie podrobnosti nájdeš v dokumentácii)"
 
 #: options/preferences.py
 msgid "Odd bracket resolution method"
-msgstr ""
+msgstr "Metóda riešenia nepárnych košov"
 
 #: options/preferences.py
 msgid "Pull up from top"
-msgstr ""
+msgstr "Pullup zhora"
 
 #: options/preferences.py
 msgid "Pull up from bottom"
-msgstr ""
+msgstr "Pullup zdola"
 
 #: options/preferences.py
 msgid "Pull up from middle"
-msgstr ""
+msgstr "Pullup zo stredu"
 
 #: options/preferences.py
 msgid "Pull up at random"
-msgstr ""
+msgstr "Náhodný pullup"
 
 #: options/preferences.py
 msgid "Intermediate brackets"
-msgstr ""
+msgstr "Medzikošové párovania"
 
 #: options/preferences.py
 msgid "Intermediate brackets with bubble-up-bubble-down"
-msgstr ""
+msgstr "Medzikošové párovania s bubble-up-bubble-down"
 
 #: options/preferences.py
 msgid "Intermediate 1 (pre-allocated sides)"
-msgstr ""
+msgstr "Intermediate 1 (vopred priradené strany)"
 
 #: options/preferences.py
 msgid "Intermediate 2 (pre-allocated sides)"
-msgstr ""
+msgstr "Intermediate 2 (vopred priradené strany)"
 
 #: options/preferences.py
 msgid "Pull up from the lowest draw strength by rank"
-msgstr ""
+msgstr "Pullup tímu s najnižšou silou pairingu podľa poradia"
 
 #: options/preferences.py
 msgid "Pull up from the least pulled up, then the lowest draw strength by rank"
-msgstr ""
+msgstr "Pullup tímu, ktorý bol pullupnutý najmenej, potom podľa najnižšej sily pairingu"
 
 #: options/preferences.py
 msgid "How affirmative/negative positions are assigned (see documentation for further details)"
-msgstr ""
+msgstr "Ako sa prideľujú pozície kladnej/zápornej strany (ďalšie podrobnosti nájdeš v dokumentácii)"
 
 #: options/preferences.py
 msgid "Side allocations method"
-msgstr ""
+msgstr "Metóda prideľovania strán"
 
 #: options/preferences.py
 msgid "Random"
-msgstr ""
+msgstr "Náhodne"
 
 #: options/preferences.py
 msgid "Balance"
-msgstr ""
+msgstr "Vyvažovanie"
 
 #: options/preferences.py
 msgid "Pre-allocated"
-msgstr ""
+msgstr "Vopred priradené"
 
 #: options/preferences.py
 msgid "Manually enter from ballot"
-msgstr ""
+msgstr "Ručne zadať z ballotu"
 
 #: options/preferences.py
 msgid "Slide: 1 vs 6, 2 vs 7, …. Fold: 1 vs 10, 2 vs 9, …. Adjacent: 1 vs 2, 3 vs 4, …."
-msgstr ""
+msgstr "Slide: 1 vs 6, 2 vs 7, …. Fold: 1 vs 10, 2 vs 9, …. Adjacent: 1 vs 2, 3 vs 4, …."
 
 #: options/preferences.py
 msgid "Pairing method"
-msgstr ""
+msgstr "Metóda pairingu"
 
 #: options/preferences.py
 msgid "Slide"
-msgstr ""
+msgstr "Slide"
 
 #: options/preferences.py
 msgid "Fold"
-msgstr ""
+msgstr "Fold"
 
 #: options/preferences.py
 msgid "Adjacent"
-msgstr ""
+msgstr "Adjacent"
 
 #: options/preferences.py
 msgid "Fold top, adjacent rest"
-msgstr ""
+msgstr "Fold top, adjacent zvyšok"
 
 #: options/preferences.py
 msgid "Method used to try to avoid teams facing each other multiple times or their own institution (see documentation for further details)"
-msgstr ""
+msgstr "Metóda na vyhýbanie sa opakovaným stretnutiam tímov alebo stretnutiam s vlastnou inštitúciou (ďalšie podrobnosti nájdeš v dokumentácii)"
 
 #: options/preferences.py
 msgid "Conflict avoidance method"
-msgstr ""
+msgstr "Metóda vyhýbania sa konfliktom"
 
 #: options/preferences.py
 msgid "Off"
-msgstr ""
+msgstr "Vypnuté"
 
 #: options/preferences.py
 msgid "One-up-one-down"
-msgstr ""
+msgstr "One-up-one-down"
 
 #: options/preferences.py
 msgid "Minimum cost matching (pullups determined beforehand)"
-msgstr ""
+msgstr "Párovania minimálnych nákladov (pullup určený vopred)"
 
 #: options/preferences.py
 msgid "Minimum cost matching (including pullups)"
-msgstr ""
+msgstr "Párovania minimálnych nákladov (vrátane pullupu)"
 
 #: options/preferences.py
 msgid "If using pull-ups, restrict which teams can be pulled up. Two-team formats only. Has no effect on BP or intermediate brackets."
-msgstr ""
+msgstr "Ak sa používajú pullup tímy, obmedz, ktoré tímy môžu byť pullupnuté. Len pre formáty s dvoma tímami. Nemá účinok na BP ani medzikošové párovania."
 
 #: options/preferences.py
 msgid "Pullup restriction"
-msgstr ""
+msgstr "Obmedzenie pullupu"
 
 #: options/preferences.py
 msgid "No restriction"
-msgstr ""
+msgstr "Bez obmedzenia"
 
 #: options/preferences.py
 msgid "Choose from teams who have been pulled up the fewest times so far"
-msgstr ""
+msgstr "Vybrať z tímov, ktoré boli doteraz pullupnuté najmenej"
 
 #: options/preferences.py
 msgid "Choose from teams with the lowest draw strength by wins so far"
-msgstr ""
+msgstr "Vybrať z tímov s najnižšou silou pairingu podľa výhier"
 
 #: options/preferences.py
 msgid "Choose from teams with the lowest draw strength by speaks so far"
-msgstr ""
+msgstr "Vybrať z tímov s najnižšou silou pairingu podľa rečníckych bodov"
 
 #: options/preferences.py
 msgid "Penalty applied when determining which teams to pull up (for minimum cost matching)"
-msgstr ""
+msgstr "Penalizácia pri určovaní, ktoré tímy pullupnúť (pre párovania minimálnych nákladov)"
 
 #: options/preferences.py
 msgid "Pullup penalty"
-msgstr ""
+msgstr "Penalizácia za pullup"
 
 #: options/preferences.py
 msgid "In BP, how pullups are distributed. Only \"Anywhere\" is WUDC-compliant."
-msgstr ""
+msgstr "V BP, ako sa pullup tímy rozdeľujú. Len 'Kdekoľvek' je v súlade s pravidlami WUDC."
 
 #: options/preferences.py
 msgid "BP pullup distribution"
-msgstr ""
+msgstr "Rozdelenie pullupu v BP"
 
 #: options/preferences.py
 msgid "Anywhere in bracket"
-msgstr ""
+msgstr "Kdekoľvek v koši"
 
 #: options/preferences.py
 msgid "All in the same room (not WUDC-compliant)"
-msgstr ""
+msgstr "Všetci v rovnakej miestnosti (nie je v súlade s WUDC)"
 
 #: options/preferences.py
 msgid "In BP, which position cost function to use (see documentation for details)"
-msgstr ""
+msgstr "V BP, ktorú funkciu nákladov na pozíciu použiť (podrobnosti nájdeš v dokumentácii)"
 
 #: options/preferences.py
 msgid "BP position cost"
-msgstr ""
+msgstr "Náklady na pozíciu v BP"
 
 #: options/preferences.py
 msgid "Simple"
-msgstr ""
+msgstr "Jednoduchý"
 
 #: options/preferences.py
 msgid "Rényi entropy"
-msgstr ""
+msgstr "Rényiho entropia"
 
 #: options/preferences.py
 msgid "Population variance"
-msgstr ""
+msgstr "Rozptyl populácie"
 
 #: options/preferences.py
 msgid "Rényi order α, if BP position cost uses Rényi entropy. Shannon is α = 1, Hartley is α = 0, collision is α = 2. See documentation for details."
-msgstr ""
+msgstr "Rényiho rád α, ak náklady na pozíciu v BP používajú Rényiho entropiu. Shannon je α = 1, Hartley je α = 0, kolízia je α = 2. Podrobnosti nájdeš v dokumentácii."
 
 #: options/preferences.py
 msgid "Rényi order (BP)"
-msgstr ""
+msgstr "Rényiho rád (BP)"
 
 #: options/preferences.py
 msgid "The BP position cost is raised to this power; higher exponents bias towards resolving fewer large position imbalances over more small ones. See documentation for details."
-msgstr ""
+msgstr "Náklady na pozíciu v BP sa umocnia na túto hodnotu; vyššie exponenty uprednostňujú riešenie menšieho počtu väčších nerovnováh pozícií pred väčším počtom menších. Podrobnosti nájdeš v dokumentácii."
 
 #: options/preferences.py
 msgid "BP position cost exponent"
-msgstr ""
+msgstr "Exponent nákladov na pozíciu v BP"
 
 #: options/preferences.py
 msgid "In BP, which method to use to solve the assignment problem. Only Hungarian with preshuffling is WUDC-compliant."
-msgstr ""
+msgstr "V BP, ktorú metódu použiť na riešenie problému priradenia. Len maďarský algoritmus s predsortovaním je v súlade s WUDC."
 
 #: options/preferences.py
 msgid "BP assignment method"
-msgstr ""
+msgstr "Metóda priradenia v BP"
 
 #: options/preferences.py
 msgid "Hungarian algorithm (not WUDC-compliant)"
-msgstr ""
+msgstr "Maďarský algoritmus (nie je v súlade s WUDC)"
 
 #: options/preferences.py
 msgid "Hungarian algorithm with preshuffling"
-msgstr ""
+msgstr "Maďarský algoritmus s predsortovaním"
 
 #: options/preferences.py
 msgid "Automatically make all adjudicators available for all rounds"
-msgstr ""
+msgstr "Automaticky sprístupniť všetkých rozhodcov/rozhodkyne pre všetky kolá"
 
 #: options/preferences.py
 msgid "Skip adjudicator check-ins"
-msgstr ""
+msgstr "Preskočiť registráciu rozhodcov/rozhodkýň"
 
 #: options/preferences.py
 msgid "Hide panellist positions in the UI (and don't allocate them)"
-msgstr ""
+msgstr "Skryť pozície panelistov v rozhraní (a nepridzovať ich)"
 
 #: options/preferences.py
 msgid "No panellist adjudicators"
-msgstr ""
+msgstr "Žiadni panelisti"
 
 #: options/preferences.py
 msgid "Hide trainee positions in the UI (and don't allocate them)"
-msgstr ""
+msgstr "Skryť pozície shadowov v rozhraní (a nepridzovať ich)"
 
 #: options/preferences.py
 msgid "No trainee adjudicators"
-msgstr ""
+msgstr "Žiadni shadows"
 
 #: options/preferences.py
 msgid "How to handle teams who were marked available yet excluded froma round (a bye)"
-msgstr ""
+msgstr "Ako nakladať s tímami, ktoré boli označené ako dostupné, ale vynechané z kola (bye)"
 
 #: options/preferences.py
 msgid "Bye team results"
-msgstr ""
+msgstr "Výsledky tímov s bye"
 
 #: options/preferences.py
 msgid "Treat bye teams as absent"
-msgstr ""
+msgstr "Zaobchádzať s bye tímami ako s neprítomné"
 
 #: options/preferences.py
 msgid "Attribute a win to bye teams, without speaks"
-msgstr ""
+msgstr "Priradiť bye tímom výhru bez rečníckych bodov"
 
 #: options/preferences.py
 msgid "If creating a draw with an uneven number of teams, how to decide who gets the bye (won't be allocated)"
-msgstr ""
+msgstr "Ak je pairing vytváraný pre nepárny počet tímov, ako rozhodnúť, ktorý tím dostane bye (nebude zaradený do pairingu)"
 
 #: options/preferences.py
 msgid "Bye team selection method"
-msgstr ""
+msgstr "Metóda výberu tímu pre bye"
 
 #: options/preferences.py
 msgid "Don't choose bye teams"
-msgstr ""
+msgstr "Nevyberať tímy pre bye"
 
 #: options/preferences.py
 msgid "Choose bye teams randomly"
-msgstr ""
+msgstr "Vybrať tímy pre bye náhodne"
 
 #: options/preferences.py
 msgid "Choose lowest ranking teams"
-msgstr ""
+msgstr "Vybrať tímy s najnižším poradím"
 
 #: options/preferences.py
 msgid "A limit for the side imbalance, where a pairing will not be made if that requires a team to debate more times on one side than the selected number. For use with the graph generator, with 0 as disabled."
-msgstr ""
+msgstr "Limit pre nevyváženie strán — pairing nebude vytvorený, ak by si tím vyžadoval debatovaťna jednej strane viac ako tento počet krát. Určené pre generátor grafov, 0 znamená vypnuté."
 
 #: options/preferences.py
 msgid "Maximum allowed side imbalance"
-msgstr ""
+msgstr "Maximálne povolené nevyváženie strán"
 
 #: options/preferences.py options/templates/preferences_index.html
 msgid "Feedback"
-msgstr ""
+msgstr "Spätná väzba"
 
 #: options/preferences.py
 msgid "Minimum possible adjudicator score that can be given"
-msgstr ""
+msgstr "Minimálne možné skóre rozhodcu/rozhodkyne"
 
 #: options/preferences.py
 msgid "Minimum adjudicator score"
-msgstr ""
+msgstr "Minimálne skóre rozhodcu/rozhodkyne"
 
 #: options/preferences.py
 msgid "Maximum possible adjudicator score that can be given"
-msgstr ""
+msgstr "Maximálne možné skóre rozhodcu/rozhodkyne"
 
 #: options/preferences.py
 msgid "Maximum adjudicator score"
-msgstr ""
+msgstr "Maximálne skóre rozhodcu/rozhodkyne"
 
 #: options/preferences.py
 msgid "Used to inform available choices in the feedback forms for adjudicators (both online and printed) and feedback progress"
-msgstr ""
+msgstr "Určuje dostupné možnosti vo formulároch spätnej väzby pre rozhodcov/rozhodkyne (online aj tlačené) a sledovanie pokroku spätnej väzby"
 
 #: options/preferences.py
 msgid "Allow and expect feedback to be submitted by"
-msgstr ""
+msgstr "Povoliť a očakávať odoslanie spätnej väzby od"
 
 #: options/preferences.py
 msgid "Chairs on panellists and trainees"
-msgstr ""
+msgstr "Chair na panelistov a shadowov"
 
 #: options/preferences.py
 msgid "Panellists on chairs, chairs on panellists and trainees"
-msgstr ""
+msgstr "Panelisti na chairov, chair na panelistov a shadowov"
 
 #: options/preferences.py
 msgid "Panellists and trainees on chairs, chairs on panellists and trainees"
-msgstr ""
+msgstr "Panelisti a shadows na chairov, chair na panelistov a shadowov"
 
 #: options/preferences.py
 msgid "All adjudicators (including trainees) on each other"
-msgstr ""
+msgstr "Všetci rozhodcovia/rozhodkyne (vrátane shadowov) navzájom"
 
 #: options/preferences.py
 msgid "Panellists on eachother and chairs, trainees on chairs, chairs on everyone"
-msgstr ""
+msgstr "Panelisti navzájom a na chairov, shadows na chairov, chair na všetkých"
 
 #: options/preferences.py
 msgid "Neither chairs, nor panellists nor trainees"
-msgstr ""
+msgstr "Ani chair, ani panelisti, ani shadows"
 
 #: options/preferences.py
 msgid "Expect feedback to be submitted by teams on"
-msgstr ""
+msgstr "Očakávať odoslanie spätnej väzby tímmi na"
 
 #: options/preferences.py
 msgid "Used to inform available choices in the feedback forms for teams (both online and printed) and feedback progress; this option is used by, e.g., UADC"
-msgstr ""
+msgstr "Určuje dostupné možnosti vo formulároch spätnej väzby pre tímy (online aj tlačené) a sledovanie pokroku; túto možnosť používa napr. UADC"
 
 #: options/preferences.py
 msgid "Orallist only (voting panellists permitted, with prompts to select orallist)"
-msgstr ""
+msgstr "Len oralista (hlasujúci panelisti povolení, s výzvou na výber oralistu)"
 
 #: options/preferences.py
 msgid "All adjudicators in their panels (including trainees)"
-msgstr ""
+msgstr "Všetci rozhodcovia/rozhodkyne vo svojich paneloch (vrátane shadowov)"
 
 #: options/preferences.py
 msgid "No one"
-msgstr ""
+msgstr "Nikto"
 
 #: options/preferences.py
 msgid "Show unexpected feedback submissions in participants pages"
-msgstr ""
+msgstr "Zobraziť neočakávané odoslania spätnej väzby na stránkach účastníkov"
 
 #: options/preferences.py
 msgid "Displays unexpected feedback with a question mark symbol; only relevant if public participants and feedback progress are both enabled"
-msgstr ""
+msgstr "Zobrazuje neočakávanú spätnú väzbu so symbolom otáznika; relevantné len ak sú zapnutí verejní účastníci aj sledovanie pokroku spätnej väzby"
 
 #: options/preferences.py
 msgid "Show if an adjudicator is a trainee (unaccredited)"
-msgstr ""
+msgstr "Zobraziť, či je rozhodca/rozhodkyňa shadow (neakreditovaný/-á)"
 
 #: options/preferences.py
 msgid "Show unaccredited"
-msgstr ""
+msgstr "Zobraziť neakreditovaných"
 
 #: options/preferences.py
 msgid "Any explanatory text needed to introduce the feedback form"
-msgstr ""
+msgstr "Akýkoľvek vysvetľujúci text k formuláru spätnej väzby"
 
 #: options/preferences.py
 msgid "Feedback introduction/explanation"
-msgstr ""
+msgstr "Úvod/vysvetlenie spätnej väzby"
 
 #: options/preferences.py options/templates/preferences_index.html
 msgid "Debate Rules"
-msgstr ""
+msgstr "Pravidlá debaty"
 
 #: options/preferences.py
 msgid "How many teams are in each debate (normally 2 but 4 for BP)"
-msgstr ""
+msgstr "Počet tímov v každej debate (zvyčajne 2, pre BP 4)"
 
 #: options/preferences.py
 msgid "Number of teams per debate"
-msgstr ""
+msgstr "Počet tímov na debatu"
 
 #: options/preferences.py
 msgid "Whether panels submit a ballot each or a single ballot for a debate during the preliminary rounds. Note: BP must use one per debate."
-msgstr ""
+msgstr "Či panely odovzdávajú každý vlastný ballot alebo jeden spoločný ballot na debatu počas predkôl. Poznámka: BP musí používať jeden ballot na debatu."
 
 #: options/preferences.py
 msgid "Ballots per debate, preliminary rounds"
-msgstr ""
+msgstr "Balloty na debatu, predkolá"
 
 #: options/preferences.py
 msgid "One ballot per voting adjudicator"
-msgstr ""
+msgstr "Jeden ballot na každého hlasujúceho rozhodcu/rozhodkyňu"
 
 #: options/preferences.py
 msgid "Consensus ballot (one ballot per debate)"
-msgstr ""
+msgstr "Konsenzuálny ballot (jeden ballot na debatu)"
 
 #: options/preferences.py
 msgid "Whether panels submit a ballot each or a single ballot for a debate during the elimination rounds. Note: BP must use one per debate."
-msgstr ""
+msgstr "Či panely odovzdávajú každý vlastný ballot alebo jeden spoločný ballot na debatu počas vyraďovacích kôl. Poznámka: BP musí používať jeden ballot na debatu."
 
 #: options/preferences.py
 msgid "Ballots per debate, elimination rounds"
-msgstr ""
+msgstr "Balloty na debatu, vyraďovacie kolá"
 
 #: options/preferences.py
 msgid "Whether adjudicator(s) must select the winning team in their ballot, and how it should be treated. Note: Not supported in BP."
-msgstr ""
+msgstr "Či rozhodca/rozhodkyne musí/musia vybrať víťazný tím vo svojom ballote a ako sa to má spracovať. Poznámka: V BP nie je podporované."
 
 #: options/preferences.py
 msgid "Winner Declaration in ballot(s)"
-msgstr ""
+msgstr "Vyhlásenie víťaza v ballot(och)"
 
 #: options/preferences.py
 msgid "Do not require separate winner selection"
-msgstr ""
+msgstr "Nevyžadovať samostatný výber víťaza"
 
 #: options/preferences.py
 msgid "Require separate winner selection as a check on correct scores"
-msgstr ""
+msgstr "Vyžadovať samostatný výber víťaza ako kontrolu správnosti bodov"
 
 #: options/preferences.py
 msgid "Require winner selection to break tied-point debates"
-msgstr ""
+msgstr "Vyžadovať výber víťaza na rozhodnutie debát s rovnakým počtom bodov"
 
 #: options/preferences.py
 msgid "Require winner selection, overriding scores"
-msgstr ""
+msgstr "Vyžadovať výber víťaza s prednosťou pred bodmi"
 
 #: options/preferences.py
 msgid "When ballots should ask for speaker scores."
-msgstr ""
+msgstr "Kedy majú balloty vyžadovať rečnícke body."
 
 #: options/preferences.py
 msgid "Require speaker scores"
-msgstr ""
+msgstr "Vyžadovať rečnícke body"
 
 #: options/preferences.py
 msgid "Always require speaker scores"
-msgstr ""
+msgstr "Vždy vyžadovať rečnícke body"
 
 #: options/preferences.py
 msgid "Only require speaker scores in preliminary rounds"
-msgstr ""
+msgstr "Vyžadovať rečnícke body len v predkolách"
 
 #: options/preferences.py
 msgid "Never require speaker scores"
-msgstr ""
+msgstr "Nikdy nevyžadovať rečnícke body"
 
 #: options/preferences.py
 msgid "How many substantive speakers on a team"
-msgstr ""
+msgstr "Počet substantívnych rečníkov/rečníčok v tíme"
 
 #: options/preferences.py
 msgid "Substantive speakers"
-msgstr ""
+msgstr "Substantívni rečníci/rečníčky"
 
 #: options/preferences.py
 msgid "What to call the teams"
-msgstr ""
+msgstr "Ako pomenovať strany"
 
 #: options/preferences.py
 msgid "Side names"
-msgstr ""
+msgstr "Názvy strán"
 
 #: options/preferences.py
 msgid "Whether this style features scored reply speeches"
-msgstr ""
+msgstr "Či tento formát zahŕňa bodované záverečné reči"
 
 #: options/preferences.py
 msgid "Reply scores"
-msgstr ""
+msgstr "Body záverečných rečí"
 
 #: options/preferences.py
 msgid "Whether to limit reply speeches to speakers who gave a substantive speech in the debate"
-msgstr ""
+msgstr "Či obmedziť záverečné reči len na rečníkov/rečníčky, ktorí/é predniesli substantívnu reč v debate"
 
 #: options/preferences.py
 msgid "Require reply speaker to have given a substantive speech"
-msgstr ""
+msgstr "Vyžadovať, aby rečník/rečníčka záverečnej reči predniesol/preniesla substantívnu reč"
 
 #: options/preferences.py
 msgid "Whether and how to use speech ranks within a debate"
-msgstr ""
+msgstr "Či a ako používať poradie rečí v rámci debaty"
 
 #: options/preferences.py
 msgid "Use of speech ranks"
-msgstr ""
+msgstr "Používanie poradia rečí"
 
 #: options/preferences.py
 msgid "How long, in minutes, after motion release does the round start (-1 to deactivate)"
-msgstr ""
+msgstr "Ako dlho v minútach po zverejnení tézy začína kolo (-1 na deaktiváciu)"
 
 #: options/preferences.py
 msgid "Preparation Time"
-msgstr ""
+msgstr "Čas na prípravu"
 
 #: options/preferences.py
 msgid "Whether there should be an option in ballot forms to mark a team as having forfeitted a round, rendering the debate win/loss without speaker scores"
-msgstr ""
+msgstr "Či majú balloty obsahovať možnosť označiť tím ako vzdávajúci kolo, čím sa debata rozhodne bez rečníckych bodov"
 
 #: options/preferences.py
 msgid "Enable forfeits"
-msgstr ""
+msgstr "Povoliť vzdanie kola"
 
 #: options/preferences.py options/templates/preferences_index.html
 msgid "Standings"
-msgstr ""
+msgstr "Poradie"
 
 #: options/preferences.py
 msgid "The number of substantive speeches a speaker can miss and still be on the speaker tab (-1 means no limit)"
-msgstr ""
+msgstr "Počet substantívnych rečí, ktoré rečník/rečníčka môže vynechať a stále byť v poradí rečníkov (-1 znamená bez obmedzenia)"
 
 #: options/preferences.py
 msgid "Speeches missable for standings eligibility"
-msgstr ""
+msgstr "Povolené vynechané reči pre zaradenie do poradia"
 
 #: options/preferences.py
 msgid "The number of reply speeches a speaker can miss and still be on the replies tab (-1 means no limit)"
-msgstr ""
+msgstr "Počet záverečných rečí, ktoré rečník/rečníčka môže vynechať a stále byť v poradí záverečných rečí (-1 znamená bez obmedzenia)"
 
 #: options/preferences.py
 msgid "Replies missable for standings eligibility"
-msgstr ""
+msgstr "Povolené vynechané záverečné reči pre zaradenie do poradia"
 
 #: options/preferences.py
 msgid "Metrics to use to rank teams (see documentation for further details)"
-msgstr ""
+msgstr "Metriky na zoradenie tímov (ďalšie podrobnosti nájdeš v dokumentácii)"
 
 #: options/preferences.py
 msgid "Team standings precedence"
-msgstr ""
+msgstr "Prednosť v poradí tímov"
 
 #: options/preferences.py
 msgid "Metrics to calculate, but not used to rank teams"
-msgstr ""
+msgstr "Metriky na výpočet, ktoré sa však nepoužívajú na zoradenie tímov"
 
 #: options/preferences.py
 msgid "Team standings extra metrics"
-msgstr ""
+msgstr "Doplnkové metriky poradia tímov"
 
 #: options/preferences.py
 msgid "Metrics to use to rank speakers (see documentation for further details)"
-msgstr ""
+msgstr "Metriky na zoradenie rečníkov/rečníčok (ďalšie podrobnosti nájdeš v dokumentácii)"
 
 #: options/preferences.py
 msgid "Speaker standings precedence"
-msgstr ""
+msgstr "Prednosť v poradí rečníkov/rečníčok"
 
 #: options/preferences.py
 msgid "Metrics to calculate, but not used to rank speakers"
-msgstr ""
+msgstr "Metriky na výpočet, ktoré sa však nepoužívajú na zoradenie rečníkov/rečníčok"
 
 #: options/preferences.py
 msgid "Speaker standings extra metrics"
-msgstr ""
+msgstr "Doplnkové metriky poradia rečníkov/rečníčok"
 
 #: options/preferences.py options/templates/preferences_index.html
 msgid "Tab Release"
-msgstr ""
+msgstr "Zverejnenie tabu"
 
 #: options/preferences.py
 msgid "Enables public display of the team tab. Intended for use after the tournament."
-msgstr ""
+msgstr "Zapína verejné zobrazenie tímu tabu. Určené na použitie po turnaji."
 
 #: options/preferences.py
 msgid "Release team tab to public"
-msgstr ""
+msgstr "Zverejniť tímový tab"
 
 #: options/preferences.py
 msgid "Only show scores for the top X teams in the public tab (set to 0 to show all teams)."
-msgstr ""
+msgstr "Zobraziť body len pre top X tímov vo verejnom tabe (nastav na 0 pre zobrazenie všetkých tímov)."
 
 #: options/preferences.py
 msgid "Top teams cutoff"
-msgstr ""
+msgstr "Obmedzenie na top tímy"
 
 #: options/preferences.py
 msgid "Enables public display of the speaker tab. Intended for use after the tournament."
-msgstr ""
+msgstr "Zapína verejné zobrazenie rečníckeho tabu. Určené na použitie po turnaji."
 
 #: options/preferences.py
 msgid "Release speaker tab to public"
-msgstr ""
+msgstr "Zverejniť rečnícky tab"
 
 #: options/preferences.py
 msgid "Only show scores for the top X speakers in the public tab (set to 0 to show all speakers)."
-msgstr ""
+msgstr "Zobraziť body len pre top X rečníkov/rečníčok vo verejnom tabe (nastav na 0 pre zobrazenie všetkých)."
 
 #: options/preferences.py
 msgid "Top speakers cutoff"
-msgstr ""
+msgstr "Obmedzenie na top rečníkov/rečníčky"
 
 #: options/preferences.py
 msgid "Enables public display of the replies tab. Intended for use after the tournament."
-msgstr ""
+msgstr "Zapína verejné zobrazenie tabu záverečných rečí. Určené na použitie po turnaji."
 
 #: options/preferences.py
 msgid "Release replies tab to public"
-msgstr ""
+msgstr "Zverejniť tab záverečných rečí"
 
 #: options/preferences.py
 msgid "Only show scores for the top X repliers in the public tab (set to 0 to show all repliers)."
-msgstr ""
+msgstr "Zobraziť body len pre top X rečníkov/rečníčok záverečných rečí vo verejnom tabe (nastav na 0 pre zobrazenie všetkých)."
 
 #: options/preferences.py
 msgid "Top replies cutoff"
-msgstr ""
+msgstr "Obmedzenie na top záverečné reči"
 
 #: options/preferences.py
 msgid "Enables public display of all motions and win/loss/selection information. This includes all motions — whether they have been marked as released or not. Intended for use after the tournament."
-msgstr ""
+msgstr "Zapína verejné zobrazenie všetkých téz a informácií o výhrách/prehrách/výbere. Zahŕňa všetky tézy — bez ohľadu na to, či boli označené ako zverejnené. Určené na použitie po turnaji."
 
 #: options/preferences.py
 msgid "Release motions tab to public"
-msgstr ""
+msgstr "Zverejniť tab téz"
 
 #: options/preferences.py
 msgid "Enables public display of the feedback scores of all adjudicators"
-msgstr ""
+msgstr "Zapína verejné zobrazenie skóre spätnej väzby všetkých rozhodcov/rozhodkýň"
 
 #: options/preferences.py
 msgid "Release adjudicator tab to public"
-msgstr ""
+msgstr "Zverejniť tab rozhodcov/rozhodkýň"
 
 #: options/preferences.py
 msgid "What (if released) the adjudicator tab shows"
-msgstr ""
+msgstr "Čo zobrazuje tab rozhodcov/rozhodkýň (ak je zverejnený)"
 
 #: options/preferences.py
 msgid "Adjudicator tab displays"
-msgstr ""
+msgstr "Zobrazenie tabu rozhodcov/rozhodkýň"
 
 #: options/preferences.py
 msgid "Only shows base score"
-msgstr ""
+msgstr "Zobrazuje len základné skóre"
 
 #: options/preferences.py
 msgid "Only shows final score"
-msgstr ""
+msgstr "Zobrazuje len finálne skóre"
 
 #: options/preferences.py
 msgid "Shows base, final, and per-round scores"
-msgstr ""
+msgstr "Zobrazuje základné, finálne aj skóre za jednotlivé kolá"
 
 #: options/preferences.py
 msgid "Enables public display of every adjudicator's ballot. Intended for use after the tournament."
-msgstr ""
+msgstr "Zapína verejné zobrazenie ballotov každého rozhodcu/rozhodkyne. Určené na použitie po turnaji."
 
 #: options/preferences.py
 msgid "Release ballots to public"
-msgstr ""
+msgstr "Zverejniť balloty"
 
 #: options/preferences.py
 msgid "This releases all the results for all rounds (including silent and break rounds). Do so only after the tournament is finished!"
-msgstr ""
+msgstr "Toto zverejní všetky výsledky pre všetky kolá (vrátane tichých a postupových kôl). Urob to len po skončení turnaja!"
 
 #: options/preferences.py
 msgid "Release all round results to public"
-msgstr ""
+msgstr "Zverejniť výsledky všetkých kôl"
 
 #: options/preferences.py
 msgid "Enables display of confirmed ballots through private URLs. Intended for use after the tournament."
-msgstr ""
+msgstr "Zapína zobrazenie potvrdených ballotov cez súkromné URL. Určené na použitie po turnaji."
 
 #: options/preferences.py
 msgid "Release ballots through private URLs"
-msgstr ""
+msgstr "Zverejniť balloty cez súkromné URL"
 
 #: options/preferences.py options/templates/preferences_index.html
 msgid "Data Entry"
-msgstr ""
+msgstr "Zadávanie dát"
 
 #: options/preferences.py
 msgid "Whether adjudicators can submit ballots themselves, and how they do so"
-msgstr ""
+msgstr "Či môžu rozhodcovia/rozhodkyne sami odosielať balloty a ako to robia"
 
 #: options/preferences.py
 msgid "Ballot submissions from adjudicators"
-msgstr ""
+msgstr "Odosielanie ballotov od rozhodcov/rozhodkýň"
 
 #: options/preferences.py options/presets.py
 msgid "Disabled (tab staff only)"
-msgstr ""
+msgstr "Vypnuté (len tab personál)"
 
 #: options/preferences.py options/presets.py
 msgid "Use private URLs"
-msgstr ""
+msgstr "Použiť súkromné URL"
 
 #: options/preferences.py options/presets.py
 msgid "Use publicly accessible form"
-msgstr ""
+msgstr "Použiť verejne dostupný formulár"
 
 #: options/preferences.py
 msgid "Whether participants can submit feedback themselves, and how they do so"
-msgstr ""
+msgstr "Či môžu účastníci sami odosielať spätnú väzbu a ako to robia"
 
 #: options/preferences.py
 msgid "Feedback submissions from participants"
-msgstr ""
+msgstr "Odosielanie spätnej väzby od účastníkov"
 
 #: options/preferences.py
 msgid "If checked, users must enter a password when submitting public feedback and ballots"
-msgstr ""
+msgstr "Ak je zaškrtnuté, používatelia musia zadať heslo pri odosielaní verejnej spätnej väzby a ballotov"
 
 #: options/preferences.py
 msgid "Require password for submission"
-msgstr ""
+msgstr "Vyžadovať heslo pri odosielaní"
 
 #: options/preferences.py
 msgid "Value of the password required for public submissions, if passwords are required"
-msgstr ""
+msgstr "Hodnota hesla vyžadovaného pri verejných odoslaniach, ak sú heslá povinné"
 
 #: options/preferences.py
 msgid "Password for public submission"
-msgstr ""
+msgstr "Heslo pre verejné odosielanie"
 
 #: options/preferences.py
 msgid "Bypasses double checking by setting ballots to be automatically confirmed"
-msgstr ""
+msgstr "Obíde dvojitú kontrolu nastavením ballotov na automatické potvrdenie"
 
 #: options/preferences.py
 msgid "Bypass double checking"
-msgstr ""
+msgstr "Obísť dvojitú kontrolu"
 
 #: options/preferences.py
 msgid "Requires scores of draft ballots to be re-entered as part of the confirmation stage (to create more stringent check). Only applies to BP formats."
-msgstr ""
+msgstr "Vyžaduje opätovné zadanie bodov z konceptu ballotu počas potvrdzovacej fázy (pre prísnejšiu kontrolu). Platí len pre formáty BP."
 
 #: options/preferences.py
 msgid "Enforce blind confirmations"
-msgstr ""
+msgstr "Vynútiť slepé potvrdenia"
 
 #: options/preferences.py
 msgid "Whether assistants can access pages that can reveal matchups and motions ahead of public release (these pages are useful for displaying draws/motions to the public and for printing ballots)."
-msgstr ""
+msgstr "Či môžu asistenti pristupovať na stránky, ktoré môžu odhaliť pairingy a tézy pred verejným zverejnením (tieto stránky sú užitočné na zobrazovanie pairingov/téz verejnosti a tlač ballotov)."
 
 #: options/preferences.py
 msgid "Assistant user access"
-msgstr ""
+msgstr "Prístup asistentov"
 
 #: options/preferences.py
 msgid "All areas (results entry, draw display, and motions)"
-msgstr ""
+msgstr "Všetky oblasti (zadávanie výsledkov, zobrazenie pairingu a tézy)"
 
 #: options/preferences.py
 msgid "Just results entry and draw display"
-msgstr ""
+msgstr "Len zadávanie výsledkov a zobrazenie pairingu"
 
 #: options/preferences.py
 msgid "Only results entry"
-msgstr ""
+msgstr "Len zadávanie výsledkov"
 
 #: options/preferences.py
 msgid "No access"
-msgstr ""
+msgstr "Žiadny prístup"
 
 #: options/preferences.py
 msgid "Whether participants can check themselves in/out through their private URL."
-msgstr ""
+msgstr "Či sa môžu účastníci registrovať/odhlásiť cez svoju súkromnú URL."
 
 #: options/preferences.py
 msgid "Participant self-checkin"
-msgstr ""
+msgstr "Samoregistrácia účastníkov"
 
 #: options/preferences.py
 msgid "The amount of time (in hours) before a speaker or adjudicator's check-in event expires"
-msgstr ""
+msgstr "Čas (v hodinách), po ktorom vyprší registračná udalosť rečníka/rečníčky alebo rozhodcu/rozhodkyne"
 
 #: options/preferences.py
 msgid "Check-In Window (People)"
-msgstr ""
+msgstr "Okno registrácie (osoby)"
 
 #: options/preferences.py
 msgid "The amount of time (in hours) before a room's check-in event expires"
-msgstr ""
+msgstr "Čas (v hodinách), po ktorom vyprší registračná udalosť miestnosti"
 
 #: options/preferences.py
 msgid "Check-In Window (Rooms)"
-msgstr ""
+msgstr "Okno registrácie (miestnosti)"
 
 #: options/preferences.py
 msgid "Whether the printed scoresheets should show the 'circle digits' prompt to help check bad handwriting"
-msgstr ""
+msgstr "Či by mali tlačené ballotsheety zobrazovať výzvu na 'zakrúžkovanie číslic' na kontrolu nečitateľného rukopisu"
 
 #: options/preferences.py
 msgid "Ballot Digit Checks"
-msgstr ""
+msgstr "Kontrola číslic v ballote"
 
 #: options/preferences.py
 msgid "The location to return scoresheets to, printed on pre-printed ballots. Set to 'TBA' to hide."
-msgstr ""
+msgstr "Miesto návratu ballotsheeetov, vytlačené na vopred vytlačených ballotoch. Nastav na 'TBA' pre skrytie."
 
 #: options/preferences.py
 msgid "Score return location"
-msgstr ""
+msgstr "Miesto návratu bodových listov"
 
 #: options/preferences.py
 msgid "The location to return feedback to, printed on pre-printed feedback forms. Set to 'TBA' to hide."
-msgstr ""
+msgstr "Miesto návratu spätnej väzby, vytlačené na vopred vytlačených formulároch spätnej väzby. Nastav na 'TBA' pre skrytie."
 
 #: options/preferences.py
 msgid "Feedback return location"
-msgstr ""
+msgstr "Miesto návratu spätnej väzby"
 
 #: options/preferences.py
 msgid "Lets debates have their status as postponed, as to not block draw generation."
-msgstr ""
+msgstr "Umožňuje nastaviť stav debaty ako odloženú, aby nebránil generovaniu pairingu."
 
 #: options/preferences.py
 msgid "Enable postponements"
-msgstr ""
+msgstr "Povoliť odklady"
 
 #: options/preferences.py
 msgid "Have each voting adjudicator submit a separate ballot."
-msgstr ""
+msgstr "Každý hlasujúci rozhodca/rozhodkyňa odošle samostatný ballot."
 
 #: options/preferences.py
 msgid "Individual voting ballots"
-msgstr ""
+msgstr "Individuálne hlasovanie v ballotoch"
 
 #: options/preferences.py options/templates/preferences_index.html
 msgid "Public Features"
-msgstr ""
+msgstr "Verejné funkcie"
 
 #: options/preferences.py
 msgid "Adds a flag signaling search engines to not include tournament pages in search results.Note that it may get ignored, and the other available settings will provide greater privacy."
-msgstr ""
+msgstr "Pridáva príznak pre vyhľadávače, aby nezahŕňali stránky turnaja do výsledkov vyhľadávania. Môže byť ignorovaný a ostatné dostupné nastavenia poskytnú väčšie súkromie."
 
 #: options/preferences.py
 msgid "Include site in search engines"
-msgstr ""
+msgstr "Zahrnúť stránku do vyhľadávačov"
 
 #: options/preferences.py
 msgid "Allow all pages to be indexed by search engines."
-msgstr ""
+msgstr "Povoliť indexovanie všetkých stránok vyhľadávačmi."
 
 #: options/preferences.py
 msgid "Only allow the homepage to be indexed, do not allow any other pages (e.g. tabs, ballots, etc)."
-msgstr ""
+msgstr "Povoliť indexovanie len domovskej stránky, ostatné stránky (napr. taby, balloty atď.) neindexovať."
 
 #: options/preferences.py
 msgid "Do not allow any pages to be indexed by search engines."
-msgstr ""
+msgstr "Nepovoliť indexovanie žiadnych stránok vyhľadávačmi."
 
 #: options/preferences.py
 msgid "Enables the public page listing all participants in the tournament"
-msgstr ""
+msgstr "Zapína verejnú stránku so zoznamom všetkých účastníkov turnaja"
 
 #: options/preferences.py
 msgid "Enable public view of participants list"
-msgstr ""
+msgstr "Zapnúť verejné zobrazenie zoznamu účastníkov"
 
 #: options/preferences.py
 msgid "Enables the public page listing all institutions in the tournament"
-msgstr ""
+msgstr "Zapína verejnú stránku so zoznamom všetkých inštitúcií turnaja"
 
 #: options/preferences.py
 msgid "Enable public view of institutions list"
-msgstr ""
+msgstr "Zapnúť verejné zobrazenie zoznamu inštitúcií"
 
 #: options/preferences.py
 msgid "Enables the public page listing diversity statistics"
-msgstr ""
+msgstr "Zapína verejnú stránku so štatistikami diverzity"
 
 #: options/preferences.py
 msgid "Enable public view of diversity info"
-msgstr ""
+msgstr "Zapnúť verejné zobrazenie informácií o diverzite"
 
 #: options/preferences.py
 msgid "Enables the public page showing checkin statuses for individuals, institutions, and teams. Note that this page can be slow when used at very large tournaments."
-msgstr ""
+msgstr "Zapína verejnú stránku zobrazujúcu stav registrácie osôb, inštitúcií a tímov. Táto stránka môže byť na veľkých turnajoch pomalá."
 
 #: options/preferences.py
 msgid "Enable public view of the checkin statuses"
-msgstr ""
+msgstr "Zapnúť verejné zobrazenie stavu registrácie"
 
 #: options/preferences.py
 msgid "If the participants list is enabled, displays break category eligibility on that page"
-msgstr ""
+msgstr "Ak je zoznam účastníkov zapnutý, zobrazuje oprávnenosť pre postupové kategórie na tej stránke"
 
 #: options/preferences.py
 msgid "Show break categories on participants page"
-msgstr ""
+msgstr "Zobraziť postupové kategórie na stránke účastníkov"
 
 #: options/preferences.py
 msgid "Enables the public page listing pre-allocated sides"
-msgstr ""
+msgstr "Zapína verejnú stránku so zoznamom vopred priradených strán"
 
 #: options/preferences.py
 msgid "Show pre-allocated sides to public"
-msgstr ""
+msgstr "Zobraziť vopred priradené strany verejnosti"
 
 #: options/preferences.py
 msgid "Enables the public page showing released draws"
-msgstr ""
+msgstr "Zapína verejnú stránku so zverejnenými pairingmi"
 
 #: options/preferences.py
 msgid "Enable public view of draw"
-msgstr ""
+msgstr "Zapnúť verejné zobrazenie pairingu"
 
 #: options/preferences.py
 msgid "Disabled"
-msgstr ""
+msgstr "Vypnuté"
 
 #: options/preferences.py
 msgid "Show a single page for the current round's draw"
-msgstr ""
+msgstr "Zobraziť jednu stránku pre pairing aktuálneho kola"
 
 #: options/preferences.py
 msgid "Show individual pages for all released draws"
-msgstr ""
+msgstr "Zobraziť samostatné stránky pre všetky zverejnené pairingy"
 
 #: options/preferences.py
 msgid "Enables the public page showing results of non-silent rounds"
-msgstr ""
+msgstr "Zapína verejnú stránku s výsledkami netichých kôl"
 
 #: options/preferences.py
 msgid "Enable public view of results"
-msgstr ""
+msgstr "Zapnúť verejné zobrazenie výsledkov"
 
 #: options/preferences.py
 msgid "Enables the public page showing motions that have been explicitly released to the public"
-msgstr ""
+msgstr "Zapína verejnú stránku so tézami, ktoré boli explicitne zverejnené"
 
 #: options/preferences.py
 msgid "Enable public view of motions"
-msgstr ""
+msgstr "Zapnúť verejné zobrazenie téz"
 
 #: options/preferences.py
 msgid "Enables the public page showing team standings, showing wins only (not speaker scores or ranking)"
-msgstr ""
+msgstr "Zapína verejnú stránku s poradím tímov, zobrazujúcou len výhry (nie rečnícke body ani poradie)"
 
 #: options/preferences.py
 msgid "Enable public view of team standings"
-msgstr ""
+msgstr "Zapnúť verejné zobrazenie poradia tímov"
 
 #: options/preferences.py
 msgid "Enables the public page for each team and adjudicator showing their records"
-msgstr ""
+msgstr "Zapína verejnú stránku pre každý tím a rozhodcu/rozhodkyňu so záznamom ich výsledkov"
 
 #: options/preferences.py
 msgid "Enable public record pages"
-msgstr ""
+msgstr "Zapnúť verejné stránky záznamov"
 
 #: options/preferences.py
 msgid "Enables the public page showing the team breaks. Intended for use after the break announcement."
-msgstr ""
+msgstr "Zapína verejnú stránku s postupom tímov. Určené na použitie po oznámení postupu."
 
 #: options/preferences.py
 msgid "Release team breaks to public"
-msgstr ""
+msgstr "Zverejniť postup tímov"
 
 #: options/preferences.py
 msgid "Enables the public page showing breaking adjudicators. Intended for use after the break announcement."
-msgstr ""
+msgstr "Zapína verejnú stránku s postupujúcimi rozhodcami/rozhodkyňami. Určené na použitie po oznámení postupu."
 
 #: options/preferences.py
 msgid "Release adjudicators break to public"
-msgstr ""
+msgstr "Zverejniť postup rozhodcov/rozhodkýň"
 
 #: options/preferences.py
 msgid "Enables the public page detailing who has unsubmitted feedback"
-msgstr ""
+msgstr "Zapína verejnú stránku s prehľadom, kto neodoslal spätnú väzbu"
 
 #: options/preferences.py
 msgid "Enable public view of unsubmitted feedback"
-msgstr ""
+msgstr "Zapnúť verejné zobrazenie neodoslanej spätnej väzby"
 
 #: options/preferences.py
 msgid "Enables the public page showing the schedule"
-msgstr ""
+msgstr "Zapína verejnú stránku s rozvrhom"
 
 #: options/preferences.py
 msgid "Enable public view of shedule"
-msgstr ""
+msgstr "Zapnúť verejné zobrazenie rozvrhu"
 
 #: options/preferences.py
 msgid "List of tournament staff, to be displayed on the tournament home page. Leave this blank or with the default text if you want to not show this information."
-msgstr ""
+msgstr "Zoznam personálu turnaja, ktorý sa zobrazí na domovskej stránke turnaja. Ponechaj prázdne alebo s predvoleným textom, ak nechceš zobraziť tieto informácie."
 
 #: options/preferences.py
 msgid "Tournament staff"
-msgstr ""
+msgstr "Personál turnaja"
 
 #: options/preferences.py
 msgid "Message to be displayed on the tournament home page"
-msgstr ""
+msgstr "Správa, ktorá sa zobrazí na domovskej stránke turnaja"
 
 #: options/preferences.py
 msgid "Welcome message"
-msgstr ""
+msgstr "Uvítacia správa"
 
 #: options/preferences.py options/templates/preferences_index.html
 msgid "UI Options"
-msgstr ""
+msgstr "Možnosti rozhrania"
 
 #: options/preferences.py
 msgid "If showing results to public, show splitting adjudicators in them"
-msgstr ""
+msgstr "Ak sa výsledky zobrazujú verejnosti, zobraziť nesúhlasiacich rozhodcov/rozhodkyne"
 
 #: options/preferences.py
 msgid "Show splitting adjudicators"
-msgstr ""
+msgstr "Zobraziť nesúhlasiacich rozhodcov/rozhodkyne"
 
 #: options/preferences.py
 msgid "Whether and how to use code names for teams"
-msgstr ""
+msgstr "Či a ako používať kódové názvy pre tímy"
 
 #: options/preferences.py
 msgid "Team code names"
-msgstr ""
+msgstr "Kódové názvy tímov"
 
 #: options/preferences.py
 msgid "Do not use code names"
-msgstr ""
+msgstr "Nepoužívať kódové názvy"
 
 #: options/preferences.py
 msgid "Use real names everywhere, and show code names in tooltips"
-msgstr ""
+msgstr "Používať skutočné názvy všade a zobrazovať kódové názvy v bublinách"
 
 #: options/preferences.py
 msgid "Use code names for public; real names with code names in tooltips for admins"
-msgstr ""
+msgstr "Kódové názvy pre verejnosť; skutočné názvy s kódovými názvami v bublinách pre adminov"
 
 #: options/preferences.py
 msgid "Use code names for public; code names with real names in tooltips for admins"
-msgstr ""
+msgstr "Kódové názvy pre verejnosť; kódové názvy so skutočnými názvami v bublinách pre adminov"
 
 #: options/preferences.py
 msgid "Use code names everywhere; do not use tooltips (real names show in some admin views)"
-msgstr ""
+msgstr "Kódové názvy všade; nepoužívať bubliny (skutočné názvy sa zobrazujú v niektorých admin pohľadoch)"
 
 #: options/preferences.py
 msgid "Whether and how to use code names for participants"
-msgstr ""
+msgstr "Či a ako používať kódové názvy pre účastníkov"
 
 #: options/preferences.py
 msgid "Participant code names"
-msgstr ""
+msgstr "Kódové názvy účastníkov"
 
 #: options/preferences.py
 msgid "Display team emoji in the public and admin interfaces"
-msgstr ""
+msgstr "Zobraziť emoji tímu vo verejnom a administrátorskom rozhraní"
 
 #: options/preferences.py
 msgid "Show emoji"
-msgstr ""
+msgstr "Zobraziť emoji"
 
 #: options/preferences.py
 msgid "In tables listing teams, adds a column showing their institutions"
-msgstr ""
+msgstr "V tabuľkách so zoznamom tímov pridá stĺpec s ich inštitúciami"
 
 #: options/preferences.py
 msgid "Show team institutions"
-msgstr ""
+msgstr "Zobraziť inštitúcie tímov"
 
 #: options/preferences.py
 msgid "Hide the institutions of adjudicators on public pages and on printed ballots"
-msgstr ""
+msgstr "Skryť inštitúcie rozhodcov/rozhodkýň na verejných stránkach a tlačených ballotoch"
 
 #: options/preferences.py
 msgid "Show adjudicator institutions"
-msgstr ""
+msgstr "Zobraziť inštitúcie rozhodcov/rozhodkýň"
 
 #: options/preferences.py
 msgid "Enables a hover element on every team's name showing that team's speakers"
-msgstr ""
+msgstr "Zapína prvok pri prechode kurzorom na každý názov tímu zobrazujúci rečníkov/rečníčky tímu"
 
 #: options/preferences.py
 msgid "Show speakers in draw"
-msgstr ""
+msgstr "Zobraziť rečníkov/rečníčky v pairingu"
 
 #: options/preferences.py
 msgid "Input team seed in simple team importer"
-msgstr ""
+msgstr "Zadať seed tímu v jednoduchom importéri tímov"
 
 #: options/preferences.py
 msgid "Enable team seed in importer"
-msgstr ""
+msgstr "Zapnúť seed tímu v importéri"
 
 #: options/preferences.py
 msgid "Do not ask for team seed"
-msgstr ""
+msgstr "Nepýtať sa na seed tímu"
 
 #: options/preferences.py
 msgid "Ask for numeric team seed"
-msgstr ""
+msgstr "Pýtať sa na číselný seed tímu"
 
 #: options/preferences.py
 msgid "Ask for descriptive team seed name"
-msgstr ""
+msgstr "Pýtať sa na opisný názov seedu tímu"
 
 #: options/preferences.py options/templates/preferences_index.html
 msgid "Notifications"
-msgstr ""
+msgstr "Notifikácie"
 
 #: options/preferences.py
 msgid "The name of the organizer tasked with managing emails (in case of replies)"
-msgstr ""
+msgstr "Meno organizátora zodpovedného za správu e-mailov (v prípade odpovedí)"
 
 #: options/preferences.py
 msgid "Reply-to name"
-msgstr ""
+msgstr "Meno pre odpoveď"
 
 #: options/preferences.py
 msgid "The email address for handling replies"
-msgstr ""
+msgstr "E-mailová adresa na vybavovanie odpovedí"
 
 #: options/preferences.py
 msgid "Reply-to address"
-msgstr ""
+msgstr "Adresa pre odpoveď"
 
 #: options/preferences.py
 msgid "A secret key to accept email status events"
-msgstr ""
+msgstr "Tajný kľúč na prijímanie udalostí stavu e-mailu"
 
 #: options/preferences.py
 msgid "Email status secret key"
-msgstr ""
+msgstr "Tajný kľúč stavu e-mailu"
 
 #: options/preferences.py
 msgid "Enables a copy of adjudicators' ballots to be automatically sent to them (by email) after they are entered in Tabbycat (for confirmation or checking)"
-msgstr ""
+msgstr "Zapína automatické odosielanie kópie ballotov rozhodcov/rozhodkýň e-mailom po ich zadaní v Tabbycat (na potvrdenie alebo kontrolu)"
 
 #: options/preferences.py
 msgid "Ballot receipts"
-msgstr ""
+msgstr "Potvrdenia ballotov"
 
 #: options/preferences.py
 msgid "The subject line for emails sent to adjudicators with their submitted ballot. Use '{{ DEBATE }}' as a placeholder for the associated debate"
-msgstr ""
+msgstr "Predmet e-mailov odosielaných rozhodcom/rozhodkyniam s ich odoslaným ballotom. Použi '{{ DEBATE }}' ako zástupný symbol pre príslušnú debatu"
 
 #: options/preferences.py
 msgid "Ballot receipt subject line"
-msgstr ""
+msgstr "Predmet e-mailu potvrdenia ballotu"
 
 #: options/preferences.py
 msgid "The message body for emails sent to adjudicators with their submitted ballot."
-msgstr ""
+msgstr "Telo správy e-mailov odosielaných rozhodcom/rozhodkyniam s ich odoslaným ballotom."
 
 #: options/preferences.py
 msgid "Ballot receipt message"
-msgstr ""
+msgstr "Správa potvrdenia ballotu"
 
 #: options/preferences.py options/templates/preferences_index.html
 msgid "Motions"
-msgstr ""
+msgstr "Tézy"
 
 #: options/preferences.py
 msgid "If checked, ballots require a motion to be entered"
-msgstr ""
+msgstr "Ak je zaškrtnuté, balloty vyžadujú zadanie tézy"
 
 #: options/preferences.py
 msgid "Enable motions"
-msgstr ""
+msgstr "Zapnúť tézy"
 
 #: options/preferences.py
 msgid "Whether the printed scoresheets should hide the text of motions (even if they have been entered and released)"
-msgstr ""
+msgstr "Či by mali tlačené bodové listy skryť text téz (aj keď boli zadané a zverejnené)"
 
 #: options/preferences.py
 msgid "Ballot Hide Motions"
-msgstr ""
+msgstr "Skryť tézy v ballote"
 
 #: options/preferences.py
 msgid "Enables the motion veto field on ballots, to track veto statistics"
-msgstr ""
+msgstr "Zapína pole veta tézy v ballotoch na sledovanie štatistík veta"
 
 #: options/preferences.py
 msgid "Motion vetoes"
-msgstr ""
+msgstr "Vetá téz"
 
 #: options/preferences.py
 msgid "If showing results to public, show which motions were selected in the record"
-msgstr ""
+msgstr "Ak sa výsledky zobrazujú verejnosti, zobraziť, ktoré tézy boli vybrané v zázname"
 
 #: options/preferences.py
 msgid "Show motions in results"
-msgstr ""
+msgstr "Zobraziť tézy vo výsledkoch"
 
 #: options/preferences.py
 msgid "Order in which are listed by round in the public view"
-msgstr ""
+msgstr "Poradie, v akom sú tézy zoradené podľa kola vo verejnom zobrazení"
 
 #: options/preferences.py
 msgid "Order to display motions"
-msgstr ""
+msgstr "Poradie zobrazenia téz"
 
 #: options/preferences.py
 msgid "Earliest round first"
-msgstr ""
+msgstr "Najskôr najstaršie kolo"
 
 #: options/preferences.py
 msgid "Latest round first"
-msgstr ""
+msgstr "Najskôr posledné kolo"
 
 #: options/preferences.py
 msgid "Whether motions can be reused from one round to another."
-msgstr ""
+msgstr "Či môžu byť tézy opätovne použité z jedného kola do ďalšieho."
 
 #: options/preferences.py
 msgid "Allow motion reuse"
-msgstr ""
+msgstr "Povoliť opakované použitie téz"
 
 #: options/preferences.py options/templates/preferences_index.html
 msgid "Global Settings"
-msgstr ""
+msgstr "Globálne nastavenia"
 
 #: options/preferences.py
 msgid "Enables external applications to access the site through a dedicated interface, subject to public information settings."
-msgstr ""
+msgstr "Umožňuje externým aplikáciám pristupovať na stránku cez vyhradené rozhranie, podľa nastavení verejných informácií."
 
 #: options/preferences.py
 msgid "Enable API access"
-msgstr ""
+msgstr "Zapnúť prístup cez API"
 
 #: options/preferences.py options/templates/preferences_index.html
 msgid "Registration"
-msgstr ""
+msgstr "Registrácia"
 
 #: options/preferences.py
 msgid "How many speakers should each team have"
-msgstr ""
+msgstr "Koľko rečníkov/rečníčok má mať každý tím"
 
 #: options/preferences.py
 msgid "Speakers per team"
-msgstr ""
+msgstr "Rečníci/rečníčky na tím"
 
 #: options/preferences.py
 msgid "How should team names be assigned"
-msgstr ""
+msgstr "Ako sa majú prideľovať názvy tímov"
 
 #: options/preferences.py
 msgid "Team name standard"
-msgstr ""
+msgstr "Štandard názvov tímov"
 
 #: options/preferences.py
 msgid "Assigned by user"
-msgstr ""
+msgstr "Zadané používateľom"
 
 #: options/preferences.py
 msgid "Alphabetical (Team A, Team B, ...)"
-msgstr ""
+msgstr "Abecedne (Tím A, Tím B, …)"
 
 #: options/preferences.py
 msgid "Numerical (Team 1, Team 2, ...)"
-msgstr ""
+msgstr "Číselne (Tím 1, Tím 2, …)"
 
 #: options/preferences.py
 msgid "Speaker initials (Team CZ, Team BT, ...)"
-msgstr ""
+msgstr "Iniciály rečníkov (Tím CZ, Tím BT, …)"
 
 #: options/preferences.py
 msgid "Which fields should teams be allowed to submit, in addition to fields with handling through other settings."
-msgstr ""
+msgstr "Ktoré polia môžu tímy odosielať okrem polí spracovaných inými nastaveniami."
 
 #: options/preferences.py
 msgid "Customizable team fields"
-msgstr ""
+msgstr "Prispôsobiteľné polia tímu"
 
 #: options/preferences.py
 msgid "Prefix name with institution"
-msgstr ""
+msgstr "Predradiť názov inštitúciou"
 
 #: options/preferences.py
 msgid "Break categories"
-msgstr ""
+msgstr "Postupové kategórie"
 
 #: options/preferences.py
 msgid "Seed"
-msgstr ""
+msgstr "Seed"
 
 #: options/preferences.py
 msgid "Emoji"
-msgstr ""
+msgstr "Emoji"
 
 #: options/preferences.py
 msgid "Which fields should speakers submit, in addition to fields with handling through other settings."
-msgstr ""
+msgstr "Ktoré polia majú rečníci/rečníčky odosielať okrem polí spracovaných inými nastaveniami."
 
 #: options/preferences.py
 msgid "Customizable speaker fields"
-msgstr ""
+msgstr "Prispôsobiteľné polia rečníka/rečníčky"
 
 #: options/preferences.py
 msgid "Email address"
-msgstr ""
+msgstr "E-mailová adresa"
 
 #: options/preferences.py
 msgid "Phone number"
-msgstr ""
+msgstr "Telefónne číslo"
 
 #: options/preferences.py
 msgid "Gender"
-msgstr ""
+msgstr "Rod"
 
 #: options/preferences.py
 msgid "Public speaker categories"
-msgstr ""
+msgstr "Verejné kategórie rečníkov/rečníčok"
 
 #: options/preferences.py
 msgid "Which fields should adjudicators be allowed to submit"
-msgstr ""
+msgstr "Ktoré polia môžu rozhodcovia/rozhodkyne odosielať"
 
 #: options/preferences.py
 msgid "Customizable adjudicator fields"
-msgstr ""
+msgstr "Prispôsobiteľné polia rozhodcu/rozhodkyne"
 
 #: options/preferences.py
 msgid "Allow institutions to register for the tournament"
-msgstr ""
+msgstr "Umožniť inštitúciám registrovať sa na turnaj"
 
 #: options/preferences.py
 msgid "Enable institutional registration"
-msgstr ""
+msgstr "Zapnúť inštitucionálnu registráciu"
 
 #: options/preferences.py
 msgid "Allow institutions to register participants (up to their allocated slots)"
-msgstr ""
+msgstr "Umožniť inštitúciám registrovať účastníkov (do výšky ich pridelených miest)"
 
 #: options/preferences.py
 msgid "Enable institutional participant registration"
-msgstr ""
+msgstr "Zapnúť inštitucionálnu registráciu účastníkov"
 
 #: options/preferences.py
 msgid "Whether to require institutions to declare the number of teams and adjudicators it wishes to send with approval required before registering."
-msgstr ""
+msgstr "Či vyžadovať, aby inštitúcie pred registráciou deklarovali počet tímov a rozhodcov/rozhodkýň, ktoré chcú vyslať, pričom je potrebné schválenie."
 
 #: options/preferences.py
 msgid "Use participant slots"
-msgstr ""
+msgstr "Používať miesta pre účastníkov"
 
 #: options/preferences.py
 msgid "Allow teams to register independently to an institution"
-msgstr ""
+msgstr "Umožniť tímom registrovať sa nezávisle od inštitúcie"
 
 #: options/preferences.py
 msgid "Enable open team registration"
-msgstr ""
+msgstr "Zapnúť otvorenú registráciu tímov"
 
 #: options/preferences.py
 msgid "Allow adjudicators to register independently to an institution"
-msgstr ""
+msgstr "Umožniť rozhodcom/rozhodkyniam registrovať sa nezávisle od inštitúcie"
 
 #: options/preferences.py
 msgid "Enable open adjudicator registration"
-msgstr ""
+msgstr "Zapnúť otvorenú registráciu rozhodcov/rozhodkýň"
 
 #: options/preferences.py
 msgid "If using code names, how should they be generated"
-msgstr ""
+msgstr "Ak sa používajú kódové názvy, ako sa majú generovať"
 
 #: options/preferences.py
 msgid "Code name standard"
-msgstr ""
+msgstr "Štandard kódových názvov"
 
 #: options/preferences.py
 msgid "Emojis"
-msgstr ""
+msgstr "Emoji"
 
 #: options/preferences.py
 msgid "Last names (e.g. 'Jones & Smith')"
-msgstr ""
+msgstr "Priezviská (napr. 'Jones & Smith')"
 
 #: options/preferences.py
 msgid "Message to be displayed on the institution registration form"
-msgstr ""
+msgstr "Správa, ktorá sa zobrazí na formulári registrácie inštitúcie"
 
 #: options/preferences.py
 msgid "Institution register message"
-msgstr ""
+msgstr "Správa registračného formulára inštitúcie"
 
 #: options/preferences.py
 msgid "Message to be displayed on the adjudicator registration form"
-msgstr ""
+msgstr "Správa, ktorá sa zobrazí na formulári registrácie rozhodcu/rozhodkyne"
 
 #: options/preferences.py
 msgid "Adjudicator register message"
-msgstr ""
+msgstr "Správa registračného formulára rozhodcu/rozhodkyne"
 
 #: options/preferences.py
 msgid "Message to be displayed on the team registration form"
-msgstr ""
+msgstr "Správa, ktorá sa zobrazí na formulári registrácie tímu"
 
 #: options/preferences.py
 msgid "Team register message"
-msgstr ""
+msgstr "Správa registračného formulára tímu"
 
 #: options/presets.py
 msgid "Enable Public Information"
-msgstr ""
+msgstr "Zapnúť verejné informácie"
 
 #: options/presets.py
 msgid "Disable Public Information"
-msgstr ""
+msgstr "Vypnúť verejné informácie"
 
 #: options/presets.py
 msgid "Australs Rules"
-msgstr ""
+msgstr "Australs pravidlá"
 
 #: options/presets.py
 msgid "3 vs 3 with replies, chosen motions, intermediate brackets, one-up-one-down. Compliant with AIDA rules."
-msgstr ""
+msgstr "3 vs 3 so záverečnými rečami, vybranými tézami, medzikošovými párovaniami, one-up-one-down. V súlade s pravidlami AIDA."
 
 #: options/presets.py
 msgid "British Parliamentary Rules"
-msgstr ""
+msgstr "British Parliamentary pravidlá"
 
 #: options/presets.py
 msgid "2 vs 2 vs 2 vs 2. Compliant with WUDC rules."
-msgstr ""
+msgstr "2 vs 2 vs 2 vs 2. V súlade s pravidlami WUDC."
 
 #: options/presets.py
 msgid "Canadian Parliamentary Rules"
-msgstr ""
+msgstr "Canadian Parliamentary pravidlá"
 
 #: options/presets.py
 msgid "2 vs 2 with replies (unscored) and POIs. May require additional configuration depending on regional variations."
-msgstr ""
+msgstr "2 vs 2 so záverečnými rečami (bez bodov) a POI. Môže vyžadovať ďalšiu konfiguráciu podľa regionálnych odchýlok."
 
 #: options/presets.py
 msgid "Australian Easters Rules"
-msgstr ""
+msgstr "Australian Easters pravidlá"
 
 #: options/presets.py
 msgid "3 vs 3 without replies, set motions, novices, intermediate bubbles, one-up-one-down. Compliant with AIDA rules."
-msgstr ""
+msgstr "3 vs 3 bez záverečných rečí, stanovené tézy, nováčikovia, medzikošové bubliny, one-up-one-down. V súlade s pravidlami AIDA."
 
 #: options/presets.py
 msgid "2 vs 2 Impromptu"
-msgstr ""
+msgstr "2 vs 2 Impromptu"
 
 #: options/presets.py
 msgid "2 vs 2 with replies, chosen motions, chosen sides, and novice statuses."
-msgstr ""
+msgstr "2 vs 2 so záverečnými rečami, vybranými tézami, vybranými stranami a štatútmi nováčikov."
 
 #: options/presets.py
 msgid "3 vs 3 Prepared"
-msgstr ""
+msgstr "3 vs 3 Prepared"
 
 #: options/presets.py
 msgid "3 vs 3 with preallocated sides, publicly displayed sides and motions, and novice statuses."
-msgstr ""
+msgstr "3 vs 3 s vopred priradenými stranami, verejne zobrazenými stranami a tézami a štatútmi nováčikov."
 
 #: options/presets.py
 msgid "UADC Rules"
-msgstr ""
+msgstr "UADC pravidlá"
 
 #: options/presets.py
 msgid "3 vs 3 with replies, chosen motions, and all adjudicators can receive feedback from teams."
-msgstr ""
+msgstr "3 vs 3 so záverečnými rečami, vybranými tézami a všetci rozhodcovia/rozhodkyne môžu dostávať spätnú väzbu od tímov."
 
 #: options/presets.py
 msgid "WSDC Rules"
-msgstr ""
+msgstr "WSDC pravidlá"
 
 #: options/presets.py
 msgid "3 vs 3 with replies, chosen motions, prop/opp side labels, and all adjudicators can receive feedback from teams."
-msgstr ""
+msgstr "3 vs 3 so záverečnými rečami, vybranými tézami, označeniami strán prop/opp a všetci rozhodcovia/rozhodkyne môžu dostávať spätnú väzbu od tímov."
 
 #: options/presets.py
 msgid "APDA Rules"
-msgstr ""
+msgstr "APDA pravidlá"
 
 #: options/presets.py
 msgid "2 vs 2 with speech rankings and byes"
-msgstr ""
+msgstr "2 vs 2 s poradím rečí a bye tímami"
 
 #: options/presets.py
 msgid "Public Speaking"
-msgstr ""
+msgstr "Verejné rečníctvo"
 
 #: options/presets.py
 msgid "Arbitrary number of teams per room, one speech each, no team points"
-msgstr ""
+msgstr "Ľubovolný počet tímov v miestnosti, každý jednu reč, žiadne tímové body"
 
 #: options/presets.py
 msgid "Public Information Options"
-msgstr ""
+msgstr "Možnosti verejných informácií"
 
 #: options/presets.py
 msgid "For tournaments hosted online: this sets it up so that people can access the draw and other generally useful information via the tab site."
-msgstr ""
+msgstr "Pre turnaje organizované online: nastavuje prístup k pairingu a ďalším užitočným informáciám cez tab stránku."
 
 #: options/presets.py
 msgid "Tab Release Options"
-msgstr ""
+msgstr "Možnosti zverejnenia tabu"
 
 #: options/presets.py
 msgid "For when a tab is ready to be released. This will publicly display the results of all rounds, the team tab, the speaker tab, etc"
-msgstr ""
+msgstr "Na použitie, keď je tab pripravený na zverejnenie. Verejne zobrazí výsledky všetkých kôl, tímový tab, rečnícky tab atď."
 
 #: options/presets.py
 msgid "Use Private URLs"
-msgstr ""
+msgstr "Použiť súkromné URL"
 
 #: options/presets.py
 msgid "Enables participant data entry through private URLs."
-msgstr ""
+msgstr "Zapína zadávanie údajov účastníkmi cez súkromné URL."
 
 #: options/presets.py
 msgid "Use Public Forms"
-msgstr ""
+msgstr "Použiť verejné formuláre"
 
 #: options/presets.py
 msgid "Enables participant data entry through public forms."
-msgstr ""
+msgstr "Zapína zadávanie údajov účastníkmi cez verejné formuláre."
 
 #: options/templates/preferences_index.html
 msgid "Configuration"
-msgstr ""
+msgstr "Konfigurácia"
 
 #: options/templates/preferences_index.html
 msgid "The range of scores that can awarded to speeches, replies, and teams"
-msgstr ""
+msgstr "Rozsah bodov, ktoré možno udeliť rečiam, záverečným rečiam a tímom"
 
 #: options/templates/preferences_index.html
 msgid "How teams are paired in the draw and how adjudicators are auto-allocated"
-msgstr ""
+msgstr "Ako sú tímy spárované v pairingu a ako sa rozhodcovia/rozhodkyne automaticky prideľujú"
 
 #: options/templates/preferences_index.html
 msgid "How many speeches in a debate, how motions are decided, and whether reply speeches are used"
-msgstr ""
+msgstr "Počet rečí v debate, spôsob voľby tézy a či sa používajú záverečné reči"
 
 #: options/templates/preferences_index.html
 msgid "How teams and speakers are ranked in the released tabs"
-msgstr ""
+msgstr "Ako sú tímy a rečníci/rečníčky zoradení v zverejnených taboch"
 
 #: options/templates/preferences_index.html
 msgid "How adjudicators are ranked and who can submit feedback"
-msgstr ""
+msgstr "Ako sú rozhodcovia/rozhodkyne zoradení a kto môže odosielať spätnú väzbu"
 
 #: options/templates/preferences_index.html
 msgid "How and where are motions used"
-msgstr ""
+msgstr "Ako a kde sa používajú tézy"
 
 #: options/templates/preferences_index.html
 msgid "How participants can register for the tournament"
-msgstr ""
+msgstr "Ako sa môžu účastníci registrovať na turnaj"
 
 #: options/templates/preferences_index.html
 msgid "When to release a public tab is made visible and what data it shows"
-msgstr ""
+msgstr "Kedy sa zverejní verejný tab a aké dáta zobrazuje"
 
 #: options/templates/preferences_index.html
 msgid "How ballots, feedback, and check-ins are entered, including online submission options"
-msgstr ""
+msgstr "Ako sa zadávajú balloty, spätná väzba a registrácie vrátane možností online odosielania"
 
 #: options/templates/preferences_index.html
 msgid "What information the site displays on the publicly accessible pages"
-msgstr ""
+msgstr "Aké informácie stránka zobrazuje na verejne dostupných stránkach"
 
 #: options/templates/preferences_index.html
 msgid "Small tweaks in what information is presented by the interface"
-msgstr ""
+msgstr "Drobné úpravy informácií zobrazovaných rozhraním"
 
 #: options/templates/preferences_index.html
 msgid "Configures sending notifications, such as emails confirming ballot submissions or team points"
-msgstr ""
+msgstr "Konfiguruje odosielanie notifikácií, napríklad e-mailov potvrdzujúcich odoslanie ballotov alebo tímové body"
 
 #: options/templates/preferences_index.html
 msgid "Settings which can affect all tournaments on the site"
-msgstr ""
+msgstr "Nastavenia, ktoré môžu ovplyvniť všetky turnaje na stránke"
 
 #: options/templates/preferences_index.html
 msgid "Manually Set Current Round"
-msgstr ""
+msgstr "Ručne nastaviť aktuálne kolo"
 
 #: options/templates/preferences_index.html
 msgid "Tabbycat will prompt you to advance the current round on each round's results page. However, if there are special circumstances that require you to override this and set the current round to something else, use this page."
-msgstr ""
+msgstr "Tabbycat ťa vyzve na postup do ďalšieho kola na stránke výsledkov každého kola. Ak však nastanú špeciálne okolnosti, ktoré vyžadujú prepísanie a nastavenie iného aktuálneho kola, použi túto stránku."
 
 #: options/templates/preferences_index.html
 msgid "Set Round Weights for Tapered Scoring"
-msgstr ""
+msgstr "Nastaviť váhy kôl pre stupňované bodovanie"
 
 #: options/templates/preferences_index.html
 msgid "Rounds can be weighted so that certain rounds are worth more team points."
-msgstr ""
+msgstr "Kolám možno priradiť váhy, takže niektoré kolá sú hodnotné viac tímových bodov."
 
 #: options/templates/preferences_index.html
 msgid "Invite User to Create an Account"
-msgstr ""
+msgstr "Pozvať používateľa na vytvorenie účtu"
 
 #: options/templates/preferences_index.html
 msgid "Users can be created through an invitation link sent to their email, with associated permissions."
-msgstr ""
+msgstr "Používatelia môžu byť vytvorení prostredníctvom pozývacieho odkazu zaslaného na ich e-mail s pridruženými oprávneniami."
 
 #: options/templates/preferences_index.html
 msgid "Presets"
-msgstr ""
+msgstr "Prednastavenia"
 
 #: options/templates/preferences_index.html
 msgid "These show changes to your configuration for common situations and debate formats. You may apply these settings or modify them for your tournament directly on the preset's page."
-msgstr ""
+msgstr "Tieto zobrazujú zmeny konfigurácie pre bežné situácie a debatné formáty. Tieto nastavenia môžeš použiť alebo upraviť pre svoj turnaj priamo na stránke prednastavenia."
 
 #: options/templates/preferences_index.html
 #, python-format
 msgid "Apply %(preset)s"
-msgstr ""
+msgstr "Použiť %(preset)s"
 
 #: options/templates/preferences_section_set.html
 #, python-format
 msgid "Configuration: %(section)s"
-msgstr ""
+msgstr "Konfigurácia: %(section)s"
 
 #: options/templates/preferences_section_set.html
 #, python-format
 msgid "Edit Configuration: %(section)s"
-msgstr ""
+msgstr "Upraviť konfiguráciu: %(section)s"
 
 #: options/templates/preferences_section_set.html
 #: options/templates/preset_edit.html
 msgid "Back to Configuration"
-msgstr ""
+msgstr "Späť na konfiguráciu"
 
 #: options/templates/preset_edit.html
 #, python-format
 msgid "This preference will be changed"
 msgid_plural "These %(counter)s preferences will be changed"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Toto nastavenie bude zmenené"
+msgstr[1] "Tieto %(counter)s nastavenia budú zmenené"
+msgstr[2] "Týchto %(counter)s nastavení bude zmenených"
+msgstr[3] "Týchto %(counter)s nastavení bude zmenených"
 
 #: options/templates/preset_edit.html
 #, python-format
 msgid "This preference will not change"
 msgid_plural "These %(counter)s preferences will not change"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Toto nastavenie sa nezmení"
+msgstr[1] "Tieto %(counter)s nastavenia sa nezmenia"
+msgstr[2] "Týchto %(counter)s nastavení sa nezmení"
+msgstr[3] "Týchto %(counter)s nastavení sa nezmení"
 
 #: options/templates/preset_edit.html
 msgid "Apply Changes"
-msgstr ""
+msgstr "Použiť zmeny"
 
 #: options/templates/preset_edit.html
 msgid "Presets are provided as a convenience only and may not be up to date with a debating format's rules or the expectations of your circuit. Please double-check everything to ensure it matches your needs."
-msgstr ""
+msgstr "Prednastavenia sú poskytované len pre pohodlie a nemusia byť aktuálne s pravidlami debatného formátu alebo očakávaniami tvojho okruhu. Skontroluj všetko, aby si sa uistil/-a, že zodpovedá tvojim potrebám."
 
 #: options/utils.py
 #, python-format
 msgid "The following metrics can't be listed twice: %(duplicates)s"
-msgstr ""
+msgstr "Nasledujúce metriky nemôžu byť uvedené dvakrát: %(duplicates)s"
 
 #: options/views.py
 #, python-format
 msgid "Tournament options (%(section)s) saved."
-msgstr ""
+msgstr "Nastavenia turnaja (%(section)s) uložené."
 
 #: options/views.py
 #, python-format
 msgid "Apply Preset: %s"
-msgstr ""
+msgstr "Použiť prednastavenie: %s"
 
 #: options/views.py
 #, python-format
 msgid "Tournament options saved based on preset %(name)s."
-msgstr ""
+msgstr "Nastavenia turnaja uložené podľa prednastavenia %(name)s."
 
 #: added manually for SDA feedback score toggle
 msgid "Feedback affects adjudicator scores"
