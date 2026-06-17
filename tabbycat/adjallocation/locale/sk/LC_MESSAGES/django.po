@@ -293,7 +293,7 @@ msgstr "Predformulárované panely"
 
 #: adjallocation/templates/preformed_index.html
 msgid "A preformed panel is a defined group of adjudicators that is specified for a round before its draw has been generated. You can then manually or automatically apply these panels during the normal adjudicator allocation process. This can make allocations faster or allow you to create more considered panels of adjudicators."
-msgstr ""
+msgstr "Predpripravený panel je definovaná skupina rozhodcov/rozhodkýň určená pre kolo ešte pred vygenerovaním pairingu. Tieto panely môžeš potom manuálne alebo automaticky použiť počas bežného procesu alokácie rozhodcov/rozhodkýň. Vďaka tomu môže byť alokácia rýchlejšia alebo ti umožní vytvoriť premyslenejšie panely rozhodcov/rozhodkýň."
 
 #: adjallocation/templates/preformed_index.html
 msgid "Note that only adjudicators who have been marked as 'available' for that round will be able to be allocated for that round, so you may need to set their availability in advance."

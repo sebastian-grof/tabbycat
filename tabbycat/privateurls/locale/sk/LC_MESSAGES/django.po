@@ -34,7 +34,7 @@ msgstr "pre %(name)s"
 #: privateurls/templates/private_url_landing.html
 #, python-format
 msgid "(%(team)s)"
-msgstr ""
+msgstr "(%(team)s)"
 
 #: privateurls/templates/private_url_landing.html
 #, python-format
@@ -184,7 +184,7 @@ msgstr[3] "Již existující soukromé URL pro %(nexisting_people)d osob byly po
 
 #: privateurls/views.py
 msgid "URL Key"
-msgstr ""
+msgstr "URL kľúč"
 
 #: privateurls/views.py
 msgid "Debates"

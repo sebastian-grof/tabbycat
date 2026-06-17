@@ -19,216 +19,216 @@ msgstr ""
 
 #: breakqual/apps.py
 msgid "Break Qualification"
-msgstr ""
+msgstr "Kvalifikácia na postup"
 
 #: breakqual/base.py
 #, python-format
 msgid "The %(rule)s break qualification rule is missing the following required metric in the team standings precedence: %(missing)s"
 msgid_plural "The %(rule)s break qualification rule is missing the following required metrics in the team standings precedence: %(missing)s"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Pravidlu kvalifikácie na postup %(rule)s chýba nasledujúca požadovaná metrika v poradí tímov: %(missing)s"
+msgstr[1] "Pravidlu kvalifikácie na postup %(rule)s chýbajú nasledujúce požadované metriky v poradí tímov: %(missing)s"
+msgstr[2] "Pravidlu kvalifikácie na postup %(rule)s chýbajú nasledujúce požadované metriky v poradí tímov: %(missing)s"
+msgstr[3] "Pravidlu kvalifikácie na postup %(rule)s chýbajú nasledujúce požadované metriky v poradí tímov: %(missing)s"
 
 #: breakqual/models.py
 msgid "tournament"
-msgstr ""
+msgstr "turnaj"
 
 #: breakqual/models.py
 msgid "name"
-msgstr ""
+msgstr "názov"
 
 #: breakqual/models.py
 msgid "Name to be displayed, e.g., \"ESL\""
-msgstr ""
+msgstr "Zobrazovaný názov, napr. \"ESL\""
 
 #: breakqual/models.py
 msgid "slug"
-msgstr ""
+msgstr "slug"
 
 #: breakqual/models.py
 msgid "Slug for URLs, e.g., \"esl\""
-msgstr ""
+msgstr "Slug pre URL adresy, napr. \"esl\""
 
 #: breakqual/models.py
 msgid "sequence number"
-msgstr ""
+msgstr "poradové číslo"
 
 #: breakqual/models.py
 msgid "The order in which the categories are displayed"
-msgstr ""
+msgstr "Poradie, v akom sa kategórie zobrazujú"
 
 #: breakqual/models.py
 msgid "break size"
-msgstr ""
+msgstr "veľkosť postupu"
 
 #: breakqual/models.py
 msgid "Number of breaking teams in this category"
-msgstr ""
+msgstr "Počet tímov postupujúcich v tejto kategórii"
 
 #: breakqual/models.py
 msgid "Reserve size"
-msgstr ""
+msgstr "Veľkosť rezervy"
 
 #: breakqual/models.py
 msgid "Number of reserve teams in this category."
-msgstr ""
+msgstr "Počet rezervných tímov v tejto kategórii."
 
 #: breakqual/models.py
 msgid "is general"
-msgstr ""
+msgstr "je všeobecná"
 
 #: breakqual/models.py
 msgid "Are teams eligible for this break by default"
-msgstr ""
+msgstr "Či sú tímy predvolene oprávnené na tento postup"
 
 #: breakqual/models.py
 msgid "priority"
-msgstr ""
+msgstr "priorita"
 
 #: breakqual/models.py
 msgid "If a team breaks in multiple categories, higher priority numbers take precedence; teams can break into multiple categories if and only if they all have the same priority"
-msgstr ""
+msgstr "Ak tím postupuje vo viacerých kategóriách, vyššie čísla priority majú prednosť; tímy môžu postupovať do viacerých kategórií práve vtedy, keď majú všetky rovnakú prioritu"
 
 #: breakqual/models.py
 msgid "limit"
-msgstr ""
+msgstr "limit"
 
 #: breakqual/models.py
 msgid "At most this many teams will be shown on the public tab for this category, or use 0 for no limit"
-msgstr ""
+msgstr "Na verejnom tabe sa pre túto kategóriu zobrazí najviac toľko tímov, alebo použi 0 pre neobmedzený počet"
 
 #: breakqual/models.py
 msgid "Standard"
-msgstr ""
+msgstr "Štandardné"
 
 #: breakqual/models.py
 msgid "AIDA 1996"
-msgstr ""
+msgstr "AIDA 1996"
 
 #: breakqual/models.py
 msgid "AIDA 2016 (Easters)"
-msgstr ""
+msgstr "AIDA 2016 (Easters)"
 
 #: breakqual/models.py
 msgid "AIDA 2016 (Australs)"
-msgstr ""
+msgstr "AIDA 2016 (Australs)"
 
 #: breakqual/models.py
 msgid "AIDA 2019 (Australs, Dynamic Cap)"
-msgstr ""
+msgstr "AIDA 2019 (Australs, Dynamic Cap)"
 
 #: breakqual/models.py
 msgid "rule"
-msgstr ""
+msgstr "pravidlo"
 
 #: breakqual/models.py
 msgid "Rule for how the break is calculated (most tournaments should use \"Standard\")"
-msgstr ""
+msgstr "Pravidlo pre výpočet postupu (väčšina turnajov by mala používať \"Štandardné\")"
 
 #: breakqual/models.py
 msgid "breaking teams"
-msgstr ""
+msgstr "postupujúce tímy"
 
 #: breakqual/models.py
 msgid "break category"
-msgstr ""
+msgstr "postupová kategória"
 
 #: breakqual/models.py
 msgid "break categories"
-msgstr ""
+msgstr "postupové kategórie"
 
 #: breakqual/models.py
 msgid "team"
-msgstr ""
+msgstr "tím"
 
 #: breakqual/models.py
 msgid "rank"
-msgstr ""
+msgstr "poradie"
 
 #: breakqual/models.py
 msgid "break rank"
-msgstr ""
+msgstr "poradie postupu"
 
 #: breakqual/models.py
 msgid "Capped"
-msgstr ""
+msgstr "Obmedzený"
 
 #: breakqual/models.py
 msgid "Ineligible"
-msgstr ""
+msgstr "Neoprávnený"
 
 #: breakqual/models.py
 msgid "Different break"
-msgstr ""
+msgstr "Iný postup"
 
 #: breakqual/models.py
 msgid "Disqualified"
-msgstr ""
+msgstr "Diskvalifikovaný"
 
 #: breakqual/models.py
 msgid "Lost coin toss"
-msgstr ""
+msgstr "Prehral žreb"
 
 #: breakqual/models.py
 msgid "Withdrawn"
-msgstr ""
+msgstr "Stiahnutý"
 
 #: breakqual/models.py
 msgid "Reserve"
-msgstr ""
+msgstr "Rezerva"
 
 #: breakqual/models.py
 msgid "Absent"
-msgstr ""
+msgstr "Neprítomný"
 
 #: breakqual/models.py
 msgid "remark"
-msgstr ""
+msgstr "poznámka"
 
 #: breakqual/models.py
 msgid "Used to explain why an otherwise-qualified team didn't break"
-msgstr ""
+msgstr "Slúži na vysvetlenie, prečo inak kvalifikovaný tím nepostúpil"
 
 #: breakqual/models.py
 msgid "breaking team"
-msgstr ""
+msgstr "postupujúci tím"
 
 #: breakqual/templates/break_categories_edit.html
 #: breakqual/templates/breaking_index.html
 msgid "Break Categories"
-msgstr ""
+msgstr "Postupové kategórie"
 
 #: breakqual/templates/break_categories_edit.html
 #, python-format
 msgid "Break categories allow category-specific break rounds, <i>e.g.</i>, for novice or ESL categories. On this page, you can define what break categories exist. After you've defined the categories, the break rounds will be automatically generated, and you can set team eligibility on the <a href=\"%(eligibility_url)s\">Eligibility</a> page."
-msgstr ""
+msgstr "Postupové kategórie umožňujú kolá postupu špecifické pre kategóriu, <i>napr.</i> pre kategórie novice alebo ESL. Na tejto stránke môžeš definovať, aké postupové kategórie existujú. Po definovaní kategórií sa kolá postupu vygenerujú automaticky a oprávnenosť tímov môžeš nastaviť na stránke <a href=\"%(eligibility_url)s\">Oprávnenosť</a>."
 
 #: breakqual/templates/break_categories_edit.html
 #, python-format
 msgid "If you want to delete break categories, use the <a href=\"%(edit_db_url)s\" class=\"alert-link\">Edit Database</a> area."
-msgstr ""
+msgstr "Ak chceš vymazať postupové kategórie, použi oblasť <a href=\"%(edit_db_url)s\" class=\"alert-link\">Upraviť databázu</a>."
 
 #: breakqual/templates/break_categories_edit.html
 msgid "Save Break Categories"
-msgstr ""
+msgstr "Uložiť postupové kategórie"
 
 #: breakqual/templates/breaking_adjs.html
 #, python-format
 msgid "Adjudicators can be marked as breaking in the <a href=\"%(feedback_url)s\">Feedback Overview</a> section."
-msgstr ""
+msgstr "Rozhodcov možno označiť ako postupujúcich v sekcii <a href=\"%(feedback_url)s\">Prehľad spätnej väzby</a>."
 
 #: breakqual/templates/breaking_index.html
 msgid "Breaks"
-msgstr ""
+msgstr "Postupy"
 
 #: breakqual/templates/breaking_index.html
 msgid "This tournament does not have any break categories set up. You can read about how to create breaks <a href=\"https://tabbycat.readthedocs.io/en/stable/features/breaks.html\" class=\"alert-link\" target=\"_blank\"> at our documentation. </a>"
-msgstr ""
+msgstr "Tento turnaj nemá nastavené žiadne postupové kategórie. Môžeš si prečítať, ako vytvoriť postupy, <a href=\"https://tabbycat.readthedocs.io/en/stable/features/breaks.html\" class=\"alert-link\" target=\"_blank\"> v našej dokumentácii. </a>"
 
 #: breakqual/templates/breaking_index.html
 msgid "Team Eligibility"
-msgstr ""
+msgstr "Oprávnenosť tímov"
 
 #: breakqual/templates/breaking_index.html
 #: breakqual/templates/breaking_teams.html
@@ -236,313 +236,313 @@ msgstr ""
 #: breakqual/templates/public_break_index.html breakqual/views.py
 #, python-format
 msgid "%(category)s Break"
-msgstr ""
+msgstr "Postup %(category)s"
 
 #: breakqual/templates/breaking_index.html
 #, python-format
 msgid "<span class=\"badge float-right badge-light\"> %(size)s Spots </span>"
-msgstr ""
+msgstr "<span class=\"badge float-right badge-light\"> %(size)s miest </span>"
 
 #: breakqual/templates/breaking_index.html
 msgid "Teams Eligible"
-msgstr ""
+msgstr "Oprávnené tímy"
 
 #: breakqual/templates/breaking_index.html
 msgid "Breaking"
-msgstr ""
+msgstr "Postupujúci"
 
 #: breakqual/templates/breaking_index.html
 msgid "Excluded"
-msgstr ""
+msgstr "Vylúčení"
 
 #: breakqual/templates/breaking_index.html
 msgid "Eligible"
-msgstr ""
+msgstr "Oprávnení"
 
 #: breakqual/templates/breaking_index.html
 msgid "Mark teams as eligible"
-msgstr ""
+msgstr "Označiť tímy ako oprávnené"
 
 #: breakqual/templates/breaking_index.html
 msgid "Generate this break"
-msgstr ""
+msgstr "Vygenerovať tento postup"
 
 #: breakqual/templates/breaking_index.html
 msgid "View this break"
-msgstr ""
+msgstr "Zobraziť tento postup"
 
 #: breakqual/templates/breaking_teams.html
 msgid "publicly visible"
-msgstr ""
+msgstr "verejne viditeľné"
 
 #: breakqual/templates/breaking_teams.html
 msgid "not publicly visible"
-msgstr ""
+msgstr "verejne neviditeľné"
 
 #: breakqual/templates/breaking_teams.html
 msgid "Delete and Regenerate All Breaks"
-msgstr ""
+msgstr "Vymazať a znovu vygenerovať všetky postupy"
 
 #: breakqual/templates/breaking_teams.html
 msgid "Generate the Break for All Categories"
-msgstr ""
+msgstr "Vygenerovať postup pre všetky kategórie"
 
 #: breakqual/templates/breaking_teams.html
 #, python-format
 msgid "There are <strong>0 teams marked as eligible</strong> for this category — you will need to <a href=\"%(url)s\" class=\"alert-link\"> add some eligible teams</a> for this break to generate correctly."
-msgstr ""
+msgstr "Pre túto kategóriu sú označené <strong>0 tímov ako oprávnených</strong> — budeš musieť <a href=\"%(url)s\" class=\"alert-link\"> pridať niektoré oprávnené tímy</a>, aby sa tento postup vygeneroval správne."
 
 #: breakqual/templates/breaking_teams.html
 #, python-format
 msgid "This break uses the <strong>%(category)s</strong> rule — if you intended to use a different rule, you should <a href=\"%(url)s\"> edit the rule for this break category in the Edit Database area</a>, then delete and regenerate all breaks. Please double-check this before announcing the break or releasing it to the public. The code that generates the break is not robustly tested for corner cases."
-msgstr ""
+msgstr "Tento postup používa pravidlo <strong>%(category)s</strong> — ak si zamýšľal/a použiť iné pravidlo, mal/a by si <a href=\"%(url)s\"> upraviť pravidlo pre túto postupovú kategóriu v oblasti Upraviť databázu</a>, potom vymazať a znovu vygenerovať všetky postupy. Pred oznamovaním postupu alebo jeho zverejnením to skontroluj. Kód, ktorý generuje postup, nie je robustne testovaný pre okrajové prípady."
 
 #: breakqual/templates/breaking_teams.html
 #, python-format
 msgid "To edit the break use the remarks in the right-hand column. Any team with a remark will be excluded from this break (the break generator will sometimes insert its own remarks). Then, click the appropriate Save Remarks and Update button below. If you have complicated break rules (for example, if some teams are allowed to choose their preferred category) then you may have to update remarks a few times to get the correct break. As a last resort, you can <a href=\"%(url)s\"> edit the breaking teams list directly in the Edit Database area</a>."
-msgstr ""
+msgstr "Na úpravu postupu použi poznámky v pravom stĺpci. Každý tím s poznámkou bude z tohto postupu vylúčený (generátor postupu niekedy vkladá vlastné poznámky). Potom klikni na príslušné tlačidlo Uložiť poznámky a aktualizovať nižšie. Ak máš komplikované pravidlá postupu (napríklad, ak niektoré tímy môžu vybrať svoju preferovanú kategóriu), možno budeš musieť niekoľkokrát aktualizovať poznámky, aby si získal/a správny postup. Ako poslednú možnosť môžeš <a href=\"%(url)s\"> upraviť zoznam postupujúcich tímov priamo v oblasti Upraviť databázu</a>."
 
 #: breakqual/templates/breaking_teams.html
 #, python-format
 msgid "The <strong>public breaking teams</strong> configuration setting is enabled. As soon as you click the button, the breaking teams list will be visible on the public site, before you have a chance to double-check it! It is strongly recommended that you disable this setting on the <a href=\"%(options_url)s\"> tournament configuration page</a> before generating the team breaks."
-msgstr ""
+msgstr "Nastavenie konfigurácie <strong>verejne postupujúce tímy</strong> je povolené. Hneď ako klikneš na tlačidlo, zoznam postupujúcich tímov bude viditeľný na verejnej stránke, skôr ako ho budeš mať šancu skontrolovať! Dôrazne sa odporúča vypnúť toto nastavenie na <a href=\"%(options_url)s\"> stránke konfigurácie turnaja</a> pred generovaním postupu tímov."
 
 #: breakqual/templates/breaking_teams.html
 msgid "The break hasn't yet been generated. Would you like to generate the break for all categories? It's safe to generate the break before all preliminary rounds are complete, if you're curious — you can regenerate it later."
-msgstr ""
+msgstr "Postup ešte nebol vygenerovaný. Chceš vygenerovať postup pre všetky kategórie? Je bezpečné vygenerovať postup pred dokončením všetkých predbežných kôl, ak ťa to zaujíma — neskôr ho môžeš znovu vygenerovať."
 
 #: breakqual/templates/breaking_teams.html
 msgid "<strong>Caution!</strong> The \"public breaking teams\" option is turned on, so the break is publicly visible. If you update the break(s), the changes will become visible <strong>immediately</strong>, <strong>without a chance for you to review them</strong>."
-msgstr ""
+msgstr "<strong>Pozor!</strong> Možnosť \"verejne postupujúce tímy\" je zapnutá, takže postup je verejne viditeľný. Ak aktualizuješ postup(y), zmeny budú viditeľné <strong>okamžite</strong>, <strong>bez možnosti ich skontrolovať</strong>."
 
 #: breakqual/templates/breaking_teams.html
 msgid "Save Remarks and Update All Breaks"
-msgstr ""
+msgstr "Uložiť poznámky a aktualizovať všetky postupy"
 
 #: breakqual/templates/breaking_teams.html
 #, python-format
 msgid "Save Remarks and Update the %(category)s Break"
-msgstr ""
+msgstr "Uložiť poznámky a aktualizovať postup %(category)s"
 
 #: breakqual/templates/breaking_teams.html
 #, python-format
 msgid "There are <strong>%(count)s teams marked as eligible</strong> for this category. Would you like to add more eligible teams?"
-msgstr ""
+msgstr "Pre túto kategóriu sú označené <strong>%(count)s tímy ako oprávnené</strong>. Chceš pridať ďalšie oprávnené tímy?"
 
 #: breakqual/templates/breakqual_subnav.html
 msgid "Overview"
-msgstr ""
+msgstr "Prehľad"
 
 #: breakqual/templates/breakqual_subnav.html
 msgid "Adjudicators' Break"
-msgstr ""
+msgstr "Postup rozhodcov"
 
 #: breakqual/templates/edit_break_eligibility.html
 #, python-format
 msgid "It looks like there aren't any break categories are defined. If you'd like to create new break categories you'll need to first <a href=\"%(categories_url)s\" class=\"alert-link\"> add them in the Edit Database area</a>, then return to this page to set team's eligibility."
-msgstr ""
+msgstr "Zdá sa, že nie sú definované žiadne postupové kategórie. Ak chceš vytvoriť nové postupové kategórie, najprv ich budeš musieť <a href=\"%(categories_url)s\" class=\"alert-link\"> pridať v oblasti Upraviť databázu</a>, potom sa vrátiť na túto stránku a nastaviť oprávnenosť tímov."
 
 #: breakqual/templates/public_break_index.html breakqual/views.py
 msgid "Break"
-msgstr ""
+msgstr "Postup"
 
 #: breakqual/templates/public_break_index.html
 msgid "Adjudicators"
-msgstr ""
+msgstr "Rozhodcovia"
 
 #. Translators: abbreviation for "grand final"
 #: breakqual/utils.py
 msgid "Grand Final"
-msgstr ""
+msgstr "Veľké finále"
 
 #: breakqual/utils.py
 msgid "GF"
-msgstr ""
+msgstr "GF"
 
 #. Translators: abbreviation for "semifinals"
 #: breakqual/utils.py
 msgid "Semifinals"
-msgstr ""
+msgstr "Semifinále"
 
 #: breakqual/utils.py
 msgid "SF"
-msgstr ""
+msgstr "SF"
 
 #. Translators: abbreviation for "quarterfinals"
 #: breakqual/utils.py
 msgid "Quarterfinals"
-msgstr ""
+msgstr "Štvrťfinále"
 
 #: breakqual/utils.py
 msgid "QF"
-msgstr ""
+msgstr "QF"
 
 #. Translators: abbreviation for "octofinals"
 #: breakqual/utils.py
 msgid "Octofinals"
-msgstr ""
+msgstr "Osemfinále"
 
 #: breakqual/utils.py
 msgid "OF"
-msgstr ""
+msgstr "OF"
 
 #. Translators: abbreviation for "double-octofinals"
 #: breakqual/utils.py
 msgid "Double-Octofinals"
-msgstr ""
+msgstr "Dvojité osemfinále"
 
 #: breakqual/utils.py
 msgid "DOF"
-msgstr ""
+msgstr "DOF"
 
 #. Translators: abbreviation for "triple-octofinals"
 #: breakqual/utils.py
 msgid "Triple-Octofinals"
-msgstr ""
+msgstr "Trojité osemfinále"
 
 #: breakqual/utils.py
 msgid "TOF"
-msgstr ""
+msgstr "TOF"
 
 #. Translators: abbreviation for "finals" - first character of category name
 #: breakqual/utils.py
 #, python-format
 msgid "%s Finals"
-msgstr ""
+msgstr "%s Finále"
 
 #: breakqual/utils.py
 #, python-format
 msgid "%sF"
-msgstr ""
+msgstr "%sF"
 
 #. Translators: abbreviation for "semifinals" - first character of category name
 #: breakqual/utils.py
 #, python-format
 msgid "%s Semifinals"
-msgstr ""
+msgstr "%s Semifinále"
 
 #: breakqual/utils.py
 #, python-format
 msgid "%sSF"
-msgstr ""
+msgstr "%sSF"
 
 #. Translators: abbreviation for "quarterfinals" - first character of category name
 #: breakqual/utils.py
 #, python-format
 msgid "%s Quarterfinals"
-msgstr ""
+msgstr "%s Štvrťfinále"
 
 #: breakqual/utils.py
 #, python-format
 msgid "%sQF"
-msgstr ""
+msgstr "%sQF"
 
 #. Translators: abbreviation for "octofinals" - first character of category name
 #: breakqual/utils.py
 #, python-format
 msgid "%s Octofinals"
-msgstr ""
+msgstr "%s Osemfinále"
 
 #: breakqual/utils.py
 #, python-format
 msgid "%sOF"
-msgstr ""
+msgstr "%sOF"
 
 #. Translators: abbreviation for "double-octofinals" - first character of category name
 #: breakqual/utils.py
 #, python-format
 msgid "%s Double-Octofinals"
-msgstr ""
+msgstr "%s Dvojité osemfinále"
 
 #: breakqual/utils.py
 #, python-format
 msgid "%sDOF"
-msgstr ""
+msgstr "%sDOF"
 
 #. Translators: abbreviation for "triple-octofinals" - first character of category name
 #: breakqual/utils.py
 #, python-format
 msgid "%s Triple-Octofinals"
-msgstr ""
+msgstr "%s Trojité osemfinále"
 
 #: breakqual/utils.py
 #, python-format
 msgid "%sTOF"
-msgstr ""
+msgstr "%sTOF"
 
 #. Translators: "UBR" stands for "unknown break round" (used as a fallback when we don't know what it's called)
 #: breakqual/utils.py
 #, python-format
 msgid "Unknown %s break round"
-msgstr ""
+msgstr "Neznáme kolo postupu %s"
 
 #: breakqual/utils.py
 #, python-format
 msgid "U%sBR"
-msgstr ""
+msgstr "U%sBR"
 
 #: breakqual/utils.py
 msgid "Unknown break round"
-msgstr ""
+msgstr "Neznáme kolo postupu"
 
 #: breakqual/utils.py
 msgid "UBR"
-msgstr ""
+msgstr "UBR"
 
 #: breakqual/views.py
 #, python-format
 msgid "There was an error generating the break for category %(category)s: %(message)s"
-msgstr ""
+msgstr "Pri generovaní postupu pre kategóriu %(category)s nastala chyba: %(message)s"
 
 #: breakqual/views.py
 msgid "Eligible for"
-msgstr ""
+msgstr "Oprávnený na"
 
 #: breakqual/views.py
 msgid "Edit Remark"
-msgstr ""
+msgstr "Upraviť poznámku"
 
 #: breakqual/views.py
 #, python-format
 msgid "Changes to breaking team remarks saved and teams break updated for the following break categories: %(categories)s."
-msgstr ""
+msgstr "Zmeny poznámok postupujúcich tímov uložené a postup tímov aktualizovaný pre nasledujúce postupové kategórie: %(categories)s."
 
 #: breakqual/views.py
 #, python-format
 msgid "Changes to breaking team remarks saved and teams break updated for break category %(category)s."
-msgstr ""
+msgstr "Zmeny poznámok postupujúcich tímov uložené a postup tímov aktualizovaný pre postupovú kategóriu %(category)s."
 
 #: breakqual/views.py
 msgid "Changes to breaking team remarks saved."
-msgstr ""
+msgstr "Zmeny poznámok postupujúcich tímov boli uložené."
 
 #: breakqual/views.py
 #, python-format
 msgid "Teams break generated for the following break categories: %(categories)s."
-msgstr ""
+msgstr "Postup tímov vygenerovaný pre nasledujúce postupové kategórie: %(categories)s."
 
 #: breakqual/views.py
 msgid "Breaking Adjudicators"
-msgstr ""
+msgstr "Postupujúci rozhodcovia"
 
 #: breakqual/views.py
 msgid "Four-team formats require the break size to be either six times or four times a power of two."
-msgstr ""
+msgstr "Formáty pre štyri tímy vyžadujú, aby veľkosť postupu bola šesťnásobok alebo štvornásobok mocniny dvoch."
 
 #: breakqual/views.py
 msgid "Break Eligibility"
-msgstr ""
+msgstr "Oprávnenosť na postup"
 
 #: breakqual/views.py
 #, python-format
 msgid "%s Speakers"
-msgstr ""
+msgstr "%s Rečníci"
 
 #: breakqual/views.py
 #, python-format
 msgid "Team has %(nspeakers)s speaker with the %(category)s speaker category assigned"
 msgid_plural "Team has %(nspeakers)s speakers with the %(category)s speaker category assigned"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Tím má %(nspeakers)s rečníka s pridelenou kategóriou rečníka %(category)s"
+msgstr[1] "Tím má %(nspeakers)s rečníkov s pridelenou kategóriou rečníka %(category)s"
+msgstr[2] "Tím má %(nspeakers)s rečníkov s pridelenou kategóriou rečníka %(category)s"
+msgstr[3] "Tím má %(nspeakers)s rečníkov s pridelenou kategóriou rečníka %(category)s"

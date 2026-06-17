@@ -169,7 +169,7 @@
     "Remove": "Odstr\u00e1ni\u0165",
     "Remove all": "Odstr\u00e1ni\u0165 v\u0161etky",
     "Return ballots to %1.": "Return hlasovania na %1.",
-    "Return to Draw": "Return na?reb",
+    "Return to Draw": "Sp\u00e4\u0165 na pairing",
     "Review": "Kontrola",
     "Room:": "Miestnos\u0165:",
     "Saturday": "sobota",

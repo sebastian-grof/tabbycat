@@ -3,120 +3,120 @@ msgstr ""
 "Project-Id-Version: tabbycat\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-01-28 12:44-0400\n"
-"PO-Revision-Date: 2019-07-11 23:48\n"
-"Last-Translator: philip_tc\n"
-"Language-Team: English\n"
-"Language: en_US\n"
+"PO-Revision-Date: 2026-06-16 00:00+0200\n"
+"Last-Translator: Sebastian Grof\n"
+"Language-Team: Slovak\n"
+"Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=4; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 3;\n"
 "X-Generator: crowdin.com\n"
 "X-Crowdin-Project: tabbycat\n"
-"X-Crowdin-Language: en\n"
+"X-Crowdin-Language: sk\n"
 "X-Crowdin-File: /develop/tabbycat/printing/locale/en/LC_MESSAGES/django.po\n"
 
 #: printing/templates/feedback_list.html
 msgid "Feedback Forms"
-msgstr ""
+msgstr "Formuláre spätnej väzby"
 
 #: printing/templates/feedback_list.html
 #, python-format
 msgid "Printable Feedback Forms for %(round)s"
-msgstr ""
+msgstr "Tlačiteľné formuláre spätnej väzby pre %(round)s"
 
 #: printing/templates/feedback_list.html
 msgid "No feedback questions have been added for either teams or adjudicators to answer."
-msgstr ""
+msgstr "Neboli pridané žiadne otázky spätnej väzby pre tímy ani pre rozhodcov."
 
 #: printing/templates/feedback_list.html
 msgid "No feedback questions have been added for teams to answer."
-msgstr ""
+msgstr "Neboli pridané žiadne otázky spätnej väzby pre tímy."
 
 #: printing/templates/feedback_list.html
 msgid "No feedback questions have been added for adjudicators to answer."
-msgstr ""
+msgstr "Neboli pridané žiadne otázky spätnej väzby pre rozhodcov."
 
 #: printing/templates/feedback_list.html
 #, python-format
 msgid "%(first_sentence)s Check the <a href=\"https://tabbycat.readthedocs.io/en/stable/features/adjudicator-feedback.html\" target=\"_blank\">documentation</a> for information on how to add these (otherwise these forms will be quite bare)."
-msgstr ""
+msgstr "%(first_sentence)s Pozri <a href=\"https://tabbycat.readthedocs.io/en/stable/features/adjudicator-feedback.html\" target=\"_blank\">dokumentáciu</a>, kde nájdeš informácie o tom, ako ich pridať (inak budú tieto formuláre dosť prázdne)."
 
 #: printing/templates/feedback_list.html
 msgid "There are no feedback sheets available — perhaps adjudicators have not been allocated?"
-msgstr ""
+msgstr "Nie sú k dispozícii žiadne hárky spätnej väzby — možno rozhodcovia ešte neboli pridelení?"
 
 #: printing/templates/printables_list.html
 msgid "Use Ctrl+P for printing or saving to PDF. Be sure to set the appropriate <strong>page orientation</strong>, to turn off <strong>headers/footers</strong> and turn on <strong>background graphics</strong>. Works best in Chrome."
-msgstr ""
+msgstr "Na tlač alebo uloženie do PDF použi Ctrl+P. Nezabudni nastaviť správnu <strong>orientáciu stránky</strong>, vypnúť <strong>hlavičky/päty</strong> a zapnúť <strong>grafiku pozadia</strong>. Najlepšie funguje v Chrome."
 
 #: printing/templates/randomised_url_sheets.html
 #, python-format
 msgid "Printable %(sheet)s URLs"
-msgstr ""
+msgstr "Tlačiteľné %(sheet)s URL adresy"
 
 #: printing/templates/randomised_url_sheets.html
 msgid "This page is designed to be printed as double-sided A4 sheets, with the outside facing side showing the participant name and the inside facing side showing the URL. Use CTRL-P to print; for best results use Chrome."
-msgstr ""
+msgstr "Táto stránka je navrhnutá na tlač ako obojstranné listy A4 — vonkajšia strana zobrazuje meno účastníka a vnútorná strana URL adresu. Na tlač použi CTRL-P; pre najlepšie výsledky použite Chrome."
 
 #: printing/templates/randomised_url_sheets.html
 #, python-format
 msgid "Private URL for %(name)s (%(group)s)"
-msgstr ""
+msgstr "Súkromná URL pre %(name)s (%(group)s)"
 
 #: printing/templates/randomised_url_sheets.html
 msgid "Please bookmark the following URL, you will use it to submit forms throughout the tournament:"
-msgstr ""
+msgstr "Uložte si nasledujúcu URL do záložiek — budete ju používať na odovzdávanie formulárov počas celého turnaja:"
 
 #: printing/templates/scoresheet_list.html
 msgid "Printable Scoresheets"
-msgstr ""
+msgstr "Tlačiteľné balloty"
 
 #: printing/templates/scoresheet_list.html
 #, python-format
 msgid "for %(round)s"
-msgstr ""
+msgstr "pre %(round)s"
 
 #: printing/templates/scoresheet_list.html
 msgid "Edit Motion(s)"
-msgstr ""
+msgstr "Upraviť tézu/tézy"
 
 #: printing/templates/scoresheet_list.html
 msgid "There are no scoresheets available — perhaps the round has not been drawn?"
-msgstr ""
+msgstr "Nie sú k dispozícii žiadne balloty — možno pairing pre toto kolo ešte nebol vygenerovaný?"
 
 #: printing/templates/scoresheet_list.html
 msgid "Edit Ballot Motions"
-msgstr ""
+msgstr "Upraviť tézy ballotov"
 
 #: printing/templates/scoresheet_list.html
 msgid "&times;"
-msgstr ""
+msgstr "&times;"
 
 #: printing/templates/scoresheet_list.html
 msgid "Editing motions here will not save them permanently — it will only update the text used in the printed ballots below. This can be useful if using placeholder motions (to ensure confidentiality) in Tabbycat, but you still want to print ballots with correct motions."
-msgstr ""
+msgstr "Úprava tém tu ich neuloží natrvalo — aktualizuje iba text použitý v tlačených ballotoch nižšie. Môže to byť užitočné, ak v Tabbycat používaš zástupné tézy (kvôli zachovaniu dôvernosti), ale chceš tlačiť balloty so správnymi tézami."
 
 #: printing/templates/scoresheet_list.html
 msgid "Motion"
-msgstr ""
+msgstr "Téza"
 
 #: printing/templates/scoresheet_list.html
 msgid "Changes to motions will update in the displayed ballots automatically"
-msgstr ""
+msgstr "Zmeny tém sa automaticky prejavia v zobrazených ballotoch"
 
 #: printing/templates/scoresheet_list.html
 msgid "Speeches are x minutes, the speaker score range is from x to x. You have x minutes to form an adjudication."
-msgstr ""
+msgstr "Prejav trvá x minút, rozsah rečníckych bodov je od x do x. Na rozhodnutie máš x minút."
 
 #: printing/views.py
 msgid "Overall Score"
-msgstr ""
+msgstr "Celkové skóre"
 
 #: printing/views.py
 msgid "Unaffiliated"
-msgstr ""
+msgstr "Bez príslušnosti"
 
 #: printing/views.py
 msgid "Team"
-msgstr ""
+msgstr "Tím"

@@ -47,19 +47,19 @@ msgstr "Zdroj"
 #, python-format
 msgid "1 feedback submission was marked as confirmed. Note that this may have caused other feedback submissions to be marked as unconfirmed."
 msgid_plural "%(count)d feedback submissions were marked as confirmed. Note that this may have caused other feedback submissions to be marked as unconfirmed."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "1 odoslanie spätnej väzby bolo označené ako potvrdené. Upozorňujeme, že to mohlo spôsobiť, že iné odoslania spätnej väzby boli označené ako nepotvrdené."
+msgstr[1] "%(count)d odoslania spätnej väzby boli označené ako potvrdené. Upozorňujeme, že to mohlo spôsobiť, že iné odoslania spätnej väzby boli označené ako nepotvrdené."
+msgstr[2] "%(count)d odoslaní spätnej väzby boli označené ako potvrdené. Upozorňujeme, že to mohlo spôsobiť, že iné odoslania spätnej väzby boli označené ako nepotvrdené."
+msgstr[3] "%(count)d odoslaní spätnej väzby boli označené ako potvrdené. Upozorňujeme, že to mohlo spôsobiť, že iné odoslania spätnej väzby boli označené ako nepotvrdené."
 
 #: adjfeedback/admin.py
 #, python-format
 msgid "1 feedback submission was not marked as confirmed, probably because other feedback submissions that conflict with it were also marked as confirmed."
 msgid_plural "%(count)d feedback submissions were not marked as confirmed, probably because other feedback submissions that conflict with them were also marked as confirmed."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "1 odoslanie spätnej väzby nebolo označené ako potvrdené, pravdepodobne preto, že iné odoslania spätnej väzby, ktoré sú s ním v konflikte, boli tiež označené ako potvrdené."
+msgstr[1] "%(count)d odoslania spätnej väzby neboli označené ako potvrdené, pravdepodobne preto, že iné odoslania spätnej väzby, ktoré sú s nimi v konflikte, boli tiež označené ako potvrdené."
+msgstr[2] "%(count)d odoslaní spätnej väzby neboli označené ako potvrdené, pravdepodobne preto, že iné odoslania spätnej väzby, ktoré sú s nimi v konflikte, boli tiež označené ako potvrdené."
+msgstr[3] "%(count)d odoslaní spätnej väzby neboli označené ako potvrdené, pravdepodobne preto, že iné odoslania spätnej väzby, ktoré sú s nimi v konflikte, boli tiež označené ako potvrdené."
 
 #: adjfeedback/admin.py
 #, python-format
@@ -463,7 +463,7 @@ msgstr "Ignorované: Neovplyvní skóre rozhodcu."
 
 #: adjfeedback/templates/feedback_card.html
 msgid "This feedback is submitted on an adjudicator but it looks like they have been since been removed from the debate. You should probably go to the Edit Database area and delete this feedback."
-msgstr "T?na sp?tn?v?zba je odoslan?na rozhodcu/rozhodky?u ale Vyzer?na,?e oni boli since bolo odstr?nen?/odstr?nen?z debaty. ty m?probably go na Upravi?datab?zu area a vymaza?T?na sp?tn?v?zba."
+msgstr "Táto spätná väzba je odoslaná na rozhodcu/rozhodkyňu, ale vyzerá to, že od tej doby boli z debaty odstránení/odstránené. Pravdepodobne by si mal/a prejsť do sekcie Upraviť databázu a túto spätnú väzbu vymazať."
 
 #: adjfeedback/templates/feedback_card.html
 msgid "The score given in this piece of feedback."
@@ -544,22 +544,22 @@ msgstr "<span id=\"c_breaking\">%(c_breaking)s</span> označené ako breaking"
 #: adjfeedback/templates/feedback_overview.html
 #, python-format
 msgid "The current <a href=\"%(option_url)s\" class=\"alert-link\">feedback configuration</a> allows and expects only chairs to submit feedback (on their panellists and trainees)."
-msgstr "Súčasná <A href=\"%(option_url)s\" class=\"alert-link\">konfigurácia spätnej väzby</A> umožňuje a predpokladá, že spätnú väzbu môžu zasielať iba chairovia (o svojich členoch panelu a shadows)."
+msgstr "Súčasná <a href=\"%(option_url)s\" class=\"alert-link\">konfigurácia spätnej väzby</a> umožňuje a predpokladá, že spätnú väzbu môžu zasielať iba chairovia (o svojich členoch panelu a shadows)."
 
 #: adjfeedback/templates/feedback_overview.html
 #, python-format
 msgid "The current <a href=\"%(option_url)s\" class=\"alert-link\">feedback configuration</a> allows and expects both chairs and panellists to submit feedback on each other, and also chairs to submit feedback on trainees."
-msgstr "Súčasná <A href=\"%(option_url)s\" class=\"alert-link\">konfigurácia spätnej väzby</A> umožňuje a predpokladá, že si chairovia aj členovia panelu budú navzájom poskytovať spätnú väzbu, a že chairovia budú poskytovať spätnú väzbu aj na shadows."
+msgstr "Súčasná <a href=\"%(option_url)s\" class=\"alert-link\">konfigurácia spätnej väzby</a> umožňuje a predpokladá, že si chairovia aj členovia panelu budú navzájom poskytovať spätnú väzbu, a že chairovia budú poskytovať spätnú väzbu aj na shadows."
 
 #: adjfeedback/templates/feedback_overview.html
 #, python-format
 msgid "The current <a href=\"%(option_url)s\" class=\"alert-link\">feedback configuration</a> allows and expects both panellists and trainees to submit feedback on chairs, and chairs to submit feedback on every other member of the panel (including trainees)."
-msgstr "Súčasná <A href=\"%(option_url)s\" class=\"alert-link\">konfigurácia spätnej väzby</A> umožňuje a predpokladá, že panelisti aj shadows budú posielať spätnú väzbu na chaira a že chairovia budú posielať spätnú väzbu na ostatných panelistov (vrátane shadows)."
+msgstr "Súčasná <a href=\"%(option_url)s\" class=\"alert-link\">konfigurácia spätnej väzby</a> umožňuje a predpokladá, že panelisti aj shadows budú posielať spätnú väzbu na chaira a že chairovia budú posielať spätnú väzbu na ostatných panelistov (vrátane shadows)."
 
 #: adjfeedback/templates/feedback_overview.html
 #, python-format
 msgid "The current <a href=\"%(option_url)s\" class=\"alert-link\">feedback configuration</a> allows and expects all adjudicators (including trainees) to submit feedback on every other member of the panel (including trainees)."
-msgstr "Aktuálne <A href=\"%(option_url)s\" class=\"alert-link\">spätná väzba v konfigurácii</A> umožňuje všetkým rozhodcom a rozhodkyniam (vrátane shadows) zaslať spätnú väzbu každému inému členovi komisie (vrátane shadows)."
+msgstr "Aktuálna <a href=\"%(option_url)s\" class=\"alert-link\">konfigurácia spätnej väzby</a> umožňuje všetkým rozhodcom a rozhodkyniam (vrátane shadows) zaslať spätnú väzbu každému inému členovi komisie (vrátane shadows)."
 
 #: adjfeedback/templates/feedback_overview.html
 #, python-format
@@ -570,19 +570,19 @@ msgstr "Súčasná <a href=\"%(option_url)s\" class=\"alert-link\">konfigurácia
 #, python-format
 msgid "There is <strong>%(nadjs_outside_range)s adjudicator</strong> with a score <strong>outside the permitted range</strong> of adjudicator scores, which is currently set as %(min_score)s to %(max_score)s. This can cause adjudicator auto-allocation to behave in unexpected ways. If you'd like to use a wider score range, you can configure this in <a href=\"%(feedback_settings_url)s\" class=\"alert-link\"> feedback settings</a>."
 msgid_plural "There are <strong>%(nadjs_outside_range)s adjudicators</strong> with scores <strong>outside the permitted range</strong> of adjudicator scores, which is currently set as %(min_score)s to %(max_score)s. This can cause adjudicator auto-allocation to behave in unexpected ways. If you'd like to use a wider score range, you can configure this in <a href=\"%(feedback_settings_url)s\" class=\"alert-link\"> feedback settings</a>."
-msgstr[0] "Je <strong>%(nadjs_outside_range)s rozhodca/rozhodky?a</strong> tak?e sk?re <strong>mimo povolen?ho rozsahu</strong> z sk?re rozhodcov/rozhodk??, which je currently set ako %(min_score)s na %(max_score)s. toto m??e cause rozhodca/rozhodky?a automatick?alok?cia na behave v unexpected ways. ak you'd like na use a wider sk?re range, ty m??e configure toto v <a href=\"%(feedback_settings_url)s\" class=\"alert-link\"> sp?tn?v?zba nastavenia</a>."
-msgstr[1] "S?<strong>%(nadjs_outside_range)s rozhodcovia/rozhodkyne</strong> s sk?re <strong>mimo povolen?ho rozsahu</strong> z sk?re rozhodcov/rozhodk??, which je currently set ako %(min_score)s na %(max_score)s. toto m??e cause rozhodca/rozhodky?a automatick?alok?cia na behave v unexpected ways. ak you'd like na use a wider sk?re range, ty m??e configure toto v <a href=\"%(feedback_settings_url)s\" class=\"alert-link\"> sp?tn?v?zba nastavenia</a>."
-msgstr[2] "S?<strong>%(nadjs_outside_range)s rozhodcovia/rozhodkyne</strong> s sk?re <strong>mimo povolen?ho rozsahu</strong> z sk?re rozhodcov/rozhodk??, which je currently set ako %(min_score)s na %(max_score)s. toto m??e cause rozhodca/rozhodky?a automatick?alok?cia na behave v unexpected ways. ak you'd like na use a wider sk?re range, ty m??e configure toto v <a href=\"%(feedback_settings_url)s\" class=\"alert-link\"> sp?tn?v?zba nastavenia</a>."
-msgstr[3] "S?<strong>%(nadjs_outside_range)s rozhodcovia/rozhodkyne</strong> s sk?re <strong>mimo povolen?ho rozsahu</strong> z sk?re rozhodcov/rozhodk??, which je currently set ako %(min_score)s na %(max_score)s. toto m??e cause rozhodca/rozhodky?a automatick?alok?cia na behave v unexpected ways. ak you'd like na use a wider sk?re range, ty m??e configure toto v <a href=\"%(feedback_settings_url)s\" class=\"alert-link\"> sp?tn?v?zba nastavenia</a>."
+msgstr[0] "Je tu <strong>%(nadjs_outside_range)s rozhodca/rozhodkyňa</strong> so skóre <strong>mimo povoleného rozsahu</strong> skóre rozhodcov/rozhodkýň, ktorý je momentálne nastavený ako %(min_score)s až %(max_score)s. Toto môže spôsobiť, že automatická alokácia rozhodcov/rozhodkýň bude správať sa nečakane. Ak chceš použiť širší rozsah skóre, môžeš to nastaviť v <a href=\"%(feedback_settings_url)s\" class=\"alert-link\">nastaveniach spätnej väzby</a>."
+msgstr[1] "Sú tu <strong>%(nadjs_outside_range)s rozhodcovia/rozhodkyne</strong> so skóre <strong>mimo povoleného rozsahu</strong> skóre rozhodcov/rozhodkýň, ktorý je momentálne nastavený ako %(min_score)s až %(max_score)s. Toto môže spôsobiť, že automatická alokácia rozhodcov/rozhodkýň sa bude správať nečakane. Ak chceš použiť širší rozsah skóre, môžeš to nastaviť v <a href=\"%(feedback_settings_url)s\" class=\"alert-link\">nastaveniach spätnej väzby</a>."
+msgstr[2] "Sú tu <strong>%(nadjs_outside_range)s rozhodcovia/rozhodkyne</strong> so skóre <strong>mimo povoleného rozsahu</strong> skóre rozhodcov/rozhodkýň, ktorý je momentálne nastavený ako %(min_score)s až %(max_score)s. Toto môže spôsobiť, že automatická alokácia rozhodcov/rozhodkýň sa bude správať nečakane. Ak chceš použiť širší rozsah skóre, môžeš to nastaviť v <a href=\"%(feedback_settings_url)s\" class=\"alert-link\">nastaveniach spätnej väzby</a>."
+msgstr[3] "Sú tu <strong>%(nadjs_outside_range)s rozhodcovia/rozhodkyne</strong> so skóre <strong>mimo povoleného rozsahu</strong> skóre rozhodcov/rozhodkýň, ktorý je momentálne nastavený ako %(min_score)s až %(max_score)s. Toto môže spôsobiť, že automatická alokácia rozhodcov/rozhodkýň sa bude správať nečakane. Ak chceš použiť širší rozsah skóre, môžeš to nastaviť v <a href=\"%(feedback_settings_url)s\" class=\"alert-link\">nastaveniach spätnej väzby</a>."
 
 #: adjfeedback/templates/overview_breakdowns.html
 #, python-format
 msgid "%(count)s adjudicator currently has a score equal to or above %(min)s and below %(max)s. That is %(percent)s%% of the adjudicator pool."
 msgid_plural "%(count)s adjudicators currently have a score equal to or above %(min)s and below %(max)s. That is %(percent)s%% of the adjudicator pool."
-msgstr[0] "%(count)s rozhodca/rozhodky?a currently m?sk?re rovn?alebo vy??ie ako %(min)s a ni??ie ako %(max)s.?e je %(percent)s%% z rozhodca/rozhodky?a pool."
-msgstr[1] "%(count)s rozhodcovia/rozhodkyne currently maj?a sk?re rovn?alebo vy??ie ako %(min)s a ni??ie ako %(max)s.?e je %(percent)s%% z rozhodca/rozhodky?a pool."
-msgstr[2] "%(count)s rozhodcovia/rozhodkyne currently maj?a sk?re rovn?alebo vy??ie ako %(min)s a ni??ie ako %(max)s.?e je %(percent)s%% z rozhodca/rozhodky?a pool."
-msgstr[3] "%(count)s rozhodcovia/rozhodkyne currently maj?a sk?re rovn?alebo vy??ie ako %(min)s a ni??ie ako %(max)s.?e je %(percent)s%% z rozhodca/rozhodky?a pool."
+msgstr[0] "%(count)s rozhodca/rozhodkyňa má momentálne skóre rovné alebo vyššie ako %(min)s a nižšie ako %(max)s. To je %(percent)s%% zo všetkých rozhodcov/rozhodkýň."
+msgstr[1] "%(count)s rozhodcovia/rozhodkyne majú momentálne skóre rovné alebo vyššie ako %(min)s a nižšie ako %(max)s. To je %(percent)s%% zo všetkých rozhodcov/rozhodkýň."
+msgstr[2] "%(count)s rozhodcovia/rozhodkyne majú momentálne skóre rovné alebo vyššie ako %(min)s a nižšie ako %(max)s. To je %(percent)s%% zo všetkých rozhodcov/rozhodkýň."
+msgstr[3] "%(count)s rozhodcovia/rozhodkyne majú momentálne skóre rovné alebo vyššie ako %(min)s a nižšie ako %(max)s. To je %(percent)s%% zo všetkých rozhodcov/rozhodkýň."
 
 #: adjfeedback/templates/overview_breakdowns.html
 #, python-format
@@ -825,10 +825,10 @@ msgstr "Progres spätnej väzby"
 #, python-format
 msgid "%(nmissing)d missing feedback submission (%(fulfilled).1f%% returned)"
 msgid_plural "%(nmissing)d missing feedback submissions (%(fulfilled).1f%% returned)"
-msgstr[0] "%(nmissing)d ch?baj?ce odoslanie sp?tnej v?zby (%(fulfilled).1f%% returned)"
-msgstr[1] "%(nmissing)d ch?baj?ce odoslania sp?tnej v?zby (%(fulfilled).1f%% returned)"
-msgstr[2] "%(nmissing)d ch?baj?ce odoslania sp?tnej v?zby (%(fulfilled).1f%% returned)"
-msgstr[3] "%(nmissing)d ch?baj?ce odoslania sp?tnej v?zby (%(fulfilled).1f%% returned)"
+msgstr[0] "%(nmissing)d chýbajúce odoslanie spätnej väzby (%(fulfilled).1f%% vrátených)"
+msgstr[1] "%(nmissing)d chýbajúce odoslania spätnej väzby (%(fulfilled).1f%% vrátených)"
+msgstr[2] "%(nmissing)d chýbajúcich odoslaní spätnej väzby (%(fulfilled).1f%% vrátených)"
+msgstr[3] "%(nmissing)d chýbajúcich odoslaní spätnej väzby (%(fulfilled).1f%% vrátených)"
 
 #: adjfeedback/views.py
 #, python-format

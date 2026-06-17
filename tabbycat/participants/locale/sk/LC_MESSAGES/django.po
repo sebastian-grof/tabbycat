@@ -317,7 +317,7 @@ msgstr "Ak je zaškrtnuté, tím s názvom „1“ z klubu Victoria sa zobrazí 
 
 #: participants/models.py
 msgid "break categories"
-msgstr "postupov? kateg?rie"
+msgstr "postupové kategórie"
 
 #: participants/models.py
 msgid "seed"
@@ -425,7 +425,7 @@ msgstr "rozhodcovia"
 
 #: participants/tables.py
 msgid "Points after this debate"
-msgstr "Points po t?na debata"
+msgstr "Body po tejto debate"
 
 #: participants/tables.py
 msgid "Wins after this debate"
@@ -523,12 +523,12 @@ msgstr "<strong>Nezabudni:</strong> Ak má mať tento rozhodca konflikt s vlastn
 #: participants/templates/admin/participants/delete_debateteam_warning.html
 #, python-format
 msgid "<strong>Warning:</strong> If there are “debate team” objects in the above list, <strong>you probably shouldn't delete this %(object_name)s</strong>."
-msgstr "<strong>upozornenie:</strong> ak S?“debata t?m” objects v vy??ie ako list, <strong>ty probably shouldn't vymaza?toto %(object_name)s</strong>."
+msgstr "<strong>Upozornenie:</strong> Ak sa v zozname vyššie nachádzajú objekty „debate team”, <strong>pravdepodobne by si nemal/a vymazať tento %(object_name)s</strong>."
 
 #: participants/templates/admin/participants/delete_debateteam_warning.html
 #, python-format
 msgid "<strong>Warning:</strong> If there are “debate team” objects in the above list, <strong>you probably shouldn't delete the selected %(objects_name)s</strong>."
-msgstr "<strong>upozornenie:</strong> ak S?“debata t?m” objects v vy??ie ako list, <strong>ty probably shouldn't vymaza?vybran?%(objects_name)s</strong>."
+msgstr "<strong>Upozornenie:</strong> Ak sa v zozname vyššie nachádzajú objekty „debate team”, <strong>pravdepodobne by si nemal/a vymazať vybrané %(objects_name)s</strong>."
 
 #. Translators: This follows the above sentence in the same paragraph.
 #: participants/templates/admin/participants/delete_debateteam_warning.html
@@ -582,7 +582,7 @@ msgstr "Ⓣ"
 
 #: participants/templates/current_round/common.html
 msgid "There are no panellists or trainees assigned to this debate."
-msgstr "Nie s??iadne panelisti/panelistky alebo trainee rozhodcovia/rozhodkyne pridelen?na t?na debata."
+msgstr "Tejto debate nie sú priradení žiadni panelisti/panelistky ani shadows."
 
 #: participants/templates/current_round/common.html
 msgid "Motions are not released to public."
@@ -773,7 +773,7 @@ msgstr "Tvoja debata je v <strong>%(room)s</strong>."
 #: participants/templates/edit_speaker_eligibility.html
 #, python-format
 msgid "It looks like there aren't any speaker categories are defined. If you'd like to produce category-specific speaker tabs, such as a novice or ESL tab, use the <a href=\"%(categories_url)s\" class=\"alert-link\">Speaker Categories</a> page to define them, then return to this page to set speaker eligibility."
-msgstr "Vyzer?na,?e there nie s?ak?ko?vek re?n?k/re?n??ka kateg?rie s?defined. ak you'd like na produce category-specific re?n?k/re?n??ka tabs, such ako a nov??ikovia alebo ESL tab, use <a href=\"%(categories_url)s\" class=\"alert-link\">re?n?k/re?n??ka kateg?rie</a> page na define ich, potom return na T?na str?nka na set re?n?k/re?n??ka opr?vnenos?."
+msgstr "Vyzerá to, že nie sú definované žiadne kategórie rečníkov. Ak chceš vytvoriť taby pre konkrétne kategórie rečníkov, napríklad novice alebo ESL, definuj ich na stránke <a href=\"%(categories_url)s\" class=\"alert-link\">Kategórie rečníkov</a> a potom sa vráť na túto stránku a nastav oprávnenosť rečníkov."
 
 #: participants/templates/feedback_progress_panel.html
 msgid "Feedback Returns"
@@ -838,10 +838,10 @@ msgstr "V tomto kole nerozhoduješ."
 #, python-format
 msgid "It looks like %(team)s is competing in %(ndebates)s debate this round."
 msgid_plural "It looks like %(team)s is competing in %(ndebates)s debates this round."
-msgstr[0] "Vyzer?na,?e %(team)s je competing v %(ndebates)s debata toto kolo."
-msgstr[1] "Vyzer?na,?e %(team)s je competing v %(ndebates)s debaty toto kolo."
-msgstr[2] "Vyzer?na,?e %(team)s je competing v %(ndebates)s debaty toto kolo."
-msgstr[3] "Vyzer?na,?e %(team)s je competing v %(ndebates)s debaty toto kolo."
+msgstr[0] "Vyzerá to, že %(team)s súťaží v %(ndebates)s debate v tomto kole."
+msgstr[1] "Vyzerá to, že %(team)s súťaží v %(ndebates)s debatách v tomto kole."
+msgstr[2] "Vyzerá to, že %(team)s súťaží v %(ndebates)s debatách v tomto kole."
+msgstr[3] "Vyzerá to, že %(team)s súťaží v %(ndebates)s debatách v tomto kole."
 
 #: participants/templates/in_this_round.html
 msgid "If this is an error, please contact a tab director immediately."
