@@ -960,6 +960,10 @@ class BaseMergeLatestBallotsView(BaseNewBallotSetView):
                 field = form._fieldname_score(side, pos)
             elif t == 'speaker_ranks':
                 field = form._fieldname_srank(side, pos)
+            elif t == 'cross_scores' and hasattr(form, '_fieldname_cross_score'):
+                field = form._fieldname_cross_score(side, pos)
+            elif t == 'cross_total' and hasattr(form, '_fieldname_cross_total'):
+                field = form._fieldname_cross_total(side)
             form.cleaned_data = {}
             form.add_error(field, ValidationError(msg))
         return form

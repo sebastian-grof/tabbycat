@@ -103,6 +103,15 @@ class ReplyScoreField(BaseScoreField):
     DEFAULT_STEP_VALUE = 0.5
 
 
+class CrossTotalScoreField(BaseScoreField):
+    CONFIG_MIN_VALUE_FIELD  = 'cross_score_min'
+    CONFIG_MAX_VALUE_FIELD  = 'cross_score_max'
+    CONFIG_STEP_VALUE_FIELD = 'cross_score_step'
+    DEFAULT_MIN_VALUE = 2.0
+    DEFAULT_MAX_VALUE = 6.0
+    DEFAULT_STEP_VALUE = 0.5
+
+
 def broadcast_results(ballotsub: 'BallotSubmission', debate: Debate):
     t = debate.round.tournament
 
@@ -148,8 +157,16 @@ class BaseResultForm(forms.Form):
         self.debate = ballotsub.debate
         self.tournament = self.debate.round.tournament
         self.criteria = self.debate.round.tournament.scorecriterion_set.all().order_by('seq')
+        self.crosses_enabled = (
+            self.tournament.pref('teams_in_debate') == 2 and
+            self.tournament.pref('cross_examinations_enabled')
+        )
+        self.crosses = list(self.tournament.crossexamination_set.order_by('seq')) if self.crosses_enabled else []
 
-        self.result = kwargs.pop('result', self.result_class(self.ballotsub, criteria=self.criteria))
+        self.result = kwargs.pop('result', self.result_class(
+            self.ballotsub, criteria=self.criteria,
+            crosses=self.crosses, using_cross_examinations=self.crosses_enabled,
+        ))
         self.filled = kwargs.pop('filled', False)
         super().__init__(*args, **kwargs)
 
@@ -270,6 +287,7 @@ class BaseBallotSetForm(BaseResultForm):
         self.choosing_sides = (self.tournament.pref('draw_side_allocations') == 'manual-ballot' and
                                self.tournament.pref('teams_in_debate') == 2)
         self.using_speaker_ranks = self.tournament.pref('speaker_ranks') != 'none'
+        self.using_cross_examinations = getattr(self, 'has_scores', False) and self.crosses_enabled
 
     # --------------------------------------------------------------------------
     # Field names and field convenience functions
@@ -662,7 +680,8 @@ class ScoresMixin:
         for team in self.debate.teams:
             yield self['team_%d' % team.id]
 
-    def scoresheet(self, fieldname_score_func, fieldname_srank_func=None, fieldname_criterion_func=None):
+    def scoresheet(self, fieldname_score_func, fieldname_srank_func=None, fieldname_criterion_func=None,
+                   fieldname_cross_score_func=None, fieldname_cross_total_func=None):
         """Returns a list of dictionaries for a single scoresheet, to allow for
         easy iteration of the form. The function `fieldname_score_func` should
         take two arguments `(side, pos)`. This function is called by the
@@ -690,8 +709,27 @@ class ScoresMixin:
                 if fieldname_srank_func:
                     spk_dict["srank"] = self[fieldname_srank_func(side, pos)]
                 side_dict["speakers"].append(spk_dict)
+
+            if getattr(self, 'using_cross_examinations', False) and fieldname_cross_total_func is not None:
+                side_dict["speakers"].append(
+                    self._cross_group_for_side(side, fieldname_cross_score_func, fieldname_cross_total_func))
+
             teams.append(side_dict)
         return teams
+
+    def _cross_group_for_side(self, side, fieldname_cross_score_func, fieldname_cross_total_func):
+        return {
+            "is_cross_group": True,
+            "name": _("Cross-examinations"),
+            "crosses": [
+                {
+                    "name": cross.name,
+                    "field": self[fieldname_cross_score_func(side, cross)],
+                }
+                for cross in self.crosses
+            ] if fieldname_cross_score_func else [],
+            "total": self[fieldname_cross_total_func(side)],
+        }
 
 
 class SingleBallotSetForm(ScoresMixin, BaseBallotSetForm):
@@ -719,6 +757,14 @@ class SingleBallotSetForm(ScoresMixin, BaseBallotSetForm):
     def _fieldname_criterion_score(side, pos, criterion):
         return '%(side)s_criterion_s%(pos)d_c%(criterion)d' % {'side': side, 'pos': pos, 'criterion': criterion.id}
 
+    @staticmethod
+    def _fieldname_cross_score(side, cross):
+        return '%(side)d_cross_x%(cross)d' % {'side': side, 'cross': cross.id}
+
+    @staticmethod
+    def _fieldname_cross_total(side):
+        return '%(side)d_cross_total' % {'side': side}
+
     def create_score_fields(self):
         """Adds the speaker score fields:
          - <side>_score_s#,  one for each score
@@ -742,6 +788,28 @@ class SingleBallotSetForm(ScoresMixin, BaseBallotSetForm):
                 nspeeches = len(self.sides) * len(self.positions)
                 self.fields[self._fieldname_srank(side, pos)] = forms.IntegerField(required=False, min_value=1, max_value=nspeeches, step_size=1)
 
+        if self.using_cross_examinations:
+            for side in self.sides:
+                if self.crosses:
+                    self.fields[self._fieldname_cross_total(side)] = forms.DecimalField(
+                        required=False,
+                        widget=forms.NumberInput(attrs={'class': 'number total', 'readonly': True}),
+                    )
+                else:
+                    self.fields[self._fieldname_cross_total(side)] = CrossTotalScoreField(
+                        widget=forms.NumberInput(attrs={'class': 'number total'}),
+                        tournament=self.tournament,
+                        required=False,
+                    )
+                for cross in self.crosses:
+                    self.fields[self._fieldname_cross_score(side, cross)] = forms.DecimalField(
+                        min_value=Decimal(str(cross.min_score)),
+                        max_value=Decimal(str(cross.max_score)),
+                        step_size=Decimal(str(cross.step)),
+                        required=False,
+                        widget=forms.NumberInput(attrs={'class': 'number cross-criterion', 'weight': cross.weight, 'data-required': str(cross.required).lower()}),
+                    )
+
         if self.using_declared_winner:
             self.fields[self._fieldname_declared_winner()] = self.create_declared_winner_dropdown()
 
@@ -759,6 +827,16 @@ class SingleBallotSetForm(ScoresMixin, BaseBallotSetForm):
             for criterion in self.criteria:
                 initial[self._fieldname_criterion_score(side, pos, criterion)] = result.get_criterion_score(side, pos, criterion)
 
+        if self.using_cross_examinations:
+            for side in self.sides:
+                cross_total = result.get_cross_total(side)
+                if cross_total is not None:
+                    initial[self._fieldname_cross_total(side)] = cross_total
+                for cross in self.crosses:
+                    cross_score = result.get_cross_score(side, cross)
+                    if cross_score is not None:
+                        initial[self._fieldname_cross_score(side, cross)] = cross_score
+
         if self.using_declared_winner:
             initial[self._fieldname_declared_winner()] = result.winning_side()
 
@@ -770,6 +848,12 @@ class SingleBallotSetForm(ScoresMixin, BaseBallotSetForm):
         for side, pos in product(self.sides, self.positions):
             order.append(self._fieldname_srank(side, pos))
             order.append(self._fieldname_score(side, pos))
+
+        if self.using_cross_examinations:
+            for side in self.sides:
+                for cross in self.crosses:
+                    order.append(self._fieldname_cross_score(side, cross))
+                order.append(self._fieldname_cross_total(side))
 
         if self.using_declared_winner:
             order.append(self._fieldname_declared_winner())
@@ -799,6 +883,20 @@ class SingleBallotSetForm(ScoresMixin, BaseBallotSetForm):
                         forms.ValidationError(_("This field is required."), code='required'),
                     )
                     should_skip = True
+
+        if self.using_cross_examinations:
+            for side in self.sides:
+                if self.crosses:
+                    for cross in self.crosses:
+                        if cleaned_data.get(self._fieldname_cross_score(side, cross)) is None and cross.required:
+                            self.add_error(self._fieldname_cross_score(side, cross), forms.ValidationError(
+                                _("This field is required."), code='required'))
+                            should_skip = True
+                elif cleaned_data.get(self._fieldname_cross_total(side)) is None:
+                    self.add_error(self._fieldname_cross_total(side), forms.ValidationError(
+                        _("This field is required."), code='required'))
+                    should_skip = True
+
         if should_skip:
             return
 
@@ -876,6 +974,14 @@ class SingleBallotSetForm(ScoresMixin, BaseBallotSetForm):
             if self.using_speaker_ranks:
                 result.set_speaker_rank(side, pos, self.cleaned_data[self._fieldname_srank(side, pos)])
 
+        if self.using_cross_examinations:
+            for side in self.sides:
+                if self.crosses:
+                    for cross in self.crosses:
+                        result.set_cross_score(side, cross, self.cleaned_data.get(self._fieldname_cross_score(side, cross)))
+                else:
+                    result.set_cross_total(side, self.cleaned_data.get(self._fieldname_cross_total(side)))
+
         if self.declared_winner not in ['none', 'high-points']:
             result.set_winners({int(self.cleaned_data[self._fieldname_declared_winner()])})
 
@@ -890,6 +996,8 @@ class SingleBallotSetForm(ScoresMixin, BaseBallotSetForm):
             self._fieldname_score,
             self._fieldname_srank if self.using_speaker_ranks else None,
             fieldname_criterion_func=lambda side, pos, criterion: self._fieldname_criterion_score(side, pos, criterion),
+            fieldname_cross_score_func=(lambda side, cross: self._fieldname_cross_score(side, cross)) if self.crosses else None,
+            fieldname_cross_total_func=self._fieldname_cross_total if self.using_cross_examinations else None,
         )}]
 
         if self.using_declared_winner:
@@ -915,6 +1023,14 @@ class PerAdjudicatorBallotSetForm(ScoresMixin, BaseBallotSetForm):
     def _fieldname_criterion_score(adj, side, pos, criterion):
         return '%(side)s_criterion_a%(adj)d_s%(pos)d_c%(criterion)d' % {'adj': adj.id, 'side': side, 'pos': pos, 'criterion': criterion.id}
 
+    @staticmethod
+    def _fieldname_cross_score(adj, side, cross):
+        return '%(side)d_cross_a%(adj)d_x%(cross)d' % {'adj': adj.id, 'side': side, 'cross': cross.id}
+
+    @staticmethod
+    def _fieldname_cross_total(adj, side):
+        return '%(side)d_cross_a%(adj)d_total' % {'adj': adj.id, 'side': side}
+
     def create_score_fields(self):
         """Adds the speaker score fields:
          - <side>_score_a#_s#,  one for each score
@@ -936,6 +1052,30 @@ class PerAdjudicatorBallotSetForm(ScoresMixin, BaseBallotSetForm):
                         required=False,
                         widget=forms.NumberInput(attrs={'class': 'number', 'weight': criterion.weight}),
                     )
+
+        if self.using_cross_examinations:
+            for adj in self.adjudicators:
+                for side in self.sides:
+                    if self.crosses:
+                        self.fields[self._fieldname_cross_total(adj, side)] = forms.DecimalField(
+                            required=False,
+                            widget=forms.NumberInput(attrs={'class': 'number total', 'readonly': True}),
+                        )
+                    else:
+                        self.fields[self._fieldname_cross_total(adj, side)] = CrossTotalScoreField(
+                            widget=forms.NumberInput(attrs={'class': 'number total'}),
+                            tournament=self.tournament,
+                            required=False,
+                        )
+                    for cross in self.crosses:
+                        self.fields[self._fieldname_cross_score(adj, side, cross)] = forms.DecimalField(
+                            min_value=Decimal(str(cross.min_score)),
+                            max_value=Decimal(str(cross.max_score)),
+                            step_size=Decimal(str(cross.step)),
+                            required=False,
+                            widget=forms.NumberInput(attrs={'class': 'number cross-criterion', 'weight': cross.weight, 'data-required': str(cross.required).lower()}),
+                        )
+
         if self.using_declared_winner:
             for adj in self.adjudicators:
                 self.fields[self._fieldname_declared_winner(adj)] = self.create_declared_winner_dropdown()
@@ -953,6 +1093,16 @@ class PerAdjudicatorBallotSetForm(ScoresMixin, BaseBallotSetForm):
                 for criterion in self.criteria:
                     initial[self._fieldname_criterion_score(adj, side, pos, criterion)] = result.get_criterion_score(adj, side, pos, criterion)
 
+            if self.using_cross_examinations:
+                for side in self.sides:
+                    cross_total = result.get_cross_total(adj, side)
+                    if cross_total is not None:
+                        initial[self._fieldname_cross_total(adj, side)] = cross_total
+                    for cross in self.crosses:
+                        cross_score = result.get_cross_score(adj, side, cross)
+                        if cross_score is not None:
+                            initial[self._fieldname_cross_score(adj, side, cross)] = cross_score
+
             if self.using_declared_winner:
                 initial[self._fieldname_declared_winner(adj)] = result.get_winner(adj)
 
@@ -964,6 +1114,12 @@ class PerAdjudicatorBallotSetForm(ScoresMixin, BaseBallotSetForm):
         for adj in self.adjudicators:
             for side, pos in product(self.sides, self.positions):
                 order.append(self._fieldname_score(adj, side, pos))
+
+            if self.using_cross_examinations:
+                for side in self.sides:
+                    for cross in self.crosses:
+                        order.append(self._fieldname_cross_score(adj, side, cross))
+                    order.append(self._fieldname_cross_total(adj, side))
 
             if self.using_declared_winner:
                 order.append(self._fieldname_declared_winner(adj))
@@ -994,6 +1150,20 @@ class PerAdjudicatorBallotSetForm(ScoresMixin, BaseBallotSetForm):
                             forms.ValidationError(_("This field is required."), code='required'),
                         )
                         should_skip = True
+
+            if self.using_cross_examinations:
+                for side in self.sides:
+                    if self.crosses:
+                        for cross in self.crosses:
+                            if cleaned_data.get(self._fieldname_cross_score(adj, side, cross)) is None and cross.required:
+                                self.add_error(self._fieldname_cross_score(adj, side, cross), forms.ValidationError(
+                                    _("This field is required."), code='required'))
+                                should_skip = True
+                    elif cleaned_data.get(self._fieldname_cross_total(adj, side)) is None:
+                        self.add_error(self._fieldname_cross_total(adj, side), forms.ValidationError(
+                            _("This field is required."), code='required'))
+                        should_skip = True
+
             if should_skip:
                 continue
 
@@ -1043,6 +1213,14 @@ class PerAdjudicatorBallotSetForm(ScoresMixin, BaseBallotSetForm):
                 if len(self.criteria) == 0:
                     result.set_score(adj, side, pos, score)
 
+            if self.using_cross_examinations:
+                for side in self.sides:
+                    if self.crosses:
+                        for cross in self.crosses:
+                            result.set_cross_score(adj, side, cross, self.cleaned_data.get(self._fieldname_cross_score(adj, side, cross)))
+                    else:
+                        result.set_cross_total(adj, side, self.cleaned_data.get(self._fieldname_cross_total(adj, side)))
+
             if self.declared_winner not in ['none', 'high-points']:
                 result.set_winners(adj, {int(self.cleaned_data.get(self._fieldname_declared_winner(adj)))})
 
@@ -1059,6 +1237,8 @@ class PerAdjudicatorBallotSetForm(ScoresMixin, BaseBallotSetForm):
                 "teams": self.scoresheet(
                     lambda side, pos: self._fieldname_score(adj, side, pos),
                     fieldname_criterion_func=lambda side, pos, criterion: self._fieldname_criterion_score(adj, side, pos, criterion),
+                    fieldname_cross_score_func=(lambda side, cross, adj=adj: self._fieldname_cross_score(adj, side, cross)) if self.crosses else None,
+                    fieldname_cross_total_func=(lambda side, adj=adj: self._fieldname_cross_total(adj, side)) if self.using_cross_examinations else None,
                 ),
             }
             if self.using_declared_winner:

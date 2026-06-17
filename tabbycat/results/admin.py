@@ -8,7 +8,7 @@ from draw.admin_widgets import BallotSubmissionScoreInlineDebateTeamRawIdMixin
 from draw.models import DebateTeam
 from utils.admin import ModelAdmin, TabbycatModelAdminFieldsMixin
 
-from .models import BallotSubmission, ScoreCriterion, SpeakerCriterionScore, SpeakerCriterionScoreByAdj, SpeakerScore, SpeakerScoreByAdj, TeamScore, TeamScoreByAdj
+from .models import BallotSubmission, CrossExamination, CrossExaminationScore, CrossExaminationScoreByAdj, ScoreCriterion, SpeakerCriterionScore, SpeakerCriterionScoreByAdj, SpeakerScore, SpeakerScoreByAdj, TeamScore, TeamScoreByAdj
 from .prefetch import populate_results
 
 
@@ -262,6 +262,31 @@ class SpeakerCriterionScoreAdmin(TabbycatModelAdminFieldsMixin, ModelAdmin):
 class SpeakerCriterionScoreByAdjAdmin(TabbycatModelAdminFieldsMixin, ModelAdmin):
     list_display = ('id', 'criterion', 'speaker_score_by_adj', 'score')
     search_fields = ('criterion', 'score', 'speaker_score_by_adj')
+
+
+# ==============================================================================
+# CrossExamination
+# ==============================================================================
+
+@admin.register(CrossExamination)
+class CrossExaminationAdmin(TabbycatModelAdminFieldsMixin, ModelAdmin):
+    list_display = ("id", "tournament", "seq", "name", "weight", "min_score", "max_score", "step", "required")
+    search_fields = ("tournament__name", "name")
+    list_filter = ("tournament",)
+
+
+@admin.register(CrossExaminationScore)
+class CrossExaminationScoreAdmin(TabbycatModelAdminFieldsMixin, ModelAdmin):
+    list_display = ("id", "ballot_submission", "debate_team", "cross_examination", "score")
+    search_fields = ("debate_team__team__short_name", "cross_examination__tournament__name")
+    raw_id_fields = ("ballot_submission", "debate_team", "cross_examination")
+
+
+@admin.register(CrossExaminationScoreByAdj)
+class CrossExaminationScoreByAdjAdmin(TabbycatModelAdminFieldsMixin, ModelAdmin):
+    list_display = ("id", "ballot_submission", "debate_adjudicator", "debate_team", "cross_examination", "score")
+    search_fields = ("debate_team__team__short_name", "debate_adjudicator__adjudicator__name", "cross_examination__tournament__name")
+    raw_id_fields = ("ballot_submission", "debate_adjudicator", "debate_team", "cross_examination")
 
 
 # ==============================================================================

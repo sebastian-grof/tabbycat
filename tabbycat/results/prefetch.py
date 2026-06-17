@@ -6,7 +6,7 @@ from checkins.utils import get_checkins
 from draw.models import DebateTeam
 from tournaments.models import Tournament
 
-from .models import BallotSubmission, SpeakerScore, SpeakerScoreByAdj, TeamScore, TeamScoreByAdj
+from .models import BallotSubmission, CrossExaminationScore, CrossExaminationScoreByAdj, SpeakerScore, SpeakerScoreByAdj, TeamScore, TeamScoreByAdj
 from .result import DebateResult, is_integer_step
 
 
@@ -100,11 +100,47 @@ def populate_results(ballotsubs, tournament=None):
     ).select_related('team', 'team__tournament').order_by('debate_id').distinct()
     nsides_per_debate = {d_id: max([dt.side for dt in dts]) + 1 for d_id, dts in groupby(debateteams, key=lambda dt: dt.debate_id)}
     criteria = tournament.scorecriterion_set.all()
+    crosses_enabled = (
+        tournament.pref('teams_in_debate') == 2 and
+        tournament.pref('cross_examinations_enabled')
+    )
+    crosses = list(tournament.crossexamination_set.order_by('seq')) if crosses_enabled else []
+
+    def _speech_component_consensus(result, side):
+        if tournament.pref('teamscore_includes_ghosts'):
+            positions_for_total = positions
+        else:
+            positions_for_total = [pos for pos in positions if not result.get_ghost(side, pos)]
+
+        speech_total = 0.0
+        for pos in positions_for_total:
+            score = result.get_score(side, pos)
+            if score is None:
+                return None
+            speech_total += float(score)
+        return speech_total
+
+    def _speech_component_by_adj(result, adjudicator, side):
+        if tournament.pref('teamscore_includes_ghosts'):
+            positions_for_total = positions
+        else:
+            positions_for_total = [pos for pos in positions if not result.get_ghost(side, pos)]
+
+        speech_total = 0.0
+        for pos in positions_for_total:
+            score = result.get_score(adjudicator, side, pos)
+            if score is None:
+                return None
+            speech_total += float(score)
+        return speech_total
 
     # Create the DebateResults
     for ballotsub in ballotsubs:
         sides = [-1] if ballotsub.debate.is_bye else range(nsides_per_debate.get(ballotsub.debate_id, tournament.pref('teams_in_debate')))
-        result = DebateResult(ballotsub, load=False, sides=sides, criteria=criteria)
+        result = DebateResult(
+            ballotsub, load=False, sides=sides, criteria=criteria,
+            crosses=crosses, using_cross_examinations=crosses_enabled,
+        )
         result.init_blank_buffer()
 
         ballotsub._result = result
@@ -139,6 +175,19 @@ def populate_results(ballotsubs, tournament=None):
                     result.set_score(ss.debate_team.side, ss.position, int(ss.score) if int_step and ss.score % 1 == 0 else ss.score)
                     result.set_speaker_rank(ss.debate_team.side, ss.position, ss.rank)
 
+    if crosses:
+        cross_scores = CrossExaminationScore.objects.filter(
+            ballot_submission__in=ballotsubs,
+            cross_examination__in=crosses,
+        ).select_related('debate_team', 'cross_examination')
+
+        for cross_score in cross_scores:
+            result = results_by_ballotsub_id[cross_score.ballot_submission_id]
+            if result.uses_speakers and not result.is_voting:
+                score = cross_score.score
+                score = int(score) if score is not None and int(score) == score else score
+                result.set_cross_score(cross_score.debate_team.side, cross_score.cross_examination, score)
+
     # Populate scoresheets (load_scoresheets)
     debateadjs = DebateAdjudicator.objects.filter(
         debate__ballotsubmission__in=ballotsubs,
@@ -150,7 +199,9 @@ def populate_results(ballotsubs, tournament=None):
         for result in results_by_debate_id[da.debate_id]:
             if result.is_voting:
                 result.debateadjs[da.adjudicator] = da
-                result.scoresheets[da.adjudicator] = result.scoresheet_class(positions, sides=range(nsides_per_debate[da.debate_id]), criteria=criteria)
+                result.scoresheets[da.adjudicator] = result.scoresheet_class(
+                    positions, sides=range(nsides_per_debate[da.debate_id]), criteria=criteria,
+                    crosses=crosses, using_cross_examinations=crosses_enabled)
 
     ssbas = SpeakerScoreByAdj.objects.filter(
         ballot_submission__in=ballotsubs,
@@ -170,6 +221,24 @@ def populate_results(ballotsubs, tournament=None):
                 result.set_score(ssba.debate_adjudicator.adjudicator, ssba.debate_team.side,
                     ssba.position, int(ssba.score) if int_step and ssba.score % 1 == 0 else ssba.score)
 
+    if crosses:
+        cross_scores_by_adj = CrossExaminationScoreByAdj.objects.filter(
+            ballot_submission__in=ballotsubs,
+            cross_examination__in=crosses,
+        ).select_related('debate_adjudicator__adjudicator', 'debate_team', 'cross_examination')
+
+        for cross_score in cross_scores_by_adj:
+            result = results_by_ballotsub_id[cross_score.ballot_submission_id]
+            if result.uses_speakers and result.is_voting:
+                score = cross_score.score
+                score = int(score) if score is not None and int(score) == score else score
+                result.set_cross_score(
+                    cross_score.debate_adjudicator.adjudicator,
+                    cross_score.debate_team.side,
+                    cross_score.cross_examination,
+                    score,
+                )
+
     # Populate advancing (load_advancing)
     teamscores = TeamScore.objects.filter(
         ballot_submission__in=ballotsubs,
@@ -180,15 +249,34 @@ def populate_results(ballotsubs, tournament=None):
         if result.uses_declared_winners and ts.win and not result.is_voting:
             result.add_winner(ts.debate_team.side)
 
+        if result.uses_speakers and not result.is_voting and crosses_enabled and not crosses and ts.score is not None:
+            side = ts.debate_team.side
+            speech_total = _speech_component_consensus(result, side)
+            if speech_total is not None:
+                cross_total = ts.score - speech_total
+                if int(cross_total) == cross_total:
+                    cross_total = int(cross_total)
+                result.set_cross_total(side, cross_total)
+
     # Populate advancing (load_advancing)
     teamscoresbyadj = TeamScoreByAdj.objects.filter(
         ballot_submission__in=ballotsubs,
-    ).select_related('debate_team')
+    ).select_related('debate_team', 'debate_adjudicator__adjudicator')
 
     for tsba in teamscoresbyadj:
         result = results_by_ballotsub_id[tsba.ballot_submission_id]
         if result.uses_declared_winners and tsba.win:
             result.add_winner(tsba.debate_adjudicator.adjudicator, tsba.debate_team.side)
+
+        if result.uses_speakers and result.is_voting and crosses_enabled and not crosses and tsba.score is not None:
+            adjudicator = tsba.debate_adjudicator.adjudicator
+            side = tsba.debate_team.side
+            speech_total = _speech_component_by_adj(result, adjudicator, side)
+            if speech_total is not None:
+                cross_total = tsba.score - speech_total
+                if int(cross_total) == cross_total:
+                    cross_total = int(cross_total)
+                result.set_cross_total(adjudicator, side, cross_total)
 
     # Finally, check that everything is in order
 

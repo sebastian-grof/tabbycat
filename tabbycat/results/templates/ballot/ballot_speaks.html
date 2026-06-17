@@ -1,5 +1,31 @@
 {% load add_field_css debate_tags i18n %}
 
+{% if position.is_cross_group %}
+<div class="list-group-item side-{{ team.side_code }} cross-group">
+  <div class="row flex-column flex-md-row align-items-center">
+    <div class="col-4 col-md-2 pr-0 speaker-position-label">
+      {{ position.name }}
+    </div>
+
+    <div class="col mb-0 pr-md-2 pr-1 form-group"></div>
+
+    <div class="col col-md-4 form-group side-{{ team.side_code }} pr-md-2 pr-1 cross">
+      {% for cross in position.crosses %}
+      <div class="criterion mb-3 w-auto {{ cross.field.errors|yesno:'error,' }}">
+        <label class="criterion-name d-block mb-1">{{ cross.name }}</label>
+        {{ cross.field|addcss:"form-control cross-criterion" }}
+        {{ cross.field.errors }}
+      </div>
+      {% endfor %}
+      <div>
+        {% if position.crosses %}<label class="mb-1">{% trans "Total" %}</label>{% endif %}
+        {{ position.total|addcss:"form-control total cross-total" }}
+        {{ position.total.errors }}
+      </div>
+    </div>
+  </div>
+</div>
+{% else %}
 <div class="list-group-item js-team-speakers side-{{ team.side_code }} s{{ position.pos }}">
   <div class="row flex-column flex-md-row align-items-center">
     <div class="col-4 col-md-2 pr-0 speaker-position-label">
@@ -56,3 +82,4 @@
 
   </div>
 </div>
+{% endif %}

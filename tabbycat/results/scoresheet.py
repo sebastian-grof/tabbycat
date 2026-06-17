@@ -63,13 +63,29 @@ class ScoresMixin:
         self.speaker_ranks = {side: dict.fromkeys(self.positions, None) for side in self.sides}
         self.criteria_scores = {side: {pos: dict.fromkeys(self.criteria, 0) for pos in self.positions} for side in self.sides}
 
+        self.crosses = kwargs.get('crosses', [])
+        self.using_cross_examinations = kwargs.get('using_cross_examinations', False)
+        self.cross_scores = {side: dict.fromkeys(self.crosses, None) for side in self.sides}
+        self.cross_total_scores = dict.fromkeys(self.sides, None)
+
     def is_complete(self):
         if len(self.criteria) == 0:
             scores_complete = all(self.scores[s][p] is not None for s in self.sides
                     for p in self.positions)
         else:
             scores_complete = True
-        return super().is_complete() and scores_complete
+
+        if not self.using_cross_examinations:
+            crosses_complete = True
+        elif self.crosses:
+            crosses_complete = all(
+                self.cross_scores[s][cross] is not None or not getattr(cross, 'required', True)
+                for s in self.sides for cross in self.crosses
+            )
+        else:
+            crosses_complete = all(self.cross_total_scores[s] is not None for s in self.sides)
+
+        return super().is_complete() and scores_complete and crosses_complete
 
     def set_score(self, side, position, score):
         if len(self.criteria) == 0:
@@ -92,14 +108,53 @@ class ScoresMixin:
     def get_criterion_score(self, side: str, position: int, criterion):
         return self.criteria_scores[side][position][criterion]
 
+    def set_cross_score(self, side: str, cross, score):
+        if cross in self.cross_scores[side]:
+            self.cross_scores[side][cross] = score
+
+    def get_cross_score(self, side: str, cross):
+        return self.cross_scores[side].get(cross)
+
+    def set_cross_total(self, side: str, score):
+        if self.using_cross_examinations and not self.crosses:
+            self.cross_total_scores[side] = score
+
+    def get_cross_total(self, side):
+        if not self.using_cross_examinations:
+            return 0
+
+        if not self.crosses:
+            return self.cross_total_scores.get(side)
+
+        total = 0
+        for cross, score in self.cross_scores[side].items():
+            if score is None:
+                if getattr(cross, 'required', True):
+                    return None
+                continue
+            total += score * type(score)(getattr(cross, 'weight', 1))
+        return total
+
     def get_total(self, side):
         scores = [self.get_score(side, p) for p in self.positions]
         if None in scores:
             return None
-        return sum(scores)
+        speech_total = sum(scores)
+
+        cross_total = self.get_cross_total(side)
+        if cross_total is None:
+            return None
+
+        return speech_total + cross_total
 
     def identical(self, other):
-        return super().identical(other) and self.scores == other.scores and self.speaker_ranks == other.speaker_ranks
+        return (
+            super().identical(other) and
+            self.scores == other.scores and
+            self.speaker_ranks == other.speaker_ranks and
+            self.cross_scores == other.cross_scores and
+            self.cross_total_scores == other.cross_total_scores
+        )
 
 
 class DeclaredWinnersMixin:

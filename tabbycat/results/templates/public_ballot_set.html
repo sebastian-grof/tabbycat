@@ -104,6 +104,27 @@
                   {% endif %}
                 </li>
               {% endfor %}
+              {% if team.using_cross_examinations %}
+                <li class="list-group-item">
+                  <strong>{% trans "Cross-examinations" %}</strong>
+                  {% if not team.crosses %}
+                    <span class="badge mr-2 badge-secondary float-right">{{ team.cross_total }}</span>
+                  {% else %}
+                    <ul>
+                      {% for cross in team.crosses %}
+                        <li>
+                          <strong>{{ cross.name }}</strong>
+                          <span class="badge mr-2 badge-secondary float-right">{{ cross.score }}</span>
+                        </li>
+                      {% endfor %}
+                      <li>
+                        <strong>{% trans "Cross-examinations total" %}</strong>
+                        <span class="badge mr-2 badge-secondary float-right">{{ team.cross_total }}</span>
+                      </li>
+                    </ul>
+                  {% endif %}
+                </li>
+              {% endif %}
               <li class="list-group-item list-group-item-{{ team.win_style }}">
                 {% if team.total %}
                   {% if use_code_names %}
