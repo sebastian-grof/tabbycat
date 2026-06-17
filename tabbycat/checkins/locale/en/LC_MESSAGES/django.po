@@ -1,0 +1,224 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-06-17 14:40+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+#: admin.py:39
+msgid "Type"
+msgstr ""
+
+#: admin.py:47
+msgid "Checkin time"
+msgstr ""
+
+#: apps.py:7
+msgid "Check-Ins"
+msgstr ""
+
+#: consumers.py:45
+msgid "Sent checkin identifier doesn't exist"
+msgstr ""
+
+#: consumers.py:46 consumers.py:78
+msgid "Checkins"
+msgstr ""
+
+#: consumers.py:77
+msgid "No checkin identifiers exist for sent barcodes"
+msgstr ""
+
+#: models.py:29
+msgid "The barcode must contain exactly six digits."
+msgstr ""
+
+#: models.py:32
+msgid "barcode"
+msgstr ""
+
+#: models.py:37
+msgid "<Not the child instance>"
+msgstr ""
+
+#: models.py:41
+#, python-format
+msgid "%(classname)s %(barcode)s"
+msgstr ""
+
+#: models.py:52
+msgid "person"
+msgstr ""
+
+#: models.py:55
+msgid "person identifier"
+msgstr ""
+
+#: models.py:56
+msgid "person identifiers"
+msgstr ""
+
+#: models.py:64
+msgid "debate"
+msgstr ""
+
+#: models.py:67
+msgid "debate identifier"
+msgstr ""
+
+#: models.py:68
+msgid "debate identifiers"
+msgstr ""
+
+#: models.py:79
+msgid "room identifier"
+msgstr ""
+
+#: models.py:80
+msgid "room identifiers"
+msgstr ""
+
+#: models.py:87
+msgid "identifier"
+msgstr ""
+
+#: models.py:90
+msgid "check-in time"
+msgstr ""
+
+#: models.py:92
+msgid "tournament"
+msgstr ""
+
+#: models.py:95
+msgid "check-in event"
+msgstr ""
+
+#: models.py:96
+msgid "check-in events"
+msgstr ""
+
+#: templates/checkin_ids.html:18
+msgid "With identifiers"
+msgstr ""
+
+#: templates/checkin_ids.html:30
+msgid "View as barcodes"
+msgstr ""
+
+#: templates/checkin_ids.html:36
+msgid "Generate missing identifiers"
+msgstr ""
+
+#: templates/checkin_ids.html:38
+msgid "Generate all identifiers"
+msgstr ""
+
+#: templates/checkin_ids.html:49
+msgid "There are no identifiers available to view. An admin will need to generate them."
+msgstr ""
+
+#: templates/checkin_printables.html:10
+msgid "Each of the barcodes below is also an image file that can be downloaded individually. If you want to download them all at once try using a 'bulk downloader' extension/plugin for your browser, such as <a href=\"https://chrome.google.com/webstore/detail/svg-export/naeaaedieihlkmdajjefioajbbdbdjgp?hl=en-GB\">this one (for Chrome)</a>. To download them as a list you can go to Check-Ins section of the Edit Database area and copy/paste from the relevant table."
+msgstr ""
+
+#: templates/checkin_printables.html:15
+msgid "You can use Ctrl+P for printing or saving the barcodes PDF. Be sure to set the appropriate <strong>page orientation</strong>, to turn off <strong>headers/footers</strong> and turn on <strong>background graphics</strong>. Works best in Chrome."
+msgstr ""
+
+#: templates/checkin_scan.html:18
+msgid "To scan an identifier type the number below (it will auto-submit). You can also use a barcode scanner (configured to work as a keyboard) or scan from a webcam or phone camera using the button below."
+msgstr ""
+
+#: utils.py:61
+#, python-format
+msgid "Not checked in (barcode %(barcode)s)"
+msgstr ""
+
+#: utils.py:65
+msgid "Not checked in; no barcode assigned"
+msgstr ""
+
+#: utils.py:72
+#, python-format
+msgid "checked in at %(time)s"
+msgstr ""
+
+#: utils.py:84
+#, python-format
+msgid "%(speaker)s checked in at %(time)s."
+msgstr ""
+
+#: utils.py:86
+#, python-format
+msgid "%(speaker)s is missing."
+msgstr ""
+
+#: views.py:32
+msgid "Scan Identifiers"
+msgstr ""
+
+#: views.py:67
+msgid "People's Check-In Statuses"
+msgstr ""
+
+#: views.py:151
+msgid "Rooms' Check-In Statuses"
+msgstr ""
+
+#: views.py:202
+msgid "Make Identifiers"
+msgstr ""
+
+#: views.py:209
+msgid "Speakers"
+msgstr ""
+
+#: views.py:214
+msgid "Adjudicators"
+msgstr ""
+
+#: views.py:219
+msgid "Rooms"
+msgstr ""
+
+#: views.py:261
+#, python-format
+msgid "Generated identifiers for %s"
+msgstr ""
+
+#: views.py:268
+msgid "Identifiers"
+msgstr ""
+
+#: views.py:304
+msgid "Could not check you in as you do not have an identifying code — your tab director may need to make you an identifier."
+msgstr ""
+
+#: views.py:315
+msgid "You have revoked your check-in."
+msgstr ""
+
+#: views.py:317
+msgid "Whoops! Looks like your check-in was already revoked."
+msgstr ""
+
+#: views.py:321
+msgid "Whoops! Looks like you're already checked in."
+msgstr ""
+
+#: views.py:327
+msgid "You are now checked in."
+msgstr ""

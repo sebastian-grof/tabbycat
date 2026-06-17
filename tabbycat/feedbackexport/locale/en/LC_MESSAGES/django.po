@@ -1,0 +1,489 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-06-17 14:40+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+#: apps.py:7 views.py:38
+msgid "API Exports"
+msgstr ""
+
+#: forms.py:14 templates/feedbackexport/access.html:38
+msgid "User"
+msgstr ""
+
+#: forms.py:19 templates/feedbackexport/access.html:38
+msgid "Permissions"
+msgstr ""
+
+#: forms.py:37
+msgid "All statuses"
+msgstr ""
+
+#: forms.py:38 templates/feedbackexport/events.html:20
+#: templates/feedbackexport/events.html:52
+#: templates/feedbackexport/index.html:25
+#: templates/feedbackexport/index.html:47
+msgid "Pending"
+msgstr ""
+
+#: forms.py:39 templates/feedbackexport/events.html:21
+#: templates/feedbackexport/events.html:53
+#: templates/feedbackexport/events.html:199
+msgid "Sent"
+msgstr ""
+
+#: forms.py:40 templates/feedbackexport/events.html:22
+#: templates/feedbackexport/events.html:54
+#: templates/feedbackexport/index.html:26
+#: templates/feedbackexport/index.html:48
+msgid "Failed"
+msgstr ""
+
+#: forms.py:41
+msgid "Permanently failed"
+msgstr ""
+
+#: models.py:10
+msgid "view feedback export"
+msgstr ""
+
+#: models.py:11
+msgid "manage feedback export"
+msgstr ""
+
+#: models.py:15
+msgid "user"
+msgstr ""
+
+#: models.py:16
+msgid "permission"
+msgstr ""
+
+#: models.py:20
+msgid "global feedback export permission"
+msgstr ""
+
+#: models.py:21
+msgid "global feedback export permissions"
+msgstr ""
+
+#: models.py:29 models.py:80
+msgid "pending"
+msgstr ""
+
+#: models.py:30 models.py:81
+msgid "sent"
+msgstr ""
+
+#: models.py:31 models.py:82
+msgid "failed"
+msgstr ""
+
+#: models.py:32 models.py:83
+msgid "permanently failed"
+msgstr ""
+
+#: models.py:35
+msgid "feedback"
+msgstr ""
+
+#: models.py:37 models.py:96
+msgid "status"
+msgstr ""
+
+#: models.py:38 models.py:97
+msgid "idempotency key"
+msgstr ""
+
+#: models.py:39 models.py:98
+msgid "attempts"
+msgstr ""
+
+#: models.py:40 models.py:99
+msgid "next attempt at"
+msgstr ""
+
+#: models.py:41 models.py:100
+msgid "last error"
+msgstr ""
+
+#: models.py:42 models.py:101
+msgid "last HTTP status"
+msgstr ""
+
+#: models.py:43 models.py:102
+msgid "payload hash"
+msgstr ""
+
+#: models.py:44 models.py:103
+msgid "payload"
+msgstr ""
+
+#: models.py:45 models.py:104
+msgid "remote response"
+msgstr ""
+
+#: models.py:46 models.py:105
+msgid "sent at"
+msgstr ""
+
+#: models.py:47 models.py:106
+msgid "created at"
+msgstr ""
+
+#: models.py:48 models.py:107
+msgid "updated at"
+msgstr ""
+
+#: models.py:52
+msgid "feedback export event"
+msgstr ""
+
+#: models.py:53
+msgid "feedback export events"
+msgstr ""
+
+#: models.py:86
+msgid "tournament"
+msgstr ""
+
+#: models.py:88
+msgid "break tournament"
+msgstr ""
+
+#: models.py:90
+msgid "source tournament ID"
+msgstr ""
+
+#: models.py:91
+msgid "source tournament slug"
+msgstr ""
+
+#: models.py:92
+msgid "source tournament name"
+msgstr ""
+
+#: models.py:94
+msgid "source tournament short name"
+msgstr ""
+
+#: models.py:111
+msgid "adjudicator stats export event"
+msgstr ""
+
+#: models.py:112
+msgid "adjudicator stats export events"
+msgstr ""
+
+#: templates/feedbackexport/access.html:7 views.py:59
+msgid "Access"
+msgstr ""
+
+#: templates/feedbackexport/access.html:8
+msgid "Grant global access to API Exports. Manage implies view access."
+msgstr ""
+
+#: templates/feedbackexport/access.html:15
+msgid "Grant access"
+msgstr ""
+
+#: templates/feedbackexport/access.html:26
+msgid "Save access"
+msgstr ""
+
+#: templates/feedbackexport/access.html:33
+msgid "Current access"
+msgstr ""
+
+#: templates/feedbackexport/access.html:53
+msgid "No users have explicit API export access yet."
+msgstr ""
+
+#: templates/feedbackexport/base.html:421
+msgid "Live feedback export is disabled. Queueing still works, but sending requires SDA_JUDGES_FEEDBACK_EXPORT_ENABLED=True."
+msgstr ""
+
+#: templates/feedbackexport/base.html:425
+msgid "No external feedback API endpoint is configured. Set SDA_JUDGES_FEEDBACK_API_URL before processing feedback sends."
+msgstr ""
+
+#: templates/feedbackexport/base.html:429
+msgid "Live judge activity export is disabled. Manual queueing still works, but sending requires SDA_JUDGES_ACTIVITY_EXPORT_ENABLED=True."
+msgstr ""
+
+#: templates/feedbackexport/base.html:433
+msgid "No external judge activity API endpoint is configured. Set SDA_JUDGES_ACTIVITY_API_URL before processing activity sends."
+msgstr ""
+
+#: templates/feedbackexport/base.html:447
+msgid "Export structured SDA data from Tabbycat to external systems. Judge exports are managed together here; feedback and activity still remain separate records under the hood."
+msgstr ""
+
+#: templates/feedbackexport/base.html:451
+msgid "Return to Site Tools"
+msgstr ""
+
+#: templates/feedbackexport/base.html:456
+msgid "API export navigation"
+msgstr ""
+
+#: templates/feedbackexport/base.html:461
+msgid "Pipeline health and next actions"
+msgstr ""
+
+#: templates/feedbackexport/base.html:463
+msgid "Feedback and adjudicated debate counts"
+msgstr ""
+
+#: templates/feedbackexport/base.html:465
+msgid "Global permissions"
+msgstr ""
+
+#: templates/feedbackexport/events.html:7 views.py:58
+msgid "Judge Data"
+msgstr ""
+
+#: templates/feedbackexport/events.html:8
+msgid "One workspace for exporting judge feedback and adjudicated debate counts to DR. They remain separate records, but are operated from one place."
+msgstr ""
+
+#: templates/feedbackexport/events.html:15
+#: templates/feedbackexport/events.html:150
+msgid "Feedback"
+msgstr ""
+
+#: templates/feedbackexport/events.html:16
+#: templates/feedbackexport/events.html:48
+#: templates/feedbackexport/index.html:19
+#: templates/feedbackexport/index.html:41
+msgid "Ready"
+msgstr ""
+
+#: templates/feedbackexport/events.html:18
+msgid "Confirmed feedback exports with source identifiers. DR handles judge matching and duplicate resolution."
+msgstr ""
+
+#: templates/feedbackexport/events.html:29
+msgid "Queue feedback"
+msgstr ""
+
+#: templates/feedbackexport/events.html:34
+#: templates/feedbackexport/events.html:61
+msgid "Retry failed"
+msgstr ""
+
+#: templates/feedbackexport/events.html:39
+#: templates/feedbackexport/events.html:66
+msgid "Send pending"
+msgstr ""
+
+#: templates/feedbackexport/events.html:47
+msgid "Judge activity"
+msgstr ""
+
+#: templates/feedbackexport/events.html:50
+msgid "Tournament debate counts export with source identifiers. DR falls back to email, name or local ID."
+msgstr ""
+
+#: templates/feedbackexport/events.html:78
+msgid "Tournament activity exports"
+msgstr ""
+
+#: templates/feedbackexport/events.html:79
+msgid "Select only the tournaments you want to export or re-export. Feedback is queued separately above."
+msgstr ""
+
+#: templates/feedbackexport/events.html:83
+msgid "Queue selected activity"
+msgstr ""
+
+#: templates/feedbackexport/events.html:84
+msgid "Force re-export selected"
+msgstr ""
+
+#: templates/feedbackexport/events.html:94
+#: templates/feedbackexport/events.html:199
+msgid "Tournament"
+msgstr ""
+
+#: templates/feedbackexport/events.html:95
+msgid "Catalog metadata"
+msgstr ""
+
+#: templates/feedbackexport/events.html:96
+msgid "Activity status"
+msgstr ""
+
+#: templates/feedbackexport/events.html:97
+msgid "Last sent"
+msgstr ""
+
+#: templates/feedbackexport/events.html:98
+#: templates/feedbackexport/events.html:155
+msgid "Last error"
+msgstr ""
+
+#: templates/feedbackexport/events.html:118
+msgid "No Break management metadata"
+msgstr ""
+
+#: templates/feedbackexport/events.html:127
+msgid "No tournaments exist yet."
+msgstr ""
+
+#: templates/feedbackexport/events.html:138
+msgid "Feedback export history"
+msgstr ""
+
+#: templates/feedbackexport/events.html:139
+msgid "Recent feedback export events. Use the status filter if you only need failures or pending sends."
+msgstr ""
+
+#: templates/feedbackexport/events.html:143
+msgid "Filter"
+msgstr ""
+
+#: templates/feedbackexport/events.html:151
+msgid "Target"
+msgstr ""
+
+#: templates/feedbackexport/events.html:152
+#: templates/feedbackexport/events.html:199
+msgid "Status"
+msgstr ""
+
+#: templates/feedbackexport/events.html:153
+msgid "Attempts"
+msgstr ""
+
+#: templates/feedbackexport/events.html:154
+msgid "HTTP"
+msgstr ""
+
+#: templates/feedbackexport/events.html:156
+#: templates/feedbackexport/events.html:199
+msgid "Updated"
+msgstr ""
+
+#: templates/feedbackexport/events.html:176
+msgid "Retry"
+msgstr ""
+
+#: templates/feedbackexport/events.html:182
+msgid "No feedback export events match this filter."
+msgstr ""
+
+#: templates/feedbackexport/events.html:193
+msgid "Archived local activity events"
+msgstr ""
+
+#: templates/feedbackexport/events.html:194
+msgid "These local export events still exist, but their source tournament has been removed from Tabbycat."
+msgstr ""
+
+#: templates/feedbackexport/index.html:7 views.py:57
+msgid "Overview"
+msgstr ""
+
+#: templates/feedbackexport/index.html:8
+msgid "A short control room for judge data exports. DR owns judge identity matching; Tabbycat sends source names, emails and local IDs."
+msgstr ""
+
+#: templates/feedbackexport/index.html:15
+msgid "Feedback export"
+msgstr ""
+
+#: templates/feedbackexport/index.html:17
+#: templates/feedbackexport/index.html:37
+msgid "Needs attention"
+msgstr ""
+
+#: templates/feedbackexport/index.html:22
+msgid "Exports confirmed adjudicator feedback to DR. DR matches judges by exported ID when present, then email, name and local fallback."
+msgstr ""
+
+#: templates/feedbackexport/index.html:24
+msgid "Confirmed feedback"
+msgstr ""
+
+#: templates/feedbackexport/index.html:29
+#: templates/feedbackexport/index.html:51
+msgid "Open Judge Data"
+msgstr ""
+
+#: templates/feedbackexport/index.html:35
+msgid "Judge activity export"
+msgstr ""
+
+#: templates/feedbackexport/index.html:39
+msgid "Queued"
+msgstr ""
+
+#: templates/feedbackexport/index.html:44
+msgid "Exports adjudicated debate counts by tournament. DR matches judges by exported ID when present, then email, name and local fallback."
+msgstr ""
+
+#: templates/feedbackexport/index.html:46
+msgid "Export events"
+msgstr ""
+
+#: views.py:94 views.py:170
+#, python-format
+msgid "%(queued)s feedback export events queued; %(skipped)s skipped."
+msgstr ""
+
+#: views.py:97 views.py:167
+#, python-format
+msgid "%(processed)s export events processed; %(sent)s sent; %(failed)s failed."
+msgstr ""
+
+#: views.py:156
+msgid "Feedback export event was queued for retry."
+msgstr ""
+
+#: views.py:164
+#, python-format
+msgid "%(count)s failed export events were queued for retry."
+msgstr ""
+
+#: views.py:182
+#, python-format
+msgid "%(queued)s judge activity export events queued."
+msgstr ""
+
+#: views.py:202
+#, python-format
+msgid "%(queued)s failed judge activity events queued for retry."
+msgstr ""
+
+#: views.py:205
+#, python-format
+msgid "%(processed)s judge activity events processed; %(sent)s sent; %(failed)s failed."
+msgstr ""
+
+#: views.py:213
+msgid "Not exported"
+msgstr ""
+
+#: views.py:219
+msgid "Needs re-export"
+msgstr ""
+
+#: views.py:257
+#, python-format
+msgid "API export access updated for %(user)s."
+msgstr ""

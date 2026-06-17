@@ -1,0 +1,225 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-06-17 14:40+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);\n"
+
+#: admin.py:39
+msgid "Type"
+msgstr "Typ"
+
+#: admin.py:47
+msgid "Checkin time"
+msgstr "Čas registrácie"
+
+#: apps.py:7
+msgid "Check-Ins"
+msgstr "Príchody"
+
+#: consumers.py:45
+msgid "Sent checkin identifier doesn't exist"
+msgstr "Odoslaný identifikátor príchodu neexistuje"
+
+#: consumers.py:46 consumers.py:78
+msgid "Checkins"
+msgstr "Príchody"
+
+#: consumers.py:77
+msgid "No checkin identifiers exist for sent barcodes"
+msgstr "Pre odoslané čiarové kódy neexistujú žiadne identifikátory príchodu"
+
+#: models.py:29
+msgid "The barcode must contain exactly six digits."
+msgstr "Čiarový kód musí obsahovať presne šesť číslic."
+
+#: models.py:32
+msgid "barcode"
+msgstr "čiarový kód"
+
+#: models.py:37
+msgid "<Not the child instance>"
+msgstr "<Nie je podradená inštancia>"
+
+#: models.py:41
+#, python-format
+msgid "%(classname)s %(barcode)s"
+msgstr "%(classname)s %(barcode)s"
+
+#: models.py:52
+msgid "person"
+msgstr "osoba"
+
+#: models.py:55
+msgid "person identifier"
+msgstr "identifikátor osoby"
+
+#: models.py:56
+msgid "person identifiers"
+msgstr "identifikátory osôb"
+
+#: models.py:64
+msgid "debate"
+msgstr "debata"
+
+#: models.py:67
+msgid "debate identifier"
+msgstr "identifikátor debaty"
+
+#: models.py:68
+msgid "debate identifiers"
+msgstr "identifikátory debát"
+
+#: models.py:79
+msgid "room identifier"
+msgstr "identifikátor miestnosti"
+
+#: models.py:80
+msgid "room identifiers"
+msgstr "identifikátory miestností"
+
+#: models.py:87
+msgid "identifier"
+msgstr "identifikátor"
+
+#: models.py:90
+msgid "check-in time"
+msgstr "čas príchodu"
+
+#: models.py:92
+msgid "tournament"
+msgstr "turnaj"
+
+#: models.py:95
+msgid "check-in event"
+msgstr "udalosť príchodu"
+
+#: models.py:96
+msgid "check-in events"
+msgstr "udalosti príchodu"
+
+#: templates/checkin_ids.html:18
+msgid "With identifiers"
+msgstr "S identifikátormi"
+
+#: templates/checkin_ids.html:30
+msgid "View as barcodes"
+msgstr "Zobraziť ako čiarové kódy"
+
+#: templates/checkin_ids.html:36
+msgid "Generate missing identifiers"
+msgstr "Vygenerovať chýbajúce identifikátory"
+
+#: templates/checkin_ids.html:38
+msgid "Generate all identifiers"
+msgstr "Vygenerovať všetky identifikátory"
+
+#: templates/checkin_ids.html:49
+msgid "There are no identifiers available to view. An admin will need to generate them."
+msgstr "Nie sú dostupné žiadne identifikátory na zobrazenie. Administrátor ich musí vygenerovať."
+
+#: templates/checkin_printables.html:10
+msgid "Each of the barcodes below is also an image file that can be downloaded individually. If you want to download them all at once try using a 'bulk downloader' extension/plugin for your browser, such as <a href=\"https://chrome.google.com/webstore/detail/svg-export/naeaaedieihlkmdajjefioajbbdbdjgp?hl=en-GB\">this one (for Chrome)</a>. To download them as a list you can go to Check-Ins section of the Edit Database area and copy/paste from the relevant table."
+msgstr "Každý z čiarových kódov nižšie je aj samostatný obrázkový súbor, ktorý si môžeš stiahnuť osobitne. Ak ich chceš stiahnuť všetky naraz, skús použiť rozšírenie alebo doplnok prehliadača na hromadné sťahovanie, napríklad <a href=\"https://chrome.google.com/webstore/detail/svg-export/naeaaedieihlkmdajjefioajbbdbdjgp?hl=en-GB\">toto rozšírenie pre Chrome</a>. Ak ich chceš stiahnuť ako zoznam, prejdi do sekcie Príchody v časti Upraviť databázu a skopíruj ich z príslušnej tabuľky."
+
+#: templates/checkin_printables.html:15
+msgid "You can use Ctrl+P for printing or saving the barcodes PDF. Be sure to set the appropriate <strong>page orientation</strong>, to turn off <strong>headers/footers</strong> and turn on <strong>background graphics</strong>. Works best in Chrome."
+msgstr "Na tlač alebo uloženie PDF s čiarovými kódmi môžeš použiť Ctrl+P. Nastav správnu <strong>orientáciu stránky</strong>, vypni <strong>hlavičky/päty</strong> a zapni <strong>grafiku pozadia</strong>. Najlepšie funguje v Chrome."
+
+#: templates/checkin_scan.html:18
+msgid "To scan an identifier type the number below (it will auto-submit). You can also use a barcode scanner (configured to work as a keyboard) or scan from a webcam or phone camera using the button below."
+msgstr "Na naskenovanie identifikátora napíš číslo nižšie (odošle sa automaticky). Môžeš použiť aj skener čiarových kódov nastavený ako klávesnica alebo skenovať cez webkameru či fotoaparát telefónu tlačidlom nižšie."
+
+#: utils.py:61
+#, python-format
+msgid "Not checked in (barcode %(barcode)s)"
+msgstr "Prítomnosť nie je potvrdená (čiarový kód %(barcode)s)"
+
+#: utils.py:65
+msgid "Not checked in; no barcode assigned"
+msgstr "Prítomnosť nie je potvrdená; nebol priradený žiadny čiarový kód"
+
+#: utils.py:72
+#, python-format
+msgid "checked in at %(time)s"
+msgstr "prítomnosť potvrdená o %(time)s"
+
+#: utils.py:84
+#, python-format
+msgid "%(speaker)s checked in at %(time)s."
+msgstr "%(speaker)s má potvrdenú prítomnosť o %(time)s."
+
+#: utils.py:86
+#, python-format
+msgid "%(speaker)s is missing."
+msgstr "%(speaker)s chýba."
+
+#: views.py:32
+msgid "Scan Identifiers"
+msgstr "Skenovať identifikátory"
+
+#: views.py:67
+msgid "People's Check-In Statuses"
+msgstr "Stav príchodov osôb"
+
+#: views.py:151
+msgid "Rooms' Check-In Statuses"
+msgstr "Stav príchodov miestností"
+
+#: views.py:202
+msgid "Make Identifiers"
+msgstr "Vytvoriť identifikátory"
+
+#: views.py:209
+msgid "Speakers"
+msgstr "Rečníci"
+
+#: views.py:214
+msgid "Adjudicators"
+msgstr "Rozhodcovia"
+
+#: views.py:219
+msgid "Rooms"
+msgstr "Miestnosti"
+
+#: views.py:261
+#, python-format
+msgid "Generated identifiers for %s"
+msgstr "Vygenerované identifikátory pre %s"
+
+#: views.py:268
+msgid "Identifiers"
+msgstr "Identifikátory"
+
+#: views.py:304
+msgid "Could not check you in as you do not have an identifying code — your tab director may need to make you an identifier."
+msgstr "Nepodarilo sa potvrdiť tvoju prítomnosť, pretože nemáš identifikačný kód. Vedúci tabu ti možno musí vytvoriť identifikátor."
+
+#: views.py:315
+msgid "You have revoked your check-in."
+msgstr "Zrušil/a si svoje potvrdenie prítomnosti."
+
+#: views.py:317
+msgid "Whoops! Looks like your check-in was already revoked."
+msgstr "Ups! Vyzerá to, že tvoje potvrdenie prítomnosti už bolo zrušené."
+
+#: views.py:321
+msgid "Whoops! Looks like you're already checked in."
+msgstr "Ups! Vyzerá to, že už máš potvrdenú prítomnosť."
+
+#: views.py:327
+msgid "You are now checked in."
+msgstr "Vaša prítomnosť bola potvrdená."

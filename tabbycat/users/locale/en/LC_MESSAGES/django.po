@@ -1,0 +1,877 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-06-17 14:40+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: admin.py:32
+msgid "Users with staff status can view and edit the Edit Database area. This is potentially dangerous and should be reserved for the actual tab director(s)."
+msgstr ""
+
+#: admin.py:50
+msgid "Personal info"
+msgstr ""
+
+#: admin.py:51 forms.py:219
+msgid "Permissions"
+msgstr ""
+
+#: admin.py:52
+msgid "Important dates"
+msgstr ""
+
+#: forms.py:13
+msgid "Conflicts"
+msgstr ""
+
+#: forms.py:23
+msgid "Participants"
+msgstr ""
+
+#: forms.py:40
+msgid "Availability"
+msgstr ""
+
+#: forms.py:50
+msgid "Rooms"
+msgstr ""
+
+#: forms.py:56
+msgid "Pairing"
+msgstr ""
+
+#: forms.py:72
+msgid "Ballots and Results"
+msgstr ""
+
+#: forms.py:84
+msgid "Motions and Release"
+msgstr ""
+
+#: forms.py:93
+msgid "Standings"
+msgstr ""
+
+#: forms.py:101
+msgid "Feedback"
+msgstr ""
+
+#: forms.py:111
+msgid "Breaks"
+msgstr ""
+
+#: forms.py:126
+msgid "Check-Ins and Private URLs"
+msgstr ""
+
+#: forms.py:134
+msgid "Rounds and Schedule"
+msgstr ""
+
+#: forms.py:143
+msgid "Settings, Data and Registration"
+msgstr ""
+
+#: forms.py:165
+msgid "Email address"
+msgstr ""
+
+#: forms.py:203
+msgid "Username"
+msgstr ""
+
+#: forms.py:214
+msgid "Role name"
+msgstr ""
+
+#: forms.py:243
+msgid "A role with this name already exists in this tournament."
+msgstr ""
+
+#: forms.py:273
+msgid "User"
+msgstr ""
+
+#: forms.py:278
+msgid "Roles"
+msgstr ""
+
+#: forms.py:284
+msgid "Individual permissions"
+msgstr ""
+
+#: forms.py:285
+msgid "Optional permissions granted directly to this user, in addition to their roles."
+msgstr ""
+
+#: groups.py:31
+msgid "Equity"
+msgstr ""
+
+#: groups.py:69
+msgid "Adjudication Core"
+msgstr ""
+
+#: groups.py:78
+msgid "Tabulation Director"
+msgstr ""
+
+#: groups.py:84
+msgid "Tabulation Assistant"
+msgstr ""
+
+#: groups.py:89
+msgid "Registration"
+msgstr ""
+
+#: models.py:13 models.py:51
+msgid "user"
+msgstr ""
+
+#: models.py:14
+msgid "permission"
+msgstr ""
+
+#: models.py:15 models.py:36
+msgid "tournament"
+msgstr ""
+
+#: models.py:19
+msgid "user permission"
+msgstr ""
+
+#: models.py:20
+msgid "user permissions"
+msgstr ""
+
+#: models.py:35
+msgid "name"
+msgstr ""
+
+#: models.py:38
+msgid "permissions"
+msgstr ""
+
+#: models.py:43 models.py:52
+msgid "group"
+msgstr ""
+
+#: models.py:44
+msgid "groups"
+msgstr ""
+
+#: models.py:56
+msgid "group membership"
+msgstr ""
+
+#: models.py:57
+msgid "group memberships"
+msgstr ""
+
+#: permissions.py:17
+msgid "view adjudicator-team conflicts"
+msgstr ""
+
+#: permissions.py:18
+msgid "edit adjudicator-team conflicts"
+msgstr ""
+
+#: permissions.py:19
+msgid "view adjudicator-adjudicator conflicts"
+msgstr ""
+
+#: permissions.py:20
+msgid "edit adjudicator-adjudicator conflicts"
+msgstr ""
+
+#: permissions.py:21
+msgid "view adjudicator-institution conflicts"
+msgstr ""
+
+#: permissions.py:22
+msgid "edit adjudicator-institution conflicts"
+msgstr ""
+
+#: permissions.py:23
+msgid "view team-institution conflicts"
+msgstr ""
+
+#: permissions.py:24
+msgid "edit team-institution conflicts"
+msgstr ""
+
+#: permissions.py:26
+msgid "view action log entries"
+msgstr ""
+
+#: permissions.py:29
+msgid "view teams"
+msgstr ""
+
+#: permissions.py:30
+msgid "add teams"
+msgstr ""
+
+#: permissions.py:31
+msgid "view decoded team names"
+msgstr ""
+
+#: permissions.py:32
+msgid "View names of anonymized participants"
+msgstr ""
+
+#: permissions.py:33
+msgid "view adjudicators"
+msgstr ""
+
+#: permissions.py:34
+msgid "add adjudicators"
+msgstr ""
+
+#: permissions.py:35
+msgid "view rooms"
+msgstr ""
+
+#: permissions.py:36
+msgid "add rooms"
+msgstr ""
+
+#: permissions.py:37
+msgid "view institutions"
+msgstr ""
+
+#: permissions.py:38
+msgid "add institutions"
+msgstr ""
+
+#: permissions.py:39
+msgid "view participants"
+msgstr ""
+
+#: permissions.py:40
+msgid "view participants' gender information"
+msgstr ""
+
+#: permissions.py:41
+msgid "view participants' contact information"
+msgstr ""
+
+#: permissions.py:42
+msgid "view participants' real names"
+msgstr ""
+
+#: permissions.py:43
+msgid "view participants' institution"
+msgstr ""
+
+#: permissions.py:45
+msgid "view round availabilities for teams"
+msgstr ""
+
+#: permissions.py:46
+msgid "view round availabilities for adjudicators"
+msgstr ""
+
+#: permissions.py:47
+msgid "view round availabilities for rooms"
+msgstr ""
+
+#: permissions.py:48
+msgid "edit round availabilities for teams"
+msgstr ""
+
+#: permissions.py:49
+msgid "edit round availabilities for adjudicators"
+msgstr ""
+
+#: permissions.py:50
+msgid "edit round availabilities for rooms"
+msgstr ""
+
+#: permissions.py:51
+msgid "view round availabilities"
+msgstr ""
+
+#: permissions.py:52
+msgid "edit round availabilities"
+msgstr ""
+
+#: permissions.py:54
+msgid "view room constraints"
+msgstr ""
+
+#: permissions.py:55
+msgid "view room categories"
+msgstr ""
+
+#: permissions.py:56
+msgid "edit room constraints"
+msgstr ""
+
+#: permissions.py:57
+msgid "edit room categories"
+msgstr ""
+
+#: permissions.py:59
+msgid "view debates (draw)"
+msgstr ""
+
+#: permissions.py:60
+msgid "view debates (detailed draw)"
+msgstr ""
+
+#: permissions.py:61
+msgid "generate debates (draw)"
+msgstr ""
+
+#: permissions.py:62
+msgid "delete debates (draw)"
+msgstr ""
+
+#: permissions.py:63
+msgid "edit debate teams (pairings)"
+msgstr ""
+
+#: permissions.py:64
+msgid "view debate adjudicators (allocations)"
+msgstr ""
+
+#: permissions.py:65
+msgid "edit debate adjudicators (allocations)"
+msgstr ""
+
+#: permissions.py:66
+msgid "view room allocations"
+msgstr ""
+
+#: permissions.py:67
+msgid "edit room allocations"
+msgstr ""
+
+#: permissions.py:68
+msgid "edit and confirm outround team positions"
+msgstr ""
+
+#: permissions.py:73
+msgid "view confirmed ballots"
+msgstr ""
+
+#: permissions.py:74
+msgid "edit non-confirmed ballots"
+msgstr ""
+
+#: permissions.py:75
+msgid "view any ballot"
+msgstr ""
+
+#: permissions.py:76
+msgid "edit any ballot"
+msgstr ""
+
+#: permissions.py:77
+msgid "create ballots"
+msgstr ""
+
+#: permissions.py:78
+msgid "confirm/discard any ballot"
+msgstr ""
+
+#: permissions.py:79
+msgid "confirm/discard others' ballots"
+msgstr ""
+
+#: permissions.py:80
+msgid "view ballot graph"
+msgstr ""
+
+#: permissions.py:81
+msgid "view results entry page"
+msgstr ""
+
+#: permissions.py:83
+msgid "view motion per round"
+msgstr ""
+
+#: permissions.py:84
+msgid "edit motion per round"
+msgstr ""
+
+#: permissions.py:85
+msgid "release draw to public"
+msgstr ""
+
+#: permissions.py:86
+msgid "release motion to public"
+msgstr ""
+
+#: permissions.py:87
+msgid "unrelease draw to public"
+msgstr ""
+
+#: permissions.py:88
+msgid "unrelease motion to public"
+msgstr ""
+
+#: permissions.py:89
+msgid "add debate start time"
+msgstr ""
+
+#: permissions.py:91
+msgid "view draws (for the briefing room)"
+msgstr ""
+
+#: permissions.py:92
+msgid "display motion (for the briefing room)"
+msgstr ""
+
+#: permissions.py:94
+msgid "view existing preformed panels"
+msgstr ""
+
+#: permissions.py:95
+msgid "edit preformed panels"
+msgstr ""
+
+#: permissions.py:98
+msgid "view the overviews of standings"
+msgstr ""
+
+#: permissions.py:99
+msgid "view the most recent team standings"
+msgstr ""
+
+#: permissions.py:100
+msgid "view the most recent speaker standings"
+msgstr ""
+
+#: permissions.py:101
+msgid "view the most recent replies standings"
+msgstr ""
+
+#: permissions.py:102
+msgid "view the most recent motions tab"
+msgstr ""
+
+#: permissions.py:103
+msgid "view the diversity tab"
+msgstr ""
+
+#: permissions.py:106
+msgid "view overview of judge feedback"
+msgstr ""
+
+#: permissions.py:107
+msgid "edit base scores of judges"
+msgstr ""
+
+#: permissions.py:108
+msgid "view feedback"
+msgstr ""
+
+#: permissions.py:109
+msgid "toggle ignore feedback"
+msgstr ""
+
+#: permissions.py:110
+msgid "toggle confirm feedback"
+msgstr ""
+
+#: permissions.py:111
+msgid "view feedback unsubmitted tab"
+msgstr ""
+
+#: permissions.py:112
+msgid "add feedback"
+msgstr ""
+
+#: permissions.py:113
+msgid "view adjudicator break"
+msgstr ""
+
+#: permissions.py:114
+msgid "edit adjudicator break"
+msgstr ""
+
+#: permissions.py:115
+msgid "edit feedback questions"
+msgstr ""
+
+#: permissions.py:118
+msgid "edit break eligibility"
+msgstr ""
+
+#: permissions.py:119
+msgid "view break eligibility"
+msgstr ""
+
+#: permissions.py:120
+msgid "edit break categories"
+msgstr ""
+
+#: permissions.py:121
+msgid "view break categories"
+msgstr ""
+
+#: permissions.py:122
+msgid "view speaker categories"
+msgstr ""
+
+#: permissions.py:123
+msgid "edit speaker categories"
+msgstr ""
+
+#: permissions.py:124
+msgid "view speaker eligibility"
+msgstr ""
+
+#: permissions.py:125
+msgid "edit speaker eligibility"
+msgstr ""
+
+#: permissions.py:126
+msgid "view break overview"
+msgstr ""
+
+#: permissions.py:127
+msgid "view breaks"
+msgstr ""
+
+#: permissions.py:128
+msgid "generate all breaks"
+msgstr ""
+
+#: permissions.py:130
+msgid "view private urls"
+msgstr ""
+
+#: permissions.py:131
+msgid "generate private URLs"
+msgstr ""
+
+#: permissions.py:133
+msgid "view checkins"
+msgstr ""
+
+#: permissions.py:134
+msgid "edit participant check-in"
+msgstr ""
+
+#: permissions.py:135
+msgid "edit room check-in"
+msgstr ""
+
+#: permissions.py:136
+msgid "edit debate check-in"
+msgstr ""
+
+#: permissions.py:138
+msgid "edit round attributes"
+msgstr ""
+
+#: permissions.py:139
+msgid "delete rounds"
+msgstr ""
+
+#: permissions.py:140
+msgid "create rounds"
+msgstr ""
+
+#: permissions.py:141
+msgid "confirm rounds"
+msgstr ""
+
+#: permissions.py:142
+msgid "silence rounds"
+msgstr ""
+
+#: permissions.py:144
+msgid "view email statuses"
+msgstr ""
+
+#: permissions.py:145
+msgid "send participants email messages"
+msgstr ""
+
+#: permissions.py:147
+msgid "export DebateXML"
+msgstr ""
+
+#: permissions.py:149
+msgid "view settings"
+msgstr ""
+
+#: permissions.py:150
+msgid "edit settings"
+msgstr ""
+
+#: permissions.py:152
+msgid "edit general questions"
+msgstr ""
+
+#: permissions.py:153
+msgid "delete general questions"
+msgstr ""
+
+#: permissions.py:154
+msgid "view answers to general questions"
+msgstr ""
+
+#: permissions.py:157
+msgid "edit events"
+msgstr ""
+
+#: permissions.py:158
+msgid "view events"
+msgstr ""
+
+#: permissions.py:160
+msgid "view registration responses"
+msgstr ""
+
+#: permissions.py:161
+msgid "edit registration responses"
+msgstr ""
+
+#: permissions.py:162
+msgid "confirm registration responses"
+msgstr ""
+
+#: permissions.py:166
+msgid "access the assistant area"
+msgstr ""
+
+#: templates/account_invitation_email.html:2
+msgid "Hello!"
+msgstr ""
+
+#: templates/account_invitation_email.html:6
+#, python-format
+msgid "An administrator for the Tabbycat site hosting %(name)s has invited you to create an user account on their site, at %(protocol)s://%(domain)s."
+msgstr ""
+
+#: templates/account_invitation_email.html:10
+msgid "If you accept, please use the link below to activate your account"
+msgstr ""
+
+#: templates/account_invitation_email.html:13
+msgid "If you do not accept, there is no action to be taken."
+msgstr ""
+
+#: templates/account_invitation_subject.txt:2
+#, python-format
+msgid "Invitation to join Tabbycat site for %(name)s"
+msgstr ""
+
+#: templates/admin/auth/delete_user_warning.html:6
+msgid "<strong>Warning:</strong> You shouldn't delete users from the database once they've done something, because the database logs actions taken by those users, and deleting the users also deletes the related logs. If you wish to deactivate a user account, go back to edit the user, click on the “Permissions” tab, unchecked the “Active” box, and save the user."
+msgstr ""
+
+#: templates/invite_user.html:8
+msgid "Back to Configuration"
+msgstr ""
+
+#: templates/invite_user.html:20
+msgctxt "button"
+msgid "Invite User"
+msgstr ""
+
+#: templates/invite_user.html:21
+msgid "Note: if you submit this multiple times, multiple invite emails will be sent."
+msgstr ""
+
+#: templates/role_management.html:4 templates/role_management.html:5
+#: views.py:108
+msgid "User Roles"
+msgstr ""
+
+#: templates/role_management.html:103
+msgid "Role Editor"
+msgstr ""
+
+#: templates/role_management.html:105
+msgid "Create reusable role templates and edit their permissions."
+msgstr ""
+
+#: templates/role_management.html:108
+msgid "User Access"
+msgstr ""
+
+#: templates/role_management.html:110
+msgid "Assign existing users to roles, with optional individual permission overrides."
+msgstr ""
+
+#: templates/role_management.html:117
+msgid "Back to User Access"
+msgstr ""
+
+#: templates/role_management.html:118
+msgid "New Role"
+msgstr ""
+
+#: templates/role_management.html:121 views.py:75
+msgid "Invite User"
+msgstr ""
+
+#: templates/role_management.html:122 templates/role_management.html:244
+msgid "Manage Roles"
+msgstr ""
+
+#: templates/role_management.html:135
+msgid "Role Library"
+msgstr ""
+
+#: templates/role_management.html:136
+msgid "Reusable permission sets for this tournament."
+msgstr ""
+
+#: templates/role_management.html:138
+msgid "New"
+msgstr ""
+
+#: templates/role_management.html:148
+#, python-format
+msgid "%(count)s user assigned"
+msgid_plural "%(count)s users assigned"
+msgstr[0] ""
+msgstr[1] ""
+
+#: templates/role_management.html:157
+msgid "No roles yet. Start by creating one on the right."
+msgstr ""
+
+#: templates/role_management.html:169
+msgid "Edit Role"
+msgstr ""
+
+#: templates/role_management.html:171 templates/role_management.html:224
+msgid "Create Role"
+msgstr ""
+
+#: templates/role_management.html:175
+msgid "Role permissions apply to every user assigned to that role."
+msgstr ""
+
+#: templates/role_management.html:193
+msgid "Role permissions"
+msgstr ""
+
+#: templates/role_management.html:194
+msgid "Grouped by admin area"
+msgstr ""
+
+#: templates/role_management.html:221
+msgid "Changing a role updates everyone using it."
+msgstr ""
+
+#: templates/role_management.html:224
+msgid "Save Role"
+msgstr ""
+
+#: templates/role_management.html:239
+msgid "Edit User Access"
+msgstr ""
+
+#: templates/role_management.html:241
+msgid "Use roles for normal access, then direct permissions only for exceptions."
+msgstr ""
+
+#: templates/role_management.html:262
+msgid "Recommended"
+msgstr ""
+
+#: templates/role_management.html:275
+msgid "No roles exist yet."
+msgstr ""
+
+#: templates/role_management.html:276
+msgid "Create one first."
+msgstr ""
+
+#: templates/role_management.html:285
+msgid "Exception access"
+msgstr ""
+
+#: templates/role_management.html:316
+msgid "Direct permissions are added on top of selected roles."
+msgstr ""
+
+#: templates/role_management.html:318
+msgid "Save User Access"
+msgstr ""
+
+#: templates/role_management.html:327
+msgid "User Access Directory"
+msgstr ""
+
+#: templates/role_management.html:328
+msgid "Open a user to edit roles and individual permissions."
+msgstr ""
+
+#: templates/role_management.html:335
+msgid "Edit"
+msgstr ""
+
+#: templates/role_management.html:341
+msgid "No roles"
+msgstr ""
+
+#: templates/role_management.html:346
+#, python-format
+msgid "%(count)s direct permission"
+msgid_plural "%(count)s direct permissions"
+msgstr[0] ""
+msgstr[1] ""
+
+#: templates/role_management.html:356
+msgid "No users have tournament access yet."
+msgstr ""
+
+#: templates/signup.html:12
+msgctxt "page title"
+msgid "Create a new Account"
+msgstr ""
+
+#: templates/signup.html:18
+msgid "Create Account"
+msgstr ""
+
+#: views.py:54
+msgid "Whoops! It looks like someone's already created the first user account. Please log in."
+msgstr ""
+
+#: views.py:62
+#, python-format
+msgid "Welcome! You've created an account for %s."
+msgstr ""
+
+#: views.py:90
+msgid "Successfully invited user to create an account for the tournament."
+msgstr ""
+
+#: views.py:98
+msgid "Accept Invitation"
+msgstr ""
+
+#: views.py:199
+#, python-format
+msgid "Role '%(role)s' saved."
+msgstr ""
+
+#: views.py:210
+#, python-format
+msgid "Access for %(user)s saved."
+msgstr ""
