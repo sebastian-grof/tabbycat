@@ -13,6 +13,14 @@ urlpatterns = [
         views.AdminResultsEntryForRoundView.as_view(),
         name='results-round-list'),
 
+    # Bulk ballot downloads
+    path('round/<int:round_seq>/download-ballots/',
+        views.RoundBallotsDownloadView.as_view(),
+        name='results-round-download-ballots'),
+    path('download-ballots/',
+        views.TournamentBallotsDownloadView.as_view(),
+        name='results-tournament-download-ballots'),
+
     # Inline Actions
     path('round/<int:round_seq>/postpone/<int:debate_id>/',
         views.PostponeDebateView.as_view(),

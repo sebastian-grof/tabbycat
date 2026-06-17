@@ -1,6 +1,22 @@
 {% extends "assistant_tournament_index.html" %}
 {% load i18n debate_tags static %}
 
+{% block page-subnav-sections %}
+  {% haspermission "view.results" as results_perm %}
+  {% if results_perm and pref.ballot_export_format != 'off' %}
+    {% with s=ballot_export_summary %}
+      <a class="btn {% if s.complete %}btn-outline-primary{% else %}btn-outline-warning{% endif %}"
+         href="{% tournamenturl 'results-tournament-download-ballots' %}"
+         data-toggle="tooltip"
+         title="{% blocktrans trimmed with submitted=s.submitted total=s.debates notes=s.with_notes %}{{ submitted }} of {{ total }} ballots submitted; {{ notes }} of {{ submitted }} have notes.{% endblocktrans %}">
+        <i data-feather="download"></i> {% trans "Download All Ballots" %}
+        <span class="badge badge-light ml-1">{% blocktrans trimmed with submitted=s.submitted total=s.debates %}{{ submitted }}/{{ total }} ballots{% endblocktrans %}</span>
+        <span class="badge badge-light ml-1">{% blocktrans trimmed with notes=s.with_notes total=s.submitted %}{{ notes }}/{{ total }} notes{% endblocktrans %}</span>
+      </a>
+    {% endwith %}
+  {% endif %}
+{% endblock %}
+
 {% block content %}
 
   {% if round.is_break_round %}

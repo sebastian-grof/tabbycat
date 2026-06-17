@@ -14,9 +14,10 @@ from django.http.response import Http404
 from django.shortcuts import render
 from django.utils import timezone
 from django.utils.html import escape
+from django.utils.text import slugify
 from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy
-from django.views.generic import FormView, TemplateView
+from django.views.generic import FormView, TemplateView, View
 
 from actionlog.mixins import LogActionMixin
 from actionlog.models import ActionLogEntry
@@ -40,16 +41,14 @@ from utils.mixins import AdministratorMixin, AssistantMixin
 from utils.tables import TabbycatTableBuilder
 from utils.views import PostOnlyRedirectView, VueTableTemplateView
 
+from .ballot_export import (
+    ballot_download_response, ballot_export_summary, build_ballots_zip,
+    confirmed_ballots_for, get_ballot_exporter,
+)
 from .consumers import BallotStatusConsumer
 from .forms import (BallotTextFeedbackForm, broadcast_results, PerAdjudicatorBallotSetForm,
                     PerAdjudicatorEliminationBallotSetForm, SingleBallotSetForm,
                     SingleEliminationBallotSetForm)
-from .jdl_ballot_export import (
-    JDLFirstCategoryBallotExportError,
-    build_jdl_first_category_ballot_xlsx,
-    is_jdl_first_category_ballot_export_enabled,
-    jdl_first_category_ballot_filename_slug,
-)
 from .models import BallotSubmission, BallotTextFeedback, ScoreCriterion, TeamScore
 from .prefetch import populate_confirmed_ballots, populate_results
 from .result import DebateResult, get_class_name
@@ -90,26 +89,6 @@ def ballot_text_feedback_initial(ballot_submission):
 def ballot_text_feedback_form_for_ballot(ballot_submission, **kwargs):
     kwargs.setdefault('initial_text', ballot_text_feedback_initial(ballot_submission))
     return BallotTextFeedbackForm(**kwargs)
-
-
-def jdl_first_category_ballot_download_response(ballot_submission):
-    tournament = ballot_submission.debate.round.tournament
-    if not is_jdl_first_category_ballot_export_enabled(tournament):
-        raise Http404
-
-    try:
-        contents = build_jdl_first_category_ballot_xlsx(ballot_submission)
-        filename_slug = jdl_first_category_ballot_filename_slug(ballot_submission)
-    except JDLFirstCategoryBallotExportError as exc:
-        logger.warning("Unable to export JDL 1 ballot %s: %s", ballot_submission.id, exc)
-        raise Http404(str(exc))
-
-    response = HttpResponse(
-        contents,
-        content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-    )
-    response["Content-Disposition"] = 'attachment; filename="%s.xlsx"' % filename_slug
-    return response
 
 
 class PublicResultsIndexView(PublicTournamentPageMixin, TemplateView):
@@ -224,7 +203,81 @@ class AdminResultsEntryForRoundView(AdministratorMixin, BaseResultsEntryForRound
             logger.error("Multiple confirmed ballots for a single debate found")
         kwargs["debates_with_multiple_confirmed_ballots_found"] = multiple_confirmed_ballots_found
 
+        if get_ballot_exporter(self.tournament) is not None:
+            kwargs["ballot_export_summary"] = ballot_export_summary(round=self.round)
+
         return super().get_context_data(**kwargs)
+
+
+# ==============================================================================
+# Bulk ballot downloads (zip of exported ballots)
+# ==============================================================================
+
+class BaseBallotsDownloadView(View):
+    """Bulk-download confirmed ballots as a zip, using the tournament's
+    configured ballot export format. Subclasses define the scope (round or
+    whole tournament)."""
+
+    view_permission = Permission.VIEW_RESULTS
+
+    def get_ballots(self):
+        """Return a list of ``(folder, ballot_submission)`` pairs to archive."""
+        raise NotImplementedError
+
+    def get_zip_slug(self):
+        raise NotImplementedError
+
+    def get_redirect_url(self):
+        raise NotImplementedError
+
+    def get(self, request, *args, **kwargs):
+        exporter = get_ballot_exporter(self.tournament)
+        if exporter is None:
+            raise Http404
+
+        export = build_ballots_zip(exporter, self.get_ballots())
+        if export.exported == 0:
+            messages.warning(request, _("There are no ballots available to download yet."))
+            return HttpResponseRedirect(self.get_redirect_url())
+
+        response = HttpResponse(export.content, content_type='application/zip')
+        response['Content-Disposition'] = 'attachment; filename="%s.zip"' % self.get_zip_slug()
+        return response
+
+
+class RoundBallotsDownloadView(AdministratorMixin, RoundMixin, BaseBallotsDownloadView):
+
+    def get_ballots(self):
+        ballots = confirmed_ballots_for(round=self.round).select_related(
+            'debate', 'debate__round', 'debate__round__tournament').order_by(
+            'debate__room_rank', 'debate_id')
+        return [('', ballot) for ballot in ballots]
+
+    def get_zip_slug(self):
+        round_part = slugify(self.round.abbreviation or self.round.name)
+        return "%s-%s-ballots" % (self.tournament.slug, round_part)
+
+    def get_redirect_url(self):
+        return reverse_round('results-round-list', self.round)
+
+
+class TournamentBallotsDownloadView(AdministratorMixin, TournamentMixin, BaseBallotsDownloadView):
+
+    def get_ballots(self):
+        ballots = confirmed_ballots_for(tournament=self.tournament).select_related(
+            'debate', 'debate__round', 'debate__round__tournament').order_by(
+            'debate__round__seq', 'debate__room_rank', 'debate_id')
+        return [(self._round_folder(ballot.debate.round), ballot) for ballot in ballots]
+
+    @staticmethod
+    def _round_folder(round):
+        return round.abbreviation or round.name or "round-%s" % (round.seq or 0)
+
+    def get_zip_slug(self):
+        return "%s-ballots" % self.tournament.slug
+
+    def get_redirect_url(self):
+        return reverse_tournament('tournament-admin-home', self.tournament)
 
 
 class PublicResultsForRoundView(RoundMixin, PublicTournamentPageMixin, VueTableTemplateView):
@@ -1034,7 +1087,7 @@ class AdjudicatorPrivateUrlBallotScoresheetView(RoundMixin, SingleObjectByRandom
         kwargs['adjudicator'] = self._get_adjudicator()
         kwargs['private_url'] = True
         kwargs['url_key'] = self.kwargs.get('url_key')
-        if is_jdl_first_category_ballot_export_enabled(self.tournament):
+        if get_ballot_exporter(self.tournament) is not None:
             kwargs['ballot_xlsx_download_url'] = reverse_round(
                 'results-privateurl-jdl-ballot-xlsx-debate',
                 self.round,
@@ -1087,7 +1140,7 @@ class AdjudicatorPrivateUrlJDLBallotDownloadView(AdjudicatorPrivateUrlBallotScor
                 raise Http404(message)
             return HttpResponse(message, status=status)
 
-        return jdl_first_category_ballot_download_response(self._get_visible_ballot())
+        return ballot_download_response(self._get_visible_ballot())
 
 
 class SpeakerPrivateUrlBallotScoresheetView(RoundMixin, SingleObjectByRandomisedUrlMixin, PublicBallotScoresheetsView):
@@ -1100,7 +1153,7 @@ class SpeakerPrivateUrlBallotScoresheetView(RoundMixin, SingleObjectByRandomised
     def get_context_data(self, **kwargs):
         kwargs['private_url'] = True
         kwargs['url_key'] = self.kwargs.get('url_key')
-        if is_jdl_first_category_ballot_export_enabled(self.tournament):
+        if get_ballot_exporter(self.tournament) is not None:
             kwargs['ballot_xlsx_download_url'] = reverse_round(
                 'speaker-results-privateurl-jdl-ballot-xlsx',
                 self.round,
@@ -1130,7 +1183,7 @@ class SpeakerPrivateUrlJDLBallotDownloadView(SpeakerPrivateUrlBallotScoresheetVi
                 raise Http404(message)
             return HttpResponse(message, status=status)
 
-        return jdl_first_category_ballot_download_response(self.object.confirmed_ballot)
+        return ballot_download_response(self.object.confirmed_ballot)
 
 
 class PublicBallotSubmissionIndexView(PublicTournamentPageMixin, RoundMixin, VueTableTemplateView):

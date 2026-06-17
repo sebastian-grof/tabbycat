@@ -272,6 +272,13 @@ class TournamentAdminHomeView(AdministratorMixin, BaseTournamentDashboardHomeVie
     template_name = 'tournament_index.html'
     view_permission = True
 
+    def get_context_data(self, **kwargs):
+        from results.ballot_export import ballot_export_summary, get_ballot_exporter
+        if get_ballot_exporter(self.tournament) is not None and has_permission(
+                self.request.user, 'view.results', self.tournament):
+            kwargs["ballot_export_summary"] = ballot_export_summary(tournament=self.tournament)
+        return super().get_context_data(**kwargs)
+
 
 class CompleteRoundCheckView(AdministratorMixin, RoundMixin, TemplateView):
     template_name = 'round_complete_check.html'
