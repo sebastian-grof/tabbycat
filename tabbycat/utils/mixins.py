@@ -152,7 +152,12 @@ class WarnAboutDatabaseUseMixin(ContextMixin):
         return cursor.fetchone()[0]
 
     def get_context_data(self, **kwargs):
-        if 'DATABASE_URL' in os.environ and self.request.user.is_authenticated:
+        # The warning only counts database rows; it can't detect whether the
+        # Heroku database has been upgraded to a paid tier. Once a paid plan is
+        # in place the 10,000-row cap no longer applies, so allow it to be
+        # disabled via the DISABLE_DATABASE_LIMIT_WARNING environment variable.
+        warning_disabled = os.environ.get('DISABLE_DATABASE_LIMIT_WARNING', '').lower() in ('1', 'true', 'yes')
+        if not warning_disabled and 'DATABASE_URL' in os.environ and self.request.user.is_authenticated:
             rows = self.get_database_row_count()
             if rows >= 8000:
                 kwargs['database_rows_used'] = rows
