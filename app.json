@@ -35,6 +35,10 @@
     "USING_NGINX": {
       "description": "Leave this as-is.",
       "value": "1"
+    },
+    "DISABLE_DATABASE_LIMIT_WARNING": {
+      "description": "Hides the 10,000-row database warning banner. Safe to leave as-is on a paid Postgres tier.",
+      "value": "1"
     }
   },
   "formation": {

@@ -171,7 +171,8 @@ urlname = match.group(1)
 heroku_url = match.group(2)
 
 # Set config variables
-command = ["config:set", "DISABLE_COLLECTSTATIC=1", "ON_HEROKU=1", "USING_NGINX=1"]
+command = ["config:set", "DISABLE_COLLECTSTATIC=1", "ON_HEROKU=1", "USING_NGINX=1",
+           "DISABLE_DATABASE_LIMIT_WARNING=1"]
 secret_key = get_random_secret_key()
 
 if platform.system() == "Windows": # Windows shell needs escaping
