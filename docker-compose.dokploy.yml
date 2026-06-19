@@ -1,18 +1,47 @@
-# Postgres and Redis are Dokploy-managed services (created in the UI) and so are
-# not defined here. Set the ${...} values, and bind the `web` service domain to
-# port 8000, in the Dokploy UI.
-
 services:
+  postgres:
+    image: postgres:17
+    container_name: tabbycat-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: tabbycat
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: tabbycat
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - dokploy-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tabbycat -d tabbycat"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  redis:
+    image: redis:7
+    container_name: tabbycat-redis
+    restart: always
+    volumes:
+      - redisdata:/data
+    networks:
+      - dokploy-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
   web:
     build: .
+    container_name: tabbycat-web
     working_dir: /tcd
-    command: ["./bin/docker-wait.sh", "--timeout=0", "${DB_HOST}:5432", "--", "./bin/docker-run-honcho.sh"]
+    command: ["./bin/docker-run-honcho.sh"]
     environment:
       - IN_DOCKER=1
       - DEBUG=0
       - USING_NGINX=1
-      - DATABASE_URL=${DATABASE_URL}
-      - REDIS_URL=${REDIS_URL}
+      - DATABASE_URL=postgresql://tabbycat:${DATABASE_PASSWORD}@postgres:5432/tabbycat
+      - REDIS_URL=redis://redis:6379
       - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
       - ALLOWED_HOSTS=${ALLOWED_HOSTS}
       - CSRF_TRUSTED_ORIGINS=${CSRF_TRUSTED_ORIGINS}
@@ -32,17 +61,23 @@ services:
       - "8000"
     networks:
       - dokploy-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     restart: unless-stopped
 
   worker:
     build: .
+    container_name: tabbycat-worker
     working_dir: /tcd
     command: ["./bin/docker-wait.sh", "--timeout=0", "web:8000", "--", "./bin/docker-run-worker.sh"]
     environment:
       - IN_DOCKER=1
       - DEBUG=0
-      - DATABASE_URL=${DATABASE_URL}
-      - REDIS_URL=${REDIS_URL}
+      - DATABASE_URL=postgresql://tabbycat:${DATABASE_PASSWORD}@postgres:5432/tabbycat
+      - REDIS_URL=redis://redis:6379
       - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
       - TIME_ZONE=${TIME_ZONE}
       - EMAIL_HOST=${EMAIL_HOST}
@@ -57,8 +92,17 @@ services:
       - SDA_JUDGES_ACTIVITY_API_URL=${SDA_JUDGES_ACTIVITY_API_URL}
     networks:
       - dokploy-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     restart: unless-stopped
 
 networks:
   dokploy-network:
     external: true
+
+volumes:
+  pgdata:
+  redisdata:
