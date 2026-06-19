@@ -1,0 +1,64 @@
+# Postgres and Redis are Dokploy-managed services (created in the UI) and so are
+# not defined here. Set the ${...} values, and bind the `web` service domain to
+# port 8000, in the Dokploy UI.
+
+services:
+  web:
+    build: .
+    working_dir: /tcd
+    command: ["./bin/docker-wait.sh", "--timeout=0", "${DB_HOST}:5432", "--", "./bin/docker-run-honcho.sh"]
+    environment:
+      - IN_DOCKER=1
+      - DEBUG=0
+      - USING_NGINX=1
+      - DATABASE_URL=${DATABASE_URL}
+      - REDIS_URL=${REDIS_URL}
+      - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
+      - ALLOWED_HOSTS=${ALLOWED_HOSTS}
+      - CSRF_TRUSTED_ORIGINS=${CSRF_TRUSTED_ORIGINS}
+      - TIME_ZONE=${TIME_ZONE}
+      - TAB_DIRECTOR_EMAIL=${TAB_DIRECTOR_EMAIL}
+      - EMAIL_HOST=${EMAIL_HOST}
+      - EMAIL_HOST_USER=${EMAIL_HOST_USER}
+      - EMAIL_HOST_PASSWORD=${EMAIL_HOST_PASSWORD}
+      - DEFAULT_FROM_EMAIL=${DEFAULT_FROM_EMAIL}
+      # SDA judges export integration (fork-specific)
+      - SDA_JUDGES_FEEDBACK_EXPORT_ENABLED=${SDA_JUDGES_FEEDBACK_EXPORT_ENABLED}
+      - SDA_JUDGES_FEEDBACK_API_URL=${SDA_JUDGES_FEEDBACK_API_URL}
+      - SDA_JUDGES_FEEDBACK_API_TOKEN=${SDA_JUDGES_FEEDBACK_API_TOKEN}
+      - SDA_JUDGES_ACTIVITY_EXPORT_ENABLED=${SDA_JUDGES_ACTIVITY_EXPORT_ENABLED}
+      - SDA_JUDGES_ACTIVITY_API_URL=${SDA_JUDGES_ACTIVITY_API_URL}
+    expose:
+      - "8000"
+    networks:
+      - dokploy-network
+    restart: unless-stopped
+
+  worker:
+    build: .
+    working_dir: /tcd
+    command: ["./bin/docker-wait.sh", "--timeout=0", "web:8000", "--", "./bin/docker-run-worker.sh"]
+    environment:
+      - IN_DOCKER=1
+      - DEBUG=0
+      - DATABASE_URL=${DATABASE_URL}
+      - REDIS_URL=${REDIS_URL}
+      - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
+      - TIME_ZONE=${TIME_ZONE}
+      - EMAIL_HOST=${EMAIL_HOST}
+      - EMAIL_HOST_USER=${EMAIL_HOST_USER}
+      - EMAIL_HOST_PASSWORD=${EMAIL_HOST_PASSWORD}
+      - DEFAULT_FROM_EMAIL=${DEFAULT_FROM_EMAIL}
+      # SDA judges export integration (the feedbackexport worker runs here)
+      - SDA_JUDGES_FEEDBACK_EXPORT_ENABLED=${SDA_JUDGES_FEEDBACK_EXPORT_ENABLED}
+      - SDA_JUDGES_FEEDBACK_API_URL=${SDA_JUDGES_FEEDBACK_API_URL}
+      - SDA_JUDGES_FEEDBACK_API_TOKEN=${SDA_JUDGES_FEEDBACK_API_TOKEN}
+      - SDA_JUDGES_ACTIVITY_EXPORT_ENABLED=${SDA_JUDGES_ACTIVITY_EXPORT_ENABLED}
+      - SDA_JUDGES_ACTIVITY_API_URL=${SDA_JUDGES_ACTIVITY_API_URL}
+    networks:
+      - dokploy-network
+    restart: unless-stopped
+
+networks:
+  dokploy-network:
+    external: true
