@@ -105,7 +105,7 @@ msgstr "Skutočný názov: <strong>%(name)s</strong>"
 #: utils/tables.py:332
 #, python-format
 msgid "%(team)s won"
-msgstr "%(team)s výhral"
+msgstr "%(team)s vyhral"
 
 #: utils/tables.py:337
 #, python-format
