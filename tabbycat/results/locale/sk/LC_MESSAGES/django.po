@@ -1354,7 +1354,7 @@ msgstr "<em>%(name)s (%(side)s)</em>"
 
 #: results/templates/public_ballot_set.html:216
 msgid "Won"
-msgstr "Výhral/a"
+msgstr "Vyhral/a"
 
 #: results/templates/public_ballot_set.html:216
 msgid "Lost"
@@ -1466,7 +1466,7 @@ msgstr "%(team)s dostal bye"
 #: results/utils.py:50
 #, python-format
 msgid "%(team)s (%(side)s) won"
-msgstr "%(team)s (%(side)s) výhral"
+msgstr "%(team)s (%(side)s) vyhral"
 
 #. Translators: The team here is the losing team
 #: results/utils.py:52
