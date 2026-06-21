@@ -637,9 +637,13 @@ def _calculate_running_cross_score_averages(debateteam, *, crosses, derived_cros
 
 
 def _existing_or_default_lineup(ballotsub, debateteam, positions, reply_position, using_replies):
+    team_speaker_ids = set(debateteam.team.speaker_set.values_list('pk', flat=True))
     existing = {
         speaker_score.position: speaker_score.speaker
-        for speaker_score in ballotsub.speakerscore_set.select_related('speaker')
+        for speaker_score in ballotsub.speakerscore_set.filter(
+            debate_team=debateteam,
+        ).select_related('speaker')
+        if speaker_score.speaker_id in team_speaker_ids
     }
     if set(existing) >= set(positions):
         return existing
