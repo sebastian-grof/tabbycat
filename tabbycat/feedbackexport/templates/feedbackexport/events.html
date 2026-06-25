@@ -165,7 +165,15 @@
               <td><span class="badge badge-{% if event.status == 'sent' %}success{% elif event.status == 'pending' %}info{% elif event.status == 'failed' %}warning{% else %}danger{% endif %}">{{ event.get_status_display }}</span></td>
               <td>{{ event.attempts }}</td>
               <td>{{ event.last_http_status|default:"—" }}</td>
-              <td><small>{{ event.last_error|truncatechars:120|default:"—" }}</small></td>
+              <td>
+                <small>{{ event.last_error|truncatechars:120|default:"—" }}</small>
+                {% if event.remote_response %}
+                  <details class="mt-1">
+                    <summary class="text-muted"><small>{% trans "DR response" %}</small></summary>
+                    <pre class="small mb-0">{{ event.remote_response }}</pre>
+                  </details>
+                {% endif %}
+              </td>
               <td>{{ event.updated_at|date:"Y-m-d H:i" }}</td>
               {% if can_manage_feedback_export %}
                 <td>

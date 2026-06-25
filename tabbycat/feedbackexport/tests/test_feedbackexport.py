@@ -28,6 +28,7 @@ from feedbackexport.services import (
     queue_feedback_export,
     send_adjudicator_stats_event,
     send_event,
+    validate_feedback_payload,
 )
 
 
@@ -114,7 +115,9 @@ class FeedbackExportTestCase(TestCase):
 
         self.assertEqual(event.status, FeedbackExportEvent.Status.PENDING)
         self.assertEqual(payload['source_system'], 'tabbycat-sda')
-        self.assertEqual(payload['idempotency_key'], 'tabbycat-sda:feedback:%s:v2' % self.feedback.id)
+        self.assertTrue(payload['idempotency_key'].startswith('tabbycat-sda:feedback:%s:' % self.feedback.id))
+        self.assertTrue(payload['idempotency_key'].endswith(':v2'))
+        self.assertEqual(event.idempotency_key, payload['idempotency_key'])
         self.assertIsNone(payload['target']['judge_profile_id'])
         self.assertEqual(payload['target']['local_adjudicator_id'], self.adjudicator.id)
         self.assertEqual(payload['target']['role'], 'chair')
@@ -276,6 +279,47 @@ class FeedbackExportTestCase(TestCase):
         event.refresh_from_db()
         self.assertEqual(event.status, FeedbackExportEvent.Status.FAILED)
         self.assertEqual(event.last_http_status, 500)
+
+    def test_validate_feedback_payload_rejects_blank_source_name(self):
+        payload = build_feedback_payload(self.feedback)
+        self.assertTrue(payload['source']['display_name'])  # sanity: name present by default
+
+        payload['source']['display_name'] = ''
+        with self.assertRaises(ValueError):
+            validate_feedback_payload(payload)
+
+    def test_idempotency_key_changes_when_payload_content_changes(self):
+        event = queue_feedback_export(self.feedback)
+        first_key = event.idempotency_key
+        self.assertIn(':feedback:%s:' % self.feedback.id, first_key)
+        self.assertEqual(event.payload['idempotency_key'], first_key)
+
+        # A change to the exported content must yield a new idempotency key, so DR
+        # records it as a fresh import instead of rejecting the resend with HTTP 409.
+        self.feedback.score = 2
+        self.feedback.save()
+        event = queue_feedback_export(self.feedback, force=True)
+
+        self.assertNotEqual(event.idempotency_key, first_key)
+        self.assertEqual(event.payload['idempotency_key'], event.idempotency_key)
+        self.assertEqual(event.status, FeedbackExportEvent.Status.PENDING)
+
+    @override_settings(FEEDBACK_EXPORT_ENDPOINT='https://example.test/api/', FEEDBACK_EXPORT_TOKEN='secret')
+    @patch('feedbackexport.services.urllib.request.urlopen')
+    def test_send_event_records_api_response_body_in_last_error(self, urlopen):
+        event = queue_feedback_export(self.feedback)
+        urlopen.side_effect = urllib.error.HTTPError(
+            'https://example.test/api/', 422, 'Unprocessable Entity', hdrs=None,
+            fp=io.BytesIO(b'{"detail": "source.name is required"}'),
+        )
+
+        send_event(event)
+
+        event.refresh_from_db()
+        self.assertEqual(event.status, FeedbackExportEvent.Status.PERMANENT_FAILED)
+        self.assertEqual(event.last_http_status, 422)
+        self.assertIn('source.name is required', event.last_error)
+        self.assertEqual(event.remote_response, {'detail': 'source.name is required'})
 
     @override_settings(FEEDBACK_EXPORT_ENABLED=False)
     @patch('feedbackexport.signals.queue_feedback_export')

@@ -53,8 +53,11 @@ def adjudicator_stats_export_token():
     return getattr(settings, 'ADJUDICATOR_STATS_EXPORT_TOKEN', '') or feedback_export_token()
 
 
-def make_idempotency_key(feedback_id):
-    return '%s:feedback:%s:v2' % (SOURCE_SYSTEM, feedback_id)
+def make_idempotency_key(feedback_id, content_hash=None):
+    base = '%s:feedback:%s' % (SOURCE_SYSTEM, feedback_id)
+    if content_hash:
+        return '%s:%s:v2' % (base, content_hash[:12])
+    return '%s:v2' % base
 
 
 def make_adjudicator_stats_idempotency_key(tournament, content_hash=None):
@@ -112,13 +115,34 @@ def source_payload(feedback):
         }
 
     debate_adjudicator = feedback.source_adjudicator
+    if debate_adjudicator is None or debate_adjudicator.adjudicator is None:
+        # A feedback must have exactly one source, but guard against a missing
+        # relation so a single bad row can't crash payload building for the batch.
+        return {'type': 'unknown', 'local_id': None, 'display_name': None}
+
+    adjudicator = debate_adjudicator.adjudicator
     payload = {
         'type': 'adjudicator',
-        'local_id': debate_adjudicator.adjudicator_id,
-        'display_name': debate_adjudicator.adjudicator.name,
+        'local_id': adjudicator.id,
+        'display_name': adjudicator.name,
     }
-    if debate_adjudicator.adjudicator.email:
-        payload['email'] = debate_adjudicator.adjudicator.email
+    if adjudicator.email:
+        payload['email'] = adjudicator.email
+    return payload
+
+
+def validate_feedback_payload(payload):
+    """Assert the contract DR requires before we queue an event, so bad data
+    surfaces as a clear local error instead of an opaque remote HTTP 4xx."""
+    source = payload.get('source') or {}
+    if not source.get('type'):
+        raise ValueError('Feedback source has no type; cannot identify who gave the feedback.')
+    if not (source.get('display_name') or '').strip():
+        raise ValueError('Feedback source is missing a name (source type %r).' % source.get('type'))
+
+    target = payload.get('target') or {}
+    if not (target.get('name') or '').strip():
+        raise ValueError('Feedback target adjudicator is missing a name.')
     return payload
 
 
@@ -471,10 +495,22 @@ def queue_feedback_export(feedback, *, force=False, reset_attempts=False):
             feedback=feedback,
             defaults={'idempotency_key': make_idempotency_key(feedback.id)},
         )
-        if event.idempotency_key != make_idempotency_key(feedback.id):
-            event.idempotency_key = make_idempotency_key(feedback.id)
 
-        payload = build_feedback_payload(feedback)
+        try:
+            payload = build_feedback_payload(feedback)
+            validate_feedback_payload(payload)
+        except Exception as exc:
+            logger.exception('Failed to build feedback export payload for feedback %s', feedback.id)
+            event.mark_failed(exc, retry_at=retry_delay(event.attempts))
+            return event
+
+        # Content-addressed idempotency key: it changes whenever the exported content
+        # changes, so DR records each update as a fresh import (upserting the feedback by
+        # source id) instead of rejecting a same-key/changed-data resend with HTTP 409.
+        content_hash = payload_hash({k: v for k, v in payload.items() if k != 'idempotency_key'})
+        idempotency_key = make_idempotency_key(feedback.id, content_hash)
+        payload['idempotency_key'] = idempotency_key
+        event.idempotency_key = idempotency_key
 
         new_hash = payload_hash(payload)
         if event.status == FeedbackExportEvent.Status.SENT and event.payload_hash == new_hash and not force:
@@ -534,6 +570,25 @@ def parse_response_body(body):
         return {'raw': body.decode('utf-8', errors='replace')}
 
 
+def summarise_response_body(response_body, *, limit=300):
+    """Distil DR's response into a short human-readable string for last_error."""
+    if not response_body:
+        return ''
+    text = None
+    if isinstance(response_body, dict):
+        for key in ('detail', 'message', 'error', 'errors', 'raw'):
+            if response_body.get(key):
+                text = response_body[key]
+                break
+        else:
+            text = response_body
+    else:
+        text = response_body
+    if not isinstance(text, str):
+        text = json.dumps(text, ensure_ascii=False, sort_keys=True)
+    return text.strip()[:limit]
+
+
 def send_event(event, *, dry_run=False):
     if event.status == FeedbackExportEvent.Status.SENT and not dry_run:
         return event
@@ -589,8 +644,12 @@ def send_event(event, *, dry_run=False):
         if exc.code in {401, 403}:
             logger.error('Invalid SDA judges API token while exporting feedback event %s', event.id)
         permanent = 400 <= exc.code < 500 and exc.code not in {409, 429}
+        detail = summarise_response_body(response_body)
+        message = 'External feedback API returned HTTP %s.' % exc.code
+        if detail:
+            message = '%s %s' % (message, detail)
         event.mark_failed(
-            'External feedback API returned HTTP %s.' % exc.code,
+            message,
             permanent=permanent,
             http_status=exc.code,
             retry_at=retry_delay(event.attempts),
@@ -726,8 +785,12 @@ def send_adjudicator_stats_event(event, *, dry_run=False):
         if exc.code in {401, 403}:
             logger.error('Invalid SDA judges API token while exporting adjudicator stats event %s', event.id)
         permanent = 400 <= exc.code < 500 and exc.code not in {409, 429}
+        detail = summarise_response_body(response_body)
+        message = 'External adjudicator stats API returned HTTP %s.' % exc.code
+        if detail:
+            message = '%s %s' % (message, detail)
         event.mark_failed(
-            'External adjudicator stats API returned HTTP %s.' % exc.code,
+            message,
             permanent=permanent,
             http_status=exc.code,
             retry_at=retry_delay(event.attempts),
