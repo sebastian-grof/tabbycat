@@ -16,75 +16,9 @@ from options.presets import all_presets, data_entry_presets_for_form, presets_fo
 from users.groups import all_groups
 from users.models import Group
 
-from .models import Round, ScheduleEvent, Tournament, TournamentCategory
+from .models import Round, ScheduleEvent, Tournament
 from .signals import update_tournament_cache
 from .utils import auto_make_rounds
-
-
-class TournamentCategoryForm(ModelForm):
-
-    class Meta:
-        model = TournamentCategory
-        fields = ('name', 'slug', 'description', 'seq', 'active', 'public')
-
-
-class TournamentCategoryVisibilityForm(Form):
-    category = ModelChoiceField(
-        queryset=TournamentCategory.objects.order_by('seq', 'name'),
-        label=_("Category"),
-    )
-    visibility = ChoiceField(
-        choices=(('public', _("Public")), ('private', _("Private"))),
-        label=_("Visibility"),
-        help_text=_("Private categories are shown only to superusers and users with administrator access to tournaments in that category."),
-    )
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        if not TournamentCategory.objects.exists():
-            self.fields['category'].disabled = True
-            self.fields['visibility'].disabled = True
-            self.fields['category'].help_text = _("Create a category first, then change its visibility.")
-
-    def save(self):
-        category = self.cleaned_data['category']
-        category.public = self.cleaned_data['visibility'] == 'public'
-        category.save(update_fields=['public'])
-        return category
-
-
-class TournamentCategoryDeleteForm(Form):
-    category = ModelChoiceField(
-        queryset=TournamentCategory.objects.order_by('seq', 'name'),
-        label=_("Category"),
-    )
-
-
-class TournamentCategoryAssignmentForm(Form):
-    tournament = ModelChoiceField(
-        queryset=Tournament.objects.select_related('homepage_category').order_by('-active', 'seq', 'name'),
-        label=_("Choose a tournament"),
-    )
-    category = ModelChoiceField(
-        queryset=TournamentCategory.objects.order_by('seq', 'name'),
-        required=False,
-        label=_("Assign to category"),
-        empty_label=_("Uncategorised"),
-    )
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        if not TournamentCategory.objects.exists():
-            self.fields['category'].disabled = True
-            self.fields['category'].help_text = _("Create a category first, then assign tournaments to it.")
-
-    def save(self):
-        tournament = self.cleaned_data['tournament']
-        category = self.cleaned_data['category']
-        if tournament.homepage_category_id != (category.id if category else None):
-            tournament.homepage_category = category
-            tournament.save(update_fields=['homepage_category'])
-        return tournament
 
 
 class TournamentStartForm(ModelForm):

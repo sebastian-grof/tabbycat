@@ -6,12 +6,14 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.contrib.auth import get_user_model
+from django.db import transaction
 from django.db.models import Count, Q
-from django.http import Http404
+from django.http import Http404, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, resolve_url
 from django.utils.html import format_html_join
 from django.utils.timezone import get_current_timezone_name
 from django.utils.translation import gettext_lazy as _
+from django.views import View
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView, FormView, UpdateView
 
@@ -34,9 +36,7 @@ from utils.views import ModelFormSetView, PostOnlyRedirectView, VueTableTemplate
 from xmlconverter.permissions import can_use_converter
 
 from .forms import (RoundWeightForm, ScheduleEventForm, SetCurrentRoundMultipleBreakCategoriesForm,
-                    SetCurrentRoundSingleBreakCategoryForm, TournamentCategoryAssignmentForm,
-                    TournamentCategoryDeleteForm, TournamentCategoryForm, TournamentCategoryVisibilityForm,
-                    TournamentConfigureForm, TournamentStartForm)
+                    SetCurrentRoundSingleBreakCategoryForm, TournamentConfigureForm, TournamentStartForm)
 from .mixins import PublicTournamentPageMixin, RoundMixin, TournamentMixin
 from .models import ScheduleEvent, Tournament, TournamentCategory
 from .utils import get_side_name
@@ -46,16 +46,39 @@ logger = logging.getLogger(__name__)
 
 
 def _visible_tournaments_for_category(user, category, tournaments=None):
+    """Tournaments directly assigned to `category` that `user` may see."""
     tournaments = tournaments if tournaments is not None else category.tournaments.all().order_by('seq', 'name')
     if category.public or user.is_superuser:
         return list(tournaments)
     return [tournament for tournament in tournaments if has_admin_access(user, tournament)]
 
 
+def _build_children_map(categories):
+    """Map a parent category id (or None) to its list of child categories."""
+    children_map = {}
+    for category in categories:
+        children_map.setdefault(category.parent_id, []).append(category)
+    return children_map
+
+
+def _visible_subtree_tournaments(user, category, children_map):
+    """Tournaments visible to `user` across `category` and its descendants.
+
+    Only descendants present in `children_map` are walked, so the caller
+    controls (e.g.) whether inactive subfolders are included.
+    """
+    tournaments = list(_visible_tournaments_for_category(user, category))
+    for child in children_map.get(category.pk, []):
+        tournaments.extend(_visible_subtree_tournaments(user, child, children_map))
+    return tournaments
+
+
 def _can_view_category(user, category):
-    if category.public or user.is_superuser:
+    if user.is_superuser or category.public:
         return True
-    return bool(_visible_tournaments_for_category(user, category))
+    active_categories = TournamentCategory.objects.filter(active=True).prefetch_related('tournaments')
+    children_map = _build_children_map(active_categories)
+    return bool(_visible_subtree_tournaments(user, category, children_map))
 
 
 class PublicSiteIndexView(WarnAboutDatabaseUseMixin, WarnAboutLegacySendgridConfigVarsMixin, TemplateView):
@@ -83,9 +106,10 @@ class PublicSiteIndexView(WarnAboutDatabaseUseMixin, WarnAboutLegacySendgridConf
         category_queryset = TournamentCategory.objects.filter(active=True).prefetch_related(
             'tournaments',
         ).order_by('seq', 'name')
+        children_map = _build_children_map(category_queryset)
         tournament_categories = []
-        for category in category_queryset:
-            visible_tournaments = _visible_tournaments_for_category(self.request.user, category)
+        for category in children_map.get(None, []):  # top-level categories only
+            visible_tournaments = _visible_subtree_tournaments(self.request.user, category, children_map)
             if not visible_tournaments:
                 continue
             category.active_tournament_count = sum(1 for tournament in visible_tournaments if tournament.active)
@@ -137,6 +161,23 @@ class TournamentCategoryLandingView(WarnAboutDatabaseUseMixin, WarnAboutLegacySe
 
     def get_context_data(self, **kwargs):
         kwargs['category'] = self.category
+        kwargs['breadcrumbs'] = list(reversed(self.category.get_ancestors()))  # root first
+
+        # Subfolders visible to the user, each annotated with subtree counts.
+        category_queryset = TournamentCategory.objects.prefetch_related('tournaments').order_by('seq', 'name')
+        if not self.request.user.is_superuser:
+            category_queryset = category_queryset.filter(active=True)
+        children_map = _build_children_map(category_queryset)
+        subcategories = []
+        for child in children_map.get(self.category.pk, []):
+            visible = _visible_subtree_tournaments(self.request.user, child, children_map)
+            if not (self.request.user.is_superuser or child.public or visible):
+                continue
+            child.active_tournament_count = sum(1 for tournament in visible if tournament.active)
+            child.tournament_count = len(visible)
+            subcategories.append(child)
+        kwargs['subcategories'] = subcategories
+
         visible_tournaments = _visible_tournaments_for_category(
             self.request.user,
             self.category,
@@ -147,10 +188,44 @@ class TournamentCategoryLandingView(WarnAboutDatabaseUseMixin, WarnAboutLegacySe
         return super().get_context_data(**kwargs)
 
 
+def _serialise_category(category):
+    return {
+        'id': category.pk,
+        'name': category.name,
+        'slug': category.slug,
+        'description': category.description,
+        'active': category.active,
+        'public': category.public,
+        'parentId': category.parent_id,
+        'seq': category.seq or 0,
+    }
+
+
+def _serialise_tournament(tournament):
+    return {
+        'id': tournament.pk,
+        'name': str(tournament),
+        'fullName': tournament.name,
+        'active': tournament.active,
+        'categoryId': tournament.homepage_category_id,
+        'seq': tournament.seq or 0,
+    }
+
+
+def _serialise_layout():
+    categories = TournamentCategory.objects.all().order_by('seq', 'name')
+    tournaments = Tournament.objects.all().order_by('homepage_category__seq', 'seq', 'name')
+    return {
+        'categories': [_serialise_category(c) for c in categories],
+        'tournaments': [_serialise_tournament(t) for t in tournaments],
+    }
+
+
 class TournamentCategoryManageView(UserPassesTestMixin, WarnAboutDatabaseUseMixin, WarnAboutLegacySendgridConfigVarsMixin, TemplateView):
     template_name = 'tournament_category_manage.html'
     page_title = _('Tournament categories')
     page_emoji = '🗂'
+    raise_exception = True
 
     def test_func(self):
         return self.request.user.is_superuser
@@ -158,51 +233,171 @@ class TournamentCategoryManageView(UserPassesTestMixin, WarnAboutDatabaseUseMixi
     def get_context_data(self, **kwargs):
         kwargs.setdefault('page_title', self.page_title)
         kwargs.setdefault('page_emoji', self.page_emoji)
-        kwargs.setdefault('category_form', TournamentCategoryForm(prefix='category'))
-        kwargs.setdefault('delete_form', TournamentCategoryDeleteForm(prefix='delete'))
-        kwargs.setdefault('visibility_form', TournamentCategoryVisibilityForm(prefix='visibility'))
-        kwargs.setdefault('assignment_form', TournamentCategoryAssignmentForm(prefix='assignments'))
-        kwargs['categories'] = TournamentCategory.objects.annotate(
-            tournament_count=Count('tournaments'),
-        ).order_by('seq', 'name')
-        kwargs['assigned_tournaments'] = Tournament.objects.select_related('homepage_category').filter(
-            homepage_category__isnull=False,
-        ).order_by('homepage_category__seq', 'homepage_category__name', 'seq', 'name')
+        layout = _serialise_layout()
+        kwargs['categories_json'] = json.dumps(layout['categories'])
+        kwargs['tournaments_json'] = json.dumps(layout['tournaments'])
         return super().get_context_data(**kwargs)
 
+
+class LayoutValidationError(Exception):
+    """Raised when a posted category layout cannot be applied."""
+
+
+class TournamentCategoryLayoutSaveView(UserPassesTestMixin, View):
+    """Applies a complete category/tournament layout posted by the folder manager.
+
+    The client sends the entire desired state of every folder and tournament
+    assignment; new folders carry negative temporary ids. We diff against the
+    database inside a transaction, returning a map of temporary ids to the real
+    primary keys that were created.
+    """
+    raise_exception = True
+
+    def test_func(self):
+        return self.request.user.is_superuser
+
     def post(self, request, *args, **kwargs):
-        if 'create_category' in request.POST:
-            category_form = TournamentCategoryForm(request.POST, prefix='category')
-            if category_form.is_valid():
-                category = category_form.save()
-                messages.success(request, _("Tournament category %(category)s created.") % {'category': category})
-                return redirect('tournament-category-manage')
-            return self.render_to_response(self.get_context_data(category_form=category_form))
+        try:
+            data = json.loads(request.body)
+            folders = list(data['folders'])
+            tournaments = list(data['tournaments'])
+        except (ValueError, TypeError, KeyError):
+            return JsonResponse({'message': str(_(
+                "The layout data was malformed. Please reload the page and try again."))}, status=400)
 
-        if 'delete_category' in request.POST:
-            delete_form = TournamentCategoryDeleteForm(request.POST, prefix='delete')
-            if delete_form.is_valid():
-                category = delete_form.cleaned_data['category']
-                name = category.name
-                category.delete()
-                messages.success(request, _("Tournament category %(category)s deleted.") % {'category': name})
-                return redirect('tournament-category-manage')
-            return self.render_to_response(self.get_context_data(delete_form=delete_form))
+        try:
+            with transaction.atomic():
+                id_map = self._apply_layout(folders, tournaments)
+        except LayoutValidationError as error:
+            return JsonResponse({'message': str(error)}, status=400)
 
-        if 'update_category_visibility' in request.POST:
-            visibility_form = TournamentCategoryVisibilityForm(request.POST, prefix='visibility')
-            if visibility_form.is_valid():
-                category = visibility_form.save()
-                messages.success(request, _("Visibility updated for %(category)s.") % {'category': category})
-                return redirect('tournament-category-manage')
-            return self.render_to_response(self.get_context_data(visibility_form=visibility_form))
+        layout = _serialise_layout()
+        return JsonResponse(json.dumps({
+            'status': 200,
+            'idMap': {str(temp): real for temp, real in id_map.items()},
+            'categories': layout['categories'],
+            'tournaments': layout['tournaments'],
+        }), safe=False)
 
-        assignment_form = TournamentCategoryAssignmentForm(request.POST, prefix='assignments')
-        if assignment_form.is_valid():
-            tournament = assignment_form.save()
-            messages.success(request, _("Category assignment updated for %(tournament)s.") % {'tournament': tournament})
-            return redirect('tournament-category-manage')
-        return self.render_to_response(self.get_context_data(assignment_form=assignment_form))
+    def _apply_layout(self, folders, tournaments):
+        folder_by_id = {}
+        parent_of = {}
+        for folder in folders:
+            fid = folder.get('id')
+            if fid is None:
+                raise LayoutValidationError(_("The category data was malformed. Please reload and try again."))
+            folder_by_id[fid] = folder
+            parent_of[fid] = folder.get('parentId')
+
+        # Every referenced parent must be part of the posted layout.
+        for fid, pid in parent_of.items():
+            if pid is not None and pid not in folder_by_id:
+                raise LayoutValidationError(_("A category referenced a parent that no longer exists. Please reload and try again."))
+
+        # Reject cycles (a category nested inside itself or one of its descendants).
+        for fid in folder_by_id:
+            seen = set()
+            node = fid
+            while node is not None:
+                if node in seen:
+                    raise LayoutValidationError(_("Categories can't be placed inside themselves."))
+                seen.add(node)
+                node = parent_of.get(node)
+
+        # Process parents before their children so parent ids are always resolved.
+        order = []
+        visited = set()
+
+        def visit(fid):
+            if fid in visited:
+                return
+            visited.add(fid)
+            pid = parent_of.get(fid)
+            if pid is not None:
+                visit(pid)
+            order.append(fid)
+
+        for fid in folder_by_id:
+            visit(fid)
+
+        existing = {category.pk: category for category in TournamentCategory.objects.all()}
+        id_map = {}  # posted id (temp or real) -> real primary key
+
+        for fid in order:
+            folder = folder_by_id[fid]
+            pid = parent_of.get(fid)
+            parent_pk = id_map[pid] if pid is not None else None
+
+            name = (folder.get('name') or '').strip()
+            if not name:
+                raise LayoutValidationError(_("Every category needs a name."))
+            description = (folder.get('description') or '').strip()
+            active = bool(folder.get('active', True))
+            public = bool(folder.get('public', True))
+            seq = folder.get('seq') or 0
+            slug = (folder.get('slug') or '').strip()
+
+            if fid < 0:  # new folder
+                category = TournamentCategory(
+                    name=name, description=description, active=active,
+                    public=public, seq=seq, parent_id=parent_pk)
+                if slug:
+                    if TournamentCategory.objects.filter(slug=slug).exists():
+                        raise LayoutValidationError(_("The slug \"%(slug)s\" is already in use.") % {'slug': slug})
+                    category.slug = slug
+                category.save()  # auto-generates a unique slug if none was given
+            else:
+                category = existing.get(fid)
+                if category is None:
+                    raise LayoutValidationError(_("A category was changed by someone else. Please reload and try again."))
+                category.name = name
+                category.description = description
+                category.active = active
+                category.public = public
+                category.seq = seq
+                category.parent_id = parent_pk
+                if slug and slug != category.slug:
+                    if TournamentCategory.objects.exclude(pk=category.pk).filter(slug=slug).exists():
+                        raise LayoutValidationError(_("The slug \"%(slug)s\" is already in use.") % {'slug': slug})
+                    category.slug = slug
+                category.save()
+
+            id_map[fid] = category.pk
+
+        # Apply tournament assignments. Tournaments pointing at a now-deleted
+        # folder (absent from id_map) become uncategorised.
+        posted_tournament_ids = [tournament.get('id') for tournament in tournaments]
+        tournament_objects = {t.pk: t for t in Tournament.objects.filter(pk__in=posted_tournament_ids)}
+        to_update = []
+        for entry in tournaments:
+            tournament = tournament_objects.get(entry.get('id'))
+            if tournament is None:
+                continue
+            cid = entry.get('categoryId')
+            new_category_pk = id_map.get(cid) if cid is not None else None
+            new_seq = entry.get('seq')
+            changed = False
+            if tournament.homepage_category_id != new_category_pk:
+                tournament.homepage_category_id = new_category_pk
+                changed = True
+            if new_seq is not None and tournament.seq != new_seq:
+                tournament.seq = new_seq
+                changed = True
+            if changed:
+                to_update.append(tournament)
+        if to_update:
+            Tournament.objects.bulk_update(to_update, ['homepage_category', 'seq'])
+
+        # Delete folders that are no longer present in the posted layout. Their
+        # tournaments are detached (never deleted); surviving children have
+        # already been reparented above.
+        surviving_pks = set(id_map.values())
+        deleted_pks = [pk for pk in existing if pk not in surviving_pks]
+        if deleted_pks:
+            Tournament.objects.filter(homepage_category_id__in=deleted_pks).update(homepage_category=None)
+            TournamentCategory.objects.filter(pk__in=deleted_pks).delete()
+
+        return id_map
 
 
 class TournamentPublicHomeView(CacheMixin, TournamentMixin, TemplateView):

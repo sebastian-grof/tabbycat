@@ -9,9 +9,16 @@
       <div class="h2 mb-3 mb-md-0">
         <span class="emoji">🗂</span> {{ category.name }}
       </div>
-      <a class="btn btn-outline-secondary" href="{% url 'tabbycat-index' %}">
-        <i data-feather="arrow-left"></i> {% trans "Return to Site Home" %}
-      </a>
+      <div class="btn-group" role="group">
+        {% if category.parent %}
+          <a class="btn btn-outline-secondary" href="{{ category.parent.get_absolute_url }}">
+            <i data-feather="corner-left-up"></i> {% blocktrans trimmed with name=category.parent.name %}Up to {{ name }}{% endblocktrans %}
+          </a>
+        {% endif %}
+        <a class="btn btn-outline-secondary" href="{% url 'tabbycat-index' %}">
+          <i data-feather="home"></i> {% trans "Return to Site Home" %}
+        </a>
+      </div>
     </div>
   </div>
 {% endblock %}
@@ -19,13 +26,38 @@
 
 {% block content %}
 
+  <nav aria-label="breadcrumb" class="mb-3">
+    <div class="d-flex flex-wrap align-items-center">
+      <a href="{% url 'tabbycat-index' %}">{% trans "Home" %}</a>
+      {% for ancestor in breadcrumbs %}
+        <span class="text-muted mx-2">/</span>
+        <a href="{{ ancestor.get_absolute_url }}">{{ ancestor.name }}</a>
+      {% endfor %}
+      <span class="text-muted mx-2">/</span>
+      <span class="font-weight-bold" aria-current="page">{{ category.name }}</span>
+    </div>
+  </nav>
+
+  {% if subcategories %}
+    <div class="list-group mb-3">
+      {% for subcategory in subcategories %}
+        {% blocktrans trimmed with category_name=subcategory.name asvar text %}
+          <strong>{{ category_name }}</strong>
+        {% endblocktrans %}
+        {% if subcategory.active_tournament_count %}
+          {% blocktrans trimmed with counter=subcategory.active_tournament_count asvar subtext %}
+            {{ counter }} active tournaments
+          {% endblocktrans %}
+        {% else %}
+          {% trans "Archive" as subtext %}
+        {% endif %}
+        {% include "components/item-action.html" with icon="folder" url=subcategory.get_absolute_url %}
+      {% endfor %}
+    </div>
+  {% endif %}
+
   {% for tournament in tournaments %}
     {% include "tournament_index_links.html" %}
-  {% empty %}
-    <div class="list-group">
-      {% trans "There are no active tournaments in this category." as p1 %}
-      {% include "components/explainer-card.html" with type="info" %}
-    </div>
   {% endfor %}
 
   {% if inactive %}

@@ -40,6 +40,9 @@ class TournamentCategory(models.Model):
     active = models.BooleanField(default=True, verbose_name=_("active"))
     public = models.BooleanField(default=True, verbose_name=_("public"),
         help_text=_("Public categories are shown to everyone. Private categories are shown only to superusers and users with administrator access to at least one tournament in the category."))
+    parent = models.ForeignKey('self', models.SET_NULL, blank=True, null=True,
+        related_name="children", verbose_name=_("parent category"),
+        help_text=_("The category this one is nested inside, if any. Top-level categories have no parent."))
 
     class Meta:
         verbose_name = _("tournament category")
@@ -62,6 +65,21 @@ class TournamentCategory(models.Model):
 
     def get_absolute_url(self):
         return reverse("tournament-category", kwargs={"category_slug": self.slug})
+
+    def get_ancestors(self):
+        """Return the chain of parent categories, nearest parent first."""
+        ancestors = []
+        seen = {self.pk}
+        node = self.parent
+        while node is not None and node.pk not in seen:
+            ancestors.append(node)
+            seen.add(node.pk)
+            node = node.parent
+        return ancestors
+
+    def is_descendant_of(self, other):
+        """Return True if `other` is an ancestor of this category."""
+        return any(ancestor.pk == other.pk for ancestor in self.get_ancestors())
 
 
 class Tournament(models.Model):

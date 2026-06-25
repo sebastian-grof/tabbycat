@@ -16,6 +16,7 @@ import PrintableBallot from '../../printing/templates/PrintableBallot.vue'
 import BallotEntryContainer from '../../results/templates/BallotEntryContainer.vue'
 import ResultsTablesContainer from '../../results/templates/ResultsTablesContainer.vue'
 import TournamentOverviewContainer from '../../tournaments/templates/TournamentOverviewContainer.vue'
+import CategoryManagerContainer from '../../tournaments/templates/CategoryManagerContainer.vue'
 // Allocations
 import EditDebateAdjudicatorsContainer from '../../adjallocation/templates/EditDebateAdjudicatorsContainer.vue'
 import EditPanelAdjudicatorsContainer from '../../adjallocation/templates/EditPanelAdjudicatorsContainer.vue'
@@ -181,6 +182,7 @@ vueComponents.CheckInStatusContainer = CheckInStatusContainer
 // Divisions Containers
 vueComponents.DiversityContainer = DiversityContainer
 vueComponents.TournamentOverviewContainer = TournamentOverviewContainer
+vueComponents.CategoryManagerContainer = CategoryManagerContainer
 // Printables
 vueComponents.PrintableBallot = PrintableBallot
 // Allocations New
