@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model
-from django.test import TestCase
+from django.test import override_settings, TestCase
 from django.urls import reverse
 
 from tournaments.models import Round, Tournament, TournamentCategory
@@ -110,6 +110,9 @@ class AdminAccessTests(TestCase):
 
         self.assertEqual(response.status_code, 403)
 
+    # The site default language is Slovak, so the nav labels these tests look
+    # for are only in English when the language is pinned.
+    @override_settings(LANGUAGE_CODE='en')
     def test_assistant_only_user_does_not_see_admin_area_link(self):
         user = self.make_user("assistant", TabAssistant.permissions)
         self.client.force_login(user)
@@ -127,6 +130,7 @@ class AdminAccessTests(TestCase):
 
         self.assertEqual(response.status_code, 200)
 
+    @override_settings(LANGUAGE_CODE='en')
     def test_user_with_admin_permission_sees_admin_area_link(self):
         user = self.make_user("settings", [Permission.VIEW_SETTINGS])
         self.client.force_login(user)
@@ -229,6 +233,36 @@ class TournamentCategoryVisibilityTests(TestCase):
 
         self.assertContains(response, "Private Tournament")
         self.assertNotContains(response, "Other Private Tournament")
+
+    @override_settings(LANGUAGE_CODE='en')
+    def test_navbar_does_not_offer_areas_for_tournaments_without_a_role(self):
+        # The tournament switcher is rendered on every page, so it must apply
+        # the same visibility rules as the category listings: a user with no
+        # role in a private-category tournament should not be offered its
+        # assistant or public area.
+        user = self.make_user("private-admin-nav", self.private_tournament)
+        self.client.force_login(user)
+
+        response = self.client.get("/")
+
+        self.assertContains(response, reverse_tournament("tournament-admin-home", self.private_tournament))
+        self.assertNotContains(
+            response, reverse_tournament("tournament-assistant-home", self.other_private_tournament))
+        self.assertNotContains(
+            response, reverse_tournament("tournament-public-index", self.other_private_tournament))
+
+    @override_settings(LANGUAGE_CODE='en')
+    def test_navbar_does_not_offer_assistant_area_without_assistant_access(self):
+        # Any authenticated user used to be offered every tournament's
+        # assistant area, which then 403s for users holding no role there.
+        user = self.make_user("roleless")
+        self.client.force_login(user)
+
+        response = self.client.get("/")
+
+        self.assertContains(response, reverse_tournament("tournament-public-index", self.public_tournament))
+        self.assertNotContains(
+            response, reverse_tournament("tournament-assistant-home", self.public_tournament))
 
     def test_assistant_only_access_does_not_show_private_category(self):
         user = self.make_user("assistant", self.private_tournament, TabAssistant.permissions)

@@ -6,7 +6,7 @@
   {% blocktrans trimmed asvar logo_alt %}
     Tabbycat Logo
   {% endblocktrans %}
-  {% if all_tournaments.count > 1 or user.is_authenticated %}
+  {% if all_tournaments|length > 1 or user.is_authenticated %}
     <div class="nav-item dropdown">
 
       <button class="btn btn-link mr-2 p-0 navbar-brand dropdown-toggle" id="tournamentdrop"
@@ -33,7 +33,8 @@
             </a>
           {% endif %}
 
-          {% if user.is_authenticated %}
+          {% hasassistantaccess user tournament as can_access_assistant %}
+          {% if can_access_assistant %}
             <a class="dropdown-item px-2" href="{% url 'tournament-assistant-home' tournament_slug=tournament.slug %}">
               <i data-feather="pocket"></i>
               {% blocktrans trimmed %}

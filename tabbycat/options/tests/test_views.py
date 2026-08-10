@@ -4,6 +4,7 @@ from unittest.mock import patch
 from django.contrib.auth import get_user_model
 from django.http.response import Http404
 from django.test import RequestFactory, TestCase
+from django.utils import translation
 
 from adjfeedback.models import AdjudicatorFeedbackQuestion
 from options.preferences import scoring
@@ -95,7 +96,9 @@ class TestSetPresetPreferencesView(TestCase):
         view = SetPresetPreferencesView()
         view.setup(request, preset_name='testpreset')
 
-        self.assertEqual(view.get_page_title(), 'Apply Preset: Test Rules')
+        # The page title is translated and the site default language is Slovak.
+        with translation.override('en'):
+            self.assertEqual(view.get_page_title(), 'Apply Preset: Test Rules')
         tournament.delete()
 
     @patch('options.presets.all_presets', return_value=[TestPreset])
