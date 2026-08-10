@@ -42,3 +42,15 @@ else:
         root.info('SPLIT_SETTINGS: imported local.py')
 
 include(*base_settings)
+
+# Tests must not share a persistent cache (e.g. the compose Redis instance):
+# django-dynamic-preferences caches per-instance preference values keyed by
+# model pk, and sessions live in the cache too, so one run's writes leak into
+# another's while the database rolls back independently.
+if sys.argv[1:2] == ['test']:
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        },
+    }
+    root.info('SPLIT_SETTINGS: using LocMemCache for tests')

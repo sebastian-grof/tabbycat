@@ -234,6 +234,19 @@ class CriterionStub:
         self.weight = weight
         self.speech_type = speech_type
 
+    def applies_to_position(self, position, reply_position, using_replies):
+        # Mirrors ScoreCriterion.applies_to_position in results.models
+        if self.speech_type == 'all':
+            return True
+        is_reply_position = bool(using_replies) and reply_position is not None and position == reply_position
+        if self.speech_type == 'reply':
+            return is_reply_position
+        if self.speech_type == 'substantive':
+            return not is_reply_position
+        if self.speech_type == 'cross':
+            return False
+        return True
+
 
 class TestSpeechTypeCriteria(unittest.TestCase):
 

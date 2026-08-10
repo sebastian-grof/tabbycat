@@ -1,6 +1,10 @@
 # Copying this over will mess up database settings
 */*/settings_local.py
 
+# Not needed in the image, and in a git worktree this is a file pointing at a
+# host path, which breaks every git command run during the build
+.git
+
 # Dependencies
 node_modules/
 venv/
