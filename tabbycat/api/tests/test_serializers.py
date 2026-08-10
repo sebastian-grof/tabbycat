@@ -54,6 +54,7 @@ class TournamentSerializerTests(CompletedTournamentTestMixin, APITestCase):
             "seq": self.tournament.seq,
             "slug": self.tournament.slug,
             "active": self.tournament.active,
+            "homepage_category": self.tournament.homepage_category,
         }
 
         response = self.client.get(self.reverse_url('api-tournament-detail'))

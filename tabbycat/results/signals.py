@@ -17,7 +17,9 @@ def _refresh_auto_ballots(tournament, *, trigger_debate_is_bye):
 
 
 @receiver(post_save, sender=BallotSubmission)
-def refresh_byes_after_ballot_save(sender, instance, **kwargs):
+def refresh_byes_after_ballot_save(sender, instance, raw=False, **kwargs):
+    if raw:  # fixture loading; related rows may not exist yet
+        return
     tournament = instance.debate.round.tournament
     _refresh_auto_ballots(tournament, trigger_debate_is_bye=instance.debate.is_bye)
 
@@ -45,7 +47,9 @@ def _debate_might_need_bye_refresh(debate, debateteam_side=None):
 
 
 @receiver(post_save, sender=DebateTeam)
-def refresh_byes_after_debateteam_save(sender, instance, **kwargs):
+def refresh_byes_after_debateteam_save(sender, instance, raw=False, **kwargs):
+    if raw:  # fixture loading; related rows may not exist yet
+        return
     if not _debate_might_need_bye_refresh(instance.debate, instance.side):
         return
     refresh_bye_ballots(instance.debate.round.tournament, debates=[instance.debate])
