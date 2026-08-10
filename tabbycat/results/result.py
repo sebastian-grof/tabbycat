@@ -82,7 +82,7 @@ def get_result_class(ballotsub, round=None, tournament=None, overwrite_forfeit=F
 
     forfeit = ballotsub.forfeit and not overwrite_forfeit
     if ballots_per_debate == 'per-debate' or ballotsub.single_adj or forfeit:
-        if ((teams_in_debate > 2 or scores_in_debate == 'prelim') and round.is_break_round) or scores_in_debate == 'never' or forfeit:
+        if ((teams_in_debate > 2 or scores_in_debate == 'prelim') and round.is_break_round and scores_in_debate != 'always') or scores_in_debate == 'never' or forfeit:
             return ConsensusDebateResult
         return ConsensusDebateResultWithScores
     elif ballots_per_debate == 'per-adj' and (teams_in_debate == 2 or tournament.pref('margin_includes_dissenters')):
@@ -919,6 +919,7 @@ class DebateResultWithScoresMixin:
         )
 
         self.positions = self.tournament.positions
+        self.reply_position = self.tournament.reply_position
         self.criteria = criteria or []
         self.crosses = list(crosses or [])
 
