@@ -1,4 +1,4 @@
-from django.test import TestCase
+from django.test import override_settings, TestCase
 
 from tournaments.models import Round
 from utils.misc import reverse_tournament
@@ -70,6 +70,7 @@ class PublicDrawSpecificRoundTest(CompletedTournamentTestMixin, TableViewTestsMi
         count = self.round.debate_set.count()
         self.assertResponseTableRowCountsEqual(response, [count])
 
+    @override_settings(LANGUAGE_CODE='en')  # asserts on an untranslated string
     def test_teams_released_lists(self):
         self.tournament.round_set.update(draw_status=Round.Status.CONFIRMED)
         self.round.draw_status = Round.Status.TEAMS_RELEASED
