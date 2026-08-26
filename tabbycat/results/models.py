@@ -546,6 +546,7 @@ class ScoreCriterion(models.Model):
 
     class Meta:
         constraints = [UniqueConstraint(fields=['tournament', 'seq'])]
+        ordering = ['seq']
         verbose_name = _("score criterion")
         verbose_name_plural = _("score criteria")
 
