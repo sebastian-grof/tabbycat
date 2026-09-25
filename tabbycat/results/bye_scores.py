@@ -150,6 +150,7 @@ def refresh_single_bye_ballot(
         debateteam,
         lineup=lineup,
         positions=positions,
+        reply_position=reply_position,
         scores_by_position=speaker_scores,
         fallback=lambda position: float(_default_position_score(
             tournament,
@@ -262,6 +263,7 @@ def sync_forfeit_ballot(ballotsub, forfeiting_side):
             winning_dt,
             lineup=winner_lineup,
             positions=positions,
+            reply_position=reply_position,
             scores_by_position=winner_averages['speaker_raw_scores'],
         )
         _sync_speaker_scores(
@@ -269,6 +271,7 @@ def sync_forfeit_ballot(ballotsub, forfeiting_side):
             forfeiting_dt,
             lineup=forfeiting_lineup,
             positions=positions,
+            reply_position=reply_position,
             scores_by_position={position: 0 for position in positions},
         )
         _sync_cross_scores(
@@ -429,7 +432,9 @@ def _sync_team_score(ballotsub, debateteam, *, points, win, margin, score, votes
     )
 
 
-def _sync_speaker_scores(ballotsub, debateteam, *, lineup, positions, scores_by_position, fallback=None):
+def _sync_speaker_scores(ballotsub, debateteam, *, lineup, positions, reply_position, scores_by_position, fallback=None):
+    counted_speaker_ids = set()
+    has_ghost = False
     for position in positions:
         speaker = lineup.get(position)
         if speaker is None:
@@ -445,6 +450,14 @@ def _sync_speaker_scores(ballotsub, debateteam, *, lineup, positions, scores_by_
         if raw_score is None and fallback is not None:
             raw_score = fallback(position)
 
+        # A short roster can fill multiple substantive positions with the same
+        # speaker. Count only one of those speeches on the speaker tab, just as
+        # on a real iron-person ballot. Replies count separately.
+        ghost = position != reply_position and speaker.pk in counted_speaker_ids
+        if position != reply_position:
+            counted_speaker_ids.add(speaker.pk)
+        has_ghost |= ghost
+
         SpeakerScore.objects.update_or_create(
             ballot_submission=ballotsub,
             debate_team=debateteam,
@@ -453,9 +466,11 @@ def _sync_speaker_scores(ballotsub, debateteam, *, lineup, positions, scores_by_
                 'speaker': speaker,
                 'rank': None,
                 'score': raw_score,
-                'ghost': False,
+                'ghost': ghost,
             },
         )
+
+    TeamScore.objects.filter(ballot_submission=ballotsub, debate_team=debateteam).update(has_ghost=has_ghost)
 
 
 def _sync_cross_scores(ballotsub, debateteam, *, crosses, scores_by_cross_id):
@@ -687,7 +702,7 @@ def _lineup_from_latest_real_debate(debateteam, positions, reply_position):
         ).select_related('speaker', 'ballot_submission__debate__round').order_by(
             '-ballot_submission__debate__round__seq',
             'position',
-        )
+        ),
     )
     if not latest_scores:
         return {}

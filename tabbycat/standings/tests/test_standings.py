@@ -5,9 +5,10 @@ from django.test import TestCase
 from adjallocation.models import DebateAdjudicator
 from draw.models import Debate, DebateTeam
 from draw.types import DebateSide
+from options.presets import SDLFormatPreferences
 from participants.models import Adjudicator, Institution, Speaker, Team
 from results.bye_scores import refresh_bye_ballots, refresh_forfeit_ballots, sync_forfeit_ballot
-from results.models import BallotSubmission, CrossExaminationScore, SpeakerScore, TeamScore
+from results.models import BallotSubmission, CrossExamination, CrossExaminationScore, SpeakerScore, TeamScore
 from tournaments.models import Round, Tournament
 from utils.tables import TabbycatTableBuilder
 from utils.tests import suppress_logs
@@ -495,6 +496,8 @@ class TestByeAverageScores(TestCase):
 
     def setUp(self):
         self.tournament = Tournament.objects.create(slug="byeaveragestest", name="Bye averages test")
+        with suppress_logs('options.presets', logging.INFO):
+            SDLFormatPreferences.save(self.tournament)
         self.tournament.preferences['draw_rules__bye_team_results'] = 'average'
         self.tournament.preferences['debate_rules__ballots_per_debate_prelim'] = 'per-adj'
         self.tournament.preferences['debate_rules__cross_examinations_enabled'] = True
@@ -508,9 +511,6 @@ class TestByeAverageScores(TestCase):
         self.team1_speakers = [Speaker.objects.create(team=self.team1, name=f"Team 1 Speaker {i}") for i in range(1, 4)]
         self.team2_speakers = [Speaker.objects.create(team=self.team2, name=f"Team 2 Speaker {i}") for i in range(1, 4)]
         self.team3_speakers = [Speaker.objects.create(team=self.team3, name=f"Team 3 Speaker {i}") for i in range(1, 4)]
-
-    def tearDown(self):
-        self.tournament.delete()
 
     def _add_real_debate(self, seq, aff_team, neg_team, aff_speakers, neg_speakers, aff_scores, neg_scores, aff_total, neg_total):
         rd = Round.objects.create(tournament=self.tournament, seq=seq)
@@ -575,6 +575,8 @@ class TestByeAverageScores(TestCase):
         self.assertEqual(60, speakers[2])
         self.assertEqual(60, speakers[3])
         self.assertEqual(48, speakers[self.tournament.reply_position])
+        self.assertFalse(teamscore.has_ghost)
+        self.assertFalse(ballotsub.speakerscore_set.filter(ghost=True).exists())
 
     def test_bye_scores_refresh_after_later_real_debates(self):
         self._add_real_debate(
@@ -628,7 +630,83 @@ class TestByeAverageScores(TestCase):
         self.assertAlmostEqual(20.5, speaker_standing.metrics['average'])
         self.assertAlmostEqual(184.5, speaker_standing.metrics['total'])
 
+    def test_two_speaker_sdl_bye_does_not_count_extra_speech(self):
+        # SDL has three substantive positions. With only two people, the bye
+        # lineup uses the first speaker again to fill the third position.
+        self.team1_speakers.pop().delete()
+        first, second = self.team1_speakers
+        _, bye_dt = self._add_bye_debate(1, self.team1)
+
+        # Recreate an existing production bye written without ghost flags, so
+        # confirmation must repair the old records as well as update scores.
+        SpeakerScore.objects.filter(debate_team=bye_dt).update(ghost=False)
+
+        real_debate, real_dt, _ = self._add_real_debate(
+            2,
+            self.team1,
+            self.team2,
+            [first, second, first],
+            self.team2_speakers,
+            {1: 69, 2: 69, 3: 60, 4: 48},
+            {1: 54, 2: 51, 3: 48, 4: 45},
+            294,
+            246,
+        )
+        SpeakerScore.objects.filter(debate_team=real_dt, position=3).update(ghost=True)
+
+        # Exercise the actual confirmation signal, without manually refreshing
+        # the bye. Both real substantive scores are 23 after normalization.
+        real_debate.ballotsubmission_set.get(confirmed=True).save()
+
+        generator = SpeakerStandingsGenerator(('average', 'total', 'count'), ())
+        with suppress_logs('standings.metrics', logging.INFO):
+            standings = generator.generate(
+                self.team1.speaker_set.all(), tournament=self.tournament, round=real_debate.round,
+            )
+        add_speaker_round_results(standings, self.tournament.round_set.order_by('seq'), self.tournament)
+        for speaker in (first, second):
+            with self.subTest(speaker=speaker.name):
+                standing = standings.get_standing(speaker)
+                self.assertEqual([23, 23], standing.scores)
+                self.assertEqual(23, standing.metrics['average'])
+                self.assertEqual(138, standing.metrics['total'])
+                self.assertEqual(2, standing.metrics['count'])
+
+        bye_scores = {ss.position: ss for ss in SpeakerScore.objects.filter(debate_team=bye_dt)}
+        self.assertFalse(bye_scores[1].ghost)
+        self.assertFalse(bye_scores[2].ghost)
+        self.assertTrue(bye_scores[3].ghost)
+        self.assertFalse(bye_scores[4].ghost)  # A reply is a separate speech type.
+        self.assertTrue(TeamScore.objects.get(debate_team=bye_dt).has_ghost)
+
+    def test_short_roster_bye_counts_one_substantive_per_person(self):
+        self.team1_speakers.pop().delete()
+        self.team1_speakers.pop().delete()
+        _, bye_dt = self._add_bye_debate(1, self.team1)
+
+        for _ in range(2):
+            refresh_bye_ballots(self.tournament)
+            scores = SpeakerScore.objects.filter(debate_team=bye_dt)
+            self.assertEqual([1, 4], list(scores.filter(ghost=False).order_by('position').values_list('position', flat=True)))
+            self.assertEqual([2, 3], list(scores.filter(ghost=True).order_by('position').values_list('position', flat=True)))
+
+    def test_short_roster_forfeit_counts_one_substantive_per_person(self):
+        self.team1_speakers.pop().delete()
+        self.team2_speakers.pop().delete()
+        _, ballotsub, aff_dt, neg_dt = self._add_forfeit_debate(1, self.team1, self.team2, DebateSide.NEG)
+
+        for dt in (aff_dt, neg_dt):
+            with self.subTest(side=dt.side):
+                scores = SpeakerScore.objects.filter(ballot_submission=ballotsub, debate_team=dt)
+                self.assertEqual([1, 2, 4], list(scores.filter(ghost=False).order_by('position').values_list('position', flat=True)))
+                self.assertEqual([3], list(scores.filter(ghost=True).values_list('position', flat=True)))
+                self.assertTrue(TeamScore.objects.get(ballot_submission=ballotsub, debate_team=dt).has_ghost)
+
     def test_first_round_forfeit_awards_bye_style_scores_and_zeroes_loser(self):
+        CrossExamination.objects.create(
+            tournament=self.tournament, name="Cross-examination", seq=1,
+            min_score=8, max_score=24, step=1, weight=1,
+        )
         _, ballotsub, aff_dt, neg_dt = self._add_forfeit_debate(1, self.team1, self.team2, DebateSide.NEG)
 
         winner_score = TeamScore.objects.get(ballot_submission=ballotsub, debate_team=aff_dt)
