@@ -105,6 +105,7 @@ def refresh_single_bye_ballot(
     lineup = _existing_or_default_lineup(ballotsub, debateteam, positions, reply_position, using_replies)
     averages = _calculate_running_bye_averages(
         debateteam,
+        lineup=lineup,
         criteria=criteria,
         crosses=crosses,
         positions=positions,
@@ -122,10 +123,7 @@ def refresh_single_bye_ballot(
         position: score if averages['speaker_raw_scores'].get(position) is not None else None
         for position, score in averages['speaker_raw_scores'].items()
     }
-    if crosses:
-        team_total = sum(float(score) for score in speaker_scores.values()) + cross_total
-    else:
-        team_total = averages['team_raw_total']
+    team_total = averages['team_speech_raw_total'] + cross_total
 
     _clear_auto_result_details(ballotsub)
 
@@ -214,6 +212,7 @@ def sync_forfeit_ballot(ballotsub, forfeiting_side):
 
     winner_averages = _calculate_running_bye_averages(
         winning_dt,
+        lineup=winner_lineup,
         criteria=criteria,
         crosses=crosses,
         positions=positions,
@@ -226,10 +225,7 @@ def sync_forfeit_ballot(ballotsub, forfeiting_side):
         derived_cross_total=winner_averages['cross_raw_total'],
     )
 
-    if crosses:
-        winner_team_total = sum(float(score) for score in winner_averages['speaker_raw_scores'].values()) + winner_cross_total
-    else:
-        winner_team_total = winner_averages['team_raw_total']
+    winner_team_total = winner_averages['team_speech_raw_total'] + winner_cross_total
 
     with transaction.atomic():
         _clear_auto_result_details(ballotsub)
@@ -546,29 +542,41 @@ def _confirmed_real_cross_scores(team, tournament):
     )
 
 
-def _calculate_running_bye_averages(debateteam, *, criteria, crosses, positions, reply_position, using_replies):
+def _calculate_running_bye_averages(debateteam, *, lineup, criteria, crosses, positions, reply_position, using_replies):
     tournament = debateteam.debate.round.tournament
-    speaker_scores = defaultdict(list)
+    scores_by_position = defaultdict(list)
+    scores_by_speaker = defaultdict(list)
     real_speaker_scores = _confirmed_real_speaker_scores(debateteam.team, tournament).filter(
         position__in=positions,
         ghost=False,
-    ).values_list('position', 'score')
-    for position, score in real_speaker_scores:
-        speaker_scores[position].append(float(score))
+    ).values_list('speaker_id', 'position', 'score')
+    for speaker_id, position, score in real_speaker_scores:
+        scores_by_position[position].append(float(score))
+        scores_by_speaker[speaker_id, position == reply_position].append(float(score))
 
     speaker_raw_scores = {}
+    team_speech_raw_total = 0.0
+    ballot_multiplier = _bye_score_multiplier(debateteam.debate.round, tournament)
     for position in positions:
-        values = speaker_scores.get(position)
-        if values:
-            speaker_raw_scores[position] = mean(values)
-        else:
-            speaker_raw_scores[position] = _default_position_score(
-                tournament,
-                criteria,
-                position,
-                reply_position,
-                using_replies,
-            ) * _bye_score_multiplier(debateteam.debate.round, tournament)
+        default_score = _default_position_score(
+            tournament,
+            criteria,
+            position,
+            reply_position,
+            using_replies,
+        ) * ballot_multiplier
+
+        # Keep the existing team award calculation separate from individual
+        # awards: the automatic lineup need not match any real speaking order.
+        position_values = scores_by_position.get(position)
+        team_speech_raw_total += mean(position_values) if position_values else default_score
+
+        # A speaker's substantive average follows the person across positions,
+        # including when their teammate's duplicate speech occupies a position
+        # assigned to them on the bye. Replies use a separate average.
+        speaker = lineup.get(position)
+        values = scores_by_speaker.get((speaker.pk, position == reply_position)) if speaker is not None else None
+        speaker_raw_scores[position] = mean(values) if values else default_score
 
     cross_scores = []
     if tournament.pref('cross_examinations_enabled'):
@@ -590,12 +598,10 @@ def _calculate_running_bye_averages(debateteam, *, criteria, crosses, positions,
     else:
         cross_raw_total = _default_cross_total(tournament, crosses) * _bye_score_multiplier(debateteam.debate.round, tournament)
 
-    team_raw_total = sum(float(score) for score in speaker_raw_scores.values()) + cross_raw_total
-
     return {
-        'speaker_raw_scores': dict(speaker_raw_scores),
+        'speaker_raw_scores': speaker_raw_scores,
+        'team_speech_raw_total': team_speech_raw_total,
         'cross_raw_total': cross_raw_total,
-        'team_raw_total': team_raw_total,
     }
 
 

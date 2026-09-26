@@ -631,6 +631,73 @@ class TestByeAverageScores(TestCase):
         self.assertAlmostEqual(184.5, speaker_standing.metrics['total'])
 
     def test_two_speaker_sdl_bye_does_not_count_extra_speech(self):
+        self._assert_two_speaker_sdl_bye((0, 1, 0), ghost_position=3)
+
+    def test_two_speaker_sdl_bye_when_second_position_is_ghost(self):
+        self._assert_two_speaker_sdl_bye((0, 0, 1), ghost_position=2)
+
+    def test_two_speaker_sdl_bye_when_first_position_is_ghost(self):
+        self._assert_two_speaker_sdl_bye((1, 0, 1), ghost_position=1)
+
+    def test_bye_averages_follow_speakers_across_rounds(self):
+        first, second, third = self.team1_speakers
+        _, bye_dt = self._add_bye_debate(1, self.team1)
+        self._add_real_debate(
+            2, self.team1, self.team2, [third, first, second], self.team2_speakers,
+            {1: 66, 2: 69, 3: 75, 4: 42}, {1: 54, 2: 51, 3: 48, 4: 45}, 300, 246,
+        )
+        real_debate, _, _ = self._add_real_debate(
+            3, self.team1, self.team3, [second, third, first], self.team3_speakers,
+            {1: 63, 2: 72, 3: 75, 4: 45}, {1: 54, 2: 51, 3: 48, 4: 45}, 303, 246,
+        )
+
+        real_debate.ballotsubmission_set.get(confirmed=True).save()
+
+        bye_scores = {ss.position: ss for ss in SpeakerScore.objects.filter(debate_team=bye_dt)}
+        self.assertEqual((first, 72), (bye_scores[1].speaker, bye_scores[1].score))
+        self.assertEqual((second, 69), (bye_scores[2].speaker, bye_scores[2].score))
+        self.assertEqual((third, 69), (bye_scores[3].speaker, bye_scores[3].score))
+        # First has never given a reply; don't assign another person's reply
+        # average or include replies in their substantive average.
+        self.assertEqual(48, bye_scores[4].score)
+        self.assertEqual(301.5, TeamScore.objects.get(debate_team=bye_dt).score)
+
+    def test_bye_uses_defaults_only_for_speakers_without_confirmed_scores(self):
+        first, second, third = self.team1_speakers
+        _, bye_dt = self._add_bye_debate(1, self.team1)
+        real_debate, real_dt, _ = self._add_real_debate(
+            2, self.team1, self.team2, [first, third, first], self.team2_speakers,
+            {1: 69, 2: 72, 3: 30, 4: 45}, {1: 54, 2: 51, 3: 48, 4: 45}, 264, 246,
+        )
+        SpeakerScore.objects.filter(debate_team=real_dt, position=3).update(ghost=True)
+        draft = BallotSubmission.objects.create(debate=real_debate, confirmed=False)
+        SpeakerScore.objects.create(
+            debate_team=real_dt, ballot_submission=draft, speaker=second, position=2, score=90,
+        )
+
+        real_debate.ballotsubmission_set.get(confirmed=True).save()
+
+        bye_scores = {ss.position: ss.score for ss in SpeakerScore.objects.filter(debate_team=bye_dt)}
+        self.assertEqual({1: 69, 2: 60, 3: 72, 4: 45}, bye_scores)
+
+    def test_forfeit_winner_averages_follow_speakers_across_positions(self):
+        self.team1_speakers.pop().delete()
+        first, second = self.team1_speakers
+        _, ballotsub, winner_dt, loser_dt = self._add_forfeit_debate(1, self.team1, self.team2, DebateSide.NEG)
+        real_debate, real_dt, _ = self._add_real_debate(
+            2, self.team1, self.team3, [first, first, second], self.team3_speakers,
+            {1: 69, 2: 60, 3: 75, 4: 48}, {1: 54, 2: 51, 3: 48, 4: 45}, 300, 246,
+        )
+        SpeakerScore.objects.filter(debate_team=real_dt, position=2).update(ghost=True)
+
+        real_debate.ballotsubmission_set.get(confirmed=True).save()
+
+        scores = SpeakerScore.objects.filter(ballot_submission=ballotsub, debate_team=winner_dt, ghost=False)
+        self.assertEqual(69, scores.get(speaker=first, position=1).score)
+        self.assertEqual(75, scores.get(speaker=second, position=2).score)
+        self.assertFalse(SpeakerScore.objects.filter(ballot_submission=ballotsub, debate_team=loser_dt).exclude(score=0).exists())
+
+    def _assert_two_speaker_sdl_bye(self, speaker_indexes, ghost_position):
         # SDL has three substantive positions. With only two people, the bye
         # lineup uses the first speaker again to fill the third position.
         self.team1_speakers.pop().delete()
@@ -641,18 +708,20 @@ class TestByeAverageScores(TestCase):
         # confirmation must repair the old records as well as update scores.
         SpeakerScore.objects.filter(debate_team=bye_dt).update(ghost=False)
 
+        real_scores = {1: 69, 2: 69, 3: 69, 4: 48}
+        real_scores[ghost_position] = 60
         real_debate, real_dt, _ = self._add_real_debate(
             2,
             self.team1,
             self.team2,
-            [first, second, first],
+            [self.team1_speakers[index] for index in speaker_indexes],
             self.team2_speakers,
-            {1: 69, 2: 69, 3: 60, 4: 48},
+            real_scores,
             {1: 54, 2: 51, 3: 48, 4: 45},
             294,
             246,
         )
-        SpeakerScore.objects.filter(debate_team=real_dt, position=3).update(ghost=True)
+        SpeakerScore.objects.filter(debate_team=real_dt, position=ghost_position).update(ghost=True)
 
         # Exercise the actual confirmation signal, without manually refreshing
         # the bye. Both real substantive scores are 23 after normalization.
