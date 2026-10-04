@@ -347,6 +347,10 @@ SUMMERNOTE_CONFIG = {
 
 X_FRAME_OPTIONS = 'SAMEORIGIN' # Necessary to get Django-Summernote working because of Django 3 changes
 
+# Per-adjudicator ballots include scores and criteria for every voting judge.
+# Large merged panels can exceed Django's default limit of 1,000 form fields.
+DATA_UPLOAD_MAX_NUMBER_FIELDS = int(os.environ.get('DATA_UPLOAD_MAX_NUMBER_FIELDS', '10000'))
+
 # ==============================================================================
 # Database
 # ==============================================================================
