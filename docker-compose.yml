@@ -49,7 +49,7 @@ services:
       - "8000:8000"
     working_dir: /tcd
 
-  worker:
+  worker: &background-worker
     build: .
     # Hack to wait until migration is done before running things
     command:
@@ -70,6 +70,21 @@ services:
       - DOCKER_REDIS=1
       - USING_NGINX=1
     working_dir: /tcd
+
+  exports:
+    <<: *background-worker
+    restart: unless-stopped
+    command:
+      ["./bin/docker-wait.sh", "--timeout=0", "web:8000", "--", "./bin/docker-run-export-worker.sh"]
+    depends_on:
+      - db
+    stop_grace_period: 45s
+    healthcheck:
+      test: ["CMD", "python", "tabbycat/manage.py", "feedbackexport", "healthcheck"]
+      interval: 30s
+      timeout: 10s
+      start_period: 60s
+      retries: 3
 
 volumes:
   pgdata:

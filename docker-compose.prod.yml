@@ -25,3 +25,9 @@ services:
       - DOCKER_REDIS=1
       - IN_DOCKER=1
       - USING_NGINX=1
+
+  exports:
+    environment:
+      - DEBUG=0
+      - DOCKER_REDIS=1
+      - IN_DOCKER=1

@@ -4,21 +4,10 @@ from unittest.mock import patch
 
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
-from django.test import TestCase, override_settings
+from django.test import override_settings, TestCase
 from django.urls import reverse
 from django.utils import timezone
-
-from adjallocation.models import DebateAdjudicator
-from adjfeedback.models import AdjudicatorFeedback, AdjudicatorFeedbackQuestion
-from breakqual.models import BreakCategory
-from draw.models import Debate, DebateTeam
-from participants.models import Adjudicator, Institution, Team
-from registration.models import Answer, Question
-from results.models import BallotSubmission, Submission
-from seasonbreaks.models import BreakLeague, BreakRegion, BreakSeason, BreakTournament
-from seasonbreaks.services import freeze_break_tournament
-from tournaments.models import Round, Tournament
-
+from feedbackexport.jobs import worker_tick
 from feedbackexport.models import AdjudicatorStatsExportEvent, FeedbackExportEvent
 from feedbackexport.services import (
     adjudicator_stats_event_needs_reexport,
@@ -30,6 +19,17 @@ from feedbackexport.services import (
     send_event,
     validate_feedback_payload,
 )
+from seasonbreaks.models import BreakLeague, BreakRegion, BreakSeason, BreakTournament
+from seasonbreaks.services import freeze_break_tournament
+
+from adjallocation.models import DebateAdjudicator
+from adjfeedback.models import AdjudicatorFeedback, AdjudicatorFeedbackQuestion
+from breakqual.models import BreakCategory
+from draw.models import Debate, DebateTeam
+from participants.models import Adjudicator, Institution, Team
+from registration.models import Answer, Question
+from results.models import BallotSubmission, Submission
+from tournaments.models import Round, Tournament
 
 
 class FakeHTTPResponse:
@@ -43,8 +43,10 @@ class FakeHTTPResponse:
     def __exit__(self, *args):
         return False
 
-    def read(self):
-        return self.body
+    def read(self, size=-1):
+        result = self.body if size < 0 else self.body[:size]
+        self.body = b'' if size < 0 else self.body[size:]
+        return result
 
 
 class FeedbackExportTestCase(TestCase):
@@ -252,13 +254,14 @@ class FeedbackExportTestCase(TestCase):
         self.assertIs(payload['feedback_affects_adjudicator_scores'], False)
         self.assertIs(payload['score_ignored_in_tabbycat'], True)
 
-    @override_settings(FEEDBACK_EXPORT_ENDPOINT='https://example.test/api/', FEEDBACK_EXPORT_TOKEN='secret')
+    @override_settings(FEEDBACK_EXPORT_ENABLED=True, FEEDBACK_EXPORT_ENDPOINT='https://example.test/api/', FEEDBACK_EXPORT_TOKEN='secret')
     @patch('feedbackexport.services.urllib.request.urlopen')
     def test_send_event_posts_authorization_and_idempotency_headers(self, urlopen):
         event = queue_feedback_export(self.feedback)
         urlopen.return_value = FakeHTTPResponse(status=201)
 
         send_event(event)
+        worker_tick()
 
         request = urlopen.call_args.args[0]
         self.assertEqual(request.headers['Authorization'], 'Bearer secret')
@@ -266,7 +269,7 @@ class FeedbackExportTestCase(TestCase):
         event.refresh_from_db()
         self.assertEqual(event.status, FeedbackExportEvent.Status.SENT)
 
-    @override_settings(FEEDBACK_EXPORT_ENDPOINT='https://example.test/api/', FEEDBACK_EXPORT_TOKEN='secret')
+    @override_settings(FEEDBACK_EXPORT_ENABLED=True, FEEDBACK_EXPORT_ENDPOINT='https://example.test/api/', FEEDBACK_EXPORT_TOKEN='secret')
     @patch('feedbackexport.services.urllib.request.urlopen')
     def test_send_event_logs_api_error_without_crashing(self, urlopen):
         event = queue_feedback_export(self.feedback)
@@ -275,6 +278,7 @@ class FeedbackExportTestCase(TestCase):
         )
 
         send_event(event)
+        worker_tick()
 
         event.refresh_from_db()
         self.assertEqual(event.status, FeedbackExportEvent.Status.FAILED)
@@ -304,7 +308,7 @@ class FeedbackExportTestCase(TestCase):
         self.assertEqual(event.payload['idempotency_key'], event.idempotency_key)
         self.assertEqual(event.status, FeedbackExportEvent.Status.PENDING)
 
-    @override_settings(FEEDBACK_EXPORT_ENDPOINT='https://example.test/api/', FEEDBACK_EXPORT_TOKEN='secret')
+    @override_settings(FEEDBACK_EXPORT_ENABLED=True, FEEDBACK_EXPORT_ENDPOINT='https://example.test/api/', FEEDBACK_EXPORT_TOKEN='secret')
     @patch('feedbackexport.services.urllib.request.urlopen')
     def test_send_event_records_api_response_body_in_last_error(self, urlopen):
         event = queue_feedback_export(self.feedback)
@@ -314,6 +318,7 @@ class FeedbackExportTestCase(TestCase):
         )
 
         send_event(event)
+        worker_tick()
 
         event.refresh_from_db()
         self.assertEqual(event.status, FeedbackExportEvent.Status.PERMANENT_FAILED)
@@ -321,9 +326,8 @@ class FeedbackExportTestCase(TestCase):
         self.assertIn('source.name is required', event.last_error)
         self.assertEqual(event.remote_response, {'detail': 'source.name is required'})
 
-    @override_settings(FEEDBACK_EXPORT_ENABLED=False)
-    @patch('feedbackexport.signals.queue_feedback_export')
-    def test_disabled_live_export_does_not_queue_from_signal(self, queue_feedback):
+    @override_settings(FEEDBACK_EXPORT_ENABLED=True)
+    def test_source_saves_do_not_queue_even_when_sending_enabled(self):
         AdjudicatorFeedback.objects.create(
             adjudicator=self.adjudicator,
             score=4,
@@ -333,11 +337,11 @@ class FeedbackExportTestCase(TestCase):
             confirm_timestamp=timezone.now(),
         )
 
-        queue_feedback.assert_not_called()
+        self.assertFalse(FeedbackExportEvent.objects.exists())
 
     @override_settings(FEEDBACK_EXPORT_ENABLED=False)
     def test_index_requires_feedback_export_permission_or_superuser(self):
-        user = get_user_model().objects.create_user(username='tab', password='pw')
+        get_user_model().objects.create_user(username='tab', password='pw')
         self.client.login(username='tab', password='pw')
         self.assertEqual(self.client.get(reverse('feedbackexport-index')).status_code, 403)
 
@@ -345,7 +349,7 @@ class FeedbackExportTestCase(TestCase):
         self.client.force_login(superuser)
         self.assertEqual(self.client.get(reverse('feedbackexport-index')).status_code, 200)
 
-    def test_judge_activity_page_queues_only_selected_tournaments(self):
+    def test_legacy_activity_form_redirects_without_queueing(self):
         other_tournament = Tournament.objects.create(name='Other Tournament', short_name='OT', slug='ot')
         superuser = get_user_model().objects.create_superuser(username='root', password='pw')
         self.client.force_login(superuser)
@@ -355,12 +359,12 @@ class FeedbackExportTestCase(TestCase):
             'tournaments': [str(self.tournament.id)],
         })
 
-        self.assertRedirects(response, reverse('feedbackexport-activity'))
-        self.assertTrue(AdjudicatorStatsExportEvent.objects.filter(source_tournament_id=self.tournament.id).exists())
+        self.assertRedirects(response, reverse('feedbackexport-index'))
+        self.assertFalse(AdjudicatorStatsExportEvent.objects.filter(source_tournament_id=self.tournament.id).exists())
         self.assertFalse(AdjudicatorStatsExportEvent.objects.filter(source_tournament_id=other_tournament.id).exists())
 
     def _break_tournament(self):
-        league = BreakLeague.objects.get(slug='sdl')
+        league, _ = BreakLeague.objects.get_or_create(slug='sdl', defaults={'name': 'SDL'})
         season = BreakSeason.objects.create(
             name='SDL 2025/2026', slug='sdl-2025-2026', league=league,
         )
@@ -492,7 +496,7 @@ class FeedbackExportTestCase(TestCase):
 
         self.assertTrue(adjudicator_stats_event_needs_reexport(event, self.tournament))
 
-    @override_settings(ADJUDICATOR_STATS_EXPORT_ENDPOINT='https://example.test/stats/', ADJUDICATOR_STATS_EXPORT_TOKEN='secret')
+    @override_settings(ADJUDICATOR_STATS_EXPORT_ENABLED=True, ADJUDICATOR_STATS_EXPORT_ENDPOINT='https://example.test/stats/', ADJUDICATOR_STATS_EXPORT_TOKEN='secret')
     @patch('feedbackexport.services.urllib.request.urlopen')
     def test_send_adjudicator_stats_event_posts_authorization_and_idempotency_headers(self, urlopen):
         self._break_tournament()
@@ -501,6 +505,7 @@ class FeedbackExportTestCase(TestCase):
         urlopen.return_value = FakeHTTPResponse(status=201)
 
         send_adjudicator_stats_event(event)
+        worker_tick()
 
         request = urlopen.call_args.args[0]
         self.assertEqual(request.headers['Authorization'], 'Bearer secret')

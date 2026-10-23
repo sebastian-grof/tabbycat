@@ -1,0 +1,17 @@
+{% extends "feedbackexport/base.html" %}
+{% load i18n %}
+{% block export_content %}
+<section class="exports-card">
+  <div class="exports-card-header"><div><h2>{% trans "Export history" %}</h2><p>{% trans "Review previous runs and records that need attention." %}</p></div></div>
+  <form method="get" class="exports-filters">
+    <label>{% trans "Tournament" %}<select name="tournament" class="form-control"><option value="">{% trans "All tournaments" %}</option>{% for tournament in tournaments %}<option value="{{ tournament.id }}" {% if selected_tournament == tournament.id|stringformat:'s' %}selected{% endif %}>{{ tournament.name }}</option>{% endfor %}</select></label>
+    <label>{% trans "Export type" %}<select name="kind" class="form-control"><option value="">{% trans "All types" %}</option><option value="feedback" {% if selected_kind == 'feedback' %}selected{% endif %}>{% trans "Feedback" %}</option><option value="activity" {% if selected_kind == 'activity' %}selected{% endif %}>{% trans "Judge activity" %}</option></select></label>
+    <label>{% trans "Outcome" %}<select name="status" class="form-control"><option value="">{% trans "All outcomes" %}</option>{% for value, label in statuses %}<option value="{{ value }}" {% if selected_status == value %}selected{% endif %}>{{ label }}</option>{% endfor %}</select></label><button class="btn btn-outline-primary" type="submit">{% trans "Filter" %}</button>
+  </form>
+  <div class="table-responsive"><table class="table exports-table"><thead><tr><th>{% trans "Export" %}</th><th>{% trans "Scope" %}</th><th>{% trans "Started by" %}</th><th>{% trans "Outcome" %}</th><th>{% trans "Results" %}</th></tr></thead><tbody>
+  {% for job in page %}<tr><td><a href="{% url 'feedbackexport-job' job.id %}"><strong>#{{ job.id }}</strong></a><small class="d-block">{{ job.created_at|date:"SHORT_DATETIME_FORMAT" }}</small></td><td>{% if job.backlog %}{% trans "Existing backlog" %}{% else %}{% for tournament in job.tournaments %}{{ tournament.short_name|default:tournament.name }}{% if not forloop.last %}, {% endif %}{% endfor %}{% endif %}<small class="d-block">{% for kind in job.export_types %}{% if kind == 'feedback' %}{% trans "Feedback" %}{% else %}{% trans "Judge activity" %}{% endif %}{% if not forloop.last %} + {% endif %}{% endfor %}</small></td><td>{{ job.requested_by|default:'CLI' }}</td><td><span class="exports-badge" data-state="{{ job.status }}">{{ job.get_status_display }}</span></td><td>{{ job.sent }} {% trans "sent" %} · {{ job.unchanged }} {% trans "unchanged" %} · {{ job.failed }} {% trans "failed" %}</td></tr>
+  {% empty %}<tr><td colspan="5" class="exports-empty">{% trans "No exports yet. Start with a tournament on the Export page." %}</td></tr>{% endfor %}
+  </tbody></table></div>
+  <nav class="exports-pagination" aria-label="{% trans 'History pages' %}">{% if page.has_previous %}<a href="?{{ filter_query }}&page={{ page.previous_page_number }}">← {% trans "Previous" %}</a>{% endif %}<span>{{ page.number }} / {{ page.paginator.num_pages }}</span>{% if page.has_next %}<a href="?{{ filter_query }}&page={{ page.next_page_number }}">{% trans "Next" %} →</a>{% endif %}</nav>
+</section>
+{% endblock %}

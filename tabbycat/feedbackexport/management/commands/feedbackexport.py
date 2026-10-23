@@ -1,152 +1,102 @@
 import json
+import signal
+import threading
 
 from django.core.management.base import BaseCommand, CommandError
-
-from adjfeedback.models import AdjudicatorFeedback
-from seasonbreaks.models import BreakSeason, BreakTournament
-from tournaments.models import Tournament
-
-from feedbackexport.models import AdjudicatorStatsExportEvent, FeedbackExportEvent
-from feedbackexport.services import (
-    build_adjudicator_stats_payload,
-    build_feedback_payload,
-    queue_adjudicator_stats_export,
-    queue_confirmed_feedback,
-    queue_feedback_export,
-    send_pending_adjudicator_stats_events,
-    send_pending_events,
+from django.db import close_old_connections
+from feedbackexport.jobs import (
+    cleanup_successful, configuration, create_backlog_job, create_job, prune_history, worker_tick,
 )
+from feedbackexport.services import build_adjudicator_stats_payload, build_feedback_payload
+
+from tournaments.models import Tournament
 
 
 class Command(BaseCommand):
-    help = 'Queue, send and inspect adjudicator feedback export events.'
+    help = 'Start manual DR export jobs, run the durable worker, or compact successful receipts.'
 
     def add_arguments(self, parser):
-        subparsers = parser.add_subparsers(dest='command')
-
-        queue = subparsers.add_parser('queue')
-        queue.add_argument('--tournament', help='Only queue confirmed feedback from this tournament slug')
-        queue.add_argument('--force', action='store_true', help='Rebuild events even if they were already sent')
-        queue.add_argument('--reset-attempts', action='store_true', help='Reset attempts while queueing')
-
-        send = subparsers.add_parser('send')
-        send.add_argument('--limit', type=int, default=50)
-        send.add_argument('--dry-run', action='store_true')
-
-        retry = subparsers.add_parser('retry-failed')
-        retry.add_argument('--reset-attempts', action='store_true', default=True)
-
-        payload = subparsers.add_parser('payload')
-        payload.add_argument('feedback_id', type=int)
-
-        stats_queue = subparsers.add_parser('queue-adjudicator-stats')
-        stats_queue.add_argument('--tournament', help='Only queue this tournament slug')
-        stats_queue.add_argument('--season', help='Only queue tournaments linked to this break season slug')
-        stats_queue.add_argument('--break-tournament', type=int, help='Compatibility: queue the tournament linked to this BreakTournament ID')
-        stats_queue.add_argument('--force', action='store_true', help='Rebuild events even if they were already sent')
-        stats_queue.add_argument('--reset-attempts', action='store_true', help='Reset attempts while queueing')
-
-        stats_send = subparsers.add_parser('send-adjudicator-stats')
-        stats_send.add_argument('--limit', type=int, default=50)
-        stats_send.add_argument('--dry-run', action='store_true')
-
-        stats_retry = subparsers.add_parser('retry-failed-adjudicator-stats')
-        stats_retry.add_argument('--reset-attempts', action='store_true', default=True)
-
-        stats_payload = subparsers.add_parser('adjudicator-stats-payload')
-        stats_payload.add_argument('tournament_id', type=int)
+        commands = parser.add_subparsers(dest='command', required=True)
+        worker = commands.add_parser('worker')
+        worker.add_argument('--once', action='store_true', help='Process one preparation/delivery batch and exit')
+        worker.add_argument('--poll-interval', type=float, default=2)
+        commands.add_parser('healthcheck')
+        cleanup = commands.add_parser('cleanup')
+        cleanup.add_argument('--dry-run', action='store_true')
+        cleanup.add_argument('--batch-size', type=int, default=100)
+        for name in ('queue', 'queue-adjudicator-stats'):
+            command = commands.add_parser(name)
+            command.add_argument('--tournament', help='Tournament slug; omission selects all tournaments')
+            command.add_argument('--force', action='store_true')
+            command.add_argument('--reset-attempts', action='store_true', help='Compatibility flag; new jobs start a fresh retry budget')
+            if name == 'queue-adjudicator-stats':
+                command.add_argument('--season')
+                command.add_argument('--break-tournament', type=int)
+        for name in ('send', 'send-adjudicator-stats', 'retry-failed', 'retry-failed-adjudicator-stats'):
+            command = commands.add_parser(name)
+            command.add_argument('--dry-run', action='store_true')
+            command.add_argument('--limit', type=int, default=50, help='Compatibility option; background jobs drain the complete backlog')
+            command.add_argument('--reset-attempts', action='store_true')
+        for name, argument in [('payload', 'feedback_id'), ('adjudicator-stats-payload', 'tournament_id')]:
+            commands.add_parser(name).add_argument(argument, type=int)
 
     def handle(self, *args, **options):
-        command = options.get('command')
-        if command == 'queue':
-            queryset = AdjudicatorFeedback.objects.filter(confirmed=True)
-            if options.get('tournament'):
+        command = options['command']
+        if command == 'worker':
+            if options['poll_interval'] <= 0:
+                raise CommandError('Poll interval must be positive.')
+            stop = threading.Event()
+            previous = {}
+            if threading.current_thread() is threading.main_thread():
+                for sig in (signal.SIGTERM, signal.SIGINT):
+                    previous[sig] = signal.getsignal(sig)
+                    signal.signal(sig, lambda *_: stop.set())
+            try:
+                while not stop.is_set():
+                    close_old_connections()
+                    worker_tick(heartbeat=True, should_stop=stop.is_set)
+                    prune_history()
+                    if options['once']:
+                        break
+                    stop.wait(options['poll_interval'])
+            finally:
+                for sig, handler in previous.items():
+                    signal.signal(sig, handler)
+            return
+        if command == 'healthcheck':
+            health = configuration()
+            if not health['worker_online']:
+                raise CommandError('DR export worker heartbeat is stale or missing.')
+            self.stdout.write('DR export worker is online.')
+            return
+        if command == 'cleanup':
+            if options['batch_size'] < 1:
+                raise CommandError('Batch size must be positive.')
+            result = cleanup_successful(dry_run=options['dry_run'], batch_size=options['batch_size'])
+        elif command == 'payload':
+            result = build_feedback_payload(options['feedback_id'])
+        elif command == 'adjudicator-stats-payload':
+            result = build_adjudicator_stats_payload(options['tournament_id'])
+        else:
+            kind = 'activity' if 'adjudicator-stats' in command else 'feedback'
+            if command.startswith('queue'):
+                tournaments = Tournament.objects.all()
+                if options.get('tournament'):
+                    tournaments = tournaments.filter(slug=options['tournament'])
+                if options.get('season'):
+                    tournaments = tournaments.filter(break_tournaments__season__slug=options['season'])
+                if options.get('break_tournament'):
+                    tournaments = tournaments.filter(break_tournaments__id=options['break_tournament'])
                 try:
-                    tournament = Tournament.objects.get(slug=options['tournament'])
-                except Tournament.DoesNotExist as exc:
-                    raise CommandError('Tournament not found: %s' % options['tournament']) from exc
-                queryset = queryset.filter(adjudicator__tournament=tournament)
-            result = queue_confirmed_feedback(
-                queryset=queryset,
-                force=options.get('force', False),
-                reset_attempts=options.get('reset_attempts', False),
-            )
-            self.stdout.write(self.style.SUCCESS(json.dumps(result, sort_keys=True)))
-            return
-
-        if command == 'send':
-            result = send_pending_events(limit=options['limit'], dry_run=options['dry_run'])
-            self.stdout.write(self.style.SUCCESS(json.dumps(result, sort_keys=True)))
-            return
-
-        if command == 'retry-failed':
-            count = 0
-            for event in FeedbackExportEvent.objects.filter(
-                status__in=[FeedbackExportEvent.Status.FAILED, FeedbackExportEvent.Status.PERMANENT_FAILED]
-            ).select_related('feedback'):
-                queue_feedback_export(event.feedback, force=True, reset_attempts=options['reset_attempts'])
-                count += 1
-            self.stdout.write(self.style.SUCCESS(json.dumps({'queued': count}, sort_keys=True)))
-            return
-
-        if command == 'payload':
-            payload = build_feedback_payload(options['feedback_id'])
-            self.stdout.write(json.dumps(payload, indent=2, sort_keys=True))
-            return
-
-        if command == 'queue-adjudicator-stats':
-            queryset = Tournament.objects.order_by('slug')
-            if options.get('season'):
-                try:
-                    season = BreakSeason.objects.get(slug=options['season'])
-                except BreakSeason.DoesNotExist as exc:
-                    raise CommandError('Break season not found: %s' % options['season']) from exc
-                queryset = queryset.filter(break_tournaments__season=season)
-            if options.get('break_tournament'):
-                try:
-                    break_tournament = BreakTournament.objects.get(id=options['break_tournament'])
-                except BreakTournament.DoesNotExist as exc:
-                    raise CommandError('BreakTournament not found: %s' % options['break_tournament']) from exc
-                queryset = queryset.filter(id=break_tournament.tournament_id)
-            if options.get('tournament'):
-                queryset = queryset.filter(slug=options['tournament'])
-            count = 0
-            for tournament in queryset.distinct().iterator():
-                queue_adjudicator_stats_export(
-                    tournament,
-                    force=options.get('force', False),
-                    reset_attempts=options.get('reset_attempts', False),
-                )
-                count += 1
-            self.stdout.write(self.style.SUCCESS(json.dumps({'queued': count}, sort_keys=True)))
-            return
-
-        if command == 'send-adjudicator-stats':
-            result = send_pending_adjudicator_stats_events(limit=options['limit'], dry_run=options['dry_run'])
-            self.stdout.write(self.style.SUCCESS(json.dumps(result, sort_keys=True)))
-            return
-
-        if command == 'retry-failed-adjudicator-stats':
-            count = 0
-            for event in AdjudicatorStatsExportEvent.objects.filter(
-                status__in=[
-                    AdjudicatorStatsExportEvent.Status.FAILED,
-                    AdjudicatorStatsExportEvent.Status.PERMANENT_FAILED,
-                ]
-            ).select_related('tournament'):
-                if event.tournament_id:
-                    queue_adjudicator_stats_export(
-                        event.tournament,
-                        force=True,
-                        reset_attempts=options['reset_attempts'],
-                    )
-                    count += 1
-            self.stdout.write(self.style.SUCCESS(json.dumps({'queued': count}, sort_keys=True)))
-            return
-
-        if command == 'adjudicator-stats-payload':
-            payload = build_adjudicator_stats_payload(options['tournament_id'])
-            self.stdout.write(json.dumps(payload, indent=2, sort_keys=True))
-            return
-
-        raise CommandError('Choose one of: queue, send, retry-failed, payload, queue-adjudicator-stats, send-adjudicator-stats, retry-failed-adjudicator-stats, adjudicator-stats-payload')
+                    job = create_job(tournament_ids=list(tournaments.values_list('id', flat=True).distinct()), kinds=[kind], force=options['force'])
+                except ValueError as exc:
+                    raise CommandError(str(exc)) from exc
+            elif options['dry_run']:
+                from feedbackexport.jobs import MODELS
+                result = {'pending': MODELS[kind].objects.exclude(status='sent').count(), 'dry_run': True}
+                self.stdout.write(json.dumps(result))
+                return
+            else:
+                job = create_backlog_job(kinds=[kind])
+            result = {'job_id': job.id, 'status': job.status, 'message': 'Job saved. The export worker will process it.'}
+        self.stdout.write(json.dumps(result, indent=2, sort_keys=True, default=str))

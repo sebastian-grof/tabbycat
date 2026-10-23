@@ -1,18 +1,18 @@
 import hashlib
 import json
 import logging
+import random
 import re
 import urllib.error
 import urllib.request
 from datetime import timedelta
 
-from asgiref.sync import async_to_sync
-from channels.layers import get_channel_layer
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
-from django.utils.text import slugify
+from django.db.models import Prefetch
 from django.utils import timezone
+from django.utils.text import slugify
 
 from adjallocation.models import DebateAdjudicator
 from adjfeedback.models import AdjudicatorFeedback
@@ -238,7 +238,10 @@ def unique_question_reference(reference, question, seen_references):
 def answers_payload(feedback):
     answers = []
     seen_references = set()
-    for answer in feedback.answers.select_related('question').order_by('question__seq', 'question__id'):
+    ordered_answers = getattr(feedback, 'export_answers', None)
+    if ordered_answers is None:
+        ordered_answers = feedback.answers.select_related('question', 'question__adjudicatorfeedbackquestion').order_by('question__seq', 'question__id')
+    for answer in ordered_answers:
         question = answer.question
         try:
             value = answer.deserialize_answer()
@@ -273,6 +276,8 @@ def season_catalog_label(season):
 
 
 def tournament_break_season(tournament):
+    if hasattr(tournament, '_export_break_tournament'):
+        return tournament._export_break_tournament
     try:
         return tournament.break_tournaments.select_related('season', 'season__league').order_by(
             '-season__active', '-season__created_at',
@@ -340,7 +345,7 @@ def load_tournament_for_activity(tournament):
     if isinstance(tournament, BreakTournament):
         return Tournament.objects.get(pk=tournament.tournament_id)
     if isinstance(tournament, Tournament):
-        return Tournament.objects.get(pk=tournament.pk)
+        return tournament
     return Tournament.objects.get(pk=tournament)
 
 
@@ -451,10 +456,8 @@ def adjudicator_stats_content_hash(tournament):
     tournament = load_tournament_for_activity(tournament)
     content_payload = build_adjudicator_stats_payload(tournament, idempotency_key='')
     content_hash = payload_hash(content_payload)
-    payload = build_adjudicator_stats_payload(
-        tournament,
-        idempotency_key=make_adjudicator_stats_idempotency_key(tournament, content_hash),
-    )
+    payload = content_payload
+    payload['idempotency_key'] = make_adjudicator_stats_idempotency_key(tournament, content_hash)
     return payload_hash(payload)
 
 
@@ -472,93 +475,99 @@ def payload_hash(payload):
     return hashlib.sha256(raw.encode('utf-8')).hexdigest()
 
 
+def feedback_export_queryset():
+    from registration.models import Answer
+
+    return AdjudicatorFeedback.objects.select_related(
+        'adjudicator',
+        'source_team__team__institution', 'source_team__debate__round__tournament',
+        'source_adjudicator__adjudicator', 'source_adjudicator__debate__round__tournament',
+    ).prefetch_related(Prefetch(
+        'answers',
+        queryset=Answer.objects.select_related('question', 'question__adjudicatorfeedbackquestion').order_by('question__seq', 'question__id'),
+        to_attr='export_answers',
+    ))
+
+
 def load_feedback(feedback):
     if isinstance(feedback, AdjudicatorFeedback):
         return feedback
-    return AdjudicatorFeedback.objects.select_related(
-        'adjudicator', 'adjudicator__institution', 'adjudicator__institution__region',
-        'source_team', 'source_team__team', 'source_team__team__institution', 'source_team__team__institution__region',
-        'source_team__debate', 'source_team__debate__round', 'source_team__debate__round__tournament',
-        'source_adjudicator', 'source_adjudicator__adjudicator', 'source_adjudicator__adjudicator__institution',
-        'source_adjudicator__adjudicator__institution__region',
-        'source_adjudicator__debate', 'source_adjudicator__debate__round', 'source_adjudicator__debate__round__tournament',
-    ).prefetch_related('answers__question').get(pk=feedback)
+    return feedback_export_queryset().get(pk=feedback)
+
+
+def _store_snapshot(model, payload, source_fields, *, force=False, reset_attempts=False):
+    """One payload per content key, including unresolved versions of the same source.
+
+    Queueing never sends or notifies a worker. Only an explicitly requested job can
+    deliver these events. Existing payloads are immutable until acknowledged.
+    """
+    with transaction.atomic():
+        event, created = model.objects.select_for_update().get_or_create(
+            idempotency_key=payload['idempotency_key'],
+            defaults={**source_fields, 'payload': payload, 'payload_hash': payload_hash(payload)},
+        )
+        # Do not reset a snapshot currently owned by another unfinished job.
+        if event.job_items.exclude(job__status__in=['completed', 'completed_errors']).exists():
+            return event
+        source_field = 'source_feedback_id' if model is FeedbackExportEvent else 'source_tournament_id'
+        latest = model.objects.filter(
+            **{source_field: source_fields[source_field]}, sent_at__isnull=False,
+        ).order_by('-sent_at', '-id').first()
+        if latest and latest.id == event.id and not force:
+            # Compare with the last acknowledgement, including a failed force
+            # attempt whose earlier acknowledgement remains valid.
+            event.status = model.Status.SENT
+            event.payload = None
+            event.remote_response = None
+            event.save(update_fields=['status', 'payload', 'remote_response'])
+            return event
+        if created or event.payload is None:
+            event.payload = payload
+            event.payload_hash = payload_hash(payload)
+        event.status = model.Status.PENDING
+        if reset_attempts:
+            event.attempts = 0
+        event.next_attempt_at = timezone.now()
+        event.last_error = ''
+        event.save()
+        return event
 
 
 def queue_feedback_export(feedback, *, force=False, reset_attempts=False):
     feedback = load_feedback(feedback)
-    if not feedback.confirmed and not force:
+    if not feedback.confirmed:
         return None
-
-    with transaction.atomic():
-        event, _ = FeedbackExportEvent.objects.select_for_update().get_or_create(
-            feedback=feedback,
-            defaults={'idempotency_key': make_idempotency_key(feedback.id)},
-        )
-
-        try:
-            payload = build_feedback_payload(feedback)
-            validate_feedback_payload(payload)
-        except Exception as exc:
-            logger.exception('Failed to build feedback export payload for feedback %s', feedback.id)
-            event.mark_failed(exc, retry_at=retry_delay(event.attempts))
-            return event
-
-        # Content-addressed idempotency key: it changes whenever the exported content
-        # changes, so DR records each update as a fresh import (upserting the feedback by
-        # source id) instead of rejecting a same-key/changed-data resend with HTTP 409.
-        content_hash = payload_hash({k: v for k, v in payload.items() if k != 'idempotency_key'})
-        idempotency_key = make_idempotency_key(feedback.id, content_hash)
-        payload['idempotency_key'] = idempotency_key
-        event.idempotency_key = idempotency_key
-
-        new_hash = payload_hash(payload)
-        if event.status == FeedbackExportEvent.Status.SENT and event.payload_hash == new_hash and not force:
-            return event
-
-        event.payload = payload
-        event.payload_hash = new_hash
-        event.status = FeedbackExportEvent.Status.PENDING
-        if reset_attempts:
-            event.attempts = 0
-        event.last_error = ''
-        event.last_http_status = None
-        event.remote_response = None
-        event.next_attempt_at = timezone.now()
-        event.sent_at = None
-        event.save(update_fields=[
-            'idempotency_key', 'payload', 'payload_hash', 'status', 'attempts', 'last_error',
-            'last_http_status', 'remote_response', 'next_attempt_at', 'sent_at', 'updated_at',
-        ])
-
-    if feedback_export_enabled():
-        notify_feedback_export_worker([event.id])
-    return event
+    payload = validate_feedback_payload(build_feedback_payload(feedback))
+    content_hash = payload_hash({k: v for k, v in payload.items() if k != 'idempotency_key'})
+    payload['idempotency_key'] = make_idempotency_key(feedback.id, content_hash)
+    return _store_snapshot(FeedbackExportEvent, payload, {
+        'feedback': feedback,
+        'source_feedback_id': feedback.id,
+        'source_tournament_id': feedback.adjudicator.tournament_id,
+    }, force=force, reset_attempts=reset_attempts)
 
 
-def notify_feedback_export_worker(event_ids=None):
-    channel_layer = get_channel_layer()
-    if not channel_layer:
-        return
-    async_to_sync(channel_layer.send)('feedbackexport', {
-        'type': 'feedback.export',
-        'event_ids': event_ids or [],
-    })
-
-
-def notify_adjudicator_stats_export_worker(event_ids=None):
-    channel_layer = get_channel_layer()
-    if not channel_layer:
-        return
-    async_to_sync(channel_layer.send)('feedbackexport', {
-        'type': 'adjudicator.stats.export',
-        'event_ids': event_ids or [],
-    })
+def queue_adjudicator_stats_export(tournament, *, force=False, reset_attempts=False):
+    tournament = load_tournament_for_activity(tournament)
+    payload = build_adjudicator_stats_payload(tournament)
+    payload['idempotency_key'] = make_adjudicator_stats_idempotency_key(tournament, payload_hash(payload))
+    return _store_snapshot(AdjudicatorStatsExportEvent, payload, {
+        'tournament': tournament,
+        'break_tournament_id': (payload['break_tournament'] or {}).get('id'),
+        'source_tournament_id': tournament.id,
+        'source_tournament_slug': tournament.slug,
+        'source_tournament_name': tournament.name,
+        'source_tournament_short_name': tournament.short_name,
+    }, force=force, reset_attempts=reset_attempts)
 
 
 def retry_delay(attempts):
-    minutes = min(2 ** max(attempts - 1, 0), 60)
-    return timezone.now() + timedelta(minutes=minutes)
+    seconds = min(60 * 2 ** max(attempts - 1, 0), 3600)
+    return timezone.now() + timedelta(seconds=seconds * random.uniform(0.8, 1.2))
+
+
+def truncate_bytes(value, limit):
+    return str(value).encode('utf-8')[:limit].decode('utf-8', errors='ignore')
 
 
 def parse_response_body(body):
@@ -566,317 +575,163 @@ def parse_response_body(body):
         return None
     try:
         return json.loads(body.decode('utf-8'))
-    except Exception:
+    except (ValueError, UnicodeDecodeError):
         return {'raw': body.decode('utf-8', errors='replace')}
 
 
 def summarise_response_body(response_body, *, limit=300):
-    """Distil DR's response into a short human-readable string for last_error."""
     if not response_body:
         return ''
-    text = None
+    text = response_body
     if isinstance(response_body, dict):
         for key in ('detail', 'message', 'error', 'errors', 'raw'):
             if response_body.get(key):
                 text = response_body[key]
                 break
-        else:
-            text = response_body
-    else:
-        text = response_body
     if not isinstance(text, str):
         text = json.dumps(text, ensure_ascii=False, sort_keys=True)
-    return text.strip()[:limit]
+    return truncate_bytes(text.strip(), limit)
 
 
+def compact_receipt(response_body):
+    receipt = {'summary': 'Accepted by DR'}
+    if isinstance(response_body, dict):
+        for key in ('message', 'detail', 'status'):
+            if isinstance(response_body.get(key), str):
+                receipt['summary'] = truncate_bytes(response_body[key], 256)
+                break
+    if isinstance(response_body, dict):
+        for key in ('id', 'remote_id', 'import_id'):
+            if response_body.get(key) is not None:
+                receipt[key] = truncate_bytes(response_body[key], 128)
+    return receipt
+
+
+def bounded_diagnostic(response_body):
+    if len(json.dumps(response_body, ensure_ascii=False).encode('utf-8')) <= 4096:
+        return response_body
+    # Account for JSON escaping in the byte limit as well as multibyte text.
+    text = summarise_response_body(response_body, limit=3000)
+    while len(json.dumps({'detail': text}, ensure_ascii=False).encode('utf-8')) > 4096:
+        text = text[:len(text) // 2]
+    return {'detail': text}
+
+
+# Compatibility entry points create durable jobs; none perform network I/O.
 def send_event(event, *, dry_run=False):
-    if event.status == FeedbackExportEvent.Status.SENT and not dry_run:
-        return event
-    if not event.payload:
-        queue_feedback_export(event.feedback, force=True)
-        event.refresh_from_db()
-    if event.status == FeedbackExportEvent.Status.PERMANENT_FAILED:
-        return event
-
-    endpoint = feedback_export_endpoint()
-    if not endpoint:
-        if dry_run:
-            return event
-        event.attempts += 1
-        event.save(update_fields=['attempts', 'updated_at'])
-        event.mark_failed('FEEDBACK_EXPORT_ENDPOINT is not configured.', retry_at=retry_delay(event.attempts))
-        return event
-
-    if dry_run:
-        return event
-
-    token = feedback_export_token()
-    body = json.dumps(event.payload, sort_keys=True).encode('utf-8')
-    headers = {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'User-Agent': 'Tabbycat Feedback Export',
-        'Idempotency-Key': event.idempotency_key,
-    }
-    if token:
-        headers['Authorization'] = 'Bearer %s' % token
-
-    request = urllib.request.Request(endpoint, data=body, headers=headers, method='POST')
-    event.attempts += 1
-    event.save(update_fields=['attempts', 'updated_at'])
-
-    try:
-        timeout = int(getattr(settings, 'FEEDBACK_EXPORT_TIMEOUT', DEFAULT_TIMEOUT))
-        with urllib.request.urlopen(request, timeout=timeout) as response:
-            response_body = parse_response_body(response.read())
-            if response.status in {200, 201}:
-                event.mark_sent(response_data=response_body, http_status=response.status)
-            else:
-                event.mark_failed(
-                    'External feedback API returned unexpected HTTP %s.' % response.status,
-                    http_status=response.status,
-                    retry_at=retry_delay(event.attempts),
-                )
-    except urllib.error.HTTPError as exc:
-        response_body = parse_response_body(exc.read())
-        event.remote_response = response_body
-        event.save(update_fields=['remote_response', 'updated_at'])
-        if exc.code in {401, 403}:
-            logger.error('Invalid SDA judges API token while exporting feedback event %s', event.id)
-        permanent = 400 <= exc.code < 500 and exc.code not in {409, 429}
-        detail = summarise_response_body(response_body)
-        message = 'External feedback API returned HTTP %s.' % exc.code
-        if detail:
-            message = '%s %s' % (message, detail)
-        event.mark_failed(
-            message,
-            permanent=permanent,
-            http_status=exc.code,
-            retry_at=retry_delay(event.attempts),
-        )
-    except Exception as exc:
-        logger.exception('Failed to export feedback event %s', event.id)
-        event.mark_failed(exc, retry_at=retry_delay(event.attempts))
-    return event
-
-
-def _update_adjudicator_stats_event_source_fields(event, tournament, break_tournament=None):
-    event.tournament = tournament
-    event.break_tournament = break_tournament
-    event.source_tournament_id = tournament.id
-    event.source_tournament_slug = tournament.slug
-    event.source_tournament_name = tournament.name
-    event.source_tournament_short_name = tournament.short_name
-
-
-def queue_adjudicator_stats_export(tournament, *, force=False, reset_attempts=False):
-    tournament = load_tournament_for_activity(tournament)
-    break_tournament, _season = break_tournament_metadata(tournament)
-    with transaction.atomic():
-        event = AdjudicatorStatsExportEvent.objects.select_for_update().filter(
-            source_tournament_id=tournament.id,
-        ).order_by('id').first()
-        if event is None:
-            event = AdjudicatorStatsExportEvent(
-                tournament=tournament,
-                source_tournament_id=tournament.id,
-                idempotency_key=make_adjudicator_stats_idempotency_key(tournament),
-            )
-        is_new_event = event.pk is None
-        _update_adjudicator_stats_event_source_fields(event, tournament, break_tournament)
-        content_payload = build_adjudicator_stats_payload(tournament, idempotency_key='')
-        content_hash = payload_hash(content_payload)
-        idempotency_key = make_adjudicator_stats_idempotency_key(tournament, content_hash)
-        payload = build_adjudicator_stats_payload(tournament, idempotency_key=idempotency_key)
-        new_hash = payload_hash(payload)
-
-        if event.status == AdjudicatorStatsExportEvent.Status.SENT and event.payload_hash == new_hash and not force:
-            event.save(update_fields=[
-                'tournament', 'break_tournament', 'source_tournament_id', 'source_tournament_slug',
-                'source_tournament_name', 'source_tournament_short_name', 'updated_at',
-            ])
-            return event
-
-        event.idempotency_key = idempotency_key
-        event.payload = payload
-        event.payload_hash = new_hash
-        event.status = AdjudicatorStatsExportEvent.Status.PENDING
-        if reset_attempts:
-            event.attempts = 0
-        event.last_error = ''
-        event.last_http_status = None
-        event.remote_response = None
-        event.next_attempt_at = timezone.now()
-        event.sent_at = None
-        if is_new_event:
-            event.save()
-        else:
-            event.save(update_fields=[
-                'tournament', 'break_tournament', 'source_tournament_id', 'source_tournament_slug',
-                'source_tournament_name', 'source_tournament_short_name', 'idempotency_key', 'payload',
-                'payload_hash', 'status', 'attempts', 'last_error', 'last_http_status', 'remote_response',
-                'next_attempt_at', 'sent_at', 'updated_at',
-            ])
-
-    if adjudicator_stats_export_enabled():
-        notify_adjudicator_stats_export_worker([event.id])
+    from .jobs import create_backlog_job
+    if not dry_run and event.status != event.Status.SENT:
+        create_backlog_job(kinds=['feedback'], event_ids={'feedback': [event.id]})
     return event
 
 
 def send_adjudicator_stats_event(event, *, dry_run=False):
-    if event.status == AdjudicatorStatsExportEvent.Status.SENT and not dry_run:
-        return event
-    if not event.payload:
-        if event.tournament_id:
-            queue_adjudicator_stats_export(event.tournament, force=True)
-            event.refresh_from_db()
-        else:
-            event.mark_failed(
-                'Cannot rebuild judge activity payload because the source tournament no longer exists.',
-                permanent=True,
-            )
-            return event
-    if event.status == AdjudicatorStatsExportEvent.Status.PERMANENT_FAILED:
-        return event
-
-    endpoint = adjudicator_stats_export_endpoint()
-    if not endpoint:
-        if dry_run:
-            return event
-        event.attempts += 1
-        event.save(update_fields=['attempts', 'updated_at'])
-        event.mark_failed('ADJUDICATOR_STATS_EXPORT_ENDPOINT is not configured.', retry_at=retry_delay(event.attempts))
-        return event
-
-    if dry_run:
-        return event
-
-    token = adjudicator_stats_export_token()
-    body = json.dumps(event.payload, sort_keys=True).encode('utf-8')
-    headers = {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'User-Agent': 'Tabbycat Judge Activity Export',
-        'Idempotency-Key': event.idempotency_key,
-    }
-    if token:
-        headers['Authorization'] = 'Bearer %s' % token
-
-    request = urllib.request.Request(endpoint, data=body, headers=headers, method='POST')
-    event.attempts += 1
-    event.save(update_fields=['attempts', 'updated_at'])
-
-    try:
-        timeout = int(getattr(settings, 'ADJUDICATOR_STATS_EXPORT_TIMEOUT', DEFAULT_TIMEOUT))
-        with urllib.request.urlopen(request, timeout=timeout) as response:
-            response_body = parse_response_body(response.read())
-            if response.status in {200, 201}:
-                event.mark_sent(response_data=response_body, http_status=response.status)
-            else:
-                event.mark_failed(
-                    'External adjudicator stats API returned unexpected HTTP %s.' % response.status,
-                    http_status=response.status,
-                    retry_at=retry_delay(event.attempts),
-                )
-    except urllib.error.HTTPError as exc:
-        response_body = parse_response_body(exc.read())
-        event.remote_response = response_body
-        event.save(update_fields=['remote_response', 'updated_at'])
-        if exc.code in {401, 403}:
-            logger.error('Invalid SDA judges API token while exporting adjudicator stats event %s', event.id)
-        permanent = 400 <= exc.code < 500 and exc.code not in {409, 429}
-        detail = summarise_response_body(response_body)
-        message = 'External adjudicator stats API returned HTTP %s.' % exc.code
-        if detail:
-            message = '%s %s' % (message, detail)
-        event.mark_failed(
-            message,
-            permanent=permanent,
-            http_status=exc.code,
-            retry_at=retry_delay(event.attempts),
-        )
-    except Exception as exc:
-        logger.exception('Failed to export adjudicator stats event %s', event.id)
-        event.mark_failed(exc, retry_at=retry_delay(event.attempts))
+    from .jobs import create_backlog_job
+    if not dry_run and event.status != event.Status.SENT:
+        create_backlog_job(kinds=['activity'], event_ids={'activity': [event.id]})
     return event
 
 
-def pending_events_queryset(event_ids=None):
-    now = timezone.now()
-    queryset = FeedbackExportEvent.objects.select_related('feedback').filter(
-        status__in=[FeedbackExportEvent.Status.PENDING, FeedbackExportEvent.Status.FAILED],
-    ).filter(attempts__lt=MAX_ATTEMPTS).filter(
-        models_Q_next_attempt(now)
-    )
-    if event_ids:
-        queryset = queryset.filter(id__in=event_ids)
-    return queryset.order_by('next_attempt_at', 'created_at')
-
-
-def pending_adjudicator_stats_events_queryset(event_ids=None):
-    now = timezone.now()
-    queryset = AdjudicatorStatsExportEvent.objects.select_related('tournament', 'break_tournament').filter(
-        status__in=[AdjudicatorStatsExportEvent.Status.PENDING, AdjudicatorStatsExportEvent.Status.FAILED],
-    ).filter(attempts__lt=MAX_ATTEMPTS).filter(
-        models_Q_next_attempt(now)
-    )
-    if event_ids:
-        queryset = queryset.filter(id__in=event_ids)
-    return queryset.order_by('next_attempt_at', 'created_at')
-
-
-def models_Q_next_attempt(now):
-    from django.db.models import Q
-    return Q(next_attempt_at__isnull=True) | Q(next_attempt_at__lte=now)
-
-
 def send_pending_events(*, event_ids=None, limit=50, dry_run=False):
-    queryset = pending_events_queryset(event_ids=event_ids)[:limit]
-    sent = failed = pending = 0
-    events = list(queryset)
-    for event in events:
-        before = event.status
-        send_event(event, dry_run=dry_run)
-        event.refresh_from_db()
-        if dry_run:
-            pending += 1
-        elif event.status == FeedbackExportEvent.Status.SENT:
-            sent += 1
-        elif event.status in {FeedbackExportEvent.Status.FAILED, FeedbackExportEvent.Status.PERMANENT_FAILED}:
-            failed += 1
-        elif event.status == before:
-            pending += 1
-    return {'processed': len(events), 'sent': sent, 'failed': failed, 'pending': pending}
+    from .jobs import create_backlog_job
+    if dry_run:
+        return {'pending': FeedbackExportEvent.objects.exclude(status='sent').count()}
+    job = create_backlog_job(kinds=['feedback'], event_ids={'feedback': event_ids} if event_ids else None)
+    return {'job_id': job.id}
 
 
 def send_pending_adjudicator_stats_events(*, event_ids=None, limit=50, dry_run=False):
-    queryset = pending_adjudicator_stats_events_queryset(event_ids=event_ids)[:limit]
-    sent = failed = pending = 0
-    events = list(queryset)
-    for event in events:
-        before = event.status
-        send_adjudicator_stats_event(event, dry_run=dry_run)
-        event.refresh_from_db()
-        if dry_run:
-            pending += 1
-        elif event.status == AdjudicatorStatsExportEvent.Status.SENT:
-            sent += 1
-        elif event.status in {AdjudicatorStatsExportEvent.Status.FAILED, AdjudicatorStatsExportEvent.Status.PERMANENT_FAILED}:
-            failed += 1
-        elif event.status == before:
-            pending += 1
-    return {'processed': len(events), 'sent': sent, 'failed': failed, 'pending': pending}
+    from .jobs import create_backlog_job
+    if dry_run:
+        return {'pending': AdjudicatorStatsExportEvent.objects.exclude(status='sent').count()}
+    job = create_backlog_job(kinds=['activity'], event_ids={'activity': event_ids} if event_ids else None)
+    return {'job_id': job.id}
 
 
 def queue_confirmed_feedback(queryset=None, *, force=False, reset_attempts=False):
-    if queryset is None:
-        queryset = AdjudicatorFeedback.objects.filter(confirmed=True)
-    queryset = queryset.filter(confirmed=True).select_related('adjudicator')
-    queued = skipped = 0
-    for feedback in queryset.iterator():
-        event = queue_feedback_export(feedback, force=force, reset_attempts=reset_attempts)
-        if event is None:
-            skipped += 1
-        else:
-            queued += 1
-    return {'queued': queued, 'skipped': skipped}
+    from .jobs import create_job
+    queryset = queryset if queryset is not None else AdjudicatorFeedback.objects.filter(confirmed=True)
+    ids = list(queryset.values_list('adjudicator__tournament_id', flat=True).distinct())
+    job = create_job(tournament_ids=ids, kinds=['feedback'], force=force)
+    return {'job_id': job.id}
+
+
+def deliver_snapshot(event, kind):
+    """HTTP transport only. The worker commits this result under its claim fence."""
+    import time
+    from email.utils import parsedate_to_datetime
+
+    activity = kind == 'activity'
+    enabled = adjudicator_stats_export_enabled() if activity else feedback_export_enabled()
+    endpoint = adjudicator_stats_export_endpoint() if activity else feedback_export_endpoint()
+    token = adjudicator_stats_export_token() if activity else feedback_export_token()
+    if not enabled or not endpoint:
+        return {'status': 'blocked', 'error': 'Export is disabled or its API endpoint is not configured.'}
+    if not event.payload:
+        return {'status': 'failed', 'error': 'No prepared payload remains. Start a new export from the source tournament.'}
+
+    def read_body(response):
+        # Bound both memory and time; do not consume arbitrary HTML error pages.
+        deadline = time.monotonic() + 30
+        chunks = []
+        remaining = 4096
+        while remaining and time.monotonic() < deadline:
+            chunk = response.read1(remaining) if hasattr(response, 'read1') else response.read(remaining)
+            if not chunk:
+                break
+            chunks.append(chunk)
+            remaining -= len(chunk)
+        return parse_response_body(b''.join(chunks))
+
+    headers = {
+        'Content-Type': 'application/json', 'Accept': 'application/json',
+        'User-Agent': 'Tabbycat DR Export', 'Idempotency-Key': event.idempotency_key,
+    }
+    if token:
+        headers['Authorization'] = 'Bearer %s' % token
+    try:
+        request = urllib.request.Request(endpoint, data=json.dumps(event.payload, sort_keys=True).encode('utf-8'), headers=headers, method='POST')
+        timeout_name = 'ADJUDICATOR_STATS_EXPORT_TIMEOUT' if activity else 'FEEDBACK_EXPORT_TIMEOUT'
+        timeout = max(1, min(int(getattr(settings, timeout_name, DEFAULT_TIMEOUT)), 30))
+        with urllib.request.urlopen(request, timeout=timeout) as response:
+            body = read_body(response)
+            if response.status in {200, 201}:
+                receipt = compact_receipt(body)
+                if token:
+                    receipt = {key: value.replace(token, '[redacted]') for key, value in receipt.items()}
+                return {'status': 'sent', 'http_status': response.status, 'receipt': receipt}
+            return {'status': 'retry', 'http_status': response.status, 'error': 'DR returned an unexpected acknowledgement.'}
+    except urllib.error.HTTPError as exc:
+        try:
+            body = read_body(exc)
+        except Exception:
+            body = None
+        finally:
+            exc.close()
+        detail = summarise_response_body(body, limit=1800)
+        if token:
+            detail = detail.replace(token, '[redacted]')
+        status = 'blocked' if exc.code in {401, 403} else ('retry' if exc.code == 429 or exc.code >= 500 else 'failed')
+        error = 'DR returned HTTP %s. %s' % (exc.code, detail)
+        if exc.code == 409:
+            error = 'DR reported a conflict (HTTP 409). Inspect this record before retrying. ' + detail
+        result = {'status': status, 'http_status': exc.code, 'error': truncate_bytes(error, 2048),
+                  'diagnostic': bounded_diagnostic({'detail': detail})}
+        if (exc.code == 429 or exc.code >= 500) and exc.headers:
+            value = exc.headers.get('Retry-After')
+            if value:
+                try:
+                    result['retry_at'] = timezone.now() + timedelta(seconds=max(0, int(value)))
+                except (ValueError, OverflowError):
+                    try:
+                        result['retry_at'] = parsedate_to_datetime(value)
+                        if timezone.is_naive(result['retry_at']):
+                            result['retry_at'] = timezone.make_aware(result['retry_at'])
+                    except (ValueError, TypeError, OverflowError):
+                        pass
+        return result
+    except (ValueError, TypeError):
+        return {'status': 'blocked', 'error': 'Invalid export endpoint or timeout configuration.'}
+    except Exception:
+        # Exception strings may contain URLs, credentials or request data.
+        return {'status': 'retry', 'error': 'Could not reach DR or read its response. The same snapshot will be retried.'}

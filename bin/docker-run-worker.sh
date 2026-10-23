@@ -1,7 +1,4 @@
 #!/usr/bin/env bash
-#   Shorthand to run django worker in docker
-
-cd tabbycat
-
-# Run worker
-python ./manage.py runworker notifications adjallocation venues feedbackexport
+set -e
+cd "$(dirname "$0")/.."
+exec python tabbycat/manage.py runworker notifications adjallocation venues

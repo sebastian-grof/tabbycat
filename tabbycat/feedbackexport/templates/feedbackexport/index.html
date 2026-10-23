@@ -1,55 +1,48 @@
 {% extends "feedbackexport/base.html" %}
 {% load i18n %}
-
 {% block export_content %}
-  <section class="exports-page-header">
-    <div>
-      <h2 class="exports-page-title">{% trans "Overview" %}</h2>
-      <p class="exports-page-subtitle">{% trans "A short control room for judge data exports. DR owns judge identity matching; Tabbycat sends source names, emails and local IDs." %}</p>
-    </div>
-  </section>
-
-  <section class="exports-grid">
-    <article class="exports-card">
-      <div class="exports-card-header">
-        <h2>{% trans "Feedback export" %}</h2>
-        {% if status_counts.failed or status_counts.permanent_failed %}
-          <span class="exports-badge exports-badge-warning">{% trans "Needs attention" %}</span>
-        {% else %}
-          <span class="exports-badge exports-badge-success">{% trans "Ready" %}</span>
-        {% endif %}
+{% if active_job %}
+  <a class="exports-active" href="{% url 'feedbackexport-job' active_job.id %}"><div><strong>{% trans "An export is in progress" %} · #{{ active_job.id }}</strong><p>{{ active_job.get_status_display }} · {% trans "New exports will wait their turn." %}</p></div><span>{% trans "View progress" %} →</span></a>
+{% elif latest_job %}
+  <a class="exports-active" href="{% url 'feedbackexport-job' latest_job.id %}"><div><strong>{% trans "Latest export" %} · #{{ latest_job.id }}</strong><p>{{ latest_job.get_status_display }} · {{ latest_job.created_at|date:"SHORT_DATETIME_FORMAT" }}</p></div><span>{% trans "View results" %} →</span></a>
+{% endif %}
+<form method="post" action="{% url 'feedbackexport-job-create' %}" id="export-start" class="exports-section-stack">
+  {% csrf_token %}<input type="hidden" name="submission_token" value="{{ submission_token }}">
+  <div class="exports-layout">
+    <section class="exports-card">
+      <div class="exports-card-header"><div><p class="exports-eyebrow">01</p><h2>{% trans "Select tournaments" %}</h2><p>{% trans "Only the tournaments you select will be exported." %}</p></div></div>
+      <div class="exports-filters">
+        <label class="exports-search">{% trans "Search tournaments" %}<input class="form-control" type="search" id="tournament-search" placeholder="{% trans 'Name or slug' %}"></label>
+        <label>{% trans "Show" %}<select class="form-control" id="tournament-filter"><option value="all">{% trans "All tournaments" %}</option><option value="active">{% trans "Active" %}</option><option value="archived">{% trans "Archived" %}</option></select></label>
       </div>
-      <p>{% trans "Exports confirmed adjudicator feedback to DR. DR matches judges by exported ID when present, then email, name and local fallback." %}</p>
-      <dl class="exports-summary-list">
-        <div><dt>{% trans "Confirmed feedback" %}</dt><dd>{{ confirmed_feedback_count }}</dd></div>
-        <div><dt>{% trans "Pending" %}</dt><dd>{{ status_counts.pending|default:0 }}</dd></div>
-        <div><dt>{% trans "Failed" %}</dt><dd>{{ status_counts.failed|default:0 }}</dd></div>
-      </dl>
-      <div class="exports-row-actions">
-        <a class="btn btn-outline-primary" href="{% url 'feedbackexport-events' %}">{% trans "Open Judge Data" %}</a>
-      </div>
-    </article>
-
-    <article class="exports-card">
-      <div class="exports-card-header">
-        <h2>{% trans "Judge activity export" %}</h2>
-        {% if activity_status_counts.failed or activity_status_counts.permanent_failed %}
-          <span class="exports-badge exports-badge-warning">{% trans "Needs attention" %}</span>
-        {% elif activity_status_counts.pending %}
-          <span class="exports-badge exports-badge-purple">{% trans "Queued" %}</span>
-        {% else %}
-          <span class="exports-badge exports-badge-success">{% trans "Ready" %}</span>
-        {% endif %}
-      </div>
-      <p>{% trans "Exports adjudicated debate counts by tournament. DR matches judges by exported ID when present, then email, name and local fallback." %}</p>
-      <dl class="exports-summary-list">
-        <div><dt>{% trans "Export events" %}</dt><dd>{{ activity_event_count }}</dd></div>
-        <div><dt>{% trans "Pending" %}</dt><dd>{{ activity_status_counts.pending|default:0 }}</dd></div>
-        <div><dt>{% trans "Failed" %}</dt><dd>{{ activity_status_counts.failed|default:0 }}</dd></div>
-      </dl>
-      <div class="exports-row-actions">
-        <a class="btn btn-outline-primary" href="{% url 'feedbackexport-events' %}">{% trans "Open Judge Data" %}</a>
-      </div>
-    </article>
-  </section>
+      <div class="exports-selection-tools"><button class="btn btn-sm btn-outline-secondary" type="button" id="select-matching">{% trans "Select all matching tournaments" %}</button><button class="btn btn-sm btn-link" type="button" id="clear-selection">{% trans "Clear selection" %}</button><span id="matching-count" class="exports-muted"></span></div>
+      <div class="table-responsive exports-tournament-list"><table class="table exports-table"><thead><tr><th>{% trans "Tournament" %}</th><th>{% trans "Confirmed feedback" %}</th><th>{% trans "Status" %}</th></tr></thead><tbody>
+      {% for tournament in tournaments %}
+        <tr data-tournament-row data-search="{{ tournament.name|lower }} {{ tournament.slug|lower }} {{ tournament.short_name|lower }}" data-active="{{ tournament.active|yesno:'active,archived' }}">
+          <td><label class="exports-tournament"><input type="checkbox" name="tournaments" value="{{ tournament.id }}" data-feedback-count="{{ tournament.export_feedback_count }}" {% if not can_manage_feedback_export %}disabled{% endif %}><span><strong>{{ tournament.name }}</strong><small>{{ tournament.slug }}</small></span></label></td>
+          <td>{{ tournament.export_feedback_count }}</td><td><span class="exports-badge">{% if tournament.active %}{% trans "Active" %}{% else %}{% trans "Archived" %}{% endif %}</span></td>
+        </tr>
+      {% empty %}<tr><td colspan="3">{% trans "No tournaments exist yet." %}</td></tr>{% endfor %}
+      </tbody></table></div>
+      <p id="no-matches" class="exports-muted" hidden>{% trans "No tournaments match your search." %}</p>
+    </section>
+    <aside class="exports-card exports-compose">
+      <p class="exports-eyebrow">02</p><h2>{% trans "Choose your export" %}</h2>
+      <fieldset><legend class="sr-only">{% trans "Export type" %}</legend>
+        <label class="exports-type"><input type="radio" name="kind" value="feedback" checked><span><strong>{% trans "Feedback" %}</strong><small>{% trans "Confirmed judge feedback and answers" %}</small></span></label>
+        <label class="exports-type"><input type="radio" name="kind" value="activity"><span><strong>{% trans "Judge activity" %}</strong><small>{% trans "Adjudicated debate counts per tournament" %}</small></span></label>
+        <label class="exports-type"><input type="radio" name="kind" value="both"><span><strong>{% trans "Both" %}</strong><small>{% trans "Feedback and judge activity together" %}</small></span></label>
+      </fieldset>
+      <dl class="exports-selection-summary" aria-live="polite"><div><dt>{% trans "Selected tournaments" %}</dt><dd id="selected-count">0</dd></div><div><dt>{% trans "Eligible feedback" %}</dt><dd id="selected-feedback">0</dd></div><div><dt>{% trans "Activity snapshots" %}</dt><dd id="selected-activity">0</dd></div></dl>
+      <p class="exports-muted">{% trans "Unchanged records are skipped. Exact totals are calculated as the export is prepared." %}</p>
+      <details class="exports-advanced"><summary>{% trans "Advanced options" %}</summary><label><input type="checkbox" name="force"> {% trans "Force re-export" %}</label><p class="exports-muted">{% trans "Send unchanged records again using their existing DR identifiers." %}</p></details>
+      {% if can_manage_feedback_export %}<button type="submit" class="btn btn-primary btn-block" id="start-export" disabled>{% trans "Export to DR" %} ↗</button><noscript><p>{% trans "Enable JavaScript to select tournaments and start an export." %}</p></noscript>{% else %}<p>{% trans "You have view-only access. Ask an export manager to start a job." %}</p>{% endif %}
+      <p class="exports-footnote">{% trans "You can close this page after starting. Sending and retries continue in the background." %}</p>
+      <p id="start-error" class="text-danger" role="alert" hidden></p>
+    </aside>
+  </div>
+</form>
+{% if backlog_count and can_manage_feedback_export %}
+<section class="exports-card exports-backlog"><div><h2>{% trans "Existing backlog" %}</h2><p>{% trans "Previously queued records are waiting for a manual start." %} <strong>{{ backlog_count }}</strong></p></div><form method="post" action="{% url 'feedbackexport-job-create' %}">{% csrf_token %}<input type="hidden" name="backlog" value="1"><input type="hidden" name="submission_token" value="{{ backlog_token }}"><button class="btn btn-outline-primary" type="submit">{% trans "Resume existing backlog" %}</button></form></section>
+{% endif %}
 {% endblock %}

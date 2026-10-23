@@ -1,41 +1,30 @@
-from collections import Counter
+import json
+import uuid
 
-from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import UserPassesTestMixin
-from django.db.models import Count
+from django.core.paginator import Paginator
+from django.db.models import Count, Q
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
-from django.utils import timezone
 from django.utils.translation import gettext as _, gettext_lazy
+from django.views import View
 from django.views.generic import RedirectView, TemplateView
 
 from adjfeedback.models import AdjudicatorFeedback
 from tournaments.models import Tournament
 
-from .forms import FeedbackExportAccessForm, FeedbackExportFilterForm, access_rows
-from .models import (
-    AdjudicatorStatsExportEvent,
-    FeedbackExportEvent,
-    FeedbackExportPermission,
-)
+from .forms import access_rows, FeedbackExportAccessForm
+from .jobs import configuration, control_job, create_backlog_job, create_job, job_summary
+from .models import AdjudicatorStatsExportEvent, ExportJob, ExportJobItem, FeedbackExportEvent, FeedbackExportPermission
 from .permissions import can_manage_feedback_export, has_feedback_export_permission
-from .services import (
-    adjudicator_stats_event_needs_reexport,
-    adjudicator_stats_export_enabled,
-    adjudicator_stats_export_endpoint,
-    queue_adjudicator_stats_export,
-    queue_confirmed_feedback,
-    queue_feedback_export,
-    send_pending_adjudicator_stats_events,
-    send_pending_events,
-)
 
 
 class FeedbackExportPermissionMixin(UserPassesTestMixin):
     required_permission = FeedbackExportPermission.VIEW
-    page_emoji = '🧭'
-    page_title = gettext_lazy('API Exports')
+    page_emoji = '↗'
+    page_title = gettext_lazy('DR exports')
 
     def test_func(self):
         return has_feedback_export_permission(self.request.user, self.required_permission)
@@ -45,200 +34,168 @@ class FeedbackExportPermissionMixin(UserPassesTestMixin):
         kwargs.setdefault('page_emoji', self.page_emoji)
         kwargs['can_manage_feedback_export'] = can_manage_feedback_export(self.request.user)
         kwargs['feedback_export_nav'] = True
-        kwargs['export_tabs'] = self.export_tabs()
-        kwargs['export_enabled'] = bool(getattr(settings, 'FEEDBACK_EXPORT_ENABLED', False))
-        kwargs['endpoint_configured'] = bool(getattr(settings, 'FEEDBACK_EXPORT_ENDPOINT', ''))
-        kwargs['activity_export_enabled'] = adjudicator_stats_export_enabled()
-        kwargs['activity_endpoint_configured'] = bool(adjudicator_stats_export_endpoint())
-        return super().get_context_data(**kwargs)
-
-    def export_tabs(self):
-        return [
-            (_('Overview'), reverse('feedbackexport-index'), 'dashboard'),
-            (_('Judge Data'), reverse('feedbackexport-events'), 'judge_data'),
+        kwargs['health'] = configuration()
+        kwargs['export_tabs'] = [
+            (_('Export'), reverse('feedbackexport-index'), 'export'),
+            (_('History'), reverse('feedbackexport-history'), 'history'),
             (_('Access'), reverse('feedbackexport-access'), 'access'),
         ]
+        return super().get_context_data(**kwargs)
 
 
 class FeedbackExportManageMixin(FeedbackExportPermissionMixin):
     required_permission = FeedbackExportPermission.MANAGE
 
 
-def confirmed_feedback_queryset():
-    return AdjudicatorFeedback.objects.filter(confirmed=True)
-
-
-def event_status_count_map(model):
-    return Counter(dict(model.objects.values_list('status').annotate(count=Count('id'))))
-
-
 class FeedbackExportIndexView(FeedbackExportPermissionMixin, TemplateView):
     template_name = 'feedbackexport/index.html'
 
     def get_context_data(self, **kwargs):
-        status_counts = event_status_count_map(FeedbackExportEvent)
-        activity_status_counts = event_status_count_map(AdjudicatorStatsExportEvent)
-        kwargs['active_tab'] = 'dashboard'
-        kwargs['status_counts'] = status_counts
-        kwargs['activity_status_counts'] = activity_status_counts
-        kwargs['confirmed_feedback_count'] = confirmed_feedback_queryset().count()
-        kwargs['activity_event_count'] = AdjudicatorStatsExportEvent.objects.count()
+        counts = dict(AdjudicatorFeedback.objects.filter(confirmed=True).values_list(
+            'adjudicator__tournament_id',
+        ).annotate(n=Count('id')))
+        tournaments = list(Tournament.objects.order_by('-active', 'seq', 'name'))
+        for tournament in tournaments:
+            tournament.export_feedback_count = counts.get(tournament.id, 0)
+        kwargs.update(
+            active_tab='export', tournaments=tournaments, submission_token=str(uuid.uuid4()), backlog_token=str(uuid.uuid4()),
+            latest_job=ExportJob.objects.order_by('-id').first(),
+            active_job=ExportJob.objects.exclude(status__in=['completed', 'completed_errors']).order_by('id').first(),
+            backlog_count=(FeedbackExportEvent.objects.exclude(status='sent').filter(job_items__isnull=True).count() +
+                           AdjudicatorStatsExportEvent.objects.exclude(status='sent').filter(job_items__isnull=True).count()),
+        )
         return super().get_context_data(**kwargs)
 
-    def post(self, request, *args, **kwargs):
-        if not can_manage_feedback_export(request.user):
-            return self.handle_no_permission()
-        action = request.POST.get('action')
-        if action == 'queue_all':
-            result = queue_confirmed_feedback(force=True, reset_attempts=True)
-            messages.success(request, _('%(queued)s feedback export events queued; %(skipped)s skipped.') % result)
-        elif action == 'send_pending':
-            result = send_pending_events(limit=100)
-            messages.success(request, _('%(processed)s export events processed; %(sent)s sent; %(failed)s failed.') % result)
-        return redirect('feedbackexport-index')
 
-
-class FeedbackExportProfilesRedirectView(FeedbackExportPermissionMixin, RedirectView):
+class LegacyExportRedirectView(FeedbackExportPermissionMixin, RedirectView):
     pattern_name = 'feedbackexport-index'
     permanent = False
 
+    def post(self, request, *args, **kwargs):
+        # Old forms must never send data or silently change the new manual scope.
+        return redirect(self.pattern_name)
 
-class JudgeDataExportView(FeedbackExportPermissionMixin, TemplateView):
-    template_name = 'feedbackexport/events.html'
+
+FeedbackExportProfilesRedirectView = LegacyExportRedirectView
+JudgeDataExportView = LegacyExportRedirectView
+
+
+class ExportHistoryView(FeedbackExportPermissionMixin, TemplateView):
+    template_name = 'feedbackexport/history.html'
 
     def get_context_data(self, **kwargs):
-        filter_form = kwargs.get('filter_form') or FeedbackExportFilterForm(self.request.GET or None)
-        events = FeedbackExportEvent.objects.select_related(
-            'feedback', 'feedback__adjudicator', 'feedback__adjudicator__tournament',
-        ).order_by('-updated_at')
-        if filter_form.is_valid() and filter_form.cleaned_data.get('status'):
-            events = events.filter(status=filter_form.cleaned_data['status'])
-        tournaments = Tournament.objects.order_by('-active', 'seq', 'name').prefetch_related(
-            'break_tournaments__season__league',
-            'break_tournaments__region',
+        jobs = ExportJob.objects.select_related('requested_by').order_by('-id')
+        filters = {}
+        tournament_id = self.request.GET.get('tournament', '')
+        if tournament_id.isdigit():
+            filters['items__tournament_id'] = int(tournament_id)
+        kind = self.request.GET.get('kind', '')
+        if kind in {'feedback', 'activity'}:
+            jobs = jobs.filter(export_types__contains=[kind])
+        status = self.request.GET.get('status', '')
+        if status in ExportJob.Status.values:
+            jobs = jobs.filter(status=status)
+        if filters:
+            jobs = jobs.filter(pk__in=ExportJob.objects.filter(**filters).values('pk'))
+        jobs = jobs.annotate(
+            total=Count('items', distinct=True),
+            sent=Count('items', filter=Q(items__status='sent'), distinct=True),
+            failed=Count('items', filter=Q(items__status='failed'), distinct=True),
+            unchanged=Count('items', filter=Q(items__status='unchanged'), distinct=True),
         )
-        activity_events = {
-            event.source_tournament_id: event
-            for event in AdjudicatorStatsExportEvent.objects.select_related('tournament', 'break_tournament').all()
-            if event.source_tournament_id is not None
-        }
-        activity_rows = []
-        for tournament in tournaments:
-            event = activity_events.get(tournament.id)
-            break_tournament = next(iter(tournament.break_tournaments.all()), None)
-            activity_rows.append({
-                'tournament': tournament,
-                'event': event,
-                'break_tournament': break_tournament,
-                'status': _activity_status(event, tournament),
-            })
-
-        kwargs['active_tab'] = 'judge_data'
-        kwargs['filter_form'] = filter_form
-        kwargs['events'] = events[:250]
-        kwargs['activity_rows'] = activity_rows
-        kwargs['events_without_tournament'] = AdjudicatorStatsExportEvent.objects.filter(
-            tournament__isnull=True,
-            source_tournament_id__isnull=False,
-        ).order_by('-updated_at')[:50]
-        kwargs['status_counts'] = event_status_count_map(FeedbackExportEvent)
-        kwargs['activity_status_counts'] = event_status_count_map(AdjudicatorStatsExportEvent)
+        page = Paginator(jobs, 25).get_page(self.request.GET.get('page'))
+        query = self.request.GET.copy()
+        query.pop('page', None)
+        kwargs.update(active_tab='history', page=page, filter_query=query.urlencode(),
+                      statuses=ExportJob.Status.choices, selected_status=status, selected_kind=kind,
+                      selected_tournament=tournament_id, tournaments=Tournament.objects.order_by('name'))
         return super().get_context_data(**kwargs)
 
-    def post(self, request, *args, **kwargs):
-        if not can_manage_feedback_export(request.user):
-            return self.handle_no_permission()
-        action = request.POST.get('action')
-        redirect_name = request.resolver_match.url_name or 'feedbackexport-events'
-        if action in {'retry_event', 'retry_feedback_event'}:
-            event = get_object_or_404(FeedbackExportEvent, id=request.POST.get('event_id'))
-            queue_feedback_export(event.feedback, force=True, reset_attempts=True)
-            messages.success(request, _('Feedback export event was queued for retry.'))
-        elif action in {'retry_failed_feedback', 'retry_failed'}:
-            count = 0
-            for event in FeedbackExportEvent.objects.filter(
-                status__in=[FeedbackExportEvent.Status.FAILED, FeedbackExportEvent.Status.PERMANENT_FAILED]
-            ).select_related('feedback'):
-                queue_feedback_export(event.feedback, force=True, reset_attempts=True)
-                count += 1
-            messages.success(request, _('%(count)s failed export events were queued for retry.') % {'count': count})
-        elif action in {'send_pending_feedback', 'send_pending'} and redirect_name != 'feedbackexport-activity':
-            result = send_pending_events(limit=100)
-            messages.success(request, _('%(processed)s export events processed; %(sent)s sent; %(failed)s failed.') % result)
-        elif action in {'queue_feedback', 'queue_all'}:
-            result = queue_confirmed_feedback(force=True, reset_attempts=True)
-            messages.success(request, _('%(queued)s feedback export events queued; %(skipped)s skipped.') % result)
-        elif action in {'queue_activity_selected', 'force_activity_selected', 'queue_selected', 'force_selected'}:
-            ids = _selected_tournament_ids(request)
-            tournaments = Tournament.objects.filter(id__in=ids)
-            queued = 0
-            for tournament in tournaments:
-                queue_adjudicator_stats_export(
-                    tournament,
-                    force=action in {'force_activity_selected', 'force_selected'},
-                    reset_attempts=True,
-                )
-                queued += 1
-            messages.success(request, _('%(queued)s judge activity export events queued.') % {'queued': queued})
-        elif action in {'retry_failed_activity'} or (action == 'retry_failed' and redirect_name == 'feedbackexport-activity'):
-            queued = 0
-            for event in AdjudicatorStatsExportEvent.objects.filter(
-                status__in=[
-                    AdjudicatorStatsExportEvent.Status.FAILED,
-                    AdjudicatorStatsExportEvent.Status.PERMANENT_FAILED,
-                ],
-            ).select_related('tournament'):
-                if event.tournament_id:
-                    queue_adjudicator_stats_export(event.tournament, force=True, reset_attempts=True)
-                elif event.payload:
-                    event.status = AdjudicatorStatsExportEvent.Status.PENDING
-                    event.attempts = 0
-                    event.next_attempt_at = timezone.now()
-                    event.last_error = ''
-                    event.save(update_fields=['status', 'attempts', 'next_attempt_at', 'last_error', 'updated_at'])
-                else:
-                    continue
-                queued += 1
-            messages.success(request, _('%(queued)s failed judge activity events queued for retry.') % {'queued': queued})
-        elif action in {'send_pending_activity'} or (action == 'send_pending' and redirect_name == 'feedbackexport-activity'):
-            result = send_pending_adjudicator_stats_events(limit=100)
-            messages.success(request, _('%(processed)s judge activity events processed; %(sent)s sent; %(failed)s failed.') % result)
-        return redirect(redirect_name)
+
+class ExportJobView(FeedbackExportPermissionMixin, TemplateView):
+    template_name = 'feedbackexport/job.html'
+
+    def get_context_data(self, **kwargs):
+        job = get_object_or_404(ExportJob.objects.select_related('requested_by'), pk=self.kwargs['pk'])
+        items = job.items.all()
+        status = self.request.GET.get('status', '')
+        if status in ExportJobItem.Status.values:
+            items = items.filter(status=status)
+        kwargs.update(active_tab='export', job=job, summary=job_summary(job),
+                      items_page=Paginator(items, 50).get_page(self.request.GET.get('page')),
+                      item_statuses=ExportJobItem.Status.choices, selected_status=status)
+        return super().get_context_data(**kwargs)
 
 
-def _activity_status(event, tournament):
-    if event is None:
-        return {
-            'key': 'not_exported',
-            'label': _('Not exported'),
-            'badge': 'secondary',
-        }
-    if adjudicator_stats_event_needs_reexport(event, tournament):
-        return {
-            'key': 'needs_reexport',
-            'label': _('Needs re-export'),
-            'badge': 'warning',
-        }
-    return {
-        'key': event.status,
-        'label': event.get_status_display(),
-        'badge': {
-            AdjudicatorStatsExportEvent.Status.PENDING: 'info',
-            AdjudicatorStatsExportEvent.Status.SENT: 'success',
-            AdjudicatorStatsExportEvent.Status.FAILED: 'warning',
-            AdjudicatorStatsExportEvent.Status.PERMANENT_FAILED: 'danger',
-        }.get(event.status, 'secondary'),
-    }
-
-
-def _selected_tournament_ids(request):
-    ids = []
-    for value in request.POST.getlist('tournaments'):
+class ExportJobCreateView(FeedbackExportManageMixin, View):
+    def post(self, request):
         try:
-            ids.append(int(value))
-        except (TypeError, ValueError):
-            continue
-    return ids
+            data = json.loads(request.body) if request.content_type == 'application/json' else {
+                'tournament_ids': request.POST.getlist('tournaments'),
+                'export_types': [request.POST.get('kind', 'feedback')],
+                'force': request.POST.get('force') == 'on',
+                'submission_token': request.POST.get('submission_token'),
+                'backlog': request.POST.get('backlog') == '1',
+            }
+            if not isinstance(data, dict) or not data.get('submission_token'):
+                raise ValueError('A submission token is required. Refresh the page and try again.')
+            if type(data.get('force', False)) is not bool or type(data.get('backlog', False)) is not bool:
+                raise ValueError('Invalid export options.')
+            common = {'requested_by': request.user, 'submission_token': data['submission_token']}
+            if data.get('backlog'):
+                job = create_backlog_job(**common)
+            else:
+                kinds = data.get('export_types', [])
+                if kinds == ['both']:
+                    kinds = ['feedback', 'activity']
+                if not isinstance(kinds, list) or not isinstance(data.get('tournament_ids'), list):
+                    raise ValueError('Select tournaments and export types.')
+                job = create_job(tournament_ids=data['tournament_ids'], kinds=kinds, force=data.get('force', False), **common)
+        except (ValueError, TypeError, AttributeError) as exc:
+            return JsonResponse({'error': str(exc)}, status=400)
+        url = reverse('feedbackexport-job', args=[job.id])
+        if request.content_type != 'application/json' and request.headers.get('X-Requested-With') != 'XMLHttpRequest':
+            return redirect(url)
+        response = JsonResponse({'id': job.id, 'url': url, 'status_url': reverse('feedbackexport-job-status', args=[job.id])}, status=202)
+        response['Location'] = url
+        return response
+
+
+class ExportJobStatusView(FeedbackExportPermissionMixin, View):
+    def get(self, request, pk):
+        job = get_object_or_404(ExportJob, pk=pk)
+        response = JsonResponse({**job_summary(job), 'health': configuration()})
+        response['Cache-Control'] = 'no-store'
+        return response
+
+
+class ExportJobItemsView(FeedbackExportPermissionMixin, View):
+    def get(self, request, pk):
+        job = get_object_or_404(ExportJob, pk=pk)
+        items = job.items.all()
+        status = request.GET.get('status')
+        if status in ExportJobItem.Status.values:
+            items = items.filter(status=status)
+        page = Paginator(items.values('id', 'kind', 'source_id', 'tournament_id', 'label', 'status',
+                                     'attempts', 'next_attempt_at', 'last_error', 'http_status', 'receipt', 'updated_at'), 50).get_page(request.GET.get('page'))
+        response = JsonResponse({'items': list(page), 'page': page.number, 'pages': page.paginator.num_pages})
+        response['Cache-Control'] = 'no-store'
+        return response
+
+
+class ExportJobControlView(FeedbackExportManageMixin, View):
+    def post(self, request, pk, action):
+        get_object_or_404(ExportJob, pk=pk)
+        try:
+            job = control_job(pk, action)
+        except ValueError as exc:
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({'error': str(exc)}, status=409)
+            messages.error(request, str(exc))
+            return redirect('feedbackexport-job', pk=pk)
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse(job_summary(job))
+        return redirect('feedbackexport-job', pk=pk)
 
 
 class FeedbackExportAccessView(FeedbackExportManageMixin, TemplateView):

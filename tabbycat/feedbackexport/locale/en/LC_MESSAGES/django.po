@@ -1,489 +1,629 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
+# DR export workspace translations.
+# Distributed under the project license.
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: Tabbycat DR exports\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-17 14:40+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"POT-Creation-Date: 2026-10-23 00:46+0200\n"
+"PO-Revision-Date: 2026-10-23 09:00+0200\n"
+"Last-Translator: Tabbycat contributors\n"
+"Language-Team: English\n"
+"Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-#: apps.py:7 views.py:38
+
+#: apps.py:7
 msgid "API Exports"
-msgstr ""
+msgstr "API Exports"
 
 #: forms.py:14 templates/feedbackexport/access.html:38
 msgid "User"
-msgstr ""
+msgstr "User"
 
 #: forms.py:19 templates/feedbackexport/access.html:38
 msgid "Permissions"
-msgstr ""
+msgstr "Permissions"
 
 #: forms.py:37
 msgid "All statuses"
-msgstr ""
+msgstr "All statuses"
 
-#: forms.py:38 templates/feedbackexport/events.html:20
-#: templates/feedbackexport/events.html:52
-#: templates/feedbackexport/index.html:25
-#: templates/feedbackexport/index.html:47
+#: forms.py:38
 msgid "Pending"
-msgstr ""
+msgstr "Pending"
 
-#: forms.py:39 templates/feedbackexport/events.html:21
-#: templates/feedbackexport/events.html:53
-#: templates/feedbackexport/events.html:199
+#: forms.py:39 models.py:198 templates/feedbackexport/job.html:16
 msgid "Sent"
-msgstr ""
+msgstr "Sent"
 
-#: forms.py:40 templates/feedbackexport/events.html:22
-#: templates/feedbackexport/events.html:54
-#: templates/feedbackexport/index.html:26
-#: templates/feedbackexport/index.html:48
+#: forms.py:40 models.py:200 templates/feedbackexport/job.html:19
 msgid "Failed"
-msgstr ""
+msgstr "Failed"
 
 #: forms.py:41
 msgid "Permanently failed"
-msgstr ""
+msgstr "Permanently failed"
 
-#: models.py:10
+#: models.py:12
 msgid "view feedback export"
-msgstr ""
+msgstr "view feedback export"
 
-#: models.py:11
+#: models.py:13
 msgid "manage feedback export"
-msgstr ""
+msgstr "manage feedback export"
 
-#: models.py:15
+#: models.py:17
 msgid "user"
-msgstr ""
+msgstr "user"
 
-#: models.py:16
+#: models.py:18
 msgid "permission"
-msgstr ""
+msgstr "permission"
 
-#: models.py:20
+#: models.py:22
 msgid "global feedback export permission"
-msgstr ""
+msgstr "global feedback export permission"
 
-#: models.py:21
+#: models.py:23
 msgid "global feedback export permissions"
-msgstr ""
+msgstr "global feedback export permissions"
 
-#: models.py:29 models.py:80
+#: models.py:31 models.py:90
 msgid "pending"
-msgstr ""
+msgstr "pending"
 
-#: models.py:30 models.py:81
+#: models.py:32 models.py:91 templates/feedbackexport/history.html:12
 msgid "sent"
-msgstr ""
+msgstr "sent"
 
-#: models.py:31 models.py:82
+#: models.py:33 models.py:92 templates/feedbackexport/history.html:12
 msgid "failed"
-msgstr ""
+msgstr "failed"
 
-#: models.py:32 models.py:83
+#: models.py:34 models.py:93
 msgid "permanently failed"
-msgstr ""
+msgstr "permanently failed"
 
-#: models.py:35
+#: models.py:39
 msgid "feedback"
-msgstr ""
+msgstr "feedback"
 
-#: models.py:37 models.py:96
+#: models.py:41 models.py:106
 msgid "status"
-msgstr ""
+msgstr "status"
 
-#: models.py:38 models.py:97
+#: models.py:42 models.py:107
 msgid "idempotency key"
-msgstr ""
+msgstr "idempotency key"
 
-#: models.py:39 models.py:98
+#: models.py:43 models.py:108
 msgid "attempts"
-msgstr ""
+msgstr "attempts"
 
-#: models.py:40 models.py:99
+#: models.py:44 models.py:109
 msgid "next attempt at"
-msgstr ""
+msgstr "next attempt at"
 
-#: models.py:41 models.py:100
+#: models.py:45 models.py:110
 msgid "last error"
-msgstr ""
+msgstr "last error"
 
-#: models.py:42 models.py:101
+#: models.py:46 models.py:111
 msgid "last HTTP status"
-msgstr ""
+msgstr "last HTTP status"
 
-#: models.py:43 models.py:102
+#: models.py:48 models.py:113
 msgid "payload hash"
-msgstr ""
+msgstr "payload hash"
 
-#: models.py:44 models.py:103
+#: models.py:49 models.py:114
 msgid "payload"
-msgstr ""
+msgstr "payload"
 
-#: models.py:45 models.py:104
+#: models.py:50 models.py:115
 msgid "remote response"
-msgstr ""
+msgstr "remote response"
 
-#: models.py:46 models.py:105
+#: models.py:51 models.py:116
 msgid "sent at"
-msgstr ""
+msgstr "sent at"
 
-#: models.py:47 models.py:106
+#: models.py:52 models.py:117
 msgid "created at"
-msgstr ""
+msgstr "created at"
 
-#: models.py:48 models.py:107
+#: models.py:53 models.py:118
 msgid "updated at"
-msgstr ""
+msgstr "updated at"
 
-#: models.py:52
+#: models.py:57
 msgid "feedback export event"
-msgstr ""
+msgstr "feedback export event"
 
-#: models.py:53
+#: models.py:58
 msgid "feedback export events"
-msgstr ""
+msgstr "feedback export events"
 
-#: models.py:86
+#: models.py:96
 msgid "tournament"
-msgstr ""
+msgstr "tournament"
 
-#: models.py:88
+#: models.py:98
 msgid "break tournament"
-msgstr ""
+msgstr "break tournament"
 
-#: models.py:90
+#: models.py:100
 msgid "source tournament ID"
-msgstr ""
+msgstr "source tournament ID"
 
-#: models.py:91
+#: models.py:101
 msgid "source tournament slug"
-msgstr ""
+msgstr "source tournament slug"
 
-#: models.py:92
+#: models.py:102
 msgid "source tournament name"
-msgstr ""
+msgstr "source tournament name"
 
-#: models.py:94
+#: models.py:104
 msgid "source tournament short name"
-msgstr ""
+msgstr "source tournament short name"
 
-#: models.py:111
+#: models.py:122
 msgid "adjudicator stats export event"
-msgstr ""
+msgstr "adjudicator stats export event"
 
-#: models.py:112
+#: models.py:123
 msgid "adjudicator stats export events"
-msgstr ""
+msgstr "adjudicator stats export events"
 
-#: templates/feedbackexport/access.html:7 views.py:59
+#: models.py:158
+msgid "Queued"
+msgstr "Queued"
+
+#: models.py:159 models.py:193
+msgid "Preparing"
+msgstr "Preparing"
+
+#: models.py:160 models.py:195
+msgid "Sending"
+msgstr "Sending"
+
+#: models.py:161 models.py:196 templates/feedbackexport/job.html:18
+msgid "Waiting for retry"
+msgstr "Waiting for retry"
+
+#: models.py:162
+msgid "Paused"
+msgstr "Paused"
+
+#: models.py:163 models.py:197 templates/feedbackexport/job.html:20
+msgid "Needs attention"
+msgstr "Needs attention"
+
+#: models.py:164
+msgid "Completed"
+msgstr "Completed"
+
+#: models.py:165
+msgid "Completed with errors"
+msgstr "Completed with errors"
+
+#: models.py:194
+msgid "Ready"
+msgstr "Ready"
+
+#: models.py:199 templates/feedbackexport/job.html:17
+msgid "Unchanged"
+msgstr "Unchanged"
+
+#: models.py:203 templates/feedbackexport/base.html:26
+#: templates/feedbackexport/history.html:8
+#: templates/feedbackexport/history.html:12
+#: templates/feedbackexport/index.html:32 templates/feedbackexport/job.html:29
+msgid "Feedback"
+msgstr "Feedback"
+
+#: models.py:203 templates/feedbackexport/base.html:27
+#: templates/feedbackexport/history.html:8
+#: templates/feedbackexport/history.html:12
+#: templates/feedbackexport/index.html:33 templates/feedbackexport/job.html:29
+msgid "Judge activity"
+msgstr "Judge activity"
+
+#: templates/feedbackexport/access.html:7 views.py:41
 msgid "Access"
-msgstr ""
+msgstr "Access"
 
 #: templates/feedbackexport/access.html:8
 msgid "Grant global access to API Exports. Manage implies view access."
-msgstr ""
+msgstr "Grant global access to API Exports. Manage implies view access."
 
 #: templates/feedbackexport/access.html:15
 msgid "Grant access"
-msgstr ""
+msgstr "Grant access"
 
 #: templates/feedbackexport/access.html:26
 msgid "Save access"
-msgstr ""
+msgstr "Save access"
 
 #: templates/feedbackexport/access.html:33
 msgid "Current access"
-msgstr ""
+msgstr "Current access"
 
 #: templates/feedbackexport/access.html:53
 msgid "No users have explicit API export access yet."
-msgstr ""
+msgstr "No users have explicit API export access yet."
 
-#: templates/feedbackexport/base.html:421
-msgid "Live feedback export is disabled. Queueing still works, but sending requires SDA_JUDGES_FEEDBACK_EXPORT_ENABLED=True."
-msgstr ""
+#: templates/feedbackexport/base.html:11 views.py:27
+msgid "DR exports"
+msgstr "DR exports"
 
-#: templates/feedbackexport/base.html:425
-msgid "No external feedback API endpoint is configured. Set SDA_JUDGES_FEEDBACK_API_URL before processing feedback sends."
-msgstr ""
+#: templates/feedbackexport/base.html:12
+msgid "Choose what to send. We’ll take care of the rest."
+msgstr "Choose what to send. We’ll take care of the rest."
 
-#: templates/feedbackexport/base.html:429
-msgid "Live judge activity export is disabled. Manual queueing still works, but sending requires SDA_JUDGES_ACTIVITY_EXPORT_ENABLED=True."
-msgstr ""
+#: templates/feedbackexport/base.html:13
+msgid "Site tools"
+msgstr "Site tools"
 
-#: templates/feedbackexport/base.html:433
-msgid "No external judge activity API endpoint is configured. Set SDA_JUDGES_ACTIVITY_API_URL before processing activity sends."
-msgstr ""
+#: templates/feedbackexport/base.html:15
+msgid "Export navigation"
+msgstr "Export navigation"
 
-#: templates/feedbackexport/base.html:447
-msgid "Export structured SDA data from Tabbycat to external systems. Judge exports are managed together here; feedback and activity still remain separate records under the hood."
-msgstr ""
+#: templates/feedbackexport/base.html:22
+msgid "Export health"
+msgstr "Export health"
 
-#: templates/feedbackexport/base.html:451
-msgid "Return to Site Tools"
-msgstr ""
+#: templates/feedbackexport/base.html:24 templates/feedbackexport/job.html:4
+msgid "Worker online"
+msgstr "Worker online"
 
-#: templates/feedbackexport/base.html:456
-msgid "API export navigation"
-msgstr ""
+#: templates/feedbackexport/base.html:24 templates/feedbackexport/job.html:4
+msgid "Worker unavailable"
+msgstr "Worker unavailable"
 
-#: templates/feedbackexport/base.html:461
-msgid "Pipeline health and next actions"
-msgstr ""
+#: templates/feedbackexport/base.html:26 templates/feedbackexport/base.html:27
+msgid "Configured"
+msgstr "Configured"
 
-#: templates/feedbackexport/base.html:463
-msgid "Feedback and adjudicated debate counts"
-msgstr ""
+#: templates/feedbackexport/base.html:26 templates/feedbackexport/base.html:27
+msgid "Disabled or unconfigured"
+msgstr "Disabled or unconfigured"
 
-#: templates/feedbackexport/base.html:465
-msgid "Global permissions"
-msgstr ""
+#: templates/feedbackexport/base.html:29
+msgid ""
+"The export worker is not responding. Jobs are saved safely and will continue "
+"when it returns. Contact your site administrator."
+msgstr "The export worker is not responding. Jobs are saved safely and will continue when it returns. Contact your site administrator."
 
-#: templates/feedbackexport/events.html:7 views.py:58
-msgid "Judge Data"
-msgstr ""
+#: templates/feedbackexport/history.html:5
+msgid "Export history"
+msgstr "Export history"
 
-#: templates/feedbackexport/events.html:8
-msgid "One workspace for exporting judge feedback and adjudicated debate counts to DR. They remain separate records, but are operated from one place."
-msgstr ""
+#: templates/feedbackexport/history.html:5
+msgid "Review previous runs and records that need attention."
+msgstr "Review previous runs and records that need attention."
 
-#: templates/feedbackexport/events.html:15
-#: templates/feedbackexport/events.html:150
-msgid "Feedback"
-msgstr ""
-
-#: templates/feedbackexport/events.html:16
-#: templates/feedbackexport/events.html:48
+#: templates/feedbackexport/history.html:7
 #: templates/feedbackexport/index.html:19
-#: templates/feedbackexport/index.html:41
-msgid "Ready"
-msgstr ""
-
-#: templates/feedbackexport/events.html:18
-msgid "Confirmed feedback exports with source identifiers. DR handles judge matching and duplicate resolution."
-msgstr ""
-
-#: templates/feedbackexport/events.html:29
-msgid "Queue feedback"
-msgstr ""
-
-#: templates/feedbackexport/events.html:34
-#: templates/feedbackexport/events.html:61
-msgid "Retry failed"
-msgstr ""
-
-#: templates/feedbackexport/events.html:39
-#: templates/feedbackexport/events.html:66
-msgid "Send pending"
-msgstr ""
-
-#: templates/feedbackexport/events.html:47
-msgid "Judge activity"
-msgstr ""
-
-#: templates/feedbackexport/events.html:50
-msgid "Tournament debate counts export with source identifiers. DR falls back to email, name or local ID."
-msgstr ""
-
-#: templates/feedbackexport/events.html:78
-msgid "Tournament activity exports"
-msgstr ""
-
-#: templates/feedbackexport/events.html:79
-msgid "Select only the tournaments you want to export or re-export. Feedback is queued separately above."
-msgstr ""
-
-#: templates/feedbackexport/events.html:83
-msgid "Queue selected activity"
-msgstr ""
-
-#: templates/feedbackexport/events.html:84
-msgid "Force re-export selected"
-msgstr ""
-
-#: templates/feedbackexport/events.html:94
-#: templates/feedbackexport/events.html:199
 msgid "Tournament"
-msgstr ""
+msgstr "Tournament"
 
-#: templates/feedbackexport/events.html:95
-msgid "Catalog metadata"
-msgstr ""
+#: templates/feedbackexport/history.html:7
+#: templates/feedbackexport/index.html:16
+msgid "All tournaments"
+msgstr "All tournaments"
 
-#: templates/feedbackexport/events.html:96
-msgid "Activity status"
-msgstr ""
+#: templates/feedbackexport/history.html:8
+#: templates/feedbackexport/index.html:31
+msgid "Export type"
+msgstr "Export type"
 
-#: templates/feedbackexport/events.html:97
-msgid "Last sent"
-msgstr ""
+#: templates/feedbackexport/history.html:8
+msgid "All types"
+msgstr "All types"
 
-#: templates/feedbackexport/events.html:98
-#: templates/feedbackexport/events.html:155
-msgid "Last error"
-msgstr ""
+#: templates/feedbackexport/history.html:9
+#: templates/feedbackexport/history.html:11
+#: templates/feedbackexport/job.html:28
+msgid "Outcome"
+msgstr "Outcome"
 
-#: templates/feedbackexport/events.html:118
-msgid "No Break management metadata"
-msgstr ""
+#: templates/feedbackexport/history.html:9 templates/feedbackexport/job.html:28
+msgid "All outcomes"
+msgstr "All outcomes"
 
-#: templates/feedbackexport/events.html:127
-msgid "No tournaments exist yet."
-msgstr ""
-
-#: templates/feedbackexport/events.html:138
-msgid "Feedback export history"
-msgstr ""
-
-#: templates/feedbackexport/events.html:139
-msgid "Recent feedback export events. Use the status filter if you only need failures or pending sends."
-msgstr ""
-
-#: templates/feedbackexport/events.html:143
+#: templates/feedbackexport/history.html:9 templates/feedbackexport/job.html:28
 msgid "Filter"
-msgstr ""
+msgstr "Filter"
 
-#: templates/feedbackexport/events.html:151
-msgid "Target"
-msgstr ""
+#: templates/feedbackexport/history.html:11 views.py:39
+msgid "Export"
+msgstr "Export"
 
-#: templates/feedbackexport/events.html:152
-#: templates/feedbackexport/events.html:199
-msgid "Status"
-msgstr ""
+#: templates/feedbackexport/history.html:11
+msgid "Scope"
+msgstr "Scope"
 
-#: templates/feedbackexport/events.html:153
-msgid "Attempts"
-msgstr ""
+#: templates/feedbackexport/history.html:11
+msgid "Started by"
+msgstr "Started by"
 
-#: templates/feedbackexport/events.html:154
-msgid "HTTP"
-msgstr ""
+#: templates/feedbackexport/history.html:11
+msgid "Results"
+msgstr "Results"
 
-#: templates/feedbackexport/events.html:156
-#: templates/feedbackexport/events.html:199
-msgid "Updated"
-msgstr ""
+#: templates/feedbackexport/history.html:12
+#: templates/feedbackexport/index.html:46 templates/feedbackexport/job.html:5
+msgid "Existing backlog"
+msgstr "Existing backlog"
 
-#: templates/feedbackexport/events.html:176
-msgid "Retry"
-msgstr ""
+#: templates/feedbackexport/history.html:12
+msgid "unchanged"
+msgstr "unchanged"
 
-#: templates/feedbackexport/events.html:182
-msgid "No feedback export events match this filter."
-msgstr ""
+#: templates/feedbackexport/history.html:13
+msgid "No exports yet. Start with a tournament on the Export page."
+msgstr "No exports yet. Start with a tournament on the Export page."
 
-#: templates/feedbackexport/events.html:193
-msgid "Archived local activity events"
-msgstr ""
+#: templates/feedbackexport/history.html:15
+msgid "History pages"
+msgstr "History pages"
 
-#: templates/feedbackexport/events.html:194
-msgid "These local export events still exist, but their source tournament has been removed from Tabbycat."
-msgstr ""
+#: templates/feedbackexport/history.html:15
+#: templates/feedbackexport/job.html:32
+msgid "Previous"
+msgstr "Previous"
 
-#: templates/feedbackexport/index.html:7 views.py:57
-msgid "Overview"
-msgstr ""
+#: templates/feedbackexport/history.html:15
+#: templates/feedbackexport/job.html:32
+msgid "Next"
+msgstr "Next"
 
-#: templates/feedbackexport/index.html:8
-msgid "A short control room for judge data exports. DR owns judge identity matching; Tabbycat sends source names, emails and local IDs."
-msgstr ""
+#: templates/feedbackexport/index.html:5
+msgid "An export is in progress"
+msgstr "An export is in progress"
+
+#: templates/feedbackexport/index.html:5
+msgid "New exports will wait their turn."
+msgstr "New exports will wait their turn."
+
+#: templates/feedbackexport/index.html:5
+msgid "View progress"
+msgstr "View progress"
+
+#: templates/feedbackexport/index.html:7
+msgid "Latest export"
+msgstr "Latest export"
+
+#: templates/feedbackexport/index.html:7
+msgid "View results"
+msgstr "View results"
+
+#: templates/feedbackexport/index.html:13
+msgid "Select tournaments"
+msgstr "Select tournaments"
+
+#: templates/feedbackexport/index.html:13
+msgid "Only the tournaments you select will be exported."
+msgstr "Only the tournaments you select will be exported."
 
 #: templates/feedbackexport/index.html:15
-msgid "Feedback export"
-msgstr ""
+msgid "Search tournaments"
+msgstr "Search tournaments"
 
-#: templates/feedbackexport/index.html:17
-#: templates/feedbackexport/index.html:37
-msgid "Needs attention"
-msgstr ""
+#: templates/feedbackexport/index.html:15
+msgid "Name or slug"
+msgstr "Name or slug"
 
-#: templates/feedbackexport/index.html:22
-msgid "Exports confirmed adjudicator feedback to DR. DR matches judges by exported ID when present, then email, name and local fallback."
-msgstr ""
+#: templates/feedbackexport/index.html:16
+msgid "Show"
+msgstr "Show"
 
-#: templates/feedbackexport/index.html:24
+#: templates/feedbackexport/index.html:16
+#: templates/feedbackexport/index.html:23
+msgid "Active"
+msgstr "Active"
+
+#: templates/feedbackexport/index.html:16
+#: templates/feedbackexport/index.html:23
+msgid "Archived"
+msgstr "Archived"
+
+#: templates/feedbackexport/index.html:18
+msgid "Select all matching tournaments"
+msgstr "Select all matching tournaments"
+
+#: templates/feedbackexport/index.html:18
+msgid "Clear selection"
+msgstr "Clear selection"
+
+#: templates/feedbackexport/index.html:19
 msgid "Confirmed feedback"
-msgstr ""
+msgstr "Confirmed feedback"
 
-#: templates/feedbackexport/index.html:29
-#: templates/feedbackexport/index.html:51
-msgid "Open Judge Data"
-msgstr ""
+#: templates/feedbackexport/index.html:19 templates/feedbackexport/job.html:29
+msgid "Status"
+msgstr "Status"
 
-#: templates/feedbackexport/index.html:35
-msgid "Judge activity export"
-msgstr ""
+#: templates/feedbackexport/index.html:25
+msgid "No tournaments exist yet."
+msgstr "No tournaments exist yet."
+
+#: templates/feedbackexport/index.html:27
+msgid "No tournaments match your search."
+msgstr "No tournaments match your search."
+
+#: templates/feedbackexport/index.html:30
+msgid "Choose your export"
+msgstr "Choose your export"
+
+#: templates/feedbackexport/index.html:32
+msgid "Confirmed judge feedback and answers"
+msgstr "Confirmed judge feedback and answers"
+
+#: templates/feedbackexport/index.html:33
+msgid "Adjudicated debate counts per tournament"
+msgstr "Adjudicated debate counts per tournament"
+
+#: templates/feedbackexport/index.html:34
+msgid "Both"
+msgstr "Both"
+
+#: templates/feedbackexport/index.html:34
+msgid "Feedback and judge activity together"
+msgstr "Feedback and judge activity together"
+
+#: templates/feedbackexport/index.html:36
+msgid "Selected tournaments"
+msgstr "Selected tournaments"
+
+#: templates/feedbackexport/index.html:36
+msgid "Eligible feedback"
+msgstr "Eligible feedback"
+
+#: templates/feedbackexport/index.html:36
+msgid "Activity snapshots"
+msgstr "Activity snapshots"
+
+#: templates/feedbackexport/index.html:37
+msgid ""
+"Unchanged records are skipped. Exact totals are calculated as the export is "
+"prepared."
+msgstr "Unchanged records are skipped. Exact totals are calculated as the export is prepared."
+
+#: templates/feedbackexport/index.html:38
+msgid "Advanced options"
+msgstr "Advanced options"
+
+#: templates/feedbackexport/index.html:38
+msgid "Force re-export"
+msgstr "Force re-export"
+
+#: templates/feedbackexport/index.html:38
+msgid "Send unchanged records again using their existing DR identifiers."
+msgstr "Send unchanged records again using their existing DR identifiers."
 
 #: templates/feedbackexport/index.html:39
-msgid "Queued"
-msgstr ""
+msgid "Export to DR"
+msgstr "Export to DR"
 
-#: templates/feedbackexport/index.html:44
-msgid "Exports adjudicated debate counts by tournament. DR matches judges by exported ID when present, then email, name and local fallback."
-msgstr ""
+#: templates/feedbackexport/index.html:39
+msgid "Enable JavaScript to select tournaments and start an export."
+msgstr "Enable JavaScript to select tournaments and start an export."
+
+#: templates/feedbackexport/index.html:39
+msgid "You have view-only access. Ask an export manager to start a job."
+msgstr "You have view-only access. Ask an export manager to start a job."
+
+#: templates/feedbackexport/index.html:40
+msgid ""
+"You can close this page after starting. Sending and retries continue in the "
+"background."
+msgstr "You can close this page after starting. Sending and retries continue in the background."
 
 #: templates/feedbackexport/index.html:46
-msgid "Export events"
-msgstr ""
+msgid "Previously queued records are waiting for a manual start."
+msgstr "Previously queued records are waiting for a manual start."
 
-#: views.py:94 views.py:170
-#, python-format
-msgid "%(queued)s feedback export events queued; %(skipped)s skipped."
-msgstr ""
+#: templates/feedbackexport/index.html:46
+msgid "Resume existing backlog"
+msgstr "Resume existing backlog"
 
-#: views.py:97 views.py:167
-#, python-format
-msgid "%(processed)s export events processed; %(sent)s sent; %(failed)s failed."
-msgstr ""
+#: templates/feedbackexport/job.html:4
+msgid ""
+"Connection interrupted. Reconnecting; the export continues in the background."
+msgstr "Connection interrupted. Reconnecting; the export continues in the background."
 
-#: views.py:156
-msgid "Feedback export event was queued for retry."
-msgstr ""
+#: templates/feedbackexport/job.html:5
+msgid "EXPORT"
+msgstr "EXPORT"
 
-#: views.py:164
-#, python-format
-msgid "%(count)s failed export events were queued for retry."
-msgstr ""
+#: templates/feedbackexport/job.html:7
+msgid "Pause"
+msgstr "Pause"
 
-#: views.py:182
-#, python-format
-msgid "%(queued)s judge activity export events queued."
-msgstr ""
+#: templates/feedbackexport/job.html:8
+msgid "Resume"
+msgstr "Resume"
 
-#: views.py:202
-#, python-format
-msgid "%(queued)s failed judge activity events queued for retry."
-msgstr ""
+#: templates/feedbackexport/job.html:9
+msgid "Retry failed"
+msgstr "Retry failed"
 
-#: views.py:205
-#, python-format
-msgid "%(processed)s judge activity events processed; %(sent)s sent; %(failed)s failed."
-msgstr ""
+#: templates/feedbackexport/job.html:10
+msgid "New export"
+msgstr "New export"
 
-#: views.py:213
-msgid "Not exported"
-msgstr ""
+#: templates/feedbackexport/job.html:12
+msgid ""
+"Preparing records in batches. Totals will settle when preparation is "
+"complete."
+msgstr "Preparing records in batches. Totals will settle when preparation is complete."
 
-#: views.py:219
-msgid "Needs re-export"
-msgstr ""
+#: templates/feedbackexport/job.html:13
+msgid "Export progress"
+msgstr "Export progress"
 
-#: views.py:257
+#: templates/feedbackexport/job.html:15
+msgid "Records"
+msgstr "Records"
+
+#: templates/feedbackexport/job.html:23
+msgid "Last progress"
+msgstr "Last progress"
+
+#: templates/feedbackexport/job.html:23
+msgid "Next retry"
+msgstr "Next retry"
+
+#: templates/feedbackexport/job.html:24
+msgid ""
+"You can leave this page. Each prepared version stays fixed through retries; "
+"later edits are picked up by your next export."
+msgstr "You can leave this page. Each prepared version stays fixed through retries; later edits are picked up by your next export."
+
+#: templates/feedbackexport/job.html:28
+msgid "Record details"
+msgstr "Record details"
+
+#: templates/feedbackexport/job.html:28
+msgid ""
+"Invalid records need a source correction and a new export. Delivery failures "
+"can retry the prepared version."
+msgstr "Invalid records need a source correction and a new export. Delivery failures can retry the prepared version."
+
+#: templates/feedbackexport/job.html:29
+msgid "Record"
+msgstr "Record"
+
+#: templates/feedbackexport/job.html:29
+msgid "Type"
+msgstr "Type"
+
+#: templates/feedbackexport/job.html:29
+msgid "Attempts"
+msgstr "Attempts"
+
+#: templates/feedbackexport/job.html:29 templates/feedbackexport/job.html:30
+msgid "Details"
+msgstr "Details"
+
+#: templates/feedbackexport/job.html:29 templates/feedbackexport/job.html:30
+msgid "No records match this filter yet."
+msgstr "No records match this filter yet."
+
+#: templates/feedbackexport/job.html:32
+msgid "Record pages"
+msgstr "Record pages"
+
+#: views.py:40
+msgid "History"
+msgstr "History"
+
+#: views.py:214
 #, python-format
 msgid "API export access updated for %(user)s."
-msgstr ""
+msgstr "API export access updated for %(user)s."

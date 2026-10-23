@@ -55,6 +55,7 @@ formats too. If you're looking for a general overview of the software, check out
    :caption: Feature notes
 
    features/adjudicator-feedback
+   features/dr-exports
    features/adjudicator-allocation
    features/api
    features/breaks

@@ -57,6 +57,9 @@ services:
       - SDA_JUDGES_FEEDBACK_API_TOKEN=${SDA_JUDGES_FEEDBACK_API_TOKEN}
       - SDA_JUDGES_ACTIVITY_EXPORT_ENABLED=${SDA_JUDGES_ACTIVITY_EXPORT_ENABLED}
       - SDA_JUDGES_ACTIVITY_API_URL=${SDA_JUDGES_ACTIVITY_API_URL}
+      - SDA_JUDGES_ACTIVITY_API_TOKEN=${SDA_JUDGES_ACTIVITY_API_TOKEN:-}
+      - FEEDBACK_EXPORT_TIMEOUT=${FEEDBACK_EXPORT_TIMEOUT:-10}
+      - ADJUDICATOR_STATS_EXPORT_TIMEOUT=${ADJUDICATOR_STATS_EXPORT_TIMEOUT:-10}
     expose:
       - "8000"
     networks:
@@ -68,7 +71,7 @@ services:
         condition: service_healthy
     restart: unless-stopped
 
-  worker:
+  worker: &background-worker
     build: .
     container_name: tabbycat-worker
     working_dir: /tcd
@@ -84,12 +87,15 @@ services:
       - EMAIL_HOST_USER=${EMAIL_HOST_USER}
       - EMAIL_HOST_PASSWORD=${EMAIL_HOST_PASSWORD}
       - DEFAULT_FROM_EMAIL=${DEFAULT_FROM_EMAIL}
-      # SDA judges export integration (the feedbackexport worker runs here)
+      # DR export worker (manual jobs only)
       - SDA_JUDGES_FEEDBACK_EXPORT_ENABLED=${SDA_JUDGES_FEEDBACK_EXPORT_ENABLED}
       - SDA_JUDGES_FEEDBACK_API_URL=${SDA_JUDGES_FEEDBACK_API_URL}
       - SDA_JUDGES_FEEDBACK_API_TOKEN=${SDA_JUDGES_FEEDBACK_API_TOKEN}
       - SDA_JUDGES_ACTIVITY_EXPORT_ENABLED=${SDA_JUDGES_ACTIVITY_EXPORT_ENABLED}
       - SDA_JUDGES_ACTIVITY_API_URL=${SDA_JUDGES_ACTIVITY_API_URL}
+      - SDA_JUDGES_ACTIVITY_API_TOKEN=${SDA_JUDGES_ACTIVITY_API_TOKEN:-}
+      - FEEDBACK_EXPORT_TIMEOUT=${FEEDBACK_EXPORT_TIMEOUT:-10}
+      - ADJUDICATOR_STATS_EXPORT_TIMEOUT=${ADJUDICATOR_STATS_EXPORT_TIMEOUT:-10}
     networks:
       - dokploy-network
     depends_on:
@@ -98,6 +104,21 @@ services:
       redis:
         condition: service_healthy
     restart: unless-stopped
+
+  exports:
+    <<: *background-worker
+    container_name: tabbycat-export-worker
+    command: ["./bin/docker-wait.sh", "--timeout=0", "web:8000", "--", "./bin/docker-run-export-worker.sh"]
+    healthcheck:
+      test: ["CMD", "python", "tabbycat/manage.py", "feedbackexport", "healthcheck"]
+      interval: 30s
+      timeout: 10s
+      start_period: 60s
+      retries: 3
+    stop_grace_period: 45s
+    depends_on:
+      postgres:
+        condition: service_healthy
 
 networks:
   dokploy-network:
