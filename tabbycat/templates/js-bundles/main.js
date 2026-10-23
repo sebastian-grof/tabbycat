@@ -22,6 +22,7 @@ import CategoryManagerContainer from '../../tournaments/templates/CategoryManage
 import EditDebateAdjudicatorsContainer from '../../adjallocation/templates/EditDebateAdjudicatorsContainer.vue'
 import EditPanelAdjudicatorsContainer from '../../adjallocation/templates/EditPanelAdjudicatorsContainer.vue'
 import EditDebateTeamsContainer from '../../draw/templates/EditDebateTeamsContainer.vue'
+import { initSideAllocationNavigation } from '../../draw/templates/side_allocations.js'
 import EditDebateVenuesContainer from '../../venues/templates/EditDebateVenuesContainer.vue'
 import { useDragAndDropStore } from '../../templates/allocations/DragAndDropStore'
 
@@ -95,6 +96,11 @@ function disabledTriggeredForm (triggeredForm) {
 }
 
 $(document).ready(() => {
+  const sideAllocationWorkspace = document.getElementById('side-allocation-workspace')
+  if (sideAllocationWorkspace) {
+    initSideAllocationNavigation(sideAllocationWorkspace, JSON.parse(document.getElementById('side-allocation-team-data').textContent))
+  }
+
   // Enable hover tooltips for all elements
   $('[data-toggle=tooltip]').tooltip({
     html: true,

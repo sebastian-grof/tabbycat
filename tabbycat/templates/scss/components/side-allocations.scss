@@ -1,0 +1,289 @@
+.side-allocations {
+  // Bootstrap display utilities otherwise override the native hidden attribute.
+  [hidden] {
+    display: none !important;
+  }
+
+  label {
+    font-weight: 600;
+  }
+
+  .text-muted {
+    color: $gray-700 !important;
+  }
+
+  .side-allocation-missing {
+    color: darken(theme-color("warning"), 20%);
+  }
+
+  .btn-success {
+    @include button-variant(darken(theme-color("success"), 15%), darken(theme-color("success"), 15%));
+  }
+
+  .btn-outline-secondary {
+    color: $gray-700;
+
+    &:hover {
+      color: $alt-bg;
+    }
+  }
+
+  .card-header {
+    background: $alt-bg;
+    padding: 1rem 1.25rem;
+  }
+
+  .side-allocation-panel-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .side-allocation-stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+
+    > div {
+      display: flex;
+      flex-direction: column;
+      padding-right: 1rem;
+      border-right: 1px solid $gray-200;
+
+      &:last-child {
+        border-right: 0;
+      }
+    }
+  }
+
+  .side-allocation-stat-value {
+    font-size: 1.75rem;
+    font-weight: 700;
+    line-height: 1.25;
+    margin-bottom: 0.25rem;
+  }
+
+  .side-allocation-split {
+    justify-content: center;
+    gap: 0.25rem;
+
+    strong {
+      display: inline-block;
+      min-width: 1.5rem;
+    }
+  }
+
+  .side-allocation-team-list,
+  .side-allocation-team-label {
+    overflow-wrap: anywhere;
+  }
+
+  .side-allocation-manual-form {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+  }
+
+  .side-allocation-team-label {
+    margin-bottom: 0;
+    cursor: pointer;
+  }
+
+  .side-allocation-editor-table {
+
+    .table {
+      min-width: 40rem;
+      table-layout: fixed;
+    }
+
+    th,
+    td {
+      padding: 0.625rem 0.75rem;
+      vertical-align: middle;
+    }
+
+    thead th {
+      color: $gray-700;
+      font-size: $font-size-sm;
+      white-space: nowrap;
+      padding-top: 0.875rem;
+      padding-bottom: 0.875rem;
+    }
+
+    .side-allocation-rank-column {
+      width: 3.5rem;
+      text-align: center;
+    }
+
+    .side-allocation-number-column {
+      width: 3.5rem;
+      text-align: right;
+    }
+
+    .side-allocation-ballots-column {
+      width: 4.5rem;
+      text-align: right;
+    }
+
+    .side-allocation-points-column {
+      width: 6rem;
+      text-align: right;
+    }
+
+    .side-allocation-side-column {
+      width: 10.5rem;
+    }
+
+    .side-allocation-number {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    [data-rank-value] {
+      text-align: center;
+    }
+
+    .custom-select {
+      width: 100%;
+      min-width: 0;
+      height: auto;
+      padding-top: 0.375rem;
+      padding-bottom: 0.375rem;
+    }
+
+    tr[data-team-id] {
+
+      > th,
+      > td {
+        border-top: 0;
+        border-bottom: 1px solid $gray-200;
+      }
+
+      &:hover > th,
+      &:hover > td {
+        background: $gray-100;
+      }
+    }
+  }
+
+  .side-allocation-save-footer {
+    flex-shrink: 0;
+    background: $alt-bg;
+    border-top: 1px solid $gray-200;
+    padding: 1rem 1.25rem;
+    margin-top: auto;
+  }
+
+  .side-allocation-bye-preview {
+    background: $gray-100;
+    border-left: 3px solid theme-color("primary");
+    padding: 0.75rem;
+    overflow-wrap: anywhere;
+  }
+
+  .side-allocation-overview-table {
+
+    &:focus-visible {
+      outline: 2px solid theme-color("primary");
+      outline-offset: -2px;
+    }
+
+    thead th {
+      white-space: nowrap;
+    }
+
+    th,
+    td {
+      padding: 0.75rem 1rem;
+    }
+
+    th:first-child {
+      position: sticky;
+      left: 0;
+      z-index: 1;
+      background: $alt-bg;
+      min-width: 12rem;
+      max-width: 22rem;
+      overflow-wrap: anywhere;
+      border-right: 2px solid $gray-300;
+    }
+
+    thead th:first-child {
+      z-index: 2;
+    }
+
+    td {
+      text-align: center;
+    }
+  }
+
+  .side-allocation-selected-round {
+    background: mix(theme-color("primary"), $alt-bg, 9%);
+    border-left: 2px solid theme-color("primary");
+    border-right: 2px solid theme-color("primary");
+    font-weight: 600;
+  }
+
+  [data-team-rank] {
+    display: block;
+    color: theme-color("primary");
+    font-weight: normal;
+    margin-top: 0.25rem;
+  }
+
+  [data-bracket-heading] th {
+    background: $gray-100;
+    color: $gray-700;
+    font-size: $font-size-sm;
+    padding: 0.625rem 1.25rem;
+  }
+
+  .table > tbody > tr:hover td.side-allocation-selected-round {
+    background: mix(theme-color("primary"), $alt-bg, 15%);
+  }
+  @include media-breakpoint-up(xl) {
+
+    .side-allocation-manual-panel {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 15px;
+      right: 15px;
+
+      > .card-header {
+        flex-shrink: 0;
+      }
+    }
+
+    .side-allocation-editor-table {
+      flex: 1 1 0;
+      min-height: 0;
+      overflow: auto;
+
+      thead {
+        z-index: 2;
+      }
+    }
+  }
+  @include media-breakpoint-down(sm) {
+
+    .side-allocation-stats {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+
+      > div:nth-child(2) {
+        border-right: 0;
+      }
+    }
+
+    .side-allocation-editor-table {
+
+      th,
+      td {
+        padding: 0.625rem 0.75rem;
+      }
+    }
+  }
+}

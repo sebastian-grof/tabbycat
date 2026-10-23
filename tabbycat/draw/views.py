@@ -57,6 +57,7 @@ from .forms import (ConfirmDrawDeletionForm, SideAllocationByeOverrideForm,
 from .generator import DrawFatalError, DrawUserError
 from .manager import DrawManager
 from .models import ByeTeamOverride, Debate, TeamSideAllocation, get_effective_side_allocation_mode
+from .side_allocation_display import get_team_navigation
 from .side_allocations import (
     SideAllocationError,
     generate_all_affirmation_allocations,
@@ -1038,8 +1039,7 @@ class SideAllocationsView(AdministratorMixin, TournamentMixin, TemplateView):
             prefix="manual",
         )
 
-    def get_allocation_rows(self, rounds):
-        teams = list(self.tournament.team_set.order_by("short_name", "id"))
+    def get_allocation_rows(self, rounds, teams):
         tsas = {}
         for tsa in TeamSideAllocation.objects.filter(round__in=rounds):
             tsas[(tsa.team_id, tsa.round_id)] = tsa.side
@@ -1068,6 +1068,7 @@ class SideAllocationsView(AdministratorMixin, TournamentMixin, TemplateView):
     def get_context_data(self, **kwargs):
         rounds = list(self._prelim_rounds())
         selected_round = self.get_selected_round()
+        teams = list(self.tournament.team_set.order_by("short_name", "id"))
         team_groups = get_round_team_groups(selected_round) if selected_round is not None else None
         bye_form = kwargs.pop("bye_form", None) or self.get_bye_form(selected_round, team_groups=team_groups)
         manual_form = kwargs.pop("manual_form", None) or self.get_manual_form(selected_round, team_groups=team_groups)
@@ -1090,10 +1091,16 @@ class SideAllocationsView(AdministratorMixin, TournamentMixin, TemplateView):
                 for side in self.tournament.sides
             ]
 
+        team_navigation = get_team_navigation(self.tournament, selected_round, teams)
+        team_statistics = {team["id"]: team["statistics"] for team in team_navigation["teams"]}
+        team_ranks = {team["id"]: team["rank"] for team in team_navigation["teams"]}
         manual_rows = []
         if manual_form is not None:
             for team in manual_form.teams:
-                manual_rows.append({"team": team, "field": manual_form[manual_form._field_name(team.id)]})
+                manual_rows.append({
+                    "team": team, "field": manual_form[manual_form._field_name(team.id)],
+                    "statistics": team_statistics[team.id], "rank": team_ranks[team.id],
+                })
 
         kwargs.update({
             "rounds": rounds,
@@ -1102,7 +1109,8 @@ class SideAllocationsView(AdministratorMixin, TournamentMixin, TemplateView):
             "generate_form": generate_form,
             "bye_form": bye_form,
             "manual_form": manual_form,
-            "allocation_rows": self.get_allocation_rows(rounds),
+            "allocation_rows": self.get_allocation_rows(rounds, teams),
+            "team_navigation": team_navigation,
             "allocation_summary": summary,
             "manual_rows": manual_rows,
             "two_team_sides": len(self.tournament.sides) == 2,
