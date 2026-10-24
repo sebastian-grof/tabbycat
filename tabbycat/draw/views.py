@@ -982,6 +982,7 @@ class SideAllocationsView(AdministratorMixin, TournamentMixin, TemplateView):
     template_name = "side_allocations.html"
     page_title = gettext_lazy("Side Pre-Allocations")
     view_permission = Permission.EDIT_ALLOCATESIDES
+    edit_permission = Permission.EDIT_ALLOCATESIDES
 
     def _prelim_rounds(self):
         return self.tournament.prelim_rounds()
