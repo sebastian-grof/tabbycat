@@ -1,0 +1,77 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-27 15:04+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);\n"
+
+#: adjallocation/templates/DraggableAdjudicator.vue:106
+#: adjallocation/templates/DraggableAdjudicator.vue:114
+msgid "Unaffiliated"
+msgstr "Nezávislý"
+
+#: adjallocation/templates/DraggableAllocation.vue:63
+#: adjallocation/templates/DraggableAllocation.vue:74
+msgid "N/A"
+msgstr "N/A"
+
+#: adjallocation/templates/EditDebateAdjudicatorsContainer.vue:94
+#: adjallocation/templates/EditPanelAdjudicatorsContainer.vue:92
+msgid "Seen"
+msgstr "Videný"
+
+#: adjallocation/templates/EditDebateAdjudicatorsContainer.vue:101
+#: adjallocation/templates/EditPanelAdjudicatorsContainer.vue:99
+msgid "Institution"
+msgstr "Debatný klub"
+
+#: adjallocation/templates/EditDebateAdjudicatorsContainer.vue:108
+#: adjallocation/templates/EditPanelAdjudicatorsContainer.vue:106
+msgid "Conflict"
+msgstr "Konflikt"
+
+#: adjallocation/templates/EditDebateAdjudicatorsContainer.vue:115
+#: adjallocation/templates/EditPanelAdjudicatorsContainer.vue:113
+msgid "Missing"
+msgstr "Chýba"
+
+#: adjallocation/templates/EditDebateAdjudicatorsContainer.vue:126
+msgid ""
+"Solo speech mode: adjudicators can be assigned to multiple speeches in this "
+"round. Drag a judge from the bottom pool to every speech they judge; drag "
+"from a speech back to the pool to remove only that assignment. Auto-"
+"allocation is disabled for this format."
+msgstr ""
+"Režim sólovej reči: rozhodcov možno priradiť k viacerým rečiam v tomto kole."
+" Pretiahni rozhodcu zo spodného zoznamu ku každej reči, ktorú posudzuje; "
+"pretiahnutím reči späť do zoznamu odstrániš iba toto priradenie. Automatické"
+" pridelenie je pre tento formát vypnuté."
+
+#: adjallocation/templates/EditDebateAdjudicatorsContainer.vue:185
+msgid ""
+"Auto-allocate will remove adjudicators from all debates\n"
+"        and create new panels in their place."
+msgstr ""
+"Automatické pridelenie odstráni rozhodcov zo všetkých debát a vytvorí nové "
+"panely na ich mieste."
+
+#: adjallocation/templates/EditPanelAdjudicatorsContainer.vue:83
+msgid "Create Panels"
+msgstr "Vytvoriť panely"
+
+#: adjallocation/templates/InlineAdjudicator.vue:25
+msgid "Unknown Adj"
+msgstr "Neznámy rozhodca"

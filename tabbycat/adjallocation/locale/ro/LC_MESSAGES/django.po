@@ -1,9 +1,10 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: tabbycat\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-28 12:44-0400\n"
-"PO-Revision-Date: 2024-08-29 17:02\n"
+"POT-Creation-Date: 2026-09-21 10:27+1000\n"
+"PO-Revision-Date: 2026-09-21 00:33\n"
 "Last-Translator: \n"
 "Language-Team: Romanian\n"
 "Language: ro_RO\n"
@@ -11,54 +12,85 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100>0 && n%100<20)) ? 1 : 2);\n"
-"X-Crowdin-Project: tabbycat\n"
-"X-Crowdin-Project-ID: 364715\n"
-"X-Crowdin-Language: ro\n"
 "X-Crowdin-File: /develop/tabbycat/adjallocation/locale/en/LC_MESSAGES/django.po\n"
 "X-Crowdin-File-ID: 922\n"
+"X-Crowdin-Language: ro\n"
+"X-Crowdin-Project: tabbycat\n"
+"X-Crowdin-Project-ID: 364715\n"
 
 #: adjallocation/allocators/base.py
-msgid "There are no available adjudicators. Ensure there are adjudicators who have been marked as available for this round before auto-allocating."
-msgstr "Nu există arbitri disponibili. Verificați că destui arbitri sunt marcați ca disponibili pentru runda curentă înaintea folosirii alocării automate. "
+msgid ""
+"There are no available adjudicators. Ensure there are adjudicators who have "
+"been marked as available for this round before auto-allocating."
+msgstr ""
+"Nu există arbitri disponibili. Verificați că destui arbitri sunt marcați ca "
+"disponibili pentru runda curentă înaintea folosirii alocării automate. "
 
 #: adjallocation/allocators/hungarian.py
 #, python-format
-msgid "%(count)s score is larger than the maximum permitted adjudicator score (%(score).1f)."
-msgid_plural "%(count)s scores are larger than the maximum permitted adjudicator score (%(score).1f)."
+msgid ""
+"%(count)s score is larger than the maximum permitted adjudicator score "
+"(%(score).1f)."
+msgid_plural ""
+"%(count)s scores are larger than the maximum permitted adjudicator score "
+"(%(score).1f)."
 msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
 #: adjallocation/allocators/hungarian.py
 #, python-format
-msgid "%(count)s score is smaller than the minimum permitted adjudicator score (%(score).1f)."
-msgid_plural "%(count)s scores are smaller than the minimum permitted adjudicator score (%(score).1f)."
-msgstr[0] "%(count)s scorul arbitrului este mai mic decât scorul minim admis %(score).1f"
+msgid ""
+"%(count)s score is smaller than the minimum permitted adjudicator score "
+"(%(score).1f)."
+msgid_plural ""
+"%(count)s scores are smaller than the minimum permitted adjudicator score "
+"(%(score).1f)."
+msgstr[0] ""
+"%(count)s scorul arbitrului este mai mic decât scorul minim admis "
+"%(score).1f"
 msgstr[1] ""
 msgstr[2] ""
 
 #: adjallocation/allocators/hungarian.py
-msgid "There are no adjudicators eligible to be a chair or panellist. Try changing the \"Minimum feedback score required to be allocated as chair or panellist\" setting to something lower than at least some adjudicators' current scores, and try again."
-msgstr "Nu există arbitri eligibili pentru a fi arbitru principal sau secundar. Încercați modificarea opțiunii „Scorul minim al unui arbitru pentru a fi alocat ca arbitru principal sau secundar” la o valoare mai mică decât valoarea scorurilor unor arbitri și încercați încă o dată. "
+msgid ""
+"There are no adjudicators eligible to be a chair or panellist. Try changing "
+"the \"Minimum feedback score required to be allocated as chair or "
+"panellist\" setting to something lower than at least some adjudicators' "
+"current scores, and try again."
+msgstr ""
+"Nu există arbitri eligibili pentru a fi arbitru principal sau secundar. "
+"Încercați modificarea opțiunii „Scorul minim al unui arbitru pentru a fi "
+"alocat ca arbitru principal sau secundar” la o valoare mai mică decât "
+"valoarea scorurilor unor arbitri și încercați încă o dată. "
 
 #: adjallocation/allocators/hungarian.py
-msgid "There are no debates for this round. Maybe you haven't created a draw yet?"
+msgid ""
+"There are no debates for this round. Maybe you haven't created a draw yet?"
 msgstr ""
 
 #: adjallocation/allocators/hungarian.py
 #, python-format
-msgid "There are %(debate_count)s debates but only %(adj_count)s voting adjudicators."
+msgid ""
+"There are %(debate_count)s debates but only %(adj_count)s voting "
+"adjudicators."
 msgstr ""
 
 #: adjallocation/allocators/hungarian.py
 #, python-format
-msgid "There are %(panel_debates)s panel debates but only %(panellists)s available panellists (less than %(needed)s)."
+msgid ""
+"There are %(panel_debates)s panel debates but only %(panellists)s available "
+"panellists (less than %(needed)s)."
 msgstr ""
 
 #: adjallocation/allocators/hungarian.py
 #, python-format
-msgid "There are %(debates_count)s debates but only %(voting_count)s voting adjudicators."
-msgstr "Există %(debates_count)s meciuri însă doar %(voting_count)s arbitri eligibili pentru poziția de arbitru principal sau secundar."
+msgid ""
+"There are %(debates_count)s debates but only %(voting_count)s voting "
+"adjudicators."
+msgstr ""
+"Există %(debates_count)s meciuri însă doar %(voting_count)s arbitri "
+"eligibili pentru poziția de arbitru principal sau secundar."
 
 #: adjallocation/apps.py
 msgid "Adjudicator Allocation"
@@ -82,8 +114,12 @@ msgstr ""
 
 #: adjallocation/consumers.py
 #, python-format
-msgid "Successfully auto-allocated adjudicators to debates. However, there was a warning:"
-msgid_plural "Successfully auto-allocated adjudicators to debates. However, there were %(count)d warnings:"
+msgid ""
+"Successfully auto-allocated adjudicators to debates. However, there was a "
+"warning:"
+msgid_plural ""
+"Successfully auto-allocated adjudicators to debates. However, there were "
+"%(count)d warnings:"
 msgstr[0] ":"
 msgstr[1] ""
 msgstr[2] ""
@@ -98,8 +134,12 @@ msgstr ""
 
 #: adjallocation/consumers.py
 #, python-format
-msgid "Successfully auto-allocated adjudicators to preformed panels. However, there was a warning:"
-msgid_plural "Successfully auto-allocated adjudicators to preformed panels. However, there were %(count)d warnings:"
+msgid ""
+"Successfully auto-allocated adjudicators to preformed panels. However, there"
+" was a warning:"
+msgid_plural ""
+"Successfully auto-allocated adjudicators to preformed panels. However, there"
+" were %(count)d warnings:"
 msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
@@ -109,7 +149,9 @@ msgid "Successfully auto-allocated adjudicators to preformed panels."
 msgstr ""
 
 #: adjallocation/consumers.py
-msgid "You have no break category set as 'is general' so debate importances can't be calculated."
+msgid ""
+"You have no break category set as 'is general' so debate importances can't "
+"be calculated."
 msgstr ""
 
 #: adjallocation/consumers.py
@@ -117,7 +159,9 @@ msgid "Succesfully auto-prioritised debates."
 msgstr ""
 
 #: adjallocation/consumers.py
-msgid "You have no break category set as 'is general' so panel importances can't be calculated."
+msgid ""
+"You have no break category set as 'is general' so panel importances can't be"
+" calculated."
 msgstr ""
 
 #: adjallocation/consumers.py
@@ -125,11 +169,15 @@ msgid "Succesfully auto-prioritised preformed panels."
 msgstr ""
 
 #: adjallocation/consumers.py
-msgid "Since this is the first round, the preformed panels aren't annotated with brackets and liveness."
+msgid ""
+"Since this is the first round, the preformed panels aren't annotated with "
+"brackets and liveness."
 msgstr ""
 
 #: adjallocation/consumers.py
-msgid "The previous round's draw doesn't exist, so preformed panels can't be annotated with brackets and liveness."
+msgid ""
+"The previous round's draw doesn't exist, so preformed panels can't be "
+"annotated with brackets and liveness."
 msgstr ""
 
 #: adjallocation/consumers.py
@@ -281,7 +329,9 @@ msgid "preformed panel adjudicators"
 msgstr ""
 
 #: adjallocation/preformed/base.py
-msgid "There are no preformed panels to use. Have you allocated preformed panels for this round? If not, try just auto-allocating adjudicators instead."
+msgid ""
+"There are no preformed panels to use. Have you allocated preformed panels "
+"for this round? If not, try just auto-allocating adjudicators instead."
 msgstr ""
 
 #: adjallocation/templates/preformed_index.html adjallocation/views.py
@@ -289,11 +339,19 @@ msgid "Preformed Panels"
 msgstr ""
 
 #: adjallocation/templates/preformed_index.html
-msgid "A preformed panel is a defined group of adjudicators that is specified for a round before its draw has been generated. You can then manually or automatically apply these panels during the normal adjudicator allocation process. This can make allocations faster or allow you to create more considered panels of adjudicators."
+msgid ""
+"A preformed panel is a defined group of adjudicators that is specified for a"
+" round before its draw has been generated. You can then manually or "
+"automatically apply these panels during the normal adjudicator allocation "
+"process. This can make allocations faster or allow you to create more "
+"considered panels of adjudicators."
 msgstr ""
 
 #: adjallocation/templates/preformed_index.html
-msgid "Note that only adjudicators who have been marked as 'available' for that round will be able to be allocated for that round, so you may need to set their availability in advance."
+msgid ""
+"Note that only adjudicators who have been marked as 'available' for that "
+"round will be able to be allocated for that round, so you may need to set "
+"their availability in advance."
 msgstr ""
 
 #: adjallocation/templates/preformed_index.html
@@ -303,22 +361,31 @@ msgstr ""
 
 #: adjallocation/utils.py
 #, python-format
-msgid "Conflict: <strong>%(adjudicator)s</strong> & <strong>%(team)s</strong> (personal)"
+msgid ""
+"Conflict: <strong>%(adjudicator)s</strong> & <strong>%(team)s</strong> "
+"(personal)"
 msgstr ""
 
 #: adjallocation/utils.py
 #, python-format
-msgid "Conflict: <strong>%(adjudicator)s</strong> & <strong>%(team)s</strong> via institution <strong>%(institution)s</strong>"
+msgid ""
+"Conflict: <strong>%(adjudicator)s</strong> & <strong>%(team)s</strong> via "
+"institution <strong>%(institution)s</strong>"
 msgstr ""
 
 #: adjallocation/utils.py
 #, python-format
-msgid "Conflict: <strong>%(adjudicator1)s</strong> & <strong>%(adjudicator2)s</strong> (personal)"
+msgid ""
+"Conflict: <strong>%(adjudicator1)s</strong> & "
+"<strong>%(adjudicator2)s</strong> (personal)"
 msgstr ""
 
 #: adjallocation/utils.py
 #, python-format
-msgid "Conflict: <strong>%(adjudicator1)s</strong> & <strong>%(adjudicator2)s</strong> via institution <strong>%(institution)s</strong>"
+msgid ""
+"Conflict: <strong>%(adjudicator1)s</strong> & "
+"<strong>%(adjudicator2)s</strong> via institution "
+"<strong>%(institution)s</strong>"
 msgstr ""
 
 #: adjallocation/views.py
@@ -339,6 +406,10 @@ msgstr ""
 
 #: adjallocation/views.py
 msgid "Edit Allocation"
+msgstr ""
+
+#: adjallocation/views.py
+msgid "Edit Allocation (Concurrent Rounds)"
 msgstr ""
 
 #: adjallocation/views.py
@@ -460,4 +531,3 @@ msgstr[2] ""
 #: adjallocation/views.py
 msgid "No changes were made to team-institution conflicts."
 msgstr ""
-

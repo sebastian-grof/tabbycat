@@ -40,7 +40,7 @@ class BallotSetFormTestMixin:
             **kwargs,
         })
 
-    def assertIsDerivedTotalField(self, field):
+    def assertIsDerivedTotalField(self, field):  # noqa: N802
         """The total for a position with criteria is computed from its criterion
         fields, so it is display-only and must not carry the tournament's
         score_min/score_max validators."""
@@ -96,3 +96,41 @@ class SingleBallotSetFormTests(BallotSetFormTestMixin, TestCase):
 
         self.assertFalse(substantive.widget.attrs.get('readonly'))
         self.assertIsDerivedTotalField(reply)
+
+
+class SelfSplitBallotSetFormTests(BallotSetFormTestMixin, TestCase):
+
+    def enable_self_split_ballots(self):
+        self.tournament.preferences['debate_rules__ballots_per_debate_prelim'] = 'per-adj'
+        self.tournament.preferences['data_entry__allow_self_split_ballots'] = True
+
+    def test_self_split_field_shown_for_solo_adjudicator(self):
+        self.enable_self_split_ballots()
+
+        form = PerAdjudicatorBallotSetForm(self.ballotsub, tabroom=True)
+
+        self.assertIn(form._fieldname_self_split(), form.fields)
+
+    def test_self_split_field_shown_on_solo_individual_ballot(self):
+        self.enable_self_split_ballots()
+        self.ballotsub.single_adj = True
+
+        form = SingleBallotSetForm(self.ballotsub, tabroom=False)
+
+        self.assertIn(form._fieldname_self_split(), form.fields)
+
+    def test_self_split_field_hidden_for_panel_individual_ballot(self):
+        self.enable_self_split_ballots()
+        self.ballotsub.single_adj = True
+        panellist = Adjudicator.objects.create(
+            tournament=self.tournament, name="Panellist", base_score=5,
+        )
+        DebateAdjudicator.objects.create(
+            debate=self.debate,
+            adjudicator=panellist,
+            type=DebateAdjudicator.TYPE_PANEL,
+        )
+
+        form = SingleBallotSetForm(self.ballotsub, tabroom=False)
+
+        self.assertNotIn(form._fieldname_self_split(), form.fields)

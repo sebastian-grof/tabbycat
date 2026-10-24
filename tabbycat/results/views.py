@@ -479,8 +479,7 @@ class BaseBallotSetView(LogActionMixin, TournamentMixin, FormView):
     def form_valid(self, form):
         self.ballotsub = form.save()
         if self.ballotsub.confirmed:
-            if self.request.user.is_authenticated:
-                self.ballotsub.confirmer = self.request.user
+            self.ballotsub.confirmer = self.request.user if self.request.user.is_authenticated else None
             self.ballotsub.confirm_timestamp = timezone.now()
             self.ballotsub.save()
 
@@ -825,7 +824,7 @@ class BasePublicNewBallotSetView(PersonalizablePublicTournamentPageMixin, RoundM
             bses = list(BallotSubmission.objects.filter(
                 debate=self.debate, participant_submitter__isnull=False, discarded=False, single_adj=True,
             ).select_related('participant_submitter', 'participant_submitter__adjudicator').annotate(
-                ordering=Window(Rank(), partition_by="participant_submitter", order_by="-version")
+                ordering=Window(Rank(), partition_by="participant_submitter", order_by="-version"),
             ).filter(ordering=1))
             voting_adj_ids = {adj.id for adj in self.debate.adjudicators.voting()}
             bses = [
@@ -845,6 +844,7 @@ class BasePublicNewBallotSetView(PersonalizablePublicTournamentPageMixin, RoundM
 
             if len(errors) == 0:
                 has_errors = False
+                merged_bs.self_split = any(bs.self_split for bs in bses)
                 merged_bs.save()
                 merged_result.save()
 
@@ -1319,7 +1319,7 @@ class BaseMergeLatestBallotsView(BaseNewBallotSetView):
         bses = list(BallotSubmission.objects.filter(
             debate=self.debate, participant_submitter__isnull=False, discarded=False, single_adj=True,
         ).annotate(ordering=Window(Rank(), partition_by="participant_submitter", order_by="-version")).filter(ordering=1).select_related(
-            'participant_submitter', 'participant_submitter__adjudicator'
+            'participant_submitter', 'participant_submitter__adjudicator',
         ))
         voting_adj_ids = {adj.id for adj in self.debate.adjudicators.voting()}
         bses = [
@@ -1330,6 +1330,8 @@ class BaseMergeLatestBallotsView(BaseNewBallotSetView):
 
         if prefill:
             populate_results(bses, self.tournament)
+            self.merged_ballots = bses
+            self.ballotsub.self_split = any(bs.self_split for bs in bses)
 
         # Handle result conflicts
         criteria = ScoreCriterion.objects.filter(tournament=self.tournament)

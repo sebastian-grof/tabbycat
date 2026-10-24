@@ -6,17 +6,7 @@ from django.utils.translation import gettext_lazy as _
 
 from tournaments.models import Tournament
 
-from .models import (
-    BreakAdjudicator,
-    BreakLeague,
-    BreakRegion,
-    BreakSeason,
-    BreakSpeaker,
-    BreakTeam,
-    BreaksPermission,
-    BreakTournament,
-    GlobalBreaksPermission,
-)
+from .models import BreakAdjudicator, BreakLeague, BreakRegion, BreakSeason, BreakSpeaker, BreaksPermission, BreakTeam, BreakTournament, GlobalBreaksPermission
 
 
 class BreakLeagueForm(forms.ModelForm):

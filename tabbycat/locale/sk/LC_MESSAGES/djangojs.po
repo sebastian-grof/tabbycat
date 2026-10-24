@@ -1,8 +1,9 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: tabbycat\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-14 04:50+1100\n"
+"POT-Creation-Date: 2026-09-27 15:04+0200\n"
 "PO-Revision-Date: 2026-04-28 12:55+0200\n"
 "Last-Translator: \n"
 "Language-Team: Slovak\n"
@@ -11,953 +12,903 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 3;\n"
-"X-Crowdin-Project: tabbycat\n"
-"X-Crowdin-Project-ID: 364715\n"
-"X-Crowdin-Language: sk\n"
 "X-Crowdin-File: /develop/tabbycat/locale/en/LC_MESSAGES/djangojs.po\n"
 "X-Crowdin-File-ID: 962\n"
+"X-Crowdin-Language: sk\n"
+"X-Crowdin-Project: tabbycat\n"
+"X-Crowdin-Project-ID: 364715\n"
 "X-Generator: Poedit 3.9\n"
 
-#: checkins/templates/CheckInScanContainer.vue:
-msgid "Scan Using Camera"
-msgstr "Skenovanie pomocou fotoaparátu"
-
-#: checkins/templates/CheckInScanContainer.vue:
-msgid "Stop Camera Scan"
-msgstr "Zastaviť skenovanie fotoaparátom"
-
-#: checkins/templates/CheckInScanContainer.vue:
-msgid "Turn On Sounds"
-msgstr "Zapnúť zvuky"
-
-#. Translators: %1: Time of checkin, %2: Barcode number, %3: Name of "owner"
-#: checkins/templates/CheckInScanContainer.vue:
-msgid "%1 checked in %2: %3"
-msgstr "%1 prihlásený v %2: %3"
-
-#: checkins/templates/CheckInStatusContainer.vue:
-msgid "All"
-msgstr "Všetky"
-
-#. Translators: %1: Option name
-#: checkins/templates/CheckInStatusContainer.vue:
-msgid "By %1"
-msgstr "Od %1"
-
-#: checkins/templates/CheckInStatusContainer.vue:
-msgid "No matching rooms found."
-msgstr "Nenašli sa žiadne zodpovedajúce mietnosti."
-
-#: checkins/templates/CheckInStatusContainer.vue:
-msgid "No matching people found."
-msgstr "Nenašli sa žiadne zodpovedajúce osoby."
-
-#: checkins/templates/CheckInStatusContainer.vue:
-msgid "This page will live-update with new check-ins as they occur although the initial list may be up to a minute old."
-msgstr "Táto stránka sa bude aktualizovať v reálnom čase s novými registráciami, ako sa budú vyskytovať, hoci počiatočný zoznam môže byť starý až jednu minútu."
-
-#: checkins/templates/CheckInStatusContainer.vue:
-msgid "<strong>✓</strong> All"
-msgstr "<strong>✓</strong> Všetkých"
-
-#: checkins/templates/CheckInStatusContainer.vue:
-msgid "<strong>☓</strong> All"
-msgstr "<strong>☓</strong> Všetkých"
-
-#: checkins/templates/CheckInStatusContainer.vue:
-msgid "Click to check-in manually"
-msgstr "Kliknite pre manuálnu registráciu"
-
-#: checkins/templates/CheckInStatusContainer.vue:
-msgid "saving..."
-msgstr "ukladám.."
-
-#: checkins/templates/CheckInStatusContainer.vue:
-msgid "This person does not have a check-in identifier so they can't be checked in"
-msgstr "Táto osoba nemá identifikačný kód na registráciu, preto nemôže byť zaregistrovaný"
-
-#: checkins/templates/CheckInStatusContainer.vue:
-msgid "If you want to view this page without the sidebar (i.e. for displaying to an auditorium) you can use the assistant version."
-msgstr "Ak chcete zobraziť túto stránku bez bočného panela (napr. pre zobrazenie v prednáškovej sále), môžete použiť \"assitenciu\"."
-
-#: checkins/templates/CheckInStatusContainer.vue:
-msgid "Open the assistant version."
-msgstr "Otvoriť asistenciu."
-
-#: checkins/templates/CheckInStatusContainer.vue:
-msgid "Click to undo a check-in"
-msgstr "Kliknite pre zvrátenie registrácie"
-
-#: checkins/templates/PeopleStatusMixin.vue:
-msgid "%1, a %2 of no institutional affiliation with identifier of %3"
-msgstr "%1, %2 bez klubovej príslušnosti s identifikátorom %3"
-
-#: checkins/templates/PeopleStatusMixin.vue:
-msgid "%1, a %2 of no institutional affiliation with no assigned identifier"
-msgstr "%1, %2 bez klubovej príslušnosti bez priradeného identifikátora"
-
-#: checkins/templates/PeopleStatusMixin.vue:
-msgid "%1, a %2 from %3 with identifier of %4"
-msgstr "%1, %2 z %3 s identifikátorom %4"
-
-#: checkins/templates/PeopleStatusMixin.vue:
-msgid "%1, a %2 from %3 with no assigned identifier"
-msgstr "%1, %2 z %3 bez priradeného identifikátora"
-
-#: checkins/templates/PeopleStatusMixin.vue:
-msgid "%1 (Present; id=%2)"
-msgstr "%1 (prítomný/á; id=%2)"
-
-#: checkins/templates/PeopleStatusMixin.vue:
-msgid "%1 (Absent; id=%2)"
-msgstr "%1 (neprítomný/á; id=%2)"
-
-#: checkins/templates/PeopleStatusMixin.vue:
-msgid "%1, a team with speakers %2"
-msgstr "%1, tím s rečníkmi %2"
-
-#: checkins/templates/PeopleStatusMixin.vue:
-msgid "%1, a %2"
-msgstr "%1, %2"
-
-#: checkins/templates/PeopleStatusMixin.vue:
-msgid "Anonymous (due to team codes)"
-msgstr "Anonymné (kvôli tímovým kódom)"
-
-#: checkins/templates/PeopleStatusMixin.vue:
-msgid "Anon"
-msgstr "Anon"
-
-#: checkins/templates/PeopleStatusMixin.vue:
-msgid "Independent"
-msgstr "Nezávislý"
-
-#: checkins/templates/VenuesStatusMixin.vue:
-msgid "%1 (%2) with identifier of %3"
-msgstr "%1 (%2) s identifikátorom %3"
-
-#: checkins/templates/VenuesStatusMixin.vue:
-msgid "%1 (no category) with identifier of %2"
-msgstr "%1 (bez kategórie) s identifikátorom %2"
-
-#: checkins/templates/VenuesStatusMixin.vue:
-msgid "%1 (%2) with no assigned identifier"
-msgstr "%1 (%2) bez priradeného identifikátora"
-
-#: checkins/templates/VenuesStatusMixin.vue:
-msgid "%1 (no category) with no assigned identifier"
-msgstr "%1 (bez kategórie) bez priradeného identifikátora"
-
-#: checkins/templates/VenuesStatusMixin.vue:
-msgid "Uncategorised"
-msgstr "Nekategorizovaný"
-
-#: checkins/templates/VenuesStatusMixin.vue:
-msgid "No Category"
-msgstr "Bez kategórie"
-
-#: checkins/templates/VenuesStatusMixin.vue:
-msgid "Priority %1"
-msgstr "Priorita %1"
-
-#: printing/templates/PrintableBallotHeader.vue:
-msgid "%1 %2 from %3"
-msgstr "%1 %2 od %3"
-
-#: printing/templates/PrintableBallotHeader.vue:
-msgid "%1 %2 from %3 %4"
-msgstr "%1 %2 od %3 %4"
-
-#: printing/templates/PrintableBallotHeader.vue:
-msgid "%1 %2 from %3 on %4 (Chair)"
-msgstr "%1 %2 od %3 on %4 (Chair)"
-
-#: printing/templates/PrintableBallotHeader.vue:
-msgid "%1 %2 from %3 on %4 (Panellist)"
-msgstr "%1 %2 od %3 on %4 (Panellista)"
-
-#: printing/templates/PrintableBallotHeader.vue:
-msgid "%1 %2 from %3 on %4 (Trainee)"
-msgstr "%1 %2 od %3 na %4 (Shadow)"
-
-#: printing/templates/PrintableBallotHeader.vue:
-msgid "ID %1,"
-msgstr "ID %1,"
-
-#: printing/templates/PrintableBallotHeader.vue:
-msgid "Room:"
-msgstr "Miestnosť:"
-
-#: printing/templates/PrintableBallotHeader.vue:
-msgid "Chair for Panel of %1"
-msgstr "Chair pre Panel - %1"
-
-#: printing/templates/PrintableBallotHeader.vue:
-#: printing/templates/PrintableDebateInfo.vue:
-msgid "Solo Chair"
-msgstr "Samostatný Chair"
-
-#: printing/templates/PrintableBallotHeader.vue:
-#: printing/templates/PrintableDebateInfo.vue:
-msgid "Panellist"
-msgstr "Panelista"
-
-#: printing/templates/PrintableBallotHeader.vue:
-#: printing/templates/PrintableDebateInfo.vue:
-msgid "Trainee"
-msgstr "Shadow"
-
-#: printing/templates/PrintableBallotHeader.vue:
-msgid "Team"
-msgstr "Tím"
-
-#: printing/templates/PrintableDebateInfo.vue:
-msgid "Mark speeches %1 to %2; <strong>%3</strong>."
-msgstr "Boduj reči od %1 až %2; <strong>%3</strong>."
-
-#: printing/templates/PrintableDebateInfo.vue:
-msgid "Mark replies %1 to %2; <strong>%3</strong>."
-msgstr "Oboduj záverečné reči od %1 až %2; <strong>%3</strong>."
-
-#: printing/templates/PrintableDebateInfo.vue:
-msgid "Return ballots to %1."
-msgstr "Return hlasovania na %1."
-
-#: printing/templates/PrintableDebateInfo.vue:
-msgid "The motion is <em>%1</em>"
-msgstr "Téza je <em>%1</em>"
-
-#: printing/templates/PrintableDebateInfo.vue:
-msgid "Debated"
-msgstr "Debatované"
-
-#: printing/templates/PrintableDebateInfo.vue:
-msgid "Circle %1"
-msgstr "Zakrúžkuj %1"
-
-#: printing/templates/PrintableDebateInfo.vue:
-msgid "<strong>%1</strong>: %2"
-msgstr "<strong>%1</strong>: %2"
-
-#: printing/templates/PrintableDebateInfo.vue:
-msgid "Aff Veto"
-msgstr "Veto súhlasu"
-
-#: printing/templates/PrintableDebateInfo.vue:
-msgid "Neg Veto"
-msgstr "Veto nesúhlasu"
-
-#: printing/templates/PrintableDebateInfo.vue:
-#: printing/templates/PrintableTeamScores.vue:
-msgid "%1:"
-msgstr "%1:"
-
-#: printing/templates/PrintableDebateInfo.vue:
-msgid "tab entry"
-msgstr "zadanie tabu"
-
-#: printing/templates/PrintableDebateInfo.vue:
-msgid "tab check"
-msgstr "kontrola tabu"
-
-#: printing/templates/PrintableDebateInfo.vue:
-#: checkins/templates/PeopleStatusMixin.vue:
-msgid "Unaffiliated"
-msgstr "Nezávislý"
-
-#: printing/templates/PrintableDebateInfo.vue:
-msgid "no ½ marks"
-msgstr "bez polbodov"
-
-#: printing/templates/PrintableDebateInfo.vue:
-msgid "½ marks are allowed"
-msgstr "polbody sú povolené"
-
-#: printing/templates/PrintableDebateInfo.vue:
-msgid "decimal marks are allowed"
-msgstr "desatinné body sú povolené"
-
-#: printing/templates/PrintableDebateInfo.vue:
-msgid "%1 (%2, %3)"
-msgstr "%1 (%2, %3)"
-
-#: printing/templates/PrintableDebateInfo.vue:
-msgid "Adjudicating with %1."
-msgstr "Rozhoduješ s %1."
-
-#: printing/templates/PrintableDebateInfo.vue:
-msgid "; "
-msgstr "; "
-
-#: printing/templates/PrintableFeedback.vue:
-msgid "Did %1 deliver the adjudication?"
-msgstr "Dával/a %1 oral adjudication?"
-
-#: printing/templates/PrintableFeedback.vue:
-#: printing/templates/PrintableFeedbackQuestion.vue:
-msgid "Yes"
-msgstr "Ano"
-
-#: printing/templates/PrintableFeedback.vue:
-msgid "No, I am submitting feedback on:"
-msgstr "Nie, odosielam spätnú väzbu na:"
-
-#: printing/templates/PrintableFeedbackQuestion.vue:
-msgid "Unsure"
-msgstr "Nie som si istý/á"
-
-#: printing/templates/PrintableFeedbackQuestion.vue:
-msgid "No"
-msgstr "Nie"
-
-#: printing/templates/PrintableScoresheet.vue:
-msgid "Which team won the debate:"
-msgstr "Ktorý tím vyhral debatu:"
-
-#: printing/templates/PrintableScoresheet.vue:
-msgid "By how many points did they win:"
-msgstr "O koľko bodov vyhrali:"
-
-#: printing/templates/PrintableTeamScores.vue:
-msgid "%1, %2"
-msgstr "%1, %2"
-
-#: printing/templates/PrintableTeamScores.vue:
-msgid "IMPORTANT: Check and explicitly note if a speaker gives multiple speeches"
-msgstr "DÔLEŽITÉ: Skontrolujte a explicitne zaznačte, či rečník prednesie viacero rečí"
-
-#: printing/templates/PrintableTeamScores.vue:
-msgid "Score:"
-msgstr "Skóre:"
-
-#: printing/templates/PrintableTeamScores.vue:
-msgid "Circle the last digit of the %1's score:"
-msgstr "Zakrúžkuj poslednú číslicu skóre pre %1:"
-
-#: printing/templates/PrintableTeamScores.vue:
-msgid "Circle Rank:"
-msgstr "Zakrúžkuj poradie:"
-
-#: printing/templates/PrintableTeamScores.vue:
-msgid "Total:"
-msgstr "Celkovo:"
-
-#: printing/templates/PrintableTeamScores.vue:
-msgid "Circle the last digit of the team's total:"
-msgstr "Zakrúžkuj poslednú číslicu tímového súčtu:"
-
-#: templates/tables/TablesContainer.vue:8
-msgid "Find in Table"
-msgstr "Hľadať v tabuľke"
-
-#: templates/tables/CheckboxTables.vue:30
-msgid "Set All Breaking as Available"
-msgstr "Nastaviť všetkých breakujúcich ako dostupných"
-
-#: templates/tables/CheckboxTables.vue:36
-msgid "Set all the availabilities to exactly match what they were in the previous round."
-msgstr "Nastaví všetku dostupnosť presne podľa predchádzajúceho kola."
-
-#: templates/tables/CheckboxTables.vue:37
-msgid "Match"
-msgstr "Zhodovať"
-
-#: templates/tables/CheckboxTables.vue:41
-msgid "Set all availabilities to exactly match check-ins."
-msgstr "Nastavte všetky dostupné termíny tak, aby presne zodpovedali registrácií."
-
-#: templates/tables/CheckboxTables.vue:44
-msgid "Match Check-Ins"
-msgstr "Zhodovať s check-inmi"
-
-#: templates/tables/CheckboxTables.vue:
-msgid "Set people as available only if they have a check-in and are currently unavailable — i.e. it will not overwrite any existing availabilities."
-msgstr "Nastaví ľudí ako dostupných iba vtedy, ak majú check-in a momentálne sú nedostupní, teda neprepíše existujúcu dostupnosť."
-
-#: templates/tables/CheckboxTables.vue:47
-msgid "Copy From Check-Ins"
-msgstr "Kopírovať z check-inov"
-
-#: tournaments/templates/TournamentOverviewContainer.vue:
-msgid "Ballots Status"
-msgstr "Status ballotov"
-
-#: tournaments/templates/TournamentOverviewContainer.vue:
-msgid "Latest Actions"
-msgstr "Najnovšie akcie"
-
-#: tournaments/templates/TournamentOverviewContainer.vue:
-msgid "No Actions Yet"
-msgstr "Zatiaľ žiadne akcie"
-
-#: tournaments/templates/TournamentOverviewContainer.vue:
-msgid "Latest Results"
-msgstr "Najnovšie výsledky"
-
-#: tournaments/templates/TournamentOverviewContainer.vue:
-msgid "No Confirmed Results Yet"
-msgstr "Zatiaľ žiadne potvrdené výsledky"
-
-#: participants/templates/DiversityContainer.vue:6
-msgid "Speaker Demographics"
-msgstr "Demografia rečníkov"
-
-#: participants/templates/DiversityContainer.vue:11
-msgid "No Gender Information"
-msgstr "Žiadne informácie o rode"
-
-#: participants/templates/DiversityContainer.vue:18
-msgid "No Speaker Categories Information"
-msgstr "Žiadne informácie o kategóriách rečníkov"
-
-#: participants/templates/DiversityContainer.vue:33
-msgid "Speaker Results"
-msgstr "Výsledky rečníkov"
-
-#: participants/templates/DiversityContainer.vue:36
-msgid "speakers with gender data"
-msgstr "výsledky rečníkov s údajmi o pohlaví"
-
-#: participants/templates/DiversityContainer.vue:38
-msgid "speaker scores total"
-msgstr "celkové skóre rečníka"
-
-#: participants/templates/DiversityContainer.vue:49
-msgid "No Region Information"
-msgstr "Žiadne informácie o regióne"
-
-#: participants/templates/DiversityContainer.vue:56
-msgid "Adjudicator Demographics"
-msgstr "Demografia rozhodcov"
-
-#: participants/templates/DiversityContainer.vue:68
-msgid "No Position Information"
-msgstr "Žiadne informácie o pozícii"
-
-#: participants/templates/DiversityContainer.vue:83
-msgid "Adjudicator Results"
-msgstr "Výsledky rozhodcu"
-
-#: participants/templates/DiversityContainer.vue:86
-msgid "adjudicators with gender data"
-msgstr "rozhodcovia s údajmi o rode"
-
-#: participants/templates/DiversityContainer.vue:88
-msgid "feedback scores total"
-msgstr "celkové skóre spätnej väzby"
-
-#: participants/templates/DiversityContainer.vue:94
-msgid "No Adjudicator Ratings Information"
-msgstr "Žiadne informácie o hodnoteniach rozhodcov"
-
-#: participants/templates/DiversityContainer.vue:99
-msgid "No Adjudicator-Adjudicator Feedback Information"
-msgstr "Žiadne informácie o spätnej väzbe rozhodca-rozhodca"
-
-#: results/templates/ResultsStats.vue:10
-msgid "Checked-In"
-msgstr "Zaregistrovaný"
-
-#: results/templates/ResultsStats.vue:15
-msgid "Not Checked-In"
-msgstr "Nezaregistrovaný"
-
-#: results/templates/ResultsStats.vue:19
-msgid "Ballot Check-Ins"
-msgstr "Registrácia ballotov"
-
-#: results/templates/ResultsStats.vue:26
-msgid "Unknown"
-msgstr "Neznáme"
-
-#: results/templates/ResultsStats.vue:31
-msgid "Unconfirmed"
-msgstr "Nepotrvrdené"
-
-#: results/templates/ResultsStats.vue:36
-msgid "Confirmed"
-msgstr "Potvrdené"
-
-#: results/templates/ResultsStats.vue:40
-msgid "Ballot Statuses"
-msgstr "Status Ballotov"
-
-#: results/templates/BallotsCell.vue:18
-msgid "You cannot confirm this ballot because you entered it"
-msgstr "Nemôžeš potvrdiť ballot, ktorý ste zadali vy"
-
-#: results/templates/BallotsCell.vue:34
-msgid "Add Ballot"
-msgstr "Pridať Ballot"
-
-#: results/templates/BallotsCell.vue:79
-msgid "Re-Edit"
-msgstr "Opätovná úprava"
-
-#: results/templates/BallotsCell.vue:81
-msgid "Review"
-msgstr "Kontrola"
-
-#: utils/templates/AutoSaveCounter.vue:4
-msgid "No changes"
-msgstr "Bez zmeny"
-
-#: utils/templates/DragAndDropActions.vue:8
-msgid "Return to Draw"
-msgstr "Späť na pairing"
-
-#: utils/templates/DragAndDropActions.vue:15
-msgid "Auto-Prioritise"
-msgstr "Automaticky prioritizovať"
-
-#: utils/templates/DragAndDropActions.vue:17
-msgid "Auto-Allocate"
-msgstr "Automatické prideľovanie"
-
-#: utils/templates/DragAndDropActions.vue:65
-msgid "Break"
-msgstr "Postup"
-
-#: utils/templates/DragAndDropActions.vue:65
-msgid "Gender"
-msgstr "Pohlavie"
-
-#: utils/templates/DragAndDropActions.vue:65
-msgid "Rank"
-msgstr "Poradie"
-
-#: utils/templates/DragAndDropActions.vue:65
-msgid "Region"
-msgstr "Región"
-
-#. Translators: Short for "Venue Category"
-#: utils/templates/DragAndDropActions.vue:65
-msgid "Category"
-msgstr "Kategória"
-
-#: utils/templates/DragAndDropDebate.vue:5
-msgid "The debate's bracket"
-msgstr "Bracket debaty"
-
-#: utils/templates/DragAndDropDebate.vue:9
-msgid "The bracket range of the hypothetical debate"
-msgstr "Rozsah bracketu hypotetickej debaty"
-
-#: utils/templates/DragAndDropDebate.vue:20
-msgid "The total number of live break categories across all teams"
-msgstr "Súčet všetkých break kategórií napireč všetkými tímami"
-
-#: utils/templates/DragAndDropDebate.vue:26
-msgid "The estimated total number of live break categories across all teams of the hypothetical debate"
-msgstr "Predpokladané celé číslo live break kategórií naprieč všetkými tímami v hypotetickej debate"
-
-#: utils/templates/DragAndDropDebate.vue:33
-msgid "This debate's priority"
-msgstr "Priorita tejto debaty"
-
-#: draw/templates/InlineTeam.vue:41
-msgid "No code name set"
-msgstr "Nie je nastavené kódové meno"
-
-#: templates/js-bundles/enter_results.js:253
-msgid "The total score for this block must be a whole number."
-msgstr "Celkové body musia byť celé číslo."
-
-#: templates/js-bundles/enter_results.js:254
-msgid "Please set all scores in this block."
-msgstr "Prosím zadajte všetky skóre pre túto sekciu."
-
-#: templates/js-bundles/enter_results.js:324
-#: templates/js-bundles/enter_results.js:329
-#: templates/js-bundles/enter_results.js:443
-msgid "Not set"
-msgstr "Nenastavené"
-
-#. Used to build labels such as "Total for Reply" and "Total for Cross-examinations".
-#: templates/js-bundles/enter_results.js:442
-msgid "Total for"
-msgstr "Spolu pre"
-
-#: templates/js-bundles/enter_results.js:557
-msgid "Use classic ballot UI"
-msgstr "Použiť klasické UI ballotu"
-
-#: templates/js-bundles/enter_results.js:557
-msgid "Use slider ballot UI"
-msgstr "Použiť slider UI ballotu"
-
-#: templates/js-bundles/enter_results.js:19
-#: templates/js-bundles/enter_results.js:80
-msgid "Won"
-msgstr "Výhra"
-
-#: templates/js-bundles/enter_results.js:20
-#: templates/js-bundles/enter_results.js:81
-msgid "Lost"
-msgstr "Prehra"
-
-#: templates/js-bundles/enter_results.js:21
-#: templates/js-bundles/enter_results.js:87
-msgid "Tie"
-msgstr "Remíza"
-
-#: templates/js-bundles/enter_results.js:22
-#: templates/js-bundles/enter_results.js:169
-msgid "TIE"
-msgstr "REMÍZA"
-
-#: (vue)
-msgid "Chair"
-msgstr "Chair"
-
-#: (vue)
-msgid "Code Names"
-msgstr "Kódové mená"
-
-#: (vue)
-msgid "Institution"
-msgstr "Debatný klub"
-
-#: (vue)
-msgid "N/A"
-msgstr "N/A"
-
-#: (vue)
-msgid "Open"
-msgstr "Open"
-
-#: (vue)
-msgid "Order"
-msgstr "Poradie"
-
-#: (vue)
-msgid "Postponed"
-msgstr "Odložené"
-
-#: (vue)
-msgid "confirmed"
-msgstr "potvrdené"
-
-#: (vue)
-msgid "unconfirmed"
-msgstr "nepotvrdené"
-
-#: (vue)
-msgid " Set Checked-In as Available"
-msgstr " Nastaviť prihlásených ako dostupných"
-
-#: (vue)
-msgid " Set Not Checked-In as Unavailable"
-msgstr " Nastaviť neprihlásených ako nedostupných"
-
-#: (vue)
-msgid "Allocate"
-msgstr "Prideliť"
-
-#: (vue)
-msgid "Allocates panels in exact order going from top to bottom (ignoring debate priority and conflicts.)"
-msgstr "Prideľuje panely v presnom poradí zhora nadol (ignoruje prioritu debaty a konflikty)."
-
-#: (vue)
-msgid "Allocates preformed panels to debates of similar priority level, while avoiding conflicts."
-msgstr "Prideľuje predpripravené panely debatám s podobnou úrovňou priority a zároveň sa vyhýba konfliktom."
-
-#: (vue)
-msgid "Assign Automatic Priorities by Bracket"
-msgstr "Priradiť automatické priority podľa koša"
-
-#: (vue)
-msgid "Assign Automatic Priorities by Liveness"
-msgstr "Priradiť automatické priority podľa liveness"
-
-#: (vue)
-msgid "Auto-Allocate Adjudicators"
-msgstr "Automaticky prideliť rozhodcov"
-
-#: (vue)
-msgid "Auto-Allocate Individual Adjudicators"
-msgstr "Automaticky prideliť jednotlivých rozhodcov"
-
-#: (vue)
-msgid "Auto-Allocate Preformed Panels"
-msgstr "Automaticky prideliť predpripravené panely"
-
-#: (vue)
-msgid "Auto-Allocate Rooms to Debates"
-msgstr "Automaticky prideliť miestnosti debatám"
-
-#: (vue)
-msgid "Auto-allocate will remove adjudicators from all debates\n        and create new panels in their place."
-msgstr "Automatické pridelenie odstráni rozhodcov zo všetkých debát a vytvorí nové panely na ich mieste."
-
-#: (vue)
-msgid "Auto-allocate will remove adjudicators from panels and create a new\n  allocation in their place."
-msgstr "Automatické pridelenie odstráni rozhodcov z panelov a vytvorí nové pridelenie na ich mieste."
-
-#: (vue)
-msgid "Average score of panel (excluding trainees)"
-msgstr "Priemerné skóre panelu (bez shadows)"
-
-#: (vue)
-msgid "Average score of voting majority in panel"
-msgstr "Priemerné skóre hlasovacej väčšiny v paneli"
-
-#: (vue)
-msgid "By "
-msgstr "Od "
-
-#: (vue)
-msgid "Close Shard"
-msgstr "Zatvoriť shard"
-
-#: (vue)
-msgid "Conflict"
-msgstr "Konflikt"
-
-#: (vue)
-msgid "Conflict penalty — higher numbers will more strongly avoid recorded conflicts"
-msgstr "Pokuta za konflikt — vyššie čísla budú silnejšie predchádzať zaznamenaným konfliktom"
-
-#: (vue)
-msgid "Constraint"
-msgstr "Obmedzenie"
-
-#: (vue)
-msgid "Create Panels"
-msgstr "Vytvoriť panely"
-
-#: (vue)
-msgid "Create Preformed Panels"
-msgstr "Vytvoriť predpripravené panely"
-
-#: (vue)
-msgid "Create preformed panels by estimating the general brackets that will\n                              occur during this round."
-msgstr "Vytvor predpripravené panely odhadnutím všeobecných košov, ktoré sa vyskytnú počas tohto kola."
-
-#: (vue)
-msgid "Debate has no room."
-msgstr "Debata nemá priradenú miestnosť."
-
-#: (vue)
-msgid "Direct Allocate"
-msgstr "Priame pridelenie"
-
-#: (vue)
-msgid "Do not allocate panellists"
-msgstr "Neprideľovať panelistov"
-
-#: (vue)
-msgid "Do not allocate trainees"
-msgstr "Neprideľovať shadows"
-
-#: (vue)
-msgid "History penalty — higher numbers will more strongly avoid\n                                         matching adjudicators to teams or panellists they have seen\n                                         before"
-msgstr "Pokuta za históriu — vyššie čísla budú silnejšie predchádzať tomu, aby rozhodcovia posudzovali tímy alebo panelistov, ktorých už videli predtým"
-
-#: (vue)
-msgid "Importance mismatch penalty — higher numbers will more\n                                         strongly match panel strengths to assigned importances"
-msgstr "Pokuta za nesúlad dôležitosti — vyššie čísla budú silnejšie priraďovať silu panelov k prideleným dôležitostiam"
-
-#: (vue)
-msgid "In "
-msgstr "V "
-
-#: (vue)
-msgid "Incomplete"
-msgstr "Neúplné"
-
-#: (vue)
-msgid "Loading..."
-msgstr "Načítavam..."
-
-#: (vue)
-msgid "Merge Ballot(s)"
-msgstr "Zlúčiť ballot(y)"
-
-#: (vue)
-msgid "Minimum feedback score required to be a chair or panellist"
-msgstr "Minimálne skóre spätnej väzby potrebné na to, aby mohol byť chair alebo panelista"
-
-#: (vue)
-msgid "Missing"
-msgstr "Chýba"
-
-#: (vue)
-msgid "Motion is:"
-msgstr "Téza je:"
-
-#: (vue)
+#: templates/allocations/AutoSaveCounter.vue:69
 msgid "No "
 msgstr "Nie "
 
-#: (vue)
-msgid "No Results Yet"
-msgstr "Zatiaľ žiadne výsledky"
-
-#: (vue)
-msgid "No preformed panels exist for this round. You can create some by going to Setup, and then Preformed Panels."
-msgstr "Pre toto kolo neexistujú žiadne predpripravené panely. Môžeš ich vytvoriť v časti Nastavenie a potom Predpripravené panely."
-
-#: (vue)
-msgid "Not Checked In"
-msgstr "Neprihlásený"
-
-#: (vue)
-msgid "Note that 'liveness' doesn't factor in special rules other than a\n                              strict mathematical break. Be sure to double-check the results"
-msgstr "Upozornenie: liveness nezohľadňuje špeciálne pravidlá okrem prísneho matematického postupu. Nezabudni si výsledky dvojito skontrolovať."
-
-#: (vue)
-msgid "Note: You should almost certainly not being using this page once results\n                               have been released. Be sure to fill all gaps before leaving."
-msgstr "Poznámka: po zverejnení výsledkov by si túto stránku takmer určite nemal/a používať. Pred odchodom sa uisti, že si vyplnil/a všetky medzery."
-
-#: (vue)
+#: templates/allocations/DragAndDropActions.vue:55
 msgid "Prioritise"
 msgstr "Prioritizovať"
 
-#: (vue)
-msgid "Prioritise by bracket will split the draw into quartiles by bracket\n                              and give higher priorities to higher brackets."
-msgstr "Prioritizácia podľa koša rozdelí pairing do kvartilov podľa koša a priradí vyšším košom vyššie priority."
+#: templates/allocations/DragAndDropActions.vue:62
+msgid "Allocate"
+msgstr "Prideliť"
 
-#: (vue)
-msgid "Prioritise by liveness assign live rooms to be important,\n                              safe rooms (where all teams are guaranteed to break) to be neutral>,\n                              and dead rooms (where all teams cannot break) to be meh. This is\n                              typically only useful in the very last preliminary rounds, when many\n                              teams are ruled out of the break."
-msgstr "Prioritizácia podľa liveness priradí live miestnostiam dôležitosť, bezpečným miestnostiam (kde je postup všetkých tímov zaručený) neutrálnu hodnotu a mŕtvym miestnostiam (kde žiadny tím nemôže postúpiť) nízku hodnotu. Toto je spravidla užitočné iba v posledných predkolách, keď sú mnohé tímy vylúčené z postupu."
-
-#: (vue)
-msgid "Real Names"
-msgstr "Skutočné mená"
-
-#: (vue)
-msgid "Seen"
-msgstr "Videný"
-
-#: (vue)
-msgid "Select a count, sort, and mix to open a shard"
-msgstr "Vyber počet, zoradenie a miešanie na otvorenie shardu"
-
-#: (vue)
-msgid "Set Breaking"
-msgstr "Nastaviť postupujúcich"
-
-#: (vue)
-msgid "Set all the availabilities to exactly match\n                                     what they were in the previous round."
-msgstr "Nastaví všetku dostupnosť presne podľa predchádzajúceho kola."
-
-#: (vue)
-msgid "Set people who are checked in as available\n                                     (leave people not checked in unchanged)"
-msgstr "Nastaví prihlásených ľudí ako dostupných (neprihlásených ponechá bez zmeny)."
-
-#: (vue)
-msgid "Set people who are not checked in as unavailable\n                                     (leave people who are checked in unchanged)"
-msgstr "Nastaví neprihlásených ľudí ako nedostupných (prihlásených ponechá bez zmeny)."
-
-#: (vue)
-msgid "Shard Mix"
-msgstr "Shard Mix"
-
-#: (vue)
-msgid "Shard Sort"
-msgstr "Shard Sort"
-
-#: (vue)
-msgid "Shard Split"
-msgstr "Shard Split"
-
-#: (vue)
-msgid "Sharding narrows the debates displayed to show only a specific subset of the\n  overall draw"
-msgstr "Sharding zúži zobrazené debaty tak, aby sa zobrazila iba konkrétna podmnožina celkového pairingu."
-
-#: (vue)
-msgid "Sharding narrows the panels displayed to show only a specific subset of all\n  panels available."
-msgstr "Sharding zúži zobrazené panely tak, aby sa zobrazila iba konkrétna podmnožina všetkých dostupných panelov."
-
-#: (vue)
-msgid "Smart Allocate"
-msgstr "Smart pridelenie"
-
-#: (vue)
-msgid "Solo speech mode: adjudicators can be assigned to multiple speeches in this round. Drag a judge from the bottom pool to every speech they judge; drag from a speech back to the pool to remove only that assignment. Auto-allocation is disabled for this format."
-msgstr "Režim sólovej reči: rozhodcov možno priradiť k viacerým rečiam v tomto kole. Pretiahni rozhodcu zo spodného zoznamu ku každej reči, ktorú posudzuje; pretiahnutím reči späť do zoznamu odstrániš iba toto priradenie. Automatické pridelenie je pre tento formát vypnuté."
-
-#: (vue)
-msgid "TKTK"
-msgstr "TKTK"
-
-#: (vue)
-msgid "The allocator assigns rooms to debates while trying to match\n                               all of the room constraints that have been specified."
-msgstr "Prideľovač priradí miestnosti debatám a pritom sa snaží splniť všetky zadané obmedzenia miestností."
-
-#: (vue)
-msgid "The allocator creates stronger panels for debates that were given\n                                  higher importances. If importances have not been set it will allocate\n                                  stronger panels to debates in higher brackets."
-msgstr "Prideľovač vytvorí silnejšie panely pre debaty s vyššou dôležitosťou. Ak dôležitosti neboli nastavené, priradí silnejšie panely debatám vo vyšších košoch."
-
-#: (vue)
-msgid "The debate's room rank (break rank of highest-ranked team)"
-msgstr "Poradie miestnosti debaty (poradie postupu najvyššie umiestneného tímu)"
-
-#: (vue)
-msgid "The maximum possible number of live teams in\n              the hypothetical debate for the open category"
-msgstr "Maximálny možný počet live tímov v hypotetickej debate pre open kategóriu"
-
-#: (vue)
-msgid "The time of the last saved change (changes are automatically saved)"
-msgstr "Čas poslednej uloženej zmeny (zmeny sa ukladajú automaticky)"
-
-#: (vue)
-msgid "The total number of live break categories across\n              all teams"
-msgstr "Celkový počet live break kategórií naprieč všetkými tímami"
-
-#: (vue)
-msgid "There are no Preformed Panels for this round. You will need to create\n  some first by using the button in the top-left."
-msgstr "Pre toto kolo neexistujú žiadne predpripravené panely. Najprv ich musíš vytvoriť pomocou tlačidla v ľavom hornom rohu."
-
-#: (vue)
-msgid "There are no debates created for this round."
-msgstr "Pre toto kolo neboli vytvorené žiadne debaty."
-
-#: (vue)
-msgid "This adjudicator or team has an unmet room constraint."
-msgstr "Tento rozhodca alebo tím má nesplnené obmedzenie miestnosti."
-
-#: (vue)
-msgid "This helps allow this page to be edited across several computers as it\n    guarantees that changes made in one shard wont affect the others. However, you need to\n    ensure that each computer uses identical split/mix/sort settings and selects a different\n    shard from the others"
-msgstr "Toto umožňuje úpravu tejto stránky na viacerých počítačoch súčasne, pretože zaručuje, že zmeny vykonané v jednom shard neovplyvnia ostatné. Musíš však zabezpečiť, aby každý počítač používal rovnaké nastavenia rozdelenia/miešania/zoradenia a zvolil iný shard."
-
-#: (vue)
-msgid "Top-to-Bottom mixing will sort the draw so the first shard contains the\n    top-most brackets, priority, or liveness while the last shard contains the bottom-most\n    brackets, priority, or liveness. In contrast, Interleave will distribute an even mix of each\n    characteristic amongst each shard"
-msgstr "Miešanie zhora nadol zoradí pairing tak, že prvý shard bude obsahovať najvyššie koše, priority alebo liveness, zatiaľ čo posledný shard bude obsahovať najnižšie. Naopak, Interleave rozdelí rovnomernú zmes každej vlastnosti medzi jednotlivé shardy."
-
-#: (vue)
+#: templates/allocations/DragAndDropActions.vue:136
 msgid "Unavailable"
 msgstr "Nedostupný"
 
-#: (vue)
-msgid "Unknown Adj"
-msgstr "Neznámy rozhodca"
+#: templates/allocations/HoverPanel.vue:126
+msgid "No code name set"
+msgstr "Nie je nastavené kódové meno"
 
-#: (vue)
-msgid "Using auto-prioritise will remove all existing debate priorities and assign\n  new ones."
-msgstr "Automatická prioritizácia odstráni všetky existujúce priority debát a priradí nové."
+#: templates/modals/ModalForAllocating.vue:74
+msgid "Auto-Allocate Preformed Panels"
+msgstr "Automaticky prideliť predpripravené panely"
 
-#: (vue)
-msgid "Using auto-prioritise will remove all existing panel priorities and\n  assign new ones."
-msgstr "Automatická prioritizácia odstráni všetky existujúce priority panelov a priradí nové."
+#: templates/modals/ModalForAllocating.vue:87
+#: templates/modals/ModalForAllocating.vue:99
+#: templates/modals/ModalForAllocating.vue:223
+#: templates/modals/ModalForCreatingPreformedPanels.vue:45
+#: templates/modals/ModalForPrioritising.vue:57
+#: templates/modals/ModalForPrioritising.vue:64
+msgid "Loading..."
+msgstr "Načítavam..."
 
-#: (vue)
-msgid "feedback scores analysed"
-msgstr "analyzovaných skóre spätnej väzby"
+#: templates/modals/ModalForAllocating.vue:87
+msgid "Smart Allocate"
+msgstr "Smart pridelenie"
 
-#: (vue)
-msgid "speaker scores analysed"
-msgstr "analyzovaných skóre rečníkov"
+#: templates/modals/ModalForAllocating.vue:90
+msgid ""
+"Allocates preformed panels to debates of similar priority level, while "
+"avoiding conflicts."
+msgstr ""
+"Prideľuje predpripravené panely debatám s podobnou úrovňou priority a "
+"zároveň sa vyhýba konfliktom."
 
-#: (vue)
-msgid "x04"
-msgstr "x04"
+#: templates/modals/ModalForAllocating.vue:99
+msgid "Direct Allocate"
+msgstr "Priame pridelenie"
 
-#: (vue)
-msgid "☓ All"
-msgstr "☓ Všetky"
+#: templates/modals/ModalForAllocating.vue:102
+msgid ""
+"Allocates panels in exact order going from top to bottom (ignoring debate "
+"priority and conflicts.)"
+msgstr ""
+"Prideľuje panely v presnom poradí zhora nadol (ignoruje prioritu debaty a "
+"konflikty)."
 
-#: (vue)
-msgid "✓ All"
-msgstr "✓ Všetky"
+#: templates/modals/ModalForAllocating.vue:111
+msgid ""
+"No preformed panels exist for this round. You can create some by going to "
+"Setup, and then Preformed Panels."
+msgstr ""
+"Pre toto kolo neexistujú žiadne predpripravené panely. Môžeš ich vytvoriť v "
+"časti Nastavenie a potom Predpripravené panely."
+
+#: templates/modals/ModalForAllocating.vue:119
+msgid "Auto-Allocate Individual Adjudicators"
+msgstr "Automaticky prideliť jednotlivých rozhodcov"
+
+#: templates/modals/ModalForAllocating.vue:151
+msgid "Minimum feedback score required to be a chair or panellist"
+msgstr ""
+"Minimálne skóre spätnej väzby potrebné na to, aby mohol byť chair alebo "
+"panelista"
+
+#: templates/modals/ModalForAllocating.vue:162
+msgid "Do not allocate panellists"
+msgstr "Neprideľovať panelistov"
+
+#: templates/modals/ModalForAllocating.vue:172
+msgid "Do not allocate trainees"
+msgstr "Neprideľovať shadows"
+
+#: templates/modals/ModalForAllocating.vue:183
+msgid ""
+"History penalty — higher numbers will more strongly avoid\n"
+"                                         matching adjudicators to teams or panellists they have seen\n"
+"                                         before"
+msgstr ""
+"Pokuta za históriu — vyššie čísla budú silnejšie predchádzať tomu, aby "
+"rozhodcovia posudzovali tímy alebo panelistov, ktorých už videli predtým"
+
+#: templates/modals/ModalForAllocating.vue:196
+msgid ""
+"Conflict penalty — higher numbers will more strongly avoid recorded "
+"conflicts"
+msgstr ""
+"Pokuta za konflikt — vyššie čísla budú silnejšie predchádzať zaznamenaným "
+"konfliktom"
+
+#: templates/modals/ModalForAllocating.vue:210
+msgid ""
+"Importance mismatch penalty — higher numbers will more\n"
+"                                         strongly match panel strengths to assigned importances"
+msgstr ""
+"Pokuta za nesúlad dôležitosti — vyššie čísla budú silnejšie priraďovať silu "
+"panelov k prideleným dôležitostiam"
+
+#: templates/modals/ModalForAllocating.vue:223
+msgid "Auto-Allocate Adjudicators"
+msgstr "Automaticky prideliť rozhodcov"
+
+#: templates/modals/ModalForAllocating.vue:226
+msgid ""
+"The allocator creates stronger panels for debates that were given\n"
+"                                  higher importances. If importances have not been set it will allocate\n"
+"                                  stronger panels to debates in higher brackets."
+msgstr ""
+"Prideľovač vytvorí silnejšie panely pre debaty s vyššou dôležitosťou. Ak "
+"dôležitosti neboli nastavené, priradí silnejšie panely debatám vo vyšších "
+"košoch."
+
+#: templates/modals/ModalForCreatingPreformedPanels.vue:34
+#: templates/modals/ModalForCreatingPreformedPanels.vue:45
+msgid "Create Preformed Panels"
+msgstr "Vytvoriť predpripravené panely"
+
+#: templates/modals/ModalForCreatingPreformedPanels.vue:37
+msgid ""
+"Create preformed panels by estimating the general brackets that will\n"
+"                              occur during this round."
+msgstr ""
+"Vytvor predpripravené panely odhadnutím všeobecných košov, ktoré sa vyskytnú"
+" počas tohto kola."
+
+#: templates/modals/ModalForPrioritising.vue:37
+msgid ""
+"Prioritise by bracket will split the draw into quartiles by bracket\n"
+"                              and give higher priorities to higher brackets."
+msgstr ""
+"Prioritizácia podľa koša rozdelí pairing do kvartilov podľa koša a priradí "
+"vyšším košom vyššie priority."
+
+#: templates/modals/ModalForPrioritising.vue:41
+msgid ""
+"Prioritise by liveness assign live rooms to be important,\n"
+"                              safe rooms (where all teams are guaranteed to break) to be neutral>,\n"
+"                              and dead rooms (where all teams cannot break) to be meh. This is\n"
+"                              typically only useful in the very last preliminary rounds, when many\n"
+"                              teams are ruled out of the break."
+msgstr ""
+"Prioritizácia podľa liveness priradí live miestnostiam dôležitosť, bezpečným"
+" miestnostiam (kde je postup všetkých tímov zaručený) neutrálnu hodnotu a "
+"mŕtvym miestnostiam (kde žiadny tím nemôže postúpiť) nízku hodnotu. Toto je "
+"spravidla užitočné iba v posledných predkolách, keď sú mnohé tímy vylúčené z"
+" postupu."
+
+#: templates/modals/ModalForPrioritising.vue:48
+msgid ""
+"Note that 'liveness' doesn't factor in special rules other than a\n"
+"                              strict mathematical break. Be sure to double-check the results"
+msgstr ""
+"Upozornenie: liveness nezohľadňuje špeciálne pravidlá okrem prísneho "
+"matematického postupu. Nezabudni si výsledky dvojito skontrolovať."
+
+#: templates/modals/ModalForPrioritising.vue:57
+msgid "Assign Automatic Priorities by Bracket"
+msgstr "Priradiť automatické priority podľa koša"
+
+#: templates/modals/ModalForPrioritising.vue:64
+msgid "Assign Automatic Priorities by Liveness"
+msgstr "Priradiť automatické priority podľa liveness"
+
+#: templates/modals/ModalForSharding.vue:108
+msgid "Shard Mix"
+msgstr "Shard Mix"
+
+#: templates/modals/ModalForSharding.vue:128
+msgid "Shard Split"
+msgstr "Shard Split"
+
+#: templates/modals/ModalForSharding.vue:136
+msgid "In "
+msgstr "V "
+
+#: templates/modals/ModalForSharding.vue:148
+msgid "Shard Sort"
+msgstr "Shard Sort"
+
+#: templates/modals/ModalForSharding.vue:156
+msgid "By "
+msgstr "Od "
+
+#: templates/modals/ModalForSharding.vue:169
+msgid "Select a count, sort, and mix to open a shard"
+msgstr "Vyber počet, zoradenie a miešanie na otvorenie shardu"
+
+#: templates/modals/ModalForSharding.vue:178
+msgid "Open"
+msgstr "Open"
+
+#: templates/modals/ModalForSharding.vue:185
+msgid "Close Shard"
+msgstr "Zatvoriť shard"
+
+#: templates/tables/CheckboxTablesContainer.vue:158
+msgid "Set Breaking"
+msgstr "Nastaviť postupujúcich"
+
+#~ msgid "Scan Using Camera"
+#~ msgstr "Skenovanie pomocou fotoaparátu"
+
+#~ msgid "Stop Camera Scan"
+#~ msgstr "Zastaviť skenovanie fotoaparátom"
+
+#~ msgid "Turn On Sounds"
+#~ msgstr "Zapnúť zvuky"
+
+#~ msgid "%1 checked in %2: %3"
+#~ msgstr "%1 prihlásený v %2: %3"
+
+#~ msgid "All"
+#~ msgstr "Všetky"
+
+#~ msgid "By %1"
+#~ msgstr "Od %1"
+
+#~ msgid "No matching rooms found."
+#~ msgstr "Nenašli sa žiadne zodpovedajúce mietnosti."
+
+#~ msgid "No matching people found."
+#~ msgstr "Nenašli sa žiadne zodpovedajúce osoby."
+
+#~ msgid ""
+#~ "This page will live-update with new check-ins as they occur although the "
+#~ "initial list may be up to a minute old."
+#~ msgstr ""
+#~ "Táto stránka sa bude aktualizovať v reálnom čase s novými registráciami, ako"
+#~ " sa budú vyskytovať, hoci počiatočný zoznam môže byť starý až jednu minútu."
+
+#~ msgid "<strong>✓</strong> All"
+#~ msgstr "<strong>✓</strong> Všetkých"
+
+#~ msgid "<strong>☓</strong> All"
+#~ msgstr "<strong>☓</strong> Všetkých"
+
+#~ msgid "Click to check-in manually"
+#~ msgstr "Kliknite pre manuálnu registráciu"
+
+#~ msgid "saving..."
+#~ msgstr "ukladám.."
+
+#~ msgid ""
+#~ "This person does not have a check-in identifier so they can't be checked in"
+#~ msgstr ""
+#~ "Táto osoba nemá identifikačný kód na registráciu, preto nemôže byť "
+#~ "zaregistrovaný"
+
+#~ msgid ""
+#~ "If you want to view this page without the sidebar (i.e. for displaying to an"
+#~ " auditorium) you can use the assistant version."
+#~ msgstr ""
+#~ "Ak chcete zobraziť túto stránku bez bočného panela (napr. pre zobrazenie v "
+#~ "prednáškovej sále), môžete použiť \"assitenciu\"."
+
+#~ msgid "Open the assistant version."
+#~ msgstr "Otvoriť asistenciu."
+
+#~ msgid "Click to undo a check-in"
+#~ msgstr "Kliknite pre zvrátenie registrácie"
+
+#~ msgid "%1, a %2 of no institutional affiliation with identifier of %3"
+#~ msgstr "%1, %2 bez klubovej príslušnosti s identifikátorom %3"
+
+#~ msgid "%1, a %2 of no institutional affiliation with no assigned identifier"
+#~ msgstr "%1, %2 bez klubovej príslušnosti bez priradeného identifikátora"
+
+#~ msgid "%1, a %2 from %3 with identifier of %4"
+#~ msgstr "%1, %2 z %3 s identifikátorom %4"
+
+#~ msgid "%1, a %2 from %3 with no assigned identifier"
+#~ msgstr "%1, %2 z %3 bez priradeného identifikátora"
+
+#~ msgid "%1 (Present; id=%2)"
+#~ msgstr "%1 (prítomný/á; id=%2)"
+
+#~ msgid "%1 (Absent; id=%2)"
+#~ msgstr "%1 (neprítomný/á; id=%2)"
+
+#~ msgid "%1, a team with speakers %2"
+#~ msgstr "%1, tím s rečníkmi %2"
+
+#~ msgid "%1, a %2"
+#~ msgstr "%1, %2"
+
+#~ msgid "Anonymous (due to team codes)"
+#~ msgstr "Anonymné (kvôli tímovým kódom)"
+
+#~ msgid "Anon"
+#~ msgstr "Anon"
+
+#~ msgid "Independent"
+#~ msgstr "Nezávislý"
+
+#~ msgid "%1 (%2) with identifier of %3"
+#~ msgstr "%1 (%2) s identifikátorom %3"
+
+#~ msgid "%1 (no category) with identifier of %2"
+#~ msgstr "%1 (bez kategórie) s identifikátorom %2"
+
+#~ msgid "%1 (%2) with no assigned identifier"
+#~ msgstr "%1 (%2) bez priradeného identifikátora"
+
+#~ msgid "%1 (no category) with no assigned identifier"
+#~ msgstr "%1 (bez kategórie) bez priradeného identifikátora"
+
+#~ msgid "Uncategorised"
+#~ msgstr "Nekategorizovaný"
+
+#~ msgid "No Category"
+#~ msgstr "Bez kategórie"
+
+#~ msgid "Priority %1"
+#~ msgstr "Priorita %1"
+
+#~ msgid "%1 %2 from %3"
+#~ msgstr "%1 %2 od %3"
+
+#~ msgid "%1 %2 from %3 %4"
+#~ msgstr "%1 %2 od %3 %4"
+
+#~ msgid "%1 %2 from %3 on %4 (Chair)"
+#~ msgstr "%1 %2 od %3 on %4 (Chair)"
+
+#~ msgid "%1 %2 from %3 on %4 (Panellist)"
+#~ msgstr "%1 %2 od %3 on %4 (Panellista)"
+
+#~ msgid "%1 %2 from %3 on %4 (Trainee)"
+#~ msgstr "%1 %2 od %3 na %4 (Shadow)"
+
+#~ msgid "ID %1,"
+#~ msgstr "ID %1,"
+
+#~ msgid "Room:"
+#~ msgstr "Miestnosť:"
+
+#~ msgid "Chair for Panel of %1"
+#~ msgstr "Chair pre Panel - %1"
+
+#~ msgid "Solo Chair"
+#~ msgstr "Samostatný Chair"
+
+#~ msgid "Panellist"
+#~ msgstr "Panelista"
+
+#~ msgid "Trainee"
+#~ msgstr "Shadow"
+
+#~ msgid "Team"
+#~ msgstr "Tím"
+
+#~ msgid "Mark speeches %1 to %2; <strong>%3</strong>."
+#~ msgstr "Boduj reči od %1 až %2; <strong>%3</strong>."
+
+#~ msgid "Mark replies %1 to %2; <strong>%3</strong>."
+#~ msgstr "Oboduj záverečné reči od %1 až %2; <strong>%3</strong>."
+
+#~ msgid "Return ballots to %1."
+#~ msgstr "Return hlasovania na %1."
+
+#~ msgid "The motion is <em>%1</em>"
+#~ msgstr "Téza je <em>%1</em>"
+
+#~ msgid "Debated"
+#~ msgstr "Debatované"
+
+#~ msgid "Circle %1"
+#~ msgstr "Zakrúžkuj %1"
+
+#~ msgid "<strong>%1</strong>: %2"
+#~ msgstr "<strong>%1</strong>: %2"
+
+#~ msgid "Aff Veto"
+#~ msgstr "Veto súhlasu"
+
+#~ msgid "Neg Veto"
+#~ msgstr "Veto nesúhlasu"
+
+#~ msgid "%1:"
+#~ msgstr "%1:"
+
+#~ msgid "tab entry"
+#~ msgstr "zadanie tabu"
+
+#~ msgid "tab check"
+#~ msgstr "kontrola tabu"
+
+#~ msgid "Unaffiliated"
+#~ msgstr "Nezávislý"
+
+#~ msgid "no ½ marks"
+#~ msgstr "bez polbodov"
+
+#~ msgid "½ marks are allowed"
+#~ msgstr "polbody sú povolené"
+
+#~ msgid "decimal marks are allowed"
+#~ msgstr "desatinné body sú povolené"
+
+#~ msgid "%1 (%2, %3)"
+#~ msgstr "%1 (%2, %3)"
+
+#~ msgid "Adjudicating with %1."
+#~ msgstr "Rozhoduješ s %1."
+
+#~ msgid "; "
+#~ msgstr "; "
+
+#~ msgid "Did %1 deliver the adjudication?"
+#~ msgstr "Dával/a %1 oral adjudication?"
+
+#~ msgid "Yes"
+#~ msgstr "Ano"
+
+#~ msgid "No, I am submitting feedback on:"
+#~ msgstr "Nie, odosielam spätnú väzbu na:"
+
+#~ msgid "Unsure"
+#~ msgstr "Nie som si istý/á"
+
+#~ msgid "No"
+#~ msgstr "Nie"
+
+#~ msgid "Which team won the debate:"
+#~ msgstr "Ktorý tím vyhral debatu:"
+
+#~ msgid "By how many points did they win:"
+#~ msgstr "O koľko bodov vyhrali:"
+
+#~ msgid "%1, %2"
+#~ msgstr "%1, %2"
+
+#~ msgid ""
+#~ "IMPORTANT: Check and explicitly note if a speaker gives multiple speeches"
+#~ msgstr ""
+#~ "DÔLEŽITÉ: Skontrolujte a explicitne zaznačte, či rečník prednesie viacero "
+#~ "rečí"
+
+#~ msgid "Score:"
+#~ msgstr "Skóre:"
+
+#~ msgid "Circle the last digit of the %1's score:"
+#~ msgstr "Zakrúžkuj poslednú číslicu skóre pre %1:"
+
+#~ msgid "Circle Rank:"
+#~ msgstr "Zakrúžkuj poradie:"
+
+#~ msgid "Total:"
+#~ msgstr "Celkovo:"
+
+#~ msgid "Circle the last digit of the team's total:"
+#~ msgstr "Zakrúžkuj poslednú číslicu tímového súčtu:"
+
+#~ msgid "Find in Table"
+#~ msgstr "Hľadať v tabuľke"
+
+#~ msgid "Set All Breaking as Available"
+#~ msgstr "Nastaviť všetkých breakujúcich ako dostupných"
+
+#~ msgid ""
+#~ "Set all the availabilities to exactly match what they were in the previous "
+#~ "round."
+#~ msgstr "Nastaví všetku dostupnosť presne podľa predchádzajúceho kola."
+
+#~ msgid "Match"
+#~ msgstr "Zhodovať"
+
+#~ msgid "Set all availabilities to exactly match check-ins."
+#~ msgstr ""
+#~ "Nastavte všetky dostupné termíny tak, aby presne zodpovedali registrácií."
+
+#~ msgid "Match Check-Ins"
+#~ msgstr "Zhodovať s check-inmi"
+
+#~ msgid ""
+#~ "Set people as available only if they have a check-in and are currently "
+#~ "unavailable — i.e. it will not overwrite any existing availabilities."
+#~ msgstr ""
+#~ "Nastaví ľudí ako dostupných iba vtedy, ak majú check-in a momentálne sú "
+#~ "nedostupní, teda neprepíše existujúcu dostupnosť."
+
+#~ msgid "Copy From Check-Ins"
+#~ msgstr "Kopírovať z check-inov"
+
+#~ msgid "Ballots Status"
+#~ msgstr "Status ballotov"
+
+#~ msgid "Latest Actions"
+#~ msgstr "Najnovšie akcie"
+
+#~ msgid "No Actions Yet"
+#~ msgstr "Zatiaľ žiadne akcie"
+
+#~ msgid "Latest Results"
+#~ msgstr "Najnovšie výsledky"
+
+#~ msgid "No Confirmed Results Yet"
+#~ msgstr "Zatiaľ žiadne potvrdené výsledky"
+
+#~ msgid "Speaker Demographics"
+#~ msgstr "Demografia rečníkov"
+
+#~ msgid "No Gender Information"
+#~ msgstr "Žiadne informácie o rode"
+
+#~ msgid "No Speaker Categories Information"
+#~ msgstr "Žiadne informácie o kategóriách rečníkov"
+
+#~ msgid "Speaker Results"
+#~ msgstr "Výsledky rečníkov"
+
+#~ msgid "speakers with gender data"
+#~ msgstr "výsledky rečníkov s údajmi o pohlaví"
+
+#~ msgid "speaker scores total"
+#~ msgstr "celkové skóre rečníka"
+
+#~ msgid "No Region Information"
+#~ msgstr "Žiadne informácie o regióne"
+
+#~ msgid "Adjudicator Demographics"
+#~ msgstr "Demografia rozhodcov"
+
+#~ msgid "No Position Information"
+#~ msgstr "Žiadne informácie o pozícii"
+
+#~ msgid "Adjudicator Results"
+#~ msgstr "Výsledky rozhodcu"
+
+#~ msgid "adjudicators with gender data"
+#~ msgstr "rozhodcovia s údajmi o rode"
+
+#~ msgid "feedback scores total"
+#~ msgstr "celkové skóre spätnej väzby"
+
+#~ msgid "No Adjudicator Ratings Information"
+#~ msgstr "Žiadne informácie o hodnoteniach rozhodcov"
+
+#~ msgid "No Adjudicator-Adjudicator Feedback Information"
+#~ msgstr "Žiadne informácie o spätnej väzbe rozhodca-rozhodca"
+
+#~ msgid "Checked-In"
+#~ msgstr "Zaregistrovaný"
+
+#~ msgid "Not Checked-In"
+#~ msgstr "Nezaregistrovaný"
+
+#~ msgid "Ballot Check-Ins"
+#~ msgstr "Registrácia ballotov"
+
+#~ msgid "Unknown"
+#~ msgstr "Neznáme"
+
+#~ msgid "Unconfirmed"
+#~ msgstr "Nepotrvrdené"
+
+#~ msgid "Confirmed"
+#~ msgstr "Potvrdené"
+
+#~ msgid "Ballot Statuses"
+#~ msgstr "Status Ballotov"
+
+#~ msgid "You cannot confirm this ballot because you entered it"
+#~ msgstr "Nemôžeš potvrdiť ballot, ktorý ste zadali vy"
+
+#~ msgid "Add Ballot"
+#~ msgstr "Pridať Ballot"
+
+#~ msgid "Re-Edit"
+#~ msgstr "Opätovná úprava"
+
+#~ msgid "Review"
+#~ msgstr "Kontrola"
+
+#~ msgid "No changes"
+#~ msgstr "Bez zmeny"
+
+#~ msgid "Return to Draw"
+#~ msgstr "Späť na pairing"
+
+#~ msgid "Auto-Prioritise"
+#~ msgstr "Automaticky prioritizovať"
+
+#~ msgid "Auto-Allocate"
+#~ msgstr "Automatické prideľovanie"
+
+#~ msgid "Break"
+#~ msgstr "Postup"
+
+#~ msgid "Gender"
+#~ msgstr "Pohlavie"
+
+#~ msgid "Rank"
+#~ msgstr "Poradie"
+
+#~ msgid "Region"
+#~ msgstr "Región"
+
+#~ msgid "Category"
+#~ msgstr "Kategória"
+
+#~ msgid "The debate's bracket"
+#~ msgstr "Bracket debaty"
+
+#~ msgid "The bracket range of the hypothetical debate"
+#~ msgstr "Rozsah bracketu hypotetickej debaty"
+
+#~ msgid "The total number of live break categories across all teams"
+#~ msgstr "Súčet všetkých break kategórií napireč všetkými tímami"
+
+#~ msgid ""
+#~ "The estimated total number of live break categories across all teams of the "
+#~ "hypothetical debate"
+#~ msgstr ""
+#~ "Predpokladané celé číslo live break kategórií naprieč všetkými tímami v "
+#~ "hypotetickej debate"
+
+#~ msgid "This debate's priority"
+#~ msgstr "Priorita tejto debaty"
+
+#~ msgid "The total score for this block must be a whole number."
+#~ msgstr "Celkové body musia byť celé číslo."
+
+#~ msgid "Please set all scores in this block."
+#~ msgstr "Prosím zadajte všetky skóre pre túto sekciu."
+
+#~ msgid "Not set"
+#~ msgstr "Nenastavené"
+
+#~ msgid "Total for"
+#~ msgstr "Spolu pre"
+
+#~ msgid "Use classic ballot UI"
+#~ msgstr "Použiť klasické UI ballotu"
+
+#~ msgid "Use slider ballot UI"
+#~ msgstr "Použiť slider UI ballotu"
+
+#~ msgid "Won"
+#~ msgstr "Výhra"
+
+#~ msgid "Lost"
+#~ msgstr "Prehra"
+
+#~ msgid "Tie"
+#~ msgstr "Remíza"
+
+#~ msgid "TIE"
+#~ msgstr "REMÍZA"
+
+#~ msgid "Chair"
+#~ msgstr "Chair"
+
+#~ msgid "Code Names"
+#~ msgstr "Kódové mená"
+
+#~ msgid "Institution"
+#~ msgstr "Debatný klub"
+
+#~ msgid "N/A"
+#~ msgstr "N/A"
+
+#~ msgid "Order"
+#~ msgstr "Poradie"
+
+#~ msgid "Postponed"
+#~ msgstr "Odložené"
+
+#~ msgid "confirmed"
+#~ msgstr "potvrdené"
+
+#~ msgid "unconfirmed"
+#~ msgstr "nepotvrdené"
+
+#~ msgid " Set Checked-In as Available"
+#~ msgstr " Nastaviť prihlásených ako dostupných"
+
+#~ msgid " Set Not Checked-In as Unavailable"
+#~ msgstr " Nastaviť neprihlásených ako nedostupných"
+
+#~ msgid "Auto-Allocate Rooms to Debates"
+#~ msgstr "Automaticky prideliť miestnosti debatám"
+
+#~ msgid ""
+#~ "Auto-allocate will remove adjudicators from all debates\n"
+#~ "        and create new panels in their place."
+#~ msgstr ""
+#~ "Automatické pridelenie odstráni rozhodcov zo všetkých debát a vytvorí nové "
+#~ "panely na ich mieste."
+
+#~ msgid ""
+#~ "Auto-allocate will remove adjudicators from panels and create a new\n"
+#~ "  allocation in their place."
+#~ msgstr ""
+#~ "Automatické pridelenie odstráni rozhodcov z panelov a vytvorí nové "
+#~ "pridelenie na ich mieste."
+
+#~ msgid "Average score of panel (excluding trainees)"
+#~ msgstr "Priemerné skóre panelu (bez shadows)"
+
+#~ msgid "Average score of voting majority in panel"
+#~ msgstr "Priemerné skóre hlasovacej väčšiny v paneli"
+
+#~ msgid "Conflict"
+#~ msgstr "Konflikt"
+
+#~ msgid "Constraint"
+#~ msgstr "Obmedzenie"
+
+#~ msgid "Create Panels"
+#~ msgstr "Vytvoriť panely"
+
+#~ msgid "Debate has no room."
+#~ msgstr "Debata nemá priradenú miestnosť."
+
+#~ msgid "Incomplete"
+#~ msgstr "Neúplné"
+
+#~ msgid "Merge Ballot(s)"
+#~ msgstr "Zlúčiť ballot(y)"
+
+#~ msgid "Missing"
+#~ msgstr "Chýba"
+
+#~ msgid "Motion is:"
+#~ msgstr "Téza je:"
+
+#~ msgid "No Results Yet"
+#~ msgstr "Zatiaľ žiadne výsledky"
+
+#~ msgid "Not Checked In"
+#~ msgstr "Neprihlásený"
+
+#~ msgid ""
+#~ "Note: You should almost certainly not being using this page once results\n"
+#~ "                               have been released. Be sure to fill all gaps before leaving."
+#~ msgstr ""
+#~ "Poznámka: po zverejnení výsledkov by si túto stránku takmer určite nemal/a "
+#~ "používať. Pred odchodom sa uisti, že si vyplnil/a všetky medzery."
+
+#~ msgid "Real Names"
+#~ msgstr "Skutočné mená"
+
+#~ msgid "Seen"
+#~ msgstr "Videný"
+
+#~ msgid ""
+#~ "Set all the availabilities to exactly match\n"
+#~ "                                     what they were in the previous round."
+#~ msgstr "Nastaví všetku dostupnosť presne podľa predchádzajúceho kola."
+
+#~ msgid ""
+#~ "Set people who are checked in as available\n"
+#~ "                                     (leave people not checked in unchanged)"
+#~ msgstr ""
+#~ "Nastaví prihlásených ľudí ako dostupných (neprihlásených ponechá bez zmeny)."
+
+#~ msgid ""
+#~ "Set people who are not checked in as unavailable\n"
+#~ "                                     (leave people who are checked in unchanged)"
+#~ msgstr ""
+#~ "Nastaví neprihlásených ľudí ako nedostupných (prihlásených ponechá bez "
+#~ "zmeny)."
+
+#~ msgid ""
+#~ "Sharding narrows the debates displayed to show only a specific subset of the\n"
+#~ "  overall draw"
+#~ msgstr ""
+#~ "Sharding zúži zobrazené debaty tak, aby sa zobrazila iba konkrétna "
+#~ "podmnožina celkového pairingu."
+
+#~ msgid ""
+#~ "Sharding narrows the panels displayed to show only a specific subset of all\n"
+#~ "  panels available."
+#~ msgstr ""
+#~ "Sharding zúži zobrazené panely tak, aby sa zobrazila iba konkrétna "
+#~ "podmnožina všetkých dostupných panelov."
+
+#~ msgid ""
+#~ "Solo speech mode: adjudicators can be assigned to multiple speeches in this "
+#~ "round. Drag a judge from the bottom pool to every speech they judge; drag "
+#~ "from a speech back to the pool to remove only that assignment. Auto-"
+#~ "allocation is disabled for this format."
+#~ msgstr ""
+#~ "Režim sólovej reči: rozhodcov možno priradiť k viacerým rečiam v tomto kole."
+#~ " Pretiahni rozhodcu zo spodného zoznamu ku každej reči, ktorú posudzuje; "
+#~ "pretiahnutím reči späť do zoznamu odstrániš iba toto priradenie. Automatické"
+#~ " pridelenie je pre tento formát vypnuté."
+
+#~ msgid "TKTK"
+#~ msgstr "TKTK"
+
+#~ msgid ""
+#~ "The allocator assigns rooms to debates while trying to match\n"
+#~ "                               all of the room constraints that have been specified."
+#~ msgstr ""
+#~ "Prideľovač priradí miestnosti debatám a pritom sa snaží splniť všetky zadané"
+#~ " obmedzenia miestností."
+
+#~ msgid "The debate's room rank (break rank of highest-ranked team)"
+#~ msgstr ""
+#~ "Poradie miestnosti debaty (poradie postupu najvyššie umiestneného tímu)"
+
+#~ msgid ""
+#~ "The maximum possible number of live teams in\n"
+#~ "              the hypothetical debate for the open category"
+#~ msgstr ""
+#~ "Maximálny možný počet live tímov v hypotetickej debate pre open kategóriu"
+
+#~ msgid "The time of the last saved change (changes are automatically saved)"
+#~ msgstr "Čas poslednej uloženej zmeny (zmeny sa ukladajú automaticky)"
+
+#~ msgid ""
+#~ "The total number of live break categories across\n"
+#~ "              all teams"
+#~ msgstr "Celkový počet live break kategórií naprieč všetkými tímami"
+
+#~ msgid ""
+#~ "There are no Preformed Panels for this round. You will need to create\n"
+#~ "  some first by using the button in the top-left."
+#~ msgstr ""
+#~ "Pre toto kolo neexistujú žiadne predpripravené panely. Najprv ich musíš "
+#~ "vytvoriť pomocou tlačidla v ľavom hornom rohu."
+
+#~ msgid "There are no debates created for this round."
+#~ msgstr "Pre toto kolo neboli vytvorené žiadne debaty."
+
+#~ msgid "This adjudicator or team has an unmet room constraint."
+#~ msgstr "Tento rozhodca alebo tím má nesplnené obmedzenie miestnosti."
+
+#~ msgid ""
+#~ "This helps allow this page to be edited across several computers as it\n"
+#~ "    guarantees that changes made in one shard wont affect the others. However, you need to\n"
+#~ "    ensure that each computer uses identical split/mix/sort settings and selects a different\n"
+#~ "    shard from the others"
+#~ msgstr ""
+#~ "Toto umožňuje úpravu tejto stránky na viacerých počítačoch súčasne, pretože "
+#~ "zaručuje, že zmeny vykonané v jednom shard neovplyvnia ostatné. Musíš však "
+#~ "zabezpečiť, aby každý počítač používal rovnaké nastavenia "
+#~ "rozdelenia/miešania/zoradenia a zvolil iný shard."
+
+#~ msgid ""
+#~ "Top-to-Bottom mixing will sort the draw so the first shard contains the\n"
+#~ "    top-most brackets, priority, or liveness while the last shard contains the bottom-most\n"
+#~ "    brackets, priority, or liveness. In contrast, Interleave will distribute an even mix of each\n"
+#~ "    characteristic amongst each shard"
+#~ msgstr ""
+#~ "Miešanie zhora nadol zoradí pairing tak, že prvý shard bude obsahovať "
+#~ "najvyššie koše, priority alebo liveness, zatiaľ čo posledný shard bude "
+#~ "obsahovať najnižšie. Naopak, Interleave rozdelí rovnomernú zmes každej "
+#~ "vlastnosti medzi jednotlivé shardy."
+
+#~ msgid "Unknown Adj"
+#~ msgstr "Neznámy rozhodca"
+
+#~ msgid ""
+#~ "Using auto-prioritise will remove all existing debate priorities and assign\n"
+#~ "  new ones."
+#~ msgstr ""
+#~ "Automatická prioritizácia odstráni všetky existujúce priority debát a "
+#~ "priradí nové."
+
+#~ msgid ""
+#~ "Using auto-prioritise will remove all existing panel priorities and\n"
+#~ "  assign new ones."
+#~ msgstr ""
+#~ "Automatická prioritizácia odstráni všetky existujúce priority panelov a "
+#~ "priradí nové."
+
+#~ msgid "feedback scores analysed"
+#~ msgstr "analyzovaných skóre spätnej väzby"
+
+#~ msgid "speaker scores analysed"
+#~ msgstr "analyzovaných skóre rečníkov"
+
+#~ msgid "x04"
+#~ msgstr "x04"
+
+#~ msgid "☓ All"
+#~ msgstr "☓ Všetky"
+
+#~ msgid "✓ All"
+#~ msgstr "✓ Všetky"

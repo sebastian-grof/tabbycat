@@ -8,6 +8,7 @@ class TestTeam(object):
         self.id = id
         self.institution = inst
         self.points = points
+        self.side_history = [0, 0]
         try:
             self.hist = list(hist)
         except TypeError:

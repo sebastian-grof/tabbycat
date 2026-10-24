@@ -284,7 +284,7 @@ class BasePowerPairedDrawGenerator(BasePairDrawGenerator):
 
         brackets = self._make_raw_brackets()
         top_bracket = len(brackets) == 1
-        odd_bracket, _ = self._get_final_odd_bracket_details(brackets)
+        odd_bracket, bracket_details = self._get_final_odd_bracket_details(brackets)
         if not odd_bracket:
             raise DrawUserError(_("Couldn't determine a final odd bracket for bye selection."))
 
@@ -841,6 +841,7 @@ class SingleGraphPowerPairedDrawGenerator(GraphCostMixin, GraphGeneratorMixin, B
 class AustralsPowerPairedDrawGenerator(AustralsPairingMixin, BasePowerPairedDrawGenerator):
     pass
 
+
 class PowerPairedWithAllocatedSidesDrawGenerator(BasePowerPairedDrawGenerator):
     """Power-paired draw with allocated sides.
     Override functions of PowerPairedDrawGenerator where sides need to be constrained.
@@ -888,7 +889,7 @@ class PowerPairedWithAllocatedSidesDrawGenerator(BasePowerPairedDrawGenerator):
 
         brackets = self._make_raw_brackets()
         top_bracket = len(brackets) == 1
-        odd_bracket, _ = self._get_final_odd_bracket_details(brackets)
+        odd_bracket, bracket_details = self._get_final_odd_bracket_details(brackets)
         if not odd_bracket:
             raise DrawUserError(_("Couldn't determine a final odd bracket for bye selection."))
         team_ids = {

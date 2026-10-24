@@ -6,27 +6,9 @@ from django.utils.translation import gettext as _
 from participants.models import Team
 from tournaments.models import Tournament
 
-from ..models import (
-    BreakCutoffAdvancement,
-    BreakLeague,
-    BreakRegion,
-    BreakSeason,
-    BreakSpeaker,
-    BreakSpeakerTournamentParticipation,
-    BreakTeam,
-    BreakTeamLink,
-    BreakTeamTournamentResult,
-    BreakTournament,
-    BreaksPermission,
-    GlobalBreaksPermission,
-)
-from ..services import (
-    calculate_rankings,
-    calculate_region_quotas,
-    publish_public_breaks_snapshot,
-    prune_unused_break_identities,
-    reassign_break_team_link,
-)
+from ..models import (BreakCutoffAdvancement, BreakLeague, BreakRegion, BreakSeason, BreakSpeaker, BreakSpeakerTournamentParticipation, BreaksPermission, BreakTeam, BreakTeamLink,
+                      BreakTeamTournamentResult, BreakTournament, GlobalBreaksPermission)
+from ..services import calculate_rankings, calculate_region_quotas, prune_unused_break_identities, publish_public_breaks_snapshot, reassign_break_team_link
 
 
 class BreaksPermissionTests(TestCase):

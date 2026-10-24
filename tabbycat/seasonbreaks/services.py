@@ -28,6 +28,7 @@ from .models import (
     BreakTournament,
 )
 
+
 def _unique_name(model, season, base_name):
     base_name = base_name or "Unnamed"
     if not model.objects.filter(season=season, name=base_name).exists():

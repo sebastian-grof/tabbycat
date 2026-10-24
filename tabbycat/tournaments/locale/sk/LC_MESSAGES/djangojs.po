@@ -1,0 +1,243 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-27 15:04+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);\n"
+
+#: tournaments/templates/CategoryFolder.vue:37
+msgid "folder"
+msgstr "priečinok"
+
+#: tournaments/templates/CategoryFolder.vue:37
+msgid "folders"
+msgstr "priečinky"
+
+#: tournaments/templates/CategoryFolder.vue:38
+msgid "tournament"
+msgstr "turnaj"
+
+#: tournaments/templates/CategoryFolder.vue:38
+msgid "tournaments"
+msgstr "turnaje"
+
+#: tournaments/templates/CategoryFolder.vue:78
+#: tournaments/templates/CategoryManagerContainer.vue:27
+#: tournaments/templates/CategoryManagerContainer.vue:87
+msgid "New folder"
+msgstr "Nový priečinok"
+
+#: tournaments/templates/CategoryFolder.vue:83
+msgid "Delete this folder? Its contents will move up to the level above."
+msgstr "Vymazať tento priečinok? Jeho obsah sa presunie o úroveň vyššie."
+
+#: tournaments/templates/CategoryFolder.vue:84
+msgid "Delete this folder?"
+msgstr "Vymazať tento priečinok?"
+
+#: tournaments/templates/CategoryFolder.vue:144
+msgid "Public"
+msgstr "Verejné"
+
+#: tournaments/templates/CategoryFolder.vue:144
+msgid "Private"
+msgstr "Súkromná"
+
+#: tournaments/templates/CategoryFolder.vue:151
+msgid "Active"
+msgstr "Aktívna"
+
+#: tournaments/templates/CategoryFolder.vue:151
+msgid "Hidden"
+msgstr "Skryté"
+
+#: tournaments/templates/CategoryFolder.vue:181
+msgid "Slug (public URL)"
+msgstr "Identifikátor (verejná URL)"
+
+#: tournaments/templates/CategoryFolder.vue:186
+msgid "Description"
+msgstr "Popis"
+
+#: tournaments/templates/CategoryFolder.vue:196
+msgid "Empty — drag folders or tournaments here."
+msgstr "Prázdne — presuňte sem priečinky alebo turnaje."
+
+#: tournaments/templates/CategoryManagerContainer.vue:65
+msgid "Discard all unsaved changes?"
+msgstr "Zahodiť všetky neuložené zmeny?"
+
+#: tournaments/templates/CategoryManagerContainer.vue:92
+msgid "Saving…"
+msgstr "Ukladá sa…"
+
+#: tournaments/templates/CategoryManagerContainer.vue:96
+msgid "Save layout"
+msgstr "Uložiť usporiadanie"
+
+#: tournaments/templates/CategoryManagerContainer.vue:100
+msgid "Discard changes"
+msgstr "Zahodiť zmeny"
+
+#: tournaments/templates/CategoryManagerContainer.vue:103
+msgid "Unsaved changes"
+msgstr "Neuložené zmeny"
+
+#: tournaments/templates/CategoryManagerContainer.vue:126
+msgid "Uncategorised tournaments"
+msgstr "Nezaradené turnaje"
+
+#: tournaments/templates/CategoryManagerContainer.vue:128
+msgid ""
+"Tournaments here appear directly on the homepage. Drop one onto a folder to "
+"file it away."
+msgstr ""
+"Tieto turnaje sa zobrazujú priamo na domovskej stránke. Presunutím do "
+"priečinka ich zaradíte."
+
+#: tournaments/templates/CategoryManagerContainer.vue:133
+msgid "Every tournament is filed into a folder."
+msgstr "Každý turnaj je zaradený do priečinka."
+
+#: tournaments/templates/CategoryManagerContainer.vue:139
+msgid "Folders"
+msgstr "Priečinky"
+
+#: tournaments/templates/CategoryManagerContainer.vue:143
+msgid "No folders yet. Click “New folder” to create one."
+msgstr ""
+"Zatiaľ tu nie sú žiadne priečinky. Vytvorte ich kliknutím na „Nový "
+"priečinok“."
+
+#: tournaments/templates/CategoryManagerContainer.vue:148
+msgid "No folders or tournaments match your search."
+msgstr "Žiadne priečinky ani turnaje nezodpovedajú vyhľadávaniu."
+
+#: tournaments/templates/CategoryTournament.vue:33
+msgid "inactive"
+msgstr "neaktívny"
+
+#: tournaments/templates/ScheduleEditorContainer.vue:139
+msgid "Unsaved changes."
+msgstr "Neuložené zmeny."
+
+#: tournaments/templates/ScheduleEditorContainer.vue:148
+msgid "New schedule day"
+msgstr "Nový deň rozvrhu"
+
+#: tournaments/templates/ScheduleEditorContainer.vue:167
+msgid "Add day"
+msgstr "Pridať deň"
+
+#: tournaments/templates/ScheduleEditorContainer.vue:195
+msgid "Add event"
+msgstr "Pridať udalosť"
+
+#: tournaments/templates/ScheduleEditorContainer.vue:205
+#: tournaments/templates/ScheduleEditorEventRow.vue:152
+msgid "Start"
+msgstr "Začiatok"
+
+#: tournaments/templates/ScheduleEditorContainer.vue:206
+#: tournaments/templates/ScheduleEditorEventRow.vue:170
+msgid "End"
+msgstr "Koniec"
+
+#: tournaments/templates/ScheduleEditorContainer.vue:207
+#: tournaments/templates/ScheduleEditorEventRow.vue:187
+msgid "Event type"
+msgstr "Typ udalosti"
+
+#: tournaments/templates/ScheduleEditorContainer.vue:208
+#: tournaments/templates/ScheduleEditorEventRow.vue:212
+msgid "Custom title"
+msgstr "Vlastný názov"
+
+#: tournaments/templates/ScheduleEditorContainer.vue:208
+#: tournaments/templates/ScheduleEditorEventRow.vue:212
+msgid "optional"
+msgstr "nepovinné"
+
+#: tournaments/templates/ScheduleEditorContainer.vue:209
+#: tournaments/templates/ScheduleEditorEventRow.vue:235
+msgid "Round"
+msgstr "Kolo"
+
+#: tournaments/templates/ScheduleEditorContainer.vue:210
+#: tournaments/templates/ScheduleEditorEventRow.vue:262
+msgid "Duration"
+msgstr "Trvanie"
+
+#: tournaments/templates/ScheduleEditorContainer.vue:234
+msgid "No schedule events yet"
+msgstr "Zatiaľ tu nie sú žiadne udalosti"
+
+#: tournaments/templates/ScheduleEditorContainer.vue:237
+msgid "Choose a date above to start building the schedule."
+msgstr "Vyberte dátum vyššie a začnite zostavovať rozvrh."
+
+#: tournaments/templates/ScheduleEditorEventRow.vue:229
+msgid "Leave blank to show"
+msgstr "Ponechajte prázdne, ak chcete zobraziť"
+
+#: tournaments/templates/TournamentOverviewContainer.vue:82
+msgid "Ballots Status"
+msgstr "Status ballotov"
+
+#: tournaments/templates/TournamentOverviewContainer.vue:99
+msgid "No Results Yet"
+msgstr "Zatiaľ žiadne výsledky"
+
+#: tournaments/templates/TournamentOverviewContainer.vue:111
+msgid "Latest Actions"
+msgstr "Najnovšie akcie"
+
+#: tournaments/templates/TournamentOverviewContainer.vue:129
+msgid "No Actions Yet"
+msgstr "Zatiaľ žiadne akcie"
+
+#: tournaments/templates/TournamentOverviewContainer.vue:139
+msgid "Latest Results"
+msgstr "Najnovšie výsledky"
+
+#: tournaments/templates/TournamentOverviewContainer.vue:157
+msgid "No Confirmed Results Yet"
+msgstr "Zatiaľ žiadne potvrdené výsledky"
+
+#: tournaments/templates/useScheduleEditor.js:70
+msgid "Untitled event"
+msgstr "Udalosť bez názvu"
+
+#: tournaments/templates/useScheduleEditor.js:83
+msgid "Needs a date"
+msgstr "Chýba dátum"
+
+#: tournaments/templates/useScheduleEditor.js:84
+msgid "Correct the start time below"
+msgstr "Opravte čas začiatku nižšie"
+
+#: tournaments/templates/useScheduleEditor.js:103
+msgid "Check time"
+msgstr "Skontrolujte čas"
+
+#: tournaments/templates/useScheduleEditor.js:114
+#, javascript-format
+msgid "%s event"
+msgid_plural "%s events"
+msgstr[0] "%s udalosť"
+msgstr[1] "%s udalosti"
+msgstr[2] "%s udalosti"
+msgstr[3] "%s udalostí"

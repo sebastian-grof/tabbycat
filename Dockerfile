@@ -12,7 +12,7 @@ ENV IN_DOCKER 1
 
 # Setup Node/NPM
 RUN apt-get update
-RUN apt-get install -y curl nginx
+RUN apt-get install -y curl nginx gettext
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
 
 # Copy all our files into the baseimage and cd to that directory
@@ -34,6 +34,7 @@ RUN npm ci
 # compilejsi18n must run before `npm run build` (its cp-i18n step copies
 # locale/jsi18n/** into static/jsi18n), otherwise the served gettext catalogs
 # stay as stale as the committed files and .po/.mo edits never reach the browser.
+RUN cd tabbycat && python manage.py compilemessages
 RUN python ./tabbycat/manage.py compilejsi18n
 RUN npm run build
 RUN python ./tabbycat/manage.py collectstatic --noinput -v 0

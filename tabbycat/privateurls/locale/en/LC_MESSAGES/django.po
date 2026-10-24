@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tabbycat\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-17 09:02+0200\n"
+"POT-Creation-Date: 2026-09-27 15:04+0200\n"
 "PO-Revision-Date: 2019-07-11 23:48\n"
 "Last-Translator: philip_tc\n"
 "Language-Team: English\n"
@@ -14,7 +14,8 @@ msgstr ""
 "X-Generator: crowdin.com\n"
 "X-Crowdin-Project: tabbycat\n"
 "X-Crowdin-Language: en\n"
-"X-Crowdin-File: /develop/tabbycat/privateurls/locale/en/LC_MESSAGES/django.po\n"
+"X-Crowdin-File: /develop/tabbycat/privateurls/locale/en/LC_MESSAGES/"
+"django.po\n"
 
 #: privateurls/apps.py:7
 msgid "Private URL Management"
@@ -37,12 +38,18 @@ msgstr ""
 
 #: privateurls/templates/private_url_landing.html:19
 #, python-format
-msgid "Your team has an incomplete number of speakers. Please share the registration link with your partner(s): <a href=\"%(link)s\">%(link)s</a>"
+msgid ""
+"Your team has an incomplete number of speakers. Please share the "
+"registration link with your partner(s): <a href=\"%(link)s\">%(link)s</a>"
 msgstr ""
 
 #: privateurls/templates/private_url_landing.html:26
 #, python-format
-msgid "The URL of this page is personalised to you, %(name)s. <strong>Do not share it with anyone;</strong> anyone who knows this URL can submit results and/or feedback for your debates. You may bookmark this page and return here after each debate for the available actions."
+msgid ""
+"The URL of this page is personalised to you, %(name)s. <strong>Do not share "
+"it with anyone;</strong> anyone who knows this URL can submit results and/or "
+"feedback for your debates. You may bookmark this page and return here after "
+"each debate for the available actions."
 msgstr ""
 
 #: privateurls/templates/private_url_landing.html:41
@@ -91,7 +98,8 @@ msgid "Push notification permission denied"
 msgstr ""
 
 #: privateurls/templates/private_url_landing.html:147
-msgid "Push notifications are blocked. Please enable them in your browser settings."
+msgid ""
+"Push notifications are blocked. Please enable them in your browser settings."
 msgstr ""
 
 #: privateurls/templates/private_url_landing.html:148
@@ -119,25 +127,42 @@ msgid "Error subscribing to push notifications:"
 msgstr ""
 
 #: privateurls/templates/private_urls.html:4
-#: privateurls/templates/private_urls.html:5 privateurls/views.py:160
+#: privateurls/templates/private_urls.html:5 privateurls/views.py:164
 msgid "Private URLs"
 msgstr ""
 
 #: privateurls/templates/private_urls.html:17
-msgid "The private URLs for ballot and/or feedback submission from participants are given below."
+msgid ""
+"The private URLs for ballot and/or feedback submission from participants are "
+"given below."
 msgstr ""
 
 #: privateurls/templates/private_urls.html:19
-msgid "Private URLs are used to allow participants to submit ballots and/or feedback online. You should use them if you have a means of distributing crazy-looking URLs to participants, and are too worried about fraud to use a publicly accessible page where <em>anyone</em> can enter <em>any</em> submission. The URLs will look something like this:"
+msgid ""
+"Private URLs are used to allow participants to submit ballots and/or "
+"feedback online. You should use them if you have a means of distributing "
+"crazy-looking URLs to participants, and are too worried about fraud to use a "
+"publicly accessible page where <em>anyone</em> can enter <em>any</em> "
+"submission. The URLs will look something like this:"
 msgstr ""
 
 #: privateurls/templates/private_urls.html:31
-msgid "Anyone with the URL can access the relevant data entry page. The idea is that it's hard to guess another key (the random-looking string), so you should make each URL accessible only to the participant in question. <a href=\"https://tabbycat.readthedocs.io/en/latest/features/data-entry.html#private-urls\"> Read more about private URLs.</a>"
+msgid ""
+"Anyone with the URL can access the relevant data entry page. The idea is "
+"that it's hard to guess another key (the random-looking string), so you "
+"should make each URL accessible only to the participant in question. <a "
+"href=\"https://tabbycat.readthedocs.io/en/latest/features/data-"
+"entry.html#private-urls\"> Read more about private URLs.</a>"
 msgstr ""
 
 #: privateurls/templates/private_urls.html:47
 #, python-format
-msgid "Neither <strong>participant ballot submissions</strong>, <strong>participant feedback submissions</strong>, nor <strong>participant self-checkins</strong> are configured to be from private URLs. Any generated URLs will not be useful unless you configure those settings accordingly on the <a href=\"%(data_entry_options_url)s\">tournament configuration page</a>."
+msgid ""
+"Neither <strong>participant ballot submissions</strong>, <strong>participant "
+"feedback submissions</strong>, nor <strong>participant self-checkins</"
+"strong> are configured to be from private URLs. Any generated URLs will not "
+"be useful unless you configure those settings accordingly on the <a "
+"href=\"%(data_entry_options_url)s\">tournament configuration page</a>."
 msgstr ""
 
 #: privateurls/templates/private_urls.html:67
@@ -169,7 +194,9 @@ msgid "Email URLs"
 msgstr ""
 
 #: privateurls/templates/private_urls_nav.html:31
-msgid "This button only generates private URLs for participants who do not already have one."
+msgid ""
+"This button only generates private URLs for participants who do not already "
+"have one."
 msgstr ""
 
 #: privateurls/templates/private_urls_nav.html:32
@@ -181,7 +208,7 @@ msgstr ""
 msgid "All participants already have private URLs."
 msgstr ""
 
-#: privateurls/views.py:77 privateurls/views.py:178
+#: privateurls/views.py:77 privateurls/views.py:182
 msgid "no URL"
 msgstr ""
 
@@ -193,41 +220,51 @@ msgstr ""
 msgid "Speakers"
 msgstr ""
 
-#: privateurls/views.py:111
+#: privateurls/views.py:104
+msgid "Team"
+msgstr ""
+
+#: privateurls/views.py:115
 msgid "Adjudicators"
 msgstr ""
 
-#: privateurls/views.py:134
-msgid "All participants already have private URLs. If you want to delete them, use the Edit Database area."
+#: privateurls/views.py:138
+msgid ""
+"All participants already have private URLs. If you want to delete them, use "
+"the Edit Database area."
 msgstr ""
 
-#: privateurls/views.py:141
+#: privateurls/views.py:145
 #, python-format
 msgid "A private URL was generated for %(nblank_people)d person."
 msgid_plural "Private URLs were generated for all %(nblank_people)d people."
 msgstr[0] ""
 msgstr[1] ""
 
-#: privateurls/views.py:146
+#: privateurls/views.py:150
 #, python-format
-msgid "The already-existing private URL for %(nexisting_people)d person was left intact."
-msgid_plural "The already-existing private URLs for %(nexisting_people)d people were left intact."
+msgid ""
+"The already-existing private URL for %(nexisting_people)d person was left "
+"intact."
+msgid_plural ""
+"The already-existing private URLs for %(nexisting_people)d people were left "
+"intact."
 msgstr[0] ""
 msgstr[1] ""
 
-#: privateurls/views.py:186
+#: privateurls/views.py:190
 msgid "URL Key"
 msgstr ""
 
-#: privateurls/views.py:198
+#: privateurls/views.py:202
 msgid "Debates"
 msgstr ""
 
-#: privateurls/views.py:289
+#: privateurls/views.py:293
 #, python-brace-format
 msgid "{action}: {round} - {speaker} ({side})"
 msgstr ""
 
-#: privateurls/views.py:290
+#: privateurls/views.py:294
 msgid "Submit Ballot"
 msgstr ""

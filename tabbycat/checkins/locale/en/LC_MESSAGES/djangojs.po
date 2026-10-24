@@ -1,0 +1,95 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-27 15:04+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+#: checkins/templates/CheckInScanContainer.vue:209
+msgid "Scan Using Camera"
+msgstr ""
+
+#: checkins/templates/CheckInScanContainer.vue:216
+msgid "Stop Camera Scan"
+msgstr ""
+
+#: checkins/templates/CheckInScanContainer.vue:227
+msgid "Turn On Sounds"
+msgstr ""
+
+#: checkins/templates/CheckInStatusContainer.vue:91
+msgid "Anonymous (due to team codes)"
+msgstr ""
+
+#: checkins/templates/CheckInStatusContainer.vue:91
+msgid "Anon"
+msgstr ""
+
+#: checkins/templates/CheckInStatusContainer.vue:135
+msgid "Independent"
+msgstr ""
+
+#: checkins/templates/CheckInStatusContainer.vue:211
+#: checkins/templates/CheckInStatusContainer.vue:217
+msgid "Unaffiliated"
+msgstr ""
+
+#: checkins/templates/CheckInStatusContainer.vue:259
+#: checkins/templates/CheckInStatusContainer.vue:265
+msgid "No Category"
+msgstr ""
+
+#: checkins/templates/CheckInStatusContainer.vue:296
+#: checkins/templates/CheckInStatusContainer.vue:318
+msgid "Not Checked In"
+msgstr ""
+
+#: checkins/templates/CheckInStatusContainer.vue:477
+msgid "All"
+msgstr ""
+
+#: checkins/templates/CheckInStatusContainer.vue:529
+msgid "Real Names"
+msgstr ""
+
+#: checkins/templates/CheckInStatusContainer.vue:536
+msgid "Code Names"
+msgstr ""
+
+#: checkins/templates/CheckInStatusContainer.vue:542
+msgid "Order"
+msgstr ""
+
+#: checkins/templates/CheckInStatusContainer.vue:560
+msgid "No matching rooms found."
+msgstr ""
+
+#: checkins/templates/CheckInStatusContainer.vue:566
+msgid "No matching people found."
+msgstr ""
+
+#: checkins/templates/CheckInStatusContainer.vue:569
+msgid ""
+"This page will live-update with new check-ins as they occur although the "
+"initial list may be up to a minute old."
+msgstr ""
+
+#: checkins/templates/CheckInStatusContainer.vue:588
+msgid "✓ All"
+msgstr ""
+
+#: checkins/templates/CheckInStatusContainer.vue:595
+msgid "☓ All"
+msgstr ""

@@ -2,9 +2,9 @@ from django.conf import settings
 from django.db.models import Case, Q, Value, When
 
 from feedbackexport.permissions import can_view_feedback_export
+from seasonbreaks.permissions import can_view_breaks
 from tournaments.models import Tournament
 from users.permissions import has_assistant_access
-from seasonbreaks.permissions import can_view_breaks
 from xmlconverter.permissions import can_manage_converter_access, can_use_converter
 
 

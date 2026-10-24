@@ -19,6 +19,13 @@ class TestRandomDrawGenerator(unittest.TestCase):
     teams = [(1, 'A'), (2, 'B'), (3, 'A'), (4, 'B'), (5, 'C'), (6, 'D'),
              (7, 'E'), (8, 'A'), (9, 'D'), (10, 'E'), (11, 'D'), (12, 'A')]
 
+    def test_pullup_penalty_option(self):
+        default = DrawGenerator(2, "random", DUMMY_TEAMS, None)
+        overridden = DrawGenerator(2, "random", DUMMY_TEAMS, None, pullup_penalty=10)
+
+        self.assertEqual(default.options["pullup_penalty"], 0)
+        self.assertEqual(overridden.options["pullup_penalty"], 10)
+
     def test_invalid_option(self):
         teams = [TestTeam(*args, side_history=[0, 0]) for args in self.teams]
 
@@ -132,7 +139,7 @@ class TestPowerPairedDrawGeneratorParts(unittest.TestCase):
             TestTeam(13, 'M', points=2),
         ]
 
-        ppd = DrawGenerator(2, "power_paired", teams, None, odd_bracket="pullup_top", allow_odd_teams=True)
+        ppd = DrawGenerator(2, "power_paired", teams, None, odd_bracket="pullup_top", pairing_method="fold", allow_odd_teams=True)
 
         self.assertEqual(ppd.get_bye_team().id, 12)
 
@@ -794,7 +801,7 @@ class TestPowerPairedWithAllocatedSidesDrawGeneratorPartOddBrackets(unittest.Tes
             self.assertEqual([i in b2[1][DebateSide.NEG] for i in [20, 21, 22, 23, 24]].count(True), 3)
             self.assertEqual(b2[0], [[], []])
 
-    def test_middle_bye_preallocated_single_bracket_uses_fold_leftover(self):
+    def test_middle_bye_preallocated_single_bracket_respects_side_constraints(self):
         teams = [
             TestTeam(1, 'A', 3, allocated_side=DebateSide.AFF),
             TestTeam(2, 'B', 3, allocated_side=DebateSide.NEG),
@@ -812,9 +819,10 @@ class TestPowerPairedWithAllocatedSidesDrawGeneratorPartOddBrackets(unittest.Tes
             odd_bracket="pullup_top",
             pairing_method="fold",
             avoid_conflicts="off",
+            allow_odd_teams=True,
         )
 
-        self.assertEqual(ppd.get_bye_team().id, 3)
+        self.assertEqual(ppd.get_bye_team().id, 5)
 
     def test_middle_bye_without_preallocations_uses_fold_leftover(self):
         teams = [
@@ -834,6 +842,7 @@ class TestPowerPairedWithAllocatedSidesDrawGeneratorPartOddBrackets(unittest.Tes
             odd_bracket="pullup_top",
             pairing_method="fold",
             avoid_conflicts="off",
+            allow_odd_teams=True,
         )
 
         self.assertEqual(ppd.get_bye_team().id, 3)
@@ -856,9 +865,10 @@ class TestPowerPairedWithAllocatedSidesDrawGeneratorPartOddBrackets(unittest.Tes
             odd_bracket="pullup_top",
             pairing_method="fold",
             avoid_conflicts="off",
+            allow_odd_teams=True,
         )
 
-        self.assertEqual(ppd.get_unmatched_bye_team().id, 5)
+        self.assertEqual(ppd.get_bye_team().id, 5)
 
     def test_middle_bye_preallocated_uses_ordered_fold_leftover(self):
         teams = [
@@ -882,6 +892,7 @@ class TestPowerPairedWithAllocatedSidesDrawGeneratorPartOddBrackets(unittest.Tes
             odd_bracket="pullup_top",
             pairing_method="fold",
             avoid_conflicts="off",
+            allow_odd_teams=True,
         )
 
         self.assertEqual(ppd.get_bye_team().id, 8)
@@ -1023,6 +1034,8 @@ class TestPowerPairedWithAllocatedSidesDrawGeneratorPartOddBrackets(unittest.Tes
         )
 
         brackets = copy.deepcopy(self.expecteds["pullup_top"][3])
+        brackets = {points: [[TestTeam(team_id, None, subrank=index + 1) for index, team_id in enumerate(side)] for side in pool]
+                    for points, pool in brackets.items()}
         pairings = ppd.generate_pairings(brackets)
 
         self.assertIn(2, pairings)

@@ -13,7 +13,7 @@ from .models import Round, ScheduleEvent, Tournament, TournamentCategory
 class TournamentAdmin(ModelAdmin):
     list_display = ('name', 'slug', 'homepage_category', 'seq', 'short_name', 'current_round', 'active')
     list_filter = ('homepage_category', 'active')
-    ordering = ('homepage_category__seq', 'seq', )
+    ordering = ('homepage_category__seq', 'seq')
 
 
 @admin.register(TournamentCategory)
@@ -41,7 +41,7 @@ class RoundAdmin(ModelAdmin):
 
 @admin.register(ScheduleEvent)
 class ScheduleEventAdmin(ModelAdmin):
-    list_display = ('tournament', 'title', 'type', 'start_time', 'end_time', 'round')
+    list_display = ('tournament', 'display_title', 'type', 'start_time', 'end_time', 'round')
     list_filter = ('tournament', 'type')
     search_fields = ('title',)
     ordering = ('tournament', 'start_time')

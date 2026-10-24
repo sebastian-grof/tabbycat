@@ -111,6 +111,7 @@ class CrossExaminationScoreStep(DecimalPreference):
     name = 'cross_score_step'
     default = Decimal('0.5')
 
+
 @tournament_preferences_registry.register
 class MarginIncludesDissent(BooleanPreference):
     help_text = _("If checked, a team's winning margin includes dissenting adjudicators")
@@ -118,6 +119,20 @@ class MarginIncludesDissent(BooleanPreference):
     section = scoring
     name = 'margin_includes_dissenters'
     default = False
+
+
+@tournament_preferences_registry.register
+class ScoreAggregationFunction(ChoicePreference):
+    help_text = _("How is the speaker's score from a debate judged by multiple judges "
+        "calculated: Mean (default), or Median (required by Karl Popper rules).")
+    verbose_name = _("Panel score aggregation function")
+    section = scoring
+    name = 'score_aggregation_function'
+    choices = (
+        ('mean', _("Mean (average)")),
+        ('median', _("Median (in even-numbered panels, decimals rounded up)")),
+    )
+    default = 'mean'
 
 
 @tournament_preferences_registry.register
@@ -603,7 +618,8 @@ class FeedbackIntroduction(LongStringPreference):
 
 @tournament_preferences_registry.register
 class FeedbackAffectsAdjudicatorScores(BooleanPreference):
-    help_text = _("If enabled, feedback forms ask for an overall adjudicator score and confirmed feedback ratings are included in adjudicator score calculations. If disabled, feedback can still be submitted but will not affect adjudicator scores.")
+    help_text = _(("If enabled, feedback forms ask for an overall adjudicator score and confirmed feedback ratings are included in "
+        "adjudicator score calculations. If disabled, feedback can still be submitted but will not affect adjudicator scores."))
     verbose_name = _("Feedback affects adjudicator scores")
     section = feedback
     name = 'feedback_affects_adjudicator_scores'
@@ -729,7 +745,6 @@ class ReplyScores(BooleanPreference):
     default = True
 
 
-
 @tournament_preferences_registry.register
 class CrossExaminationsEnabled(BooleanPreference):
     help_text = _("Whether this style includes scored cross-examinations that contribute to team totals")
@@ -737,6 +752,7 @@ class CrossExaminationsEnabled(BooleanPreference):
     section = debate_rules
     name = 'cross_examinations_enabled'
     default = False
+
 
 @tournament_preferences_registry.register
 class RequireSubstantiveForReply(BooleanPreference):
@@ -1178,6 +1194,16 @@ class BallotExportFormat(ChoicePreference):
         ('jdl_first_category', _("JDL 1st Category")),
     )
     default = 'off'
+
+
+@tournament_preferences_registry.register
+class AllowSelfSplitBallots(BooleanPreference):
+    help_text = _("Allow a solo adjudicator (no panel) to declare their own decision as a "
+        "2:1 split rather than unanimous, per Karl Popper rules.")
+    verbose_name = _("Allow self-split ballots for solo adjudicators")
+    section = data_entry
+    name = 'allow_self_split_ballots'
+    default = False
 
 
 # ==============================================================================

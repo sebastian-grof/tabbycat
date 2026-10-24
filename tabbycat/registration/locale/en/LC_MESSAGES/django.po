@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-17 14:39+0200\n"
+"POT-Creation-Date: 2026-09-27 15:04+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,899 +18,1015 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: admin.py:34
+#: registration/admin.py:34
 msgid "Source"
 msgstr ""
 
-#: admin.py:38
+#: registration/admin.py:38
 msgid "Receiving"
 msgstr ""
 
 #. Translators: Please leave this blank, it should be left for the base Django translations.
-#: form_utils.py:41
+#: registration/form_utils.py:41
 msgid "Yes"
 msgstr ""
 
 #. Translators: Please leave this blank, it should be left for the base Django translations.
-#: form_utils.py:43
+#: registration/form_utils.py:43
 msgid "No"
 msgstr ""
 
 #. Translators: Please leave this blank, it should be left for the base Django translations.
-#: form_utils.py:58
+#: registration/form_utils.py:58
 msgid "This field is required."
 msgstr ""
 
-#: forms.py:24 forms.py:524 views.py:1247
+#: registration/forms.py:24 registration/forms.py:571
+#: registration/views.py:1332
 msgid "Institution name"
 msgstr ""
 
-#: forms.py:25
+#: registration/forms.py:25
 msgid "Institution abbreviation"
 msgstr ""
 
-#: forms.py:28
+#: registration/forms.py:28
 msgid "Institution region"
 msgstr ""
 
-#: forms.py:56
-msgid "An institution with this name is already registered for this tournament."
+#: registration/forms.py:56
+msgid ""
+"An institution with this name is already registered for this tournament."
 msgstr ""
 
-#: forms.py:99
+#: registration/forms.py:63
+msgid ""
+"An institution with this abbreviation is already registered for this "
+"tournament."
+msgstr ""
+
+#: registration/forms.py:106
 msgid "Name of primary contact"
 msgstr ""
 
-#: forms.py:189
+#: registration/forms.py:196
 msgid "Unseeded"
 msgstr ""
 
-#: forms.py:190
+#: registration/forms.py:197
 msgid "Free seed"
 msgstr ""
 
-#: forms.py:191
+#: registration/forms.py:198
 msgid "Half seed"
 msgstr ""
 
-#: forms.py:192
+#: registration/forms.py:199
 msgid "Full seed"
 msgstr ""
 
-#: forms.py:208
+#: registration/forms.py:223
+msgid "A team with this name is already registered for this tournament."
+msgstr ""
+
+#: registration/forms.py:230
 msgid "Team name (excluding institution)"
 msgstr ""
 
-#: forms.py:263 forms.py:299 forms.py:387 forms.py:458
+#: registration/forms.py:292 registration/forms.py:346
+#: registration/forms.py:434 registration/forms.py:505
 msgid "Full name for tab"
 msgstr ""
 
-#: forms.py:340
+#: registration/forms.py:387
 msgid "Full team name/suffix"
 msgstr ""
 
-#: forms.py:341
+#: registration/forms.py:388
 msgid "Short team name/suffix"
 msgstr ""
 
-#: forms.py:349
+#: registration/forms.py:396
 #, python-format
-msgid "The team can't be in a break category of a different tournament. Please remove: %(category)s"
+msgid ""
+"The team can't be in a break category of a different tournament. Please "
+"remove: %(category)s"
 msgstr ""
 
-#: forms.py:518 templates/registration/institution_edit.html:12
-#: templates/registration/institution_view_response.html:16
+#: registration/forms.py:565
+#: registration/templates/registration/institution_edit.html:12
+#: registration/templates/registration/institution_view_response.html:16
+#: registration/views.py:1057
 msgid "Institution"
 msgstr ""
 
-#: forms.py:520
+#: registration/forms.py:567
 msgid "Institution not listed"
 msgstr ""
 
-#: forms.py:526
-msgid "If the institution is not listed above, enter the name of the receiving institution here."
+#: registration/forms.py:573
+msgid ""
+"If the institution is not listed above, enter the name of the receiving "
+"institution here."
 msgstr ""
 
-#: forms.py:529
+#: registration/forms.py:576
 msgid "Contact email"
 msgstr ""
 
-#: forms.py:531
-msgid "If the institution is not listed above, enter the contact email for the receiving institution here."
+#: registration/forms.py:578
+msgid ""
+"If the institution is not listed above, enter the contact email for the "
+"receiving institution here."
 msgstr ""
 
-#: forms.py:536
+#: registration/forms.py:583
 msgid "Team slots to transfer"
 msgstr ""
 
-#: forms.py:541
+#: registration/forms.py:588
 msgid "Adjudicator slots to transfer"
 msgstr ""
 
-#: forms.py:562
+#: registration/forms.py:609
 msgid "Please enter the name of the receiving institution."
 msgstr ""
 
-#: forms.py:564
+#: registration/forms.py:611
 msgid "Please enter the contact email for the receiving institution."
 msgstr ""
 
-#: forms.py:569
+#: registration/forms.py:616
 msgid "Transfer at least one team or adjudicator slot."
 msgstr ""
 
-#: forms.py:571
+#: registration/forms.py:618
 msgid "You cannot transfer more team slots than you have."
 msgstr ""
 
-#: forms.py:573
+#: registration/forms.py:620
 msgid "You cannot transfer more adjudicator slots than you have."
 msgstr ""
 
-#: models.py:31
+#: registration/models.py:31
 msgid "content type"
 msgstr ""
 
-#: models.py:32
+#: registration/models.py:32
 msgid "object id"
 msgstr ""
 
-#: models.py:36 models.py:125
+#: registration/models.py:36 registration/models.py:125
 msgid "question"
 msgstr ""
 
-#: models.py:37 models.py:40
+#: registration/models.py:37 registration/models.py:40
 msgid "answer"
 msgstr ""
 
-#: models.py:41
+#: registration/models.py:41
 msgid "answers"
 msgstr ""
 
-#: models.py:65
+#: registration/models.py:65
 msgid "checkbox"
 msgstr ""
 
-#: models.py:66
+#: registration/models.py:66
 msgid "yes/no (dropdown)"
 msgstr ""
 
-#: models.py:67
+#: registration/models.py:67
 msgid "integer (textbox)"
 msgstr ""
 
-#: models.py:68
+#: registration/models.py:68
 msgid "integer scale"
 msgstr ""
 
-#: models.py:69
+#: registration/models.py:69
 msgid "float"
 msgstr ""
 
-#: models.py:70 models.py:97
+#: registration/models.py:70 registration/models.py:97
 msgid "text"
 msgstr ""
 
-#: models.py:71
+#: registration/models.py:71
 msgid "long text"
 msgstr ""
 
-#: models.py:72
+#: registration/models.py:72
 msgid "select one"
 msgstr ""
 
-#: models.py:73
+#: registration/models.py:73
 msgid "select multiple"
 msgstr ""
 
-#: models.py:74
+#: registration/models.py:74
 msgid "date + time"
 msgstr ""
 
-#: models.py:90 models.py:150 models.py:176
+#: registration/models.py:90 registration/models.py:150
+#: registration/models.py:176
 msgid "tournament"
 msgstr ""
 
-#: models.py:93 models.py:152
+#: registration/models.py:93 registration/models.py:152
 msgid "for content type"
 msgstr ""
 
-#: models.py:95
+#: registration/models.py:95
 msgid "sequence number"
 msgstr ""
 
-#: models.py:98
-msgid "The question displayed to participants, e.g., \"Did you agree with the decision?\""
+#: registration/models.py:98
+msgid ""
+"The question displayed to participants, e.g., \"Did you agree with the "
+"decision?\""
 msgstr ""
 
-#: models.py:99
+#: registration/models.py:99
 msgid "help text"
 msgstr ""
 
-#: models.py:100
+#: registration/models.py:100
 msgid "Additional context for the question"
 msgstr ""
 
-#: models.py:102
+#: registration/models.py:102
 msgid "name"
 msgstr ""
 
-#: models.py:103
+#: registration/models.py:103
 msgid "A short name for the question, e.g., \"Agree with decision\""
 msgstr ""
 
-#: models.py:106
+#: registration/models.py:106
 msgid "answer type"
 msgstr ""
 
-#: models.py:108
+#: registration/models.py:108
 msgid "required"
 msgstr ""
 
-#: models.py:109
+#: registration/models.py:109
 msgid "Whether participants are required to fill out this field"
 msgstr ""
 
-#: models.py:111
+#: registration/models.py:111
 msgid "minimum value"
 msgstr ""
 
-#: models.py:112
-msgid "Minimum allowed value for numeric fields (ignored for text or boolean fields)"
+#: registration/models.py:112
+msgid ""
+"Minimum allowed value for numeric fields (ignored for text or boolean fields)"
 msgstr ""
 
-#: models.py:114
+#: registration/models.py:114
 msgid "maximum value"
 msgstr ""
 
-#: models.py:115
-msgid "Maximum allowed value for numeric fields (ignored for text or boolean fields)"
+#: registration/models.py:115
+msgid ""
+"Maximum allowed value for numeric fields (ignored for text or boolean fields)"
 msgstr ""
 
-#: models.py:120
+#: registration/models.py:120
 msgid "choices"
 msgstr ""
 
-#: models.py:121
-msgid "Permissible choices for select one/multiple fields (ignored for other fields)"
+#: registration/models.py:121
+msgid ""
+"Permissible choices for select one/multiple fields (ignored for other fields)"
 msgstr ""
 
-#: models.py:126
+#: registration/models.py:126
 msgid "questions"
 msgstr ""
 
-#: models.py:153
+#: registration/models.py:153
 msgid "institution"
 msgstr ""
 
-#: models.py:154
+#: registration/models.py:154
 msgid "team"
 msgstr ""
 
-#: models.py:155
+#: registration/models.py:155
 msgid "URL key"
 msgstr ""
 
-#: models.py:156
+#: registration/models.py:156
 msgid "created on"
 msgstr ""
 
-#: models.py:158 models.py:194
+#: registration/models.py:158 registration/models.py:194
 msgid "slot transfer request"
 msgstr ""
 
-#: models.py:161
+#: registration/models.py:161
 msgid "invitation"
 msgstr ""
 
-#: models.py:162
+#: registration/models.py:162
 msgid "invitations"
 msgstr ""
 
-#: models.py:171
+#: registration/models.py:171
 msgid "Pending"
 msgstr ""
 
-#: models.py:172
+#: registration/models.py:172
 msgid "Approved"
 msgstr ""
 
-#: models.py:173
+#: registration/models.py:173
 msgid "Rejected"
 msgstr ""
 
-#: models.py:179
+#: registration/models.py:179
 msgid "source institution"
 msgstr ""
 
-#: models.py:181
+#: registration/models.py:181
 msgid "team slots transferred"
 msgstr ""
 
-#: models.py:182
+#: registration/models.py:182
 msgid "adjudicator slots transferred"
 msgstr ""
 
-#: models.py:184
+#: registration/models.py:184
 msgid "receiving institution"
 msgstr ""
 
-#: models.py:186
+#: registration/models.py:186
 msgid "receiving institution name"
 msgstr ""
 
-#: models.py:187
+#: registration/models.py:187
 msgid "receiving institution contact email"
 msgstr ""
 
-#: models.py:190
+#: registration/models.py:190
 msgid "created at"
 msgstr ""
 
-#: models.py:191
+#: registration/models.py:191
 msgid "updated at"
 msgstr ""
 
-#: models.py:195
+#: registration/models.py:195
 msgid "slot transfer requests"
 msgstr ""
 
-#: models.py:199
+#: registration/models.py:199
 #, python-format
 msgid "%(source)s → %(recipient)s (%(status)s)"
 msgstr ""
 
-#: templates/adjudicator_registration_form.html:24
+#: registration/templates/adjudicator_registration_form.html:24
 msgctxt "button"
 msgid "Register as Adjudicator"
 msgstr ""
 
-#: templates/adjudicator_registration_form.html:25
-#: templates/speaker_registration_form.html:17
-#: templates/wizard_registration_form.html:35
+#: registration/templates/adjudicator_registration_form.html:25
+#: registration/templates/speaker_registration_form.html:17
+#: registration/templates/wizard_registration_form.html:36
 msgid "Cancel and go back to the site home page"
 msgstr ""
 
-#: templates/answer_tables/adjudicators.html:8
+#: registration/templates/answer_tables/adjudicators.html:8
 msgid "Questions"
 msgstr ""
 
-#: templates/answer_tables/institutions.html:8
+#: registration/templates/answer_tables/institutions.html:8
+msgid "Email Coaches"
+msgstr ""
+
+#: registration/templates/answer_tables/institutions.html:13
 msgid "Slot transfers"
 msgstr ""
 
-#: templates/answer_tables/institutions.html:11
+#: registration/templates/answer_tables/institutions.html:16
 msgid "Transfer summary"
 msgstr ""
 
-#: templates/answer_tables/institutions.html:15
-#: templates/answer_tables/teams.html:7
+#: registration/templates/answer_tables/institutions.html:20
+#: registration/templates/answer_tables/teams.html:7
 msgid "Questions for"
 msgstr ""
 
-#: templates/answer_tables/institutions.html:17
+#: registration/templates/answer_tables/institutions.html:22
 msgid "Institutions"
 msgstr ""
 
-#: templates/answer_tables/institutions.html:20
+#: registration/templates/answer_tables/institutions.html:25
 msgid "Coaches"
 msgstr ""
 
-#: templates/answer_tables/institutions.html:30
-#: templates/coach_private_url.html:70
+#: registration/templates/answer_tables/institutions.html:35
+#: registration/templates/coach_private_url.html:70
 #, python-format
 msgid "Teams Requested: <strong>%(num)s</strong>"
 msgstr ""
 
-#: templates/answer_tables/institutions.html:38
-#: templates/coach_private_url.html:77
+#: registration/templates/answer_tables/institutions.html:43
+#: registration/templates/coach_private_url.html:77
 #, python-format
 msgid "Teams Allocated: <strong>%(num)s</strong>"
 msgstr ""
 
-#: templates/answer_tables/institutions.html:46
-#: templates/coach_private_url.html:85 templates/coach_private_url.html:96
+#: registration/templates/answer_tables/institutions.html:51
+#: registration/templates/coach_private_url.html:85
+#: registration/templates/coach_private_url.html:96
 #, python-format
 msgid "Teams Registered: <strong>%(num)s</strong>"
 msgstr ""
 
-#: templates/answer_tables/institutions.html:56
-#: templates/coach_private_url.html:43
+#: registration/templates/answer_tables/institutions.html:61
+#: registration/templates/coach_private_url.html:43
 #, python-format
 msgid "Adjudicators Requested: <strong>%(num)s</strong>"
 msgstr ""
 
-#: templates/answer_tables/institutions.html:64
-#: templates/coach_private_url.html:50
+#: registration/templates/answer_tables/institutions.html:69
+#: registration/templates/coach_private_url.html:50
 #, python-format
 msgid "Adjudicators Allocated: <strong>%(num)s</strong>"
 msgstr ""
 
-#: templates/answer_tables/institutions.html:72
-#: templates/coach_private_url.html:58 templates/coach_private_url.html:103
+#: registration/templates/answer_tables/institutions.html:77
+#: registration/templates/coach_private_url.html:58
+#: registration/templates/coach_private_url.html:103
 #, python-format
 msgid "Adjudicators Registered: <strong>%(num)s</strong>"
 msgstr ""
 
-#: templates/answer_tables/institutions.html:87
+#: registration/templates/answer_tables/institutions.html:92
 msgid "Save allocations"
 msgstr ""
 
-#: templates/answer_tables/teams.html:9 views.py:534 views.py:1156
+#: registration/templates/answer_tables/teams.html:9 registration/views.py:572
+#: registration/views.py:1241
 msgid "Teams"
 msgstr ""
 
-#: templates/answer_tables/teams.html:12
-#: templates/registration/team_edit.html:34
+#: registration/templates/answer_tables/teams.html:12
+#: registration/templates/registration/team_edit.html:34
 msgid "Speakers"
 msgstr ""
 
-#: templates/coach_private_url.html:4 templates/coach_private_url.html:5
+#: registration/templates/coach_private_url.html:4
+#: registration/templates/coach_private_url.html:5
 msgid "Private URL"
 msgstr ""
 
-#: templates/coach_private_url.html:9
+#: registration/templates/coach_private_url.html:9
 #, python-format
 msgid "for %(name)s (%(institution)s)"
 msgstr ""
 
-#: templates/coach_private_url.html:14
+#: registration/templates/coach_private_url.html:14
 #, python-format
-msgid "The URL of this page is personalised to you, %(name)s. <strong>Do not share it with anyone;</strong> anyone who knows this URL can manage participants for %(institution)s. Bookmark this page as you may need it for a next phase of registration."
+msgid ""
+"The URL of this page is personalised to you, %(name)s. <strong>Do not share "
+"it with anyone;</strong> anyone who knows this URL can manage participants "
+"for %(institution)s. Bookmark this page as you may need it for a next phase "
+"of registration."
 msgstr ""
 
-#: templates/coach_private_url.html:28
+#: registration/templates/coach_private_url.html:28
 msgid "View your registration form response"
 msgstr ""
 
-#: templates/coach_private_url.html:115 views.py:394
+#: registration/templates/coach_private_url.html:115 registration/views.py:432
 msgid "Register Adjudicator"
 msgstr ""
 
-#: templates/coach_private_url.html:120
-msgid "or distribute this link to allow members to register themselves as adjudicators:"
+#: registration/templates/coach_private_url.html:120
+msgid ""
+"or distribute this link to allow members to register themselves as "
+"adjudicators:"
 msgstr ""
 
-#: templates/coach_private_url.html:128
+#: registration/templates/coach_private_url.html:128
 msgid "Adjudicator registration is not yet open"
 msgstr ""
 
-#: templates/coach_private_url.html:136 views.py:208
+#: registration/templates/coach_private_url.html:136 registration/views.py:209
 msgid "Register Team"
 msgstr ""
 
-#: templates/coach_private_url.html:140
+#: registration/templates/coach_private_url.html:140
 msgid "or distribute this link to allow members to register their teams:"
 msgstr ""
 
-#: templates/coach_private_url.html:148
+#: registration/templates/coach_private_url.html:148
 msgid "Team registration is not yet open"
 msgstr ""
 
-#: templates/coach_private_url.html:157
+#: registration/templates/coach_private_url.html:157
 msgid "Transfer slots to another institution"
 msgstr ""
 
-#: templates/coach_private_url.html:165
+#: registration/templates/coach_private_url.html:165
 msgid "View invoice"
 msgstr ""
 
-#: templates/questions_edit.html:12
-msgid "These questions appear as extra fields for participants to answer, in feedback or registration forms."
+#: registration/templates/email_institution_coaches.html:9
+msgid "Available variables"
 msgstr ""
 
-#: templates/questions_edit.html:17
+#: registration/templates/email_institution_coaches.html:11
+msgid ""
+"You can personalise the subject and message using the variables below. They "
+"are replaced per recipient when the email is sent."
+msgstr ""
+
+#: registration/templates/email_institution_coaches.html:20
+msgid "name of the institution's contact"
+msgstr ""
+
+#: registration/templates/email_institution_coaches.html:21
+msgid "institution name"
+msgstr ""
+
+#: registration/templates/email_institution_coaches.html:22
+msgid "tournament name"
+msgstr ""
+
+#: registration/templates/email_institution_coaches.html:35
+msgid "Arithmetic (for pricing, etc.)"
+msgstr ""
+
+#: registration/templates/email_institution_coaches.html:37
+msgid ""
+"Use the <code>calc</code> tag for calculations with <code>+</code>, <code>-</"
+"code>, <code>*</code>, <code>/</code>:"
+msgstr ""
+
+#: registration/templates/email_institution_coaches.html:45
+msgid "alternative syntax"
+msgstr ""
+
+#: registration/templates/questions_edit.html:12
+msgid ""
+"These questions appear as extra fields for participants to answer, in "
+"feedback or registration forms."
+msgstr ""
+
+#: registration/templates/questions_edit.html:17
 #, python-format
-msgid "If you want to delete questions (and their associated answers), use the <a href=\"%(edit_db_url)s\" class=\"alert-link\">Edit Database</a> area."
+msgid ""
+"If you want to delete questions (and their associated answers), use the <a "
+"href=\"%(edit_db_url)s\" class=\"alert-link\">Edit Database</a> area."
 msgstr ""
 
-#: templates/questions_edit.html:23
+#: registration/templates/questions_edit.html:23
 msgid "Save Questions"
 msgstr ""
 
-#: templates/registration/adjudicator_edit.html:7
+#: registration/templates/registration/adjudicator_edit.html:7
 msgid "Back to adjudicators"
 msgstr ""
 
-#: templates/registration/adjudicator_edit.html:10
-#: templates/registration/adjudicator_edit.html:83
-#: templates/registration/adjudicator_edit.html:98
+#: registration/templates/registration/adjudicator_edit.html:10
+#: registration/templates/registration/adjudicator_edit.html:83
+#: registration/templates/registration/adjudicator_edit.html:98
 msgid "Delete adjudicator"
 msgstr ""
 
-#: templates/registration/adjudicator_edit.html:25
+#: registration/templates/registration/adjudicator_edit.html:25
 msgid "Adjudicator details"
 msgstr ""
 
-#: templates/registration/adjudicator_edit.html:26
+#: registration/templates/registration/adjudicator_edit.html:26
 msgid "Common tab fields stay visible. Feedback is managed separately."
 msgstr ""
 
-#: templates/registration/adjudicator_edit.html:29
-#: templates/registration/team_edit.html:55
-#: templates/registration/team_edit.html:110
+#: registration/templates/registration/adjudicator_edit.html:29
+#: registration/templates/registration/team_edit.html:55
+#: registration/templates/registration/team_edit.html:110
 msgid "Additional settings"
 msgstr ""
 
-#: templates/registration/adjudicator_edit.html:70
+#: registration/templates/registration/adjudicator_edit.html:70
 msgctxt "button"
 msgid "Save adjudicator"
 msgstr ""
 
-#: templates/registration/adjudicator_edit.html:71
+#: registration/templates/registration/adjudicator_edit.html:71
 msgid "Back to adjudicator registration"
 msgstr ""
 
-#: templates/registration/adjudicator_edit.html:84
-#: templates/registration/team_edit.html:141
+#: registration/templates/registration/adjudicator_edit.html:84
+#: registration/templates/registration/team_edit.html:141
 msgid "Close"
 msgstr ""
 
-#: templates/registration/adjudicator_edit.html:89
-#: templates/registration/team_edit.html:146
+#: registration/templates/registration/adjudicator_edit.html:89
+#: registration/templates/registration/team_edit.html:146
 #, python-format
 msgid "Are you sure you want to permanently delete <strong>%(name)s</strong>?"
 msgstr ""
 
-#: templates/registration/adjudicator_edit.html:92
+#: registration/templates/registration/adjudicator_edit.html:92
 msgid "This also removes their registration response, and cannot be undone."
 msgstr ""
 
-#: templates/registration/adjudicator_edit.html:95
-#: templates/registration/team_edit.html:152
+#: registration/templates/registration/adjudicator_edit.html:95
+#: registration/templates/registration/team_edit.html:152
 msgid "Cancel"
 msgstr ""
 
-#: templates/registration/institution_edit.html:19
-#: templates/registration/institution_view_response.html:23
+#: registration/templates/registration/institution_edit.html:19
+#: registration/templates/registration/institution_view_response.html:23
 msgid "Primary contact"
 msgstr ""
 
-#: templates/registration/institution_edit.html:25
+#: registration/templates/registration/institution_edit.html:25
 msgctxt "button"
 msgid "Save changes"
 msgstr ""
 
-#: templates/registration/institution_edit.html:26
+#: registration/templates/registration/institution_edit.html:26
 msgid "Back to institution list"
 msgstr ""
 
-#: templates/registration/institution_view_response.html:10
-msgid "This form is read-only. You can view your institution's registration response below but cannot edit it here."
+#: registration/templates/registration/institution_view_response.html:10
+msgid ""
+"This form is read-only. You can view your institution's registration "
+"response below but cannot edit it here."
 msgstr ""
 
-#: templates/registration/institution_view_response.html:31
+#: registration/templates/registration/institution_view_response.html:31
 msgid "Back to your private URL"
 msgstr ""
 
-#: templates/registration/team_edit.html:7
+#: registration/templates/registration/team_edit.html:7
 msgid "Back to teams"
 msgstr ""
 
-#: templates/registration/team_edit.html:10
-#: templates/registration/team_edit.html:140
-#: templates/registration/team_edit.html:155
+#: registration/templates/registration/team_edit.html:10
+#: registration/templates/registration/team_edit.html:140
+#: registration/templates/registration/team_edit.html:155
 msgid "Delete team"
 msgstr ""
 
-#: templates/registration/team_edit.html:24
+#: registration/templates/registration/team_edit.html:24
 msgid "Team details"
 msgstr ""
 
-#: templates/registration/team_edit.html:25
-msgid "Edit the team name, institution, emoji, categories and registration status."
+#: registration/templates/registration/team_edit.html:25
+msgid ""
+"Edit the team name, institution, emoji, categories and registration status."
 msgstr ""
 
-#: templates/registration/team_edit.html:35
+#: registration/templates/registration/team_edit.html:35
 msgid "Name and email stay visible; less common fields are tucked away."
 msgstr ""
 
-#: templates/registration/team_edit.html:38
+#: registration/templates/registration/team_edit.html:38
 msgid "Add speaker"
 msgstr ""
 
-#: templates/registration/team_edit.html:52
+#: registration/templates/registration/team_edit.html:52
 msgid "Speaker"
 msgstr ""
 
-#: templates/registration/team_edit.html:89
+#: registration/templates/registration/team_edit.html:89
 msgid "No speakers are listed yet. Add the first speaker when you need one."
 msgstr ""
 
-#: templates/registration/team_edit.html:96
+#: registration/templates/registration/team_edit.html:96
 msgctxt "button"
 msgid "Save team"
 msgstr ""
 
-#: templates/registration/team_edit.html:97
+#: registration/templates/registration/team_edit.html:97
 msgid "Back to team registration"
 msgstr ""
 
-#: templates/registration/team_edit.html:108
+#: registration/templates/registration/team_edit.html:108
 msgid "New speaker"
 msgstr ""
 
-#: templates/registration/team_edit.html:149
-msgid "This also removes its speakers and registration response, and cannot be undone."
+#: registration/templates/registration/team_edit.html:149
+msgid ""
+"This also removes its speakers and registration response, and cannot be "
+"undone."
 msgstr ""
 
-#: templates/slot_transfer_request_form.html:16
+#: registration/templates/slot_transfer_request_form.html:16
 msgid "Submit request"
 msgstr ""
 
-#: templates/slot_transfer_request_form.html:17
+#: registration/templates/slot_transfer_request_form.html:17
 msgid "Cancel and return to private URL"
 msgstr ""
 
-#: templates/speaker_registration_form.html:16
+#: registration/templates/speaker_registration_form.html:16
 msgctxt "button"
 msgid "Register as Speaker"
 msgstr ""
 
-#: templates/team_wizard_speakers.html:6
-msgid "You may register speakers for the team, but if not all speakers are included, a link will be generated to let speakers register themselves to the team after submission which you can then distribute."
+#: registration/templates/team_wizard_speakers.html:6
+msgid ""
+"You may register speakers for the team, but if not all speakers are "
+"included, a link will be generated to let speakers register themselves to "
+"the team after submission which you can then distribute."
 msgstr ""
 
-#: templates/wizard_registration_form.html:31
+#: registration/templates/team_wizard_speakers.html:16
+#, python-format
+msgid "Speaker #%(number)s"
+msgstr ""
+
+#: registration/templates/wizard_registration_form.html:32
 msgctxt "button"
 msgid "Continue"
 msgstr ""
 
-#: templates/wizard_registration_form.html:33
+#: registration/templates/wizard_registration_form.html:34
 msgctxt "button"
 msgid "Register"
 msgstr ""
 
-#: utils.py:62
+#: registration/utils.py:62
 msgid "Confirm"
 msgstr ""
 
-#: utils.py:70 utils.py:73
+#: registration/utils.py:70 registration/utils.py:73
 msgid "Edit"
 msgstr ""
 
-#: utils.py:92
+#: registration/utils.py:92
 msgid "Approve"
 msgstr ""
 
-#: utils.py:97
+#: registration/utils.py:97
 msgid "Status"
 msgstr ""
 
-#: views.py:100
+#: registration/views.py:101
 msgid "Register Institution"
 msgstr ""
 
-#: views.py:170
+#: registration/views.py:171
 #, python-format
 msgid "Your institution %s has been registered!"
 msgstr ""
 
-#: views.py:210 views.py:473
+#: registration/views.py:211 registration/views.py:511
 msgid "Register Speaker"
 msgid_plural "Register Speakers"
 msgstr[0] ""
 msgstr[1] ""
 
-#: views.py:226 views.py:402
+#: registration/views.py:227 registration/views.py:440
 #, python-format
 msgid "from %s"
 msgstr ""
 
-#: views.py:230 views.py:1074
+#: registration/views.py:231 registration/views.py:1158
 #, python-format
 msgid "for %s"
 msgstr ""
 
-#: views.py:279
+#: registration/views.py:287
 #, python-format
-msgid "Your team only has %(num)d speaker! Invite the other speakers to register using this link: <a href='%(link)s'>%(link)s</a>"
-msgid_plural "Your team only has %(num)d speakers! Invite the other speakers to register using this link: <a href='%(link)s'>%(link)s</a>"
+msgid ""
+"Your team only has %(num)d speaker! Invite the other speakers to register "
+"using this link: <a href='%(link)s'>%(link)s</a>"
+msgid_plural ""
+"Your team only has %(num)d speakers! Invite the other speakers to register "
+"using this link: <a href='%(link)s'>%(link)s</a>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: views.py:284
+#: registration/views.py:292
 #, python-format
 msgid "Your team %s has been registered!"
 msgstr ""
 
-#: views.py:410
+#: registration/views.py:448
 msgid "You have been registered as an adjudicator!"
 msgstr ""
 
-#: views.py:508
+#: registration/views.py:546
 msgid "You have been registered as a speaker!"
 msgstr ""
 
-#: views.py:527 views.py:1157
+#: registration/views.py:565 registration/views.py:1242
 msgid "Adjudicators"
 msgstr ""
 
-#: views.py:593
+#: registration/views.py:631
 msgid "Edit institution registration"
 msgstr ""
 
-#: views.py:640
+#: registration/views.py:678
 #, python-format
 msgid "Institution %s updated."
 msgstr ""
 
-#: views.py:648
+#: registration/views.py:686
 msgid "Edit team registration"
 msgstr ""
 
-#: views.py:683
+#: registration/views.py:721
 #, python-format
 msgid "Team %s updated."
 msgstr ""
 
-#: views.py:691
+#: registration/views.py:729
 msgid "Edit adjudicator registration"
 msgstr ""
 
-#: views.py:723
+#: registration/views.py:761
 #, python-format
 msgid "Adjudicator %s updated."
 msgstr ""
 
-#: views.py:749
+#: registration/views.py:787
 #, python-format
 msgid "Team %s was deleted."
 msgstr ""
 
-#: views.py:757
+#: registration/views.py:795
 #, python-format
 msgid "Adjudicator %s was deleted."
 msgstr ""
 
-#: views.py:767
+#: registration/views.py:805
 msgid "Registration form response"
 msgstr ""
 
-#: views.py:806
+#: registration/views.py:844
 msgid "Transfer slots"
 msgstr ""
 
-#: views.py:830
+#: registration/views.py:868
 msgid "Your slot transfer request has been submitted and is pending approval."
 msgstr ""
 
-#: views.py:866
+#: registration/views.py:904
 msgid "Institutional Registration"
 msgstr ""
 
-#: views.py:881 views.py:1008 views.py:1034
+#: registration/views.py:920 registration/views.py:1092
+#: registration/views.py:1118
 msgid "Responses"
 msgstr ""
 
-#: views.py:882
+#: registration/views.py:921
 msgid "Name"
 msgstr ""
 
-#: views.py:886
+#: registration/views.py:925
 msgid "Code"
 msgstr ""
 
-#: views.py:887
+#: registration/views.py:926
 msgid "Coach"
 msgstr ""
 
-#: views.py:891 views.py:1017 views.py:1036
+#: registration/views.py:930 registration/views.py:1101
+#: registration/views.py:1120
 msgid "Email"
 msgstr ""
 
-#: views.py:903
+#: registration/views.py:942
 msgid "Teams Requested"
 msgstr ""
 
-#: views.py:906
+#: registration/views.py:945
 msgid "Teams Allocated"
 msgstr ""
 
-#: views.py:911
+#: registration/views.py:950
 msgid "Teams Registered"
 msgstr ""
 
-#: views.py:914
+#: registration/views.py:953
 msgid "Adjudicators Requested"
 msgstr ""
 
-#: views.py:917
+#: registration/views.py:956
 msgid "Adjudicators Allocated"
 msgstr ""
 
-#: views.py:922
+#: registration/views.py:961
 msgid "Adjudicators Registered"
 msgstr ""
 
-#: views.py:925
+#: registration/views.py:964
 msgid "Region"
 msgstr ""
 
-#: views.py:972
+#: registration/views.py:1011
 msgid "Successfully modified institution allocations"
 msgstr ""
 
-#: views.py:990
+#: registration/views.py:1031
+msgid "Email Institution Coaches"
+msgstr ""
+
+#: registration/views.py:1060
+msgid "Teams (req. / alloc.)"
+msgstr ""
+
+#: registration/views.py:1064
+msgid "Adjudicators (req. / alloc.)"
+msgstr ""
+
+#: registration/views.py:1074
 msgid "Team Registration"
 msgstr ""
 
-#: views.py:1016
+#: registration/views.py:1100
 #, python-format
 msgid "Speaker %d"
 msgstr ""
 
-#: views.py:1026
+#: registration/views.py:1110
 msgid "Adjudicator Registration"
 msgstr ""
 
-#: views.py:1063
+#: registration/views.py:1147
 msgid "Custom Questions"
 msgstr ""
 
-#: views.py:1091
+#: registration/views.py:1175
 #, python-format
 msgid "Questions for %(model)s were successfully saved."
 msgstr ""
 
-#: views.py:1093
+#: registration/views.py:1177
 msgid "No changes were made to the questions."
 msgstr ""
 
-#: views.py:1114
+#: registration/views.py:1199
 #, python-format
 msgid "%s has been confirmed."
 msgstr ""
 
-#: views.py:1136 views.py:1153
+#: registration/views.py:1221 registration/views.py:1238
 msgid "Slot transfer requests"
 msgstr ""
 
-#: views.py:1154
+#: registration/views.py:1239
 msgid "From"
 msgstr ""
 
-#: views.py:1155
+#: registration/views.py:1240
 msgid "To"
 msgstr ""
 
-#: views.py:1174
+#: registration/views.py:1259
 msgid "Transfer request rejected."
 msgstr ""
 
-#: views.py:1178
+#: registration/views.py:1263
 msgid "Invalid request or transfer is no longer pending."
 msgstr ""
 
-#: views.py:1211
-msgid "Transfer approved. An invitation email has been sent to the provided address. "
+#: registration/views.py:1296
+msgid ""
+"Transfer approved. An invitation email has been sent to the provided "
+"address. "
 msgstr ""
 
-#: views.py:1212
+#: registration/views.py:1297
 #, python-format
-msgid "You can also share this link: <a href=\"%(url)s\" class=\"alert-link\">%(url)s</a>"
+msgid ""
+"You can also share this link: <a href=\"%(url)s\" class=\"alert-"
+"link\">%(url)s</a>"
 msgstr ""
 
-#: views.py:1216
+#: registration/views.py:1301
 msgid "Transfer approved."
 msgstr ""
 
-#: views.py:1225 views.py:1246
+#: registration/views.py:1310 registration/views.py:1331
 msgid "Slot transfer summary"
 msgstr ""
 
-#: views.py:1248
+#: registration/views.py:1333
 msgid "Teams allocated"
 msgstr ""
 
-#: views.py:1249
+#: registration/views.py:1334
 msgid "Adjudicators allocated"
 msgstr ""
 
-#: views.py:1250
+#: registration/views.py:1335
 msgid "Net new teams"
 msgstr ""
 
-#: views.py:1251
+#: registration/views.py:1336
 msgid "Net new adjudicators"
 msgstr ""

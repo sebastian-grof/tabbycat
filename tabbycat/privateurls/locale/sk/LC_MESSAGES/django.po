@@ -1,8 +1,9 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: tabbycat\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-17 09:00+0200\n"
+"POT-Creation-Date: 2026-09-27 15:04+0200\n"
 "PO-Revision-Date: 2026-06-15 17:56+0200\n"
 "Last-Translator: philip_tc\n"
 "Language-Team: Slovak\n"
@@ -11,12 +12,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 3;\n"
-"X-Generator: Poedit 3.9\n"
-"X-Crowdin-Project: tabbycat\n"
-"X-Crowdin-Language: sk\n"
 "X-Crowdin-File: /develop/tabbycat/privateurls/locale/en/LC_MESSAGES/django.po\n"
-"X-Crowdin-Project-ID: 364715\n"
 "X-Crowdin-File-ID: 946\n"
+"X-Crowdin-Language: sk\n"
+"X-Crowdin-Project: tabbycat\n"
+"X-Crowdin-Project-ID: 364715\n"
+"X-Generator: Poedit 3.9\n"
 
 #: privateurls/apps.py:7
 msgid "Private URL Management"
@@ -39,13 +40,25 @@ msgstr "(%(team)s)"
 
 #: privateurls/templates/private_url_landing.html:19
 #, python-format
-msgid "Your team has an incomplete number of speakers. Please share the registration link with your partner(s): <a href=\"%(link)s\">%(link)s</a>"
-msgstr "Váš tím nemá kompletný počet rečníkov. Prosím, pošlite odkaz na registráciu svojim partnerom: <a href=\"%(link)s\">%(link)s</a>"
+msgid ""
+"Your team has an incomplete number of speakers. Please share the "
+"registration link with your partner(s): <a href=\"%(link)s\">%(link)s</a>"
+msgstr ""
+"Váš tím nemá kompletný počet rečníkov. Prosím, pošlite odkaz na registráciu "
+"svojim partnerom: <a href=\"%(link)s\">%(link)s</a>"
 
 #: privateurls/templates/private_url_landing.html:26
 #, python-format
-msgid "The URL of this page is personalised to you, %(name)s. <strong>Do not share it with anyone;</strong> anyone who knows this URL can submit results and/or feedback for your debates. You may bookmark this page and return here after each debate for the available actions."
-msgstr "Táto stránka je vytvorená pre vás, %(name)s. <strong>Nezdieľajte ju s nikým;</strong> každý, kto pozná túto URL, môže odosielať výsledky a/alebo spätnú väzbu k vašim debatám. Túto stránku si môžete pridať do záložiek a vrátiť sa sem po každej debate, kde nájdete dostupné možnosti."
+msgid ""
+"The URL of this page is personalised to you, %(name)s. <strong>Do not share "
+"it with anyone;</strong> anyone who knows this URL can submit results and/or"
+" feedback for your debates. You may bookmark this page and return here after"
+" each debate for the available actions."
+msgstr ""
+"Táto stránka je vytvorená pre vás, %(name)s. <strong>Nezdieľajte ju s "
+"nikým;</strong> každý, kto pozná túto URL, môže odosielať výsledky a/alebo "
+"spätnú väzbu k vašim debatám. Túto stránku si môžete pridať do záložiek a "
+"vrátiť sa sem po každej debate, kde nájdete dostupné možnosti."
 
 #: privateurls/templates/private_url_landing.html:41
 msgid "Subscribe to Push Notifications"
@@ -60,7 +73,8 @@ msgstr "Zrušiť príchod z %(check_time)s"
 msgid "Check in"
 msgstr "Potvrdiť príchod"
 
-#. Translators: Include the full-stop; English doesn't because "a.m." already has a full stop.
+#. Translators: Include the full-stop; English doesn't because "a.m." already
+#. has a full stop.
 #: privateurls/templates/private_url_landing.html:63
 #, python-format
 msgid "You have been checked in at %(check_time)s"
@@ -93,8 +107,11 @@ msgid "Push notification permission denied"
 msgstr "Povolenie push notifikácií bolo zamietnuté"
 
 #: privateurls/templates/private_url_landing.html:147
-msgid "Push notifications are blocked. Please enable them in your browser settings."
-msgstr "Push notifikácie sú zablokované. Povoľ ich, prosím, v nastaveniach prehliadača."
+msgid ""
+"Push notifications are blocked. Please enable them in your browser settings."
+msgstr ""
+"Push notifikácie sú zablokované. Povoľ ich, prosím, v nastaveniach "
+"prehliadača."
 
 #: privateurls/templates/private_url_landing.html:148
 msgid "Push notifications are not supported in this browser."
@@ -121,26 +138,63 @@ msgid "Error subscribing to push notifications:"
 msgstr "Chyba pri prihlasovaní na odber push notifikácií:"
 
 #: privateurls/templates/private_urls.html:4
-#: privateurls/templates/private_urls.html:5 privateurls/views.py:160
+#: privateurls/templates/private_urls.html:5 privateurls/views.py:164
 msgid "Private URLs"
 msgstr "Súkromné URL"
 
 #: privateurls/templates/private_urls.html:17
-msgid "The private URLs for ballot and/or feedback submission from participants are given below."
-msgstr "Nižšie sú uvedené súkromné URL adresy pre odosielanie ballotov a/alebo spätnej väzby od účastníkov."
+msgid ""
+"The private URLs for ballot and/or feedback submission from participants are"
+" given below."
+msgstr ""
+"Nižšie sú uvedené súkromné URL adresy pre odosielanie ballotov a/alebo "
+"spätnej väzby od účastníkov."
 
 #: privateurls/templates/private_urls.html:19
-msgid "Private URLs are used to allow participants to submit ballots and/or feedback online. You should use them if you have a means of distributing crazy-looking URLs to participants, and are too worried about fraud to use a publicly accessible page where <em>anyone</em> can enter <em>any</em> submission. The URLs will look something like this:"
-msgstr "Súkromné URL adresy slúžia na to, aby účastníci mohli odosielať balloty a/alebo spätnú väzbu online. Mali by ste ich používať, ak máte možnosť distribuovať účastníkom URL adresy, ktoré vyzerajú podozrivo, a máte príliš veľké obavy z podvodov na to, aby ste použili verejne prístupnú stránku, kde <em>ktokoľvek</em> môže zadať <em>akýkoľvek</em> príspevok. URL adresy budú vyzerať približne takto:"
+msgid ""
+"Private URLs are used to allow participants to submit ballots and/or "
+"feedback online. You should use them if you have a means of distributing "
+"crazy-looking URLs to participants, and are too worried about fraud to use a"
+" publicly accessible page where <em>anyone</em> can enter <em>any</em> "
+"submission. The URLs will look something like this:"
+msgstr ""
+"Súkromné URL adresy slúžia na to, aby účastníci mohli odosielať balloty "
+"a/alebo spätnú väzbu online. Mali by ste ich používať, ak máte možnosť "
+"distribuovať účastníkom URL adresy, ktoré vyzerajú podozrivo, a máte príliš "
+"veľké obavy z podvodov na to, aby ste použili verejne prístupnú stránku, kde"
+" <em>ktokoľvek</em> môže zadať <em>akýkoľvek</em> príspevok. URL adresy budú"
+" vyzerať približne takto:"
 
 #: privateurls/templates/private_urls.html:31
-msgid "Anyone with the URL can access the relevant data entry page. The idea is that it's hard to guess another key (the random-looking string), so you should make each URL accessible only to the participant in question. <a href=\"https://tabbycat.readthedocs.io/en/latest/features/data-entry.html#private-urls\"> Read more about private URLs.</a>"
-msgstr "K stránke na zadávanie údajov má prístup každý, kto pozná príslušnú URL adresu. Myšlienka spočíva v tom, že je ťažké uhádnuť kľúč URL adresy (náhodne vyzerajúci reťazec), preto by ste mali zabezpečiť, aby každá URL adresa bola prístupná len príslušnému účastníkovi. <a href=\"https://tabbycat.readthedocs.io/en/latest/features/data-entry.html#private-urls\"> Prečítajte si viac o súkromných URL adresách.</a>"
+msgid ""
+"Anyone with the URL can access the relevant data entry page. The idea is "
+"that it's hard to guess another key (the random-looking string), so you "
+"should make each URL accessible only to the participant in question. <a "
+"href=\"https://tabbycat.readthedocs.io/en/latest/features/data-"
+"entry.html#private-urls\"> Read more about private URLs.</a>"
+msgstr ""
+"K stránke na zadávanie údajov má prístup každý, kto pozná príslušnú URL "
+"adresu. Myšlienka spočíva v tom, že je ťažké uhádnuť kľúč URL adresy "
+"(náhodne vyzerajúci reťazec), preto by ste mali zabezpečiť, aby každá URL "
+"adresa bola prístupná len príslušnému účastníkovi. <a "
+"href=\"https://tabbycat.readthedocs.io/en/latest/features/data-"
+"entry.html#private-urls\"> Prečítajte si viac o súkromných URL adresách.</a>"
 
 #: privateurls/templates/private_urls.html:47
 #, python-format
-msgid "Neither <strong>participant ballot submissions</strong>, <strong>participant feedback submissions</strong>, nor <strong>participant self-checkins</strong> are configured to be from private URLs. Any generated URLs will not be useful unless you configure those settings accordingly on the <a href=\"%(data_entry_options_url)s\">tournament configuration page</a>."
-msgstr "Ani <strong>odovzdané balloty účastníkov</strong>, <strong>spätná väzba od účastníkov</strong>, ani <strong>samostatné príchody účastníkov</strong> nie sú nastavené tak, aby využívali súkromné URL adries. Žiadne vygenerované URL adresy nebudú funkčné, pokiaľ tieto nastavenia zodpovedajúcim spôsobom nenastavíte na <a href=\"%(data_entry_options_url)s\">konfiguračnej stránke turnaja</a>."
+msgid ""
+"Neither <strong>participant ballot submissions</strong>, <strong>participant"
+" feedback submissions</strong>, nor <strong>participant self-"
+"checkins</strong> are configured to be from private URLs. Any generated URLs"
+" will not be useful unless you configure those settings accordingly on the "
+"<a href=\"%(data_entry_options_url)s\">tournament configuration page</a>."
+msgstr ""
+"Ani <strong>odovzdané balloty účastníkov</strong>, <strong>spätná väzba od "
+"účastníkov</strong>, ani <strong>samostatné príchody účastníkov</strong> nie"
+" sú nastavené tak, aby využívali súkromné URL adries. Žiadne vygenerované "
+"URL adresy nebudú funkčné, pokiaľ tieto nastavenia zodpovedajúcim spôsobom "
+"nenastavíte na <a href=\"%(data_entry_options_url)s\">konfiguračnej stránke "
+"turnaja</a>."
 
 #: privateurls/templates/private_urls.html:67
 msgid "There are no private URLs assigned."
@@ -171,8 +225,12 @@ msgid "Email URLs"
 msgstr "Poslať URL e-mailom"
 
 #: privateurls/templates/private_urls_nav.html:31
-msgid "This button only generates private URLs for participants who do not already have one."
-msgstr "Toto tlačidlo generuje súkromné URL adresy len pre účastníkov, ktorí ešte žiadnu nemajú."
+msgid ""
+"This button only generates private URLs for participants who do not already "
+"have one."
+msgstr ""
+"Toto tlačidlo generuje súkromné URL adresy len pre účastníkov, ktorí ešte "
+"žiadnu nemajú."
 
 #: privateurls/templates/private_urls_nav.html:32
 #: privateurls/templates/private_urls_nav.html:39
@@ -183,7 +241,7 @@ msgstr "Vygenerovať URL"
 msgid "All participants already have private URLs."
 msgstr "Všetci účastníci uź majú súkromnú URL."
 
-#: privateurls/views.py:77 privateurls/views.py:178
+#: privateurls/views.py:77 privateurls/views.py:182
 msgid "no URL"
 msgstr "žiadna URL"
 
@@ -195,46 +253,67 @@ msgstr "URL"
 msgid "Speakers"
 msgstr "Rečník"
 
-#: privateurls/views.py:111
+#: privateurls/views.py:104
+msgid "Team"
+msgstr "Tím"
+
+#: privateurls/views.py:115
 msgid "Adjudicators"
 msgstr "Rozhodcovia"
 
-#: privateurls/views.py:134
-msgid "All participants already have private URLs. If you want to delete them, use the Edit Database area."
-msgstr "Všetci používatelia už majú svoju súkromnú URL. Ak si ich želáte vymazať, upravte databázu."
+#: privateurls/views.py:138
+msgid ""
+"All participants already have private URLs. If you want to delete them, use "
+"the Edit Database area."
+msgstr ""
+"Všetci používatelia už majú svoju súkromnú URL. Ak si ich želáte vymazať, "
+"upravte databázu."
 
-#: privateurls/views.py:141
+#: privateurls/views.py:145
 #, python-format
 msgid "A private URL was generated for %(nblank_people)d person."
 msgid_plural "Private URLs were generated for all %(nblank_people)d people."
 msgstr[0] "Soukromá URL byla vygenerována pro %(nblank_people)d osobu."
-msgstr[1] "Soukromé URL byly vygenerovány pro všechny %(nblank_people)d osoby."
+msgstr[1] ""
+"Soukromé URL byly vygenerovány pro všechny %(nblank_people)d osoby."
 msgstr[2] "Soukromé URL byly vygenerovány pro všech %(nblank_people)d osob."
 msgstr[3] "Soukromé URL byly vygenerovány pro všech %(nblank_people)d osob."
 
-#: privateurls/views.py:146
+#: privateurls/views.py:150
 #, python-format
-msgid "The already-existing private URL for %(nexisting_people)d person was left intact."
-msgid_plural "The already-existing private URLs for %(nexisting_people)d people were left intact."
-msgstr[0] "Již existující soukromá URL pro %(nexisting_people)d osobu byla ponechána nedotčená."
-msgstr[1] "Již existující soukromé URL pro %(nexisting_people)d osoby byly ponechány nedotčené."
-msgstr[2] "Již existující soukromé URL pro %(nexisting_people)d osob byly ponechány nedotčené."
-msgstr[3] "Již existující soukromé URL pro %(nexisting_people)d osob byly ponechány nedotčené."
+msgid ""
+"The already-existing private URL for %(nexisting_people)d person was left "
+"intact."
+msgid_plural ""
+"The already-existing private URLs for %(nexisting_people)d people were left "
+"intact."
+msgstr[0] ""
+"Již existující soukromá URL pro %(nexisting_people)d osobu byla ponechána "
+"nedotčená."
+msgstr[1] ""
+"Již existující soukromé URL pro %(nexisting_people)d osoby byly ponechány "
+"nedotčené."
+msgstr[2] ""
+"Již existující soukromé URL pro %(nexisting_people)d osob byly ponechány "
+"nedotčené."
+msgstr[3] ""
+"Již existující soukromé URL pro %(nexisting_people)d osob byly ponechány "
+"nedotčené."
 
-#: privateurls/views.py:186
+#: privateurls/views.py:190
 msgid "URL Key"
 msgstr "URL kľúč"
 
-#: privateurls/views.py:198
+#: privateurls/views.py:202
 msgid "Debates"
 msgstr "Debaty"
 
-#: privateurls/views.py:289
+#: privateurls/views.py:293
 #, python-brace-format
 msgid "{action}: {round} - {speaker} ({side})"
 msgstr "{action}: {round} - {speaker} ({side})"
 
-#: privateurls/views.py:290
+#: privateurls/views.py:294
 msgid "Submit Ballot"
 msgstr "Odovzdať ballot"
 

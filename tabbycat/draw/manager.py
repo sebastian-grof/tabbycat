@@ -13,7 +13,7 @@ from tournaments.models import Round
 
 from .generator import BPEliminationResultPairing, DrawGenerator, DrawUserError, ResultPairing
 from .generator.utils import ispow2
-from .models import ByeTeamOverride, Debate, DebateTeam, TeamSideAllocation, get_effective_side_allocation_mode
+from .models import ByeTeamOverride, Debate, DebateTeam, get_effective_side_allocation_mode, TeamSideAllocation
 from .side_allocation_pairings import apply_postallocated_sides
 from .types import DebateSide
 
@@ -216,7 +216,8 @@ class BaseDrawManager:
             return None
 
         if len(unallocated) > n_byes:
-            raise DrawUserError(_("There are too many active teams without side pre-allocations for %(round)s. Assign all debating teams, or leave exactly %(count)d team unassigned to receive the bye.") % {
+            raise DrawUserError(_(("There are too many active teams without side pre-allocations for %(round)s. Assign "
+                "all debating teams, or leave exactly %(count)d team unassigned to receive the bye.")) % {
                 'round': self.round.name,
                 'count': n_byes,
             })

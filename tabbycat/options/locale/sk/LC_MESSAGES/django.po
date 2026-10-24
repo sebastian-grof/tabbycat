@@ -2169,3 +2169,131 @@ msgstr "Zobraziť chýbajúce tímové feedbacky na súkromných URL"
 
 msgid "Show feedback your team still needs to submit below Debates on each speaker’s private URL page."
 msgstr "Zobraziť feedbacky, ktoré váš tím ešte musí odovzdať, pod Debatami na stránke súkromnej URL každého rečníka."
+
+#: options/forms.py:36
+msgid "Median scoring requires Tabbycat default adjudicator weighting."
+msgstr "Mediánové hodnotenie vyžaduje predvolené váhovanie rozhodcov Tabbycatu."
+
+#: options/forms.py:38
+msgid "Self-split ballots require Tabbycat default adjudicator weighting."
+msgstr "Hlasovacie lístky s rozhodnutím 2 : 1 od jediného rozhodcu vyžadujú predvolené váhovanie rozhodcov Tabbycatu."
+
+#: options/forms.py:40
+msgid "Self-split ballots require two teams per debate."
+msgstr "Rozhodnutie 2 : 1 od jediného rozhodcu vyžaduje dva tímy v debate."
+
+#: options/preferences.py:125
+msgid "How is the speaker's score from a debate judged by multiple judges calculated: Mean (default), or Median (required by Karl Popper rules)."
+msgstr "Ako sa vypočítajú body rečníka v debate hodnotenej viacerými rozhodcami: priemer (predvolené) alebo medián (vyžadovaný pravidlami formátu Karl Popper)."
+
+#: options/preferences.py:127
+msgid "Panel score aggregation function"
+msgstr "Spôsob výpočtu bodov z hodnotení rozhodcov"
+
+#: options/preferences.py:131
+msgid "Mean (average)"
+msgstr "Aritmetický priemer"
+
+#: options/preferences.py:132
+msgid "Median (in even-numbered panels, decimals rounded up)"
+msgstr "Medián (pri párnom počte rozhodcov sa priemer zaokrúhli nahor)"
+
+#: options/preferences.py:274
+msgid "When greater than 1, consecutive preliminary rounds are treated as parallel panels in the same schedule slot (e.g. A and B). Current-round navigation and feedback eligibility use the shared slot. Round creation assigns schedule groups from this value."
+msgstr "Pri hodnote väčšej ako 1 sa po sebe idúce základné kolá považujú za súbežné panely v rovnakom časovom bloku (napr. A a B). Navigácia aktuálneho kola a oprávnenie odovzdať spätnú väzbu používajú spoločný blok. Pri vytváraní kôl sa podľa tejto hodnoty priraďujú skupiny rozvrhu."
+
+#: options/preferences.py:277
+msgid "Preliminary panels per schedule slot"
+msgstr "Počet základných panelov v časovom bloku"
+
+#: options/preferences.py:370
+msgid "Penalty applied when determining which teams to pull up (for minimum cost matching). In BP, added to position costs when a team is placed above its points bracket; teams with fewer prior pull-ups are preferred. Set high enough to take precedence over side balance (e.g. 100000 with the default position cost exponent). Leave 0 for no preference."
+msgstr "Penalizácia pri výbere tímov na presun do vyššej bodovej skupiny pri párovaní s minimálnymi nákladmi. V BP sa pripočíta k nákladom pozície, ak tím hrá nad svojou bodovou skupinou; uprednostnia sa tímy s menším počtom predchádzajúcich presunov. Nastavte dostatočne vysokú hodnotu, ak má mať prednosť pred vyvážením strán (napr. 100000 pri predvolenom exponente nákladov pozície). Hodnota 0 znamená bez preferencie."
+
+#: options/preferences.py:565
+msgid "Allow and expect feedback to be submitted by teams on"
+msgstr "Povoliť a očakávať spätnú väzbu tímov na"
+
+#: options/preferences.py:571
+msgid "Allow all voting adjudicators, but only expect the orallist"
+msgstr "Povoliť všetkých hlasujúcich rozhodcov, ale očakávať iba vyhlasujúceho rozhodcu"
+
+#: options/preferences.py:572
+msgid "Allow all adjudicators (including trainees), but only expect the orallist"
+msgstr "Povoliť všetkých rozhodcov (vrátane tieňových), ale očakávať iba vyhlasujúceho rozhodcu"
+
+#: options/preferences.py:573
+msgid "All voting adjudicators (excluding trainees)"
+msgstr "Všetkých hlasujúcich rozhodcov (bez tieňových)"
+
+#: options/preferences.py:574
+msgid "All adjudicators (including trainees)"
+msgstr "Všetkých rozhodcov (vrátane tieňových)"
+
+#: options/preferences.py:1190
+msgid "Allow a solo adjudicator (no panel) to declare their own decision as a 2:1 split rather than unanimous, per Karl Popper rules."
+msgstr "Povoliť jedinému rozhodcovi debaty označiť svoje rozhodnutie ako 2 : 1 namiesto jednomyseľného rozhodnutia podľa pravidiel formátu Karl Popper."
+
+#: options/preferences.py:1192
+msgid "Allow self-split ballots for solo adjudicators"
+msgstr "Povoliť jedinému rozhodcovi rozhodnutie 2 : 1"
+
+#: options/preferences.py:1857
+msgid "When participant slots are in use, block team and adjudicator registration once an institution's allocated slots are full."
+msgstr "Ak sa používajú pridelené miesta, po naplnení kapacity inštitúcie zablokovať registráciu ďalších tímov a rozhodcov."
+
+#: options/preferences.py:1858
+msgid "Block registration when over allocated slots"
+msgstr "Zablokovať registráciu po naplnení pridelených miest"
+
+#: options/presets.py:461
+msgid "Replace score criteria with the WSDC criteria"
+msgstr "Nahradiť hodnotiace kritériá kritériami WSDC"
+
+#: options/presets.py:816
+msgid "Set round 1 preliminary draw type to Seeded"
+msgstr "Nastaviť nasadené párovanie prvého základného kola"
+
+#: options/presets.py:851
+msgid "Round-robin (two-team)"
+msgstr "Každý s každým (dva tímy)"
+
+#: options/presets.py:853
+msgid "Two teams per room, preliminary rounds use round-robin (no random first round). Conflict-avoidance options are less relevant because pairings are fixed by schedule."
+msgstr "Dva tímy v miestnosti, základné kolá sa párujú systémom každý s každým (bez náhodného prvého kola). Nastavenia vyhýbania sa konfliktom sú menej podstatné, pretože dvojice určuje rozpis."
+
+#: options/presets.py:863
+msgid "Round-robin (British Parliamentary)"
+msgstr "Každý s každým (britský parlamentný formát)"
+
+#: options/presets.py:865
+msgid "BP with preset balanced round-robin tables for 16 or 28 teams. Assign every team a unique seed from 1 to n before drawing."
+msgstr "BP s prednastavenými vyváženými rozpismi každý s každým pre 16 alebo 28 tímov. Pred párovaním priraďte každému tímu jedinečné nasadenie od 1 do n."
+
+#: options/presets.py:892
+msgid "Set all preliminary draws to random (no power-pairing)"
+msgstr "Nastaviť náhodné párovanie všetkých základných kôl (bez párovania podľa výsledkov)"
+
+#: options/presets.py:925
+msgid "Karl Popper (Czechia)"
+msgstr "Karl Popper (Česko)"
+
+#: options/presets.py:927
+msgid "3 vs 3 with no reply speeches, median scoring, self-split ballots, and a penalty-weighted draw."
+msgstr "3 proti 3 bez záverečných rečí, s mediánovým hodnotením, možnosťou rozhodnutia jediného rozhodcu 2 : 1 a párovaním podľa vážených penalizácií."
+
+#: options/templates/preset_edit.html:44
+msgid "Preset actions already in effect"
+msgstr "Už vykonané nastavenia predvoľby"
+
+#: options/templates/preset_edit.html:47
+msgid "The tournament already matches these parts of the preset. They will not run again when you save."
+msgstr "Turnaj už zodpovedá týmto častiam predvoľby. Pri uložení sa nevykonajú znova."
+
+#: options/templates/preset_edit.html:67
+msgid "Preset actions to apply when you save"
+msgstr "Úkony predvoľby, ktoré sa vykonajú pri uložení"
+
+#: options/templates/preset_edit.html:70
+msgid "These options are not tournament preferences; they adjust other data (for example rounds). Uncheck any you do not want applied."
+msgstr "Tieto možnosti nie sú nastaveniami turnaja; upravujú iné údaje (napríklad kolá). Zrušte označenie tých, ktoré nechcete vykonať."

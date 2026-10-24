@@ -13,11 +13,7 @@ from django.utils.text import slugify
 from draw.models import Debate
 from draw.types import DebateSide
 
-from .jdl_ballot_export import (
-    JDLFirstCategoryBallotExportError,
-    build_jdl_first_category_ballot_xlsx,
-    jdl_first_category_ballot_filename_slug,
-)
+from .jdl_ballot_export import build_jdl_first_category_ballot_xlsx, jdl_first_category_ballot_filename_slug, JDLFirstCategoryBallotExportError
 from .models import BallotSubmission
 
 logger = logging.getLogger(__name__)

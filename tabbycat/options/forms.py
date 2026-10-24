@@ -23,11 +23,21 @@ class TournamentPreferenceForm(PreferenceForm):
 
     def clean(self):
         super().clean()
+        if not self.cleaned_data:
+            return self.cleaned_data
         section, first_pref = self.manager.parse_lookup(next(iter(self.cleaned_data.keys())))
         t = self.manager.instance
 
         def get_pref(name, section=section):
             return self.cleaned_data.get(section + "__" + name) if (section + "__" + name) in self.cleaned_data else t.pref(name)
+
+        if get_pref('adjudicator_weighting', 'debate_rules') == 'weighted-to-three':
+            if get_pref('score_aggregation_function', 'scoring') != 'mean':
+                raise ValidationError(_("Median scoring requires Tabbycat default adjudicator weighting."))
+            if get_pref('allow_self_split_ballots', 'data_entry'):
+                raise ValidationError(_("Self-split ballots require Tabbycat default adjudicator weighting."))
+        if get_pref('allow_self_split_ballots', 'data_entry') and get_pref('teams_in_debate', 'debate_rules') != 2:
+            raise ValidationError(_("Self-split ballots require two teams per debate."))
 
         score_range_msg = _("Minimum score must be less than maximum score")
 

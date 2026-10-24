@@ -121,6 +121,7 @@ PERMISSION_GROUPS = (
         Permission.VIEW_FEEDBACK_UNSUBMITTED,
         Permission.ADD_FEEDBACK,
         Permission.EDIT_FEEDBACKQUESTION,
+        Permission.EDIT_ADJ_TESTER,
     )),
     (_("Breaks"), (
         Permission.VIEW_ADJ_BREAK,

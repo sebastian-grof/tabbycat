@@ -1,0 +1,79 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-27 15:04+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);\n"
+
+#: participants/templates/DiversityContainer.vue:23
+msgid "Speaker Demographics"
+msgstr "Demografia rečníkov"
+
+#: participants/templates/DiversityContainer.vue:35
+#: participants/templates/DiversityContainer.vue:89
+#: participants/templates/DiversityContainer.vue:120
+msgid "No Gender Information"
+msgstr "Žiadne informácie o rode"
+
+#: participants/templates/DiversityContainer.vue:48
+msgid "No Speaker Categories Information"
+msgstr "Žiadne informácie o kategóriách rečníkov"
+
+#: participants/templates/DiversityContainer.vue:62
+#: participants/templates/DiversityContainer.vue:100
+#: participants/templates/DiversityContainer.vue:147
+msgid "No Region Information"
+msgstr "Žiadne informácie o regióne"
+
+#: participants/templates/DiversityContainer.vue:71
+msgid "Speaker Results"
+msgstr "Výsledky rečníkov"
+
+#: participants/templates/DiversityContainer.vue:75
+msgid "speakers with gender data"
+msgstr "výsledky rečníkov s údajmi o pohlaví"
+
+#: participants/templates/DiversityContainer.vue:77
+msgid "speaker scores analysed"
+msgstr "analyzovaných skóre rečníkov"
+
+#: participants/templates/DiversityContainer.vue:108
+msgid "Adjudicator Demographics"
+msgstr "Demografia rozhodcov"
+
+#: participants/templates/DiversityContainer.vue:133
+msgid "No Position Information"
+msgstr "Žiadne informácie o pozícii"
+
+#: participants/templates/DiversityContainer.vue:156
+msgid "Adjudicator Results"
+msgstr "Výsledky rozhodcu"
+
+#: participants/templates/DiversityContainer.vue:160
+msgid "adjudicators with gender data"
+msgstr "rozhodcovia s údajmi o rode"
+
+#: participants/templates/DiversityContainer.vue:162
+msgid "feedback scores analysed"
+msgstr "analyzovaných skóre spätnej väzby"
+
+#: participants/templates/DiversityContainer.vue:174
+msgid "No Adjudicator Ratings Information"
+msgstr "Žiadne informácie o hodnoteniach rozhodcov"
+
+#: participants/templates/DiversityContainer.vue:186
+msgid "No Adjudicator-Adjudicator Feedback Information"
+msgstr "Žiadne informácie o spätnej väzbe rozhodca-rozhodca"
