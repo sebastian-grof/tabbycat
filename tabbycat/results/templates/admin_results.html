@@ -73,6 +73,21 @@
 {% endblock %}
 
 {% block page-subnav-actions %}
+  {% haspermission "silence.round" as silence_round_perm %}
+  {% if silence_round_perm %}
+    <form action="{% roundurl 'results-round-toggle-silent' %}" method="POST">
+      {% csrf_token %}
+      <input type="hidden" name="state" value="{{ round.silent }}" />
+      <button type="submit" class="btn {% if round.silent %}btn-warning{% else %}btn-outline-primary{% endif %}"
+              aria-pressed="{{ round.silent|yesno:'true,false' }}">
+        {% if round.silent %}
+          <i data-feather="volume-x"></i> {% trans "Unmark as Silent" %}
+        {% else %}
+          <i data-feather="volume-2"></i> {% trans "Mark as Silent" %}
+        {% endif %}
+      </button>
+    </form>
+  {% endif %}
   {% if round.is_current %}
     <a class="btn {% if incomplete_ballots %}btn-danger disabled{% else %}btn-outline-success{% endif %} " href="{% roundurl 'tournament-complete-round-check' %}">
       {% trans "Complete Round" %} <i data-feather="chevron-right"></i>

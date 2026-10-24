@@ -1,5 +1,7 @@
 from django.urls import path
 
+from tournaments.views import CompleteRoundToggleSilentView
+
 from . import criterion_views, views
 
 urlpatterns = [
@@ -22,6 +24,9 @@ urlpatterns = [
         name='results-tournament-download-ballots'),
 
     # Inline Actions
+    path('round/<int:round_seq>/toggle-silent/',
+        CompleteRoundToggleSilentView.as_view(round_redirect_pattern_name='results-round-list'),
+        name='results-round-toggle-silent'),
     path('round/<int:round_seq>/postpone/<int:debate_id>/',
         views.PostponeDebateView.as_view(),
         name='results-postpone-debate'),
