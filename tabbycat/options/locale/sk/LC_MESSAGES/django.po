@@ -2163,3 +2163,9 @@ msgstr "Použiť prednastavenie: %s"
 #, python-format
 msgid "Tournament options saved based on preset %(name)s."
 msgstr "Nastavenia turnaja uložené podľa prednastavenia %(name)s."
+
+msgid "Show missing team feedback on private URLs"
+msgstr "Zobraziť chýbajúce tímové feedbacky na súkromných URL"
+
+msgid "Show feedback your team still needs to submit below Debates on each speaker’s private URL page."
+msgstr "Zobraziť feedbacky, ktoré váš tím ešte musí odovzdať, pod Debatami na stránke súkromnej URL každého rečníka."

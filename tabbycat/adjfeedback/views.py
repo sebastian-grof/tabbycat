@@ -597,6 +597,13 @@ class SpeakerAddFeedbackByRandomisedUrlView(PublicAddFeedbackByRandomisedUrlView
     model = Speaker
     tournament_field_name = 'team__tournament'
 
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        target = self.request.GET.get('target')
+        if not form.is_bound and target and form.fields['target'].valid_value(target):
+            form.initial['target'] = target
+        return form
+
 
 class AdjudicatorAddFeedbackByRandomisedUrlView(PublicAddFeedbackByRandomisedUrlView):
     model = Adjudicator

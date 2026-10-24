@@ -1,5 +1,6 @@
 import logging
 from typing import Any, Dict, List, TYPE_CHECKING
+from urllib.parse import urlencode
 
 from django.conf import settings
 from django.contrib import messages
@@ -10,6 +11,7 @@ from django.utils.text import format_lazy
 from django.utils.translation import gettext as _
 from django.utils.translation import ngettext
 
+from adjfeedback.progress import FeedbackProgressForTeam
 from checkins.models import PersonIdentifier
 from checkins.utils import get_unexpired_checkins
 from draw.types import DebateSide
@@ -211,6 +213,32 @@ class PersonIndexView(SingleObjectByRandomisedUrlMixin, PersonalizablePublicTour
         else:
             return TeamDebateTable.get_table(self, self.object.speaker.team)
 
+    def _missing_team_feedback(self, team):
+        progress = FeedbackProgressForTeam(team, self.tournament)
+        submit_url = reverse_tournament(
+            'adjfeedback-public-add-from-team-randomised', self.tournament,
+            kwargs={'url_key': self.object.url_key},
+        )
+        groups = {}
+        for tracker in sorted(progress.expected_trackers(), key=lambda tracker: tracker.round.seq):
+            round = tracker.round
+            # Match the visibility restrictions of the participant feedback form.
+            if (round.draw_status != Round.Status.RELEASED or
+                    round.seq > self.tournament.current_round_seq_limit or tracker.count > 0):
+                continue
+
+            targets = tracker.acceptable_targets()
+            url = submit_url
+            if len(targets) == 1:
+                url += '?' + urlencode({'target': f'{tracker.source.debate_id}-{targets[0].pk}'})
+            group = groups.setdefault(round.pk, {'round': round, 'items': []})
+            group['items'].append({
+                'target_names': [target.get_public_name(self.tournament) for target in targets],
+                'orallist_choice': progress.expect_orallists and len(targets) > 1,
+                'url': url,
+            })
+        return list(groups.values())
+
     def _solo_debate_team(self, debate):
         return next((dt for dt in debate.debateteam_set.all() if dt.side != DebateSide.BYE), None)
 
@@ -303,6 +331,7 @@ class PersonIndexView(SingleObjectByRandomisedUrlMixin, PersonalizablePublicTour
         t = self.tournament
 
         draw_released = False
+        kwargs['show_missing_team_feedback'] = False
         try:
             checkin_id = PersonIdentifier.objects.get(person=self.object)
             kwargs['checkins_used'] = True
@@ -336,6 +365,12 @@ class PersonIndexView(SingleObjectByRandomisedUrlMixin, PersonalizablePublicTour
             draw_released = t.current_round.draw_status == Round.Status.RELEASED
         else:
             team = self.object.speaker.team
+            if (t.pref('show_missing_team_feedback') and
+                    t.pref('participant_feedback') == 'private-urls' and t.pref('feedback_from_teams') != 'no-one'):
+                kwargs['show_missing_team_feedback'] = True
+                groups = self._missing_team_feedback(team)
+                kwargs['missing_team_feedback_rounds'] = groups
+                kwargs['missing_team_feedback_count'] = sum(len(group['items']) for group in groups)
             kwargs['debateteams'] = BaseRecordView.allocations_set(team, False, self.tournament)
             draw_released = t.current_round.draw_status in [
                 Round.Status.TEAMS_RELEASED,

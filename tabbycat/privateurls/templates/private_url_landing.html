@@ -119,6 +119,27 @@
     {{ block.super }} {# this is the Vue table, which is populated with previous results #}
   </div>
 
+  {% if show_missing_team_feedback %}
+    <div class="card mt-4" id="missing-team-feedback">
+      <div class="card-header">
+        <h5 class="mb-0">{% trans "Missing feedback" %} <span class="badge badge-secondary">{{ missing_team_feedback_count }}</span></h5>
+      </div>
+      {% for group in missing_team_feedback_rounds %}
+        <div class="card-body pb-2"><h6 class="mb-0">{{ group.round.name }}</h6></div>
+        <ul class="list-group list-group-flush">
+          {% for item in group.items %}
+            <li class="list-group-item d-flex flex-wrap justify-content-between align-items-center">
+              <span>{% if item.orallist_choice %}{% trans "Oral adjudicator (one of):" %} {% endif %}{{ item.target_names|join:", " }}</span>
+              <a href="{{ item.url }}" class="btn btn-outline-primary btn-sm">{% trans "Submit feedback" %}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      {% empty %}
+        <div class="card-body">{% trans "No feedback is currently missing from your team." %}</div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
 <div class="modal fade" id="barcodeModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">

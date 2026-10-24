@@ -237,3 +237,15 @@ msgstr "{action}: {round} - {speaker} ({side})"
 #: privateurls/views.py:290
 msgid "Submit Ballot"
 msgstr "Odovzdať ballot"
+
+msgid "Missing feedback"
+msgstr "Chýbajúce feedbacky"
+
+msgid "Submit feedback"
+msgstr "Odovzdať feedback"
+
+msgid "No feedback is currently missing from your team."
+msgstr "Vášmu tímu momentálne nechýbajú žiadne feedbacky."
+
+msgid "Oral adjudicator (one of):"
+msgstr "Rozhodca, ktorý poskytol ústny feedback (jeden z):"

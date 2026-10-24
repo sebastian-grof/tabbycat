@@ -564,6 +564,15 @@ class FeedbackFromTeams(ChoicePreference):
 
 
 @tournament_preferences_registry.register
+class ShowMissingTeamFeedback(BooleanPreference):
+    verbose_name = _("Show missing team feedback on private URLs")
+    help_text = _("Show feedback your team still needs to submit below Debates on each speaker’s private URL page.")
+    section = feedback
+    name = 'show_missing_team_feedback'
+    default = False
+
+
+@tournament_preferences_registry.register
 class ShowUnexpectedFeedback(BooleanPreference):
     verbose_name = _("Show unexpected feedback submissions in participants pages")
     help_text = _("Displays unexpected feedback with a question mark symbol; only relevant if public participants and feedback progress are both enabled")

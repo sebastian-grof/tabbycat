@@ -553,7 +553,8 @@ class SDLFormatPreferences(PreferencesPreset):
     feedback__adj_max_score                    = 3.0
     feedback__feedback_affects_adjudicator_scores = False
     feedback__feedback_paths                   = 'with-p-on-c'
-    feedback__feedback_from_teams              = 'orallist'
+    feedback__feedback_from_teams              = 'all-voting-adjs'
+    feedback__show_missing_team_feedback       = True
     feedback__show_unexpected_feedback         = True
     feedback__show_unaccredited                = False
 
