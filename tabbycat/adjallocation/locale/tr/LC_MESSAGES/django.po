@@ -1,9 +1,10 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: tabbycat\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-28 12:44-0400\n"
-"PO-Revision-Date: 2023-05-25 23:54\n"
+"POT-Creation-Date: 2026-09-21 10:27+1000\n"
+"PO-Revision-Date: 2026-09-21 00:33\n"
 "Last-Translator: \n"
 "Language-Team: Turkish\n"
 "Language: tr_TR\n"
@@ -11,52 +12,90 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Crowdin-Project: tabbycat\n"
-"X-Crowdin-Project-ID: 364715\n"
-"X-Crowdin-Language: tr\n"
 "X-Crowdin-File: /develop/tabbycat/adjallocation/locale/en/LC_MESSAGES/django.po\n"
 "X-Crowdin-File-ID: 922\n"
+"X-Crowdin-Language: tr\n"
+"X-Crowdin-Project: tabbycat\n"
+"X-Crowdin-Project-ID: 364715\n"
 
 #: adjallocation/allocators/base.py
-msgid "There are no available adjudicators. Ensure there are adjudicators who have been marked as available for this round before auto-allocating."
-msgstr "Uygun jüri bulunmamaktadır. Otomatik atamadan önce bu tur için uygun olarak işaretlenmiş jüriler olduğundan emin olun."
+msgid ""
+"There are no available adjudicators. Ensure there are adjudicators who have "
+"been marked as available for this round before auto-allocating."
+msgstr ""
+"Uygun jüri bulunmamaktadır. Otomatik atamadan önce bu tur için uygun olarak "
+"işaretlenmiş jüriler olduğundan emin olun."
 
 #: adjallocation/allocators/hungarian.py
 #, python-format
-msgid "%(count)s score is larger than the maximum permitted adjudicator score (%(score).1f)."
-msgid_plural "%(count)s scores are larger than the maximum permitted adjudicator score (%(score).1f)."
-msgstr[0] "%(count)'un puanı, izin verilen maksimum jüri puanından (%(score).1f) büyük."
-msgstr[1] "%(count)'un puanları, izin verilen maksimum jüri puanından (%(score).1f) büyük."
+msgid ""
+"%(count)s score is larger than the maximum permitted adjudicator score "
+"(%(score).1f)."
+msgid_plural ""
+"%(count)s scores are larger than the maximum permitted adjudicator score "
+"(%(score).1f)."
+msgstr[0] ""
+"%(count)s'un puanı, izin verilen maksimum jüri puanından (%(score).1f) "
+"büyük."
+msgstr[1] ""
+"%(count)s'un puanları, izin verilen maksimum jüri puanından (%(score).1f) "
+"büyük."
 
 #: adjallocation/allocators/hungarian.py
 #, python-format
-msgid "%(count)s score is smaller than the minimum permitted adjudicator score (%(score).1f)."
-msgid_plural "%(count)s scores are smaller than the minimum permitted adjudicator score (%(score).1f)."
-msgstr[0] "%(count)'un puanı, izin verilen minimum jüri puanından (%(score).1f) küçük."
-msgstr[1] "%(count)'un puanları, izin verilen minimum jüri puanından (%(score).1f) küçük."
+msgid ""
+"%(count)s score is smaller than the minimum permitted adjudicator score "
+"(%(score).1f)."
+msgid_plural ""
+"%(count)s scores are smaller than the minimum permitted adjudicator score "
+"(%(score).1f)."
+msgstr[0] ""
+"%(count)s'un puanı, izin verilen minimum jüri puanından (%(score).1f) küçük."
+msgstr[1] ""
+"%(count)s'un puanları, izin verilen minimum jüri puanından (%(score).1f) "
+"küçük."
 
 #: adjallocation/allocators/hungarian.py
-msgid "There are no adjudicators eligible to be a chair or panellist. Try changing the \"Minimum feedback score required to be allocated as chair or panellist\" setting to something lower than at least some adjudicators' current scores, and try again."
-msgstr "Başkan veya panelist olmaya uygun jüri yok. \"Başkan veya panelist olmak için minimum geri bildirim puanı\" ayarını, bazı jürilerin mevcut puanlarından daha düşük bir değerle değiştirin ve yeniden deneyin."
+msgid ""
+"There are no adjudicators eligible to be a chair or panellist. Try changing "
+"the \"Minimum feedback score required to be allocated as chair or "
+"panellist\" setting to something lower than at least some adjudicators' "
+"current scores, and try again."
+msgstr ""
+"Başkan veya panelist olmaya uygun jüri yok. \"Başkan veya panelist olmak "
+"için minimum geri bildirim puanı\" ayarını, bazı jürilerin mevcut "
+"puanlarından daha düşük bir değerle değiştirin ve yeniden deneyin."
 
 #: adjallocation/allocators/hungarian.py
-msgid "There are no debates for this round. Maybe you haven't created a draw yet?"
-msgstr "Bu tur için herhangi bir maç yok. Belki de henüz bir kura oluşturmadınız?"
+msgid ""
+"There are no debates for this round. Maybe you haven't created a draw yet?"
+msgstr ""
+"Bu tur için herhangi bir maç yok. Belki de henüz bir kura oluşturmadınız?"
 
 #: adjallocation/allocators/hungarian.py
 #, python-format
-msgid "There are %(debate_count)s debates but only %(adj_count)s voting adjudicators."
-msgstr "%(debate_count) maç var, ancak sadece %(adj_count) oy veren jüri var."
+msgid ""
+"There are %(debate_count)s debates but only %(adj_count)s voting "
+"adjudicators."
+msgstr ""
+"%(debate_count)s maç var, ancak sadece %(adj_count)s oy veren jüri var."
 
 #: adjallocation/allocators/hungarian.py
 #, python-format
-msgid "There are %(panel_debates)s panel debates but only %(panellists)s available panellists (less than %(needed)s)."
-msgstr "%(panel_debates) panel maçı var, ancak yalnızca %(panellists) mevcut panelistleri vardır (less than %(needed)s)."
+msgid ""
+"There are %(panel_debates)s panel debates but only %(panellists)s available "
+"panellists (less than %(needed)s)."
+msgstr ""
+"%(panel_debates)s panel maçı var, ancak yalnızca %(panellists)s mevcut "
+"panelistleri vardır (less than %(needed)s)."
 
 #: adjallocation/allocators/hungarian.py
 #, python-format
-msgid "There are %(debates_count)s debates but only %(voting_count)s voting adjudicators."
-msgstr "%(debate_count) maç var, ancak sadece %(voting_count) oy veren jüri var."
+msgid ""
+"There are %(debates_count)s debates but only %(voting_count)s voting "
+"adjudicators."
+msgstr ""
+"%(debates_count)s maç var, ancak sadece %(voting_count)s oy veren jüri var."
 
 #: adjallocation/apps.py
 msgid "Adjudicator Allocation"
@@ -64,11 +103,14 @@ msgstr "Jüri Tahsisi"
 
 #: adjallocation/consumers.py
 msgid "Draw is already released, unrelease draw to redo auto-allocations."
-msgstr "Kura zaten yayınlanmıştır, otomatik tahsisleri yeniden yapmak için kurayı yayından kaldırın."
+msgstr ""
+"Kura zaten yayınlanmıştır, otomatik tahsisleri yeniden yapmak için kurayı "
+"yayından kaldırın."
 
 #: adjallocation/consumers.py
 msgid "Draw is not confirmed, confirm draw to run auto-allocations."
-msgstr "Kura onaylanmadı, otomatik tahsisleri çalıştırmak için kurayı onaylayın."
+msgstr ""
+"Kura onaylanmadı, otomatik tahsisleri çalıştırmak için kurayı onaylayın."
 
 #: adjallocation/consumers.py
 msgid "There are no preformed panels available to allocate."
@@ -76,14 +118,23 @@ msgstr "Tahsis edilebilecek önceden kurulmuş panel yok."
 
 #: adjallocation/consumers.py
 msgid "Successfully auto-allocated preformed panels to debates."
-msgstr "Önceden kurulmuş paneller maçlara başarıyla otomatik olarak tahsis edildi."
+msgstr ""
+"Önceden kurulmuş paneller maçlara başarıyla otomatik olarak tahsis edildi."
 
 #: adjallocation/consumers.py
 #, python-format
-msgid "Successfully auto-allocated adjudicators to debates. However, there was a warning:"
-msgid_plural "Successfully auto-allocated adjudicators to debates. However, there were %(count)d warnings:"
-msgstr[0] "Jüriler maçlara başarıyla otomatik olarak tahsis edildi. Ancak, bir uyarı var:"
-msgstr[1] "Jüriler maçlara başarıyla otomatik olarak tahsis edildi. Ancak, %(count)d uyarı var:"
+msgid ""
+"Successfully auto-allocated adjudicators to debates. However, there was a "
+"warning:"
+msgid_plural ""
+"Successfully auto-allocated adjudicators to debates. However, there were "
+"%(count)d warnings:"
+msgstr[0] ""
+"Jüriler maçlara başarıyla otomatik olarak tahsis edildi. Ancak, bir uyarı "
+"var:"
+msgstr[1] ""
+"Jüriler maçlara başarıyla otomatik olarak tahsis edildi. Ancak, %(count)d "
+"uyarı var:"
 
 #: adjallocation/consumers.py
 msgid "Successfully auto-allocated adjudicators to debates."
@@ -95,38 +146,62 @@ msgstr "Doldurulacak panel yok. Önce panel oluşturun."
 
 #: adjallocation/consumers.py
 #, python-format
-msgid "Successfully auto-allocated adjudicators to preformed panels. However, there was a warning:"
-msgid_plural "Successfully auto-allocated adjudicators to preformed panels. However, there were %(count)d warnings:"
-msgstr[0] "Jüriler panellere başarıyla otomatik olarak tahsis edildi. Ancak, bir uyarı var:"
-msgstr[1] "Jüriler panellere başarıyla otomatik olarak tahsis edildi. Ancak, %(count)d uyarı var:"
+msgid ""
+"Successfully auto-allocated adjudicators to preformed panels. However, there"
+" was a warning:"
+msgid_plural ""
+"Successfully auto-allocated adjudicators to preformed panels. However, there"
+" were %(count)d warnings:"
+msgstr[0] ""
+"Jüriler panellere başarıyla otomatik olarak tahsis edildi. Ancak, bir uyarı "
+"var:"
+msgstr[1] ""
+"Jüriler panellere başarıyla otomatik olarak tahsis edildi. Ancak, %(count)d "
+"uyarı var:"
 
 #: adjallocation/consumers.py
 msgid "Successfully auto-allocated adjudicators to preformed panels."
 msgstr "Jüriler panellere başarıyla otomatik olarak tahsis edildi."
 
 #: adjallocation/consumers.py
-msgid "You have no break category set as 'is general' so debate importances can't be calculated."
-msgstr "'Genel' olarak ayarlanmış bir break kategoriniz olmadığından maç önemleri hesaplanamıyor."
+msgid ""
+"You have no break category set as 'is general' so debate importances can't "
+"be calculated."
+msgstr ""
+"'Genel' olarak ayarlanmış bir break kategoriniz olmadığından maç önemleri "
+"hesaplanamıyor."
 
 #: adjallocation/consumers.py
 msgid "Succesfully auto-prioritised debates."
 msgstr "Maçlar otomatik önceliklendirildi."
 
 #: adjallocation/consumers.py
-msgid "You have no break category set as 'is general' so panel importances can't be calculated."
-msgstr "'Genel' olarak ayarlanmış bir break kategoriniz olmadığından panel önemleri hesaplanamıyor."
+msgid ""
+"You have no break category set as 'is general' so panel importances can't be"
+" calculated."
+msgstr ""
+"'Genel' olarak ayarlanmış bir break kategoriniz olmadığından panel önemleri "
+"hesaplanamıyor."
 
 #: adjallocation/consumers.py
 msgid "Succesfully auto-prioritised preformed panels."
 msgstr "Önceden kurulmuş paneller otomatik önceliklendirildi."
 
 #: adjallocation/consumers.py
-msgid "Since this is the first round, the preformed panels aren't annotated with brackets and liveness."
-msgstr "Bu ilk tur olduğundan, önceden kurulmuş panellerin aşama ve break ihtimali gösterilmiyor."
+msgid ""
+"Since this is the first round, the preformed panels aren't annotated with "
+"brackets and liveness."
+msgstr ""
+"Bu ilk tur olduğundan, önceden kurulmuş panellerin aşama ve break ihtimali "
+"gösterilmiyor."
 
 #: adjallocation/consumers.py
-msgid "The previous round's draw doesn't exist, so preformed panels can't be annotated with brackets and liveness."
-msgstr "Önceki turun kurası yok, bu nedenle önceden kurulmuş panellerin aşama ve break ihtimali gösterilemiyor."
+msgid ""
+"The previous round's draw doesn't exist, so preformed panels can't be "
+"annotated with brackets and liveness."
+msgstr ""
+"Önceki turun kurası yok, bu nedenle önceden kurulmuş panellerin aşama ve "
+"break ihtimali gösterilemiyor."
 
 #: adjallocation/consumers.py
 msgid "Succesfully created new preformed panels for this round."
@@ -277,20 +352,41 @@ msgid "preformed panel adjudicators"
 msgstr "önceden kurulmuş panel jürileri"
 
 #: adjallocation/preformed/base.py
-msgid "There are no preformed panels to use. Have you allocated preformed panels for this round? If not, try just auto-allocating adjudicators instead."
-msgstr "Kullanılacak önceden kurulmuş panel yok. Bu tur için önceden kurulmuş panel tahsis ettiniz mi? Etmediyseniz, bunun yerine yalnızca otomatik jüri tahsis etmeyi deneyin."
+msgid ""
+"There are no preformed panels to use. Have you allocated preformed panels "
+"for this round? If not, try just auto-allocating adjudicators instead."
+msgstr ""
+"Kullanılacak önceden kurulmuş panel yok. Bu tur için önceden kurulmuş panel "
+"tahsis ettiniz mi? Etmediyseniz, bunun yerine yalnızca otomatik jüri tahsis "
+"etmeyi deneyin."
 
 #: adjallocation/templates/preformed_index.html adjallocation/views.py
 msgid "Preformed Panels"
 msgstr "Önceden kurulmuş paneller"
 
 #: adjallocation/templates/preformed_index.html
-msgid "A preformed panel is a defined group of adjudicators that is specified for a round before its draw has been generated. You can then manually or automatically apply these panels during the normal adjudicator allocation process. This can make allocations faster or allow you to create more considered panels of adjudicators."
-msgstr "Önceden kurulmuş panel, kura oluşturulmadan önce bir tur için belirtilen tanımlanmış bir jüri grubudur. Daha sonra normal jüri tahsis işlemi sırasında bu panelleri manuel veya otomatik olarak kullanabilirsiniz. Bu, tahsisleri daha hızlı hale getirebilir veya daha iyi hazırlanmış hakem panelleri oluşturmanıza olanak tanır."
+msgid ""
+"A preformed panel is a defined group of adjudicators that is specified for a"
+" round before its draw has been generated. You can then manually or "
+"automatically apply these panels during the normal adjudicator allocation "
+"process. This can make allocations faster or allow you to create more "
+"considered panels of adjudicators."
+msgstr ""
+"Önceden kurulmuş panel, kura oluşturulmadan önce bir tur için belirtilen "
+"tanımlanmış bir jüri grubudur. Daha sonra normal jüri tahsis işlemi "
+"sırasında bu panelleri manuel veya otomatik olarak kullanabilirsiniz. Bu, "
+"tahsisleri daha hızlı hale getirebilir veya daha iyi hazırlanmış hakem "
+"panelleri oluşturmanıza olanak tanır."
 
 #: adjallocation/templates/preformed_index.html
-msgid "Note that only adjudicators who have been marked as 'available' for that round will be able to be allocated for that round, so you may need to set their availability in advance."
-msgstr "Yalnızca o tur için \"kullanılabilir\" olarak işaretlenmiş jürilerin bir tur için tahsis edilebileceğini unutmayın, bu nedenle müsaitlik durumlarını önceden ayarlamanız gerekebilir."
+msgid ""
+"Note that only adjudicators who have been marked as 'available' for that "
+"round will be able to be allocated for that round, so you may need to set "
+"their availability in advance."
+msgstr ""
+"Yalnızca o tur için \"kullanılabilir\" olarak işaretlenmiş jürilerin bir tur"
+" için tahsis edilebileceğini unutmayın, bu nedenle müsaitlik durumlarını "
+"önceden ayarlamanız gerekebilir."
 
 #: adjallocation/templates/preformed_index.html
 #, python-format
@@ -299,23 +395,41 @@ msgstr "%(round)s için önceden kurulmuş panelleri düzenle"
 
 #: adjallocation/utils.py
 #, python-format
-msgid "Conflict: <strong>%(adjudicator)s</strong> & <strong>%(team)s</strong> (personal)"
-msgstr "Conflict: <strong>%(adjudicator)s</strong> & <strong>%(team)s</strong> (personal)"
+msgid ""
+"Conflict: <strong>%(adjudicator)s</strong> & <strong>%(team)s</strong> "
+"(personal)"
+msgstr ""
+"Conflict: <strong>%(adjudicator)s</strong> & <strong>%(team)s</strong> "
+"(personal)"
 
 #: adjallocation/utils.py
 #, python-format
-msgid "Conflict: <strong>%(adjudicator)s</strong> & <strong>%(team)s</strong> via institution <strong>%(institution)s</strong>"
-msgstr "Conflict: <strong>%(adjudicator)s</strong> & <strong>%(team)s</strong> via institution <strong>%(institution)s</strong>"
+msgid ""
+"Conflict: <strong>%(adjudicator)s</strong> & <strong>%(team)s</strong> via "
+"institution <strong>%(institution)s</strong>"
+msgstr ""
+"Conflict: <strong>%(adjudicator)s</strong> & <strong>%(team)s</strong> via "
+"institution <strong>%(institution)s</strong>"
 
 #: adjallocation/utils.py
 #, python-format
-msgid "Conflict: <strong>%(adjudicator1)s</strong> & <strong>%(adjudicator2)s</strong> (personal)"
-msgstr "Conflict: <strong>%(adjudicator1)s</strong> & <strong>%(adjudicator2)s</strong> (personal)"
+msgid ""
+"Conflict: <strong>%(adjudicator1)s</strong> & "
+"<strong>%(adjudicator2)s</strong> (personal)"
+msgstr ""
+"Conflict: <strong>%(adjudicator1)s</strong> & "
+"<strong>%(adjudicator2)s</strong> (personal)"
 
 #: adjallocation/utils.py
 #, python-format
-msgid "Conflict: <strong>%(adjudicator1)s</strong> & <strong>%(adjudicator2)s</strong> via institution <strong>%(institution)s</strong>"
-msgstr "Conflict: <strong>%(adjudicator1)s</strong> & <strong>%(adjudicator2)s</strong> via institution <strong>%(institution)s</strong>"
+msgid ""
+"Conflict: <strong>%(adjudicator1)s</strong> & "
+"<strong>%(adjudicator2)s</strong> via institution "
+"<strong>%(institution)s</strong>"
+msgstr ""
+"Conflict: <strong>%(adjudicator1)s</strong> & "
+"<strong>%(adjudicator2)s</strong> via institution "
+"<strong>%(institution)s</strong>"
 
 #: adjallocation/views.py
 msgid "Male"
@@ -336,6 +450,10 @@ msgstr "Bilinmeyen"
 #: adjallocation/views.py
 msgid "Edit Allocation"
 msgstr "Tahsisi Düzenle"
+
+#: adjallocation/views.py
+msgid "Edit Allocation (Concurrent Rounds)"
+msgstr ""
 
 #: adjallocation/views.py
 msgid "Edit Panels"
@@ -448,4 +566,3 @@ msgstr[1] "%(count)d takım-kurum conflictleri silindi."
 #: adjallocation/views.py
 msgid "No changes were made to team-institution conflicts."
 msgstr "ekip-kurum conflictlerinde herhangi bir değişiklik yapılmamıştır."
-

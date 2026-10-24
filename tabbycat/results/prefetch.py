@@ -303,4 +303,3 @@ def populate_results(ballotsubs, tournament=None):
 
     for ballotsub in ballotsubs:
         ballotsub.result.assert_loaded()
-

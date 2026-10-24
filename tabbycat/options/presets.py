@@ -212,11 +212,12 @@ class BritishParliamentaryPreferences(PreferencesPreset):
     description  = _("2 vs 2 vs 2 vs 2. Compliant with WUDC rules.")
     show_in_list = True
 
+    # WUDC Constitution: https://docs.google.com/document/d/19Hk8imODwOIr6zLCUUwqpAhSamoSqmL0ZdoeemY_XD0/edit?tab=t.0
     scoring__score_min                         = Decimal('50')
-    scoring__score_max                         = Decimal('99')
+    scoring__score_max                         = Decimal('100') # WUDC Schedule 1: 5.3
     scoring__score_step                        = Decimal('1')
     scoring__maximum_margin                    = 0.0
-    scoring__teamscore_includes_ghosts         = True  # WUDC 34.9.3.2
+    scoring__teamscore_includes_ghosts         = True  # WUDC 35.9.3.2
     # Debate Rules
     debate_rules__substantive_speakers         = 2
     debate_rules__teams_in_debate              = 4
@@ -361,21 +362,21 @@ class UADCPreferences(AustralsPreferences):
     description  = _("3 vs 3 with replies, chosen motions, and all adjudicators "
         "can receive feedback from teams.")
 
-    # Rules source = https://docs.google.com/document/d/10AVKBhev_OFRtorWsu2VB9B5V1a2f20425HYkC5ztMM/edit
+    # Rules source = https://docs.google.com/document/d/1yoRcSR3mufyzOTxbOTxnGvdfxS-ODscVPN3CzzoD3mQ/edit?tab=t.0#heading=h.scv1sbq5r6yj
+    # Handbook source = https://docs.google.com/document/d/1JoJa0oqDfW06vAQb3eBcAX37oG9p2g0hRO44vvCHv_Q/edit?tab=t.0
     # Scoring
-    scoring__score_min                         = Decimal('69')  # From Rules Book
-    scoring__score_max                         = Decimal('81')  # From Rules Book
+    scoring__score_min                         = Decimal('67')  # From Handbook 2.8.2
+    scoring__score_max                         = Decimal('83')  # From Handbook 2.8.2
     scoring__score_step                        = Decimal('1')
-    scoring__reply_score_min                   = Decimal('34.5')  # Not specified; assuming half of substantive
-    scoring__reply_score_max                   = Decimal('42.0')  # Not specified; assuming half of substantive
+    scoring__reply_score_min                   = Decimal('33.5')  # From Handbook 2.8.2
+    scoring__reply_score_max                   = Decimal('41.5')  # From Handbook 2.8.2
     scoring__reply_score_step                  = Decimal('0.5')
     scoring__maximum_margin                    = 0.0   # TODO= check this
     scoring__margin_includes_dissenters        = False  # From Rules 20.3.2
     # Draws
     draw_rules__avoid_same_institution         = False
     draw_rules__avoid_team_history             = True
-    draw_rules__draw_odd_bracket               = 'pullup_top'  # From Rules 20.10
-    draw_rules__draw_pullup_restriction        = 'least_to_date'  # From Rules 20.11
+    draw_rules__draw_odd_bracket               = 'intermediate_bubble_up_down'  # From Rules 20.6
     draw_rules__draw_side_allocations          = 'balance'
     draw_rules__draw_pairing_method            = 'slide'  # From rules 20.9
     draw_rules__draw_avoid_conflicts           = 'one_up_one_down'  # From rules 10.6.4
@@ -464,7 +465,7 @@ class WSDCPreferences(AustralsPreferences):
         ),
     )
 
-    # Rules source = https://www.wsdcdebating.org/_files/ugd/669183_399cb065fe31455b9371bd8dfdf7e0d1.pdf
+    # Rules source: https://www.wsdcdebating.org/_files/ugd/669183_713c6d981c374df989d1d1d7854d2cd3.pdf
     # Score (strictly specified in the rules)
     scoring__score_min                         = Decimal('60')
     scoring__score_max                         = Decimal('80')
@@ -478,10 +479,10 @@ class WSDCPreferences(AustralsPreferences):
     motions__enable_motions                    = False
     debate_rules__side_names                   = 'prop-opp'
     # Draws (exact mechanism is up to the host)
-    # Draw source = https://www.wsdcdebating.org/_files/ugd/669183_acd9f3bd3ab3482ebead22ae0da74fa7.pdf
+    # Draw source: https://www.wsdcdebating.org/_files/ugd/669183_31ca1b6263694aa7b36a7008d0e54b95.pdf
     draw_rules__avoid_same_institution         = False
     draw_rules__avoid_team_history             = True # Rule 3.9
-    draw_rules__draw_pairing_method            = 'fold' # Rule 3.8
+    draw_rules__draw_pairing_method            = 'random' # Rule 3.8
     draw_rules__draw_odd_bracket               = 'pullup_top' # Rule 3.7
     draw_rules__max_times_per_side             = 5
     # Tabbycat currently does not support WSDC-style pull up and so not fully support WSDC-style draw creation.
@@ -499,6 +500,8 @@ class WSDCPreferences(AustralsPreferences):
 
 
 class SDLFormatPreferences(PreferencesPreset):
+    scoring__score_aggregation_function        = 'mean'
+    data_entry__allow_self_split_ballots       = False
     name         = _("SDL Format")
     show_in_list = True
     description  = _("3 vs 3 with replies and cross-examinations, pre-allocated "
@@ -913,6 +916,79 @@ class PublicSpeaking(PreferencesPreset):
     draw_rules__avoid_team_history             = False
     # Standings
     standings__team_standings_precedence       = ['speaks_avg']
+
+
+class KarlPopperPreferences(PreferencesPreset):
+    debate_rules__adjudicator_weighting        = 'tabbycat-default'
+    debate_rules__cross_examinations_enabled   = False
+    debate_rules__solo_speech_format           = False
+    name         = _("Karl Popper (Czechia)")
+    show_in_list = True
+    description  = _("3 vs 3 with no reply speeches, median scoring, self-split "
+        "ballots, and a penalty-weighted draw.")
+
+    # Scoring
+    scoring__score_min                         = Decimal('50')
+    scoring__score_max                         = Decimal('100')
+    scoring__margin_includes_dissenters        = True
+    scoring__score_aggregation_function        = 'median'
+    # Debate Rules
+    debate_rules__teams_in_debate              = 2
+    debate_rules__substantive_speakers         = 3
+    debate_rules__side_names                   = 'aff-neg'
+    debate_rules__ballots_per_debate_prelim    = 'per-adj'
+    debate_rules__ballots_per_debate_elim      = 'per-adj'
+    debate_rules__reply_scores_enabled         = False
+    debate_rules__require_substantive_for_reply = False
+    debate_rules__winners_in_ballots           = 'high-points'
+    debate_rules__preparation_time             = 60
+    debate_rules__enable_forfeits              = True
+    motions__enable_motions                    = False
+    motions__motion_vetoes_enabled             = False
+    motions__enable_motion_reuse               = True
+    # Draw Rules (penalty-weighted, as with APDA)
+    draw_rules__draw_odd_bracket               = 'pullup_top'
+    draw_rules__draw_pairing_method            = 'adjacent'
+    draw_rules__draw_avoid_conflicts           = 'graph'
+    draw_rules__draw_pullup_restriction        = 'lowest_ds_wins'
+    draw_rules__draw_pullup_penalty            = 100
+    draw_rules__bye_team_results               = 'points'
+    draw_rules__bye_team_selection             = 'lowest'
+    draw_rules__adj_min_voting_score           = 1.0
+    draw_rules__adj_conflict_penalty           = 10000
+    draw_rules__adj_history_penalty            = 1
+    draw_rules__preformed_panel_mismatch_penalty = 10
+    draw_rules__team_institution_penalty       = 100
+    draw_rules__team_history_penalty           = 10000
+    draw_rules__pullup_debates_penalty         = 100
+    draw_rules__side_penalty                   = 10000
+    # Standings Rules
+    standings__standings_missed_debates        = 2
+    standings__team_standings_precedence       = ['wins', 'num_adjs', 'wbw', 'speaks_sum', 'draw_strength']
+    standings__team_standings_extra_metrics    = ['speaks_ind_avg']
+    # Feedback Rules
+    feedback__adj_max_score                    = 6.0
+    feedback__feedback_paths                   = 'no-adjs'
+    feedback__feedback_from_teams              = 'all-adjs'
+    feedback__show_unaccredited                = True
+    # Participant Data Entry -- leave the "Participant Data Entry" dropdown set
+    # to "Disabled" when using this preset, since it sets ballots and feedback
+    # to different methods and either dropdown option would overwrite that.
+    data_entry__participant_ballots            = 'private-urls'
+    data_entry__participant_feedback           = 'public'
+    data_entry__public_checkins_submit         = True
+    data_entry__individual_ballots             = True
+    data_entry__allow_self_split_ballots       = True
+    # Public Features -- leave the "Public Configuration" dropdown set to
+    # "Disable Public Information" when using this preset, for the same reason.
+    public_features__public_participants       = True
+    public_features__public_institutions_list  = True
+    public_features__public_draw               = 'current'
+    public_features__public_motions            = True
+    public_features__public_record             = False
+    # UI Options
+    ui_options__show_team_institutions         = False
+    ui_options__show_adjudicator_institutions  = True
 
 
 class PublicInformation(PreferencesPreset):

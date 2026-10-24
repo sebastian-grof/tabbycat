@@ -1,9 +1,10 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: tabbycat\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-06 09:38+1000\n"
-"PO-Revision-Date: 2025-07-05 23:53\n"
+"POT-Creation-Date: 2026-09-21 10:27+1000\n"
+"PO-Revision-Date: 2026-09-21 00:41\n"
 "Last-Translator: philip_tc\n"
 "Language-Team: Talossan\n"
 "Language: tzl_TZL\n"
@@ -11,12 +12,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: crowdin.com\n"
-"X-Crowdin-Project: tabbycat\n"
-"X-Crowdin-Language: tzl\n"
 "X-Crowdin-File: /develop/tabbycat/tournaments/locale/en/LC_MESSAGES/django.po\n"
-"X-Crowdin-Project-ID: 364715\n"
 "X-Crowdin-File-ID: 952\n"
+"X-Crowdin-Language: tzl\n"
+"X-Crowdin-Project: tabbycat\n"
+"X-Crowdin-Project-ID: 364715\n"
+"X-Generator: crowdin.com\n"
 
 #: tournaments/apps.py
 msgid "Tournaments"
@@ -51,12 +52,37 @@ msgstr "crwdns33098:0crwdne33098:0"
 msgid "Open"
 msgstr "crwdns33100:0crwdne33100:0"
 
+#: tournaments/forms.py tournaments/models.py
+msgid "Power-paired"
+msgstr "crwdns33154:0crwdne33154:0"
+
+#: tournaments/forms.py tournaments/models.py
+msgid "Random"
+msgstr "crwdns33148:0crwdne33148:0"
+
+#: tournaments/forms.py
+msgid "Round robin"
+msgstr "crwdns54275:0crwdne54275:0"
+
+#: tournaments/forms.py
+msgid "Draw format"
+msgstr "crwdns54277:0crwdne54277:0"
+
+#: tournaments/forms.py
+msgid ""
+"How preliminary rounds are drawn. The first option matches Tabbycat’s usual "
+"default (random draw in round 1, then power-pairing). Round robin opens an "
+"extra step to set parallel panels and how many preliminary rounds to create."
+msgstr "crwdns54279:0crwdne54279:0"
+
 #: tournaments/forms.py
 msgid "Format Configuration"
 msgstr "crwdns33102:0crwdne33102:0"
 
 #: tournaments/forms.py
-msgid "Apply a standard set of settings to match a common debate format. These can be changed afterwards and should be checked for your needs."
+msgid ""
+"Apply a standard set of settings to match a common debate format. These can "
+"be changed afterwards and should be checked for your needs."
 msgstr "crwdns52860:0crwdne52860:0"
 
 #: tournaments/forms.py
@@ -64,7 +90,9 @@ msgid "Public Configuration"
 msgstr "crwdns33106:0crwdne33106:0"
 
 #: tournaments/forms.py
-msgid "Show non-sensitive information on the public-facing side of this site, like draws (once released) and the motions of previous rounds"
+msgid ""
+"Show non-sensitive information on the public-facing side of this site, like "
+"draws (once released) and the motions of previous rounds"
 msgstr "crwdns33108:0crwdne33108:0"
 
 #: tournaments/forms.py
@@ -72,12 +100,29 @@ msgid "Participant Data Entry"
 msgstr "crwdns52391:0crwdne52391:0"
 
 #: tournaments/forms.py
-msgid "Whether participants can submit ballots and feedback themselves, and how they do so"
+msgid ""
+"Whether participants can submit ballots and feedback themselves, and how "
+"they do so"
 msgstr "crwdns52393:0crwdne52393:0"
 
 #: tournaments/forms.py
-msgid "<strong>Tabulation:</strong> [list tabulation staff here]<br /><strong>Equity:</strong> [list equity members here]<br /><strong>Organisation:</strong> [list organising committee members here]<br /><strong>Adjudication:</strong> [list chief adjudicators here]"
+msgid ""
+"<strong>Tabulation:</strong> [list tabulation staff here]<br "
+"/><strong>Equity:</strong> [list equity members here]<br "
+"/><strong>Organisation:</strong> [list organising committee members here]<br"
+" /><strong>Adjudication:</strong> [list chief adjudicators here]"
 msgstr "crwdns52235:0crwdne52235:0"
+
+#: tournaments/forms.py
+msgid "Parallel preliminary panels per schedule slot"
+msgstr "crwdns54281:0crwdne54281:0"
+
+#: tournaments/forms.py
+msgid ""
+"With 1, each schedule slot has one database round. With 2, Tabbycat creates "
+"two rounds per slot (e.g. A and B) that share the same “current round” slot "
+"for navigation and feedback."
+msgstr "crwdns54283:0crwdne54283:0"
 
 #: tournaments/forms.py
 msgid "Current preliminary round"
@@ -89,7 +134,9 @@ msgstr "crwdns34548:0crwdne34548:0"
 
 #: tournaments/forms.py
 #, python-format
-msgid "Current elimination round in <strong>%(category)s</strong> <em>(only if all preliminary rounds have been completed)</em>"
+msgid ""
+"Current elimination round in <strong>%(category)s</strong> <em>(only if all "
+"preliminary rounds have been completed)</em>"
 msgstr "crwdns34550:0%(category)scrwdne34550:0"
 
 #: tournaments/forms.py
@@ -110,22 +157,38 @@ msgstr "crwdns34556:0crwdne34556:0"
 msgid "%(name)s (%(abbreviation)s)"
 msgstr "crwdns52141:0%(name)scrwdnd52141:0%(abbreviation)scrwdne52141:0"
 
+#: tournaments/forms.py
+msgid "Round"
+msgstr "crwdns54285:0crwdne54285:0"
+
+#: tournaments/forms.py tournaments/models.py
+msgid "If the event belongs to a specific round, which round"
+msgstr "crwdns53626:0crwdne53626:0"
+
 #: tournaments/mixins.py
 #, python-format
-msgid "You've been redirected to this page because tournament %(tournament)s has no rounds. Please create some before returning to the admin site."
+msgid ""
+"You've been redirected to this page because tournament %(tournament)s has no"
+" rounds. Please create some before returning to the admin site."
 msgstr "crwdns51438:0%(tournament)scrwdne51438:0"
 
 #: tournaments/mixins.py
 #, python-format
-msgid "There's a problem with the data for the tournament %(tournament)s. Please contact a tab director and ask them to investigate."
+msgid ""
+"There's a problem with the data for the tournament %(tournament)s. Please "
+"contact a tab director and ask them to investigate."
 msgstr "crwdns51440:0%(tournament)scrwdne51440:0"
 
 #: tournaments/mixins.py
-msgid "You've been redirected to this page because of a problem with how teams are assigned to sides in a debate."
+msgid ""
+"You've been redirected to this page because of a problem with how teams are "
+"assigned to sides in a debate."
 msgstr "crwdns33114:0crwdne33114:0"
 
 #: tournaments/mixins.py
-msgid "There's a problem with how teams are assigned to sides in a debate. The tab director will need to resolve this issue."
+msgid ""
+"There's a problem with how teams are assigned to sides in a debate. The tab "
+"director will need to resolve this issue."
 msgstr "crwdns33116:0crwdne33116:0"
 
 #: tournaments/mixins.py tournaments/templates/round_complete_check.html
@@ -138,7 +201,9 @@ msgid "Return to Draw"
 msgstr "crwdns35320:0crwdne35320:0"
 
 #: tournaments/models.py
-msgid "You can't use this as a tournament slug, because it's reserved for a Tabbycat system URL. Please try another one."
+msgid ""
+"You can't use this as a tournament slug, because it's reserved for a "
+"Tabbycat system URL. Please try another one."
 msgstr "crwdns33120:0crwdne33120:0"
 
 #: tournaments/models.py
@@ -146,7 +211,9 @@ msgid "name"
 msgstr "crwdns33122:0crwdne33122:0"
 
 #: tournaments/models.py
-msgid "The full name, e.g. \"Australasian Intervarsity Debating Championships 2016\""
+msgid ""
+"The full name, e.g. \"Australasian Intervarsity Debating Championships "
+"2016\""
 msgstr "crwdns33124:0crwdne33124:0"
 
 #: tournaments/models.py
@@ -162,7 +229,9 @@ msgid "sequence number"
 msgstr "crwdns33130:0crwdne33130:0"
 
 #: tournaments/models.py
-msgid "A number that determines the relative order in which tournaments are displayed on the homepage."
+msgid ""
+"A number that determines the relative order in which tournaments are "
+"displayed on the homepage."
 msgstr "crwdns33132:0crwdne33132:0"
 
 #: tournaments/models.py
@@ -186,20 +255,12 @@ msgid "tournaments"
 msgstr "crwdns33146:0crwdne33146:0"
 
 #: tournaments/models.py
-msgid "Random"
-msgstr "crwdns33148:0crwdne33148:0"
-
-#: tournaments/models.py
 msgid "Manual"
 msgstr "crwdns33150:0crwdne33150:0"
 
 #: tournaments/models.py
 msgid "Round-robin"
 msgstr "crwdns33152:0crwdne33152:0"
-
-#: tournaments/models.py
-msgid "Power-paired"
-msgstr "crwdns33154:0crwdne33154:0"
 
 #: tournaments/models.py
 msgid "Elimination"
@@ -226,19 +287,49 @@ msgid "Confirmed"
 msgstr "crwdns33164:0crwdne33164:0"
 
 #: tournaments/models.py
+msgid "Teams released"
+msgstr "crwdns54287:0crwdne54287:0"
+
+#: tournaments/models.py
 msgid "Released"
 msgstr "crwdns33166:0crwdne33166:0"
 
 #: tournaments/models.py
-msgid "A number that determines the order of the round, should count consecutively from 1 for the first round"
+msgid "Not released"
+msgstr "crwdns54289:0crwdne54289:0"
+
+#: tournaments/models.py
+msgid "Info-slides released"
+msgstr "crwdns54291:0crwdne54291:0"
+
+#: tournaments/models.py
+msgid "Motions released"
+msgstr "crwdns54293:0crwdne54293:0"
+
+#: tournaments/models.py
+msgid ""
+"A number that determines the order of the round, should count consecutively "
+"from 1 for the first round"
 msgstr "crwdns33168:0crwdne33168:0"
+
+#: tournaments/models.py
+msgid "schedule group"
+msgstr "crwdns54295:0crwdne54295:0"
+
+#: tournaments/models.py
+msgid ""
+"Rounds in the same schedule slot (e.g. parallel panels A/B) share this "
+"value. Defaults to the sequence number when each slot has only one round."
+msgstr "crwdns54297:0crwdne54297:0"
 
 #: tournaments/models.py
 msgid "completed"
 msgstr "crwdns34564:0crwdne34564:0"
 
 #: tournaments/models.py
-msgid "True if the round is over, which normally means all results have been entered and confirmed"
+msgid ""
+"True if the round is over, which normally means all results have been "
+"entered and confirmed"
 msgstr "crwdns34566:0crwdne34566:0"
 
 #: tournaments/models.py
@@ -291,25 +382,31 @@ msgstr "crwdns33192:0crwdne33192:0"
 
 #: tournaments/models.py
 #, no-python-format
-msgid "The extent to which each adjudicator's overall score depends on feedback vs their base score. At 0, it is 100% drawn from their base score, at 1 it is 100% drawn from feedback."
+msgid ""
+"The extent to which each adjudicator's overall score depends on feedback vs "
+"their base score. At 0, it is 100% drawn from their base score, at 1 it is "
+"100% drawn from feedback."
 msgstr "crwdns35630:0crwdne35630:0"
 
-#. Translators: A silent round is a round for which results are not disclosed once the round is over.
+#. Translators: A silent round is a round for which results are not disclosed
+#. once the round is over.
 #: tournaments/models.py
 msgid "silent"
 msgstr "crwdns33196:0crwdne33196:0"
 
 #: tournaments/models.py
-msgid "If marked silent, information about this round (such as its results) will not be shown publicly."
+msgid ""
+"If marked silent, information about this round (such as its results) will "
+"not be shown publicly."
 msgstr "crwdns33198:0crwdne33198:0"
 
 #: tournaments/models.py
-msgid "motions released"
-msgstr "crwdns33200:0crwdne33200:0"
+msgid "motions status"
+msgstr "crwdns54299:0crwdne54299:0"
 
 #: tournaments/models.py
-msgid "Whether motions will appear on the public website, assuming that feature is turned on"
-msgstr "crwdns33202:0crwdne33202:0"
+msgid "The release status of motions for this round"
+msgstr "crwdns54301:0crwdne54301:0"
 
 #: tournaments/models.py
 msgid "starts at"
@@ -320,7 +417,9 @@ msgid "weight"
 msgstr "crwdns51786:0crwdne51786:0"
 
 #: tournaments/models.py
-msgid "A factor for the points received in the round. For example, if 2, all points are doubled."
+msgid ""
+"A factor for the points received in the round. For example, if 2, all points"
+" are doubled."
 msgstr "crwdns51788:0crwdne51788:0"
 
 #: tournaments/models.py
@@ -332,11 +431,15 @@ msgid "rounds"
 msgstr "crwdns33208:0crwdne33208:0"
 
 #: tournaments/models.py
-msgid "The \"Elimination\" draw type is only for elimination rounds, where it is mandatory."
+msgid ""
+"The \"Elimination\" draw type is only for elimination rounds, where it is "
+"mandatory."
 msgstr "crwdns52397:0crwdne52397:0"
 
 #: tournaments/models.py
-msgid "An elimination round must have a break category and preliminary round must not."
+msgid ""
+"An elimination round must have a break category and preliminary round must "
+"not."
 msgstr "crwdns52399:0crwdne52399:0"
 
 #: tournaments/models.py
@@ -392,8 +495,8 @@ msgid "title"
 msgstr "crwdns53610:0crwdne53610:0"
 
 #: tournaments/models.py
-msgid "e.g. \"Lunch\""
-msgstr "crwdns53612:0crwdne53612:0"
+msgid "Optional custom title; leave blank to use the event type and round"
+msgstr "crwdns54303:0crwdne54303:0"
 
 #: tournaments/models.py
 msgid "event type"
@@ -418,10 +521,6 @@ msgstr "crwdns53622:0crwdne53622:0"
 #: tournaments/models.py
 msgid "The time at which the event ends, may be empty"
 msgstr "crwdns53624:0crwdne53624:0"
-
-#: tournaments/models.py
-msgid "If the event belongs to a specific round, which round"
-msgstr "crwdns53626:0crwdne53626:0"
 
 #: tournaments/models.py
 msgid "schedule event"
@@ -449,15 +548,23 @@ msgid "Welcome to Tabbycat!"
 msgstr "crwdns33228:0crwdne33228:0"
 
 #: tournaments/templates/blank_site_start.html
-msgid "To get started, you'll need to create the first user account. This account is a \"superuser\" account: it will be able to edit anything on the site. Therefore, you should use a strong password."
+msgid ""
+"To get started, you'll need to create the first user account. This account "
+"is a \"superuser\" account: it will be able to edit anything on the site. "
+"Therefore, you should use a strong password."
 msgstr "crwdns33230:0crwdne33230:0"
 
 #: tournaments/templates/blank_site_start.html
-msgid "You can only create this account once, but if you like, you can change the username and password after it's created, or add new superusers afterwards."
+msgid ""
+"You can only create this account once, but if you like, you can change the "
+"username and password after it's created, or add new superusers afterwards."
 msgstr "crwdns33232:0crwdne33232:0"
 
 #: tournaments/templates/blank_site_start.html
-msgid "The email address is used for password resets. You don't have to provide one, but if you don't, you won't be able to reset your password if you forget it."
+msgid ""
+"The email address is used for password resets. You don't have to provide "
+"one, but if you don't, you won't be able to reset your password if you "
+"forget it."
 msgstr "crwdns51646:0crwdne51646:0"
 
 #: tournaments/templates/blank_site_start.html
@@ -475,10 +582,6 @@ msgid "Tabbycat"
 msgstr "crwdns33240:0crwdne33240:0"
 
 #: tournaments/templates/configure_tournament.html
-msgid "To finish creating your tournament select a basic configuration options. Note that these can always be changed later (and with more precise control) if needed."
-msgstr "crwdns33242:0crwdne33242:0"
-
-#: tournaments/templates/configure_tournament.html
 msgid "Configure Tournament"
 msgstr "crwdns33244:0crwdne33244:0"
 
@@ -487,7 +590,9 @@ msgid "Create New Tournament"
 msgstr "crwdns33246:0crwdne33246:0"
 
 #: tournaments/templates/create_tournament.html
-msgid "Tabbycat is free to use, although <a href=\"https://opencollective.com/tabbycat\">donations</a> are encouraged."
+msgid ""
+"Tabbycat is free to use, although <a "
+"href=\"https://opencollective.com/tabbycat\">donations</a> are encouraged."
 msgstr "crwdns52403:0crwdne52403:0"
 
 #: tournaments/templates/create_tournament.html
@@ -495,7 +600,11 @@ msgid "Just trying out Tabbycat?"
 msgstr "crwdns33250:0crwdne33250:0"
 
 #: tournaments/templates/create_tournament.html
-msgid "If you're learning or playing around with Tabbycat, it's easiest to create a demo tournament that is prepopulated with a fake (but typical) set of teams, adjudicators, rooms, and the like. You can then delete this demo tournament later on, or deploy a new instance for your real tournament."
+msgid ""
+"If you're learning or playing around with Tabbycat, it's easiest to create a"
+" demo tournament that is prepopulated with a fake (but typical) set of "
+"teams, adjudicators, rooms, and the like. You can then delete this demo "
+"tournament later on, or deploy a new instance for your real tournament."
 msgstr "crwdns51446:0crwdne51446:0"
 
 #: tournaments/templates/create_tournament.html
@@ -504,12 +613,34 @@ msgid "Load %(demo)s"
 msgstr "crwdns51448:0%(demo)scrwdne51448:0"
 
 #: tournaments/templates/create_tournament.html
-msgid "You already have a tournament set up using this data set. Reloading the data will delete <strong>all data</strong> from that tournament."
+msgid ""
+"You already have a tournament set up using this data set. Reloading the data"
+" will delete <strong>all data</strong> from that tournament."
 msgstr "crwdns35532:0crwdne35532:0"
 
 #: tournaments/templates/create_tournament.html
-msgid "Create Tournament"
-msgstr "crwdns33258:0crwdne33258:0"
+#, python-format
+msgid "Step %(step)s of %(total)s: tournament details"
+msgstr "crwdns54305:0%(step)scrwdnd54305:0%(total)scrwdne54305:0"
+
+#: tournaments/templates/create_tournament.html
+#, python-format
+msgid "Step %(step)s of %(total)s: format and draw options"
+msgstr "crwdns54307:0%(step)scrwdnd54307:0%(total)scrwdne54307:0"
+
+#: tournaments/templates/create_tournament.html
+#, python-format
+msgid "Step %(step)s of %(total)s: round robin preliminary setup"
+msgstr "crwdns54309:0%(step)scrwdnd54309:0%(total)scrwdne54309:0"
+
+#: tournaments/templates/create_tournament.html
+msgctxt "button"
+msgid "Continue"
+msgstr "crwdns54311:0crwdne54311:0"
+
+#: tournaments/templates/create_tournament.html
+msgid "Create tournament"
+msgstr "crwdns54313:0crwdne54313:0"
 
 #: tournaments/templates/create_tournament.html
 msgid "Cancel and go back to the site home page"
@@ -520,11 +651,16 @@ msgid "Debate Team Missing"
 msgstr "crwdns33274:0crwdne33274:0"
 
 #: tournaments/templates/fix_debate_teams.html
-msgid "Tabbycat always requires that, in every debate, one and only one team is assigned to each side. When that is not the case, this error occurs. Usually, this is the result of debates having been manually edited."
+msgid ""
+"Tabbycat always requires that, in every debate, one and only one team is "
+"assigned to each side. When that is not the case, this error occurs. "
+"Usually, this is the result of debates having been manually edited."
 msgstr "crwdns33276:0crwdne33276:0"
 
 #: tournaments/templates/fix_debate_teams.html
-msgid "A list of offending debates is presented below. To fix them, you'll need to do the following:"
+msgid ""
+"A list of offending debates is presented below. To fix them, you'll need to "
+"do the following:"
 msgstr "crwdns33278:0crwdne33278:0"
 
 #. Translators: This is in a list of instructions.
@@ -534,12 +670,17 @@ msgstr "crwdns33280:0crwdne33280:0"
 
 #. Translators: This is in a list of instructions.
 #: tournaments/templates/fix_debate_teams.html
-msgid "Ensure that every <strong>side</strong> that should be present in the debate is present and has a <strong>team</strong> assigned. If a team is missing, find an empty row and use the magnifying glass to select a team. Then set the new team's <strong>side</strong> accordingly."
+msgid ""
+"Ensure that every <strong>side</strong> that should be present in the debate"
+" is present and has a <strong>team</strong> assigned. If a team is missing, "
+"find an empty row and use the magnifying glass to select a team. Then set "
+"the new team's <strong>side</strong> accordingly."
 msgstr "crwdns33282:0crwdne33282:0"
 
 #. Translators: This is in a list of instructions.
 #: tournaments/templates/fix_debate_teams.html
-msgid "Ensure that no <strong>side</strong> appears more than once in the debate."
+msgid ""
+"Ensure that no <strong>side</strong> appears more than once in the debate."
 msgstr "crwdns33284:0crwdne33284:0"
 
 #. Translators: This is in a list of instructions.
@@ -548,12 +689,16 @@ msgid "<strong>Save</strong> the changes."
 msgstr "crwdns33286:0crwdne33286:0"
 
 #: tournaments/templates/fix_debate_teams.html
-msgid "Once you've fixed all the debates, you should then be able to return to whatever page you were originally on without the error reoccurring."
+msgid ""
+"Once you've fixed all the debates, you should then be able to return to "
+"whatever page you were originally on without the error reoccurring."
 msgstr "crwdns33288:0crwdne33288:0"
 
 #: tournaments/templates/fix_debate_teams.html
 #, python-format
-msgid "You can also see all the debates in the <a href=\"%(edit_debates_url)s\" target=\"_blank\">Debates section of the Edit Database Area</a>."
+msgid ""
+"You can also see all the debates in the <a href=\"%(edit_debates_url)s\" "
+"target=\"_blank\">Debates section of the Edit Database Area</a>."
 msgstr "crwdns33290:0%(edit_debates_url)scrwdne33290:0"
 
 #: tournaments/templates/fix_debate_teams.html
@@ -587,7 +732,9 @@ msgid "It looks like all debates are in good shape!"
 msgstr "crwdns33304:0crwdne33304:0"
 
 #: tournaments/templates/fix_debate_teams.html
-msgid "If you keep getting redirected to this page and you're not sure why, please contact the developers of Tabbycat."
+msgid ""
+"If you keep getting redirected to this page and you're not sure why, please "
+"contact the developers of Tabbycat."
 msgstr "crwdns33306:0crwdne33306:0"
 
 #: tournaments/templates/public_tournament_index.html
@@ -596,7 +743,8 @@ msgid "Welcome to %(tournament)s"
 msgstr "crwdns51452:0%(tournament)scrwdne51452:0"
 
 #: tournaments/templates/public_tournament_index.html
-msgid "There is currently no public information available for this tournament."
+msgid ""
+"There is currently no public information available for this tournament."
 msgstr "crwdns33310:0crwdne33310:0"
 
 #: tournaments/templates/public_tournament_index.html
@@ -678,6 +826,11 @@ msgid "%(category)s Break"
 msgstr "crwdns51462:0%(category)scrwdne51462:0"
 
 #: tournaments/templates/public_tournament_index.html
+#, python-format
+msgid "%(category)s Bracket"
+msgstr "crwdns54315:0%(category)scrwdne54315:0"
+
+#: tournaments/templates/public_tournament_index.html
 msgid "Breaking Adjudicators"
 msgstr "crwdns33344:0crwdne33344:0"
 
@@ -726,6 +879,14 @@ msgstr "crwdns33360:0crwdne33360:0"
 #, python-format
 msgid "Schedule is in time zone: %(schedule_timezone_label)s"
 msgstr "crwdns53640:0%(schedule_timezone_label)scrwdne53640:0"
+
+#: tournaments/templates/public_tournament_schedule.html
+msgid "Download the iCalendar file to add these events to your calendar app."
+msgstr "crwdns54317:0crwdne54317:0"
+
+#: tournaments/templates/public_tournament_schedule.html
+msgid "Add schedule to calendar"
+msgstr "crwdns54319:0crwdne54319:0"
 
 #: tournaments/templates/round_complete_check.html
 msgid "Confirm Round Completion"
@@ -777,8 +938,14 @@ msgstr "crwdns51470:0%(round)scrwdne51470:0"
 
 #: tournaments/templates/round_complete_check.html
 #, python-format
-msgid "The following prior round has not yet been completed: %(prior_rounds_not_completed)s. You should complete it before marking this round as completed."
-msgid_plural "The following prior rounds have not yet been completed: %(prior_rounds_not_completed)s. You should complete those before marking this round as completed."
+msgid ""
+"The following prior round has not yet been completed: "
+"%(prior_rounds_not_completed)s. You should complete it before marking this "
+"round as completed."
+msgid_plural ""
+"The following prior rounds have not yet been completed: "
+"%(prior_rounds_not_completed)s. You should complete those before marking "
+"this round as completed."
 msgstr[0] "crwdns34584:1%(prior_rounds_not_completed)scrwdne34584:1"
 msgstr[1] "crwdns34584:5%(prior_rounds_not_completed)scrwdne34584:5"
 
@@ -789,19 +956,37 @@ msgstr "crwdns51472:0%(round)scrwdne51472:0"
 
 #: tournaments/templates/round_complete_check.html
 #, python-format
-msgid "There is still %(num_unconfirmed)s ballot that is not confirmed. You should <strong>not</strong> proceed to the next round until all ballots are confirmed."
-msgid_plural "There are still %(num_unconfirmed)s ballots that are not confirmed. You should <strong>not</strong> proceed to the next round until all ballots are confirmed."
+msgid ""
+"There is still %(num_unconfirmed)s ballot that is not confirmed. You should "
+"<strong>not</strong> proceed to the next round until all ballots are "
+"confirmed."
+msgid_plural ""
+"There are still %(num_unconfirmed)s ballots that are not confirmed. You "
+"should <strong>not</strong> proceed to the next round until all ballots are "
+"confirmed."
 msgstr[0] "crwdns33380:1%(num_unconfirmed)scrwdne33380:1"
 msgstr[1] "crwdns33380:5%(num_unconfirmed)scrwdne33380:5"
 
 #: tournaments/templates/round_complete_check.html
-msgid "<p>This round is a silent round.</p> <p> Even though public view of results is enabled, results for <em>this</em> round will still be hidden from public view after completing this round. <p> <p> You can change whether this round is silent using the button above. </p>"
+msgid ""
+"<p>This round is a silent round.</p> <p> Even though public view of results "
+"is enabled, results for <em>this</em> round will still be hidden from public"
+" view after completing this round. <p> <p> You can change whether this round"
+" is silent using the button above. </p>"
 msgstr "crwdns52409:0crwdne52409:0"
 
 #: tournaments/templates/round_complete_check.html
 #, python-format
-msgid "<p><strong> Results for %(round)s will be published online once you mark this round as complete! </strong></p> <p> This round is <em>not</em> a silent round, and public view of results is enabled. </p> <p> If you want to keep the results for just this round hidden, you can mark this round as silent using the button above. </p> <p> If you want to disable the public view of results, you can do so in the <a href=\"%(public_features_url)s\">tournament configuration</a>. </p>"
-msgstr "crwdns52411:0%(round)scrwdnd52411:0%(public_features_url)scrwdne52411:0"
+msgid ""
+"<p><strong> Results for %(round)s will be published online once you mark "
+"this round as complete! </strong></p> <p> This round is <em>not</em> a "
+"silent round, and public view of results is enabled. </p> <p> If you want to"
+" keep the results for just this round hidden, you can mark this round as "
+"silent using the button above. </p> <p> If you want to disable the public "
+"view of results, you can do so in the <a "
+"href=\"%(public_features_url)s\">tournament configuration</a>. </p>"
+msgstr ""
+"crwdns52411:0%(round)scrwdnd52411:0%(public_features_url)scrwdne52411:0"
 
 #: tournaments/templates/set_current_round.html
 msgid "Back to Configuration"
@@ -809,18 +994,27 @@ msgstr "crwdns33388:0crwdne33388:0"
 
 #: tournaments/templates/set_current_round.html
 #, python-format
-msgid "No round is currently set. In order for Tabbycat to work, please set the <strong>current round</strong> of the tournament <strong>%(tournament)s</strong>."
+msgid ""
+"No round is currently set. In order for Tabbycat to work, please set the "
+"<strong>current round</strong> of the tournament "
+"<strong>%(tournament)s</strong>."
 msgstr "crwdns51476:0%(tournament)scrwdne51476:0"
 
 #: tournaments/templates/set_current_round.html
 #, python-format
-msgid "On this page, you can set the <strong>current round</strong> of the tournament <strong>%(tournament)s</strong>."
+msgid ""
+"On this page, you can set the <strong>current round</strong> of the "
+"tournament <strong>%(tournament)s</strong>."
 msgstr "crwdns51478:0%(tournament)scrwdne51478:0"
 
 #: tournaments/templates/set_current_round.html
 #, python-format
-msgid "The tournament <strong>%(tournament)s</strong> has no rounds. You'll need to <a href=\"%(round_changelist_url)s\">add rounds and associate them with this tournament</a> before you can set the current round."
-msgstr "crwdns51480:0%(tournament)scrwdnd51480:0%(round_changelist_url)scrwdne51480:0"
+msgid ""
+"The tournament <strong>%(tournament)s</strong> has no rounds. You'll need to"
+" <a href=\"%(round_changelist_url)s\">add rounds and associate them with "
+"this tournament</a> before you can set the current round."
+msgstr ""
+"crwdns51480:0%(tournament)scrwdnd51480:0%(round_changelist_url)scrwdne51480:0"
 
 #: tournaments/templates/set_current_round.html
 msgctxt "button"
@@ -833,7 +1027,9 @@ msgid "Set Round Weights for Tapered Scoring"
 msgstr "crwdns52239:0crwdne52239:0"
 
 #: tournaments/templates/set_round_weights.html
-msgid "Round weights are coefficients for the points received in each round. A team would get triple their team points obtained in a round with a weight of 3."
+msgid ""
+"Round weights are coefficients for the points received in each round. A team"
+" would get triple their team points obtained in a round with a weight of 3."
 msgstr "crwdns52145:0crwdne52145:0"
 
 #: tournaments/templates/set_round_weights.html
@@ -846,7 +1042,9 @@ msgid "Welcome!"
 msgstr "crwdns33396:0crwdne33396:0"
 
 #: tournaments/templates/site_index.html
-msgid "It looks like there aren't any tournaments on this site. Would you like to create one?"
+msgid ""
+"It looks like there aren't any tournaments on this site. Would you like to "
+"create one?"
 msgstr "crwdns33404:0crwdne33404:0"
 
 #: tournaments/templates/site_index.html
@@ -893,7 +1091,12 @@ msgstr "crwdns33422:0crwdne33422:0"
 
 #: tournaments/templates/tournament_index.html
 #, python-format
-msgid "We hope you've enjoyed using Tabbycat for your tournament. We would appreciate if you would make a donation to the project in order to support its ongoing development and maintenance. For a tournament of this size, we suggest a donation of <strong>$%(amount)s</strong>. <a href=\"https://opencollective.com/tabbycat\">Learn more about donating.</a>"
+msgid ""
+"We hope you've enjoyed using Tabbycat for your tournament. We would "
+"appreciate if you would make a donation to the project in order to support "
+"its ongoing development and maintenance. For a tournament of this size, we "
+"suggest a donation of <strong>$%(amount)s</strong>. <a "
+"href=\"https://opencollective.com/tabbycat\">Learn more about donating.</a>"
 msgstr "crwdns52415:0%(amount)scrwdne52415:0"
 
 #: tournaments/templates/tournament_index.html
@@ -901,13 +1104,22 @@ msgid "Welcome to your new tournament!"
 msgstr "crwdns33426:0crwdne33426:0"
 
 #: tournaments/templates/tournament_index.html
-msgid "The next step is to import your initial tournament data: the institutions, teams, adjudicators and rooms that are in your tournament. There are a number of ways to do this. For small-to-medium tournaments, the simple importer is your best bet."
+msgid ""
+"The next step is to import your initial tournament data: the institutions, "
+"teams, adjudicators and rooms that are in your tournament. There are a "
+"number of ways to do this. For small-to-medium tournaments, the simple "
+"importer is your best bet."
 msgstr "crwdns51486:0crwdne51486:0"
 
-#. Translators: The documentation where the link goes to is in English; translations should mention this with "(in English)" after the link.
+#. Translators: The documentation where the link goes to is in English;
+#. translations should mention this with "(in English)" after the link.
 #: tournaments/templates/tournament_index.html
 #, python-format
-msgid "For more information, please consult our <a href=\"https://tabbycat.readthedocs.io/en/%(readthedocs_version)s/use/importing-data.html\" class=\"alert-link\" target=\"_blank\"> documentation on importing initial data</a>."
+msgid ""
+"For more information, please consult our <a "
+"href=\"https://tabbycat.readthedocs.io/en/%(readthedocs_version)s/use/importing-"
+"data.html\" class=\"alert-link\" target=\"_blank\"> documentation on "
+"importing initial data</a>."
 msgstr "crwdns33430:0%(readthedocs_version)scrwdne33430:0"
 
 #: tournaments/templates/tournament_index.html
@@ -945,8 +1157,14 @@ msgid "Public area for <strong>%(tn)s</strong>"
 msgstr "crwdns33402:0%(tn)scrwdne33402:0"
 
 #: tournaments/templates/tournament_schedule_edit.html
-msgid "This page allows you to set the public schedule for the tournament."
-msgstr "crwdns53642:0crwdne53642:0"
+msgid "View Public Schedule"
+msgstr "crwdns54321:0crwdne54321:0"
+
+#: tournaments/templates/tournament_schedule_edit.html
+msgid ""
+"Events are grouped by day and ordered by start time. Drag an event into "
+"another row's time slot to reorder it."
+msgstr "crwdns54323:0crwdne54323:0"
 
 #: tournaments/templates/tournament_schedule_edit.html
 msgid "Save Schedule"
@@ -1069,6 +1287,30 @@ msgid "2nd team"
 msgstr "crwdns52864:0crwdne52864:0"
 
 #: tournaments/utils.py
+msgid "plaintiff/prosecution"
+msgstr "crwdns54325:0crwdne54325:0"
+
+#: tournaments/utils.py
+msgid "defense"
+msgstr "crwdns54327:0crwdne54327:0"
+
+#: tournaments/utils.py
+msgid "plaintiff/prosecution team"
+msgstr "crwdns54329:0crwdne54329:0"
+
+#: tournaments/utils.py
+msgid "defense team"
+msgstr "crwdns54331:0crwdne54331:0"
+
+#: tournaments/utils.py
+msgid "Pl"
+msgstr "crwdns54333:0crwdne54333:0"
+
+#: tournaments/utils.py
+msgid "Def"
+msgstr "crwdns54335:0crwdne54335:0"
+
+#: tournaments/utils.py
 msgid "opening government"
 msgstr "crwdns33518:0crwdne33518:0"
 
@@ -1122,14 +1364,28 @@ msgstr "crwdns33540:0crwdne33540:0"
 
 #: tournaments/utils.py
 #, python-format
+msgid "Round %(slot)d (%(panel)s)"
+msgstr "crwdns54337:0%(slot)dcrwdnd54337:0%(panel)scrwdne54337:0"
+
+#: tournaments/utils.py
+#, python-format
+msgid "R%(slot)d%(panel)s"
+msgstr "crwdns54339:0%(slot)dcrwdnd54339:0%(panel)scrwdne54339:0"
+
+#: tournaments/utils.py
+#, python-format
 msgid "Round %(number)d"
 msgstr "crwdns33542:0%(number)dcrwdne33542:0"
 
-#. Translators: This stands for "Round %(number)d".
 #: tournaments/utils.py
 #, python-format
 msgid "R%(number)d"
 msgstr "crwdns33544:0%(number)dcrwdne33544:0"
+
+#: tournaments/utils.py
+#, python-format
+msgid "R%(slot)-d%(panel)s"
+msgstr "crwdns54341:0%(slot)-dcrwdnd54341:0%(panel)scrwdne54341:0"
 
 #: tournaments/utils.py
 msgid "bye"
@@ -1152,27 +1408,39 @@ msgstr "crwdns52419:0%(round)scrwdne52419:0"
 
 #: tournaments/views.py
 #, python-format
-msgid "%(round)s has been marked as completed. All rounds are now completed, so you're done with the tournament! Congratulations!"
+msgid ""
+"%(round)s has been marked as completed. All rounds are now completed, so "
+"you're done with the tournament! Congratulations!"
 msgstr "crwdns35326:0%(round)scrwdne35326:0"
 
 #: tournaments/views.py
 #, python-format
-msgid "%(round)s has been marked as completed. That's the last round in that sequence! Going back to the first round that hasn't been marked as completed."
+msgid ""
+"%(round)s has been marked as completed. That's the last round in that "
+"sequence! Going back to the first round that hasn't been marked as "
+"completed."
 msgstr "crwdns34594:0%(round)scrwdne34594:0"
 
 #: tournaments/views.py
 #, python-format
-msgid "%(round)s has been marked as completed. You've made it to the end of the preliminary rounds! Congratulations! The next step is to generate the break."
+msgid ""
+"%(round)s has been marked as completed. You've made it to the end of the "
+"preliminary rounds! Congratulations! The next step is to generate the break."
 msgstr "crwdns35328:0%(round)scrwdne35328:0"
 
 #: tournaments/views.py
 #, python-format
-msgid "%(round)s has been marked as completed. That was the last preliminary round, but one or more preliminary rounds are still not completed. Going back to the first incomplete preliminary round."
+msgid ""
+"%(round)s has been marked as completed. That was the last preliminary round,"
+" but one or more preliminary rounds are still not completed. Going back to "
+"the first incomplete preliminary round."
 msgstr "crwdns34598:0%(round)scrwdne34598:0"
 
 #: tournaments/views.py
 #, python-format
-msgid "%(this_round)s has been marked as completed. Moving on to %(next_round)s! Woohoo! Keep it up!"
+msgid ""
+"%(this_round)s has been marked as completed. Moving on to %(next_round)s! "
+"Woohoo! Keep it up!"
 msgstr "crwdns34600:0%(this_round)scrwdnd34600:0%(next_round)scrwdne34600:0"
 
 #: tournaments/views.py
@@ -1188,6 +1456,11 @@ msgid "88-team BP dataset"
 msgstr "crwdns33564:0crwdne33564:0"
 
 #: tournaments/views.py
+#, python-format
+msgid "Tournament %(name)s is ready."
+msgstr "crwdns54343:0%(name)scrwdne54343:0"
+
+#: tournaments/views.py
 msgid "Set Current Round"
 msgstr "crwdns33386:0crwdne33386:0"
 
@@ -1199,3 +1472,7 @@ msgstr "crwdns52247:0crwdne52247:0"
 msgid "Tournament Schedule"
 msgstr "crwdns53646:0crwdne53646:0"
 
+#: tournaments/views.py
+#, python-format
+msgid "%(tournament)s Schedule"
+msgstr "crwdns54345:0%(tournament)scrwdne54345:0"

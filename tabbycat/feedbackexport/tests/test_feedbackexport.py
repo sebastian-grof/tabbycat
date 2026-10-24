@@ -4,7 +4,7 @@ from unittest.mock import patch
 
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
-from django.test import TestCase, override_settings
+from django.test import override_settings, TestCase
 from django.urls import reverse
 from django.utils import timezone
 
@@ -12,24 +12,15 @@ from adjallocation.models import DebateAdjudicator
 from adjfeedback.models import AdjudicatorFeedback, AdjudicatorFeedbackQuestion
 from breakqual.models import BreakCategory
 from draw.models import Debate, DebateTeam
+from feedbackexport.models import AdjudicatorStatsExportEvent, FeedbackExportEvent
+from feedbackexport.services import (adjudicator_stats_event_needs_reexport, build_adjudicator_stats_payload, build_feedback_payload, queue_adjudicator_stats_export, queue_feedback_export,
+                                     send_adjudicator_stats_event, send_event, validate_feedback_payload)
 from participants.models import Adjudicator, Institution, Team
 from registration.models import Answer, Question
 from results.models import BallotSubmission, Submission
 from seasonbreaks.models import BreakLeague, BreakRegion, BreakSeason, BreakTournament
 from seasonbreaks.services import freeze_break_tournament
 from tournaments.models import Round, Tournament
-
-from feedbackexport.models import AdjudicatorStatsExportEvent, FeedbackExportEvent
-from feedbackexport.services import (
-    adjudicator_stats_event_needs_reexport,
-    build_adjudicator_stats_payload,
-    build_feedback_payload,
-    queue_adjudicator_stats_export,
-    queue_feedback_export,
-    send_adjudicator_stats_event,
-    send_event,
-    validate_feedback_payload,
-)
 
 
 class FakeHTTPResponse:
@@ -337,7 +328,7 @@ class FeedbackExportTestCase(TestCase):
 
     @override_settings(FEEDBACK_EXPORT_ENABLED=False)
     def test_index_requires_feedback_export_permission_or_superuser(self):
-        user = get_user_model().objects.create_user(username='tab', password='pw')
+        get_user_model().objects.create_user(username='tab', password='pw')
         self.client.login(username='tab', password='pw')
         self.assertEqual(self.client.get(reverse('feedbackexport-index')).status_code, 403)
 

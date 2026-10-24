@@ -5,8 +5,7 @@ from draw.models import Debate
 from participants.models import Adjudicator, Institution
 from results.forms import BallotTextFeedbackForm
 from results.models import BallotSubmission, BallotTextFeedback
-from results.views import (AdjudicatorPrivateUrlBallotScoresheetView, BasePublicBallotScoresheetsView,
-                           ballot_text_feedbacks_for_debate)
+from results.views import AdjudicatorPrivateUrlBallotScoresheetView, ballot_text_feedbacks_for_debate, BasePublicBallotScoresheetsView
 from tournaments.models import Round, Tournament
 from utils.mixins import CacheMixin
 from venues.models import Venue
@@ -91,7 +90,7 @@ class BallotTextFeedbackFormTests(TestCase):
 
         view = AdjudicatorPrivateUrlBallotScoresheetView()
         view.object = self.debate
-        view.tournament = self.tournament
+        view._tournament_from_url = self.tournament
         view.kwargs = {'url_key': self.adjudicator.url_key}
 
         self.assertEqual(view._get_editable_ballot(), judge_ballot)
@@ -106,7 +105,7 @@ class BallotTextFeedbackFormTests(TestCase):
 
         view = AdjudicatorPrivateUrlBallotScoresheetView()
         view.object = self.debate
-        view.tournament = self.tournament
+        view._tournament_from_url = self.tournament
         view.kwargs = {'url_key': self.adjudicator.url_key}
 
         self.assertIsNone(view._get_editable_ballot())

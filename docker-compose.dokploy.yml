@@ -32,6 +32,7 @@ services:
       retries: 5
 
   web:
+    image: ${TABBYCAT_IMAGE:-tabbycat:local}
     build: .
     container_name: tabbycat-web
     working_dir: /tcd
@@ -40,6 +41,7 @@ services:
       - IN_DOCKER=1
       - DEBUG=0
       - USING_NGINX=1
+      - RUN_MIGRATIONS=${RUN_MIGRATIONS:-1}
       - DATABASE_URL=postgresql://tabbycat:${DATABASE_PASSWORD}@postgres:5432/tabbycat
       - REDIS_URL=redis://redis:6379
       - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
@@ -69,6 +71,7 @@ services:
     restart: unless-stopped
 
   worker:
+    image: ${TABBYCAT_IMAGE:-tabbycat:local}
     build: .
     container_name: tabbycat-worker
     working_dir: /tcd

@@ -1,8 +1,8 @@
 import unittest
 from types import SimpleNamespace
 
-from ..manager import RandomDrawManager
 from ..generator.pairing import Pairing
+from ..manager import RandomDrawManager
 from ..side_allocation_pairings import apply_postallocated_sides
 from ..tests.utils import TestTeam
 from ..types import DebateSide
@@ -45,6 +45,19 @@ class PostAllocatedSidesTest(unittest.TestCase):
 
         self.assertEqual(pairing.teams, [team2, team1])
 
+    def test_apply_postallocated_sides_balances_same_side_conflict(self):
+        team1 = TestTeam(1, "A", side_history=[2, 0])
+        team2 = TestTeam(2, "B", side_history=[0, 2])
+        pairing = Pairing(teams=[team1, team2], bracket=0, room_rank=1)
+        self.set_allocations({
+            team1.id: DebateSide.AFF,
+            team2.id: DebateSide.AFF,
+        })
+
+        apply_postallocated_sides(self.round, [pairing])
+
+        self.assertEqual(pairing.teams, [team2, team1])
+
 
 class RandomDrawByeFallbackTest(unittest.TestCase):
 
@@ -75,16 +88,3 @@ class RandomDrawByeFallbackTest(unittest.TestCase):
         self.assertEqual(len(debating_teams), 2)
         self.assertEqual(len(byes), 1)
         self.assertCountEqual(debating_teams + byes, teams)
-
-    def test_apply_postallocated_sides_balances_same_side_conflict(self):
-        team1 = TestTeam(1, "A", side_history=[2, 0])
-        team2 = TestTeam(2, "B", side_history=[0, 2])
-        pairing = Pairing(teams=[team1, team2], bracket=0, room_rank=1)
-        self.set_allocations({
-            team1.id: DebateSide.AFF,
-            team2.id: DebateSide.AFF,
-        })
-
-        apply_postallocated_sides(self.round, [pairing])
-
-        self.assertEqual(pairing.teams, [team2, team1])

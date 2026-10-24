@@ -13,23 +13,11 @@ from django.views.generic import RedirectView, TemplateView
 from adjfeedback.models import AdjudicatorFeedback
 from tournaments.models import Tournament
 
-from .forms import FeedbackExportAccessForm, FeedbackExportFilterForm, access_rows
-from .models import (
-    AdjudicatorStatsExportEvent,
-    FeedbackExportEvent,
-    FeedbackExportPermission,
-)
+from .forms import access_rows, FeedbackExportAccessForm, FeedbackExportFilterForm
+from .models import AdjudicatorStatsExportEvent, FeedbackExportEvent, FeedbackExportPermission
 from .permissions import can_manage_feedback_export, has_feedback_export_permission
-from .services import (
-    adjudicator_stats_event_needs_reexport,
-    adjudicator_stats_export_enabled,
-    adjudicator_stats_export_endpoint,
-    queue_adjudicator_stats_export,
-    queue_confirmed_feedback,
-    queue_feedback_export,
-    send_pending_adjudicator_stats_events,
-    send_pending_events,
-)
+from .services import (adjudicator_stats_event_needs_reexport, adjudicator_stats_export_enabled, adjudicator_stats_export_endpoint, queue_adjudicator_stats_export, queue_confirmed_feedback,
+                       queue_feedback_export, send_pending_adjudicator_stats_events, send_pending_events)
 
 
 class FeedbackExportPermissionMixin(UserPassesTestMixin):
@@ -157,7 +145,7 @@ class JudgeDataExportView(FeedbackExportPermissionMixin, TemplateView):
         elif action in {'retry_failed_feedback', 'retry_failed'}:
             count = 0
             for event in FeedbackExportEvent.objects.filter(
-                status__in=[FeedbackExportEvent.Status.FAILED, FeedbackExportEvent.Status.PERMANENT_FAILED]
+                status__in=[FeedbackExportEvent.Status.FAILED, FeedbackExportEvent.Status.PERMANENT_FAILED],
             ).select_related('feedback'):
                 queue_feedback_export(event.feedback, force=True, reset_attempts=True)
                 count += 1

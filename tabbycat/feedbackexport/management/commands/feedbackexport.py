@@ -3,19 +3,11 @@ import json
 from django.core.management.base import BaseCommand, CommandError
 
 from adjfeedback.models import AdjudicatorFeedback
+from feedbackexport.models import AdjudicatorStatsExportEvent, FeedbackExportEvent
+from feedbackexport.services import (build_adjudicator_stats_payload, build_feedback_payload, queue_adjudicator_stats_export, queue_confirmed_feedback, queue_feedback_export,
+                                     send_pending_adjudicator_stats_events, send_pending_events)
 from seasonbreaks.models import BreakSeason, BreakTournament
 from tournaments.models import Tournament
-
-from feedbackexport.models import AdjudicatorStatsExportEvent, FeedbackExportEvent
-from feedbackexport.services import (
-    build_adjudicator_stats_payload,
-    build_feedback_payload,
-    queue_adjudicator_stats_export,
-    queue_confirmed_feedback,
-    queue_feedback_export,
-    send_pending_adjudicator_stats_events,
-    send_pending_events,
-)
 
 
 class Command(BaseCommand):
@@ -82,7 +74,7 @@ class Command(BaseCommand):
         if command == 'retry-failed':
             count = 0
             for event in FeedbackExportEvent.objects.filter(
-                status__in=[FeedbackExportEvent.Status.FAILED, FeedbackExportEvent.Status.PERMANENT_FAILED]
+                status__in=[FeedbackExportEvent.Status.FAILED, FeedbackExportEvent.Status.PERMANENT_FAILED],
             ).select_related('feedback'):
                 queue_feedback_export(event.feedback, force=True, reset_attempts=options['reset_attempts'])
                 count += 1
@@ -132,7 +124,7 @@ class Command(BaseCommand):
                 status__in=[
                     AdjudicatorStatsExportEvent.Status.FAILED,
                     AdjudicatorStatsExportEvent.Status.PERMANENT_FAILED,
-                ]
+                ],
             ).select_related('tournament'):
                 if event.tournament_id:
                     queue_adjudicator_stats_export(

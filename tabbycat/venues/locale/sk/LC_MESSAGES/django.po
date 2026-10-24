@@ -1,3 +1,4 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: tabbycat\n"
@@ -18,11 +19,14 @@ msgstr "Miestnosti"
 
 #: venues/consumers.py:18
 msgid "Draw is already released, unrelease draw to assign rooms."
-msgstr "Pairing je už zverejnený. Zruš zverejnenie pairingu, aby si mohol priradiť miestnosti."
+msgstr ""
+"Pairing je už zverejnený. Zruš zverejnenie pairingu, aby si mohol priradiť "
+"miestnosti."
 
 #: venues/consumers.py:21
 msgid "Draw is not confirmed, confirm draw to assign rooms."
-msgstr "Pairing nie je potvrdený. Potvrď pairing, aby si mohol priradiť miestnosti."
+msgstr ""
+"Pairing nie je potvrdený. Potvrď pairing, aby si mohol priradiť miestnosti."
 
 #: venues/consumers.py:28
 msgid "Successfully auto-allocated rooms to debates."
@@ -37,8 +41,12 @@ msgid "priority"
 msgstr "priorita"
 
 #: venues/models.py:14
-msgid "Rooms with a higher priority number will be preferred when allocating rooms to debates"
-msgstr "Miestnosti s vyšším číslom priority budú uprednostnené pri priraďovaní miestností k debatám"
+msgid ""
+"Rooms with a higher priority number will be preferred when allocating rooms "
+"to debates"
+msgstr ""
+"Miestnosti s vyšším číslom priority budú uprednostnené pri priraďovaní "
+"miestností k debatám"
 
 #: venues/models.py:17 venues/models.py:80
 msgid "tournament"
@@ -49,8 +57,12 @@ msgid "URL"
 msgstr "URL"
 
 #: venues/models.py:19
-msgid "A URL that contains extra information about this room, e.g. a map or a meeting link (for online tournaments)"
-msgstr "URL s ďalšími informáciami o tejto miestnosti, napr. mapa alebo odkaz na stretnutie (pre online turnaje)"
+msgid ""
+"A URL that contains extra information about this room, e.g. a map or a "
+"meeting link (for online tournaments)"
+msgstr ""
+"URL s ďalšími informáciami o tejto miestnosti, napr. mapa alebo odkaz na "
+"stretnutie (pre online turnaje)"
 
 #: venues/models.py:26
 msgid "room"
@@ -73,16 +85,28 @@ msgid "Display as suffix"
 msgstr "Zobraziť ako príponu"
 
 #: venues/models.py:69
-msgid "Name of category, e.g., \"Purple\", \"Step-free access\", \"Close to tab room\". This name is shown when the category is prefixed or suffixed to a room name in the draw, e.g., \"Purple – G05\"."
-msgstr "Názov kategórie, napr. „Fialová”, „Bezbariérový prístup”, „Blízko tab room”. Tento názov sa zobrazuje, keď sa kategória pridáva ako predpona alebo prípona k názvu miestnosti v pairingu, napr. „Fialová – G05”."
+msgid ""
+"Name of category, e.g., \"Purple\", \"Step-free access\", \"Close to tab "
+"room\". This name is shown when the category is prefixed or suffixed to a "
+"room name in the draw, e.g., \"Purple – G05\"."
+msgstr ""
+"Názov kategórie, napr. „Fialová”, „Bezbariérový prístup”, „Blízko tab room”."
+" Tento názov sa zobrazuje, keď sa kategória pridáva ako predpona alebo "
+"prípona k názvu miestnosti v pairingu, napr. „Fialová – G05”."
 
 #: venues/models.py:73
 msgid "description"
 msgstr "popis"
 
 #: venues/models.py:74
-msgid "Description, as the predicate of a sentence, e.g. \"has step-free access\", \"is close to the briefing hall\". This description follows \"This room\" when shown in tooltips, e.g., \"This room is close to the briefing hall.\"."
-msgstr "Popis ako prísudok vety, napr. „má bezbariérový prístup”, „je blízko zasadačky”. Tento popis nasleduje za „Táto miestnosť” pri zobrazení v tiptitkách, napr. „Táto miestnosť je blízko zasadačky.”."
+msgid ""
+"Description, as the predicate of a sentence, e.g. \"has step-free access\", "
+"\"is close to the briefing hall\". This description follows \"This room\" "
+"when shown in tooltips, e.g., \"This room is close to the briefing hall.\"."
+msgstr ""
+"Popis ako prísudok vety, napr. „má bezbariérový prístup”, „je blízko "
+"zasadačky”. Tento popis nasleduje za „Táto miestnosť” pri zobrazení v "
+"tiptitkách, napr. „Táto miestnosť je blízko zasadačky.”."
 
 #: venues/models.py:84
 msgid "display in room name"
@@ -97,8 +121,12 @@ msgid "display in public tooltip"
 msgstr "zobraziť vo verejnom tiptitku"
 
 #: venues/models.py:88
-msgid "Displays the description in the tooltip for the room on public pages. The description, if not blank, will always show on admin pages."
-msgstr "Zobrazuje popis v tiptitku miestnosti na verejných stránkach. Popis, ak nie je prázdny, sa vždy zobrazí na admin stránkach."
+msgid ""
+"Displays the description in the tooltip for the room on public pages. The "
+"description, if not blank, will always show on admin pages."
+msgstr ""
+"Zobrazuje popis v tiptitku miestnosti na verejných stránkach. Popis, ak nie "
+"je prázdny, sa vždy zobrazí na admin stránkach."
 
 #: venues/models.py:92
 msgid "room category"
@@ -134,13 +162,25 @@ msgid "Room Categories"
 msgstr "Kategórie miestností"
 
 #: venues/templates/venue_categories_edit.html:9
-msgid "Room categories allow you to group rooms together into \"zones\" to display in the draw and make navigation easier for participants, and/or specify constraints on room allocation that require teams, adjudicators or institutions to be put in a room in a particular category."
-msgstr "Kategórie miestností ti umožňujú zoskupovať miestnosti do „zón” na zobrazenie v pairingu a uľahčenie orientácie účastníkom, a/alebo definovať obmedzenia priraďovania miestností, ktoré vyžadujú, aby tímy, rozhodcovia alebo inštitúcie boli v miestnosti určitej kategórie."
+msgid ""
+"Room categories allow you to group rooms together into \"zones\" to display "
+"in the draw and make navigation easier for participants, and/or specify "
+"constraints on room allocation that require teams, adjudicators or "
+"institutions to be put in a room in a particular category."
+msgstr ""
+"Kategórie miestností ti umožňujú zoskupovať miestnosti do „zón” na "
+"zobrazenie v pairingu a uľahčenie orientácie účastníkom, a/alebo definovať "
+"obmedzenia priraďovania miestností, ktoré vyžadujú, aby tímy, rozhodcovia "
+"alebo inštitúcie boli v miestnosti určitej kategórie."
 
 #: venues/templates/venue_categories_edit.html:14
 #, python-format
-msgid "If you want to delete room categories, use the <a href=\"%(edit_db_url)s\" class=\"alert-link\">Edit Database</a> area."
-msgstr "Ak chceš vymazať kategórie miestností, použi oblasť <a href=\"%(edit_db_url)s\" class=\"alert-link\">Upraviť databázu</a>."
+msgid ""
+"If you want to delete room categories, use the <a href=\"%(edit_db_url)s\" "
+"class=\"alert-link\">Edit Database</a> area."
+msgstr ""
+"Ak chceš vymazať kategórie miestností, použi oblasť <a "
+"href=\"%(edit_db_url)s\" class=\"alert-link\">Upraviť databázu</a>."
 
 #: venues/templates/venue_categories_edit.html:20
 msgid "Save Room Categories"
@@ -152,8 +192,20 @@ msgid "Room Constraints"
 msgstr "Obmedzenia miestností"
 
 #: venues/templates/venue_constraints_edit.html:9
-msgid "Room constraints tell the room allocator to try to keep the specified team or adjudicator, or all teams (but not adjudicators) from the specified institution, in a room in the given category. The \"priority\" field resolves conflicting constraints: the higher priority takes precedence. You can also use the priority field to specify \"lower-preference\" constraints, which are taken if a higher-priority constraint couldn't be met."
-msgstr "Obmedzenia miestností inštruujú priraďovač miestností, aby sa pokúsil umiestniť zadaný tím alebo rozhodcu, alebo všetky tímy (nie rozhodcov) zo zadanej inštitúcie do miestnosti v danej kategórii. Pole „priorita” rieši konfliktné obmedzenia: vyššia priorita má prednosť. Pole priorita môžeš použiť aj na definovanie obmedzení s „nižšou preferenciou”, ktoré sa uplatnia, ak obmedzenie s vyššou prioritou nemohlo byť splnené."
+msgid ""
+"Room constraints tell the room allocator to try to keep the specified team "
+"or adjudicator, or all teams (but not adjudicators) from the specified "
+"institution, in a room in the given category. The \"priority\" field "
+"resolves conflicting constraints: the higher priority takes precedence. You "
+"can also use the priority field to specify \"lower-preference\" constraints,"
+" which are taken if a higher-priority constraint couldn't be met."
+msgstr ""
+"Obmedzenia miestností inštruujú priraďovač miestností, aby sa pokúsil "
+"umiestniť zadaný tím alebo rozhodcu, alebo všetky tímy (nie rozhodcov) zo "
+"zadanej inštitúcie do miestnosti v danej kategórii. Pole „priorita” rieši "
+"konfliktné obmedzenia: vyššia priorita má prednosť. Pole priorita môžeš "
+"použiť aj na definovanie obmedzení s „nižšou preferenciou”, ktoré sa "
+"uplatnia, ak obmedzenie s vyššou prioritou nemohlo byť splnené."
 
 #: venues/templates/venue_constraints_edit.html:20
 msgid "Save Room Constraints"
@@ -171,13 +223,19 @@ msgstr "Miestnosť nespĺňa žiadne obmedzenie pre %(name)s"
 
 #: venues/utils.py:45
 #, python-format
-msgid "Room constraint of %(team)s met (%(category)s, via institution %(institution)s)"
-msgstr "Obmedzenie miestnosti pre %(team)s splnené (%(category)s, cez inštitúciu %(institution)s)"
+msgid ""
+"Room constraint of %(team)s met (%(category)s, via institution "
+"%(institution)s)"
+msgstr ""
+"Obmedzenie miestnosti pre %(team)s splnené (%(category)s, cez inštitúciu "
+"%(institution)s)"
 
 #: venues/utils.py:46
 #, python-format
-msgid "Room does not meet any constraint of institution %(institution)s (%(team)s)"
-msgstr "Miestnosť nespĺňa žiadne obmedzenie inštitúcie %(institution)s (%(team)s)"
+msgid ""
+"Room does not meet any constraint of institution %(institution)s (%(team)s)"
+msgstr ""
+"Miestnosť nespĺňa žiadne obmedzenie inštitúcie %(institution)s (%(team)s)"
 
 #: venues/views.py:33
 msgid "Edit Rooms"

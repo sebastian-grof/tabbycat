@@ -1,9 +1,10 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: tabbycat\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-28 12:44-0400\n"
-"PO-Revision-Date: 2023-02-05 00:56\n"
+"POT-Creation-Date: 2026-09-21 10:27+1000\n"
+"PO-Revision-Date: 2026-09-21 00:33\n"
 "Last-Translator: \n"
 "Language-Team: Talossan\n"
 "Language: tzl_TZL\n"
@@ -11,52 +12,75 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Crowdin-Project: tabbycat\n"
-"X-Crowdin-Project-ID: 364715\n"
-"X-Crowdin-Language: tzl\n"
 "X-Crowdin-File: /develop/tabbycat/adjallocation/locale/en/LC_MESSAGES/django.po\n"
 "X-Crowdin-File-ID: 922\n"
+"X-Crowdin-Language: tzl\n"
+"X-Crowdin-Project: tabbycat\n"
+"X-Crowdin-Project-ID: 364715\n"
 
 #: adjallocation/allocators/base.py
-msgid "There are no available adjudicators. Ensure there are adjudicators who have been marked as available for this round before auto-allocating."
+msgid ""
+"There are no available adjudicators. Ensure there are adjudicators who have "
+"been marked as available for this round before auto-allocating."
 msgstr "crwdns29190:0crwdne29190:0"
 
 #: adjallocation/allocators/hungarian.py
 #, python-format
-msgid "%(count)s score is larger than the maximum permitted adjudicator score (%(score).1f)."
-msgid_plural "%(count)s scores are larger than the maximum permitted adjudicator score (%(score).1f)."
-msgstr[0] "crwdns35336:1%(count)scrwdnd35336:1%(score)crwdne35336:1"
-msgstr[1] "crwdns35336:5%(count)scrwdnd35336:5%(score)crwdne35336:5"
+msgid ""
+"%(count)s score is larger than the maximum permitted adjudicator score "
+"(%(score).1f)."
+msgid_plural ""
+"%(count)s scores are larger than the maximum permitted adjudicator score "
+"(%(score).1f)."
+msgstr[0] "crwdns35336:1%(count)scrwdnd35336:1%(score).1fcrwdne35336:1"
+msgstr[1] "crwdns35336:5%(count)scrwdnd35336:5%(score).1fcrwdne35336:5"
 
 #: adjallocation/allocators/hungarian.py
 #, python-format
-msgid "%(count)s score is smaller than the minimum permitted adjudicator score (%(score).1f)."
-msgid_plural "%(count)s scores are smaller than the minimum permitted adjudicator score (%(score).1f)."
-msgstr[0] "crwdns35338:1%(count)scrwdnd35338:1%(score)crwdne35338:1"
-msgstr[1] "crwdns35338:5%(count)scrwdnd35338:5%(score)crwdne35338:5"
+msgid ""
+"%(count)s score is smaller than the minimum permitted adjudicator score "
+"(%(score).1f)."
+msgid_plural ""
+"%(count)s scores are smaller than the minimum permitted adjudicator score "
+"(%(score).1f)."
+msgstr[0] "crwdns35338:1%(count)scrwdnd35338:1%(score).1fcrwdne35338:1"
+msgstr[1] "crwdns35338:5%(count)scrwdnd35338:5%(score).1fcrwdne35338:5"
 
 #: adjallocation/allocators/hungarian.py
-msgid "There are no adjudicators eligible to be a chair or panellist. Try changing the \"Minimum feedback score required to be allocated as chair or panellist\" setting to something lower than at least some adjudicators' current scores, and try again."
+msgid ""
+"There are no adjudicators eligible to be a chair or panellist. Try changing "
+"the \"Minimum feedback score required to be allocated as chair or "
+"panellist\" setting to something lower than at least some adjudicators' "
+"current scores, and try again."
 msgstr "crwdns33822:0crwdne33822:0"
 
 #: adjallocation/allocators/hungarian.py
-msgid "There are no debates for this round. Maybe you haven't created a draw yet?"
+msgid ""
+"There are no debates for this round. Maybe you haven't created a draw yet?"
 msgstr "crwdns29196:0crwdne29196:0"
 
 #: adjallocation/allocators/hungarian.py
 #, python-format
-msgid "There are %(debate_count)s debates but only %(adj_count)s voting adjudicators."
+msgid ""
+"There are %(debate_count)s debates but only %(adj_count)s voting "
+"adjudicators."
 msgstr "crwdns33824:0%(debate_count)scrwdnd33824:0%(adj_count)scrwdne33824:0"
 
 #: adjallocation/allocators/hungarian.py
 #, python-format
-msgid "There are %(panel_debates)s panel debates but only %(panellists)s available panellists (less than %(needed)s)."
-msgstr "crwdns33826:0%(panel_debates)scrwdnd33826:0%(panellists)scrwdnd33826:0%(needed)scrwdne33826:0"
+msgid ""
+"There are %(panel_debates)s panel debates but only %(panellists)s available "
+"panellists (less than %(needed)s)."
+msgstr ""
+"crwdns33826:0%(panel_debates)scrwdnd33826:0%(panellists)scrwdnd33826:0%(needed)scrwdne33826:0"
 
 #: adjallocation/allocators/hungarian.py
 #, python-format
-msgid "There are %(debates_count)s debates but only %(voting_count)s voting adjudicators."
-msgstr "crwdns33828:0%(debates_count)scrwdnd33828:0%(voting_count)scrwdne33828:0"
+msgid ""
+"There are %(debates_count)s debates but only %(voting_count)s voting "
+"adjudicators."
+msgstr ""
+"crwdns33828:0%(debates_count)scrwdnd33828:0%(voting_count)scrwdne33828:0"
 
 #: adjallocation/apps.py
 msgid "Adjudicator Allocation"
@@ -80,8 +104,12 @@ msgstr "crwdns35340:0crwdne35340:0"
 
 #: adjallocation/consumers.py
 #, python-format
-msgid "Successfully auto-allocated adjudicators to debates. However, there was a warning:"
-msgid_plural "Successfully auto-allocated adjudicators to debates. However, there were %(count)d warnings:"
+msgid ""
+"Successfully auto-allocated adjudicators to debates. However, there was a "
+"warning:"
+msgid_plural ""
+"Successfully auto-allocated adjudicators to debates. However, there were "
+"%(count)d warnings:"
 msgstr[0] "crwdns35342:1crwdne35342:1"
 msgstr[1] "crwdns35342:5%(count)dcrwdne35342:5"
 
@@ -95,8 +123,12 @@ msgstr "crwdns33838:0crwdne33838:0"
 
 #: adjallocation/consumers.py
 #, python-format
-msgid "Successfully auto-allocated adjudicators to preformed panels. However, there was a warning:"
-msgid_plural "Successfully auto-allocated adjudicators to preformed panels. However, there were %(count)d warnings:"
+msgid ""
+"Successfully auto-allocated adjudicators to preformed panels. However, there"
+" was a warning:"
+msgid_plural ""
+"Successfully auto-allocated adjudicators to preformed panels. However, there"
+" were %(count)d warnings:"
 msgstr[0] "crwdns35346:1crwdne35346:1"
 msgstr[1] "crwdns35346:5%(count)dcrwdne35346:5"
 
@@ -105,7 +137,9 @@ msgid "Successfully auto-allocated adjudicators to preformed panels."
 msgstr "crwdns35348:0crwdne35348:0"
 
 #: adjallocation/consumers.py
-msgid "You have no break category set as 'is general' so debate importances can't be calculated."
+msgid ""
+"You have no break category set as 'is general' so debate importances can't "
+"be calculated."
 msgstr "crwdns33844:0crwdne33844:0"
 
 #: adjallocation/consumers.py
@@ -113,7 +147,9 @@ msgid "Succesfully auto-prioritised debates."
 msgstr "crwdns33846:0crwdne33846:0"
 
 #: adjallocation/consumers.py
-msgid "You have no break category set as 'is general' so panel importances can't be calculated."
+msgid ""
+"You have no break category set as 'is general' so panel importances can't be"
+" calculated."
 msgstr "crwdns33848:0crwdne33848:0"
 
 #: adjallocation/consumers.py
@@ -121,11 +157,15 @@ msgid "Succesfully auto-prioritised preformed panels."
 msgstr "crwdns33850:0crwdne33850:0"
 
 #: adjallocation/consumers.py
-msgid "Since this is the first round, the preformed panels aren't annotated with brackets and liveness."
+msgid ""
+"Since this is the first round, the preformed panels aren't annotated with "
+"brackets and liveness."
 msgstr "crwdns33852:0crwdne33852:0"
 
 #: adjallocation/consumers.py
-msgid "The previous round's draw doesn't exist, so preformed panels can't be annotated with brackets and liveness."
+msgid ""
+"The previous round's draw doesn't exist, so preformed panels can't be "
+"annotated with brackets and liveness."
 msgstr "crwdns33854:0crwdne33854:0"
 
 #: adjallocation/consumers.py
@@ -277,7 +317,9 @@ msgid "preformed panel adjudicators"
 msgstr "crwdns33890:0crwdne33890:0"
 
 #: adjallocation/preformed/base.py
-msgid "There are no preformed panels to use. Have you allocated preformed panels for this round? If not, try just auto-allocating adjudicators instead."
+msgid ""
+"There are no preformed panels to use. Have you allocated preformed panels "
+"for this round? If not, try just auto-allocating adjudicators instead."
 msgstr "crwdns33892:0crwdne33892:0"
 
 #: adjallocation/templates/preformed_index.html adjallocation/views.py
@@ -285,11 +327,19 @@ msgid "Preformed Panels"
 msgstr "crwdns33894:0crwdne33894:0"
 
 #: adjallocation/templates/preformed_index.html
-msgid "A preformed panel is a defined group of adjudicators that is specified for a round before its draw has been generated. You can then manually or automatically apply these panels during the normal adjudicator allocation process. This can make allocations faster or allow you to create more considered panels of adjudicators."
+msgid ""
+"A preformed panel is a defined group of adjudicators that is specified for a"
+" round before its draw has been generated. You can then manually or "
+"automatically apply these panels during the normal adjudicator allocation "
+"process. This can make allocations faster or allow you to create more "
+"considered panels of adjudicators."
 msgstr "crwdns33896:0crwdne33896:0"
 
 #: adjallocation/templates/preformed_index.html
-msgid "Note that only adjudicators who have been marked as 'available' for that round will be able to be allocated for that round, so you may need to set their availability in advance."
+msgid ""
+"Note that only adjudicators who have been marked as 'available' for that "
+"round will be able to be allocated for that round, so you may need to set "
+"their availability in advance."
 msgstr "crwdns33898:0crwdne33898:0"
 
 #: adjallocation/templates/preformed_index.html
@@ -299,23 +349,35 @@ msgstr "crwdns51052:0%(round)scrwdne51052:0"
 
 #: adjallocation/utils.py
 #, python-format
-msgid "Conflict: <strong>%(adjudicator)s</strong> & <strong>%(team)s</strong> (personal)"
+msgid ""
+"Conflict: <strong>%(adjudicator)s</strong> & <strong>%(team)s</strong> "
+"(personal)"
 msgstr "crwdns51054:0%(adjudicator)scrwdnd51054:0%(team)scrwdne51054:0"
 
 #: adjallocation/utils.py
 #, python-format
-msgid "Conflict: <strong>%(adjudicator)s</strong> & <strong>%(team)s</strong> via institution <strong>%(institution)s</strong>"
-msgstr "crwdns51056:0%(adjudicator)scrwdnd51056:0%(team)scrwdnd51056:0%(institution)scrwdne51056:0"
+msgid ""
+"Conflict: <strong>%(adjudicator)s</strong> & <strong>%(team)s</strong> via "
+"institution <strong>%(institution)s</strong>"
+msgstr ""
+"crwdns51056:0%(adjudicator)scrwdnd51056:0%(team)scrwdnd51056:0%(institution)scrwdne51056:0"
 
 #: adjallocation/utils.py
 #, python-format
-msgid "Conflict: <strong>%(adjudicator1)s</strong> & <strong>%(adjudicator2)s</strong> (personal)"
-msgstr "crwdns51058:0%(adjudicator1)scrwdnd51058:0%(adjudicator2)scrwdne51058:0"
+msgid ""
+"Conflict: <strong>%(adjudicator1)s</strong> & "
+"<strong>%(adjudicator2)s</strong> (personal)"
+msgstr ""
+"crwdns51058:0%(adjudicator1)scrwdnd51058:0%(adjudicator2)scrwdne51058:0"
 
 #: adjallocation/utils.py
 #, python-format
-msgid "Conflict: <strong>%(adjudicator1)s</strong> & <strong>%(adjudicator2)s</strong> via institution <strong>%(institution)s</strong>"
-msgstr "crwdns51060:0%(adjudicator1)scrwdnd51060:0%(adjudicator2)scrwdnd51060:0%(institution)scrwdne51060:0"
+msgid ""
+"Conflict: <strong>%(adjudicator1)s</strong> & "
+"<strong>%(adjudicator2)s</strong> via institution "
+"<strong>%(institution)s</strong>"
+msgstr ""
+"crwdns51060:0%(adjudicator1)scrwdnd51060:0%(adjudicator2)scrwdnd51060:0%(institution)scrwdne51060:0"
 
 #: adjallocation/views.py
 msgid "Male"
@@ -336,6 +398,10 @@ msgstr "crwdns33916:0crwdne33916:0"
 #: adjallocation/views.py
 msgid "Edit Allocation"
 msgstr "crwdns33918:0crwdne33918:0"
+
+#: adjallocation/views.py
+msgid "Edit Allocation (Concurrent Rounds)"
+msgstr "crwdns53667:0crwdne53667:0"
 
 #: adjallocation/views.py
 msgid "Edit Panels"
@@ -448,4 +514,3 @@ msgstr[1] "crwdns33930:5%(count)dcrwdne33930:5"
 #: adjallocation/views.py
 msgid "No changes were made to team-institution conflicts."
 msgstr "crwdns33932:0crwdne33932:0"
-

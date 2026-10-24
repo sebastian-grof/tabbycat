@@ -2,14 +2,20 @@
 {% load debate_tags i18n %}
 
 {% block page-subnav-sections %}
+  {% if round %}
   <a class="btn btn-outline-primary" href="{% roundurl 'availability-index' round %}">
     <i data-feather="chevron-left"></i> {% trans "Return" %}
   </a>
+  {% endif %}
 {% endblock %}
 
 {% block page-subnav-actions %}{% endblock %}
 
 {% block page-alerts %}
+  {% if selected_round and not editable_round %}
+    {% trans "This round already has a draw. Its recorded sides are read-only." as message %}
+    {% include "components/alert.html" with type="info" %}
+  {% endif %}
   {% if not two_team_sides %}
     {% blocktrans trimmed asvar message %}
       These tools are designed for two-team formats. The overview table below will still display saved allocations, but automatic generation is disabled.
@@ -123,7 +129,7 @@
                 </tbody>
               </table>
             </div>
-            <button type="submit" class="btn btn-success">{% trans "Save manual allocations" %}</button>
+            <button type="submit" class="btn btn-success" {% if not editable_round %}disabled{% endif %}>{% trans "Save manual allocations" %}</button>
           </form>
         {% elif manual_form %}
           <p class="mb-0 text-muted">{% trans "There are no debating teams available to assign in this round right now." %}</p>
@@ -169,33 +175,17 @@
     </div>
   </div>
 
+  {% include "side_allocations_bulk.html" %}
+
   <div class="card mt-3">
     <div class="list-group list-group-flush">
       <div class="list-group-item pt-4 pb-3">
         <h4 class="card-title mt-0 mb-0">{% trans "Current overview" %}</h4>
       </div>
       <div class="list-group-item pt-3 pb-3">
-        <div class="table-responsive">
-          <table class="table table-sm table-bordered mb-0">
-            <thead>
-              <tr>
-                <th>{% trans "Team" %}</th>
-                {% for round in rounds %}
-                  <th {% if selected_round and round.id == selected_round.id %}class="table-primary"{% endif %}>{{ round.abbreviation }}</th>
-                {% endfor %}
-              </tr>
-            </thead>
-            <tbody>
-              {% for row in allocation_rows %}
-                <tr>
-                  <th scope="row">{{ row.team.short_name }}</th>
-                  {% for cell in row.cells %}
-                    <td {% if selected_round and cell.round.id == selected_round.id %}class="table-primary"{% endif %}>{{ cell.label }}</td>
-                  {% endfor %}
-                </tr>
-              {% endfor %}
-            </tbody>
-          </table>
+        <p class="text-muted">{% trans "Drawn rounds show recorded sides. Edit the selected undrawn round directly below." %}</p>
+        <div id="vueMount">
+          <tables-container :tables-data="tablesData" orientation="rows"></tables-container>
         </div>
       </div>
     </div>
@@ -245,4 +235,9 @@
     </div>
   </div>
 
+{% endblock %}
+
+{% block js %}
+  <script>window.vueData = {tablesData: {{ tables_data|safe }}};</script>
+  {{ block.super }}
 {% endblock %}

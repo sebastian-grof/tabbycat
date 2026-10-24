@@ -90,7 +90,7 @@ class GraphGeneratorMixin:
         for team in candidates:
             remaining = [candidate for candidate in teams if candidate.id != team.id]
             try:
-                _, total_cost = self._compute_matching(remaining, bracket=bracket)
+                matching, total_cost = self._compute_matching(remaining, bracket=bracket)
             except DrawUserError:
                 continue
             if best_cost is None or total_cost < best_cost:
@@ -108,7 +108,7 @@ class GraphGeneratorMixin:
         i = 0
         for j, (points, teams) in enumerate(brackets.items()):
             pairings[points] = []
-            matching, _ = self._compute_matching(teams, bracket=j)
+            matching, total_cost = self._compute_matching(teams, bracket=j)
             for pairing in sorted(matching, key=lambda p: self.room_rank_ordering(p)):
                 i += 1
                 pairings[points].append(Pairing(teams=pairing, bracket=self.get_bracket(pairing, points), room_rank=i))
@@ -183,7 +183,7 @@ class GraphAllocatedSidesMixin(GraphGeneratorMixin):
             remaining[team.allocated_side].remove(team)
 
             try:
-                _, total_cost = self._compute_bipartite_matching(remaining, bracket=bracket)
+                matching, total_cost = self._compute_bipartite_matching(remaining, bracket=bracket)
             except DrawUserError:
                 continue
 
@@ -204,7 +204,7 @@ class GraphAllocatedSidesMixin(GraphGeneratorMixin):
             if len(pool[DebateSide.AFF]) == 0 and len(pool[DebateSide.NEG]) == 0:
                 continue
             try:
-                matching, _ = self._compute_bipartite_matching(pool, bracket=bracket_index)
+                matching, total_cost = self._compute_bipartite_matching(pool, bracket=bracket_index)
             except DrawUserError as exc:
                 raise DrawUserError(_("Saved side allocations left an invalid bracket %(bracket)s after pullups: %(message)s") % {
                     "bracket": points,

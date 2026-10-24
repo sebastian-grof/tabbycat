@@ -1,6 +1,6 @@
 import zipfile
 from io import BytesIO
-from xml.etree import ElementTree as ET
+from xml.etree import ElementTree as ET  # noqa: N817
 
 from django.test import TestCase
 

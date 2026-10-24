@@ -11,8 +11,8 @@ from channels.layers import get_channel_layer
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
-from django.utils.text import slugify
 from django.utils import timezone
+from django.utils.text import slugify
 
 from adjallocation.models import DebateAdjudicator
 from adjfeedback.models import AdjudicatorFeedback
@@ -806,7 +806,7 @@ def pending_events_queryset(event_ids=None):
     queryset = FeedbackExportEvent.objects.select_related('feedback').filter(
         status__in=[FeedbackExportEvent.Status.PENDING, FeedbackExportEvent.Status.FAILED],
     ).filter(attempts__lt=MAX_ATTEMPTS).filter(
-        models_Q_next_attempt(now)
+        models_q_next_attempt(now),
     )
     if event_ids:
         queryset = queryset.filter(id__in=event_ids)
@@ -818,14 +818,14 @@ def pending_adjudicator_stats_events_queryset(event_ids=None):
     queryset = AdjudicatorStatsExportEvent.objects.select_related('tournament', 'break_tournament').filter(
         status__in=[AdjudicatorStatsExportEvent.Status.PENDING, AdjudicatorStatsExportEvent.Status.FAILED],
     ).filter(attempts__lt=MAX_ATTEMPTS).filter(
-        models_Q_next_attempt(now)
+        models_q_next_attempt(now),
     )
     if event_ids:
         queryset = queryset.filter(id__in=event_ids)
     return queryset.order_by('next_attempt_at', 'created_at')
 
 
-def models_Q_next_attempt(now):
+def models_q_next_attempt(now):
     from django.db.models import Q
     return Q(next_attempt_at__isnull=True) | Q(next_attempt_at__lte=now)
 

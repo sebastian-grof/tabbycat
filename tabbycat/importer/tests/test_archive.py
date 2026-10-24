@@ -1,5 +1,5 @@
-from django.test import TestCase
 from django.core.files.uploadedfile import SimpleUploadedFile
+from django.test import TestCase
 
 from adjallocation.models import DebateAdjudicator
 from draw.models import Debate, DebateTeam
@@ -7,8 +7,7 @@ from draw.types import DebateSide
 from importer.archive import Exporter, Importer
 from importer.forms import ArchiveImportForm
 from participants.models import Adjudicator, Institution, Speaker, Team
-from results.models import (BallotSubmission, CrossExamination, CrossExaminationScore, ScoreCriterion,
-    SpeakerScore, TeamScore)
+from results.models import BallotSubmission, CrossExamination, CrossExaminationScore, ScoreCriterion, SpeakerScore, TeamScore
 from results.result import ConsensusDebateResultWithScores, DebateResultByAdjudicatorWithScores
 from tournaments.models import Round, Tournament
 

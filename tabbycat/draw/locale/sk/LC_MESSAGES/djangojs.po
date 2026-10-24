@@ -1,0 +1,51 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-27 15:04+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);\n"
+
+#: draw/templates/DebateSideStatus.vue:34
+msgid "confirmed"
+msgstr "potvrdené"
+
+#: draw/templates/DebateSideStatus.vue:34
+msgid "unconfirmed"
+msgstr "nepotvrdené"
+
+#: draw/templates/DraggableTeam.vue:28 draw/templates/InlineTeam.vue:28
+msgid "No code name set"
+msgstr "Nie je nastavené kódové meno"
+
+#: draw/templates/DraggableTeam.vue:48
+msgid "Unaffiliated"
+msgstr "Nezávislý"
+
+#: draw/templates/EditDebateTeamsContainer.vue:94
+msgid "Seen"
+msgstr "Videný"
+
+#: draw/templates/EditDebateTeamsContainer.vue:101
+msgid "Institution"
+msgstr "Debatný klub"
+
+#: draw/templates/EditDebateTeamsContainer.vue:120
+msgid ""
+"Note: You should almost certainly not being using this page once results\n"
+"                               have been released. Be sure to fill all gaps before leaving."
+msgstr ""
+"Poznámka: po zverejnení výsledkov by si túto stránku takmer určite nemal/a "
+"používať. Pred odchodom sa uisti, že si vyplnil/a všetky medzery."
