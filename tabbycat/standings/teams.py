@@ -57,7 +57,7 @@ class TeamScoreQuerySetMetricAnnotator(QuerySetMetricAnnotator):
 
     def get_annotation(self, round=None):
         annotation = self.function(self.get_field(), filter=self.get_annotation_filter(round), output_field=self.output_field)
-        if self.round_value:
+        if self.round_value and (round is None or round.tournament.pref('adjudicator_weighting') != 'weighted-to-three'):
             return RoundScore(annotation, precision=SCORE_PRECISION)
         return annotation
 
@@ -262,7 +262,7 @@ class DrawStrengthByRankMetricAnnotator(BaseMetricAnnotator):
                 if opponent := standings.infos.get(teams_by_id[opponent_id]):
                     ranks.append(opponent.rankings['rank'][0])
             ranks_without_none = [rank for rank in ranks if rank is not None]
-            standings.add_metric(team, self.key, mean(ranks_without_none))
+            standings.add_metric(team, self.key, mean(ranks_without_none) if ranks_without_none else None)
 
 
 class DrawStrengthByWinsMetricAnnotator(BaseDrawStrengthMetricAnnotator):

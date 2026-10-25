@@ -2,14 +2,18 @@
 {% load debate_tags i18n %}
 
 {% block page-subnav-sections %}
-  <a class="btn btn-outline-primary" href="{% roundurl 'availability-index' round %}">
+  {% if round %}<a class="btn btn-outline-primary" href="{% roundurl 'availability-index' round %}">
     <i data-feather="chevron-left"></i> {% trans "Return to availability" %}
-  </a>
+  </a>{% endif %}
 {% endblock %}
 
 {% block page-subnav-actions %}{% endblock %}
 
 {% block page-alerts %}
+  {% if selected_round and not editable_round %}
+    {% trans "Can't change side pre-allocations after generating the draw." as message %}
+    {% include "components/alert.html" with type="info" %}
+  {% endif %}
   {% if not two_team_sides %}
     {% blocktrans trimmed asvar message %}
       These tools are designed for two-team formats. The overview table below will still display saved allocations, but automatic generation is disabled.
@@ -20,18 +24,18 @@
 
 {% block content %}
   {{ team_navigation|json_script:"side-allocation-team-data" }}
-  <div class="side-allocations" id="side-allocation-workspace">
+  <div class="side-allocations" id="side-allocation-workspace" data-side-update-url="{% tournamenturl 'draw-side-allocations-update' %}">
     {% if allocation_summary %}
       <section class="card mb-3" aria-labelledby="saved-allocation-heading">
         <div class="card-body">
           <h2 class="h6 mb-3" id="saved-allocation-heading">{% trans "Saved allocations" %} <span class="text-muted font-weight-normal">· {{ selected_round.name }}</span></h2>
           <div class="side-allocation-stats">
             <div><span class="side-allocation-stat-value">{{ active_teams|length }}</span><span class="text-muted">{% trans "Active teams" %}</span></div>
-            <div><span class="side-allocation-stat-value">{{ allocation_summary.assigned }}</span><span class="text-muted">{% trans "Assigned" %}</span></div>
-            <div><span class="side-allocation-stat-value {% if allocation_summary.missing %}side-allocation-missing{% endif %}">{{ allocation_summary.missing }}</span><span class="text-muted">{% trans "Unassigned" %}</span></div>
+            <div><span class="side-allocation-stat-value" data-matrix-assigned>{{ allocation_summary.assigned }}</span><span class="text-muted">{% trans "Assigned" %}</span></div>
+            <div><span class="side-allocation-stat-value {% if allocation_summary.missing %}side-allocation-missing{% endif %}" data-matrix-missing>{{ allocation_summary.missing }}</span><span class="text-muted">{% trans "Unassigned" %}</span></div>
             <div class="side-allocation-split">
               {% for item in allocation_summary.side_counts %}
-                <div><strong>{{ item.count }}</strong> <span class="text-muted">{{ item.label }}</span></div>
+                <div><strong data-side-count="{{ item.value }}">{{ item.count }}</strong> <span class="text-muted">{{ item.label }}</span></div>
               {% endfor %}
             </div>
           </div>
@@ -152,7 +156,7 @@
                     {% blocktrans trimmed with count=allocation_summary.extra_assigned %}There are {{ count }} saved allocations on teams that are currently unavailable; saving this form will clear them.{% endblocktrans %}
                   </div>
                 {% endif %}
-                <button type="submit" class="btn btn-success">{% trans "Save manual allocations" %}</button>
+                <button type="submit" class="btn btn-success" {% if not editable_round %}disabled{% endif %}>{% trans "Save manual allocations" %}</button>
                 <p class="small text-muted mt-2 mb-0" data-filter-save-note hidden>{% trans "Saves allocations for all active teams, including teams hidden by search." %}</p>
               </div>
             </form>
@@ -186,7 +190,7 @@
               {{ generate_form.source_round }}
               {% if generate_form.source_round.errors %}<div class="text-danger small mt-1">{{ generate_form.source_round.errors }}</div>{% endif %}
             </div>
-            <button type="submit" class="btn btn-primary btn-block">{% trans "Generate allocations" %}</button>
+            <button type="submit" class="btn btn-primary btn-block" {% if not target_round_choices %}disabled{% endif %}>{% trans "Generate allocations" %}</button>
           </form>
         </section>
 
@@ -212,7 +216,7 @@
                   {{ bye_form.team }}
                   {% if bye_form.team.errors %}<div class="text-danger small mt-1">{{ bye_form.team.errors }}</div>{% endif %}
                 </div>
-                <button type="submit" class="btn btn-outline-primary btn-block">{% trans "Save bye override" %}</button>
+                <button type="submit" class="btn btn-outline-primary btn-block" {% if not editable_round %}disabled{% endif %}>{% trans "Save bye override" %}</button>
                 <p class="small text-muted mt-2 mb-0">{% trans "Choose Automatic to keep using the tournament's configured bye selection method for this round." %}</p>
               </form>
             {% else %}<p class="mb-0 text-muted">{% trans "There are no preliminary rounds to edit yet." %}</p>{% endif %}
@@ -223,7 +227,7 @@
 
     <section class="card mb-3" aria-labelledby="overview-heading">
       <div class="card-header side-allocation-panel-heading">
-        <div><h2 class="h5 mb-1" id="overview-heading">{% trans "Current overview" %}</h2><p class="text-muted mb-0">{% trans "Saved allocations across all preliminary rounds. ? = Unassigned." %}</p></div>
+        <div><h2 class="h5 mb-1" id="overview-heading">{% trans "Current overview" %}</h2><p class="text-muted mb-0">{% trans "Drawn rounds show recorded sides. Edit the selected undrawn round directly below." %}</p></div>
         <span class="small text-muted" data-team-count="overview" data-count-label="{% trans '%(matching)s of %(total)s teams' %}" aria-live="polite" aria-atomic="true">{% blocktrans with count=allocation_rows|length %}{{ count }} teams{% endblocktrans %}</span>
       </div>
       <div class="table-responsive side-allocation-overview-table" role="region" aria-labelledby="overview-heading" tabindex="0">
@@ -234,12 +238,27 @@
             {% for row in allocation_rows %}
               <tr data-team-id="{{ row.team.id }}">
                 <th scope="row" title="{{ row.team.long_name }}">{{ row.team.short_name }} <small data-team-rank hidden></small></th>
-                {% for cell in row.cells %}<td {% if selected_round and cell.round.id == selected_round.id %}class="side-allocation-selected-round"{% endif %}>{{ cell.label }}</td>{% endfor %}
+                {% for cell in row.cells %}
+                  <td {% if selected_round and cell.round.id == selected_round.id %}class="side-allocation-selected-round"{% endif %}>
+                    {% if cell.editable %}
+                      {% blocktrans with team=row.team.short_name round=cell.round.name asvar side_label %}Side for {{ team }} in {{ round }}{% endblocktrans %}
+                      <select class="custom-select custom-select-sm" aria-label="{{ side_label }}" data-side-preallocation data-team-id="{{ row.team.id }}" data-round-id="{{ cell.round.id }}" data-saved-value="{{ cell.side|default_if_none:'' }}">
+                        <option value="" {% if cell.side == None %}selected{% endif %}>{% trans "Unallocated" %}</option>
+                        {% for value, label in matrix_side_choices %}<option value="{{ value }}" {% if cell.side == value %}selected{% endif %}>{{ label }}</option>{% endfor %}
+                      </select>
+                      <small data-side-save-status role="status" aria-live="polite" hidden></small>
+                    {% else %}{{ cell.label }}{% endif %}
+                  </td>
+                {% endfor %}
               </tr>
             {% empty %}<tr><td colspan="{{ rounds|length|add:1 }}" class="text-muted p-3">{% trans "There are no teams to display yet." %}</td></tr>{% endfor %}
             <tr data-filter-empty hidden><td colspan="{{ rounds|length|add:1 }}" class="text-center py-4">{% trans "No matching teams." %} <button type="button" class="btn btn-link btn-sm" data-clear-search>{% trans "Clear search" %}</button></td></tr>
           </tbody>
         </table>
+      </div>
+      <div class="card-body">
+        <p class="small text-muted">{% trans "Matrix changes save immediately. Manual editor changes are saved with Save manual allocations." %}</p>
+        {% include "side_allocations_bulk.html" %}
       </div>
     </section>
 

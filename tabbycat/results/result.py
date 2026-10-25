@@ -860,9 +860,9 @@ class DebateResultByAdjudicator(BaseDebateResult):
     def _is_self_split(self):
         """True if this is a solo-adjudicated debate where the adjudicator has
         declared their decision as a 2:1 split rather than unanimous (Karl Popper rules)."""
-        return (len(self.scoresheets) == 1 and
+        return (len(self.scoresheets) == 1 and len(self.debateadjs) == 1 and
                 self.tournament.pref('teams_in_debate') == 2 and
-                not self.uses_weighted_adjudicator_weighting() and
+                not self.ballotsub.forfeit and not self.debate.is_bye and
                 getattr(self.ballotsub, 'self_split', False))
 
     @_requires_decision(None)
@@ -1223,13 +1223,19 @@ class ConsensusDebateResult(BaseDebateResult):
         return not hasattr(self.scoresheet, 'ranked_sides')
 
     def advancing_dt(self):
+        if hasattr(self.scoresheet, 'ranked_sides'):
+            # Scored BP ballots determine advancement by rank, rather than
+            # declared winners. Finals have one winner; other rounds have two.
+            number_advancing = 1 if self.debate.round.is_last else 2
+            return self.get_ranked_dt()[:number_advancing]
         return [dt for s, dt in self.debateteams.items() if s in self.get_winner()]
 
     def advancing_teams(self):
         return [dt.team for dt in self.advancing_dt()]
 
     def eliminated_dt(self):
-        return [dt for s, dt in self.debateteams.items() if s not in self.get_winner()]
+        advancing = self.advancing_dt()
+        return [dt for dt in self.debateteams.values() if dt not in advancing]
 
     def get_ranked_dt(self):
         return [self.debateteams[s] for s in self.scoresheet.ranked_sides()]
@@ -1243,6 +1249,9 @@ class ConsensusDebateResult(BaseDebateResult):
 
     def populate_from_merge(self, *results) -> list[ResultError]:
         errors = []
+        for side, pos in product(self.sides, getattr(self, 'positions', [])):
+            for criterion in getattr(self, 'criteria', []):
+                self.set_criterion_score(side, pos, criterion, None)
         for result in results:
             errors.extend(self.merge_speaker_result(result))
             if self.scoresheet_class.uses_declared_winners:
@@ -1252,10 +1261,13 @@ class ConsensusDebateResult(BaseDebateResult):
                     errors.append(ResultError(_("Winners are not identical"), "winners", result.scoresheet.winners(), None))
 
         for error in errors:
-            key, side, pos = error.args[1:]
+            key, side, pos = error.args[1:4]
 
             if key == 'winners':
                 self.set_winners(set())
+
+            if key == 'criterion':
+                self.set_criterion_score(side, pos, error.args[4], None)
 
             # Clear ghosts for speaker order problems too
             if key == 'ghost':

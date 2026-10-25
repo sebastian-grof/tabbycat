@@ -138,6 +138,18 @@ class BallotSubmission(Submission):
                 "{0.timestamp:%Y-%m-%dT%H:%M:%S} (v{0.version})").format(self)
 
     @property
+    def allows_self_split(self):
+        """Whether a new self-split decision is valid for this ballot."""
+        tournament = self.debate.round.tournament
+        return (
+            not self.forfeit and not self.debate.is_bye and
+            tournament.pref('teams_in_debate') == 2 and
+            tournament.ballots_per_debate(self.debate.round.stage) == 'per-adj' and
+            tournament.pref('allow_self_split_ballots') and
+            len(list(self.debate.adjudicators.voting())) == 1
+        )
+
+    @property
     def result(self):
         if not hasattr(self, "_result"):
             self._result = DebateResult(self)

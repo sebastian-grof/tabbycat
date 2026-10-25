@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tabbycat\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-27 15:04+0200\n"
+"POT-Creation-Date: 2026-10-25 06:56+1100\n"
 "PO-Revision-Date: 2026-04-26 23:45+0200\n"
 "Last-Translator: \n"
 "Language-Team: Slovak\n"
@@ -50,169 +50,118 @@ msgstr "Komentáre"
 msgid "Open"
 msgstr "Open"
 
-#: tournaments/forms.py:97 tournaments/models.py:357
+#: tournaments/forms.py:98 tournaments/models.py:369
 msgid "Power-paired"
 msgstr "Power-paired"
 
-#: tournaments/forms.py:98 tournaments/models.py:354
+#: tournaments/forms.py:99 tournaments/models.py:366
 msgid "Random"
 msgstr "Náhodný"
 
-#: tournaments/forms.py:99
+#: tournaments/forms.py:100
 msgid "Round robin"
 msgstr "Každý s každým"
 
-#: tournaments/forms.py:101
+#: tournaments/forms.py:102
 msgid "Draw format"
 msgstr "Spôsob párovania"
 
-#: tournaments/forms.py:102
-msgid ""
-"How preliminary rounds are drawn. The first option matches Tabbycat’s usual "
-"default (random draw in round 1, then power-pairing). Round robin opens an "
-"extra step to set parallel panels and how many preliminary rounds to create."
-msgstr ""
-"Spôsob párovania základných kôl. Prvá možnosť zodpovedá bežnému nastaveniu "
-"Tabbycatu (náhodné prvé kolo, potom párovanie podľa výsledkov). Systém každý"
-" s každým otvorí ďalší krok na nastavenie súbežných panelov a počtu "
-"základných kôl."
+#: tournaments/forms.py:103
+msgid "How preliminary rounds are drawn. The first option matches Tabbycat’s usual default (random draw in round 1, then power-pairing). Round robin opens an extra step to set parallel panels and how many preliminary rounds to create."
+msgstr "Spôsob párovania základných kôl. Prvá možnosť zodpovedá bežnému nastaveniu Tabbycatu (náhodné prvé kolo, potom párovanie podľa výsledkov). Systém každý s každým otvorí ďalší krok na nastavenie súbežných panelov a počtu základných kôl."
 
-#: tournaments/forms.py:109
+#: tournaments/forms.py:110
 msgid "Format Configuration"
 msgstr "Nastavenie formátu"
 
-#: tournaments/forms.py:110
-msgid ""
-"Apply a standard set of settings to match a common debate format. These can "
-"be changed afterwards and should be checked for your needs."
-msgstr ""
-"Použi štandardnú sadu nastavení pre bežný debatný formát. Tieto nastavenia "
-"sa dajú neskôr zmeniť a treba ich skontrolovať podľa potrieb turnaja."
+#: tournaments/forms.py:111
+msgid "Apply a standard set of settings to match a common debate format. These can be changed afterwards and should be checked for your needs."
+msgstr "Použi štandardnú sadu nastavení pre bežný debatný formát. Tieto nastavenia sa dajú neskôr zmeniť a treba ich skontrolovať podľa potrieb turnaja."
 
-#: tournaments/forms.py:115
+#: tournaments/forms.py:116
 msgid "Public Configuration"
 msgstr "Verejné nastavenia"
 
-#: tournaments/forms.py:116
-msgid ""
-"Show non-sensitive information on the public-facing side of this site, like "
-"draws (once released) and the motions of previous rounds"
-msgstr ""
-"Zobrazovať necitlivé informácie na verejnej časti stránky, napríklad "
-"pairingy po zverejnení a tézy z predchádzajúcich kôl"
+#: tournaments/forms.py:117
+msgid "Show non-sensitive information on the public-facing side of this site, like draws (once released) and the motions of previous rounds"
+msgstr "Zobrazovať necitlivé informácie na verejnej časti stránky, napríklad pairingy po zverejnení a tézy z predchádzajúcich kôl"
 
-#: tournaments/forms.py:121
+#: tournaments/forms.py:122
 msgid "Participant Data Entry"
 msgstr "Zadávanie údajov účastníkmi"
 
-#: tournaments/forms.py:122
-msgid ""
-"Whether participants can submit ballots and feedback themselves, and how "
-"they do so"
-msgstr ""
-"Či môžu účastníci sami odosielať balloty a spätnú väzbu, a akým spôsobom"
+#: tournaments/forms.py:123
+msgid "Whether participants can submit ballots and feedback themselves, and how they do so"
+msgstr "Či môžu účastníci sami odosielať balloty a spätnú väzbu, a akým spôsobom"
 
-#: tournaments/forms.py:129
-msgid ""
-"<strong>Tabulation:</strong> [list tabulation staff here]<br "
-"/><strong>Equity:</strong> [list equity members here]<br "
-"/><strong>Organisation:</strong> [list organising committee members here]<br"
-" /><strong>Adjudication:</strong> [list chief adjudicators here]"
-msgstr ""
-"<strong>Tab:</strong> [sem uveď tab tím]<br /><strong>Equity:</strong> [sem "
-"uveď equity tím]<br /><strong>Organizácia:</strong> [sem uveď organizačný "
-"tím]<br /><strong>Adjudication:</strong> [sem uveď chief adjudicators]"
+#: tournaments/forms.py:130
+msgid "<strong>Tabulation:</strong> [list tabulation staff here]<br /><strong>Equity:</strong> [list equity members here]<br /><strong>Organisation:</strong> [list organising committee members here]<br /><strong>Adjudication:</strong> [list chief adjudicators here]"
+msgstr "<strong>Tab:</strong> [sem uveď tab tím]<br /><strong>Equity:</strong> [sem uveď equity tím]<br /><strong>Organizácia:</strong> [sem uveď organizačný tím]<br /><strong>Adjudication:</strong> [sem uveď chief adjudicators]"
 
-#: tournaments/forms.py:174
+#: tournaments/forms.py:175
 msgid "Parallel preliminary panels per schedule slot"
 msgstr "Počet súbežných základných panelov v časovom bloku"
 
-#: tournaments/forms.py:175
-msgid ""
-"With 1, each schedule slot has one database round. With 2, Tabbycat creates "
-"two rounds per slot (e.g. A and B) that share the same “current round” slot "
-"for navigation and feedback."
-msgstr ""
-"Pri hodnote 1 obsahuje každý časový blok jedno kolo. Pri hodnote 2 vytvorí "
-"Tabbycat dve kolá v bloku (napr. A a B), ktoré zdieľajú rovnaký blok "
-"„aktuálneho kola“ pre navigáciu a spätnú väzbu."
+#: tournaments/forms.py:176
+msgid "With 1, each schedule slot has one database round. With 2, Tabbycat creates two rounds per slot (e.g. A and B) that share the same “current round” slot for navigation and feedback."
+msgstr "Pri hodnote 1 obsahuje každý časový blok jedno kolo. Pri hodnote 2 vytvorí Tabbycat dve kolá v bloku (napr. A a B), ktoré zdieľajú rovnaký blok „aktuálneho kola“ pre navigáciu a spätnú väzbu."
 
-#: tournaments/forms.py:240
+#: tournaments/forms.py:241
 msgid "Current preliminary round"
 msgstr "Aktuálne základné kolo"
 
-#: tournaments/forms.py:241
+#: tournaments/forms.py:242
 msgid "All preliminary rounds have been completed"
 msgstr "Všetky základné kolá boli dokončené"
 
-#: tournaments/forms.py:253
+#: tournaments/forms.py:254
 #, python-format
-msgid ""
-"Current elimination round in <strong>%(category)s</strong> <em>(only if all "
-"preliminary rounds have been completed)</em>"
-msgstr ""
-"Aktuálne vyraďovacie kolo v kategórii <strong>%(category)s</strong> <em>(iba"
-" ak boli dokončené všetky základné kolá)</em>"
+msgid "Current elimination round in <strong>%(category)s</strong> <em>(only if all preliminary rounds have been completed)</em>"
+msgstr "Aktuálne vyraďovacie kolo v kategórii <strong>%(category)s</strong> <em>(iba ak boli dokončené všetky základné kolá)</em>"
 
-#: tournaments/forms.py:259
+#: tournaments/forms.py:260
 #, python-format
 msgid "All elimination rounds in %(category)s have been completed"
 msgstr "Všetky vyraďovacie kolá v kategórii %(category)s boli dokončené"
 
-#: tournaments/forms.py:271
+#: tournaments/forms.py:272
 msgid "If the current round is a preliminary round, this field must be blank."
 msgstr "Ak je aktuálne kolo základné kolo, toto pole musí zostať prázdne."
 
-#: tournaments/forms.py:277
+#: tournaments/forms.py:278
 msgid "If all preliminary rounds have been completed, this field is required."
 msgstr "Ak boli dokončené všetky základné kolá, toto pole je povinné."
 
-#: tournaments/forms.py:312
+#: tournaments/forms.py:313
 #, python-format
 msgid "%(name)s (%(abbreviation)s)"
 msgstr "%(name)s (%(abbreviation)s)"
 
-#: tournaments/forms.py:330
+#: tournaments/forms.py:331
 msgid "Round"
 msgstr "Kolo"
 
-#: tournaments/forms.py:331 tournaments/models.py:716
+#: tournaments/forms.py:332 tournaments/models.py:728
 msgid "If the event belongs to a specific round, which round"
 msgstr "Ak udalosť patrí ku konkrétnemu kolu, ku ktorému kolu"
 
 #: tournaments/mixins.py:110
 #, python-format
-msgid ""
-"You've been redirected to this page because tournament %(tournament)s has no"
-" rounds. Please create some before returning to the admin site."
-msgstr ""
-"Bol/a si presmerovaný/á na túto stránku, pretože turnaj %(tournament)s nemá "
-"žiadne kolá. Pred návratom do administrácie nejaké kolá vytvor."
+msgid "You've been redirected to this page because tournament %(tournament)s has no rounds. Please create some before returning to the admin site."
+msgstr "Bol/a si presmerovaný/á na túto stránku, pretože turnaj %(tournament)s nemá žiadne kolá. Pred návratom do administrácie nejaké kolá vytvor."
 
 #: tournaments/mixins.py:118
 #, python-format
-msgid ""
-"There's a problem with the data for the tournament %(tournament)s. Please "
-"contact a tab director and ask them to investigate."
-msgstr ""
-"V dátach turnaja %(tournament)s je problém. Kontaktuj tab directora a "
-"požiadaj ho, aby to skontroloval."
+msgid "There's a problem with the data for the tournament %(tournament)s. Please contact a tab director and ask them to investigate."
+msgstr "V dátach turnaja %(tournament)s je problém. Kontaktuj tab directora a požiadaj ho, aby to skontroloval."
 
 #: tournaments/mixins.py:131
-msgid ""
-"You've been redirected to this page because of a problem with how teams are "
-"assigned to sides in a debate."
-msgstr ""
-"Bol/a si presmerovaný/á na túto stránku pre problém s tým, ako sú tímom v "
-"debate pridelené strany."
+msgid "You've been redirected to this page because of a problem with how teams are assigned to sides in a debate."
+msgstr "Bol/a si presmerovaný/á na túto stránku pre problém s tým, ako sú tímom v debate pridelené strany."
 
 #: tournaments/mixins.py:138
-msgid ""
-"There's a problem with how teams are assigned to sides in a debate. The tab "
-"director will need to resolve this issue."
-msgstr ""
-"Je tu problém s tým, ako sú tímom v debate pridelené strany. Tento problém "
-"musí vyriešiť tab director."
+msgid "There's a problem with how teams are assigned to sides in a debate. The tab director will need to resolve this issue."
+msgstr "Je tu problém s tým, ako sú tímom v debate pridelené strany. Tento problém musí vyriešiť tab director."
 
 #: tournaments/mixins.py:237 tournaments/templates/round_complete_check.html:8
 #, python-format
@@ -224,14 +173,10 @@ msgid "Return to Draw"
 msgstr "Späť na pairing"
 
 #: tournaments/models.py:30
-msgid ""
-"You can't use this as a tournament slug, because it's reserved for a "
-"Tabbycat system URL. Please try another one."
-msgstr ""
-"Toto nemôžeš použiť ako slug turnaja, pretože je vyhradený pre systémovú URL"
-" Tabbycatu. Skús iný slug."
+msgid "You can't use this as a tournament slug, because it's reserved for a Tabbycat system URL. Please try another one."
+msgstr "Toto nemôžeš použiť ako slug turnaja, pretože je vyhradený pre systémovú URL Tabbycatu. Skús iný slug."
 
-#: tournaments/models.py:36 tournaments/models.py:87 tournaments/models.py:390
+#: tournaments/models.py:36 tournaments/models.py:87 tournaments/models.py:402
 msgid "name"
 msgstr "názov"
 
@@ -243,7 +188,7 @@ msgstr "slug"
 msgid "description"
 msgstr "popis"
 
-#: tournaments/models.py:39 tournaments/models.py:93 tournaments/models.py:380
+#: tournaments/models.py:39 tournaments/models.py:93 tournaments/models.py:392
 msgid "sequence number"
 msgstr "poradové číslo"
 
@@ -256,26 +201,16 @@ msgid "public"
 msgstr "verejná"
 
 #: tournaments/models.py:42
-msgid ""
-"Public categories are shown to everyone. Private categories are shown only "
-"to superusers and users with administrator access to at least one tournament"
-" in the category."
-msgstr ""
-"Verejné kategórie sú viditeľné pre všetkých. Súkromné kategórie sú viditeľné"
-" len pre superuserov a používateľov s administrátorským prístupom aspoň k "
-"jednému turnaju v danej kategórii."
+msgid "Public categories are shown to everyone. Private categories are shown only to superusers and users with administrator access to at least one tournament in the category."
+msgstr "Verejné kategórie sú viditeľné pre všetkých. Súkromné kategórie sú viditeľné len pre superuserov a používateľov s administrátorským prístupom aspoň k jednému turnaju v danej kategórii."
 
 #: tournaments/models.py:44
 msgid "parent category"
 msgstr "nadradená kategória"
 
 #: tournaments/models.py:45
-msgid ""
-"The category this one is nested inside, if any. Top-level categories have no"
-" parent."
-msgstr ""
-"Kategória, do ktorej je táto kategória vnorená, ak existuje. Kategórie "
-"najvyššej úrovne nemajú nadradenú kategóriu."
+msgid "The category this one is nested inside, if any. Top-level categories have no parent."
+msgstr "Kategória, do ktorej je táto kategória vnorená, ak existuje. Kategórie najvyššej úrovne nemajú nadradenú kategóriu."
 
 #: tournaments/models.py:48
 msgid "tournament category"
@@ -286,11 +221,8 @@ msgid "tournament categories"
 msgstr "kategórie turnajov"
 
 #: tournaments/models.py:88
-msgid ""
-"The full name, e.g. \"Australasian Intervarsity Debating Championships "
-"2016\""
-msgstr ""
-"Celý názov, napr. „Australasian Intervarsity Debating Championships 2016“"
+msgid "The full name, e.g. \"Australasian Intervarsity Debating Championships 2016\""
+msgstr "Celý názov, napr. „Australasian Intervarsity Debating Championships 2016“"
 
 #: tournaments/models.py:90
 msgid "short name"
@@ -301,12 +233,8 @@ msgid "The name used in the menu, e.g. \"Australs 2016\""
 msgstr "Názov používaný v menu, napr. „Australs 2016“"
 
 #: tournaments/models.py:94
-msgid ""
-"A number that determines the relative order in which tournaments are "
-"displayed on the homepage."
-msgstr ""
-"Číslo, ktoré určuje relatívne poradie zobrazovania turnajov na domovskej "
-"stránke."
+msgid "A number that determines the relative order in which tournaments are displayed on the homepage."
+msgstr "Číslo, ktoré určuje relatívne poradie zobrazovania turnajov na domovskej stránke."
 
 #: tournaments/models.py:97
 msgid "The sub-URL of the tournament, cannot have spaces, e.g. \"australs2016\""
@@ -316,8 +244,8 @@ msgstr "Časť URL turnaja; nesmie obsahovať medzery, napr. „australs2016“"
 msgid "homepage category"
 msgstr "kategória domovskej stránky"
 
-#: tournaments/models.py:103 tournaments/models.py:379
-#: tournaments/models.py:703
+#: tournaments/models.py:103 tournaments/models.py:391
+#: tournaments/models.py:715
 msgid "tournament"
 msgstr "turnaj"
 
@@ -325,296 +253,261 @@ msgstr "turnaj"
 msgid "tournaments"
 msgstr "turnaje"
 
-#: tournaments/models.py:355
+#: tournaments/models.py:367
 msgid "Manual"
 msgstr "Manuálny"
 
-#: tournaments/models.py:356
+#: tournaments/models.py:368
 msgid "Round-robin"
 msgstr "Round-robin"
 
-#: tournaments/models.py:358 tournaments/models.py:363
+#: tournaments/models.py:370 tournaments/models.py:375
 msgid "Elimination"
 msgstr "Vyraďovacie"
 
-#: tournaments/models.py:359
+#: tournaments/models.py:371
 msgid "Seeded"
 msgstr "Seedované"
 
-#: tournaments/models.py:362
+#: tournaments/models.py:374
 msgid "Preliminary"
 msgstr "Základné"
 
-#: tournaments/models.py:366
+#: tournaments/models.py:378
 msgid "None"
 msgstr "Žiadne"
 
-#: tournaments/models.py:367
+#: tournaments/models.py:379
 msgid "Draft"
 msgstr "Koncept"
 
-#: tournaments/models.py:368
+#: tournaments/models.py:380
 msgid "Confirmed"
 msgstr "Potvrdené"
 
-#: tournaments/models.py:369
+#: tournaments/models.py:381
 msgid "Teams released"
 msgstr "tímy zverejnené"
 
-#: tournaments/models.py:370
+#: tournaments/models.py:382
 msgid "Released"
 msgstr "Zverejnené"
 
-#: tournaments/models.py:373
+#: tournaments/models.py:385
 msgid "Not released"
 msgstr "nezverejnené"
 
-#: tournaments/models.py:374
+#: tournaments/models.py:386
 msgid "Info-slides released"
 msgstr "info-slides zverejnené"
 
-#: tournaments/models.py:375
+#: tournaments/models.py:387
 msgid "Motions released"
 msgstr "tézy zverejnené"
 
-#: tournaments/models.py:381
-msgid ""
-"A number that determines the order of the round, should count consecutively "
-"from 1 for the first round"
-msgstr ""
-"Číslo, ktoré určuje poradie kola; malo by ísť za sebou od 1 pre prvé kolo"
+#: tournaments/models.py:393
+msgid "A number that determines the order of the round, should count consecutively from 1 for the first round"
+msgstr "Číslo, ktoré určuje poradie kola; malo by ísť za sebou od 1 pre prvé kolo"
 
-#: tournaments/models.py:383
+#: tournaments/models.py:395
 msgid "schedule group"
 msgstr "skupina rozvrhu"
 
-#: tournaments/models.py:384
-msgid ""
-"Rounds in the same schedule slot (e.g. parallel panels A/B) share this "
-"value. Defaults to the sequence number when each slot has only one round."
-msgstr ""
-"Kolá v rovnakom časovom bloku (napr. súbežné panely A/B) zdieľajú túto "
-"hodnotu. Ak má každý blok iba jedno kolo, predvolene sa používa poradové "
-"číslo kola."
+#: tournaments/models.py:396
+msgid "Rounds in the same schedule slot (e.g. parallel panels A/B) share this value. Defaults to the sequence number when each slot has only one round."
+msgstr "Kolá v rovnakom časovom bloku (napr. súbežné panely A/B) zdieľajú túto hodnotu. Ak má každý blok iba jedno kolo, predvolene sa používa poradové číslo kola."
 
-#: tournaments/models.py:387
+#: tournaments/models.py:399
 msgid "completed"
 msgstr "dokončené"
 
-#: tournaments/models.py:388
-msgid ""
-"True if the round is over, which normally means all results have been "
-"entered and confirmed"
-msgstr ""
-"Platí, ak sa kolo skončilo; zvyčajne to znamená, že všetky výsledky boli "
-"zadané a potvrdené"
+#: tournaments/models.py:400
+msgid "True if the round is over, which normally means all results have been entered and confirmed"
+msgstr "Platí, ak sa kolo skončilo; zvyčajne to znamená, že všetky výsledky boli zadané a potvrdené"
 
-#: tournaments/models.py:390
+#: tournaments/models.py:402
 msgid "e.g. \"Round 1\""
 msgstr "napr. „Kolo 1“"
 
-#: tournaments/models.py:391
+#: tournaments/models.py:403
 msgid "abbreviation"
 msgstr "skratka"
 
-#: tournaments/models.py:391
+#: tournaments/models.py:403
 msgid "e.g. \"R1\""
 msgstr "napr. „R1“"
 
-#: tournaments/models.py:393
+#: tournaments/models.py:405
 msgid "stage"
 msgstr "fáza"
 
-#: tournaments/models.py:394
+#: tournaments/models.py:406
 msgid "Preliminary = inrounds, elimination = outrounds"
 msgstr "Základné = inrounds, vyraďovacie = outrounds"
 
-#: tournaments/models.py:396
+#: tournaments/models.py:408
 msgid "draw type"
 msgstr "typ pairingu"
 
-#: tournaments/models.py:397
+#: tournaments/models.py:409
 msgid "Which draw method to use"
 msgstr "Ktorú metódu pairingu použiť"
 
-#: tournaments/models.py:400
+#: tournaments/models.py:412
 msgid "break category"
 msgstr "breaková kategória"
 
-#: tournaments/models.py:401
+#: tournaments/models.py:413
 msgid "If elimination round, which break category"
 msgstr "Ak ide o vyraďovacie kolo, ktorá breaková kategória"
 
-#: tournaments/models.py:404
+#: tournaments/models.py:416
 msgid "draw status"
 msgstr "stav pairingu"
 
-#: tournaments/models.py:405
+#: tournaments/models.py:417
 msgid "The status of this round's draw"
 msgstr "Stav pairingu tohto kola"
 
-#: tournaments/models.py:408
+#: tournaments/models.py:420
 msgid "feedback weight"
 msgstr "váha spätnej väzby"
 
-#: tournaments/models.py:410
+#: tournaments/models.py:422
 #, no-python-format
-msgid ""
-"The extent to which each adjudicator's overall score depends on feedback vs "
-"their base score. At 0, it is 100% drawn from their base score, at 1 it is "
-"100% drawn from feedback."
-msgstr ""
-"Miera, do akej celkové skóre rozhodcu/rozhodkyne závisí od spätnej väzby "
-"oproti základnému skóre. Pri hodnote 0 vychádza na 100 % zo základného "
-"skóre, pri hodnote 1 na 100 % zo spätnej väzby."
+msgid "The extent to which each adjudicator's overall score depends on feedback vs their base score. At 0, it is 100% drawn from their base score, at 1 it is 100% drawn from feedback."
+msgstr "Miera, do akej celkové skóre rozhodcu/rozhodkyne závisí od spätnej väzby oproti základnému skóre. Pri hodnote 0 vychádza na 100 % zo základného skóre, pri hodnote 1 na 100 % zo spätnej väzby."
 
-#. Translators: A silent round is a round for which results are not disclosed
-#. once the round is over.
-#: tournaments/models.py:413
+#. Translators: A silent round is a round for which results are not disclosed once the round is over.
+#: tournaments/models.py:425
 msgid "silent"
 msgstr "tiché"
 
-#: tournaments/models.py:414
-msgid ""
-"If marked silent, information about this round (such as its results) will "
-"not be shown publicly."
-msgstr ""
-"Ak je kolo označené ako tiché, informácie o tomto kole, napríklad jeho "
-"výsledky, sa nezobrazia verejne."
+#: tournaments/models.py:426
+msgid "If marked silent, information about this round (such as its results) will not be shown publicly."
+msgstr "Ak je kolo označené ako tiché, informácie o tomto kole, napríklad jeho výsledky, sa nezobrazia verejne."
 
-#: tournaments/models.py:416
+#: tournaments/models.py:428
 msgid "motions status"
 msgstr "stav téz"
 
-#: tournaments/models.py:417
+#: tournaments/models.py:429
 msgid "The release status of motions for this round"
 msgstr "Stav zverejnenia téz pre toto kolo"
 
-#: tournaments/models.py:418
+#: tournaments/models.py:430
 msgid "starts at"
 msgstr "začína o"
 
-#: tournaments/models.py:421
+#: tournaments/models.py:433
 msgid "weight"
 msgstr "váha"
 
-#: tournaments/models.py:422
-msgid ""
-"A factor for the points received in the round. For example, if 2, all points"
-" are doubled."
-msgstr ""
-"Koeficient bodov získaných v kole. Napríklad pri hodnote 2 sa všetky body "
-"zdvojnásobia."
+#: tournaments/models.py:434
+msgid "A factor for the points received in the round. For example, if 2, all points are doubled."
+msgstr "Koeficient bodov získaných v kole. Napríklad pri hodnote 2 sa všetky body zdvojnásobia."
 
-#: tournaments/models.py:426 tournaments/models.py:715
+#: tournaments/models.py:438 tournaments/models.py:727
 msgid "round"
 msgstr "kolo"
 
-#: tournaments/models.py:427
+#: tournaments/models.py:439
 msgid "rounds"
 msgstr "kolá"
 
-#: tournaments/models.py:440
-msgid ""
-"The \"Elimination\" draw type is only for elimination rounds, where it is "
-"mandatory."
-msgstr ""
-"Typ pairingu „Vyraďovacie“ je určený iba pre vyraďovacie kolá, kde je "
-"povinný."
+#: tournaments/models.py:452
+msgid "The \"Elimination\" draw type is only for elimination rounds, where it is mandatory."
+msgstr "Typ pairingu „Vyraďovacie“ je určený iba pre vyraďovacie kolá, kde je povinný."
 
-#: tournaments/models.py:444
-msgid ""
-"An elimination round must have a break category and preliminary round must "
-"not."
-msgstr ""
-"Vyraďovacie kolo musí mať breakovú kategóriu a základné kolo ju mať nesmie."
+#: tournaments/models.py:456
+msgid "An elimination round must have a break category and preliminary round must not."
+msgstr "Vyraďovacie kolo musí mať breakovú kategóriu a základné kolo ju mať nesmie."
 
-#: tournaments/models.py:447
+#: tournaments/models.py:459
 msgid "Break category must be for the same tournament."
 msgstr "Breaková kategória musí patriť k rovnakému turnaju."
 
-#: tournaments/models.py:692
+#: tournaments/models.py:704
 msgid "Check-in"
 msgstr "Check-in"
 
-#: tournaments/models.py:693
+#: tournaments/models.py:705
 msgid "Briefing"
 msgstr "Briefing"
 
-#: tournaments/models.py:694
+#: tournaments/models.py:706
 msgid "Draw/motion announcement"
 msgstr "Oznámenie pairingu/tézy"
 
-#: tournaments/models.py:695
+#: tournaments/models.py:707
 msgid "Preparation time"
 msgstr "Čas na prípravu"
 
-#: tournaments/models.py:696
+#: tournaments/models.py:708
 msgid "Debate"
 msgstr "Debata"
 
-#: tournaments/models.py:697
+#: tournaments/models.py:709
 msgid "Adjudication"
 msgstr "Rozhodovanie"
 
-#: tournaments/models.py:698
+#: tournaments/models.py:710
 msgid "Meal/break"
 msgstr "Jedlo/prestávka"
 
-#: tournaments/models.py:699
+#: tournaments/models.py:711
 msgid "Break announcement"
 msgstr "Oznámenie breaku"
 
-#: tournaments/models.py:700
+#: tournaments/models.py:712
 msgid "Award ceremony"
 msgstr "Vyhlasovanie cien"
 
-#: tournaments/models.py:701
+#: tournaments/models.py:713
 msgid "Other"
 msgstr "Iné"
 
-#: tournaments/models.py:704
+#: tournaments/models.py:716
 msgid "The tournament the event takes place in"
 msgstr "Turnaj, v ktorom sa udalosť koná"
 
-#: tournaments/models.py:705
+#: tournaments/models.py:717
 msgid "title"
 msgstr "názov"
 
-#: tournaments/models.py:706
+#: tournaments/models.py:718
 msgid "Optional custom title; leave blank to use the event type and round"
-msgstr ""
-"Nepovinný vlastný názov; ak zostane prázdny, použije sa typ udalosti a kolo"
+msgstr "Nepovinný vlastný názov; ak zostane prázdny, použije sa typ udalosti a kolo"
 
-#: tournaments/models.py:707
+#: tournaments/models.py:719
 msgid "event type"
 msgstr "typ udalosti"
 
-#: tournaments/models.py:708
+#: tournaments/models.py:720
 msgid "What sort of event this is, use \"Other\" if the type is not available"
 msgstr "Aký typ udalosti to je; ak vhodný typ nie je dostupný, použi „Iné“"
 
-#: tournaments/models.py:710
+#: tournaments/models.py:722
 msgid "start time"
 msgstr "čas začiatku"
 
-#: tournaments/models.py:711
+#: tournaments/models.py:723
 msgid "The time the event starts"
 msgstr "Čas, kedy sa udalosť začína"
 
-#: tournaments/models.py:712
+#: tournaments/models.py:724
 msgid "end time"
 msgstr "čas konca"
 
-#: tournaments/models.py:713
+#: tournaments/models.py:725
 msgid "The time at which the event ends, may be empty"
 msgstr "Čas, kedy sa udalosť končí; môže zostať prázdny"
 
-#: tournaments/models.py:719
+#: tournaments/models.py:731
 msgid "schedule event"
 msgstr "udalosť harmonogramu"
 
-#: tournaments/models.py:720
+#: tournaments/models.py:732
 msgid "schedule events"
 msgstr "udalosti harmonogramu"
 
@@ -637,31 +530,16 @@ msgid "Welcome to Tabbycat!"
 msgstr "Vitaj v Tabbycate!"
 
 #: tournaments/templates/blank_site_start.html:23
-msgid ""
-"To get started, you'll need to create the first user account. This account "
-"is a \"superuser\" account: it will be able to edit anything on the site. "
-"Therefore, you should use a strong password."
-msgstr ""
-"Na začiatok musíš vytvoriť prvý používateľský účet. Tento účet bude "
-"„superuser“, takže bude môcť upravovať všetko na stránke. Preto použi silné "
-"heslo."
+msgid "To get started, you'll need to create the first user account. This account is a \"superuser\" account: it will be able to edit anything on the site. Therefore, you should use a strong password."
+msgstr "Na začiatok musíš vytvoriť prvý používateľský účet. Tento účet bude „superuser“, takže bude môcť upravovať všetko na stránke. Preto použi silné heslo."
 
 #: tournaments/templates/blank_site_start.html:28
-msgid ""
-"You can only create this account once, but if you like, you can change the "
-"username and password after it's created, or add new superusers afterwards."
-msgstr ""
-"Tento účet môžeš vytvoriť iba raz, ale po vytvorení môžeš zmeniť "
-"používateľské meno a heslo alebo neskôr pridať ďalších superuserov."
+msgid "You can only create this account once, but if you like, you can change the username and password after it's created, or add new superusers afterwards."
+msgstr "Tento účet môžeš vytvoriť iba raz, ale po vytvorení môžeš zmeniť používateľské meno a heslo alebo neskôr pridať ďalších superuserov."
 
 #: tournaments/templates/blank_site_start.html:32
-msgid ""
-"The email address is used for password resets. You don't have to provide "
-"one, but if you don't, you won't be able to reset your password if you "
-"forget it."
-msgstr ""
-"E-mailová adresa sa používa na reset hesla. Nemusíš ju zadať, ale ak ju "
-"nezadáš, nebudeš si vedieť obnoviť heslo, ak ho zabudneš."
+msgid "The email address is used for password resets. You don't have to provide one, but if you don't, you won't be able to reset your password if you forget it."
+msgstr "E-mailová adresa sa používa na reset hesla. Nemusíš ju zadať, ale ak ju nezadáš, nebudeš si vedieť obnoviť heslo, ak ho zabudneš."
 
 #: tournaments/templates/blank_site_start.html:40
 msgid "Create Account"
@@ -686,28 +564,16 @@ msgid "Create New Tournament"
 msgstr "Vytvoriť nový turnaj"
 
 #: tournaments/templates/create_tournament.html:14
-msgid ""
-"Tabbycat is free to use, although <a "
-"href=\"https://opencollective.com/tabbycat\">donations</a> are encouraged."
-msgstr ""
-"Tabbycat je možné používať zadarmo, hoci <a "
-"href=\"https://opencollective.com/tabbycat\">príspevky</a> sú vítané."
+msgid "Tabbycat is free to use, although <a href=\"https://opencollective.com/tabbycat\">donations</a> are encouraged."
+msgstr "Tabbycat je možné používať zadarmo, hoci <a href=\"https://opencollective.com/tabbycat\">príspevky</a> sú vítané."
 
 #: tournaments/templates/create_tournament.html:23
 msgid "Just trying out Tabbycat?"
 msgstr "Chceš si Tabbycat len vyskúšať?"
 
 #: tournaments/templates/create_tournament.html:24
-msgid ""
-"If you're learning or playing around with Tabbycat, it's easiest to create a"
-" demo tournament that is prepopulated with a fake (but typical) set of "
-"teams, adjudicators, rooms, and the like. You can then delete this demo "
-"tournament later on, or deploy a new instance for your real tournament."
-msgstr ""
-"Ak sa Tabbycat učíš používať alebo si ho len skúšaš, najjednoduchšie je "
-"vytvoriť demo turnaj s vopred pripravenými fiktívnymi, ale typickými tímami,"
-" rozhodcami, miestnosťami a podobne. Tento demo turnaj môžeš neskôr vymazať "
-"alebo nasadiť novú inštanciu pre skutočný turnaj."
+msgid "If you're learning or playing around with Tabbycat, it's easiest to create a demo tournament that is prepopulated with a fake (but typical) set of teams, adjudicators, rooms, and the like. You can then delete this demo tournament later on, or deploy a new instance for your real tournament."
+msgstr "Ak sa Tabbycat učíš používať alebo si ho len skúšaš, najjednoduchšie je vytvoriť demo turnaj s vopred pripravenými fiktívnymi, ale typickými tímami, rozhodcami, miestnosťami a podobne. Tento demo turnaj môžeš neskôr vymazať alebo nasadiť novú inštanciu pre skutočný turnaj."
 
 #: tournaments/templates/create_tournament.html:39
 #, python-format
@@ -715,12 +581,8 @@ msgid "Load %(demo)s"
 msgstr "Načítať %(demo)s"
 
 #: tournaments/templates/create_tournament.html:46
-msgid ""
-"You already have a tournament set up using this data set. Reloading the data"
-" will delete <strong>all data</strong> from that tournament."
-msgstr ""
-"Už máš vytvorený turnaj s touto dátovou sadou. Opätovné načítanie dát vymaže"
-" z tohto turnaja <strong>všetky dáta</strong>."
+msgid "You already have a tournament set up using this data set. Reloading the data will delete <strong>all data</strong> from that tournament."
+msgstr "Už máš vytvorený turnaj s touto dátovou sadou. Opätovné načítanie dát vymaže z tohto turnaja <strong>všetky dáta</strong>."
 
 #: tournaments/templates/create_tournament.html:68
 #, python-format
@@ -755,49 +617,27 @@ msgid "Debate Team Missing"
 msgstr "Chýba debatný tím"
 
 #: tournaments/templates/fix_debate_teams.html:16
-msgid ""
-"Tabbycat always requires that, in every debate, one and only one team is "
-"assigned to each side. When that is not the case, this error occurs. "
-"Usually, this is the result of debates having been manually edited."
-msgstr ""
-"Tabbycat vyžaduje, aby bol v každej debate ku každej strane priradený práve "
-"jeden tím. Ak to tak nie je, vznikne táto chyba. Zvyčajne je to dôsledok "
-"manuálne upravených debát."
+msgid "Tabbycat always requires that, in every debate, one and only one team is assigned to each side. When that is not the case, this error occurs. Usually, this is the result of debates having been manually edited."
+msgstr "Tabbycat vyžaduje, aby bol v každej debate ku každej strane priradený práve jeden tím. Ak to tak nie je, vznikne táto chyba. Zvyčajne je to dôsledok manuálne upravených debát."
 
 #: tournaments/templates/fix_debate_teams.html:24
-msgid ""
-"A list of offending debates is presented below. To fix them, you'll need to "
-"do the following:"
-msgstr ""
-"Zoznam problematických debát je uvedený nižšie. Na ich opravu treba spraviť "
-"toto:"
+msgid "A list of offending debates is presented below. To fix them, you'll need to do the following:"
+msgstr "Zoznam problematických debát je uvedený nižšie. Na ich opravu treba spraviť toto:"
 
 #. Translators: This is in a list of instructions.
 #: tournaments/templates/fix_debate_teams.html:33
 msgid "Click the <strong>Fix this debate</strong> button for that debate."
-msgstr ""
-"Klikni pri danej debate na tlačidlo <strong>Opraviť túto debatu</strong>."
+msgstr "Klikni pri danej debate na tlačidlo <strong>Opraviť túto debatu</strong>."
 
 #. Translators: This is in a list of instructions.
 #: tournaments/templates/fix_debate_teams.html:39
-msgid ""
-"Ensure that every <strong>side</strong> that should be present in the debate"
-" is present and has a <strong>team</strong> assigned. If a team is missing, "
-"find an empty row and use the magnifying glass to select a team. Then set "
-"the new team's <strong>side</strong> accordingly."
-msgstr ""
-"Uisti sa, že každá <strong>strana</strong>, ktorá má byť v debate prítomná, "
-"tam je a má pridelený <strong>tím</strong>. Ak tím chýba, nájdi prázdny "
-"riadok a vyber tím cez lupu. Potom novému tímu nastav príslušnú "
-"<strong>stranu</strong>."
+msgid "Ensure that every <strong>side</strong> that should be present in the debate is present and has a <strong>team</strong> assigned. If a team is missing, find an empty row and use the magnifying glass to select a team. Then set the new team's <strong>side</strong> accordingly."
+msgstr "Uisti sa, že každá <strong>strana</strong>, ktorá má byť v debate prítomná, tam je a má pridelený <strong>tím</strong>. Ak tím chýba, nájdi prázdny riadok a vyber tím cez lupu. Potom novému tímu nastav príslušnú <strong>stranu</strong>."
 
 #. Translators: This is in a list of instructions.
 #: tournaments/templates/fix_debate_teams.html:48
-msgid ""
-"Ensure that no <strong>side</strong> appears more than once in the debate."
-msgstr ""
-"Uisti sa, že sa žiadna <strong>strana</strong> v debate nevyskytuje viac ako"
-" raz."
+msgid "Ensure that no <strong>side</strong> appears more than once in the debate."
+msgstr "Uisti sa, že sa žiadna <strong>strana</strong> v debate nevyskytuje viac ako raz."
 
 #. Translators: This is in a list of instructions.
 #: tournaments/templates/fix_debate_teams.html:55
@@ -805,21 +645,13 @@ msgid "<strong>Save</strong> the changes."
 msgstr "<strong>Ulož</strong> zmeny."
 
 #: tournaments/templates/fix_debate_teams.html:62
-msgid ""
-"Once you've fixed all the debates, you should then be able to return to "
-"whatever page you were originally on without the error reoccurring."
-msgstr ""
-"Keď opravíš všetky debaty, mal/a by si sa vedieť vrátiť na pôvodnú stránku "
-"bez toho, aby sa chyba zopakovala."
+msgid "Once you've fixed all the debates, you should then be able to return to whatever page you were originally on without the error reoccurring."
+msgstr "Keď opravíš všetky debaty, mal/a by si sa vedieť vrátiť na pôvodnú stránku bez toho, aby sa chyba zopakovala."
 
 #: tournaments/templates/fix_debate_teams.html:68
 #, python-format
-msgid ""
-"You can also see all the debates in the <a href=\"%(edit_debates_url)s\" "
-"target=\"_blank\">Debates section of the Edit Database Area</a>."
-msgstr ""
-"Všetky debaty si môžeš pozrieť aj v <a href=\"%(edit_debates_url)s\" "
-"target=\"_blank\">sekcii Debaty v úprave databázy</a>."
+msgid "You can also see all the debates in the <a href=\"%(edit_debates_url)s\" target=\"_blank\">Debates section of the Edit Database Area</a>."
+msgstr "Všetky debaty si môžeš pozrieť aj v <a href=\"%(edit_debates_url)s\" target=\"_blank\">sekcii Debaty v úprave databázy</a>."
 
 #: tournaments/templates/fix_debate_teams.html:82
 msgid "Debate ID"
@@ -852,12 +684,8 @@ msgid "It looks like all debates are in good shape!"
 msgstr "Vyzerá to, že všetky debaty sú v poriadku!"
 
 #: tournaments/templates/fix_debate_teams.html:128
-msgid ""
-"If you keep getting redirected to this page and you're not sure why, please "
-"contact the developers of Tabbycat."
-msgstr ""
-"Ak ťa systém stále presmerúva na túto stránku a nevieš prečo, kontaktuj "
-"vývojárov Tabbycatu."
+msgid "If you keep getting redirected to this page and you're not sure why, please contact the developers of Tabbycat."
+msgstr "Ak ťa systém stále presmerúva na túto stránku a nevieš prečo, kontaktuj vývojárov Tabbycatu."
 
 #: tournaments/templates/public_tournament_index.html:12
 #: tournaments/templates/public_tournament_index.html:16
@@ -866,10 +694,8 @@ msgid "Welcome to %(tournament)s"
 msgstr "Vitaj na %(tournament)s"
 
 #: tournaments/templates/public_tournament_index.html:25
-msgid ""
-"There is currently no public information available for this tournament."
-msgstr ""
-"Pre tento turnaj momentálne nie sú dostupné žiadne verejné informácie."
+msgid "There is currently no public information available for this tournament."
+msgstr "Pre tento turnaj momentálne nie sú dostupné žiadne verejné informácie."
 
 #: tournaments/templates/public_tournament_index.html:47
 msgid "Team Tab"
@@ -1009,9 +835,7 @@ msgstr "Harmonogram je v časovej zóne: %(schedule_timezone_label)s"
 
 #: tournaments/templates/public_tournament_schedule.html:9
 msgid "Download the iCalendar file to add these events to your calendar app."
-msgstr ""
-"Stiahnite súbor iCalendar a pridajte tieto udalosti do svojej kalendárovej "
-"aplikácie."
+msgstr "Stiahnite súbor iCalendar a pridajte tieto udalosti do svojej kalendárovej aplikácie."
 
 #: tournaments/templates/public_tournament_schedule.html:17
 msgid "Add schedule to calendar"
@@ -1068,93 +892,35 @@ msgstr "%(round)s už bolo označené ako dokončené!"
 
 #: tournaments/templates/round_complete_check.html:80
 #, python-format
-msgid ""
-"The following prior round has not yet been completed: "
-"%(prior_rounds_not_completed)s. You should complete it before marking this "
-"round as completed."
-msgid_plural ""
-"The following prior rounds have not yet been completed: "
-"%(prior_rounds_not_completed)s. You should complete those before marking "
-"this round as completed."
-msgstr[0] ""
-"Nasledujúce predchádzajúce kolo ešte nebolo dokončené: "
-"%(prior_rounds_not_completed)s. Pred označením tohto kola ako dokončeného ho"
-" najprv dokonči."
-msgstr[1] ""
-"Nasledujúce predchádzajúce kolá ešte neboli dokončené: "
-"%(prior_rounds_not_completed)s. Pred označením tohto kola ako dokončeného "
-"ich najprv dokonči."
-msgstr[2] ""
-"Nasledujúce predchádzajúce kolá ešte neboli dokončené: "
-"%(prior_rounds_not_completed)s. Pred označením tohto kola ako dokončeného "
-"ich najprv dokonči."
-msgstr[3] ""
-"Nasledujúce predchádzajúce kolá ešte neboli dokončené: "
-"%(prior_rounds_not_completed)s. Pred označením tohto kola ako dokončeného "
-"ich najprv dokonči."
+msgid "The following prior round has not yet been completed: %(prior_rounds_not_completed)s. You should complete it before marking this round as completed."
+msgid_plural "The following prior rounds have not yet been completed: %(prior_rounds_not_completed)s. You should complete those before marking this round as completed."
+msgstr[0] "Nasledujúce predchádzajúce kolo ešte nebolo dokončené: %(prior_rounds_not_completed)s. Pred označením tohto kola ako dokončeného ho najprv dokonči."
+msgstr[1] "Nasledujúce predchádzajúce kolá ešte neboli dokončené: %(prior_rounds_not_completed)s. Pred označením tohto kola ako dokončeného ich najprv dokonči."
+msgstr[2] "Nasledujúce predchádzajúce kolá ešte neboli dokončené: %(prior_rounds_not_completed)s. Pred označením tohto kola ako dokončeného ich najprv dokonči."
+msgstr[3] "Nasledujúce predchádzajúce kolá ešte neboli dokončené: %(prior_rounds_not_completed)s. Pred označením tohto kola ako dokončeného ich najprv dokonči."
 
 #: tournaments/templates/round_complete_check.html:90
 #, python-format
 msgid "All ballots from %(round)s are confirmed. You should be good to go!"
-msgstr ""
-"Všetky balloty z %(round)s sú potvrdené. Malo by byť všetko pripravené!"
+msgstr "Všetky balloty z %(round)s sú potvrdené. Malo by byť všetko pripravené!"
 
 #: tournaments/templates/round_complete_check.html:96
 #, python-format
-msgid ""
-"There is still %(num_unconfirmed)s ballot that is not confirmed. You should "
-"<strong>not</strong> proceed to the next round until all ballots are "
-"confirmed."
-msgid_plural ""
-"There are still %(num_unconfirmed)s ballots that are not confirmed. You "
-"should <strong>not</strong> proceed to the next round until all ballots are "
-"confirmed."
-msgstr[0] ""
-"Stále zostáva %(num_unconfirmed)s nepotvrdený ballot. <strong>Nemal/a by "
-"si</strong> pokračovať do ďalšieho kola, kým nie sú potvrdené všetky "
-"balloty."
-msgstr[1] ""
-"Stále zostávajú %(num_unconfirmed)s nepotvrdené balloty. <strong>Nemal/a by "
-"si</strong> pokračovať do ďalšieho kola, kým nie sú potvrdené všetky "
-"balloty."
-msgstr[2] ""
-"Stále zostávajú %(num_unconfirmed)s nepotvrdené balloty. <strong>Nemal/a by "
-"si</strong> pokračovať do ďalšieho kola, kým nie sú potvrdené všetky "
-"balloty."
-msgstr[3] ""
-"Stále zostáva %(num_unconfirmed)s nepotvrdených ballotov. <strong>Nemal/a by"
-" si</strong> pokračovať do ďalšieho kola, kým nie sú potvrdené všetky "
-"balloty."
+msgid "There is still %(num_unconfirmed)s ballot that is not confirmed. You should <strong>not</strong> proceed to the next round until all ballots are confirmed."
+msgid_plural "There are still %(num_unconfirmed)s ballots that are not confirmed. You should <strong>not</strong> proceed to the next round until all ballots are confirmed."
+msgstr[0] "Stále zostáva %(num_unconfirmed)s nepotvrdený ballot. <strong>Nemal/a by si</strong> pokračovať do ďalšieho kola, kým nie sú potvrdené všetky balloty."
+msgstr[1] "Stále zostávajú %(num_unconfirmed)s nepotvrdené balloty. <strong>Nemal/a by si</strong> pokračovať do ďalšieho kola, kým nie sú potvrdené všetky balloty."
+msgstr[2] "Stále zostávajú %(num_unconfirmed)s nepotvrdené balloty. <strong>Nemal/a by si</strong> pokračovať do ďalšieho kola, kým nie sú potvrdené všetky balloty."
+msgstr[3] "Stále zostáva %(num_unconfirmed)s nepotvrdených ballotov. <strong>Nemal/a by si</strong> pokračovať do ďalšieho kola, kým nie sú potvrdené všetky balloty."
 
 #: tournaments/templates/round_complete_check.html:112
-msgid ""
-"<p>This round is a silent round.</p> <p> Even though public view of results "
-"is enabled, results for <em>this</em> round will still be hidden from public"
-" view after completing this round. <p> <p> You can change whether this round"
-" is silent using the button above. </p>"
-msgstr ""
-"<p>Toto kolo je tiché.</p> <p>Aj keď je verejné zobrazovanie výsledkov "
-"zapnuté, výsledky <em>tohto</em> kola zostanú po jeho dokončení skryté pred "
-"verejnosťou. <p> <p>To, či je toto kolo tiché, môžeš zmeniť tlačidlom "
-"vyššie. </p>"
+msgid "<p>This round is a silent round.</p> <p> Even though public view of results is enabled, results for <em>this</em> round will still be hidden from public view after completing this round. <p> <p> You can change whether this round is silent using the button above. </p>"
+msgstr "<p>Toto kolo je tiché.</p> <p>Aj keď je verejné zobrazovanie výsledkov zapnuté, výsledky <em>tohto</em> kola zostanú po jeho dokončení skryté pred verejnosťou. <p> <p>To, či je toto kolo tiché, môžeš zmeniť tlačidlom vyššie. </p>"
 
 #: tournaments/templates/round_complete_check.html:125
 #, python-format
-msgid ""
-"<p><strong> Results for %(round)s will be published online once you mark "
-"this round as complete! </strong></p> <p> This round is <em>not</em> a "
-"silent round, and public view of results is enabled. </p> <p> If you want to"
-" keep the results for just this round hidden, you can mark this round as "
-"silent using the button above. </p> <p> If you want to disable the public "
-"view of results, you can do so in the <a "
-"href=\"%(public_features_url)s\">tournament configuration</a>. </p>"
-msgstr ""
-"<p><strong>Výsledky pre %(round)s sa po označení tohto kola ako dokončeného "
-"zverejnia online!</strong></p> <p>Toto kolo <em>nie je</em> tiché a verejné "
-"zobrazovanie výsledkov je zapnuté.</p> <p>Ak chceš ponechať skryté iba "
-"výsledky tohto kola, môžeš ho označiť ako tiché tlačidlom vyššie.</p> <p>Ak "
-"chceš vypnúť verejné zobrazovanie výsledkov, môžeš to spraviť v <a "
-"href=\"%(public_features_url)s\">nastavení turnaja</a>.</p>"
+msgid "<p><strong> Results for %(round)s will be published online once you mark this round as complete! </strong></p> <p> This round is <em>not</em> a silent round, and public view of results is enabled. </p> <p> If you want to keep the results for just this round hidden, you can mark this round as silent using the button above. </p> <p> If you want to disable the public view of results, you can do so in the <a href=\"%(public_features_url)s\">tournament configuration</a>. </p>"
+msgstr "<p><strong>Výsledky pre %(round)s sa po označení tohto kola ako dokončeného zverejnia online!</strong></p> <p>Toto kolo <em>nie je</em> tiché a verejné zobrazovanie výsledkov je zapnuté.</p> <p>Ak chceš ponechať skryté iba výsledky tohto kola, môžeš ho označiť ako tiché tlačidlom vyššie.</p> <p>Ak chceš vypnúť verejné zobrazovanie výsledkov, môžeš to spraviť v <a href=\"%(public_features_url)s\">nastavení turnaja</a>.</p>"
 
 #: tournaments/templates/set_current_round.html:9
 msgid "Back to Configuration"
@@ -1162,33 +928,18 @@ msgstr "Späť na nastavenia"
 
 #: tournaments/templates/set_current_round.html:28
 #, python-format
-msgid ""
-"No round is currently set. In order for Tabbycat to work, please set the "
-"<strong>current round</strong> of the tournament "
-"<strong>%(tournament)s</strong>."
-msgstr ""
-"Momentálne nie je nastavené žiadne kolo. Aby Tabbycat fungoval, nastav "
-"<strong>aktuálne kolo</strong> turnaja <strong>%(tournament)s</strong>."
+msgid "No round is currently set. In order for Tabbycat to work, please set the <strong>current round</strong> of the tournament <strong>%(tournament)s</strong>."
+msgstr "Momentálne nie je nastavené žiadne kolo. Aby Tabbycat fungoval, nastav <strong>aktuálne kolo</strong> turnaja <strong>%(tournament)s</strong>."
 
 #: tournaments/templates/set_current_round.html:37
 #, python-format
-msgid ""
-"On this page, you can set the <strong>current round</strong> of the "
-"tournament <strong>%(tournament)s</strong>."
-msgstr ""
-"Na tejto stránke môžeš nastaviť <strong>aktuálne kolo</strong> turnaja "
-"<strong>%(tournament)s</strong>."
+msgid "On this page, you can set the <strong>current round</strong> of the tournament <strong>%(tournament)s</strong>."
+msgstr "Na tejto stránke môžeš nastaviť <strong>aktuálne kolo</strong> turnaja <strong>%(tournament)s</strong>."
 
 #: tournaments/templates/set_current_round.html:48
 #, python-format
-msgid ""
-"The tournament <strong>%(tournament)s</strong> has no rounds. You'll need to"
-" <a href=\"%(round_changelist_url)s\">add rounds and associate them with "
-"this tournament</a> before you can set the current round."
-msgstr ""
-"Turnaj <strong>%(tournament)s</strong> nemá žiadne kolá. Pred nastavením "
-"aktuálneho kola musíš <a href=\"%(round_changelist_url)s\">pridať kolá a "
-"priradiť ich k tomuto turnaju</a>."
+msgid "The tournament <strong>%(tournament)s</strong> has no rounds. You'll need to <a href=\"%(round_changelist_url)s\">add rounds and associate them with this tournament</a> before you can set the current round."
+msgstr "Turnaj <strong>%(tournament)s</strong> nemá žiadne kolá. Pred nastavením aktuálneho kola musíš <a href=\"%(round_changelist_url)s\">pridať kolá a priradiť ich k tomuto turnaju</a>."
 
 #: tournaments/templates/set_current_round.html:63
 msgctxt "button"
@@ -1202,12 +953,8 @@ msgid "Set Round Weights for Tapered Scoring"
 msgstr "Nastaviť váhy kôl pre tapered scoring"
 
 #: tournaments/templates/set_round_weights.html:8
-msgid ""
-"Round weights are coefficients for the points received in each round. A team"
-" would get triple their team points obtained in a round with a weight of 3."
-msgstr ""
-"Váhy kôl sú koeficienty pre body získané v jednotlivých kolách. Tím by pri "
-"váhe 3 získal trojnásobok tímových bodov z daného kola."
+msgid "Round weights are coefficients for the points received in each round. A team would get triple their team points obtained in a round with a weight of 3."
+msgstr "Váhy kôl sú koeficienty pre body získané v jednotlivých kolách. Tím by pri váhe 3 získal trojnásobok tímových bodov z daného kola."
 
 #: tournaments/templates/set_round_weights.html:41
 msgctxt "button"
@@ -1223,12 +970,8 @@ msgid "Breaks"
 msgstr "Postupy"
 
 #: tournaments/templates/site_index.html:31
-msgid ""
-"It looks like there aren't any tournaments on this site. Would you like to "
-"create one?"
-msgstr ""
-"Vyzerá to, že na tejto stránke ešte nie sú žiadne turnaje. Chceš nejaký "
-"vytvoriť?"
+msgid "It looks like there aren't any tournaments on this site. Would you like to create one?"
+msgstr "Vyzerá to, že na tejto stránke ešte nie sú žiadne turnaje. Chceš nejaký vytvoriť?"
 
 #: tournaments/templates/site_index.html:40
 msgid "There are currently no active tournaments set up on this site."
@@ -1261,7 +1004,7 @@ msgid "(inactive)"
 msgstr "(neaktívne)"
 
 #: tournaments/templates/site_index.html:84
-#: tournaments/templates/site_tools.html:4 tournaments/views.py:145
+#: tournaments/templates/site_tools.html:4 tournaments/views.py:143
 msgid "Site tools"
 msgstr "Nástroje stránky"
 
@@ -1296,7 +1039,7 @@ msgstr "Nový turnaj"
 msgid "Create a new Tabbycat tournament from a preset."
 msgstr "Vytvor nový turnaj v Tabbycate podľa predvoleného nastavenia."
 
-#: tournaments/templates/site_tools.html:135 tournaments/views.py:239
+#: tournaments/templates/site_tools.html:135 tournaments/views.py:237
 msgid "Tournament categories"
 msgstr "Kategórie turnajov"
 
@@ -1374,13 +1117,8 @@ msgid "Organise the homepage"
 msgstr "Usporiadať domovskú stránku"
 
 #: tournaments/templates/tournament_category_manage.html:14
-msgid ""
-"Build folders and subfolders, then drag tournaments and folders into place —"
-" just like a file browser. Nothing is saved until you click Save layout."
-msgstr ""
-"Vytvorte priečinky a podpriečinky a presuňte turnaje aj priečinky na "
-"požadované miesta — podobne ako v správcovi súborov. Zmeny sa uložia až po "
-"kliknutí na Uložiť usporiadanie."
+msgid "Build folders and subfolders, then drag tournaments and folders into place — just like a file browser. Nothing is saved until you click Save layout."
+msgstr "Vytvorte priečinky a podpriečinky a presuňte turnaje aj priečinky na požadované miesta — podobne ako v správcovi súborov. Zmeny sa uložia až po kliknutí na Uložiť usporiadanie."
 
 #: tournaments/templates/tournament_category_manage.html:19
 msgid "Return to Site Tools"
@@ -1388,12 +1126,8 @@ msgstr "Späť na nástroje stránky"
 
 #: tournaments/templates/tournament_index.html:11
 #, python-format
-msgid ""
-"%(submitted)s of %(total)s ballots submitted; %(notes)s of %(submitted)s "
-"have notes."
-msgstr ""
-"Odovzdaných %(submitted)s z %(total)s ballotov; %(notes)s z %(submitted)s má"
-" poznámky."
+msgid "%(submitted)s of %(total)s ballots submitted; %(notes)s of %(submitted)s have notes."
+msgstr "Odovzdaných %(submitted)s z %(total)s ballotov; %(notes)s z %(submitted)s má poznámky."
 
 #: tournaments/templates/tournament_index.html:12
 msgid "Download All Ballots"
@@ -1411,47 +1145,22 @@ msgstr "%(notes)s/%(total)s poznámok"
 
 #: tournaments/templates/tournament_index.html:23
 #, python-format
-msgid ""
-"We hope you've enjoyed using Tabbycat for your tournament. We would "
-"appreciate if you would make a donation to the project in order to support "
-"its ongoing development and maintenance. For a tournament of this size, we "
-"suggest a donation of <strong>$%(amount)s</strong>. <a "
-"href=\"https://opencollective.com/tabbycat\">Learn more about donating.</a>"
-msgstr ""
-"Dúfame, že sa ti Tabbycat na turnaji používal dobre. Ocenili by sme "
-"príspevok na podporu ďalšieho vývoja a údržby projektu. Pre turnaj tejto "
-"veľkosti odporúčame príspevok <strong>$%(amount)s</strong>. <a "
-"href=\"https://opencollective.com/tabbycat\">Zisti viac o prispievaní.</a>"
+msgid "We hope you've enjoyed using Tabbycat for your tournament. We would appreciate if you would make a donation to the project in order to support its ongoing development and maintenance. For a tournament of this size, we suggest a donation of <strong>$%(amount)s</strong>. <a href=\"https://opencollective.com/tabbycat\">Learn more about donating.</a>"
+msgstr "Dúfame, že sa ti Tabbycat na turnaji používal dobre. Ocenili by sme príspevok na podporu ďalšieho vývoja a údržby projektu. Pre turnaj tejto veľkosti odporúčame príspevok <strong>$%(amount)s</strong>. <a href=\"https://opencollective.com/tabbycat\">Zisti viac o prispievaní.</a>"
 
 #: tournaments/templates/tournament_index.html:41
 msgid "Welcome to your new tournament!"
 msgstr "Vitaj vo svojom novom turnaji!"
 
 #: tournaments/templates/tournament_index.html:43
-msgid ""
-"The next step is to import your initial tournament data: the institutions, "
-"teams, adjudicators and rooms that are in your tournament. There are a "
-"number of ways to do this. For small-to-medium tournaments, the simple "
-"importer is your best bet."
-msgstr ""
-"Ďalším krokom je importovať úvodné dáta turnaja: inštitúcie, tímy, "
-"rozhodcov/rozhodkyne a miestnosti. Dá sa to spraviť viacerými spôsobmi. Pri "
-"malých a stredných turnajoch je najlepšou voľbou jednoduchý importér."
+msgid "The next step is to import your initial tournament data: the institutions, teams, adjudicators and rooms that are in your tournament. There are a number of ways to do this. For small-to-medium tournaments, the simple importer is your best bet."
+msgstr "Ďalším krokom je importovať úvodné dáta turnaja: inštitúcie, tímy, rozhodcov/rozhodkyne a miestnosti. Dá sa to spraviť viacerými spôsobmi. Pri malých a stredných turnajoch je najlepšou voľbou jednoduchý importér."
 
-#. Translators: The documentation where the link goes to is in English;
-#. translations should mention this with "(in English)" after the link.
+#. Translators: The documentation where the link goes to is in English; translations should mention this with "(in English)" after the link.
 #: tournaments/templates/tournament_index.html:50
 #, python-format
-msgid ""
-"For more information, please consult our <a "
-"href=\"https://tabbycat.readthedocs.io/en/%(readthedocs_version)s/use/importing-"
-"data.html\" class=\"alert-link\" target=\"_blank\"> documentation on "
-"importing initial data</a>."
-msgstr ""
-"Viac informácií nájdeš v našej <a "
-"href=\"https://tabbycat.readthedocs.io/en/%(readthedocs_version)s/use/importing-"
-"data.html\" class=\"alert-link\" target=\"_blank\">dokumentácii k importu "
-"úvodných dát</a> (v angličtine)."
+msgid "For more information, please consult our <a href=\"https://tabbycat.readthedocs.io/en/%(readthedocs_version)s/use/importing-data.html\" class=\"alert-link\" target=\"_blank\"> documentation on importing initial data</a>."
+msgstr "Viac informácií nájdeš v našej <a href=\"https://tabbycat.readthedocs.io/en/%(readthedocs_version)s/use/importing-data.html\" class=\"alert-link\" target=\"_blank\">dokumentácii k importu úvodných dát</a> (v angličtine)."
 
 #: tournaments/templates/tournament_index.html:61
 msgid "Use the simple importer to add your initial data."
@@ -1460,8 +1169,7 @@ msgstr "Na pridanie úvodných dát použi jednoduchý importér."
 #: tournaments/templates/tournament_index.html:69
 #, python-format
 msgid "Mark participants as available to prepare a draw for %(round)s"
-msgstr ""
-"Označ účastníkov ako dostupných, aby sa dal pripraviť pairing pre %(round)s"
+msgstr "Označ účastníkov ako dostupných, aby sa dal pripraviť pairing pre %(round)s"
 
 #: tournaments/templates/tournament_index.html:79
 #, python-format
@@ -1493,12 +1201,8 @@ msgid "View Public Schedule"
 msgstr "Zobraziť verejný rozvrh"
 
 #: tournaments/templates/tournament_schedule_edit.html:22
-msgid ""
-"Events are grouped by day and ordered by start time. Drag an event into "
-"another row's time slot to reorder it."
-msgstr ""
-"Udalosti sú zoskupené podľa dní a zoradené podľa času začiatku. Poradie "
-"zmeníte presunutím udalosti do časového bloku iného riadka."
+msgid "Events are grouped by day and ordered by start time. Drag an event into another row's time slot to reorder it."
+msgstr "Udalosti sú zoskupené podľa dní a zoradené podľa času začiatku. Poradie zmeníte presunutím udalosti do časového bloku iného riadka."
 
 #: tournaments/templates/tournament_schedule_edit.html:38
 msgid "Save Schedule"
@@ -1730,38 +1434,32 @@ msgstr "stojí"
 msgid "Team %d"
 msgstr "Tím %d"
 
-#: tournaments/views.py:279
+#: tournaments/views.py:277
 msgid "The layout data was malformed. Please reload the page and try again."
-msgstr ""
-"Údaje usporiadania mali neplatný formát. Obnovte stránku a skúste to znova."
+msgstr "Údaje usporiadania mali neplatný formát. Obnovte stránku a skúste to znova."
 
-#: tournaments/views.py:301
+#: tournaments/views.py:299
 msgid "The category data was malformed. Please reload and try again."
-msgstr ""
-"Údaje kategórií mali neplatný formát. Obnovte stránku a skúste to znova."
+msgstr "Údaje kategórií mali neplatný formát. Obnovte stránku a skúste to znova."
 
-#: tournaments/views.py:308
-msgid ""
-"A category referenced a parent that no longer exists. Please reload and try "
-"again."
-msgstr ""
-"Kategória odkazovala na nadradenú kategóriu, ktorá už neexistuje. Obnovte "
-"stránku a skúste to znova."
+#: tournaments/views.py:306
+msgid "A category referenced a parent that no longer exists. Please reload and try again."
+msgstr "Kategória odkazovala na nadradenú kategóriu, ktorá už neexistuje. Obnovte stránku a skúste to znova."
 
-#: tournaments/views.py:316
+#: tournaments/views.py:314
 msgid "Categories can't be placed inside themselves."
 msgstr "Kategórie nemožno umiestniť do seba samých."
 
-#: tournaments/views.py:346
+#: tournaments/views.py:344
 msgid "Every category needs a name."
 msgstr "Každá kategória musí mať názov."
 
-#: tournaments/views.py:359 tournaments/views.py:374
+#: tournaments/views.py:357 tournaments/views.py:372
 #, python-format
 msgid "The slug \"%(slug)s\" is already in use."
 msgstr "Identifikátor „%(slug)s“ sa už používa."
 
-#: tournaments/views.py:365
+#: tournaments/views.py:363
 msgid "A category was changed by someone else. Please reload and try again."
 msgstr "Kategóriu zmenil niekto iný. Obnovte stránku a skúste to znova."
 
@@ -1777,52 +1475,28 @@ msgstr "Pri %(round)s bolo zrušené označenie ako tiché."
 
 #: tournaments/views.py:545
 #, python-format
-msgid ""
-"%(round)s has been marked as completed. All rounds are now completed, so "
-"you're done with the tournament! Congratulations!"
-msgstr ""
-"%(round)s bolo označené ako dokončené. Všetky kolá sú teraz dokončené, takže"
-" turnaj je hotový. Gratulujem!"
+msgid "%(round)s has been marked as completed. All rounds are now completed, so you're done with the tournament! Congratulations!"
+msgstr "%(round)s bolo označené ako dokončené. Všetky kolá sú teraz dokončené, takže turnaj je hotový. Gratulujem!"
 
 #: tournaments/views.py:551
 #, python-format
-msgid ""
-"%(round)s has been marked as completed. That's the last round in that "
-"sequence! Going back to the first round that hasn't been marked as "
-"completed."
-msgstr ""
-"%(round)s bolo označené ako dokončené. To bolo posledné kolo v tejto "
-"sekvencii. Vraciam sa na prvé kolo, ktoré ešte nebolo označené ako "
-"dokončené."
+msgid "%(round)s has been marked as completed. That's the last round in that sequence! Going back to the first round that hasn't been marked as completed."
+msgstr "%(round)s bolo označené ako dokončené. To bolo posledné kolo v tejto sekvencii. Vraciam sa na prvé kolo, ktoré ešte nebolo označené ako dokončené."
 
 #: tournaments/views.py:564
 #, python-format
-msgid ""
-"%(round)s has been marked as completed. You've made it to the end of the "
-"preliminary rounds! Congratulations! The next step is to generate the break."
-msgstr ""
-"%(round)s bolo označené ako dokončené. Dostali sme sa na koniec základných "
-"kôl. Gratulujem! Ďalším krokom je vygenerovať break."
+msgid "%(round)s has been marked as completed. You've made it to the end of the preliminary rounds! Congratulations! The next step is to generate the break."
+msgstr "%(round)s bolo označené ako dokončené. Dostali sme sa na koniec základných kôl. Gratulujem! Ďalším krokom je vygenerovať break."
 
 #: tournaments/views.py:570
 #, python-format
-msgid ""
-"%(round)s has been marked as completed. That was the last preliminary round,"
-" but one or more preliminary rounds are still not completed. Going back to "
-"the first incomplete preliminary round."
-msgstr ""
-"%(round)s bolo označené ako dokončené. Bolo to posledné základné kolo, ale "
-"jedno alebo viac základných kôl ešte nie je dokončených. Vraciam sa na prvé "
-"nedokončené základné kolo."
+msgid "%(round)s has been marked as completed. That was the last preliminary round, but one or more preliminary rounds are still not completed. Going back to the first incomplete preliminary round."
+msgstr "%(round)s bolo označené ako dokončené. Bolo to posledné základné kolo, ale jedno alebo viac základných kôl ešte nie je dokončených. Vraciam sa na prvé nedokončené základné kolo."
 
 #: tournaments/views.py:578
 #, python-format
-msgid ""
-"%(this_round)s has been marked as completed. Moving on to %(next_round)s! "
-"Woohoo! Keep it up!"
-msgstr ""
-"%(this_round)s bolo označené ako dokončené. Pokračujeme na %(next_round)s! "
-"Super, ideš dobre!"
+msgid "%(this_round)s has been marked as completed. Moving on to %(next_round)s! Woohoo! Keep it up!"
+msgstr "%(this_round)s bolo označené ako dokončené. Pokračujeme na %(next_round)s! Super, ideš dobre!"
 
 #: tournaments/views.py:602
 msgid "8-team generic dataset"
@@ -1845,15 +1519,15 @@ msgstr "Turnaj %(name)s je pripravený."
 msgid "Set Current Round"
 msgstr "Nastaviť aktuálne kolo"
 
-#: tournaments/views.py:724
+#: tournaments/views.py:725
 msgid "Successfully set round weights for tapered scoring."
 msgstr "Váhy kôl pre tapered scoring boli úspešne nastavené."
 
-#: tournaments/views.py:922
+#: tournaments/views.py:923
 msgid "Tournament Schedule"
 msgstr "Harmonogram turnaja"
 
-#: tournaments/views.py:966
+#: tournaments/views.py:967
 #, python-format
 msgid "%(tournament)s Schedule"
 msgstr "Rozvrh turnaja %(tournament)s"
@@ -1870,12 +1544,8 @@ msgstr "Rozvrh turnaja %(tournament)s"
 #~ msgid "Visibility"
 #~ msgstr "Viditeľnosť"
 
-#~ msgid ""
-#~ "Private categories are shown only to superusers and users with administrator"
-#~ " access to tournaments in that category."
-#~ msgstr ""
-#~ "Súkromné kategórie sú viditeľné len pre superuserov a používateľov s "
-#~ "administrátorským prístupom k turnajom v danej kategórii."
+#~ msgid "Private categories are shown only to superusers and users with administrator access to tournaments in that category."
+#~ msgstr "Súkromné kategórie sú viditeľné len pre superuserov a používateľov s administrátorským prístupom k turnajom v danej kategórii."
 
 #~ msgid "Create a category first, then change its visibility."
 #~ msgstr "Najprv vytvor kategóriu, potom zmeň jej viditeľnosť."
@@ -1901,12 +1571,8 @@ msgstr "Rozvrh turnaja %(tournament)s"
 #~ msgid "There are no active tournaments in this category."
 #~ msgstr "V tejto kategórii nie sú žiadne aktívne turnaje."
 
-#~ msgid ""
-#~ "Create homepage folders, delete old ones, and assign tournaments without "
-#~ "scrolling through every event."
-#~ msgstr ""
-#~ "Vytváraj priečinky na domovskej stránke, mazaj staré a priraďuj turnaje bez "
-#~ "nutnosti rolovať cez každú udalosť."
+#~ msgid "Create homepage folders, delete old ones, and assign tournaments without scrolling through every event."
+#~ msgstr "Vytváraj priečinky na domovskej stránke, mazaj staré a priraďuj turnaje bez nutnosti rolovať cez každú udalosť."
 
 #~ msgid "Create category"
 #~ msgstr "Vytvoriť kategóriu"
@@ -1914,8 +1580,7 @@ msgstr "Rozvrh turnaja %(tournament)s"
 #~ msgid "Delete category"
 #~ msgstr "Vymazať kategóriu"
 
-#~ msgid ""
-#~ "Deleting a category does not delete tournaments. They become uncategorised."
+#~ msgid "Deleting a category does not delete tournaments. They become uncategorised."
 #~ msgstr "Vymazaním kategórie sa turnaje nevymažú. Stanú sa nekategorizovanými."
 
 #~ msgid "Change visibility"

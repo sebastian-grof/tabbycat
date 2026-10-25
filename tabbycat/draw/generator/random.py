@@ -105,6 +105,11 @@ class GraphRandomDrawGenerator(GraphGeneratorMixin, GraphRandomDrawMixin, BaseRa
     def get_unmatched_bye_team(self):
         return self.get_unmatched_team(list(self.teams), bracket=0)
 
+    def _get_pools(self):
+        teams = super()._get_pools()
+        random.shuffle(teams)
+        return teams
+
 
 class SwapRandomDrawGenerator(SwapRandomDrawMixin, BaseRandomDrawGenerator):
     pass
@@ -127,6 +132,12 @@ class BaseRandomWithAllocatedSidesDrawGenerator(BaseRandomDrawGenerator):
 class GraphRandomWithAllocatedSidesDrawGenerator(GraphAllocatedSidesMixin, GraphRandomDrawMixin, BaseRandomWithAllocatedSidesDrawGenerator):
     def get_unmatched_bye_team(self):
         return self.get_unmatched_team(self._get_pools())
+
+    def _get_pools(self):
+        pools = super()._get_pools()
+        for pool in pools:
+            random.shuffle(pool)
+        return pools
 
 
 class SwapRandomWithAllocatedSidesDrawGenerator(SwapRandomDrawMixin, BaseRandomWithAllocatedSidesDrawGenerator):

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-27 15:04+0200\n"
+"POT-Creation-Date: 2026-10-25 07:25+1100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,26 +26,23 @@ msgstr "Zdroj"
 msgid "Receiving"
 msgstr "Prijímajúci"
 
-#. Translators: Please leave this blank, it should be left for the base Django
-#. translations.
+#. Translators: Please leave this blank, it should be left for the base Django translations.
 #: registration/form_utils.py:41
 msgid "Yes"
 msgstr "Ano"
 
-#. Translators: Please leave this blank, it should be left for the base Django
-#. translations.
+#. Translators: Please leave this blank, it should be left for the base Django translations.
 #: registration/form_utils.py:43
 msgid "No"
 msgstr "Nie"
 
-#. Translators: Please leave this blank, it should be left for the base Django
-#. translations.
+#. Translators: Please leave this blank, it should be left for the base Django translations.
 #: registration/form_utils.py:58
 msgid "This field is required."
 msgstr "Toto pole je povinné."
 
 #: registration/forms.py:24 registration/forms.py:571
-#: registration/views.py:1332
+#: registration/views.py:1344
 msgid "Institution name"
 msgstr "Názov debatného klubu"
 
@@ -58,14 +55,11 @@ msgid "Institution region"
 msgstr "Región debatného klubu"
 
 #: registration/forms.py:56
-msgid ""
-"An institution with this name is already registered for this tournament."
+msgid "An institution with this name is already registered for this tournament."
 msgstr "Debatný klub s týmto názvom je na tento turnaj už zaregistrovaný."
 
 #: registration/forms.py:63
-msgid ""
-"An institution with this abbreviation is already registered for this "
-"tournament."
+msgid "An institution with this abbreviation is already registered for this tournament."
 msgstr "Inštitúcia s touto skratkou je už na turnaji zaregistrovaná."
 
 #: registration/forms.py:106
@@ -111,16 +105,13 @@ msgstr "Skrátený názov/prípona tímu"
 
 #: registration/forms.py:396
 #, python-format
-msgid ""
-"The team can't be in a break category of a different tournament. Please "
-"remove: %(category)s"
-msgstr ""
-"Tím nemôže byť v postupovej kategórii iného turnaja. Odober: %(category)s"
+msgid "The team can't be in a break category of a different tournament. Please remove: %(category)s"
+msgstr "Tím nemôže byť v postupovej kategórii iného turnaja. Odober: %(category)s"
 
 #: registration/forms.py:565
 #: registration/templates/registration/institution_edit.html:12
 #: registration/templates/registration/institution_view_response.html:16
-#: registration/views.py:1057
+#: registration/views.py:1069
 msgid "Institution"
 msgstr "Debatný klub"
 
@@ -129,9 +120,7 @@ msgid "Institution not listed"
 msgstr "Klub nie je uvedený"
 
 #: registration/forms.py:573
-msgid ""
-"If the institution is not listed above, enter the name of the receiving "
-"institution here."
+msgid "If the institution is not listed above, enter the name of the receiving institution here."
 msgstr "Ak klub nie je uvedený vyššie, zadaj tu názov prijímajúceho klubu."
 
 #: registration/forms.py:576
@@ -139,12 +128,8 @@ msgid "Contact email"
 msgstr "Kontaktný e-mail"
 
 #: registration/forms.py:578
-msgid ""
-"If the institution is not listed above, enter the contact email for the "
-"receiving institution here."
-msgstr ""
-"Ak klub nie je uvedený vyššie, zadaj tu kontaktný e-mail prijímajúceho "
-"klubu."
+msgid "If the institution is not listed above, enter the contact email for the receiving institution here."
+msgstr "Ak klub nie je uvedený vyššie, zadaj tu kontaktný e-mail prijímajúceho klubu."
 
 #: registration/forms.py:583
 msgid "Team slots to transfer"
@@ -248,9 +233,7 @@ msgid "sequence number"
 msgstr "poradové číslo"
 
 #: registration/models.py:98
-msgid ""
-"The question displayed to participants, e.g., \"Did you agree with the "
-"decision?\""
+msgid "The question displayed to participants, e.g., \"Did you agree with the decision?\""
 msgstr "Otázka zobrazená účastníkom, napr. „Súhlasili ste s rozhodnutím?“"
 
 #: registration/models.py:99
@@ -286,36 +269,24 @@ msgid "minimum value"
 msgstr "minimálna hodnota"
 
 #: registration/models.py:112
-msgid ""
-"Minimum allowed value for numeric fields (ignored for text or boolean "
-"fields)"
-msgstr ""
-"Minimálna povolená hodnota pre číselné polia (ignoruje sa pre textové alebo "
-"logické polia)"
+msgid "Minimum allowed value for numeric fields (ignored for text or boolean fields)"
+msgstr "Minimálna povolená hodnota pre číselné polia (ignoruje sa pre textové alebo logické polia)"
 
 #: registration/models.py:114
 msgid "maximum value"
 msgstr "maximálna hodnota"
 
 #: registration/models.py:115
-msgid ""
-"Maximum allowed value for numeric fields (ignored for text or boolean "
-"fields)"
-msgstr ""
-"Maximálna povolená hodnota pre číselné polia (ignoruje sa pre textové alebo "
-"logické polia)"
+msgid "Maximum allowed value for numeric fields (ignored for text or boolean fields)"
+msgstr "Maximálna povolená hodnota pre číselné polia (ignoruje sa pre textové alebo logické polia)"
 
 #: registration/models.py:120
 msgid "choices"
 msgstr "možnosti"
 
 #: registration/models.py:121
-msgid ""
-"Permissible choices for select one/multiple fields (ignored for other "
-"fields)"
-msgstr ""
-"Povolené možnosti pre polia s výberom jednej alebo viacerých možností "
-"(ignoruje sa pre ostatné polia)"
+msgid "Permissible choices for select one/multiple fields (ignored for other fields)"
+msgstr "Povolené možnosti pre polia s výberom jednej alebo viacerých možností (ignoruje sa pre ostatné polia)"
 
 #: registration/models.py:126
 msgid "questions"
@@ -485,7 +456,7 @@ msgid "Save allocations"
 msgstr "Uložiť alokácie"
 
 #: registration/templates/answer_tables/teams.html:9 registration/views.py:572
-#: registration/views.py:1241
+#: registration/views.py:1253
 msgid "Teams"
 msgstr "Tímy"
 
@@ -506,16 +477,8 @@ msgstr "pre %(name)s (%(institution)s)"
 
 #: registration/templates/coach_private_url.html:14
 #, python-format
-msgid ""
-"The URL of this page is personalised to you, %(name)s. <strong>Do not share "
-"it with anyone;</strong> anyone who knows this URL can manage participants "
-"for %(institution)s. Bookmark this page as you may need it for a next phase "
-"of registration."
-msgstr ""
-"URL tejto stránky je osobná pre teba, %(name)s. <strong>Nikomu ju "
-"nezdieľaj;</strong> ktokoľvek, kto pozná túto URL, môže spravovať účastníkov"
-" za %(institution)s. Ulož si túto stránku do záložiek, keďže ju môžeš "
-"potrebovať v ďalšej fáze registrácie."
+msgid "The URL of this page is personalised to you, %(name)s. <strong>Do not share it with anyone;</strong> anyone who knows this URL can manage participants for %(institution)s. Bookmark this page as you may need it for a next phase of registration."
+msgstr "URL tejto stránky je osobná pre teba, %(name)s. <strong>Nikomu ju nezdieľaj;</strong> ktokoľvek, kto pozná túto URL, môže spravovať účastníkov za %(institution)s. Ulož si túto stránku do záložiek, keďže ju môžeš potrebovať v ďalšej fáze registrácie."
 
 #: registration/templates/coach_private_url.html:28
 msgid "View your registration form response"
@@ -526,12 +489,8 @@ msgid "Register Adjudicator"
 msgstr "Registrovať rozhodcu"
 
 #: registration/templates/coach_private_url.html:120
-msgid ""
-"or distribute this link to allow members to register themselves as "
-"adjudicators:"
-msgstr ""
-"alebo rozpošli tento odkaz, aby sa členovia mohli zaregistrovať ako "
-"rozhodcovia:"
+msgid "or distribute this link to allow members to register themselves as adjudicators:"
+msgstr "alebo rozpošli tento odkaz, aby sa členovia mohli zaregistrovať ako rozhodcovia:"
 
 #: registration/templates/coach_private_url.html:128
 msgid "Adjudicator registration is not yet open"
@@ -543,8 +502,7 @@ msgstr "Registrovať tím"
 
 #: registration/templates/coach_private_url.html:140
 msgid "or distribute this link to allow members to register their teams:"
-msgstr ""
-"alebo rozpošli tento odkaz, aby členovia mohli registrovať svoje tímy:"
+msgstr "alebo rozpošli tento odkaz, aby členovia mohli registrovať svoje tímy:"
 
 #: registration/templates/coach_private_url.html:148
 msgid "Team registration is not yet open"
@@ -558,62 +516,14 @@ msgstr "Previesť sloty do iného debatného klubu"
 msgid "View invoice"
 msgstr "Zobraziť faktúru"
 
-#: registration/templates/email_institution_coaches.html:9
-msgid "Available variables"
-msgstr "Dostupné premenné"
-
-#: registration/templates/email_institution_coaches.html:11
-msgid ""
-"You can personalise the subject and message using the variables below. They "
-"are replaced per recipient when the email is sent."
-msgstr ""
-"Predmet a správu môžete prispôsobiť pomocou premenných uvedených nižšie. Pri"
-" odoslaní sa nahradia údajmi konkrétneho príjemcu."
-
-#: registration/templates/email_institution_coaches.html:20
-msgid "name of the institution's contact"
-msgstr "meno kontaktnej osoby inštitúcie"
-
-#: registration/templates/email_institution_coaches.html:21
-msgid "institution name"
-msgstr "názov inštitúcie"
-
-#: registration/templates/email_institution_coaches.html:22
-msgid "tournament name"
-msgstr "názov turnaja"
-
-#: registration/templates/email_institution_coaches.html:35
-msgid "Arithmetic (for pricing, etc.)"
-msgstr "Výpočty (napríklad cien)"
-
-#: registration/templates/email_institution_coaches.html:37
-msgid ""
-"Use the <code>calc</code> tag for calculations with <code>+</code>, "
-"<code>-</code>, <code>*</code>, <code>/</code>:"
-msgstr ""
-"Na výpočty s operátormi <code>+</code>, <code>-</code>, <code>*</code>, "
-"<code>/</code> použite značku <code>calc</code>:"
-
-#: registration/templates/email_institution_coaches.html:45
-msgid "alternative syntax"
-msgstr "alternatívny zápis"
-
 #: registration/templates/questions_edit.html:12
-msgid ""
-"These questions appear as extra fields for participants to answer, in "
-"feedback or registration forms."
-msgstr ""
-"Tieto otázky sa zobrazia ako dodatočné polia pre účastníkov vo formulároch "
-"spätnej väzby alebo registrácie."
+msgid "These questions appear as extra fields for participants to answer, in feedback or registration forms."
+msgstr "Tieto otázky sa zobrazia ako dodatočné polia pre účastníkov vo formulároch spätnej väzby alebo registrácie."
 
 #: registration/templates/questions_edit.html:17
 #, python-format
-msgid ""
-"If you want to delete questions (and their associated answers), use the <a "
-"href=\"%(edit_db_url)s\" class=\"alert-link\">Edit Database</a> area."
-msgstr ""
-"Ak chceš vymazať otázky aj ich súvisiace odpovede, použi časť <a "
-"href=\"%(edit_db_url)s\" class=\"alert-link\">Upraviť databázu</a>."
+msgid "If you want to delete questions (and their associated answers), use the <a href=\"%(edit_db_url)s\" class=\"alert-link\">Edit Database</a> area."
+msgstr "Ak chceš vymazať otázky aj ich súvisiace odpovede, použi časť <a href=\"%(edit_db_url)s\" class=\"alert-link\">Upraviť databázu</a>."
 
 #: registration/templates/questions_edit.html:23
 msgid "Save Questions"
@@ -635,8 +545,7 @@ msgstr "Údaje rozhodcu"
 
 #: registration/templates/registration/adjudicator_edit.html:26
 msgid "Common tab fields stay visible. Feedback is managed separately."
-msgstr ""
-"Bežné polia tabu ostávajú viditeľné. Spätná väzba sa spravuje osobitne."
+msgstr "Bežné polia tabu ostávajú viditeľné. Spätná väzba sa spravuje osobitne."
 
 #: registration/templates/registration/adjudicator_edit.html:29
 #: registration/templates/registration/team_edit.html:55
@@ -666,9 +575,7 @@ msgstr "Naozaj chceš natrvalo vymazať <strong>%(name)s</strong>?"
 
 #: registration/templates/registration/adjudicator_edit.html:92
 msgid "This also removes their registration response, and cannot be undone."
-msgstr ""
-"Tým sa odstráni aj ich registračná odpoveď a túto akciu nie je možné vrátiť "
-"späť."
+msgstr "Tým sa odstráni aj ich registračná odpoveď a túto akciu nie je možné vrátiť späť."
 
 #: registration/templates/registration/adjudicator_edit.html:95
 #: registration/templates/registration/team_edit.html:152
@@ -690,12 +597,8 @@ msgid "Back to institution list"
 msgstr "Späť na zoznam klubov"
 
 #: registration/templates/registration/institution_view_response.html:10
-msgid ""
-"This form is read-only. You can view your institution's registration "
-"response below but cannot edit it here."
-msgstr ""
-"Tento formulár je len na čítanie. Odpoveď na registráciu svojho klubu si "
-"môžeš zobraziť nižšie, ale tu ju nemôžeš upraviť."
+msgid "This form is read-only. You can view your institution's registration response below but cannot edit it here."
+msgstr "Tento formulár je len na čítanie. Odpoveď na registráciu svojho klubu si môžeš zobraziť nižšie, ale tu ju nemôžeš upraviť."
 
 #: registration/templates/registration/institution_view_response.html:31
 msgid "Back to your private URL"
@@ -716,8 +619,7 @@ msgid "Team details"
 msgstr "Údaje tímu"
 
 #: registration/templates/registration/team_edit.html:25
-msgid ""
-"Edit the team name, institution, emoji, categories and registration status."
+msgid "Edit the team name, institution, emoji, categories and registration status."
 msgstr "Uprav názov tímu, klub, emoji, kategórie a stav registrácie."
 
 #: registration/templates/registration/team_edit.html:35
@@ -734,9 +636,7 @@ msgstr "Rečník/rečníčka"
 
 #: registration/templates/registration/team_edit.html:89
 msgid "No speakers are listed yet. Add the first speaker when you need one."
-msgstr ""
-"Zatiaľ nie sú pridaní žiadni rečníci. Pridaj prvého rečníka, keď budeš "
-"potrebovať."
+msgstr "Zatiaľ nie sú pridaní žiadni rečníci. Pridaj prvého rečníka, keď budeš potrebovať."
 
 #: registration/templates/registration/team_edit.html:96
 msgctxt "button"
@@ -752,12 +652,8 @@ msgid "New speaker"
 msgstr "Nový rečník"
 
 #: registration/templates/registration/team_edit.html:149
-msgid ""
-"This also removes its speakers and registration response, and cannot be "
-"undone."
-msgstr ""
-"Tým sa odstránia aj jeho rečníci/rečníčky a registračná odpoveď a túto akciu"
-" nie je možné vrátiť späť."
+msgid "This also removes its speakers and registration response, and cannot be undone."
+msgstr "Tým sa odstránia aj jeho rečníci/rečníčky a registračná odpoveď a túto akciu nie je možné vrátiť späť."
 
 #: registration/templates/slot_transfer_request_form.html:16
 msgid "Submit request"
@@ -773,14 +669,8 @@ msgid "Register as Speaker"
 msgstr "Registrovať sa ako rečník/rečníčka"
 
 #: registration/templates/team_wizard_speakers.html:6
-msgid ""
-"You may register speakers for the team, but if not all speakers are "
-"included, a link will be generated to let speakers register themselves to "
-"the team after submission which you can then distribute."
-msgstr ""
-"Môžeš registrovať rečníkov tímu, ale ak nezahrnieš všetkých rečníkov, po "
-"odoslaní sa vygeneruje odkaz, cez ktorý sa rečníci môžu do tímu "
-"zaregistrovať sami a ktorý im môžeš rozposlať."
+msgid "You may register speakers for the team, but if not all speakers are included, a link will be generated to let speakers register themselves to the team after submission which you can then distribute."
+msgstr "Môžeš registrovať rečníkov tímu, ale ak nezahrnieš všetkých rečníkov, po odoslaní sa vygeneruje odkaz, cez ktorý sa rečníci môžu do tímu zaregistrovať sami a ktorý im môžeš rozposlať."
 
 #: registration/templates/team_wizard_speakers.html:16
 #, python-format
@@ -833,26 +723,17 @@ msgstr[1] "Zaregistrovať rečníkov/rečníčky"
 msgid "from %s"
 msgstr "od %s"
 
-#: registration/views.py:231 registration/views.py:1158
+#: registration/views.py:231 registration/views.py:1170
 #, python-format
 msgid "for %s"
 msgstr "pre %s"
 
 #: registration/views.py:287
 #, python-format
-msgid ""
-"Your team only has %(num)d speaker! Invite the other speakers to register "
-"using this link: <a href='%(link)s'>%(link)s</a>"
-msgid_plural ""
-"Your team only has %(num)d speakers! Invite the other speakers to register "
-"using this link: <a href='%(link)s'>%(link)s</a>"
-msgstr[0] ""
-"Tvoj tím má len %(num)d rečníka/rečníčku! Pozvi ostatných rečníkov/rečníčky,"
-" aby sa zaregistrovali cez tento odkaz: <a href='%(link)s'>%(link)s</a>"
-msgstr[1] ""
-"Tvoj tím má len %(num)d rečníkov/rečníčky! Pozvi ostatných "
-"rečníkov/rečníčky, aby sa zaregistrovali cez tento odkaz: <a "
-"href='%(link)s'>%(link)s</a>"
+msgid "Your team only has %(num)d speaker! Invite the other speakers to register using this link: <a href='%(link)s'>%(link)s</a>"
+msgid_plural "Your team only has %(num)d speakers! Invite the other speakers to register using this link: <a href='%(link)s'>%(link)s</a>"
+msgstr[0] "Tvoj tím má len %(num)d rečníka/rečníčku! Pozvi ostatných rečníkov/rečníčky, aby sa zaregistrovali cez tento odkaz: <a href='%(link)s'>%(link)s</a>"
+msgstr[1] "Tvoj tím má len %(num)d rečníkov/rečníčky! Pozvi ostatných rečníkov/rečníčky, aby sa zaregistrovali cez tento odkaz: <a href='%(link)s'>%(link)s</a>"
 
 #: registration/views.py:292
 #, python-format
@@ -867,7 +748,7 @@ msgstr "Bol/a si zaregistrovaný/á ako rozhodca!"
 msgid "You have been registered as a speaker!"
 msgstr "Bol/a si zaregistrovaný/á ako rečník/rečníčka!"
 
-#: registration/views.py:565 registration/views.py:1242
+#: registration/views.py:565 registration/views.py:1254
 msgid "Adjudicators"
 msgstr "Rozhodcovia"
 
@@ -924,8 +805,8 @@ msgstr "Tvoja žiadosť o prevedenie slotov bola odoslaná a čaká na schválen
 msgid "Institutional Registration"
 msgstr "Registrácia debatného klubu"
 
-#: registration/views.py:920 registration/views.py:1092
-#: registration/views.py:1118
+#: registration/views.py:920 registration/views.py:1104
+#: registration/views.py:1130
 msgid "Responses"
 msgstr "Odpovede"
 
@@ -941,8 +822,8 @@ msgstr "Kód"
 msgid "Coach"
 msgstr "Tréner"
 
-#: registration/views.py:930 registration/views.py:1101
-#: registration/views.py:1120
+#: registration/views.py:930 registration/views.py:1113
+#: registration/views.py:1132
 msgid "Email"
 msgstr "E-mail"
 
@@ -978,104 +859,146 @@ msgstr "Región"
 msgid "Successfully modified institution allocations"
 msgstr "Pridelenia debatného klubu boli úspešne upravené"
 
-#: registration/views.py:1031
+#: registration/views.py:1030
 msgid "Email Institution Coaches"
 msgstr "Poslať e-mail trénerom inštitúcií"
 
-#: registration/views.py:1060
+#: registration/views.py:1035
+msgid "recipient institution name"
+msgstr "názov inštitúcie príjemcu"
+
+#: registration/views.py:1036
+msgid "recipient contact name"
+msgstr "meno kontaktnej osoby príjemcu"
+
+#: registration/views.py:1037
+msgid "teams requested by the recipient institution"
+msgstr "tímy požadované inštitúciou príjemcu"
+
+#: registration/views.py:1038
+msgid "teams allocated to the recipient institution"
+msgstr "tímy pridelené inštitúcii príjemcu"
+
+#: registration/views.py:1039
+msgid "adjudicators requested by the recipient institution"
+msgstr "rozhodcovia požadovaní inštitúciou príjemcu"
+
+#: registration/views.py:1040
+msgid "adjudicators allocated to the recipient institution"
+msgstr "rozhodcovia pridelení inštitúcii príjemcu"
+
+#: registration/views.py:1072
 msgid "Teams (req. / alloc.)"
 msgstr "Tímy (požadované / pridelené)"
 
-#: registration/views.py:1064
+#: registration/views.py:1076
 msgid "Adjudicators (req. / alloc.)"
 msgstr "Rozhodcovia (požadovaní / pridelení)"
 
-#: registration/views.py:1074
+#: registration/views.py:1086
 msgid "Team Registration"
 msgstr "Registrácia tímov"
 
-#: registration/views.py:1100
+#: registration/views.py:1112
 #, python-format
 msgid "Speaker %d"
 msgstr "Rečník/rečníčka %d"
 
-#: registration/views.py:1110
+#: registration/views.py:1122
 msgid "Adjudicator Registration"
 msgstr "Registrácia rozhodcu"
 
-#: registration/views.py:1147
+#: registration/views.py:1159
 msgid "Custom Questions"
 msgstr "Vlastné otázky"
 
-#: registration/views.py:1175
+#: registration/views.py:1187
 #, python-format
 msgid "Questions for %(model)s were successfully saved."
 msgstr "Otázky pre %(model)s boli úspešne uložené."
 
-#: registration/views.py:1177
+#: registration/views.py:1189
 msgid "No changes were made to the questions."
 msgstr "V otázkach neboli vykonané žiadne zmeny."
 
-#: registration/views.py:1199
+#: registration/views.py:1211
 #, python-format
 msgid "%s has been confirmed."
 msgstr "%s bolo potvrdené."
 
-#: registration/views.py:1221 registration/views.py:1238
+#: registration/views.py:1233 registration/views.py:1250
 msgid "Slot transfer requests"
 msgstr "Žiadosti o prevedenie slotov"
 
-#: registration/views.py:1239
+#: registration/views.py:1251
 msgid "From"
 msgstr "Od"
 
-#: registration/views.py:1240
+#: registration/views.py:1252
 msgid "To"
 msgstr "Pre"
 
-#: registration/views.py:1259
+#: registration/views.py:1271
 msgid "Transfer request rejected."
 msgstr "Žiadosť o prevedenie bola zamietnutá."
 
-#: registration/views.py:1263
+#: registration/views.py:1275
 msgid "Invalid request or transfer is no longer pending."
 msgstr "Neplatná žiadosť alebo prevedenie už nečaká na schválenie."
 
-#: registration/views.py:1296
-msgid ""
-"Transfer approved. An invitation email has been sent to the provided "
-"address. "
+#: registration/views.py:1308
+msgid "Transfer approved. An invitation email has been sent to the provided address. "
 msgstr "Prevedenie schválené. Na zadanú adresu bol odoslaný pozývací e-mail. "
 
-#: registration/views.py:1297
+#: registration/views.py:1309
 #, python-format
-msgid ""
-"You can also share this link: <a href=\"%(url)s\" class=\"alert-"
-"link\">%(url)s</a>"
-msgstr ""
-"Môžeš tiež zdieľať tento odkaz: <a href=\"%(url)s\" class=\"alert-"
-"link\">%(url)s</a>"
+msgid "You can also share this link: <a href=\"%(url)s\" class=\"alert-link\">%(url)s</a>"
+msgstr "Môžeš tiež zdieľať tento odkaz: <a href=\"%(url)s\" class=\"alert-link\">%(url)s</a>"
 
-#: registration/views.py:1301
+#: registration/views.py:1313
 msgid "Transfer approved."
 msgstr "Prevedenie schválené."
 
-#: registration/views.py:1310 registration/views.py:1331
+#: registration/views.py:1322 registration/views.py:1343
 msgid "Slot transfer summary"
 msgstr "Prehľad prevedení slotov"
 
-#: registration/views.py:1333
+#: registration/views.py:1345
 msgid "Teams allocated"
 msgstr "Pridelené tímy"
 
-#: registration/views.py:1334
+#: registration/views.py:1346
 msgid "Adjudicators allocated"
 msgstr "Pridelení rozhodcovia"
 
-#: registration/views.py:1335
+#: registration/views.py:1347
 msgid "Net new teams"
 msgstr "Čisté nové tímy"
 
-#: registration/views.py:1336
+#: registration/views.py:1348
 msgid "Net new adjudicators"
 msgstr "Čistí noví rozhodcovia"
+
+#~ msgid "Available variables"
+#~ msgstr "Dostupné premenné"
+
+#~ msgid "You can personalise the subject and message using the variables below. They are replaced per recipient when the email is sent."
+#~ msgstr "Predmet a správu môžete prispôsobiť pomocou premenných uvedených nižšie. Pri odoslaní sa nahradia údajmi konkrétneho príjemcu."
+
+#~ msgid "name of the institution's contact"
+#~ msgstr "meno kontaktnej osoby inštitúcie"
+
+#~ msgid "institution name"
+#~ msgstr "názov inštitúcie"
+
+#~ msgid "tournament name"
+#~ msgstr "názov turnaja"
+
+#~ msgid "Arithmetic (for pricing, etc.)"
+#~ msgstr "Výpočty (napríklad cien)"
+
+#~ msgid "Use the <code>calc</code> tag for calculations with <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>:"
+#~ msgstr "Na výpočty s operátormi <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code> použite značku <code>calc</code>:"
+
+#~ msgid "alternative syntax"
+#~ msgstr "alternatívny zápis"

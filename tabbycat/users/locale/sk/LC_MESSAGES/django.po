@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-27 15:04+0200\n"
+"POT-Creation-Date: 2026-10-25 06:56+1100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,19 +19,14 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);\n"
 
 #: users/admin.py:32
-msgid ""
-"Users with staff status can view and edit the Edit Database area. This is "
-"potentially dangerous and should be reserved for the actual tab director(s)."
-msgstr ""
-"Používatelia s príznakom personálu môžu zobrazovať a upravovať časť Upraviť "
-"databázu. Je to potenciálne nebezpečné a malo by to byť vyhradené iba "
-"skutočným vedúcim tabu."
+msgid "Users with staff status can view and edit the Edit Database area. This is potentially dangerous and should be reserved for the actual tab director(s)."
+msgstr "Používatelia s príznakom personálu môžu zobrazovať a upravovať časť Upraviť databázu. Je to potenciálne nebezpečné a malo by to byť vyhradené iba skutočným vedúcim tabu."
 
 #: users/admin.py:50
 msgid "Personal info"
 msgstr "Osobné informácie"
 
-#: users/admin.py:51 users/forms.py:333
+#: users/admin.py:51 users/forms.py:334
 msgid "Permissions"
 msgstr "Povolenia"
 
@@ -75,79 +70,75 @@ msgstr "Výsledky"
 msgid "Feedback"
 msgstr "Spätná väzba"
 
-#: users/forms.py:125
+#: users/forms.py:126
 msgid "Breaks"
 msgstr "Postupy"
 
-#: users/forms.py:140
+#: users/forms.py:141
 msgid "Check-Ins and Private URLs"
 msgstr "Check-iny a súkromné URL"
 
-#: users/forms.py:148
+#: users/forms.py:149
 msgid "Rounds and Schedule"
 msgstr "Kolá a rozvrh"
 
-#: users/forms.py:157
+#: users/forms.py:158
 msgid "Settings, Data and Registration"
 msgstr "Nastavenia, dáta a registrácia"
 
-#: users/forms.py:182
+#: users/forms.py:183
 msgid "Email address"
 msgstr "E-mailová adresa"
 
-#: users/forms.py:202
+#: users/forms.py:203
 msgid "Email addresses"
 msgstr "E-mailové adresy"
 
-#: users/forms.py:203
+#: users/forms.py:204
 msgid "Separate multiple addresses with commas or new lines."
 msgstr "Viaceré adresy oddeľte čiarkami alebo novými riadkami."
 
-#: users/forms.py:215
+#: users/forms.py:216
 msgid "Enter at least one email address."
 msgstr "Zadajte aspoň jednu e-mailovú adresu."
 
-#: users/forms.py:222
+#: users/forms.py:223
 #, python-format
 msgid "%(email)s is not a valid email address."
 msgstr "%(email)s nie je platná e-mailová adresa."
 
-#: users/forms.py:224
+#: users/forms.py:225
 #, python-format
 msgid "Duplicate email address: %(email)s"
 msgstr "Duplicitná e-mailová adresa: %(email)s"
 
-#: users/forms.py:317
+#: users/forms.py:318
 msgid "Username"
 msgstr "Používateľské meno"
 
-#: users/forms.py:328
+#: users/forms.py:329
 msgid "Role name"
 msgstr "Názov roly"
 
-#: users/forms.py:357
+#: users/forms.py:358
 msgid "A role with this name already exists in this tournament."
 msgstr "Rola s týmto názvom v tomto turnaji už existuje."
 
-#: users/forms.py:387
+#: users/forms.py:388
 msgid "User"
 msgstr "Používateľ"
 
-#: users/forms.py:392
+#: users/forms.py:393
 msgid "Roles"
 msgstr "Roly"
 
-#: users/forms.py:398
+#: users/forms.py:399
 msgid "Individual permissions"
 msgstr "Individuálne oprávnenia"
 
-#: users/forms.py:399
-msgid ""
-"Optional permissions granted directly to this user, in addition to their "
-"roles."
-msgstr ""
-"Voliteľné oprávnenia udelené priamo tomuto používateľovi, okrem oprávnení z "
-"ich rolí."
+#: users/forms.py:400
+msgid "Optional permissions granted directly to this user, in addition to their roles."
+msgstr "Voliteľné oprávnenia udelené priamo tomuto používateľovi, okrem oprávnení z ich rolí."
 
 #: users/groups.py:31
 msgid "Equity"
@@ -703,12 +694,8 @@ msgstr "Ahoj!"
 
 #: users/templates/account_invitation_email.html:6
 #, python-format
-msgid ""
-"An administrator for the Tabbycat site hosting %(name)s has invited you to "
-"create an user account on their site, at %(protocol)s://%(domain)s."
-msgstr ""
-"Administrátor Tabbycat stránky hostujúcej %(name)s ťa pozval vytvoriť si "
-"používateľský účet na stránke %(protocol)s://%(domain)s."
+msgid "An administrator for the Tabbycat site hosting %(name)s has invited you to create an user account on their site, at %(protocol)s://%(domain)s."
+msgstr "Administrátor Tabbycat stránky hostujúcej %(name)s ťa pozval vytvoriť si používateľský účet na stránke %(protocol)s://%(domain)s."
 
 #: users/templates/account_invitation_email.html:10
 msgid "If you accept, please use the link below to activate your account"
@@ -724,19 +711,8 @@ msgid "Invitation to join Tabbycat site for %(name)s"
 msgstr "Pozvánka na Tabbycat stránku pre %(name)s"
 
 #: users/templates/admin/auth/delete_user_warning.html:6
-msgid ""
-"<strong>Warning:</strong> You shouldn't delete users from the database once "
-"they've done something, because the database logs actions taken by those "
-"users, and deleting the users also deletes the related logs. If you wish to "
-"deactivate a user account, go back to edit the user, click on the "
-"“Permissions” tab, unchecked the “Active” box, and save the user."
-msgstr ""
-"<strong>Upozornenie:</strong> Nemali by ste odstraňovať používateľov z "
-"databázy, keď už niečo urobili, pretože databáza zaznamenáva akcie vykonané "
-"týmito používateľmi a odstránenie používateľov vedie aj k odstráneniu "
-"súvisiacich záznamov. Ak chcete deaktivovať používateľský účet, vráťte sa "
-"späť k úpravám používateľa, kliknite na kartu „Oprávnenia“, zrušte "
-"začiarknutie políčka „Aktívny“ a uložte používateľa."
+msgid "<strong>Warning:</strong> You shouldn't delete users from the database once they've done something, because the database logs actions taken by those users, and deleting the users also deletes the related logs. If you wish to deactivate a user account, go back to edit the user, click on the “Permissions” tab, unchecked the “Active” box, and save the user."
+msgstr "<strong>Upozornenie:</strong> Nemali by ste odstraňovať používateľov z databázy, keď už niečo urobili, pretože databáza zaznamenáva akcie vykonané týmito používateľmi a odstránenie používateľov vedie aj k odstráneniu súvisiacich záznamov. Ak chcete deaktivovať používateľský účet, vráťte sa späť k úpravám používateľa, kliknite na kartu „Oprávnenia“, zrušte začiarknutie políčka „Aktívny“ a uložte používateľa."
 
 #: users/templates/invite_user.html:8
 msgid "Back to Configuration"
@@ -769,12 +745,8 @@ msgid "User Access"
 msgstr "Prístup používateľov"
 
 #: users/templates/role_management.html:110
-msgid ""
-"Assign existing users to roles, with optional individual permission "
-"overrides."
-msgstr ""
-"Prirad existujúcich používateľov k rolám s voliteľnými individuálnymi "
-"výnimkami oprávnení."
+msgid "Assign existing users to roles, with optional individual permission overrides."
+msgstr "Prirad existujúcich používateľov k rolám s voliteľnými individuálnymi výnimkami oprávnení."
 
 #: users/templates/role_management.html:117
 msgid "Back to User Access"
@@ -827,8 +799,7 @@ msgstr "Vytvoriť rolu"
 
 #: users/templates/role_management.html:175
 msgid "Role permissions apply to every user assigned to that role."
-msgstr ""
-"Oprávnenia roly sa vzťahujú na každého používateľa priradeného k tejto roli."
+msgstr "Oprávnenia roly sa vzťahujú na každého používateľa priradeného k tejto roli."
 
 #: users/templates/role_management.html:193
 msgid "Role permissions"
@@ -851,8 +822,7 @@ msgid "Edit User Access"
 msgstr "Upraviť prístup používateľa"
 
 #: users/templates/role_management.html:241
-msgid ""
-"Use roles for normal access, then direct permissions only for exceptions."
+msgid "Use roles for normal access, then direct permissions only for exceptions."
 msgstr "Použi roly na bežný prístup a priame oprávnenia iba pre výnimky."
 
 #: users/templates/role_management.html:262
@@ -885,8 +855,7 @@ msgstr "Zoznam prístupov používateľov"
 
 #: users/templates/role_management.html:328
 msgid "Open a user to edit roles and individual permissions."
-msgstr ""
-"Otvor používateľa, aby si mohol upraviť roly a individuálne oprávnenia."
+msgstr "Otvor používateľa, aby si mohol upraviť roly a individuálne oprávnenia."
 
 #: users/templates/role_management.html:335
 msgid "Edit"
@@ -917,11 +886,8 @@ msgid "Create Account"
 msgstr "Vytvoriť účet"
 
 #: users/views.py:54
-msgid ""
-"Whoops! It looks like someone's already created the first user account. "
-"Please log in."
-msgstr ""
-"Ups! Vyzerá to, že niekto už vytvoril prvý používateľský účet. Prihláste sa."
+msgid "Whoops! It looks like someone's already created the first user account. Please log in."
+msgstr "Ups! Vyzerá to, že niekto už vytvoril prvý používateľský účet. Prihláste sa."
 
 #: users/views.py:62
 #, python-format
@@ -934,19 +900,12 @@ msgstr "Pozvať používateľov"
 
 #: users/views.py:99
 #, python-format
-msgid ""
-"Successfully invited %(count)s user to create an account for the tournament."
-msgid_plural ""
-"Successfully invited %(count)s users to create an account for the "
-"tournament."
-msgstr[0] ""
-"%(count)s používateľ bol úspešne pozvaný na vytvorenie účtu pre turnaj."
-msgstr[1] ""
-"%(count)s používatelia boli úspešne pozvaní na vytvorenie účtu pre turnaj."
-msgstr[2] ""
-"%(count)s používateľa bolo úspešne pozvaných na vytvorenie účtu pre turnaj."
-msgstr[3] ""
-"%(count)s používateľov bolo úspešne pozvaných na vytvorenie účtu pre turnaj."
+msgid "Successfully invited %(count)s user to create an account for the tournament."
+msgid_plural "Successfully invited %(count)s users to create an account for the tournament."
+msgstr[0] "%(count)s používateľ bol úspešne pozvaný na vytvorenie účtu pre turnaj."
+msgstr[1] "%(count)s používatelia boli úspešne pozvaní na vytvorenie účtu pre turnaj."
+msgstr[2] "%(count)s používateľa bolo úspešne pozvaných na vytvorenie účtu pre turnaj."
+msgstr[3] "%(count)s používateľov bolo úspešne pozvaných na vytvorenie účtu pre turnaj."
 
 #: users/views.py:110
 msgid "Accept Invitation"
@@ -966,12 +925,8 @@ msgstr "Prístup pre %(user)s bol uložený."
 #~ msgid "Invite User"
 #~ msgstr "Pozvať používateľa"
 
-#~ msgid ""
-#~ "Note: if you submit this multiple times, multiple invite emails will be "
-#~ "sent."
-#~ msgstr ""
-#~ "Poznámka: ak tento formulár odošlete viackrát, bude odoslaných viacero "
-#~ "pozývacích e-mailov."
+#~ msgid "Note: if you submit this multiple times, multiple invite emails will be sent."
+#~ msgstr "Poznámka: ak tento formulár odošlete viackrát, bude odoslaných viacero pozývacích e-mailov."
 
 #~ msgid "Successfully invited user to create an account for the tournament."
 #~ msgstr "Používateľ bol úspešne pozvaný, aby si vytvoril účet pre turnaj."

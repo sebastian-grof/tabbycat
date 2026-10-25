@@ -1,4 +1,4 @@
-from django.test import TestCase
+from django.test import override_settings, TestCase
 
 from breakqual.models import BreakCategory, BreakingTeam
 from participants.models import Institution, Person, Region, Speaker, Team
@@ -7,6 +7,7 @@ from tournaments.models import Tournament
 from ..diversity import get_diversity_data_sets
 
 
+@override_settings(LANGUAGE_CODE='en')
 class DiversityDataTests(TestCase):
 
     def setUp(self):

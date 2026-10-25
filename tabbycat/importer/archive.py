@@ -51,6 +51,8 @@ class Exporter:
             'winners-in-ballots': tournament.pref('winners_in_ballots'),
             'score-aggregation-function': tournament.pref('score_aggregation_function'),
             'allow-self-split-ballots': str(tournament.pref('allow_self_split_ballots')).lower(),
+            'ballots-per-debate-prelim': tournament.pref('ballots_per_debate_prelim'),
+            'ballots-per-debate-elim': tournament.pref('ballots_per_debate_elim'),
         })
         if tournament.pref('teams_in_debate') == 4:
             self.root.set('style', 'bp')
@@ -576,6 +578,14 @@ class Importer:
         else:
             self.preliminary_consensus = self._is_consensus_ballot('false')
             self.elimination_consensus = self._is_consensus_ballot('true')
+            # A single judge's voting ballot is indistinguishable from consensus
+            # by ballot count alone. Preserve the explicit policy in new archives.
+            for stage, attribute in (('prelim', 'preliminary_consensus'), ('elim', 'elimination_consensus')):
+                policy = self.root.get('ballots-per-debate-' + stage)
+                if policy is not None:
+                    if policy not in {'per-debate', 'per-adj'}:
+                        raise ValueError("Unknown archive ballot policy")
+                    setattr(self, attribute, policy == 'per-debate')
             first_side_with_speeches = next((
                 side for side in self.root.findall("round/debate/side")
                 if side.find('speech') is not None
@@ -615,8 +625,8 @@ class Importer:
             allow_self_split = self._is_true(self.root.get('allow-self-split-ballots', 'false'))
             if aggregation not in {'mean', 'median'}:
                 raise ValueError("Unknown archive score aggregation function")
-            if self.tournament.pref('adjudicator_weighting') == 'weighted-to-three' and (aggregation != 'mean' or allow_self_split):
-                raise ValueError("Median scoring and self-split ballots require default adjudicator weighting")
+            if self.tournament.pref('adjudicator_weighting') == 'weighted-to-three' and aggregation != 'mean':
+                raise ValueError("Median scoring requires default adjudicator weighting")
             self.tournament.preferences['scoring__score_aggregation_function'] = aggregation
             self.tournament.preferences['data_entry__allow_self_split_ballots'] = allow_self_split
 
@@ -979,6 +989,8 @@ class Importer:
                     debate=self.debates[debate.get('id')], motion=self.motions.get(debate.get('motion')),
                     forfeit=debate.get('forfeit', 'false') == 'true',
                     self_split=self._is_true(debate.get('self-split', 'false')))
+                if bs_obj.self_split and not bs_obj.allows_self_split:
+                    raise ValueError("Invalid self-split ballot in archive")
                 bs_obj.save()
                 if self._debate_is_bye(debate):
                     self._import_bye_result(bs_obj, debate)

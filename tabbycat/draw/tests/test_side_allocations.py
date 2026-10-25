@@ -1,7 +1,7 @@
 from unittest.mock import patch
 
 from django.contrib.auth import get_user_model
-from django.test import TestCase
+from django.test import override_settings, TestCase
 
 from availability.utils import set_availability
 from options.models import TournamentPreferenceModel
@@ -284,6 +284,7 @@ class SideAllocationServiceTest(CompletedTournamentTestMixin, TestCase):
         self.assertEqual(self.tournament.preferences['draw_rules__draw_avoid_conflicts'], 'one_up_one_down')
 
 
+@override_settings(LANGUAGE_CODE='en')
 class SideAllocationByeOverrideViewTest(CompletedTournamentTestMixin, TestCase):
 
     def setUp(self):
@@ -342,6 +343,6 @@ class SideAllocationByeOverrideViewTest(CompletedTournamentTestMixin, TestCase):
 
         response = self.client.get(url)
 
-        self.assertContains(response, "Simulated bye if generated now")
+        self.assertContains(response, "Simulated bye")
         self.assertContains(response, simulated_bye.short_name)
         self.assertContains(response, f'name="manual-team_{simulated_bye.id}"', html=False)

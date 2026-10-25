@@ -52,23 +52,13 @@ from .dbutils import delete_round_draw
 from .forms import ConfirmDrawDeletionForm, SideAllocationByeOverrideForm, SideAllocationGenerateForm, SideAllocationManualForm
 from .generator import DrawFatalError, DrawUserError
 from .manager import DrawManager
-from .models import ByeTeamOverride, Debate, DebateTeam, TeamSideAllocation, get_effective_side_allocation_mode
-from .side_allocation_display import get_team_navigation
-from .side_allocations import (
-    SideAllocationError,
-    generate_all_affirmation_allocations,
-    generate_all_negation_allocations,
-    generate_opposite_allocations,
-    generate_random_allocations,
-    get_bye_override_team,
-    get_round_allocations,
-    get_round_team_groups,
-    replace_bye_override,
-    replace_round_allocations,
-    summarize_allocations,
-)
+from .models import ByeTeamOverride, Debate, DebateTeam, get_effective_side_allocation_mode, TeamSideAllocation
 from .prefetch import populate_history
 from .serializers import EditDebateTeamsDebateSerializer, EditDebateTeamsTeamSerializer
+from .side_allocation_display import get_team_navigation
+from .side_allocations import (generate_all_affirmation_allocations, generate_all_negation_allocations,
+    generate_opposite_allocations, generate_random_allocations, get_bye_override_team, get_round_team_groups,
+    replace_bye_override, replace_round_allocations, SideAllocationError, summarize_allocations)
 from .tables import AdminDrawTableBuilder, PositionBalanceReportDrawTableBuilder, PositionBalanceReportSummaryTableBuilder, PublicDrawTableBuilder
 from .types import DebateSide
 from .utils import opposite_side
@@ -400,6 +390,14 @@ class EmailAdjudicatorAssignmentsView(RoundTemplateEmailCreateView):
     message_template = 'adj_email_message'
 
     round_redirect_pattern_name = 'draw-display'
+    template_variables = RoundTemplateEmailCreateView.template_variables + [
+        ("ROUND", gettext_lazy("round name")),
+        ("VENUE", gettext_lazy("assigned venue name")),
+        ("PANEL", gettext_lazy("all adjudicators in the panel with positions")),
+        ("DRAW", gettext_lazy("team matchup in the debate")),
+        ("POSITION", gettext_lazy("recipient adjudicator's position")),
+        ("URL", gettext_lazy("link to the recipient's private URL")),
+    ]
 
     dadj_type_display = dict(DebateAdjudicator.TYPE_CHOICES)
 
@@ -442,6 +440,14 @@ class EmailTeamAssignmentsView(RoundTemplateEmailCreateView):
     message_template = 'team_draw_email_message'
 
     round_redirect_pattern_name = 'draw-display'
+    template_variables = RoundTemplateEmailCreateView.template_variables + [
+        ("ROUND", gettext_lazy("round name")),
+        ("VENUE", gettext_lazy("assigned venue name")),
+        ("PANEL", gettext_lazy("adjudicator panel for the debate")),
+        ("DRAW", gettext_lazy("team matchup in the debate")),
+        ("TEAM", gettext_lazy("recipient team name")),
+        ("SIDE", gettext_lazy("recipient team side")),
+    ]
 
     def get_queryset(self):
         return Speaker.objects.filter(team__debateteam__debate__round=self.round).select_related('team')
@@ -514,7 +520,7 @@ class AdminDrawView(RoundMixin, AdministratorMixin, AdminDrawUtilitiesMixin, Vue
 
         # For draw details and draw draft pages
         standings = None
-        if r.draw_status is Round.Status.DRAFT or self.detailed:
+        if r.draw_status == Round.Status.DRAFT or self.detailed:
             if r.prev:
                 teams = Team.objects.filter(debateteam__debate__round=r)
                 metrics = self.tournament.pref('team_standings_precedence')
@@ -544,7 +550,7 @@ class AdminDrawView(RoundMixin, AdministratorMixin, AdminDrawUtilitiesMixin, Vue
                     self._add_break_rank_columns(table, draw, r.break_category)
                 table.add_debate_metric_columns(draw, standings)
                 table.add_debate_side_history_columns(draw, r.prev)
-            elif r.draw_type is Round.DrawType.SEEDED:
+            elif r.draw_type == Round.DrawType.SEEDED:
                 table.add_debate_seed_columns(draw)
         else:
             table.add_debate_adjudicators_column(draw, show_splits=False, for_admin=True)
@@ -950,16 +956,13 @@ class SetRoundStartTimeView(DrawStatusEdit):
 class BaseSideAllocationsView(TournamentMixin, VueTableTemplateView):
 
     page_title = gettext_lazy("Side Pre-Allocations")
-    page_emoji = '🔄'
 
     def get_table(self):
         teams = self.tournament.team_set.all()
-        rounds = list(self.tournament.prelim_rounds().order_by('seq'))
+        rounds = self.tournament.prelim_rounds()
 
         tsas = dict()
-        tsa_values = dict()
         for tsa in TeamSideAllocation.objects.filter(round__in=rounds):
-            tsa_values[(tsa.team_id, tsa.round_id)] = tsa.side
             try:
                 tsas[(tsa.team.id, tsa.round.seq)] = get_side_name(self.tournament, tsa.side, 'abbr')
             except ValueError:
@@ -972,62 +975,10 @@ class BaseSideAllocationsView(TournamentMixin, VueTableTemplateView):
         table = TabbycatTableBuilder(view=self)
         table.add_team_columns(teams)
 
-        if not getattr(self, 'for_admin', False):
-            # Public page: unchanged read-only pre-allocation display.
-            for round_ in rounds:
-                header = {'key': f'round_{round_.id}', 'title': escape(round_.abbreviation)}
-                data = [tsas.get((team.id, round_.seq), bye_overrides.get((team.id, round_.seq), "—")) for team in teams]
-                table.add_column(header, data)
-            return table
+        headers = [escape(round.abbreviation) for round in rounds]
+        data = [[tsas.get((team.id, round.seq), bye_overrides.get((team.id, round.seq), "—")) for round in rounds] for team in teams]
+        table.add_columns(headers, data)
 
-        # Admin page: rounds with a generated draw show the team's actual
-        # side read-only. The selected undrawn round is editable; the other
-        # undrawn rounds show their saved pre-allocations.
-        editable_round = self.get_selected_round() if hasattr(self, "get_selected_round") else None
-        drawn_round_ids = [r.id for r in rounds if r.draw_status != Round.Status.NONE]
-
-        actual_sides = dict()
-        if drawn_round_ids:
-            for dt in DebateTeam.objects.filter(
-                    debate__round_id__in=drawn_round_ids).select_related('debate'):
-                actual_sides[(dt.team_id, dt.debate.round_id)] = dt.side
-
-        side_options = [
-            {'value': side, 'label': get_side_name(self.tournament, side, 'abbr')}
-            for side in self.tournament.sides
-        ]
-        update_url = reverse_tournament('draw-side-allocations-update', self.tournament)
-
-        for round_ in rounds:
-            header = {'key': f'round_{round_.id}', 'title': escape(round_.abbreviation)}
-            if round_.draw_status == Round.Status.NONE:
-                if round_ == editable_round:
-                    data = [{
-                        'component': 'ajax-select-cell',
-                        'value': tsa_values.get((team.id, round_.id)),
-                        'options': side_options,
-                        'blankLabel': _("Unallocated"),
-                        'saveURL': update_url,
-                        'saveMessage': _("Set side pre-allocation"),
-                        'payload': {'team_id': team.id, 'round_id': round_.id},
-                        'payloadKey': 'side',
-                        'syncFieldId': f'id_team_{team.id}',
-                    } for team in teams]
-                else:
-                    # A further undrawn round (not the immediately-next one):
-                    # not editable inline, but may already carry a
-                    # pre-allocation set via the bulk-apply tool, so show it
-                    # read-only rather than always "—".
-                    data = [tsas.get((team.id, round_.seq), bye_overrides.get((team.id, round_.seq), "—")) for team in teams]
-            else:
-                data = []
-                for team in teams:
-                    side = actual_sides.get((team.id, round_.id))
-                    text = (_("Bye") if side == DebateSide.BYE else
-                            get_side_name(self.tournament, side, 'abbr') if side is not None else "—")
-                    data.append({'text': text})
-
-            table.add_column(header, data)
         return table
 
 
@@ -1037,6 +988,10 @@ class SideAllocationsView(AdministratorMixin, LogActionMixin, BaseSideAllocation
     view_permission = Permission.EDIT_ALLOCATESIDES
     edit_permission = Permission.EDIT_ALLOCATESIDES
     action_log_type = ActionLogEntry.ActionType.SIDE_PREALLOCATIONS_SAVE
+
+    def get_tables(self):
+        # The workspace renders one shared, searchable matrix below its editor.
+        return []
 
     def _prelim_rounds(self):
         return self.tournament.prelim_rounds()
@@ -1061,40 +1016,53 @@ class SideAllocationsView(AdministratorMixin, LogActionMixin, BaseSideAllocation
         return next((r for r in prelim_rounds if r.draw_status == Round.Status.NONE), prelim_rounds[0])
 
     def get_generate_form(self):
-        return SideAllocationGenerateForm(
+        form = SideAllocationGenerateForm(
             self.tournament,
             selected_round=self.get_selected_round(),
             data=self.request.POST if self.request.method == "POST" and self.request.POST.get("action") == "generate" else None,
             prefix="generate",
         )
+        targets = self._prelim_rounds().filter(draw_status=Round.Status.NONE)
+        form.fields['target_round'].queryset = targets
+        selected = self.get_selected_round()
+        if not form.is_bound and selected and selected.draw_status != Round.Status.NONE:
+            form.initial['target_round'] = targets.first()
+        return form
+
+    @staticmethod
+    def _readonly_after_draw(form, round_):
+        if round_.draw_status != Round.Status.NONE:
+            for field in form.fields.values():
+                field.disabled = True
+        return form
 
     def get_bye_form(self, selected_round, team_groups=None):
         if selected_round is None:
             return None
         if team_groups is None:
             team_groups = get_round_team_groups(selected_round)
-        return SideAllocationByeOverrideForm(
+        return self._readonly_after_draw(SideAllocationByeOverrideForm(
             self.tournament,
             selected_round,
             active_teams=team_groups["active_teams"],
             data=self.request.POST if self.request.method == "POST" and self.request.POST.get("action") == "bye" else None,
             prefix="bye",
-        )
+        ), selected_round)
 
     def get_manual_form(self, selected_round, team_groups=None):
         if selected_round is None:
             return None
         if team_groups is None:
             team_groups = get_round_team_groups(selected_round)
-        return SideAllocationManualForm(
+        return self._readonly_after_draw(SideAllocationManualForm(
             self.tournament,
             selected_round,
             teams=team_groups["active_teams"],
             data=self.request.POST if self.request.method == "POST" and self.request.POST.get("action") == "manual" else None,
             prefix="manual",
-        )
+        ), selected_round)
 
-    def get_allocation_rows(self, rounds, teams):
+    def get_allocation_rows(self, rounds, teams, selected_round=None, editable_team_ids=()):
         tsas = {}
         for tsa in TeamSideAllocation.objects.filter(round__in=rounds):
             tsas[(tsa.team_id, tsa.round_id)] = tsa.side
@@ -1102,21 +1070,25 @@ class SideAllocationsView(AdministratorMixin, LogActionMixin, BaseSideAllocation
             (override.team_id, override.round_id)
             for override in ByeTeamOverride.objects.filter(round__in=rounds)
         }
+        actual_sides = dict(((team_id, round_id), side) for team_id, round_id, side in DebateTeam.objects.filter(
+            debate__round__in=rounds).values_list('team_id', 'debate__round_id', 'side'))
 
         rows = []
         for team in teams:
             cells = []
             for round in rounds:
-                side = tsas.get((team.id, round.id))
+                drawn = round.draw_status != Round.Status.NONE
+                side = actual_sides.get((team.id, round.id)) if drawn else tsas.get((team.id, round.id))
                 label = "?"
-                if (team.id, round.id) in bye_overrides:
+                if side == DebateSide.BYE or (not drawn and (team.id, round.id) in bye_overrides):
                     label = _("Bye")
-                if side is not None:
+                elif side is not None:
                     try:
                         label = get_side_name(self.tournament, side, "abbr")
                     except ValueError:
                         label = str(side)
-                cells.append({"round": round, "label": label})
+                cells.append({"round": round, "label": label, "side": side,
+                    "editable": not drawn and round == selected_round and team.id in editable_team_ids})
             rows.append({"team": team, "cells": cells})
         return rows
 
@@ -1140,6 +1112,7 @@ class SideAllocationsView(AdministratorMixin, LogActionMixin, BaseSideAllocation
             ]
             summary["side_counts"] = [
                 {
+                    "value": side,
                     "label": get_side_name(self.tournament, side, "full").capitalize(),
                     "count": summary["counts"].get(side, 0),
                 }
@@ -1169,7 +1142,8 @@ class SideAllocationsView(AdministratorMixin, LogActionMixin, BaseSideAllocation
             "generate_form": generate_form,
             "bye_form": bye_form,
             "manual_form": manual_form,
-            "allocation_rows": self.get_allocation_rows(rounds, teams),
+            "allocation_rows": self.get_allocation_rows(rounds, teams, selected_round, {row['team'].id for row in manual_rows}),
+            "matrix_side_choices": [(side, get_side_name(self.tournament, side, 'full').capitalize()) for side in self.tournament.sides],
             "team_navigation": team_navigation,
             "allocation_summary": summary,
             "manual_rows": manual_rows,
@@ -1328,6 +1302,17 @@ class SideAllocationsView(AdministratorMixin, LogActionMixin, BaseSideAllocation
         return HttpResponseRedirect(self.get_success_url(selected_round))
 
 
+class SideAllocationMatrixView(AdministratorMixin, TournamentMixin, View):
+    """Keep preview bookmarks pointing to the consolidated workspace."""
+    view_permission = Permission.EDIT_ALLOCATESIDES
+
+    def get(self, request, *args, **kwargs):
+        url = reverse_tournament('draw-side-allocations', self.tournament)
+        if request.GET.get('round_seq'):
+            url = add_query_string_parameter(url, 'round_seq', request.GET['round_seq'])
+        return HttpResponseRedirect(url)
+
+
 class UpdateSidePreallocationView(AdministratorMixin, LogActionMixin, TournamentMixin, View):
     edit_permission = Permission.EDIT_ALLOCATESIDES
     action_log_type = ActionLogEntry.ActionType.SIDE_PREALLOCATIONS_SAVE
@@ -1356,7 +1341,10 @@ class UpdateSidePreallocationView(AdministratorMixin, LogActionMixin, Tournament
                 round=round_, team=team, defaults={'side': side})
 
         self.log_action()
-        return JsonResponse({'status': 'true'})
+        summary = summarize_allocations(round_)
+        return JsonResponse({'status': 'true', 'summary': {
+            'assigned': summary['assigned'], 'missing': summary['missing'], 'counts': summary['counts'],
+        }})
 
 
 class BulkApplySidePreallocationView(AdministratorMixin, LogActionMixin, TournamentMixin, PostOnlyRedirectView):

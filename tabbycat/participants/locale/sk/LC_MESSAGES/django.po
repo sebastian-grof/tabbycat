@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tabbycat\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-27 15:04+0200\n"
+"POT-Creation-Date: 2026-10-25 07:25+1100\n"
 "PO-Revision-Date: 2026-04-27 09:52+0200\n"
 "Last-Translator: philip_tc\n"
 "Language-Team: Slovak\n"
@@ -24,20 +24,13 @@ msgid "Create institution conflict"
 msgstr "Vytvoriť konflikt s inštitúciou"
 
 #: participants/admin.py:144
-msgid ""
-"Automatically create a conflict between the selected institution and this "
-"participant."
-msgstr ""
-"Automaticky vytvoriť konflikt medzi vybranou inštitúciou a týmto účastníkom."
+msgid "Automatically create a conflict between the selected institution and this participant."
+msgstr "Automaticky vytvoriť konflikt medzi vybranou inštitúciou a týmto účastníkom."
 
 #: participants/admin.py:196
 #, python-format
-msgid ""
-"The team can't be in a break category of a different tournament. Please "
-"remove: %(category)s"
-msgstr ""
-"Tím nemôže byť zaradený do kategórie prestávky iného turnaja. Prosím, "
-"odstráňte: %(category)s"
+msgid "The team can't be in a break category of a different tournament. Please remove: %(category)s"
+msgstr "Tím nemôže byť zaradený do kategórie prestávky iného turnaja. Prosím, odstráňte: %(category)s"
 
 #: participants/admin.py:237
 msgid "Emoji & Code"
@@ -125,26 +118,18 @@ msgstr "región"
 msgid "regions"
 msgstr "regióny"
 
-#. Translators: Change the examples to institutions native to your language;
-#. keep consistent between strings
+#. Translators: Change the examples to institutions native to your language; keep consistent between strings
 #: participants/models.py:48
-msgid ""
-"The institution's full name, e.g., \"University of Cambridge\", \"Victoria "
-"University of Wellington\""
-msgstr ""
-"Celý názov debatného klubu, napr. „Maginov debatný a intelektúalny klub“, "
-"„Gymnázium Jozefa Gregora Tajovského“"
+msgid "The institution's full name, e.g., \"University of Cambridge\", \"Victoria University of Wellington\""
+msgstr "Celý názov debatného klubu, napr. „Maginov debatný a intelektúalny klub“, „Gymnázium Jozefa Gregora Tajovského“"
 
 #: participants/models.py:50
 msgid "code"
 msgstr "kód"
 
-#. Translators: Change the examples to institutions native to your language;
-#. keep consistent between strings
+#. Translators: Change the examples to institutions native to your language; keep consistent between strings
 #: participants/models.py:52
-msgid ""
-"What the institution is typically called for short, e.g., \"Cambridge\", "
-"\"Vic Wellington\""
+msgid "What the institution is typically called for short, e.g., \"Cambridge\", \"Vic Wellington\""
 msgstr "Skrátený názov debatného klubu, napr. „MDIK“, „TAJAK“"
 
 #: participants/models.py:66 participants/models.py:78
@@ -185,8 +170,7 @@ msgstr "turnajový debatný klub"
 msgid "tournament institutions"
 msgstr "turnajové debatne kluby"
 
-#. Translators: Translate ESL to the acronym for "<target language> as a
-#. second/foreign language", not "English"
+#. Translators: Translate ESL to the acronym for "<target language> as a second/foreign language", not "English"
 #: participants/models.py:113
 msgid "Name to be displayed, e.g., \"Novice\", \"ESL\""
 msgstr "Zobrazovaný názov, napr. „Novice“, „ESL“"
@@ -195,8 +179,7 @@ msgstr "Zobrazovaný názov, napr. „Novice“, „ESL“"
 msgid "slug"
 msgstr "slug"
 
-#. Translators: Translate esl to the acronym for "<target language> as a
-#. second/foreign language", not "English"
+#. Translators: Translate esl to the acronym for "<target language> as a second/foreign language", not "English"
 #: participants/models.py:117
 msgid "Slug for URLs, e.g., \"novice\", \"esl\""
 msgstr "Slug pre URL, napr. „novice“, „esl“"
@@ -214,24 +197,16 @@ msgid "limit"
 msgstr "limit"
 
 #: participants/models.py:123
-msgid ""
-"At most this many speakers will be shown on the public tab for this "
-"category, or use 0 for no limit"
-msgstr ""
-"Najviac toľkoto rečníkov sa zobrazí na verejnom tabe tejto kategórie; 0 "
-"známená bez limitu"
+msgid "At most this many speakers will be shown on the public tab for this category, or use 0 for no limit"
+msgstr "Najviac toľkoto rečníkov sa zobrazí na verejnom tabe tejto kategórie; 0 známená bez limitu"
 
 #: participants/models.py:125
 msgid "public"
 msgstr "verejne"
 
 #: participants/models.py:126
-msgid ""
-"If checked, this category will be included in the speaker category tabs "
-"shown to the public"
-msgstr ""
-"Ak je zaškrtnuté, kategória bude zahrnutá v kategóriách rečníkov "
-"zobrazovaných verejnosti"
+msgid "If checked, this category will be included in the speaker category tabs shown to the public"
+msgstr "Ak je zaškrtnuté, kategória bude zahrnutá v kategóriách rečníkov zobrazovaných verejnosti"
 
 #: participants/models.py:134
 msgid "speaker category"
@@ -262,11 +237,8 @@ msgid "anonymous"
 msgstr "anonymne"
 
 #: participants/models.py:152
-msgid ""
-"Anonymous persons will have their name and team redacted on public tab "
-"releases"
-msgstr ""
-"Anonymným osobám bude pri verejných zverejneniach tabu skryté meno a tím"
+msgid "Anonymous persons will have their name and team redacted on public tab releases"
+msgstr "Anonymným osobám bude pri verejných zverejneniach tabu skryté meno a tím"
 
 #: participants/models.py:154 participants/models.py:239
 msgid "code name"
@@ -297,9 +269,7 @@ msgid "gender"
 msgstr "rod"
 
 #: participants/models.py:168
-msgid ""
-"Gender is displayed in the adjudicator allocation interface, and nowhere "
-"else"
+msgid "Gender is displayed in the adjudicator allocation interface, and nowhere else"
 msgstr "Rod sa zobrazuje iba v rozhraní prideľovania rozhodcov a nikde inde"
 
 #: participants/models.py:170
@@ -307,9 +277,7 @@ msgid "pronoun"
 msgstr "zameno"
 
 #: participants/models.py:171
-msgid ""
-"If printing ballots using Tabbycat, there is the option to pre-print "
-"pronouns"
+msgid "If printing ballots using Tabbycat, there is the option to pre-print pronouns"
 msgstr "Pri tlači ballotov cez Tabbycat je možné predtlačiť zámená"
 
 #: participants/models.py:176
@@ -338,20 +306,15 @@ msgstr "celý názov/prípona"
 
 #: participants/models.py:234
 msgid "Do not include institution name (see \"uses institutional prefix\" below)"
-msgstr ""
-"Neuvádzajte názov inštitúcie (pozri „používa predponu inštitúcie“ nižšie)"
+msgstr "Neuvádzajte názov inštitúcie (pozri „používa predponu inštitúcie“ nižšie)"
 
 #: participants/models.py:236
 msgid "short name/suffix"
 msgstr "krátky názov/prípona"
 
 #: participants/models.py:237
-msgid ""
-"The decoded name shown in the draw, not including institution name (see "
-"\"uses institutional prefix\" below)"
-msgstr ""
-"V pairingu sa zobrazuje dekódované meno bez názvu inštitúcie (pozri nižšie "
-"„používa predponu inštitúcie“)"
+msgid "The decoded name shown in the draw, not including institution name (see \"uses institutional prefix\" below)"
+msgstr "V pairingu sa zobrazuje dekódované meno bez názvu inštitúcie (pozri nižšie „používa predponu inštitúcie“)"
 
 #: participants/models.py:240
 msgid "Name used to obscure institutional identity on public-facing pages"
@@ -362,9 +325,7 @@ msgid "short name"
 msgstr "krátky názov"
 
 #: participants/models.py:244
-msgid ""
-"The decoded name shown in the draw, including institution name. (This is "
-"autogenerated.)"
+msgid "The decoded name shown in the draw, including institution name. (This is autogenerated.)"
 msgstr "Dekódovaný názov zobrazený v drawe"
 
 #: participants/models.py:246
@@ -372,9 +333,7 @@ msgid "long name"
 msgstr "dlhy názov"
 
 #: participants/models.py:247
-msgid ""
-"The full name of the team, including institution name. (This is "
-"autogenerated.)"
+msgid "The full name of the team, including institution name. (This is autogenerated.)"
 msgstr "Celý názov tímu vrátane názvu klubu. Generuje sa automaticky."
 
 #: participants/models.py:254
@@ -383,9 +342,7 @@ msgstr "Pouziva klubovy prefix"
 
 #: participants/models.py:255
 msgid "If ticked, a team called \"1\" from Victoria will be shown as \"Victoria 1\""
-msgstr ""
-"Ak je zaškrtnuté, tím s názvom „1“ z klubu Victoria sa zobrazí ako „Victoria"
-" 1“"
+msgstr "Ak je zaškrtnuté, tím s názvom „1“ z klubu Victoria sa zobrazí ako „Victoria 1“"
 
 #: participants/models.py:257
 msgid "break categories"
@@ -396,14 +353,8 @@ msgid "seed"
 msgstr "seed"
 
 #: participants/models.py:260
-msgid ""
-"Used as initial ranking to power-pair the first round, and to order teams "
-"for round-robin draws (including BP preset schedules, which require unique "
-"seeds 1 through n)."
-msgstr ""
-"Používa sa ako počiatočné poradie pri párovaní prvého kola podľa výsledkov a"
-" na zoradenie tímov pri systéme každý s každým (vrátane prednastavených "
-"rozpisov BP, ktoré vyžadujú jedinečné nasadenie od 1 do n)."
+msgid "Used as initial ranking to power-pair the first round, and to order teams for round-robin draws (including BP preset schedules, which require unique seeds 1 through n)."
+msgstr "Používa sa ako počiatočné poradie pri párovaní prvého kola podľa výsledkov a na zoradenie tímov pri systéme každý s každým (vrátane prednastavených rozpisov BP, ktoré vyžadujú jedinečné nasadenie od 1 do n)."
 
 #: participants/models.py:266 participants/models.py:478
 msgid "institution conflicts"
@@ -450,13 +401,11 @@ msgid "teams"
 msgstr "týmy"
 
 #: participants/models.py:418
-msgid ""
-"Teams must have an institution if they are using the institutional prefix."
+msgid "Teams must have an institution if they are using the institutional prefix."
 msgstr "Tímy musía mať debatný klub, ak používajú klubový prefix."
 
 #: participants/models.py:420
-msgid ""
-"Teams must have a full name if they don't use the institutional prefix."
+msgid "Teams must have a full name if they don't use the institutional prefix."
 msgstr "Tímy musía mať celý názov, ak nepoužívajú klubový prefix."
 
 #: participants/models.py:440
@@ -468,11 +417,8 @@ msgid "speakers"
 msgstr "rečníci/rečníčky"
 
 #: participants/models.py:471
-msgid ""
-"Adjudicators not assigned to any tournament can be shared between "
-"tournaments"
-msgstr ""
-"Rozhodcovia nepriradení k žiadnemu turnaju môžu byť zdieľaní medzi turnajmi"
+msgid "Adjudicators not assigned to any tournament can be shared between tournaments"
+msgstr "Rozhodcovia nepriradení k žiadnemu turnaju môžu byť zdieľaní medzi turnajmi"
 
 #: participants/models.py:473
 msgid "base score"
@@ -491,12 +437,8 @@ msgid "always trainee"
 msgstr "vždy shadow"
 
 #: participants/models.py:490
-msgid ""
-"If checked, this adjudicator will never be auto-allocated a voting position,"
-" regardless of their score"
-msgstr ""
-"Ak je zaškrtnuté, tento rozhodca nikdy nebude automaticky pridelený na "
-"hlasujúcu pozíciu bez ohľadu na svoje skóre"
+msgid "If checked, this adjudicator will never be auto-allocated a voting position, regardless of their score"
+msgstr "Ak je zaškrtnuté, tento rozhodca nikdy nebude automaticky pridelený na hlasujúcu pozíciu bez ohľadu na svoje skóre"
 
 #: participants/models.py:492
 msgid "breaking"
@@ -515,17 +457,11 @@ msgid "tester"
 msgstr "testujúci rozhodca"
 
 #: participants/models.py:499
-msgid ""
-"Whether this adjudicator tests other adjudicators. Members of the "
-"adjudication core count as testers whether or not this is checked"
-msgstr ""
-"Či tento rozhodca testuje ostatných rozhodcov. Členovia rozhodcovského jadra"
-" sa považujú za testujúcich bez ohľadu na toto nastavenie"
+msgid "Whether this adjudicator tests other adjudicators. Members of the adjudication core count as testers whether or not this is checked"
+msgstr "Či tento rozhodca testuje ostatných rozhodcov. Členovia rozhodcovského jadra sa považujú za testujúcich bez ohľadu na toto nastavenie"
 
 #: participants/models.py:507
-msgid ""
-"Whether the adjudicator's registration has been confirmed by tournament "
-"staff"
+msgid "Whether the adjudicator's registration has been confirmed by tournament staff"
 msgstr "Či registrácia rozhodcu bola potvrdená organizátormi turnaja"
 
 #: participants/models.py:517
@@ -552,7 +488,7 @@ msgstr "Rečnícke body<br>(v poradi rečí)"
 msgid "Speaks"
 msgstr "Rečnícke body"
 
-#: participants/templates/adjudicator_record.html:9 participants/views.py:311
+#: participants/templates/adjudicator_record.html:9 participants/views.py:320
 #, python-format
 msgid "Record for %(name)s"
 msgstr "Záznam pre %(name)s"
@@ -570,12 +506,8 @@ msgstr "Upraviť databázu"
 
 #: participants/templates/adjudicator_registration_card.html:18
 #: participants/templates/team_registration_card.html:19
-msgid ""
-"Registration not confirmed by tournament staff; will not be included in the "
-"tournament until confirmed."
-msgstr ""
-"Registrácia nie je potvrdená organizátormi; do turnaja bude zaradená až po "
-"potvrdení."
+msgid "Registration not confirmed by tournament staff; will not be included in the tournament until confirmed."
+msgstr "Registrácia nie je potvrdená organizátormi; do turnaja bude zaradená až po potvrdení."
 
 #: participants/templates/adjudicator_registration_card.html:26
 msgid "Independent adjudicator"
@@ -601,9 +533,7 @@ msgid "Region:"
 msgstr "Región:"
 
 #: participants/templates/adjudicator_registration_card.html:54
-msgid ""
-"The institutional affiliations of adjudicators are not public at this "
-"tournament."
+msgid "The institutional affiliations of adjudicators are not public at this tournament."
 msgstr "Klubová príslušnosť rozhodcov nie je na tomto turnaji verejná."
 
 #: participants/templates/adjudicator_registration_card.html:62
@@ -662,71 +592,32 @@ msgstr "Obmedzenia miestnosťi:"
 
 #: participants/templates/admin/participants/delete_debateteam_warning.html:7
 #, python-format
-msgid ""
-"<strong>Warning:</strong> If there are “debate team” objects in the above "
-"list, <strong>you probably shouldn't delete this %(object_name)s</strong>."
-msgstr ""
-"<strong>Upozornenie:</strong> Ak sa v zozname vyššie nachádzajú objekty "
-"„debate team”, <strong>pravdepodobne by si nemal/a vymazať tento "
-"%(object_name)s</strong>."
+msgid "<strong>Warning:</strong> If there are “debate team” objects in the above list, <strong>you probably shouldn't delete this %(object_name)s</strong>."
+msgstr "<strong>Upozornenie:</strong> Ak sa v zozname vyššie nachádzajú objekty „debate team”, <strong>pravdepodobne by si nemal/a vymazať tento %(object_name)s</strong>."
 
 #: participants/templates/admin/participants/delete_debateteam_warning.html:14
 #, python-format
-msgid ""
-"<strong>Warning:</strong> If there are “debate team” objects in the above "
-"list, <strong>you probably shouldn't delete the selected "
-"%(objects_name)s</strong>."
-msgstr ""
-"<strong>Upozornenie:</strong> Ak sa v zozname vyššie nachádzajú objekty "
-"„debate team”, <strong>pravdepodobne by si nemal/a vymazať vybrané "
-"%(objects_name)s</strong>."
+msgid "<strong>Warning:</strong> If there are “debate team” objects in the above list, <strong>you probably shouldn't delete the selected %(objects_name)s</strong>."
+msgstr "<strong>Upozornenie:</strong> Ak sa v zozname vyššie nachádzajú objekty „debate team”, <strong>pravdepodobne by si nemal/a vymazať vybrané %(objects_name)s</strong>."
 
 #. Translators: This follows the above sentence in the same paragraph.
 #: participants/templates/admin/participants/delete_debateteam_warning.html:21
-msgid ""
-"This is especially the case if any team that would be deleted has already "
-"participated in a debate. If a team already has a result entered for it, "
-"deleting the team also deletes those results, <strong>which normally breaks "
-"the tab</strong>, even if you think you don't need those results anymore. If"
-" a team has debated and is withdrawing from the tournament, you should "
-"<strong>not</strong> delete it. Just mark the team inactive under the "
-"“Availability” section of the Tabbycat admin area."
-msgstr ""
-"To platí najmä v prípade, ak sa niektorý z tímov, ktorý by mal byť vymazaný,"
-" už zúčastnil debaty. Ak má tím už zaznamenaný výsledok, jeho vymazaním sa "
-"vymažú aj tieto výsledky, <strong>čo zvyčajne naruší fungovanie "
-"tabu</strong>, aj keď si myslíte, že tieto výsledky už nepotrebujete. Ak tím"
-" absolvoval debatu a stahuje sa z turnaja, nemali by ste ho "
-"<strong>vymazať</strong>. Stačí označiť tím ako neaktívny v sekcii "
-"„Dostupnosť“ v administrátorskej oblasti Tabbycat."
+msgid "This is especially the case if any team that would be deleted has already participated in a debate. If a team already has a result entered for it, deleting the team also deletes those results, <strong>which normally breaks the tab</strong>, even if you think you don't need those results anymore. If a team has debated and is withdrawing from the tournament, you should <strong>not</strong> delete it. Just mark the team inactive under the “Availability” section of the Tabbycat admin area."
+msgstr "To platí najmä v prípade, ak sa niektorý z tímov, ktorý by mal byť vymazaný, už zúčastnil debaty. Ak má tím už zaznamenaný výsledok, jeho vymazaním sa vymažú aj tieto výsledky, <strong>čo zvyčajne naruší fungovanie tabu</strong>, aj keď si myslíte, že tieto výsledky už nepotrebujete. Ak tím absolvoval debatu a stahuje sa z turnaja, nemali by ste ho <strong>vymazať</strong>. Stačí označiť tím ako neaktívny v sekcii „Dostupnosť“ v administrátorskej oblasti Tabbycat."
 
 #: participants/templates/admin/participants/delete_debateteam_warning.html:33
-msgid ""
-"Note that deleting an institution also deletes all teams from that "
-"institution."
+msgid "Note that deleting an institution also deletes all teams from that institution."
 msgstr "Pozor, vymazanie debatného klubu vymaže aj všetky tímy z tohto klubu."
 
 #: participants/templates/admin/participants/delete_debateteam_warning.html:41
 #, python-format
-msgid ""
-"If you're very sure about deleting this %(object_name)s, please delete the "
-"above objects first, and be sure to heed the warning that you will see on "
-"the “debate team” objects page before proceeding."
-msgstr ""
-"Ak si ste naozaj istí, že chcete tento objekt %(object_name)s odstrániť, "
-"najskôr odstráňte uvedené objekty a pred pokračovaním si pozorne prečítajte "
-"varovanie, ktoré sa zobrazí na stránke objektov „debate team“."
+msgid "If you're very sure about deleting this %(object_name)s, please delete the above objects first, and be sure to heed the warning that you will see on the “debate team” objects page before proceeding."
+msgstr "Ak si ste naozaj istí, že chcete tento objekt %(object_name)s odstrániť, najskôr odstráňte uvedené objekty a pred pokračovaním si pozorne prečítajte varovanie, ktoré sa zobrazí na stránke objektov „debate team“."
 
 #: participants/templates/admin/participants/delete_debateteam_warning.html:47
 #, python-format
-msgid ""
-"If you're very sure about deleting these %(objects_name)s, please delete the"
-" above objects first, and be sure to heed the warning that you will see on "
-"the “debate team” objects page before proceeding."
-msgstr ""
-"Ak si ste naozaj istí, že chcete tieto %(objects_name)s odstrániť, najskôr "
-"odstráňte uvedené objekty a pred pokračovaním si pozorne prečítajte "
-"varovanie, ktoré sa zobrazí na stránke objektov „debate team“."
+msgid "If you're very sure about deleting these %(objects_name)s, please delete the above objects first, and be sure to heed the warning that you will see on the “debate team” objects page before proceeding."
+msgstr "Ak si ste naozaj istí, že chcete tieto %(objects_name)s odstrániť, najskôr odstráňte uvedené objekty a pred pokračovaním si pozorne prečítajte varovanie, ktoré sa zobrazí na stránke objektov „debate team“."
 
 #: participants/templates/current_round/common.html:6
 #, python-format
@@ -763,8 +654,7 @@ msgstr "Ⓣ"
 
 #: participants/templates/current_round/common.html:48
 msgid "There are no panellists or trainees assigned to this debate."
-msgstr ""
-"Tejto debate nie sú priradení žiadni panelisti/panelistky ani shadows."
+msgstr "Tejto debate nie sú priradení žiadni panelisti/panelistky ani shadows."
 
 #: participants/templates/current_round/common.html:59
 msgid "Motions are not released to public."
@@ -789,155 +679,88 @@ msgstr "Téza/tézy pre toto kolo este neboli zverejnené."
 
 #: participants/templates/current_round/round_adj.html:14
 #, python-format
-msgid ""
-"%(adjudicator)s is the <strong>chair</strong> adjudicating %(team)s on the "
-"<strong>%(side)s</strong> side in <strong>%(room)s</strong>."
-msgstr ""
-"%(adjudicator)s je <strong>chair</strong> a rozhoduje %(team)s na strane "
-"<strong>%(side)s</strong> v <strong>%(room)s</strong>."
+msgid "%(adjudicator)s is the <strong>chair</strong> adjudicating %(team)s on the <strong>%(side)s</strong> side in <strong>%(room)s</strong>."
+msgstr "%(adjudicator)s je <strong>chair</strong> a rozhoduje %(team)s na strane <strong>%(side)s</strong> v <strong>%(room)s</strong>."
 
 #: participants/templates/current_round/round_adj.html:18
 #, python-format
-msgid ""
-"You are the <strong>chair</strong> adjudicating %(team)s on the "
-"<strong>%(side)s</strong> side in <strong>%(room)s</strong>."
-msgstr ""
-"Si <strong>chair</strong> a rozhoduješ %(team)s na strane "
-"<strong>%(side)s</strong> v <strong>%(room)s</strong>."
+msgid "You are the <strong>chair</strong> adjudicating %(team)s on the <strong>%(side)s</strong> side in <strong>%(room)s</strong>."
+msgstr "Si <strong>chair</strong> a rozhoduješ %(team)s na strane <strong>%(side)s</strong> v <strong>%(room)s</strong>."
 
 #: participants/templates/current_round/round_adj.html:24
 #, python-format
-msgid ""
-"%(adjudicator)s is a <strong>%(type)s</strong> adjudicating %(team)s on the "
-"<strong>%(side)s</strong> side in <strong>%(room)s</strong>."
-msgstr ""
-"%(adjudicator)s je <strong>%(type)s</strong> a rozhoduje %(team)s na strane "
-"<strong>%(side)s</strong> v <strong>%(room)s</strong>."
+msgid "%(adjudicator)s is a <strong>%(type)s</strong> adjudicating %(team)s on the <strong>%(side)s</strong> side in <strong>%(room)s</strong>."
+msgstr "%(adjudicator)s je <strong>%(type)s</strong> a rozhoduje %(team)s na strane <strong>%(side)s</strong> v <strong>%(room)s</strong>."
 
 #: participants/templates/current_round/round_adj.html:28
 #, python-format
-msgid ""
-"You are a <strong>%(type)s</strong> adjudicating %(team)s on the "
-"<strong>%(side)s</strong> side in <strong>%(room)s</strong>."
-msgstr ""
-"Si <strong>%(type)s</strong> a rozhoduješ %(team)s na strane "
-"<strong>%(side)s</strong> v <strong>%(room)s</strong>."
+msgid "You are a <strong>%(type)s</strong> adjudicating %(team)s on the <strong>%(side)s</strong> side in <strong>%(room)s</strong>."
+msgstr "Si <strong>%(type)s</strong> a rozhoduješ %(team)s na strane <strong>%(side)s</strong> v <strong>%(room)s</strong>."
 
 #: participants/templates/current_round/round_adj.html:34
 #, python-format
-msgid ""
-"%(adjudicator)s is adjudicating %(team)s on the <strong>%(side)s</strong> "
-"side in <strong>%(room)s</strong>."
-msgstr ""
-"%(adjudicator)s rozhoduje %(team)s na strane <strong>%(side)s</strong> v "
-"<strong>%(room)s</strong>."
+msgid "%(adjudicator)s is adjudicating %(team)s on the <strong>%(side)s</strong> side in <strong>%(room)s</strong>."
+msgstr "%(adjudicator)s rozhoduje %(team)s na strane <strong>%(side)s</strong> v <strong>%(room)s</strong>."
 
 #: participants/templates/current_round/round_adj.html:38
 #, python-format
-msgid ""
-"You are adjudicating %(team)s on the <strong>%(side)s</strong> side in "
-"<strong>%(room)s</strong>."
-msgstr ""
-"Rozhoduješ %(team)s na strane <strong>%(side)s</strong> v "
-"<strong>%(room)s</strong>."
+msgid "You are adjudicating %(team)s on the <strong>%(side)s</strong> side in <strong>%(room)s</strong>."
+msgstr "Rozhoduješ %(team)s na strane <strong>%(side)s</strong> v <strong>%(room)s</strong>."
 
 #: participants/templates/current_round/round_adj.html:53
 #, python-format
-msgid ""
-"%(adjudicator)s is the <strong>chair</strong> adjudicating %(aff)s vs "
-"%(neg)s in <a href=\"%(url)s\"><strong>%(room)s</strong></a>."
-msgstr ""
-"%(adjudicator)s je <strong>chair</strong> a rozhoduje %(aff)s vs %(neg)s v "
-"<a href=\"%(url)s\"><strong>%(room)s</strong></a>."
+msgid "%(adjudicator)s is the <strong>chair</strong> adjudicating %(aff)s vs %(neg)s in <a href=\"%(url)s\"><strong>%(room)s</strong></a>."
+msgstr "%(adjudicator)s je <strong>chair</strong> a rozhoduje %(aff)s vs %(neg)s v <a href=\"%(url)s\"><strong>%(room)s</strong></a>."
 
 #: participants/templates/current_round/round_adj.html:57
 #, python-format
-msgid ""
-"%(adjudicator)s is the <strong>chair</strong> adjudicating %(aff)s vs "
-"%(neg)s in <strong>%(room)s</strong>."
-msgstr ""
-"%(adjudicator)s je <strong>chair</strong> a rozhoduje %(aff)s vs %(neg)s v "
-"<strong>%(room)s</strong>."
+msgid "%(adjudicator)s is the <strong>chair</strong> adjudicating %(aff)s vs %(neg)s in <strong>%(room)s</strong>."
+msgstr "%(adjudicator)s je <strong>chair</strong> a rozhoduje %(aff)s vs %(neg)s v <strong>%(room)s</strong>."
 
 #: participants/templates/current_round/round_adj.html:63
 #, python-format
-msgid ""
-"You are the <strong>chair</strong> adjudicating %(aff)s vs %(neg)s in <a "
-"href=\"%(url)s\"><strong>%(room)s</strong></a>."
-msgstr ""
-"Si <strong>chair</strong> a rozhoduješ %(aff)s vs %(neg)s v <a "
-"href=\"%(url)s\"><strong>%(room)s</strong></a>."
+msgid "You are the <strong>chair</strong> adjudicating %(aff)s vs %(neg)s in <a href=\"%(url)s\"><strong>%(room)s</strong></a>."
+msgstr "Si <strong>chair</strong> a rozhoduješ %(aff)s vs %(neg)s v <a href=\"%(url)s\"><strong>%(room)s</strong></a>."
 
 #: participants/templates/current_round/round_adj.html:67
 #, python-format
-msgid ""
-"You are the <strong>chair</strong> adjudicating %(aff)s vs %(neg)s in "
-"<strong>%(room)s</strong>."
-msgstr ""
-"Si <strong>chair</strong> a rozhoduješ %(aff)s vs %(neg)s v "
-"<strong>%(room)s</strong>."
+msgid "You are the <strong>chair</strong> adjudicating %(aff)s vs %(neg)s in <strong>%(room)s</strong>."
+msgstr "Si <strong>chair</strong> a rozhoduješ %(aff)s vs %(neg)s v <strong>%(room)s</strong>."
 
 #: participants/templates/current_round/round_adj.html:75
 #, python-format
-msgid ""
-"%(adjudicator)s is a <strong>%(type)s</strong> adjudicating %(aff)s vs "
-"%(neg)s in <a href=\"%(url)s\"><strong>%(room)s</strong></a>."
-msgstr ""
-"%(adjudicator)s je <strong>%(type)s</strong> a rozhoduje %(aff)s vs %(neg)s "
-"v <a href=\"%(url)s\"><strong>%(room)s</strong></a>."
+msgid "%(adjudicator)s is a <strong>%(type)s</strong> adjudicating %(aff)s vs %(neg)s in <a href=\"%(url)s\"><strong>%(room)s</strong></a>."
+msgstr "%(adjudicator)s je <strong>%(type)s</strong> a rozhoduje %(aff)s vs %(neg)s v <a href=\"%(url)s\"><strong>%(room)s</strong></a>."
 
 #: participants/templates/current_round/round_adj.html:79
 #, python-format
-msgid ""
-"%(adjudicator)s is a <strong>%(type)s</strong> adjudicating %(aff)s vs "
-"%(neg)s in <strong>%(room)s</strong>."
-msgstr ""
-"%(adjudicator)s je <strong>%(type)s</strong> a rozhoduje %(aff)s vs %(neg)s "
-"v <strong>%(room)s</strong>."
+msgid "%(adjudicator)s is a <strong>%(type)s</strong> adjudicating %(aff)s vs %(neg)s in <strong>%(room)s</strong>."
+msgstr "%(adjudicator)s je <strong>%(type)s</strong> a rozhoduje %(aff)s vs %(neg)s v <strong>%(room)s</strong>."
 
 #: participants/templates/current_round/round_adj.html:85
 #, python-format
-msgid ""
-"You are a <strong>%(type)s</strong> adjudicating %(aff)s vs %(neg)s in <a "
-"href=\"%(url)s\"><strong>%(room)s</strong></a>."
-msgstr ""
-"Si <strong>%(type)s</strong> a rozhoduješ %(aff)s vs %(neg)s v <a "
-"href=\"%(url)s\"><strong>%(room)s</strong></a>."
+msgid "You are a <strong>%(type)s</strong> adjudicating %(aff)s vs %(neg)s in <a href=\"%(url)s\"><strong>%(room)s</strong></a>."
+msgstr "Si <strong>%(type)s</strong> a rozhoduješ %(aff)s vs %(neg)s v <a href=\"%(url)s\"><strong>%(room)s</strong></a>."
 
 #: participants/templates/current_round/round_adj.html:89
 #, python-format
-msgid ""
-"You are a <strong>%(type)s</strong> adjudicating %(aff)s vs %(neg)s in "
-"<strong>%(room)s</strong>."
-msgstr ""
-"Si <strong>%(type)s</strong> a rozhoduješ %(aff)s vs %(neg)s v "
-"<strong>%(room)s</strong>."
+msgid "You are a <strong>%(type)s</strong> adjudicating %(aff)s vs %(neg)s in <strong>%(room)s</strong>."
+msgstr "Si <strong>%(type)s</strong> a rozhoduješ %(aff)s vs %(neg)s v <strong>%(room)s</strong>."
 
 #: participants/templates/current_round/round_adj.html:97
 #, python-format
-msgid ""
-"%(adjudicator)s is adjudicating %(aff)s vs %(neg)s in <a "
-"href=\"%(url)s\"><strong>%(room)s</strong></a>."
-msgstr ""
-"%(adjudicator)s rozhoduje %(aff)s vs %(neg)s v <a "
-"href=\"%(url)s\"><strong>%(room)s</strong></a>."
+msgid "%(adjudicator)s is adjudicating %(aff)s vs %(neg)s in <a href=\"%(url)s\"><strong>%(room)s</strong></a>."
+msgstr "%(adjudicator)s rozhoduje %(aff)s vs %(neg)s v <a href=\"%(url)s\"><strong>%(room)s</strong></a>."
 
 #: participants/templates/current_round/round_adj.html:101
 #, python-format
-msgid ""
-"%(adjudicator)s is adjudicating %(aff)s vs %(neg)s in "
-"<strong>%(room)s</strong>."
-msgstr ""
-"%(adjudicator)s rozhoduje %(aff)s vs %(neg)s v <strong>%(room)s</strong>."
+msgid "%(adjudicator)s is adjudicating %(aff)s vs %(neg)s in <strong>%(room)s</strong>."
+msgstr "%(adjudicator)s rozhoduje %(aff)s vs %(neg)s v <strong>%(room)s</strong>."
 
 #: participants/templates/current_round/round_adj.html:107
 #, python-format
-msgid ""
-"You are adjudicating %(aff)s vs %(neg)s in <a "
-"href=\"%(url)s\"><strong>%(room)s</strong></a>."
-msgstr ""
-"Rozhoduješ %(aff)s vs %(neg)s v <a "
-"href=\"%(url)s\"><strong>%(room)s</strong></a>."
+msgid "You are adjudicating %(aff)s vs %(neg)s in <a href=\"%(url)s\"><strong>%(room)s</strong></a>."
+msgstr "Rozhoduješ %(aff)s vs %(neg)s v <a href=\"%(url)s\"><strong>%(room)s</strong></a>."
 
 #: participants/templates/current_round/round_adj.html:111
 #, python-format
@@ -946,81 +769,48 @@ msgstr "Rozhoduješ %(aff)s vs %(neg)s v <strong>%(room)s</strong>."
 
 #: participants/templates/current_round/round_adj.html:124
 #, python-format
-msgid ""
-"%(adjudicator)s is the <strong>chair</strong> adjudicating in <a "
-"href=\"%(url)s\"><strong>%(room)s</strong></a>."
-msgstr ""
-"%(adjudicator)s je <strong>chair</strong> a rozhoduje v <a "
-"href=\"%(url)s\"><strong>%(room)s</strong></a>."
+msgid "%(adjudicator)s is the <strong>chair</strong> adjudicating in <a href=\"%(url)s\"><strong>%(room)s</strong></a>."
+msgstr "%(adjudicator)s je <strong>chair</strong> a rozhoduje v <a href=\"%(url)s\"><strong>%(room)s</strong></a>."
 
 #: participants/templates/current_round/round_adj.html:128
 #, python-format
-msgid ""
-"%(adjudicator)s is the <strong>chair</strong> adjudicating in "
-"<strong>%(room)s</strong>."
-msgstr ""
-"%(adjudicator)s je <strong>chair</strong> a rozhoduje v "
-"<strong>%(room)s</strong>."
+msgid "%(adjudicator)s is the <strong>chair</strong> adjudicating in <strong>%(room)s</strong>."
+msgstr "%(adjudicator)s je <strong>chair</strong> a rozhoduje v <strong>%(room)s</strong>."
 
 #: participants/templates/current_round/round_adj.html:134
 #, python-format
-msgid ""
-"You are the <strong>chair</strong> adjudicating in <a "
-"href=\"%(url)s\"><strong>%(room)s</strong></a>."
-msgstr ""
-"Si <strong>chair</strong> a rozhoduješ v <a "
-"href=\"%(url)s\"><strong>%(room)s</strong></a>."
+msgid "You are the <strong>chair</strong> adjudicating in <a href=\"%(url)s\"><strong>%(room)s</strong></a>."
+msgstr "Si <strong>chair</strong> a rozhoduješ v <a href=\"%(url)s\"><strong>%(room)s</strong></a>."
 
 #: participants/templates/current_round/round_adj.html:138
 #, python-format
-msgid ""
-"You are the <strong>chair</strong> adjudicating in "
-"<strong>%(room)s</strong>."
+msgid "You are the <strong>chair</strong> adjudicating in <strong>%(room)s</strong>."
 msgstr "Si <strong>chair</strong> a rozhoduješ v <strong>%(room)s</strong>."
 
 #: participants/templates/current_round/round_adj.html:146
 #, python-format
-msgid ""
-"%(adjudicator)s is a <strong>%(type)s</strong> adjudicating in <a "
-"href=\"%(url)s\"><strong>%(room)s</strong></a>."
-msgstr ""
-"%(adjudicator)s je <strong>%(type)s</strong> a rozhoduje v <a "
-"href=\"%(url)s\"><strong>%(room)s</strong></a>."
+msgid "%(adjudicator)s is a <strong>%(type)s</strong> adjudicating in <a href=\"%(url)s\"><strong>%(room)s</strong></a>."
+msgstr "%(adjudicator)s je <strong>%(type)s</strong> a rozhoduje v <a href=\"%(url)s\"><strong>%(room)s</strong></a>."
 
 #: participants/templates/current_round/round_adj.html:150
 #, python-format
-msgid ""
-"%(adjudicator)s is a <strong>%(type)s</strong> adjudicating in "
-"<strong>%(room)s</strong>."
-msgstr ""
-"%(adjudicator)s je <strong>%(type)s</strong> a rozhoduje v "
-"<strong>%(room)s</strong>."
+msgid "%(adjudicator)s is a <strong>%(type)s</strong> adjudicating in <strong>%(room)s</strong>."
+msgstr "%(adjudicator)s je <strong>%(type)s</strong> a rozhoduje v <strong>%(room)s</strong>."
 
 #: participants/templates/current_round/round_adj.html:156
 #, python-format
-msgid ""
-"You are a <strong>%(type)s</strong> adjudicating in <a "
-"href=\"%(url)s\"><strong>%(room)s</strong></a>."
-msgstr ""
-"Si <strong>%(type)s</strong> a rozhoduješ v <a "
-"href=\"%(url)s\"><strong>%(room)s</strong></a>."
+msgid "You are a <strong>%(type)s</strong> adjudicating in <a href=\"%(url)s\"><strong>%(room)s</strong></a>."
+msgstr "Si <strong>%(type)s</strong> a rozhoduješ v <a href=\"%(url)s\"><strong>%(room)s</strong></a>."
 
 #: participants/templates/current_round/round_adj.html:160
 #, python-format
-msgid ""
-"You are a <strong>%(type)s</strong> adjudicating in "
-"<strong>%(room)s</strong>."
-msgstr ""
-"Si <strong>%(type)s</strong> a rozhoduješ v <strong>%(room)s</strong>."
+msgid "You are a <strong>%(type)s</strong> adjudicating in <strong>%(room)s</strong>."
+msgstr "Si <strong>%(type)s</strong> a rozhoduješ v <strong>%(room)s</strong>."
 
 #: participants/templates/current_round/round_adj.html:168
 #, python-format
-msgid ""
-"%(adjudicator)s is adjudicating in <a "
-"href=\"%(url)s\"><strong>%(room)s</strong></a>."
-msgstr ""
-"%(adjudicator)s rozhoduje v <a "
-"href=\"%(url)s\"><strong>%(room)s</strong></a>."
+msgid "%(adjudicator)s is adjudicating in <a href=\"%(url)s\"><strong>%(room)s</strong></a>."
+msgstr "%(adjudicator)s rozhoduje v <a href=\"%(url)s\"><strong>%(room)s</strong></a>."
 
 #: participants/templates/current_round/round_adj.html:172
 #, python-format
@@ -1049,21 +839,13 @@ msgstr "Vystupuješ na strane <strong>%(side)s</strong>."
 
 #: participants/templates/current_round/round_team.html:27
 #, python-format
-msgid ""
-"%(team)s is debating as the <strong>%(side)s</strong> team against "
-"<strong>%(opponent)s</strong>."
-msgstr ""
-"%(team)s debatuje ako tím na strane <strong>%(side)s</strong> proti "
-"<strong>%(opponent)s</strong>."
+msgid "%(team)s is debating as the <strong>%(side)s</strong> team against <strong>%(opponent)s</strong>."
+msgstr "%(team)s debatuje ako tím na strane <strong>%(side)s</strong> proti <strong>%(opponent)s</strong>."
 
 #: participants/templates/current_round/round_team.html:31
 #, python-format
-msgid ""
-"You are debating as the <strong>%(side)s</strong> team against "
-"<strong>%(opponent)s</strong>."
-msgstr ""
-"Debatuješ ako tím na strane <strong>%(side)s</strong> proti "
-"<strong>%(opponent)s</strong>."
+msgid "You are debating as the <strong>%(side)s</strong> team against <strong>%(opponent)s</strong>."
+msgstr "Debatuješ ako tím na strane <strong>%(side)s</strong> proti <strong>%(opponent)s</strong>."
 
 #: participants/templates/current_round/round_team.html:37
 #, python-format
@@ -1088,8 +870,7 @@ msgstr "Debatuješ ako tím na strane <strong>%(side)s</strong>."
 #: participants/templates/current_round/round_team.html:71
 #, python-format
 msgid "%(team)s's debate is in <a href=\"%(url)s\"><strong>%(room)s</strong></a>."
-msgstr ""
-"Debata tímu %(team)s je v <a href=\"%(url)s\"><strong>%(room)s</strong></a>."
+msgstr "Debata tímu %(team)s je v <a href=\"%(url)s\"><strong>%(room)s</strong></a>."
 
 #: participants/templates/current_round/round_team.html:75
 #, python-format
@@ -1108,17 +889,8 @@ msgstr "Tvoja debata je v <strong>%(room)s</strong>."
 
 #: participants/templates/edit_speaker_eligibility.html:7
 #, python-format
-msgid ""
-"It looks like there aren't any speaker categories are defined. If you'd like"
-" to produce category-specific speaker tabs, such as a novice or ESL tab, use"
-" the <a href=\"%(categories_url)s\" class=\"alert-link\">Speaker "
-"Categories</a> page to define them, then return to this page to set speaker "
-"eligibility."
-msgstr ""
-"Vyzerá to, že nie sú definované žiadne kategórie rečníkov. Ak chceš vytvoriť"
-" taby pre konkrétne kategórie rečníkov, napríklad novice alebo ESL, definuj "
-"ich na stránke <a href=\"%(categories_url)s\" class=\"alert-link\">Kategórie"
-" rečníkov</a> a potom sa vráť na túto stránku a nastav oprávnenosť rečníkov."
+msgid "It looks like there aren't any speaker categories are defined. If you'd like to produce category-specific speaker tabs, such as a novice or ESL tab, use the <a href=\"%(categories_url)s\" class=\"alert-link\">Speaker Categories</a> page to define them, then return to this page to set speaker eligibility."
+msgstr "Vyzerá to, že nie sú definované žiadne kategórie rečníkov. Ak chceš vytvoriť taby pre konkrétne kategórie rečníkov, napríklad novice alebo ESL, definuj ich na stránke <a href=\"%(categories_url)s\" class=\"alert-link\">Kategórie rečníkov</a> a potom sa vráť na túto stránku a nastav oprávnenosť rečníkov."
 
 #: participants/templates/feedback_progress_panel.html:10
 msgid "Feedback Returns"
@@ -1131,11 +903,8 @@ msgstr "Odoslal/a spätnú väzbu pre <strong>%(adjudicator)s</strong>"
 
 #: participants/templates/feedback_progress_panel.html:26
 #, python-format
-msgid ""
-"Has not submitted feedback for one of: <strong>%(adjudicators)s</strong> "
-"(whoever gave the oral adjudication)"
-msgstr ""
-"Neodoslal/a spätnú väzbu pre jedného z: <strong>%(adjudicators)s</strong>"
+msgid "Has not submitted feedback for one of: <strong>%(adjudicators)s</strong> (whoever gave the oral adjudication)"
+msgstr "Neodoslal/a spätnú väzbu pre jedného z: <strong>%(adjudicators)s</strong>"
 
 #: participants/templates/feedback_progress_panel.html:31
 #, python-format
@@ -1149,8 +918,7 @@ msgstr "Viac odovzdani späťnej vazby, nez sa očakávalo pre tuto debatu:"
 #: participants/templates/feedback_progress_panel.html:48
 #, python-format
 msgid "Unexpected feedback submission for <strong>%(adjudicator)s</strong>"
-msgstr ""
-"Neočakávané odovzdanie spätnej väzby pre <strong>%(adjudicator)s</strong>"
+msgstr "Neočakávané odovzdanie spätnej väzby pre <strong>%(adjudicator)s</strong>"
 
 #: participants/templates/feedback_progress_panel.html:55
 #, python-format
@@ -1176,44 +944,21 @@ msgstr "Miestnosť TBA"
 
 #: participants/templates/in_this_round.html:32
 #, python-format
-msgid ""
-"%(adjudicator)s is chairing 1 speech on the <strong>%(side)s</strong> side: "
-"%(speakers)s."
-msgid_plural ""
-"%(adjudicator)s is chairing %(counter)s speeches on the "
-"<strong>%(side)s</strong> side: %(speakers)s."
-msgstr[0] ""
-"%(adjudicator)s predsedá 1 reči na strane <strong>%(side)s</strong>: "
-"%(speakers)s."
-msgstr[1] ""
-"%(adjudicator)s predsedá %(counter)s rečiam na strane "
-"<strong>%(side)s</strong>: %(speakers)s."
-msgstr[2] ""
-"%(adjudicator)s predsedá %(counter)s reči na strane "
-"<strong>%(side)s</strong>: %(speakers)s."
-msgstr[3] ""
-"%(adjudicator)s predsedá %(counter)s rečiam na strane "
-"<strong>%(side)s</strong>: %(speakers)s."
+msgid "%(adjudicator)s is chairing 1 speech on the <strong>%(side)s</strong> side: %(speakers)s."
+msgid_plural "%(adjudicator)s is chairing %(counter)s speeches on the <strong>%(side)s</strong> side: %(speakers)s."
+msgstr[0] "%(adjudicator)s predsedá 1 reči na strane <strong>%(side)s</strong>: %(speakers)s."
+msgstr[1] "%(adjudicator)s predsedá %(counter)s rečiam na strane <strong>%(side)s</strong>: %(speakers)s."
+msgstr[2] "%(adjudicator)s predsedá %(counter)s reči na strane <strong>%(side)s</strong>: %(speakers)s."
+msgstr[3] "%(adjudicator)s predsedá %(counter)s rečiam na strane <strong>%(side)s</strong>: %(speakers)s."
 
 #: participants/templates/in_this_round.html:38
 #, python-format
-msgid ""
-"You are chairing 1 speech on the <strong>%(side)s</strong> side: "
-"%(speakers)s."
-msgid_plural ""
-"You are chairing %(counter)s speeches on the <strong>%(side)s</strong> side:"
-" %(speakers)s."
-msgstr[0] ""
-"Predsedáš 1 reči na strane <strong>%(side)s</strong>: %(speakers)s."
-msgstr[1] ""
-"Predsedáš %(counter)s rečiam na strane <strong>%(side)s</strong>: "
-"%(speakers)s."
-msgstr[2] ""
-"Predsedáš %(counter)s reči na strane <strong>%(side)s</strong>: "
-"%(speakers)s."
-msgstr[3] ""
-"Predsedáš %(counter)s rečiam na strane <strong>%(side)s</strong>: "
-"%(speakers)s."
+msgid "You are chairing 1 speech on the <strong>%(side)s</strong> side: %(speakers)s."
+msgid_plural "You are chairing %(counter)s speeches on the <strong>%(side)s</strong> side: %(speakers)s."
+msgstr[0] "Predsedáš 1 reči na strane <strong>%(side)s</strong>: %(speakers)s."
+msgstr[1] "Predsedáš %(counter)s rečiam na strane <strong>%(side)s</strong>: %(speakers)s."
+msgstr[2] "Predsedáš %(counter)s reči na strane <strong>%(side)s</strong>: %(speakers)s."
+msgstr[3] "Predsedáš %(counter)s rečiam na strane <strong>%(side)s</strong>: %(speakers)s."
 
 #: participants/templates/in_this_round.html:57
 #, python-format
@@ -1227,21 +972,16 @@ msgstr "V tomto kole nerozhoduješ."
 #: participants/templates/in_this_round.html:83
 #, python-format
 msgid "It looks like %(team)s is competing in %(ndebates)s debate this round."
-msgid_plural ""
-"It looks like %(team)s is competing in %(ndebates)s debates this round."
+msgid_plural "It looks like %(team)s is competing in %(ndebates)s debates this round."
 msgstr[0] "Vyzerá to, že %(team)s súťaží v %(ndebates)s debate v tomto kole."
-msgstr[1] ""
-"Vyzerá to, že %(team)s súťaží v %(ndebates)s debatách v tomto kole."
-msgstr[2] ""
-"Vyzerá to, že %(team)s súťaží v %(ndebates)s debatách v tomto kole."
-msgstr[3] ""
-"Vyzerá to, že %(team)s súťaží v %(ndebates)s debatách v tomto kole."
+msgstr[1] "Vyzerá to, že %(team)s súťaží v %(ndebates)s debatách v tomto kole."
+msgstr[2] "Vyzerá to, že %(team)s súťaží v %(ndebates)s debatách v tomto kole."
+msgstr[3] "Vyzerá to, že %(team)s súťaží v %(ndebates)s debatách v tomto kole."
 
 #: participants/templates/in_this_round.html:89
 #, python-format
 msgid "It looks like you are competing in %(ndebates)s debate this round."
-msgid_plural ""
-"It looks like you are competing in %(ndebates)s debates this round."
+msgid_plural "It looks like you are competing in %(ndebates)s debates this round."
 msgstr[0] "Zdá sa, že v tomto kole súťažíte v %(ndebates)s debate."
 msgstr[1] "Zdá sa, že v tomto kole súťažíte v %(ndebates)s debatách."
 msgstr[2] "Zdá sa, že v tomto kole súťažíte v %(ndebates)s debatách."
@@ -1288,8 +1028,7 @@ msgstr "E-maily uz boli odoslané."
 msgid "Email Team Registrations"
 msgstr "Poslať tímové registracie e-mailom"
 
-#: participants/templates/participants_subnav.html:34
-#: participants/views.py:197
+#: participants/templates/participants_subnav.html:34 participants/views.py:197
 msgid "Code Names"
 msgstr "Kódové mena"
 
@@ -1304,23 +1043,13 @@ msgid "Speaker Eligibility"
 msgstr "Oprávnenosť rečníkov"
 
 #: participants/templates/speaker_categories_edit.html:16
-msgid ""
-"Speaker categories allow category-specific speaker tabs to be produced, "
-"<i>e.g.</i>, for novice or ESL categories. On this page, you can define what"
-" speaker categories exist. After you've defined the categories, you can set "
-"speaker eligibility on the Speaker Eligibility page."
-msgstr ""
-"Kategórie rečníkov umožňujú vytvoriť kategóriové taby rečníkov, napríklad "
-"pre novice alebo ESL kategórie."
+msgid "Speaker categories allow category-specific speaker tabs to be produced, <i>e.g.</i>, for novice or ESL categories. On this page, you can define what speaker categories exist. After you've defined the categories, you can set speaker eligibility on the Speaker Eligibility page."
+msgstr "Kategórie rečníkov umožňujú vytvoriť kategóriové taby rečníkov, napríklad pre novice alebo ESL kategórie."
 
 #: participants/templates/speaker_categories_edit.html:23
 #, python-format
-msgid ""
-"If you want to delete speaker categories, use the <a "
-"href=\"%(edit_db_url)s\" class=\"alert-link\">Edit Database</a> area."
-msgstr ""
-"Ak chcete odstrániť kategórie rečníkov, použite sekciu <a "
-"href=\"%(edit_db_url)s\" class=\"alert-link\">Upraviť databázu</a>."
+msgid "If you want to delete speaker categories, use the <a href=\"%(edit_db_url)s\" class=\"alert-link\">Edit Database</a> area."
+msgstr "Ak chcete odstrániť kategórie rečníkov, použite sekciu <a href=\"%(edit_db_url)s\" class=\"alert-link\">Upraviť databázu</a>."
 
 #: participants/templates/speaker_categories_edit.html:29
 msgid "Save Speaker Categories"
@@ -1338,14 +1067,8 @@ msgstr "Späť na záznam tímu"
 
 #: participants/templates/speaker_confirm_delete.html:16
 #, python-format
-msgid ""
-"Do you really want to delete <strong>%(name)s</strong> from %(team)s? This "
-"will permanently remove the speaker and <strong>cannot be undone</strong>. "
-"Any ballot scores attributed to this speaker will also be deleted."
-msgstr ""
-"Naozaj chcete vymazať rečníka <strong>%(name)s</strong> z tímu %(team)s? "
-"Rečník bude natrvalo odstránený a <strong>tento krok sa nedá vrátiť "
-"späť</strong>. Vymažú sa aj všetky jeho body z hlasovacích lístkov."
+msgid "Do you really want to delete <strong>%(name)s</strong> from %(team)s? This will permanently remove the speaker and <strong>cannot be undone</strong>. Any ballot scores attributed to this speaker will also be deleted."
+msgstr "Naozaj chcete vymazať rečníka <strong>%(name)s</strong> z tímu %(team)s? Rečník bude natrvalo odstránený a <strong>tento krok sa nedá vrátiť späť</strong>. Vymažú sa aj všetky jeho body z hlasovacích lístkov."
 
 #: participants/templates/speaker_confirm_delete.html:27
 #, python-format
@@ -1470,7 +1193,7 @@ msgstr "Rodová diverzita debatného klubu"
 msgid "N/A"
 msgstr "N/A"
 
-#: participants/views.py:178 participants/views.py:653
+#: participants/views.py:178 participants/views.py:662
 msgid "Institution"
 msgstr "Debatný klub"
 
@@ -1492,39 +1215,67 @@ msgstr "Kódové meno"
 msgid "Team Registration"
 msgstr "Registracia tímov"
 
-#: participants/views.py:303
+#: participants/views.py:234
+msgid "recipient team short name"
+msgstr "krátky názov tímu príjemcu"
+
+#: participants/views.py:235
+msgid "recipient team long name"
+msgstr "úplný názov tímu príjemcu"
+
+#: participants/views.py:236
+msgid "recipient team code name"
+msgstr "kódové označenie tímu príjemcu"
+
+#: participants/views.py:237
+msgid "recipient team emoji"
+msgstr "emoji tímu príjemcu"
+
+#: participants/views.py:238
+msgid "break categories the recipient team is in"
+msgstr "postupové kategórie tímu príjemcu"
+
+#: participants/views.py:239
+msgid "list of speakers in the recipient team"
+msgstr "zoznam rečníkov tímu príjemcu"
+
+#: participants/views.py:240
+msgid "recipient team institution name"
+msgstr "názov inštitúcie tímu príjemcu"
+
+#: participants/views.py:312
 msgid "Results"
 msgstr "Výsledky"
 
-#: participants/views.py:336
+#: participants/views.py:345
 msgid "Previous Rounds"
 msgstr "Predchádzajúce kola"
 
-#: participants/views.py:388
+#: participants/views.py:397
 #, python-format
 msgid "Add Speaker to %(team)s"
 msgstr "Pridať rečníka do tímu %(team)s"
 
-#: participants/views.py:393
+#: participants/views.py:402
 msgid "Cancel and return to team record"
 msgstr "Zrušiť a vrátiť sa na záznam tímu"
 
-#: participants/views.py:398
+#: participants/views.py:407
 #, python-format
 msgid "%(name)s was added as a speaker."
 msgstr "%(name)s bol pridaný ako rečník."
 
-#: participants/views.py:425
+#: participants/views.py:434
 #, python-format
 msgid "Delete %(name)s"
 msgstr "Vymazať %(name)s"
 
-#: participants/views.py:438
+#: participants/views.py:447
 #, python-format
 msgid "%(name)s was deleted."
 msgstr "%(name)s bol vymazaný."
 
-#: participants/views.py:520
+#: participants/views.py:529
 #, python-format
 msgid "Saved category: %(list)s"
 msgid_plural "Saved categories: %(list)s"
@@ -1533,43 +1284,27 @@ msgstr[1] "Uložené kategórie: %(list)s"
 msgstr[2] "Uložené kategórie: %(list)s"
 msgstr[3] "Uložené kategórie: %(list)s"
 
-#: participants/views.py:526
+#: participants/views.py:535
 msgid "No changes were made to the categories."
 msgstr "V kategóriach neboli vykonane žiadne zmeny."
 
-#: participants/views.py:539
+#: participants/views.py:548
 msgid "Speaker Category Eligibility"
 msgstr "Oprávnenosť pre kategórie rečníkov"
 
-#: participants/views.py:604
+#: participants/views.py:613
 msgid "Adjudicator Requirement"
 msgstr "Požiadavka na rozhodcov"
 
-#: participants/views.py:668
+#: participants/views.py:677
 msgid "Registered"
 msgstr "Zaregistrovaný/á"
 
 #~ msgid "Used as initial ranking to power-pair the first round"
 #~ msgstr "Používa sa ako počiatočné poradie na power-pairing prvého kola"
 
-#~ msgid ""
-#~ "<strong>Don't forget:</strong> If this adjudicator should be conflicted "
-#~ "against their own institution, you should add this conflict "
-#~ "<strong>now</strong> in the <strong>Adjudicator-institution "
-#~ "conflicts</strong> tab above, because the own-institution conflict is "
-#~ "<strong>not</strong> automatically created when using this form."
-#~ msgstr ""
-#~ "<strong>Nezabudni:</strong> Ak má mať tento rozhodca konflikt s vlastným "
-#~ "debatným klubom, pridaj tento konflikt <strong>teraz</strong> v tabe "
-#~ "konfliktov rozhodca-klub."
+#~ msgid "<strong>Don't forget:</strong> If this adjudicator should be conflicted against their own institution, you should add this conflict <strong>now</strong> in the <strong>Adjudicator-institution conflicts</strong> tab above, because the own-institution conflict is <strong>not</strong> automatically created when using this form."
+#~ msgstr "<strong>Nezabudni:</strong> Ak má mať tento rozhodca konflikt s vlastným debatným klubom, pridaj tento konflikt <strong>teraz</strong> v tabe konfliktov rozhodca-klub."
 
-#~ msgid ""
-#~ "<strong>Don't forget:</strong> If this team should be conflicted against its"
-#~ " own institution, you should add this conflict <strong>now</strong> in the "
-#~ "<strong>Team-institution conflicts</strong> tab above, because the own-"
-#~ "institution conflict is <strong>not</strong> automatically created when "
-#~ "using this form."
-#~ msgstr ""
-#~ "<strong>Nezabudni:</strong> Ak má mať tento tím konflikt s vlastným debatným"
-#~ " klubom, pridaj tento konflikt <strong>teraz</strong> v tabe konfliktov tím-"
-#~ "klub."
+#~ msgid "<strong>Don't forget:</strong> If this team should be conflicted against its own institution, you should add this conflict <strong>now</strong> in the <strong>Team-institution conflicts</strong> tab above, because the own-institution conflict is <strong>not</strong> automatically created when using this form."
+#~ msgstr "<strong>Nezabudni:</strong> Ak má mať tento tím konflikt s vlastným debatným klubom, pridaj tento konflikt <strong>teraz</strong> v tabe konfliktov tím-klub."

@@ -233,18 +233,12 @@ class SideAllocationsEditingTest(CompletedTournamentTestMixin, TestCase):
     def test_table_shows_editable_cell_for_undrawn_round(self):
         response = self.client.get(self.reverse_url('draw-side-allocations'))
         self.assertEqual(response.status_code, 200)
-        tables = json.loads(response.context['tables_data'])
-        table = tables[0]
-
-        headers = [h['key'] for h in table['head']]
-        target_index = headers.index(f'round_{self.target_round.id}')
-        source_index = headers.index(f'round_{self.source_round.id}')
-
-        target_cell = table['data'][0][target_index]
-        source_cell = table['data'][0][source_index]
-
-        self.assertEqual(target_cell.get('component'), 'ajax-select-cell')
-        self.assertNotEqual(source_cell.get('component'), 'ajax-select-cell')
+        cells = response.context['allocation_rows'][0]['cells']
+        target_cell = next(cell for cell in cells if cell['round'] == self.target_round)
+        source_cell = next(cell for cell in cells if cell['round'] == self.source_round)
+        self.assertTrue(target_cell['editable'])
+        self.assertFalse(source_cell['editable'])
+        self.assertContains(response, 'data-side-preallocation', count=self.tournament.team_set.count())
 
     def test_update_single_preallocation_set_and_clear(self):
         team = self.tournament.team_set.first()

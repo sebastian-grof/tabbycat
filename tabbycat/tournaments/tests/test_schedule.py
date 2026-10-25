@@ -14,6 +14,7 @@ from users.permissions import Permission
 from utils.misc import reverse_tournament
 
 
+@override_settings(LANGUAGE_CODE='en')
 class SetTournamentScheduleViewTest(TestCase):
 
     fixtures = ['after_round_4.json']

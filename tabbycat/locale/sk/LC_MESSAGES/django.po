@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tabbycat\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-27 15:04+0200\n"
+"POT-Creation-Date: 2026-10-25 06:56+1100\n"
 "PO-Revision-Date: 2026-04-28 13:00+0200\n"
 "Last-Translator: \n"
 "Language-Team: Slovak\n"
@@ -132,17 +132,12 @@ msgid "You need to delete the above objects first."
 msgstr "Najprv musíš vymazať objekty uvedené vyššie."
 
 #: templates/admin/style_guide.html:30
-msgid ""
-"This style of info card announces critical information. <a "
-"href=\"\">Link</a>."
-msgstr ""
-"Tento štýl informačnej karty oznamuje kritické informácie. <a "
-"href=\"\">Odkaz</a>."
+msgid "This style of info card announces critical information. <a href=\"\">Link</a>."
+msgstr "Tento štýl informačnej karty oznamuje kritické informácie. <a href=\"\">Odkaz</a>."
 
 #: templates/admin/style_guide.html:33
 msgid "This style of info card announces general <a href=\"\">information</a>."
-msgstr ""
-"Tento štýl informačnej karty oznamuje všeobecné <a href=\"\">informácie</a>."
+msgstr "Tento štýl informačnej karty oznamuje všeobecné <a href=\"\">informácie</a>."
 
 #: templates/admin/style_guide.html:160
 msgctxt "page title"
@@ -169,20 +164,12 @@ msgstr "Tabbycat"
 
 #: templates/base.html:13
 #, python-format
-msgid ""
-"The tab for %(tournament)s runs on Tabbycat, a source-available tab system "
-"for a variety of parliamentary debating formats"
-msgstr ""
-"Tab pre %(tournament)s beží na Tabbycate, tabovacom systéme s dostupným "
-"zdrojovým kódom pre rôzne formáty parlamentnej debaty"
+msgid "The tab for %(tournament)s runs on Tabbycat, a source-available tab system for a variety of parliamentary debating formats"
+msgstr "Tab pre %(tournament)s beží na Tabbycate, tabovacom systéme s dostupným zdrojovým kódom pre rôzne formáty parlamentnej debaty"
 
 #: templates/base.html:17
-msgid ""
-"This tab runs on Tabbycat, a source-available tab system for a variety of "
-"parliamentary debating formats"
-msgstr ""
-"Tento tab beží na Tabbycate, tabovacom systéme s dostupným zdrojovým kódom "
-"pre rôzne formáty parlamentnej debaty"
+msgid "This tab runs on Tabbycat, a source-available tab system for a variety of parliamentary debating formats"
+msgstr "Tento tab beží na Tabbycate, tabovacom systéme s dostupným zdrojovým kódom pre rôzne formáty parlamentnej debaty"
 
 #: templates/components/emoji-search.html:67
 msgid "Search emoji…"
@@ -208,161 +195,68 @@ msgstr "Ups! V jednom alebo viacerých poliach bola chyba."
 msgid "Save and Add More"
 msgstr "Uložiť a pridať ďalšie"
 
-#: templates/errors/assistant_403.html:4 templates/errors/assistant_403.html:6
-#: templates/errors/public_403.html:4 templates/errors/public_403.html:6
+#: templates/errors/assistant_403.html:4 templates/errors/assistant_403.html:6 templates/errors/public_403.html:4 templates/errors/public_403.html:6
 msgid "Permission Denied (403)"
 msgstr "Prístup zamietnutý (403)"
 
 #: templates/errors/assistant_403.html:13
 #, python-format
-msgid ""
-"This assistant page isn't enabled for this tournament. <a "
-"href=\"%(url)s\">Back to the assistant home page.</a>"
-msgstr ""
-"Táto stránka pre asistentov nie je pre tento turnaj zapnutá. <a "
-"href=\"%(url)s\">Späť na domovskú stránku asistencie.</a>"
+msgid "This assistant page isn't enabled for this tournament. <a href=\"%(url)s\">Back to the assistant home page.</a>"
+msgstr "Táto stránka pre asistentov nie je pre tento turnaj zapnutá. <a href=\"%(url)s\">Späť na domovskú stránku asistencie.</a>"
 
 #: templates/errors/database_limit_warning.html:9
 #, python-format
-msgid ""
-"You're currently using %(nrows)s row in your database. If you haven't "
-"already upgraded your Heroku database to a paid tier, it's limited to a "
-"maximum of 10,000 rows. As you're close to this limit, you should "
-"<strong>not create new tournaments</strong> on this site unless and until "
-"you've <a href=\"https://devcenter.heroku.com/articles/upgrading-heroku-"
-"postgres-databases\">upgraded your database</a> to a paid tier."
-msgid_plural ""
-"You're currently using %(nrows)s rows in your database. If you haven't "
-"already upgraded your Heroku database to a paid tier, it's limited to a "
-"maximum of 10,000 rows. As you're close to this limit, you should "
-"<strong>not create new tournaments</strong> on this site unless and until "
-"you've <a href=\"https://devcenter.heroku.com/articles/upgrading-heroku-"
-"postgres-databases\">upgraded your database</a> to a paid tier."
-msgstr[0] ""
-"Momentálne používaš %(nrows)s riadok v databáze. Ak si Heroku databázu ešte "
-"neupgradoval/a na platený tier, je obmedzená na maximum 10 000 riadkov. "
-"Keďže sa blížiš k limitu, <strong>nevytváraj nové turnaje</strong> na tejto "
-"stránke, kým <a href=\"https://devcenter.heroku.com/articles/upgrading-"
-"heroku-postgres-databases\">neupgraduješ databázu</a> na platený tier."
-msgstr[1] ""
-"Momentálne používaš %(nrows)s riadky v databáze. Ak si Heroku databázu ešte "
-"neupgradoval/a na platený tier, je obmedzená na maximum 10 000 riadkov. "
-"Keďže sa blížiš k limitu, <strong>nevytváraj nové turnaje</strong> na tejto "
-"stránke, kým <a href=\"https://devcenter.heroku.com/articles/upgrading-"
-"heroku-postgres-databases\">neupgraduješ databázu</a> na platený tier."
-msgstr[2] ""
-"Momentálne používaš %(nrows)s riadkov v databáze. Ak si Heroku databázu ešte"
-" neupgradoval/a na platený tier, je obmedzená na maximum 10 000 riadkov. "
-"Keďže sa blížiš k limitu, <strong>nevytváraj nové turnaje</strong> na tejto "
-"stránke, kým <a href=\"https://devcenter.heroku.com/articles/upgrading-"
-"heroku-postgres-databases\">neupgraduješ databázu</a> na platený tier."
-msgstr[3] ""
-"Momentálne používaš %(nrows)s riadkov v databáze. Ak si Heroku databázu ešte"
-" neupgradoval/a na platený tier, je obmedzená na maximum 10 000 riadkov. "
-"Keďže sa blížiš k limitu, <strong>nevytváraj nové turnaje</strong> na tejto "
-"stránke, kým <a href=\"https://devcenter.heroku.com/articles/upgrading-"
-"heroku-postgres-databases\">neupgraduješ databázu</a> na platený tier."
+msgid "You're currently using %(nrows)s row in your database. If you haven't already upgraded your Heroku database to a paid tier, it's limited to a maximum of 10,000 rows. As you're close to this limit, you should <strong>not create new tournaments</strong> on this site unless and until you've <a href=\"https://devcenter.heroku.com/articles/upgrading-heroku-postgres-databases\">upgraded your database</a> to a paid tier."
+msgid_plural "You're currently using %(nrows)s rows in your database. If you haven't already upgraded your Heroku database to a paid tier, it's limited to a maximum of 10,000 rows. As you're close to this limit, you should <strong>not create new tournaments</strong> on this site unless and until you've <a href=\"https://devcenter.heroku.com/articles/upgrading-heroku-postgres-databases\">upgraded your database</a> to a paid tier."
+msgstr[0] "Momentálne používaš %(nrows)s riadok v databáze. Ak si Heroku databázu ešte neupgradoval/a na platený tier, je obmedzená na maximum 10 000 riadkov. Keďže sa blížiš k limitu, <strong>nevytváraj nové turnaje</strong> na tejto stránke, kým <a href=\"https://devcenter.heroku.com/articles/upgrading-heroku-postgres-databases\">neupgraduješ databázu</a> na platený tier."
+msgstr[1] "Momentálne používaš %(nrows)s riadky v databáze. Ak si Heroku databázu ešte neupgradoval/a na platený tier, je obmedzená na maximum 10 000 riadkov. Keďže sa blížiš k limitu, <strong>nevytváraj nové turnaje</strong> na tejto stránke, kým <a href=\"https://devcenter.heroku.com/articles/upgrading-heroku-postgres-databases\">neupgraduješ databázu</a> na platený tier."
+msgstr[2] "Momentálne používaš %(nrows)s riadkov v databáze. Ak si Heroku databázu ešte neupgradoval/a na platený tier, je obmedzená na maximum 10 000 riadkov. Keďže sa blížiš k limitu, <strong>nevytváraj nové turnaje</strong> na tejto stránke, kým <a href=\"https://devcenter.heroku.com/articles/upgrading-heroku-postgres-databases\">neupgraduješ databázu</a> na platený tier."
+msgstr[3] "Momentálne používaš %(nrows)s riadkov v databáze. Ak si Heroku databázu ešte neupgradoval/a na platený tier, je obmedzená na maximum 10 000 riadkov. Keďže sa blížiš k limitu, <strong>nevytváraj nové turnaje</strong> na tejto stránke, kým <a href=\"https://devcenter.heroku.com/articles/upgrading-heroku-postgres-databases\">neupgraduješ databázu</a> na platený tier."
 
 #: templates/errors/legacy_sendgrid_warning.html:11
-msgid ""
-"It looks like you're using the old SendGrid config vars on Heroku, "
-"<code>SENDGRID_USERNAME</code> and <code>SENDGRID_PASSWORD</code>. These are"
-" now deprecated (as of version 2.6), and will stop working in a future "
-"version of Tabbycat. Please change your config vars to use "
-"<code>SENDGRID_API_KEY</code> instead. For more information, please see <a "
-"href=\"https://tabbycat.readthedocs.io/en/stable/features/notifications.html#configuring-"
-"an-email-provider\"> our documentation on this topic</a>."
-msgstr ""
-"Vyzerá to, že na Heroku používaš staré konfiguračné premenné SendGridu, "
-"<code>SENDGRID_USERNAME</code> a <code>SENDGRID_PASSWORD</code>. Od verzie "
-"2.6 sú zastarané a v budúcej verzii Tabbycatu prestanú fungovať. Zmeň "
-"konfiguráciu tak, aby používala <code>SENDGRID_API_KEY</code>. Viac "
-"informácií nájdeš v <a "
-"href=\"https://tabbycat.readthedocs.io/en/stable/features/notifications.html#configuring-"
-"an-email-provider\">našej dokumentácii k tejto téme</a>."
+msgid "It looks like you're using the old SendGrid config vars on Heroku, <code>SENDGRID_USERNAME</code> and <code>SENDGRID_PASSWORD</code>. These are now deprecated (as of version 2.6), and will stop working in a future version of Tabbycat. Please change your config vars to use <code>SENDGRID_API_KEY</code> instead. For more information, please see <a href=\"https://tabbycat.readthedocs.io/en/stable/features/notifications.html#configuring-an-email-provider\"> our documentation on this topic</a>."
+msgstr "Vyzerá to, že na Heroku používaš staré konfiguračné premenné SendGridu, <code>SENDGRID_USERNAME</code> a <code>SENDGRID_PASSWORD</code>. Od verzie 2.6 sú zastarané a v budúcej verzii Tabbycatu prestanú fungovať. Zmeň konfiguráciu tak, aby používala <code>SENDGRID_API_KEY</code>. Viac informácií nájdeš v <a href=\"https://tabbycat.readthedocs.io/en/stable/features/notifications.html#configuring-an-email-provider\">našej dokumentácii k tejto téme</a>."
 
 #: templates/errors/public_403.html:14
 #, python-format
-msgid ""
-"Whoops! This page isn't enabled for this tournament. <a "
-"href=\"%(url)s\">Back to the tournament home page.</a>"
-msgstr ""
-"Ups! Táto stránka nie je pre tento turnaj zapnutá. <a href=\"%(url)s\">Späť "
-"na domovskú stránku turnaja.</a>"
+msgid "Whoops! This page isn't enabled for this tournament. <a href=\"%(url)s\">Back to the tournament home page.</a>"
+msgstr "Ups! Táto stránka nie je pre tento turnaj zapnutá. <a href=\"%(url)s\">Späť na domovskú stránku turnaja.</a>"
 
 #: templates/errors/public_403.html:20
 #, python-format
-msgid ""
-"Whoops! This page isn't enabled for this tournament. <a "
-"href=\"%(url)s\">Back to the home page.</a>"
-msgstr ""
-"Ups! Táto stránka nie je pre tento turnaj zapnutá. <a href=\"%(url)s\">Späť "
-"na domovskú stránku.</a>"
+msgid "Whoops! This page isn't enabled for this tournament. <a href=\"%(url)s\">Back to the home page.</a>"
+msgstr "Ups! Táto stránka nie je pre tento turnaj zapnutá. <a href=\"%(url)s\">Späť na domovskú stránku.</a>"
 
 #: templates/footer.html:14
 #, python-format
-msgid ""
-"%(tournament)s runs on Tabbycat %(tabbycat_version)s (%(tabbycat_codename)s)"
-msgstr ""
-"%(tournament)s beží na Tabbycat %(tabbycat_version)s (%(tabbycat_codename)s)"
+msgid "%(tournament)s runs on Tabbycat %(tabbycat_version)s (%(tabbycat_codename)s)"
+msgstr "%(tournament)s beží na Tabbycat %(tabbycat_version)s (%(tabbycat_codename)s)"
 
 #: templates/footer.html:16
 #, python-format
-msgid ""
-"This site runs on Tabbycat %(tabbycat_version)s (%(tabbycat_codename)s)"
-msgstr ""
-"Táto stránka beží na Tabbycat %(tabbycat_version)s (%(tabbycat_codename)s)"
+msgid "This site runs on Tabbycat %(tabbycat_version)s (%(tabbycat_codename)s)"
+msgstr "Táto stránka beží na Tabbycat %(tabbycat_version)s (%(tabbycat_codename)s)"
 
 #: templates/footer.html:20
-msgid ""
-"This SDA-hosted version is an unofficial modified fork maintained by <strong"
-" class=\"font-weight-bold text-dark\">Sebastian Grof</strong>. The official "
-"Tabbycat project is available at <strong><a href=\"https://tabbycat-"
-"debate.org/\">tabbycat-debate.org</a></strong>. See <a "
-"href=\"https://github.com/sebastian-"
-"grof/tabbycat/blob/develop/MODIFICATIONS.md\">Modifications</a> and <a "
-"href=\"https://github.com/sebastian-grof/tabbycat\">Source Code</a>."
-msgstr ""
-"Táto SDA hostovaná verzia je neoficiálny upravený fork, ktorý spravuje "
-"<strong class=\"font-weight-bold text-dark\">Sebastian Grof</strong>. "
-"Oficiálny projekt Tabbycat je dostupný na <strong><a "
-"href=\"https://tabbycat-debate.org/\">tabbycat-debate.org</a></strong>. "
-"Pozrite si <a href=\"https://github.com/sebastian-"
-"grof/tabbycat/blob/develop/MODIFICATIONS.md\">úpravy</a> a <a "
-"href=\"https://github.com/sebastian-grof/tabbycat\">zdrojový kód</a>."
+msgid "This SDA-hosted version is an unofficial modified fork maintained by <strong class=\"font-weight-bold text-dark\">Sebastian Grof</strong>. The official Tabbycat project is available at <strong><a href=\"https://tabbycat-debate.org/\">tabbycat-debate.org</a></strong>. See <a href=\"https://github.com/sebastian-grof/tabbycat/blob/develop/MODIFICATIONS.md\">Modifications</a> and <a href=\"https://github.com/sebastian-grof/tabbycat\">Source Code</a>."
+msgstr "Táto SDA hostovaná verzia je neoficiálny upravený fork, ktorý spravuje <strong class=\"font-weight-bold text-dark\">Sebastian Grof</strong>. Oficiálny projekt Tabbycat je dostupný na <strong><a href=\"https://tabbycat-debate.org/\">tabbycat-debate.org</a></strong>. Pozrite si <a href=\"https://github.com/sebastian-grof/tabbycat/blob/develop/MODIFICATIONS.md\">úpravy</a> a <a href=\"https://github.com/sebastian-grof/tabbycat\">zdrojový kód</a>."
 
 #: templates/footer.html:25
-msgid ""
-"Tabbycat is an open-source project developed by volunteers and is free to "
-"use."
-msgstr ""
-"Tabbycat je projekt s otvoreným zdrojovým kódom, vyvíjaný dobrovoľníkmi a "
-"dostupný zadarmo."
+msgid "Tabbycat is an open-source project developed by volunteers and is free to use."
+msgstr "Tabbycat je projekt s otvoreným zdrojovým kódom, vyvíjaný dobrovoľníkmi a dostupný zadarmo."
 
 #: templates/footer.html:29
 #, python-format
-msgid ""
-"For a tournament of this size, we suggest <a "
-"href=\"https://opencollective.com/tabbycat/contribute/licensing-29466/checkout?amount=%(amount)s\">a"
-" donation of <strong>$%(amount)s</strong></a>."
-msgstr ""
-"Pre turnaj tejto veľkosti odporúčame <a "
-"href=\"https://opencollective.com/tabbycat/contribute/licensing-29466/checkout?amount=%(amount)s\">dar"
-" vo výške <strong>$%(amount)s</strong></a>."
+msgid "For a tournament of this size, we suggest <a href=\"https://opencollective.com/tabbycat/contribute/licensing-29466/checkout?amount=%(amount)s\">a donation of <strong>$%(amount)s</strong></a>."
+msgstr "Pre turnaj tejto veľkosti odporúčame <a href=\"https://opencollective.com/tabbycat/contribute/licensing-29466/checkout?amount=%(amount)s\">dar vo výške <strong>$%(amount)s</strong></a>."
 
 #: templates/footer.html:33
 msgid "Learn more about donating."
 msgstr "Získajte viac informácií o darovaní."
 
 #: templates/footer.html:36
-msgid ""
-"<a href=\"https://opencollective.com/tabbycat\">Donations to Tabbycat from "
-"individuals or organisations</a> are much appreciated and help us to "
-"continue to develop, support, and maintain Tabbycat."
-msgstr ""
-"<a href=\"https://opencollective.com/tabbycat\">Dary pre Tabbycat od "
-"jednotlivcov alebo organizácií</a> sú veľmi vítané a pomáhajú nám pokračovať"
-" v rozvoji, podpore a údržbe Tabbycat."
+msgid "<a href=\"https://opencollective.com/tabbycat\">Donations to Tabbycat from individuals or organisations</a> are much appreciated and help us to continue to develop, support, and maintain Tabbycat."
+msgstr "<a href=\"https://opencollective.com/tabbycat\">Dary pre Tabbycat od jednotlivcov alebo organizácií</a> sú veľmi vítané a pomáhajú nám pokračovať v rozvoji, podpore a údržbe Tabbycat."
 
 #: templates/footer.html:44
 msgid "Still timing debates with the stopwatch app?"
@@ -370,34 +264,16 @@ msgstr "Stále meriate čas debát pomocou aplikácie stopky?"
 
 #: templates/footer.html:46
 #, python-format
-msgid ""
-"Using an app designed for debate timekeeping makes speaking and adjudicating"
-" easier! Check out <a href=\"https://itunes.apple.com/app/apple-"
-"store/id1156065589?pt=814172&ct=Tabbycat%%20Installs&mt=8\">Timekept</a> "
-"(iPhone/iPad) or <a "
-"href=\"https://play.google.com/store/apps/details?id=net.czlee.debatekeeper&referrer=utm_source%%3Dtabbycat%%26utm_medium%%3Dfooter\">Debatekeeper</a>"
-" (Android)."
-msgstr ""
-"Použitie aplikácie určenej na meranie času počas debát uľahčuje vystupovanie"
-" a rozhodovanie! Pozrite si <a href=\"https://itunes.apple.com/app/apple-"
-"store/id1156065589?pt=814172&ct=Tabbycat%%20Installs&mt=8\">Timekept</a> "
-"(iPhone/iPad) alebo <a "
-"href=\"https://play.google.com/store/apps/details?id=net.czlee.debatekeeper&referrer=utm_source%%3Dtabbycat%%26utm_medium%%3Dfooter\">Debatekeeper</a>"
-" (Android)."
+msgid "Using an app designed for debate timekeeping makes speaking and adjudicating easier! Check out <a href=\"https://itunes.apple.com/app/apple-store/id1156065589?pt=814172&ct=Tabbycat%%20Installs&mt=8\">Timekept</a> (iPhone/iPad) or <a href=\"https://play.google.com/store/apps/details?id=net.czlee.debatekeeper&referrer=utm_source%%3Dtabbycat%%26utm_medium%%3Dfooter\">Debatekeeper</a> (Android)."
+msgstr "Použitie aplikácie určenej na meranie času počas debát uľahčuje vystupovanie a rozhodovanie! Pozrite si <a href=\"https://itunes.apple.com/app/apple-store/id1156065589?pt=814172&ct=Tabbycat%%20Installs&mt=8\">Timekept</a> (iPhone/iPad) alebo <a href=\"https://play.google.com/store/apps/details?id=net.czlee.debatekeeper&referrer=utm_source%%3Dtabbycat%%26utm_medium%%3Dfooter\">Debatekeeper</a> (Android)."
 
 #: templates/footer.html:55
 msgid "Our Organisation"
 msgstr "Naša organizácia"
 
 #: templates/footer.html:57
-msgid ""
-"Tabbycat is supported by the <a href=\"https://tabbycat-"
-"debate.org/\">Tabbycat Debate Association</a>, a non-profit for advancing "
-"open debate technology."
-msgstr ""
-"Tabbycat podporuje <a href=\"https://tabbycat-debate.org/\">Tabbycat Debate "
-"Association</a>, nezisková organizácia rozvíjajúca otvorené debatné "
-"technológie."
+msgid "Tabbycat is supported by the <a href=\"https://tabbycat-debate.org/\">Tabbycat Debate Association</a>, a non-profit for advancing open debate technology."
+msgstr "Tabbycat podporuje <a href=\"https://tabbycat-debate.org/\">Tabbycat Debate Association</a>, nezisková organizácia rozvíjajúca otvorené debatné technológie."
 
 #: templates/footer.html:70
 msgid "Language"
@@ -467,8 +343,7 @@ msgstr "Asistencia"
 msgid "Public Area"
 msgstr "Verejný priestor"
 
-#: templates/nav/admin_nav.html:66 templates/nav/admin_nav.html:189
-#: templates/nav/admin_nav.html:244 templates/nav/admin_nav.html:303
+#: templates/nav/admin_nav.html:66 templates/nav/admin_nav.html:189 templates/nav/admin_nav.html:244 templates/nav/admin_nav.html:311
 msgid "Overview"
 msgstr "Prehľad"
 
@@ -484,8 +359,7 @@ msgstr "Konfigurácia"
 msgid "Import Data"
 msgstr "Importovať údaje"
 
-#: templates/nav/admin_nav.html:87 templates/nav/assistant_nav.html:18
-#: templates/nav/public_nav.html:175
+#: templates/nav/admin_nav.html:87 templates/nav/assistant_nav.html:18 templates/nav/public_nav.html:186
 msgid "Participants"
 msgstr "Účastníci"
 
@@ -493,7 +367,7 @@ msgstr "Účastníci"
 msgid "Private URLs"
 msgstr "Súkromné URL"
 
-#: templates/nav/admin_nav.html:95 templates/nav/public_nav.html:190
+#: templates/nav/admin_nav.html:95 templates/nav/public_nav.html:201
 msgid "Schedule"
 msgstr "Rozvrh"
 
@@ -509,7 +383,7 @@ msgstr "Predformované panely"
 msgid "Export XML"
 msgstr "Exportovať XML"
 
-#: templates/nav/admin_nav.html:117 templates/nav/public_nav.html:160
+#: templates/nav/admin_nav.html:117 templates/nav/public_nav.html:171
 msgid "Sides"
 msgstr "Strany"
 
@@ -517,8 +391,7 @@ msgstr "Strany"
 msgid "Registration"
 msgstr "Registrácia"
 
-#: templates/nav/admin_nav.html:132 templates/nav/assistant_nav.html:25
-#: templates/nav/public_nav.html:180
+#: templates/nav/admin_nav.html:132 templates/nav/assistant_nav.html:25 templates/nav/public_nav.html:191
 msgid "Institutions"
 msgstr "Debatné kluby"
 
@@ -526,12 +399,11 @@ msgstr "Debatné kluby"
 msgid "Teams"
 msgstr "Tímy"
 
-#: templates/nav/admin_nav.html:139 templates/nav/public_nav.html:145
+#: templates/nav/admin_nav.html:139 templates/nav/public_nav.html:156
 msgid "Adjudicators"
 msgstr "Rozhodcovia"
 
-#: templates/nav/admin_nav.html:148 templates/nav/assistant_nav.html:38
-#: templates/nav/public_nav.html:105
+#: templates/nav/admin_nav.html:148 templates/nav/assistant_nav.html:38 templates/nav/public_nav.html:116
 msgid "Check-Ins"
 msgstr "Príchody"
 
@@ -591,7 +463,7 @@ msgstr "Pridať spätnú väzbu"
 msgid "Bulk Update"
 msgstr "Hromadná aktualizácia"
 
-#: templates/nav/admin_nav.html:237 templates/nav/public_nav.html:165
+#: templates/nav/admin_nav.html:237 templates/nav/public_nav.html:176
 msgid "Standings"
 msgstr "Výsledky"
 
@@ -621,36 +493,42 @@ msgstr "%(category)s rečníci"
 msgid "Replies"
 msgstr "Záverečné reči"
 
-#: templates/nav/admin_nav.html:281 templates/nav/public_nav.html:155
+#: templates/nav/admin_nav.html:283
+#, python-format
+#| msgid "%(category)s Speakers"
+msgid "%(criterion)s Speakers"
+msgstr "Rečníci – %(criterion)s"
+
+#: templates/nav/admin_nav.html:289 templates/nav/public_nav.html:166
 msgid "Motions"
 msgstr "Tézy"
 
-#: templates/nav/admin_nav.html:284 templates/nav/public_nav.html:170
+#: templates/nav/admin_nav.html:292 templates/nav/public_nav.html:181
 msgid "Diversity"
 msgstr "Diverzita"
 
-#: templates/nav/admin_nav.html:297
+#: templates/nav/admin_nav.html:305
 msgid "Breaks"
 msgstr "Postupy"
 
-#: templates/nav/admin_nav.html:307
+#: templates/nav/admin_nav.html:315
 #, python-format
 msgid "%(category)s"
 msgstr "%(category)s"
 
-#: templates/nav/admin_nav.html:311
+#: templates/nav/admin_nav.html:319
 msgid "Adjudicators'"
 msgstr "Rozhodcovia"
 
-#: templates/nav/admin_nav.html:314
+#: templates/nav/admin_nav.html:322
 msgid "Edit Categories"
 msgstr "Upraviť kategórie"
 
-#: templates/nav/admin_nav.html:317
+#: templates/nav/admin_nav.html:325
 msgid "Edit Eligibility"
 msgstr "Upraviť oprávnenosť"
 
-#: templates/nav/admin_nav.html:333 templates/nav/top_nav_base.html:135
+#: templates/nav/admin_nav.html:341 templates/nav/top_nav_base.html:135
 msgid "Log Out"
 msgstr "Odhlásiť sa"
 
@@ -658,7 +536,7 @@ msgstr "Odhlásiť sa"
 msgid "Enter Results"
 msgstr "Zadať výsledky"
 
-#: templates/nav/assistant_nav.html:11 templates/nav/public_nav.html:216
+#: templates/nav/assistant_nav.html:11 templates/nav/public_nav.html:227
 msgid "Enter Feedback"
 msgstr "Zadať spätnú väzbu"
 
@@ -694,52 +572,58 @@ msgstr "Výsledky rečníkov"
 msgid "Replies Tab"
 msgstr "Poradie záverečných rečí"
 
-#: templates/nav/public_nav.html:45
+#: templates/nav/public_nav.html:47
+#, python-format
+#| msgid "Motions Tab"
+msgid "%(criterion)s Tab"
+msgstr "Výsledky – %(criterion)s"
+
+#: templates/nav/public_nav.html:56
 msgid "Adjudicator Tab"
 msgstr "Rozhodcovia"
 
-#: templates/nav/public_nav.html:53 templates/nav/public_nav.html:62
+#: templates/nav/public_nav.html:64 templates/nav/public_nav.html:73
 msgid "Motions Tab"
 msgstr "Štatistiky téz"
 
-#: templates/nav/public_nav.html:56
+#: templates/nav/public_nav.html:67
 msgid "By round"
 msgstr "Podľa kola"
 
-#: templates/nav/public_nav.html:57
+#: templates/nav/public_nav.html:68
 msgid "Globally"
 msgstr "Globálne"
 
-#: templates/nav/public_nav.html:72
+#: templates/nav/public_nav.html:83
 msgid "Draws"
 msgstr "Pairingy"
 
-#: templates/nav/public_nav.html:83
+#: templates/nav/public_nav.html:94
 msgid "No Draws Available"
 msgstr "Nie sú dostupné žiadne pairingy"
 
-#: templates/nav/public_nav.html:91
+#: templates/nav/public_nav.html:102
 #, python-format
 msgid "Draw for %(round)s"
 msgstr "Pairing pre %(round)s"
 
-#: templates/nav/public_nav.html:95
+#: templates/nav/public_nav.html:106
 msgid "Current Draws"
 msgstr "Aktuálne pairingy"
 
-#: templates/nav/public_nav.html:115 templates/nav/round_panel.html:52
+#: templates/nav/public_nav.html:126 templates/nav/round_panel.html:52
 msgid "Results"
 msgstr "Výsledky"
 
-#: templates/nav/public_nav.html:133
+#: templates/nav/public_nav.html:144
 msgid "Break"
 msgstr "Postup"
 
-#: templates/nav/public_nav.html:185
+#: templates/nav/public_nav.html:196
 msgid "Feedback Progress"
 msgstr "Progres spätnej väzby"
 
-#: templates/nav/public_nav.html:196 templates/nav/public_nav.html:202
+#: templates/nav/public_nav.html:207 templates/nav/public_nav.html:213
 msgid "Enter Ballot"
 msgstr "Zadať ballot"
 
@@ -814,19 +698,14 @@ msgid "Your username and password didn't match."
 msgstr "Tvoje prihlasovacie meno a heslo sa nezhodujú."
 
 #: templates/registration/login.html:46
-msgid ""
-"Your account doesn't have access to this page. To proceed, please log in "
-"with an account that has access."
-msgstr ""
-"Váš účet nemá prístup k tejto stránke. Ak chcete pokračovať, prihláste sa "
-"pomocou účtu, ktorý má prístup."
+msgid "Your account doesn't have access to this page. To proceed, please log in with an account that has access."
+msgstr "Váš účet nemá prístup k tejto stránke. Ak chcete pokračovať, prihláste sa pomocou účtu, ktorý má prístup."
 
 #: templates/registration/login.html:49
 msgid "Please log in to see this page."
 msgstr "Prihláste sa, aby ste mohli zobraziť túto stránku."
 
-#: templates/registration/password_change_done.html:4
-#: templates/registration/password_change_done.html:5
+#: templates/registration/password_change_done.html:4 templates/registration/password_change_done.html:5
 msgctxt "page title"
 msgid "Password changed"
 msgstr "Heslo zmenené"
@@ -839,8 +718,7 @@ msgstr "Vaše heslo bolo zmenené."
 msgid "Go to the home page"
 msgstr "Prejsť na domovskú stránku"
 
-#: templates/registration/password_change_form.html:4
-#: templates/registration/password_change_form.html:27
+#: templates/registration/password_change_form.html:4 templates/registration/password_change_form.html:27
 msgctxt "page title"
 msgid "Password Change"
 msgstr "Zmena hesla"
@@ -851,30 +729,23 @@ msgid "API Token: <samp>%(api_token)s</samp>"
 msgstr "API token: <samp>%(api_token)s</samp>"
 
 #: templates/registration/password_change_form.html:19
-msgid ""
-"The API token will allow you to authorize external applications to access "
-"the site as staff."
-msgstr ""
-"API token umožní externým aplikáciám pristupovať na stránku s oprávneniami "
-"personálu."
+msgid "The API token will allow you to authorize external applications to access the site as staff."
+msgstr "API token umožní externým aplikáciám pristupovať na stránku s oprávneniami personálu."
 
 #: templates/registration/password_change_form.html:28
 msgid "Please enter your old password, then enter a new one."
 msgstr "Prosím, zadajte svoje staré heslo a potom zadajte nové."
 
-#: templates/registration/password_change_form.html:33
-#: templates/registration/password_reset_confirm.html:25
+#: templates/registration/password_change_form.html:33 templates/registration/password_reset_confirm.html:25
 msgctxt "button"
 msgid "Change my password"
 msgstr "Zmeniť moje heslo"
 
-#: templates/registration/password_change_form.html:34
-#: templates/registration/password_reset_confirm.html:26
+#: templates/registration/password_change_form.html:34 templates/registration/password_reset_confirm.html:26
 msgid "Cancel and go back to the site home page"
 msgstr "Zrušiť a vrátiť sa na domovskú stránku"
 
-#: templates/registration/password_reset_complete.html:4
-#: templates/registration/password_reset_complete.html:5
+#: templates/registration/password_reset_complete.html:4 templates/registration/password_reset_complete.html:5
 msgctxt "page title"
 msgid "Password reset complete"
 msgstr "Zmena hesla úspešná"
@@ -883,8 +754,7 @@ msgstr "Zmena hesla úspešná"
 msgid "Your password has been reset."
 msgstr "Vaše heslo bolo obnovené."
 
-#: templates/registration/password_reset_complete.html:14
-#: templates/registration/password_reset_done.html:15
+#: templates/registration/password_reset_complete.html:14 templates/registration/password_reset_done.html:15
 msgid "Go to the login page"
 msgstr "Prejsť na prihlasovaciu stránku"
 
@@ -893,8 +763,7 @@ msgctxt "page title"
 msgid "Password Reset Confirmation"
 msgstr "Potvrdenie obnovenia hesla"
 
-#: templates/registration/password_reset_confirm.html:16
-#: templates/registration/password_reset_form.html:4
+#: templates/registration/password_reset_confirm.html:16 templates/registration/password_reset_form.html:4
 msgctxt "page title"
 msgid "Password Reset"
 msgstr "Obnovenie hesla"
@@ -904,34 +773,21 @@ msgid "Please enter a new password (twice):"
 msgstr "Zadajte nové heslo (dvakrát):"
 
 #: templates/registration/password_reset_confirm.html:33
-msgid ""
-"The password reset link was invalid, possibly because it has already been "
-"used.  Please request a new password reset."
-msgstr ""
-"Odkaz na obnovenie hesla bol neplatný, pravdepodobne preto, že už bol "
-"použitý.  Požiadajte o nové obnovenie hesla."
+msgid "The password reset link was invalid, possibly because it has already been used.  Please request a new password reset."
+msgstr "Odkaz na obnovenie hesla bol neplatný, pravdepodobne preto, že už bol použitý.  Požiadajte o nové obnovenie hesla."
 
-#: templates/registration/password_reset_done.html:4
-#: templates/registration/password_reset_done.html:5
+#: templates/registration/password_reset_done.html:4 templates/registration/password_reset_done.html:5
 msgctxt "page title"
 msgid "Password reset email sent"
 msgstr "E-mail na obnovenie hesla odoslaný"
 
 #: templates/registration/password_reset_done.html:11
-msgid ""
-"We've emailed you instructions for setting your password, if an account "
-"exists with the email address you entered. You should receive them shortly."
-msgstr ""
-"Ak existuje účet s e-mailovou adresou, ktorú ste zadali, zaslali sme vám "
-"e-mailom pokyny na nastavenie hesla. Mali by ste ich dostať čoskoro."
+msgid "We've emailed you instructions for setting your password, if an account exists with the email address you entered. You should receive them shortly."
+msgstr "Ak existuje účet s e-mailovou adresou, ktorú ste zadali, zaslali sme vám e-mailom pokyny na nastavenie hesla. Mali by ste ich dostať čoskoro."
 
 #: templates/registration/password_reset_done.html:12
-msgid ""
-"If you don't receive an email, please make sure you've entered the address "
-"you registered with, and check your spam folder."
-msgstr ""
-"Ak ste e-mail nedostali, skontrolujte, či ste zadali správnu adresu, ktorú "
-"ste použili pri registrácii, a skontrolujte priečinok so spamom."
+msgid "If you don't receive an email, please make sure you've entered the address you registered with, and check your spam folder."
+msgstr "Ak ste e-mail nedostali, skontrolujte, či ste zadali správnu adresu, ktorú ste použili pri registrácii, a skontrolujte priečinok so spamom."
 
 #: templates/registration/password_reset_email.html:2
 #, python-format
@@ -945,12 +801,8 @@ msgstr "Tvoje používateľské meno je: %(user)s"
 
 #: templates/registration/password_reset_email.html:10
 #, python-format
-msgid ""
-"Someone asked for a password reset for the email address %(email)s on the "
-"Tabbycat site at %(protocol)s://%(domain)s."
-msgstr ""
-"Niekto požiadal o resetovanie hesla pre e-mailovú adresu %(email)s na "
-"stránke Tabbycat na adrese %(protocol)s://%(domain)s."
+msgid "Someone asked for a password reset for the email address %(email)s on the Tabbycat site at %(protocol)s://%(domain)s."
+msgstr "Niekto požiadal o resetovanie hesla pre e-mailovú adresu %(email)s na stránke Tabbycat na adrese %(protocol)s://%(domain)s."
 
 #: templates/registration/password_reset_email.html:14
 msgid "If this was you, follow the link below to reset your password:"
@@ -958,25 +810,16 @@ msgstr "Ak si to bol/a ty, klikni na odkaz nižšie a obnov si heslo:"
 
 #: templates/registration/password_reset_email.html:17
 #, python-format
-msgid ""
-"If this wasn't you, that probably means someone else typed your email "
-"address into the password reset form on the Tabbycat site at "
-"%(protocol)s://%(domain)s."
-msgstr ""
-"Ak si to nebol/a ty, pravdepodobne niekto iný zadal tvoju e-mailovú adresu "
-"do formulára na obnovenie hesla na stránke Tabbycat na adrese "
-"%(protocol)s://%(domain)s."
+msgid "If this wasn't you, that probably means someone else typed your email address into the password reset form on the Tabbycat site at %(protocol)s://%(domain)s."
+msgstr "Ak si to nebol/a ty, pravdepodobne niekto iný zadal tvoju e-mailovú adresu do formulára na obnovenie hesla na stránke Tabbycat na adrese %(protocol)s://%(domain)s."
 
 #: templates/registration/password_reset_form.html:19
 msgid "Password Reset"
 msgstr "Obnovenie hesla"
 
 #: templates/registration/password_reset_form.html:20
-msgid ""
-"Enter your email address below, and we'll email you a password reset link."
-msgstr ""
-"Zadajte nižšie svoju e-mailovú adresu a my vám zašleme odkaz na obnovenie "
-"hesla."
+msgid "Enter your email address below, and we'll email you a password reset link."
+msgstr "Zadajte nižšie svoju e-mailovú adresu a my vám zašleme odkaz na obnovenie hesla."
 
 #: templates/registration/password_reset_form.html:25
 msgctxt "button"
@@ -1083,49 +926,17 @@ msgstr "Vitajte! Práve ste sa prihlásili!"
 #~ msgid "Generate all identifiers"
 #~ msgstr "Vygenerovať všetky identifikátory"
 
-#~ msgid ""
-#~ "There are no identifiers available to view. An admin will need to generate "
-#~ "them."
-#~ msgstr ""
-#~ "Nie sú dostupné žiadne identifikátory na zobrazenie. Administrátor ich musí "
-#~ "vygenerovať."
+#~ msgid "There are no identifiers available to view. An admin will need to generate them."
+#~ msgstr "Nie sú dostupné žiadne identifikátory na zobrazenie. Administrátor ich musí vygenerovať."
 
-#~ msgid ""
-#~ "Each of the barcodes below is also an image file that can be downloaded "
-#~ "individually. If you want to download them all at once try using a 'bulk "
-#~ "downloader' extension/plugin for your browser, such as <a "
-#~ "href=\"https://chrome.google.com/webstore/detail/svg-"
-#~ "export/naeaaedieihlkmdajjefioajbbdbdjgp?hl=en-GB\">this one (for "
-#~ "Chrome)</a>. To download them as a list you can go to Check-Ins section of "
-#~ "the Edit Database area and copy/paste from the relevant table."
-#~ msgstr ""
-#~ "Každý z čiarových kódov nižšie je aj samostatný obrázkový súbor, ktorý si "
-#~ "môžeš stiahnuť osobitne. Ak ich chceš stiahnuť všetky naraz, skús použiť "
-#~ "rozšírenie alebo doplnok prehliadača na hromadné sťahovanie, napríklad <a "
-#~ "href=\"https://chrome.google.com/webstore/detail/svg-"
-#~ "export/naeaaedieihlkmdajjefioajbbdbdjgp?hl=en-GB\">toto rozšírenie pre "
-#~ "Chrome</a>. Ak ich chceš stiahnuť ako zoznam, prejdi do sekcie Príchody v "
-#~ "časti Upraviť databázu a skopíruj ich z príslušnej tabuľky."
+#~ msgid "Each of the barcodes below is also an image file that can be downloaded individually. If you want to download them all at once try using a 'bulk downloader' extension/plugin for your browser, such as <a href=\"https://chrome.google.com/webstore/detail/svg-export/naeaaedieihlkmdajjefioajbbdbdjgp?hl=en-GB\">this one (for Chrome)</a>. To download them as a list you can go to Check-Ins section of the Edit Database area and copy/paste from the relevant table."
+#~ msgstr "Každý z čiarových kódov nižšie je aj samostatný obrázkový súbor, ktorý si môžeš stiahnuť osobitne. Ak ich chceš stiahnuť všetky naraz, skús použiť rozšírenie alebo doplnok prehliadača na hromadné sťahovanie, napríklad <a href=\"https://chrome.google.com/webstore/detail/svg-export/naeaaedieihlkmdajjefioajbbdbdjgp?hl=en-GB\">toto rozšírenie pre Chrome</a>. Ak ich chceš stiahnuť ako zoznam, prejdi do sekcie Príchody v časti Upraviť databázu a skopíruj ich z príslušnej tabuľky."
 
-#~ msgid ""
-#~ "You can use Ctrl+P for printing or saving the barcodes PDF. Be sure to set "
-#~ "the appropriate <strong>page orientation</strong>, to turn off "
-#~ "<strong>headers/footers</strong> and turn on <strong>background "
-#~ "graphics</strong>. Works best in Chrome."
-#~ msgstr ""
-#~ "Na tlač alebo uloženie PDF s čiarovými kódmi môžeš použiť Ctrl+P. Nastav "
-#~ "správnu <strong>orientáciu stránky</strong>, vypni "
-#~ "<strong>hlavičky/päty</strong> a zapni <strong>grafiku pozadia</strong>. "
-#~ "Najlepšie funguje v Chrome."
+#~ msgid "You can use Ctrl+P for printing or saving the barcodes PDF. Be sure to set the appropriate <strong>page orientation</strong>, to turn off <strong>headers/footers</strong> and turn on <strong>background graphics</strong>. Works best in Chrome."
+#~ msgstr "Na tlač alebo uloženie PDF s čiarovými kódmi môžeš použiť Ctrl+P. Nastav správnu <strong>orientáciu stránky</strong>, vypni <strong>hlavičky/päty</strong> a zapni <strong>grafiku pozadia</strong>. Najlepšie funguje v Chrome."
 
-#~ msgid ""
-#~ "To scan an identifier type the number below (it will auto-submit). You can "
-#~ "also use a barcode scanner (configured to work as a keyboard) or scan from a"
-#~ " webcam or phone camera using the button below."
-#~ msgstr ""
-#~ "Na naskenovanie identifikátora napíš číslo nižšie (odošle sa automaticky). "
-#~ "Môžeš použiť aj skener čiarových kódov nastavený ako klávesnica alebo "
-#~ "skenovať cez webkameru či fotoaparát telefónu tlačidlom nižšie."
+#~ msgid "To scan an identifier type the number below (it will auto-submit). You can also use a barcode scanner (configured to work as a keyboard) or scan from a webcam or phone camera using the button below."
+#~ msgstr "Na naskenovanie identifikátora napíš číslo nižšie (odošle sa automaticky). Môžeš použiť aj skener čiarových kódov nastavený ako klávesnica alebo skenovať cez webkameru či fotoaparát telefónu tlačidlom nižšie."
 
 #, python-format
 #~ msgid "Not checked in (barcode %(barcode)s)"
@@ -1162,12 +973,8 @@ msgstr "Vitajte! Práve ste sa prihlásili!"
 #~ msgid "Identifiers"
 #~ msgstr "Identifikátory"
 
-#~ msgid ""
-#~ "Could not check you in as you do not have an identifying code — your tab "
-#~ "director may need to make you an identifier."
-#~ msgstr ""
-#~ "Nepodarilo sa potvrdiť tvoju prítomnosť, pretože nemáš identifikačný kód. "
-#~ "Vedúci tabu ti možno musí vytvoriť identifikátor."
+#~ msgid "Could not check you in as you do not have an identifying code — your tab director may need to make you an identifier."
+#~ msgstr "Nepodarilo sa potvrdiť tvoju prítomnosť, pretože nemáš identifikačný kód. Vedúci tabu ti možno musí vytvoriť identifikátor."
 
 #~ msgid "You have revoked your check-in."
 #~ msgstr "Zrušil/a si svoje potvrdenie prítomnosti."
@@ -1302,9 +1109,7 @@ msgstr "Vitajte! Práve ste sa prihlásili!"
 #~ msgstr "Prístupy"
 
 #~ msgid "Grant global access to API Exports. Manage implies view access."
-#~ msgstr ""
-#~ "Udeľ globálny prístup k API exportom. Správa automaticky zahŕňa aj "
-#~ "zobrazenie."
+#~ msgstr "Udeľ globálny prístup k API exportom. Správa automaticky zahŕňa aj zobrazenie."
 
 #~ msgid "Grant access"
 #~ msgstr "Udeliť prístup"
@@ -1318,42 +1123,20 @@ msgstr "Vitajte! Práve ste sa prihlásili!"
 #~ msgid "No users have explicit API export access yet."
 #~ msgstr "Zatiaľ nikto nemá explicitný prístup k API exportom."
 
-#~ msgid ""
-#~ "Live feedback export is disabled. Queueing still works, but sending requires"
-#~ " SDA_JUDGES_FEEDBACK_EXPORT_ENABLED=True."
-#~ msgstr ""
-#~ "Live export spätnej väzby je vypnutý. Zaraďovanie stále funguje, ale "
-#~ "odosielanie vyžaduje SDA_JUDGES_FEEDBACK_EXPORT_ENABLED=True."
+#~ msgid "Live feedback export is disabled. Queueing still works, but sending requires SDA_JUDGES_FEEDBACK_EXPORT_ENABLED=True."
+#~ msgstr "Live export spätnej väzby je vypnutý. Zaraďovanie stále funguje, ale odosielanie vyžaduje SDA_JUDGES_FEEDBACK_EXPORT_ENABLED=True."
 
-#~ msgid ""
-#~ "No external feedback API endpoint is configured. Set "
-#~ "SDA_JUDGES_FEEDBACK_API_URL before processing feedback sends."
-#~ msgstr ""
-#~ "Nie je nastavený externý API endpoint pre spätnú väzbu. Pred odosielaním "
-#~ "nastav SDA_JUDGES_FEEDBACK_API_URL."
+#~ msgid "No external feedback API endpoint is configured. Set SDA_JUDGES_FEEDBACK_API_URL before processing feedback sends."
+#~ msgstr "Nie je nastavený externý API endpoint pre spätnú väzbu. Pred odosielaním nastav SDA_JUDGES_FEEDBACK_API_URL."
 
-#~ msgid ""
-#~ "Live judge activity export is disabled. Manual queueing still works, but "
-#~ "sending requires SDA_JUDGES_ACTIVITY_EXPORT_ENABLED=True."
-#~ msgstr ""
-#~ "Live export odrozhodovaných debát je vypnutý. Manuálne zaraďovanie stále "
-#~ "funguje, ale odosielanie vyžaduje SDA_JUDGES_ACTIVITY_EXPORT_ENABLED=True."
+#~ msgid "Live judge activity export is disabled. Manual queueing still works, but sending requires SDA_JUDGES_ACTIVITY_EXPORT_ENABLED=True."
+#~ msgstr "Live export odrozhodovaných debát je vypnutý. Manuálne zaraďovanie stále funguje, ale odosielanie vyžaduje SDA_JUDGES_ACTIVITY_EXPORT_ENABLED=True."
 
-#~ msgid ""
-#~ "No external judge activity API endpoint is configured. Set "
-#~ "SDA_JUDGES_ACTIVITY_API_URL before processing activity sends."
-#~ msgstr ""
-#~ "Nie je nastavený externý API endpoint pre odrozhodované debaty. Pred "
-#~ "odosielaním nastav SDA_JUDGES_ACTIVITY_API_URL."
+#~ msgid "No external judge activity API endpoint is configured. Set SDA_JUDGES_ACTIVITY_API_URL before processing activity sends."
+#~ msgstr "Nie je nastavený externý API endpoint pre odrozhodované debaty. Pred odosielaním nastav SDA_JUDGES_ACTIVITY_API_URL."
 
-#~ msgid ""
-#~ "Export structured SDA data from Tabbycat to external systems. Judge exports "
-#~ "are managed together here; feedback and activity still remain separate "
-#~ "records under the hood."
-#~ msgstr ""
-#~ "Exportuj štruktúrované SDA dáta z Tabbycatu do externých systémov. Exporty "
-#~ "rozhodcov sa spravujú spolu; feedbacky a odrozhodované debaty zostávajú "
-#~ "technicky samostatné záznamy."
+#~ msgid "Export structured SDA data from Tabbycat to external systems. Judge exports are managed together here; feedback and activity still remain separate records under the hood."
+#~ msgstr "Exportuj štruktúrované SDA dáta z Tabbycatu do externých systémov. Exporty rozhodcov sa spravujú spolu; feedbacky a odrozhodované debaty zostávajú technicky samostatné záznamy."
 
 #~ msgid "Return to Site Tools"
 #~ msgstr "Späť do Správy webu"
@@ -1373,23 +1156,14 @@ msgstr "Vitajte! Práve ste sa prihlásili!"
 #~ msgid "Judge Data"
 #~ msgstr "Dáta rozhodcov"
 
-#~ msgid ""
-#~ "One workspace for exporting judge feedback and adjudicated debate counts to "
-#~ "DR. They remain separate records, but are operated from one place."
-#~ msgstr ""
-#~ "Jedno pracovné miesto na export feedbackov rozhodcov a počtov "
-#~ "odrozhodovaných debát do DR. Záznamy zostávajú samostatné, ale ovládajú sa z"
-#~ " jedného miesta."
+#~ msgid "One workspace for exporting judge feedback and adjudicated debate counts to DR. They remain separate records, but are operated from one place."
+#~ msgstr "Jedno pracovné miesto na export feedbackov rozhodcov a počtov odrozhodovaných debát do DR. Záznamy zostávajú samostatné, ale ovládajú sa z jedného miesta."
 
 #~ msgid "Ready"
 #~ msgstr "Pripravené"
 
-#~ msgid ""
-#~ "Confirmed feedback exports with source identifiers. DR handles judge "
-#~ "matching and duplicate resolution."
-#~ msgstr ""
-#~ "Potvrdené feedbacky sa exportujú so zdrojovými identifikátormi. Párovanie "
-#~ "rozhodcov a duplicity rieši DR."
+#~ msgid "Confirmed feedback exports with source identifiers. DR handles judge matching and duplicate resolution."
+#~ msgstr "Potvrdené feedbacky sa exportujú so zdrojovými identifikátormi. Párovanie rozhodcov a duplicity rieši DR."
 
 #~ msgid "Queue feedback"
 #~ msgstr "Zaradiť feedbacky"
@@ -1403,22 +1177,14 @@ msgstr "Vitajte! Práve ste sa prihlásili!"
 #~ msgid "Judge activity"
 #~ msgstr "Odrozhodované debaty"
 
-#~ msgid ""
-#~ "Tournament debate counts export with source identifiers. DR falls back to "
-#~ "email, name or local ID."
-#~ msgstr ""
-#~ "Počty debát za turnaj sa exportujú so zdrojovými identifikátormi. DR použije"
-#~ " e-mail, meno alebo lokálne ID."
+#~ msgid "Tournament debate counts export with source identifiers. DR falls back to email, name or local ID."
+#~ msgstr "Počty debát za turnaj sa exportujú so zdrojovými identifikátormi. DR použije e-mail, meno alebo lokálne ID."
 
 #~ msgid "Tournament activity exports"
 #~ msgstr "Export odrozhodovaných debát za turnaje"
 
-#~ msgid ""
-#~ "Select only the tournaments you want to export or re-export. Feedback is "
-#~ "queued separately above."
-#~ msgstr ""
-#~ "Vyber iba turnaje, ktoré chceš exportovať alebo re-exportovať. Feedbacky sa "
-#~ "zaraďujú samostatne vyššie."
+#~ msgid "Select only the tournaments you want to export or re-export. Feedback is queued separately above."
+#~ msgstr "Vyber iba turnaje, ktoré chceš exportovať alebo re-exportovať. Feedbacky sa zaraďujú samostatne vyššie."
 
 #~ msgid "Queue selected activity"
 #~ msgstr "Zaradiť vybrané debaty"
@@ -1450,12 +1216,8 @@ msgstr "Vitajte! Práve ste sa prihlásili!"
 #~ msgid "Feedback export history"
 #~ msgstr "História exportu feedbackov"
 
-#~ msgid ""
-#~ "Recent feedback export events. Use the status filter if you only need "
-#~ "failures or pending sends."
-#~ msgstr ""
-#~ "Nedávne exportné eventy feedbackov. Ak potrebuješ iba zlyhané alebo čakajúce"
-#~ " odoslania, použi filter stavov."
+#~ msgid "Recent feedback export events. Use the status filter if you only need failures or pending sends."
+#~ msgstr "Nedávne exportné eventy feedbackov. Ak potrebuješ iba zlyhané alebo čakajúce odoslania, použi filter stavov."
 
 #~ msgid "Filter"
 #~ msgstr "Filtrovať"
@@ -1484,19 +1246,11 @@ msgstr "Vitajte! Práve ste sa prihlásili!"
 #~ msgid "Archived local activity events"
 #~ msgstr "Archivované lokálne eventy odrozhodovaných debát"
 
-#~ msgid ""
-#~ "These local export events still exist, but their source tournament has been "
-#~ "removed from Tabbycat."
-#~ msgstr ""
-#~ "Tieto lokálne exportné eventy stále existujú, ale ich zdrojový turnaj bol z "
-#~ "Tabbycatu odstránený."
+#~ msgid "These local export events still exist, but their source tournament has been removed from Tabbycat."
+#~ msgstr "Tieto lokálne exportné eventy stále existujú, ale ich zdrojový turnaj bol z Tabbycatu odstránený."
 
-#~ msgid ""
-#~ "A short control room for judge data exports. DR owns judge identity "
-#~ "matching; Tabbycat sends source names, emails and local IDs."
-#~ msgstr ""
-#~ "Krátky riadiaci panel exportov dát rozhodcov. Párovanie identít rieši DR; "
-#~ "Tabbycat posiela zdrojové mená, e-maily a lokálne ID."
+#~ msgid "A short control room for judge data exports. DR owns judge identity matching; Tabbycat sends source names, emails and local IDs."
+#~ msgstr "Krátky riadiaci panel exportov dát rozhodcov. Párovanie identít rieši DR; Tabbycat posiela zdrojové mená, e-maily a lokálne ID."
 
 #~ msgid "Feedback export"
 #~ msgstr "Export feedbackov"
@@ -1504,12 +1258,8 @@ msgstr "Vitajte! Práve ste sa prihlásili!"
 #~ msgid "Needs attention"
 #~ msgstr "Vyžaduje pozornosť"
 
-#~ msgid ""
-#~ "Exports confirmed adjudicator feedback to DR. DR matches judges by exported "
-#~ "ID when present, then email, name and local fallback."
-#~ msgstr ""
-#~ "Exportuje potvrdený feedback rozhodcov do DR. DR páruje podľa exportovaného "
-#~ "ID, ak existuje, potom podľa e-mailu, mena a lokálneho fallbacku."
+#~ msgid "Exports confirmed adjudicator feedback to DR. DR matches judges by exported ID when present, then email, name and local fallback."
+#~ msgstr "Exportuje potvrdený feedback rozhodcov do DR. DR páruje podľa exportovaného ID, ak existuje, potom podľa e-mailu, mena a lokálneho fallbacku."
 
 #~ msgid "Confirmed feedback"
 #~ msgstr "Potvrdené feedbacky"
@@ -1523,28 +1273,19 @@ msgstr "Vitajte! Práve ste sa prihlásili!"
 #~ msgid "Queued"
 #~ msgstr "Zaradené"
 
-#~ msgid ""
-#~ "Exports adjudicated debate counts by tournament. DR matches judges by "
-#~ "exported ID when present, then email, name and local fallback."
-#~ msgstr ""
-#~ "Exportuje počty odrozhodovaných debát podľa turnaja. DR páruje podľa "
-#~ "exportovaného ID, ak existuje, potom podľa e-mailu, mena a lokálneho "
-#~ "fallbacku."
+#~ msgid "Exports adjudicated debate counts by tournament. DR matches judges by exported ID when present, then email, name and local fallback."
+#~ msgstr "Exportuje počty odrozhodovaných debát podľa turnaja. DR páruje podľa exportovaného ID, ak existuje, potom podľa e-mailu, mena a lokálneho fallbacku."
 
 #~ msgid "Export events"
 #~ msgstr "Exportné eventy"
 
 #, python-format
 #~ msgid "%(queued)s feedback export events queued; %(skipped)s skipped."
-#~ msgstr ""
-#~ "Zaradené exportné eventy feedbackov: %(queued)s; preskočené: %(skipped)s."
+#~ msgstr "Zaradené exportné eventy feedbackov: %(queued)s; preskočené: %(skipped)s."
 
 #, python-format
-#~ msgid ""
-#~ "%(processed)s export events processed; %(sent)s sent; %(failed)s failed."
-#~ msgstr ""
-#~ "Spracované exportné eventy: %(processed)s; odoslané: %(sent)s; zlyhané: "
-#~ "%(failed)s."
+#~ msgid "%(processed)s export events processed; %(sent)s sent; %(failed)s failed."
+#~ msgstr "Spracované exportné eventy: %(processed)s; odoslané: %(sent)s; zlyhané: %(failed)s."
 
 #~ msgid "Feedback export event was queued for retry."
 #~ msgstr "Exportný event feedbacku bol zaradený na opakovanie."
@@ -1559,16 +1300,11 @@ msgstr "Vitajte! Práve ste sa prihlásili!"
 
 #, python-format
 #~ msgid "%(queued)s failed judge activity events queued for retry."
-#~ msgstr ""
-#~ "Zlyhané eventy odrozhodovaných debát zaradené na opakovanie: %(queued)s."
+#~ msgstr "Zlyhané eventy odrozhodovaných debát zaradené na opakovanie: %(queued)s."
 
 #, python-format
-#~ msgid ""
-#~ "%(processed)s judge activity events processed; %(sent)s sent; %(failed)s "
-#~ "failed."
-#~ msgstr ""
-#~ "Spracované eventy odrozhodovaných debát: %(processed)s; odoslané: %(sent)s; "
-#~ "zlyhané: %(failed)s."
+#~ msgid "%(processed)s judge activity events processed; %(sent)s sent; %(failed)s failed."
+#~ msgstr "Spracované eventy odrozhodovaných debát: %(processed)s; odoslané: %(sent)s; zlyhané: %(failed)s."
 
 #~ msgid "Not exported"
 #~ msgstr "Neexportované"
@@ -1604,8 +1340,7 @@ msgstr "Vitajte! Práve ste sa prihlásili!"
 #~ msgid "Institution region"
 #~ msgstr "Región debatného klubu"
 
-#~ msgid ""
-#~ "An institution with this name is already registered for this tournament."
+#~ msgid "An institution with this name is already registered for this tournament."
 #~ msgstr "Debatný klub s týmto názvom je na tento turnaj už zaregistrovaný."
 
 #~ msgid "Name of primary contact"
@@ -1636,11 +1371,8 @@ msgstr "Vitajte! Práve ste sa prihlásili!"
 #~ msgstr "Skrátený názov/prípona tímu"
 
 #, python-format
-#~ msgid ""
-#~ "The team can't be in a break category of a different tournament. Please "
-#~ "remove: %(category)s"
-#~ msgstr ""
-#~ "Tím nemôže byť v postupovej kategórii iného turnaja. Odober: %(category)s"
+#~ msgid "The team can't be in a break category of a different tournament. Please remove: %(category)s"
+#~ msgstr "Tím nemôže byť v postupovej kategórii iného turnaja. Odober: %(category)s"
 
 #~ msgid "Institution"
 #~ msgstr "Debatný klub"
@@ -1648,20 +1380,14 @@ msgstr "Vitajte! Práve ste sa prihlásili!"
 #~ msgid "Institution not listed"
 #~ msgstr "Klub nie je uvedený"
 
-#~ msgid ""
-#~ "If the institution is not listed above, enter the name of the receiving "
-#~ "institution here."
+#~ msgid "If the institution is not listed above, enter the name of the receiving institution here."
 #~ msgstr "Ak klub nie je uvedený vyššie, zadaj tu názov prijímajúceho klubu."
 
 #~ msgid "Contact email"
 #~ msgstr "Kontaktný e-mail"
 
-#~ msgid ""
-#~ "If the institution is not listed above, enter the contact email for the "
-#~ "receiving institution here."
-#~ msgstr ""
-#~ "Ak klub nie je uvedený vyššie, zadaj tu kontaktný e-mail prijímajúceho "
-#~ "klubu."
+#~ msgid "If the institution is not listed above, enter the contact email for the receiving institution here."
+#~ msgstr "Ak klub nie je uvedený vyššie, zadaj tu kontaktný e-mail prijímajúceho klubu."
 
 #~ msgid "Team slots to transfer"
 #~ msgstr "Tímové sloty na prevedenie"
@@ -1735,9 +1461,7 @@ msgstr "Vitajte! Práve ste sa prihlásili!"
 #~ msgid "sequence number"
 #~ msgstr "poradové číslo"
 
-#~ msgid ""
-#~ "The question displayed to participants, e.g., \"Did you agree with the "
-#~ "decision?\""
+#~ msgid "The question displayed to participants, e.g., \"Did you agree with the decision?\""
 #~ msgstr "Otázka zobrazená účastníkom, napr. „Súhlasili ste s rozhodnutím?“"
 
 #~ msgid "help text"
@@ -1764,32 +1488,20 @@ msgstr "Vitajte! Práve ste sa prihlásili!"
 #~ msgid "minimum value"
 #~ msgstr "minimálna hodnota"
 
-#~ msgid ""
-#~ "Minimum allowed value for numeric fields (ignored for text or boolean "
-#~ "fields)"
-#~ msgstr ""
-#~ "Minimálna povolená hodnota pre číselné polia (ignoruje sa pre textové alebo "
-#~ "logické polia)"
+#~ msgid "Minimum allowed value for numeric fields (ignored for text or boolean fields)"
+#~ msgstr "Minimálna povolená hodnota pre číselné polia (ignoruje sa pre textové alebo logické polia)"
 
 #~ msgid "maximum value"
 #~ msgstr "maximálna hodnota"
 
-#~ msgid ""
-#~ "Maximum allowed value for numeric fields (ignored for text or boolean "
-#~ "fields)"
-#~ msgstr ""
-#~ "Maximálna povolená hodnota pre číselné polia (ignoruje sa pre textové alebo "
-#~ "logické polia)"
+#~ msgid "Maximum allowed value for numeric fields (ignored for text or boolean fields)"
+#~ msgstr "Maximálna povolená hodnota pre číselné polia (ignoruje sa pre textové alebo logické polia)"
 
 #~ msgid "choices"
 #~ msgstr "možnosti"
 
-#~ msgid ""
-#~ "Permissible choices for select one/multiple fields (ignored for other "
-#~ "fields)"
-#~ msgstr ""
-#~ "Povolené možnosti pre polia s výberom jednej alebo viacerých možností "
-#~ "(ignoruje sa pre ostatné polia)"
+#~ msgid "Permissible choices for select one/multiple fields (ignored for other fields)"
+#~ msgstr "Povolené možnosti pre polia s výberom jednej alebo viacerých možností (ignoruje sa pre ostatné polia)"
 
 #~ msgid "questions"
 #~ msgstr "otázky"
@@ -1900,16 +1612,8 @@ msgstr "Vitajte! Práve ste sa prihlásili!"
 #~ msgstr "pre %(name)s (%(institution)s)"
 
 #, python-format
-#~ msgid ""
-#~ "The URL of this page is personalised to you, %(name)s. <strong>Do not share "
-#~ "it with anyone;</strong> anyone who knows this URL can manage participants "
-#~ "for %(institution)s. Bookmark this page as you may need it for a next phase "
-#~ "of registration."
-#~ msgstr ""
-#~ "URL tejto stránky je osobná pre teba, %(name)s. <strong>Nikomu ju "
-#~ "nezdieľaj;</strong> ktokoľvek, kto pozná túto URL, môže spravovať účastníkov"
-#~ " za %(institution)s. Ulož si túto stránku do záložiek, keďže ju môžeš "
-#~ "potrebovať v ďalšej fáze registrácie."
+#~ msgid "The URL of this page is personalised to you, %(name)s. <strong>Do not share it with anyone;</strong> anyone who knows this URL can manage participants for %(institution)s. Bookmark this page as you may need it for a next phase of registration."
+#~ msgstr "URL tejto stránky je osobná pre teba, %(name)s. <strong>Nikomu ju nezdieľaj;</strong> ktokoľvek, kto pozná túto URL, môže spravovať účastníkov za %(institution)s. Ulož si túto stránku do záložiek, keďže ju môžeš potrebovať v ďalšej fáze registrácie."
 
 #~ msgid "View your registration form response"
 #~ msgstr "Zobraziť odpoveď na registračný formulár"
@@ -1917,12 +1621,8 @@ msgstr "Vitajte! Práve ste sa prihlásili!"
 #~ msgid "Register Adjudicator"
 #~ msgstr "Registrovať rozhodcu"
 
-#~ msgid ""
-#~ "or distribute this link to allow members to register themselves as "
-#~ "adjudicators:"
-#~ msgstr ""
-#~ "alebo rozpošli tento odkaz, aby sa členovia mohli zaregistrovať ako "
-#~ "rozhodcovia:"
+#~ msgid "or distribute this link to allow members to register themselves as adjudicators:"
+#~ msgstr "alebo rozpošli tento odkaz, aby sa členovia mohli zaregistrovať ako rozhodcovia:"
 
 #~ msgid "Adjudicator registration is not yet open"
 #~ msgstr "Registrácia rozhodcov ešte nie je otvorená"
@@ -1931,8 +1631,7 @@ msgstr "Vitajte! Práve ste sa prihlásili!"
 #~ msgstr "Registrovať tím"
 
 #~ msgid "or distribute this link to allow members to register their teams:"
-#~ msgstr ""
-#~ "alebo rozpošli tento odkaz, aby členovia mohli registrovať svoje tímy:"
+#~ msgstr "alebo rozpošli tento odkaz, aby členovia mohli registrovať svoje tímy:"
 
 #~ msgid "Team registration is not yet open"
 #~ msgstr "Registrácia tímov ešte nie je otvorená"
@@ -1943,20 +1642,12 @@ msgstr "Vitajte! Práve ste sa prihlásili!"
 #~ msgid "View invoice"
 #~ msgstr "Zobraziť faktúru"
 
-#~ msgid ""
-#~ "These questions appear as extra fields for participants to answer, in "
-#~ "feedback or registration forms."
-#~ msgstr ""
-#~ "Tieto otázky sa zobrazia ako dodatočné polia pre účastníkov vo formulároch "
-#~ "spätnej väzby alebo registrácie."
+#~ msgid "These questions appear as extra fields for participants to answer, in feedback or registration forms."
+#~ msgstr "Tieto otázky sa zobrazia ako dodatočné polia pre účastníkov vo formulároch spätnej väzby alebo registrácie."
 
 #, python-format
-#~ msgid ""
-#~ "If you want to delete questions (and their associated answers), use the <a "
-#~ "href=\"%(edit_db_url)s\" class=\"alert-link\">Edit Database</a> area."
-#~ msgstr ""
-#~ "Ak chceš vymazať otázky aj ich súvisiace odpovede, použi časť <a "
-#~ "href=\"%(edit_db_url)s\" class=\"alert-link\">Upraviť databázu</a>."
+#~ msgid "If you want to delete questions (and their associated answers), use the <a href=\"%(edit_db_url)s\" class=\"alert-link\">Edit Database</a> area."
+#~ msgstr "Ak chceš vymazať otázky aj ich súvisiace odpovede, použi časť <a href=\"%(edit_db_url)s\" class=\"alert-link\">Upraviť databázu</a>."
 
 #~ msgid "Save Questions"
 #~ msgstr "Uložiť otázky"
@@ -1974,8 +1665,7 @@ msgstr "Vitajte! Práve ste sa prihlásili!"
 #~ msgstr "Údaje rozhodcu"
 
 #~ msgid "Common tab fields stay visible. Feedback is managed separately."
-#~ msgstr ""
-#~ "Bežné polia tabu ostávajú viditeľné. Spätná väzba sa spravuje osobitne."
+#~ msgstr "Bežné polia tabu ostávajú viditeľné. Spätná väzba sa spravuje osobitne."
 
 #~ msgid "Additional settings"
 #~ msgstr "Ďalšie nastavenia"
@@ -1997,12 +1687,8 @@ msgstr "Vitajte! Práve ste sa prihlásili!"
 #~ msgid "Back to institution list"
 #~ msgstr "Späť na zoznam klubov"
 
-#~ msgid ""
-#~ "This form is read-only. You can view your institution's registration "
-#~ "response below but cannot edit it here."
-#~ msgstr ""
-#~ "Tento formulár je len na čítanie. Odpoveď na registráciu svojho klubu si "
-#~ "môžeš zobraziť nižšie, ale tu ju nemôžeš upraviť."
+#~ msgid "This form is read-only. You can view your institution's registration response below but cannot edit it here."
+#~ msgstr "Tento formulár je len na čítanie. Odpoveď na registráciu svojho klubu si môžeš zobraziť nižšie, ale tu ju nemôžeš upraviť."
 
 #~ msgid "Back to your private URL"
 #~ msgstr "Späť na svoju súkromnú URL"
@@ -2019,8 +1705,7 @@ msgstr "Vitajte! Práve ste sa prihlásili!"
 #~ msgid "Team details"
 #~ msgstr "Údaje tímu"
 
-#~ msgid ""
-#~ "Edit the team name, institution, emoji, categories and registration status."
+#~ msgid "Edit the team name, institution, emoji, categories and registration status."
 #~ msgstr "Uprav názov tímu, klub, emoji, kategórie a stav registrácie."
 
 #~ msgid "Name and email stay visible; less common fields are tucked away."
@@ -2033,9 +1718,7 @@ msgstr "Vitajte! Práve ste sa prihlásili!"
 #~ msgstr "Rečník/rečníčka"
 
 #~ msgid "No speakers are listed yet. Add the first speaker when you need one."
-#~ msgstr ""
-#~ "Zatiaľ nie sú pridaní žiadni rečníci. Pridaj prvého rečníka, keď budeš "
-#~ "potrebovať."
+#~ msgstr "Zatiaľ nie sú pridaní žiadni rečníci. Pridaj prvého rečníka, keď budeš potrebovať."
 
 #~ msgctxt "button"
 #~ msgid "Save team"
@@ -2057,14 +1740,8 @@ msgstr "Vitajte! Práve ste sa prihlásili!"
 #~ msgid "Register as Speaker"
 #~ msgstr "Registrovať sa ako rečník/rečníčka"
 
-#~ msgid ""
-#~ "You may register speakers for the team, but if not all speakers are "
-#~ "included, a link will be generated to let speakers register themselves to "
-#~ "the team after submission which you can then distribute."
-#~ msgstr ""
-#~ "Môžeš registrovať rečníkov tímu, ale ak nezahrnieš všetkých rečníkov, po "
-#~ "odoslaní sa vygeneruje odkaz, cez ktorý sa rečníci môžu do tímu "
-#~ "zaregistrovať sami a ktorý im môžeš rozposlať."
+#~ msgid "You may register speakers for the team, but if not all speakers are included, a link will be generated to let speakers register themselves to the team after submission which you can then distribute."
+#~ msgstr "Môžeš registrovať rečníkov tímu, ale ak nezahrnieš všetkých rečníkov, po odoslaní sa vygeneruje odkaz, cez ktorý sa rečníci môžu do tímu zaregistrovať sami a ktorý im môžeš rozposlať."
 
 #~ msgctxt "button"
 #~ msgid "Continue"
@@ -2106,24 +1783,12 @@ msgstr "Vitajte! Práve ste sa prihlásili!"
 #~ msgstr "pre %s"
 
 #, python-format
-#~ msgid ""
-#~ "Your team only has %(num)d speaker! Invite the other speakers to register "
-#~ "using this link: <a href='%(link)s'>%(link)s</a>"
-#~ msgid_plural ""
-#~ "Your team only has %(num)d speakers! Invite the other speakers to register "
-#~ "using this link: <a href='%(link)s'>%(link)s</a>"
-#~ msgstr[0] ""
-#~ "Tvoj tím má iba %(num)d rečníka/rečníčku! Pozvi ostatných rečníkov "
-#~ "zaregistrovať sa cez tento odkaz: <a href='%(link)s'>%(link)s</a>"
-#~ msgstr[1] ""
-#~ "Tvoj tím má iba %(num)d rečníkov/rečníčky! Pozvi ostatných rečníkov "
-#~ "zaregistrovať sa cez tento odkaz: <a href='%(link)s'>%(link)s</a>"
-#~ msgstr[2] ""
-#~ "Tvoj tím má iba %(num)d rečníkov! Pozvi ostatných rečníkov zaregistrovať sa "
-#~ "cez tento odkaz: <a href='%(link)s'>%(link)s</a>"
-#~ msgstr[3] ""
-#~ "Tvoj tím má iba %(num)d rečníkov! Pozvi ostatných rečníkov zaregistrovať sa "
-#~ "cez tento odkaz: <a href='%(link)s'>%(link)s</a>"
+#~ msgid "Your team only has %(num)d speaker! Invite the other speakers to register using this link: <a href='%(link)s'>%(link)s</a>"
+#~ msgid_plural "Your team only has %(num)d speakers! Invite the other speakers to register using this link: <a href='%(link)s'>%(link)s</a>"
+#~ msgstr[0] "Tvoj tím má iba %(num)d rečníka/rečníčku! Pozvi ostatných rečníkov zaregistrovať sa cez tento odkaz: <a href='%(link)s'>%(link)s</a>"
+#~ msgstr[1] "Tvoj tím má iba %(num)d rečníkov/rečníčky! Pozvi ostatných rečníkov zaregistrovať sa cez tento odkaz: <a href='%(link)s'>%(link)s</a>"
+#~ msgstr[2] "Tvoj tím má iba %(num)d rečníkov! Pozvi ostatných rečníkov zaregistrovať sa cez tento odkaz: <a href='%(link)s'>%(link)s</a>"
+#~ msgstr[3] "Tvoj tím má iba %(num)d rečníkov! Pozvi ostatných rečníkov zaregistrovať sa cez tento odkaz: <a href='%(link)s'>%(link)s</a>"
 
 #, python-format
 #~ msgid "Your team %s has been registered!"
@@ -2246,18 +1911,12 @@ msgstr "Vitajte! Práve ste sa prihlásili!"
 #~ msgid "Invalid request or transfer is no longer pending."
 #~ msgstr "Neplatná žiadosť alebo prevedenie už nečaká na schválenie."
 
-#~ msgid ""
-#~ "Transfer approved. An invitation email has been sent to the provided "
-#~ "address. "
+#~ msgid "Transfer approved. An invitation email has been sent to the provided address. "
 #~ msgstr "Prevedenie schválené. Na zadanú adresu bol odoslaný pozývací e-mail. "
 
 #, python-format
-#~ msgid ""
-#~ "You can also share this link: <a href=\"%(url)s\" class=\"alert-"
-#~ "link\">%(url)s</a>"
-#~ msgstr ""
-#~ "Môžeš tiež zdieľať tento odkaz: <a href=\"%(url)s\" class=\"alert-"
-#~ "link\">%(url)s</a>"
+#~ msgid "You can also share this link: <a href=\"%(url)s\" class=\"alert-link\">%(url)s</a>"
+#~ msgstr "Môžeš tiež zdieľať tento odkaz: <a href=\"%(url)s\" class=\"alert-link\">%(url)s</a>"
 
 #~ msgid "Transfer approved."
 #~ msgstr "Prevedenie schválené."
@@ -2317,8 +1976,7 @@ msgstr "Vitajte! Práve ste sa prihlásili!"
 #~ msgstr "zobraziť na verejnej stránke postupov"
 
 #~ msgid "show global ranking across regions on public Breaks page"
-#~ msgstr ""
-#~ "zobraziť globálne poradie naprieč regiónmi na verejnej stránke postupov"
+#~ msgstr "zobraziť globálne poradie naprieč regiónmi na verejnej stránke postupov"
 
 #~ msgid "public snapshot published at"
 #~ msgstr "verejný snapshot publikovaný"
@@ -2347,12 +2005,8 @@ msgstr "Vitajte! Práve ste sa prihlásili!"
 #~ msgid "expected tournaments this season"
 #~ msgstr "očakávané turnaje v tejto sezóne"
 
-#~ msgid ""
-#~ "Drives the best N−1 ranking rule. Leave at 0 to use the number of counting "
-#~ "tournaments already added to this region."
-#~ msgstr ""
-#~ "Riadi pravidlo najlepších N−1. Nechaj na 0, ak chceš použiť počet turnajov "
-#~ "zahrnutých do poradia už pridaných do tohto regiónu."
+#~ msgid "Drives the best N−1 ranking rule. Leave at 0 to use the number of counting tournaments already added to this region."
+#~ msgstr "Riadi pravidlo najlepších N−1. Nechaj na 0, ak chceš použiť počet turnajov zahrnutých do poradia už pridaných do tohto regiónu."
 
 #~ msgid "source region"
 #~ msgstr "zdrojový región"
@@ -2369,10 +2023,8 @@ msgstr "Vitajte! Práve ste sa prihlásili!"
 #~ msgid "counts for team and speaker break"
 #~ msgstr "zahrnutý do postupu tímov a rečníkov"
 
-#~ msgid ""
-#~ "If unchecked, this tournament only counts toward adjudicator statistics."
-#~ msgstr ""
-#~ "Ak nie je zaškrtnuté, tento turnaj sa počíta iba do štatistík rozhodcov."
+#~ msgid "If unchecked, this tournament only counts toward adjudicator statistics."
+#~ msgstr "Ak nie je zaškrtnuté, tento turnaj sa počíta iba do štatistík rozhodcov."
 
 #~ msgid "frozen at"
 #~ msgstr "zmrazené"
@@ -2509,12 +2161,8 @@ msgstr "Vitajte! Práve ste sa prihlásili!"
 #~ msgid "Adjudicator stats"
 #~ msgstr "Štatistiky rozhodcov"
 
-#~ msgid ""
-#~ "Season totals from confirmed preliminary debates. Trainee debates are shown "
-#~ "but excluded from totals."
-#~ msgstr ""
-#~ "Súčty za sezónu z potvrdených predbežných debát. Shadow debaty sú zobrazené,"
-#~ " ale nezahrnuté do súčtov."
+#~ msgid "Season totals from confirmed preliminary debates. Trainee debates are shown but excluded from totals."
+#~ msgstr "Súčty za sezónu z potvrdených predbežných debát. Shadow debaty sú zobrazené, ale nezahrnuté do súčtov."
 
 #~ msgid "Manage adjudicator identities"
 #~ msgstr "Spravovať identity rozhodcov"
@@ -2549,8 +2197,7 @@ msgstr "Vitajte! Práve ste sa prihlásili!"
 
 #, python-format
 #~ msgid "%(league)s · %(slots)s regional slots · %(invited)s invited teams"
-#~ msgstr ""
-#~ "%(league)s · %(slots)s regionálnych slotov · %(invited)s pozvaných tímov"
+#~ msgstr "%(league)s · %(slots)s regionálnych slotov · %(invited)s pozvaných tímov"
 
 #~ msgid "Seasons, leagues, snapshots and regional break quotas."
 #~ msgstr "Sezóny, ligy, snapshoty a regionálne postupové kvóty."
@@ -2570,11 +2217,8 @@ msgstr "Vitajte! Práve ste sa prihlásili!"
 #~ msgid "Global ranking"
 #~ msgstr "Globálne poradie"
 
-#~ msgid ""
-#~ "Live ranking across all public regions. No published snapshot required."
-#~ msgstr ""
-#~ "Živé poradie naprieč všetkými verejnými regiónmi. Zverejnený snapshot nie je"
-#~ " potrebný."
+#~ msgid "Live ranking across all public regions. No published snapshot required."
+#~ msgstr "Živé poradie naprieč všetkými verejnými regiónmi. Zverejnený snapshot nie je potrebný."
 
 #~ msgid "Shown on public page"
 #~ msgstr "Zobrazené na verejnej stránke"
@@ -2600,20 +2244,13 @@ msgstr "Vitajte! Práve ste sa prihlásili!"
 #~ msgid "Clean stale identities"
 #~ msgstr "Vyčistiť zastarané identity"
 
-#~ msgid ""
-#~ "Remove unlinked team, speaker and adjudicator identities that no longer have"
-#~ " frozen results or statistics."
-#~ msgstr ""
-#~ "Odober tímové, rečnícke a rozhodcovské identity bez prepojení, ktoré už "
-#~ "nemajú zmrazené výsledky ani štatistiky."
+#~ msgid "Remove unlinked team, speaker and adjudicator identities that no longer have frozen results or statistics."
+#~ msgstr "Odober tímové, rečnícke a rozhodcovské identity bez prepojení, ktoré už nemajú zmrazené výsledky ani štatistiky."
 
 #~ msgid "Remove all stale unlinked identities from this Breaks season?"
-#~ msgstr ""
-#~ "Odstrániť všetky zastarané neprepojené identity z tejto postupovej sezóny?"
+#~ msgstr "Odstrániť všetky zastarané neprepojené identity z tejto postupovej sezóny?"
 
-#~ msgid ""
-#~ "Choose a source tournament, then repair only that tournament's adjudicator "
-#~ "links."
+#~ msgid "Choose a source tournament, then repair only that tournament's adjudicator links."
 #~ msgstr "Vyber zdrojový turnaj a oprav iba prepojenia rozhodcov tohto turnaja."
 
 #~ msgid "Identity categories"
@@ -2646,9 +2283,7 @@ msgstr "Vitajte! Práve ste sa prihlásili!"
 #~ msgid "Pick a tournament above to edit its adjudicator links."
 #~ msgstr "Vyber turnaj vyššie, aby si mohol/a upraviť prepojenia rozhodcov."
 
-#~ msgid ""
-#~ "Choose a source tournament, then repair only that tournament's speaker "
-#~ "links."
+#~ msgid "Choose a source tournament, then repair only that tournament's speaker links."
 #~ msgstr "Vyber zdrojový turnaj a oprav iba prepojenia rečníkov tohto turnaja."
 
 #~ msgid "Create speaker identity"
@@ -2669,8 +2304,7 @@ msgstr "Vitajte! Práve ste sa prihlásili!"
 #~ msgid "Pick a tournament above to edit its speaker links."
 #~ msgstr "Vyber turnaj vyššie, aby si mohol/a upraviť prepojenia rečníkov."
 
-#~ msgid ""
-#~ "Choose a source tournament, then repair only that tournament's team links."
+#~ msgid "Choose a source tournament, then repair only that tournament's team links."
 #~ msgstr "Vyber zdrojový turnaj a oprav iba prepojenia tímov tohto turnaja."
 
 #~ msgid "Create team identity"
@@ -2742,12 +2376,8 @@ msgstr "Vitajte! Práve ste sa prihlásili!"
 #~ msgid "Start by creating the first season."
 #~ msgstr "Začni vytvorením prvej sezóny."
 
-#~ msgid ""
-#~ "Public Breaks use a manually published snapshot. Live edits appear only "
-#~ "after you publish a new snapshot."
-#~ msgstr ""
-#~ "Verejné postupy používajú manuálne publikovaný snapshot. Live úpravy sa "
-#~ "zobrazia až po publikovaní nového snapshotu."
+#~ msgid "Public Breaks use a manually published snapshot. Live edits appear only after you publish a new snapshot."
+#~ msgstr "Verejné postupy používajú manuálne publikovaný snapshot. Live úpravy sa zobrazia až po publikovaní nového snapshotu."
 
 #~ msgid "Structure"
 #~ msgstr "Štruktúra"
@@ -2788,11 +2418,8 @@ msgstr "Vitajte! Práve ste sa prihlásili!"
 #~ msgid "Public snapshot"
 #~ msgstr "Verejný snapshot"
 
-#~ msgid ""
-#~ "The public Breaks page shows the last published snapshot, not live data."
-#~ msgstr ""
-#~ "Verejná stránka postupov zobrazuje posledný publikovaný snapshot, nie live "
-#~ "dáta."
+#~ msgid "The public Breaks page shows the last published snapshot, not live data."
+#~ msgstr "Verejná stránka postupov zobrazuje posledný publikovaný snapshot, nie live dáta."
 
 #~ msgid "Last published:"
 #~ msgstr "Naposledy publikované:"
@@ -2815,12 +2442,8 @@ msgstr "Vitajte! Práve ste sa prihlásili!"
 #~ msgid "Danger zone"
 #~ msgstr "Nebezpečná zóna"
 
-#~ msgid ""
-#~ "Permanently deletes the season, its regions, frozen snapshots, identities, "
-#~ "rankings and public snapshot."
-#~ msgstr ""
-#~ "Natrvalo odstráni sezónu, jej regióny, zmrazené snapshoty, identity, poradia"
-#~ " a verejný snapshot."
+#~ msgid "Permanently deletes the season, its regions, frozen snapshots, identities, rankings and public snapshot."
+#~ msgstr "Natrvalo odstráni sezónu, jej regióny, zmrazené snapshoty, identity, poradia a verejný snapshot."
 
 #~ msgid "Delete this break season permanently?"
 #~ msgstr "Natrvalo odstrániť túto postupovú sezónu?"
@@ -2870,12 +2493,8 @@ msgstr "Vitajte! Práve ste sa prihlásili!"
 #~ msgstr "Výpočet metódou najväčšieho zvyšku"
 
 #, python-format
-#~ msgid ""
-#~ "%(slots)s regional slots · %(invited)s invited teams. Raw quota, floor and "
-#~ "remainder are shown for auditability."
-#~ msgstr ""
-#~ "%(slots)s regionálnych slotov · %(invited)s pozvaných tímov. Hrubá kvóta, "
-#~ "spodný limit a zvyšok sú zobrazené na overenie."
+#~ msgid "%(slots)s regional slots · %(invited)s invited teams. Raw quota, floor and remainder are shown for auditability."
+#~ msgstr "%(slots)s regionálnych slotov · %(invited)s pozvaných tímov. Hrubá kvóta, spodný limit a zvyšok sú zobrazené na overenie."
 
 #~ msgid "Raw quota"
 #~ msgstr "Hrubá kvóta"
@@ -2900,14 +2519,8 @@ msgstr "Vitajte! Práve ste sa prihlásili!"
 #~ msgstr[2] "%(counter)s posledných miest je viazaných remízou — vyriešiť ručne"
 #~ msgstr[3] "%(counter)s posledných miest je viazaných remízou — vyriešiť ručne"
 
-#~ msgid ""
-#~ "These teams are tied on every ranking metric at the break cutoff. Tabbycat "
-#~ "will not pick between identical records automatically — apply your league's "
-#~ "tiebreak rule and choose who advances."
-#~ msgstr ""
-#~ "Tieto tímy sú zhodné vo všetkých metrikách poradia na hranici postupu. "
-#~ "Tabbycat automaticky nevyberie medzi totožnými výsledkami — uplatni tiebreak"
-#~ " pravidlo tvojej ligy a vyber, kto postupuje."
+#~ msgid "These teams are tied on every ranking metric at the break cutoff. Tabbycat will not pick between identical records automatically — apply your league's tiebreak rule and choose who advances."
+#~ msgstr "Tieto tímy sú zhodné vo všetkých metrikách poradia na hranici postupu. Tabbycat automaticky nevyberie medzi totožnými výsledkami — uplatni tiebreak pravidlo tvojej ligy a vyber, kto postupuje."
 
 #~ msgid "speaks"
 #~ msgstr "reči"
@@ -2977,11 +2590,8 @@ msgstr "Vitajte! Práve ste sa prihlásili!"
 #~ msgid "Season regions"
 #~ msgstr "Regióny sezóny"
 
-#~ msgid ""
-#~ "Hidden regions stay internal but are excluded from the next public snapshot."
-#~ msgstr ""
-#~ "Skryté regióny ostanú interné, ale budú vynechané z ďalšieho verejného "
-#~ "snapshotu."
+#~ msgid "Hidden regions stay internal but are excluded from the next public snapshot."
+#~ msgstr "Skryté regióny ostanú interné, ale budú vynechané z ďalšieho verejného snapshotu."
 
 #~ msgid "Source region"
 #~ msgstr "Zdrojový región"
@@ -3127,8 +2737,7 @@ msgstr "Vitajte! Práve ste sa prihlásili!"
 #~ msgstr "Liga %(league)s bola upravená."
 
 #, python-format
-#~ msgid ""
-#~ "Break league %(league)s cannot be deleted because it still has seasons."
+#~ msgid "Break league %(league)s cannot be deleted because it still has seasons."
 #~ msgstr "Ligu %(league)s nemožno odstrániť, pretože má priradené sezóny."
 
 #, python-format
@@ -3142,22 +2751,12 @@ msgstr "Vitajte! Práve ste sa prihlásili!"
 #~ msgid "Public Breaks snapshot was published."
 #~ msgstr "Verejný snapshot postupov bol zverejnený."
 
-#~ msgid ""
-#~ "A tie at the break cutoff is still unresolved. The affected teams are "
-#~ "published as not advancing until an editor resolves the tie on the region "
-#~ "ranking page and republishes."
-#~ msgstr ""
-#~ "Remíza na hranici postupu je stále nevyriešená. Dotknuté tímy sú zverejnené "
-#~ "ako nepostupujúce, kým redaktor remízu nevyrieši na stránke regionálneho "
-#~ "poradia a znova nezverejní."
+#~ msgid "A tie at the break cutoff is still unresolved. The affected teams are published as not advancing until an editor resolves the tie on the region ranking page and republishes."
+#~ msgstr "Remíza na hranici postupu je stále nevyriešená. Dotknuté tímy sú zverejnené ako nepostupujúce, kým redaktor remízu nevyrieši na stránke regionálneho poradia a znova nezverejní."
 
 #, python-format
-#~ msgid ""
-#~ "Break season %(season)s cannot be deleted because it still has protected "
-#~ "data."
-#~ msgstr ""
-#~ "Postupovú sezónu %(season)s nemožno odstrániť, pretože stále obsahuje "
-#~ "chránené dáta."
+#~ msgid "Break season %(season)s cannot be deleted because it still has protected data."
+#~ msgstr "Postupovú sezónu %(season)s nemožno odstrániť, pretože stále obsahuje chránené dáta."
 
 #, python-format
 #~ msgid "Break season %(season)s was deleted."
@@ -3186,20 +2785,12 @@ msgstr "Vitajte! Práve ste sa prihlásili!"
 #~ msgstr "Turnaj %(tournament)s bol odstránený z tejto postupovej sezóny."
 
 #, python-format
-#~ msgid ""
-#~ "Updated snapshot: %(teams)d teams, %(speakers)d speaker links, "
-#~ "%(adjudicators)d adjudicators."
-#~ msgstr ""
-#~ "Aktualizovaný snapshot: %(teams)d tímov, %(speakers)d prepojení rečníkov, "
-#~ "%(adjudicators)d rozhodcov."
+#~ msgid "Updated snapshot: %(teams)d teams, %(speakers)d speaker links, %(adjudicators)d adjudicators."
+#~ msgstr "Aktualizovaný snapshot: %(teams)d tímov, %(speakers)d prepojení rečníkov, %(adjudicators)d rozhodcov."
 
 #, python-format
-#~ msgid ""
-#~ "Cleaned stale identities: %(teams)d teams, %(speakers)d speakers, "
-#~ "%(adjudicators)d adjudicators."
-#~ msgstr ""
-#~ "Vyčistené zastarané identity: %(teams)d tímov, %(speakers)d rečníkov, "
-#~ "%(adjudicators)d rozhodcov."
+#~ msgid "Cleaned stale identities: %(teams)d teams, %(speakers)d speakers, %(adjudicators)d adjudicators."
+#~ msgstr "Vyčistené zastarané identity: %(teams)d tímov, %(speakers)d rečníkov, %(adjudicators)d rozhodcov."
 
 #~ msgid "Unknown tournament"
 #~ msgstr "Neznámy turnaj"
@@ -3233,8 +2824,7 @@ msgstr "Vitajte! Práve ste sa prihlásili!"
 
 #, python-format
 #~ msgid "Select exactly %(n)d team(s) to take the remaining seat(s)."
-#~ msgstr ""
-#~ "Vyber presne %(n)d tím(-y) na obsadenie zostávajúceho(-ich) miesta(-miest)."
+#~ msgstr "Vyber presne %(n)d tím(-y) na obsadenie zostávajúceho(-ich) miesta(-miest)."
 
 #~ msgid "The tie at the cutoff was resolved."
 #~ msgstr "Remíza na hranici postupu bola vyriešená."
@@ -3243,13 +2833,8 @@ msgstr "Vitajte! Práve ste sa prihlásili!"
 #~ msgid "Breaks access updated for %(user)s."
 #~ msgstr "Prístup k postupom bol aktualizovaný pre %(user)s."
 
-#~ msgid ""
-#~ "Users with staff status can view and edit the Edit Database area. This is "
-#~ "potentially dangerous and should be reserved for the actual tab director(s)."
-#~ msgstr ""
-#~ "Používatelia s príznakom personálu môžu zobrazovať a upravovať časť Upraviť "
-#~ "databázu. Je to potenciálne nebezpečné a malo by to byť vyhradené iba "
-#~ "skutočným vedúcim tabu."
+#~ msgid "Users with staff status can view and edit the Edit Database area. This is potentially dangerous and should be reserved for the actual tab director(s)."
+#~ msgstr "Používatelia s príznakom personálu môžu zobrazovať a upravovať časť Upraviť databázu. Je to potenciálne nebezpečné a malo by to byť vyhradené iba skutočným vedúcim tabu."
 
 #~ msgid "Personal info"
 #~ msgstr "Osobné informácie"
@@ -3296,12 +2881,8 @@ msgstr "Vitajte! Práve ste sa prihlásili!"
 #~ msgid "Individual permissions"
 #~ msgstr "Individuálne oprávnenia"
 
-#~ msgid ""
-#~ "Optional permissions granted directly to this user, in addition to their "
-#~ "roles."
-#~ msgstr ""
-#~ "Voliteľné oprávnenia udelené priamo tomuto používateľovi, okrem oprávnení z "
-#~ "ich rolí."
+#~ msgid "Optional permissions granted directly to this user, in addition to their roles."
+#~ msgstr "Voliteľné oprávnenia udelené priamo tomuto používateľovi, okrem oprávnení z ich rolí."
 
 #~ msgid "Equity"
 #~ msgstr "Equity tím"
@@ -3694,12 +3275,8 @@ msgstr "Vitajte! Práve ste sa prihlásili!"
 #~ msgstr "Ahoj!"
 
 #, python-format
-#~ msgid ""
-#~ "An administrator for the Tabbycat site hosting %(name)s has invited you to "
-#~ "create an user account on their site, at %(protocol)s://%(domain)s."
-#~ msgstr ""
-#~ "Administrátor Tabbycat stránky hostujúcej %(name)s ťa pozval vytvoriť si "
-#~ "používateľský účet na stránke %(protocol)s://%(domain)s."
+#~ msgid "An administrator for the Tabbycat site hosting %(name)s has invited you to create an user account on their site, at %(protocol)s://%(domain)s."
+#~ msgstr "Administrátor Tabbycat stránky hostujúcej %(name)s ťa pozval vytvoriť si používateľský účet na stránke %(protocol)s://%(domain)s."
 
 #~ msgid "If you accept, please use the link below to activate your account"
 #~ msgstr "Ak pozvanie prijímaš, použi odkaz nižšie na aktiváciu účtu"
@@ -3711,19 +3288,8 @@ msgstr "Vitajte! Práve ste sa prihlásili!"
 #~ msgid "Invitation to join Tabbycat site for %(name)s"
 #~ msgstr "Pozvánka na Tabbycat stránku pre %(name)s"
 
-#~ msgid ""
-#~ "<strong>Warning:</strong> You shouldn't delete users from the database once "
-#~ "they've done something, because the database logs actions taken by those "
-#~ "users, and deleting the users also deletes the related logs. If you wish to "
-#~ "deactivate a user account, go back to edit the user, click on the "
-#~ "“Permissions” tab, unchecked the “Active” box, and save the user."
-#~ msgstr ""
-#~ "<strong>Upozornenie:</strong> Nemali by ste odstraňovať používateľov z "
-#~ "databázy, keď už niečo urobili, pretože databáza zaznamenáva akcie vykonané "
-#~ "týmito používateľmi a odstránenie používateľov vedie aj k odstráneniu "
-#~ "súvisiacich záznamov. Ak chcete deaktivovať používateľský účet, vráťte sa "
-#~ "späť k úpravám používateľa, kliknite na kartu „Oprávnenia“, zrušte "
-#~ "začiarknutie políčka „Aktívny“ a uložte používateľa."
+#~ msgid "<strong>Warning:</strong> You shouldn't delete users from the database once they've done something, because the database logs actions taken by those users, and deleting the users also deletes the related logs. If you wish to deactivate a user account, go back to edit the user, click on the “Permissions” tab, unchecked the “Active” box, and save the user."
+#~ msgstr "<strong>Upozornenie:</strong> Nemali by ste odstraňovať používateľov z databázy, keď už niečo urobili, pretože databáza zaznamenáva akcie vykonané týmito používateľmi a odstránenie používateľov vedie aj k odstráneniu súvisiacich záznamov. Ak chcete deaktivovať používateľský účet, vráťte sa späť k úpravám používateľa, kliknite na kartu „Oprávnenia“, zrušte začiarknutie políčka „Aktívny“ a uložte používateľa."
 
 #~ msgid "Back to Configuration"
 #~ msgstr "Späť na konfiguráciu"
@@ -3732,12 +3298,8 @@ msgstr "Vitajte! Práve ste sa prihlásili!"
 #~ msgid "Invite User"
 #~ msgstr "Pozvať používateľa"
 
-#~ msgid ""
-#~ "Note: if you submit this multiple times, multiple invite emails will be "
-#~ "sent."
-#~ msgstr ""
-#~ "Poznámka: ak tento formulár odošlete viackrát, bude odoslaných viacero "
-#~ "pozývacích e-mailov."
+#~ msgid "Note: if you submit this multiple times, multiple invite emails will be sent."
+#~ msgstr "Poznámka: ak tento formulár odošlete viackrát, bude odoslaných viacero pozývacích e-mailov."
 
 #~ msgid "User Roles"
 #~ msgstr "Roly používateľov"
@@ -3751,12 +3313,8 @@ msgstr "Vitajte! Práve ste sa prihlásili!"
 #~ msgid "User Access"
 #~ msgstr "Prístup používateľov"
 
-#~ msgid ""
-#~ "Assign existing users to roles, with optional individual permission "
-#~ "overrides."
-#~ msgstr ""
-#~ "Prirad existujúcich používateľov k rolám s voliteľnými individuálnymi "
-#~ "výnimkami oprávnení."
+#~ msgid "Assign existing users to roles, with optional individual permission overrides."
+#~ msgstr "Prirad existujúcich používateľov k rolám s voliteľnými individuálnymi výnimkami oprávnení."
 
 #~ msgid "Back to User Access"
 #~ msgstr "Späť na prístup používateľov"
@@ -3797,8 +3355,7 @@ msgstr "Vitajte! Práve ste sa prihlásili!"
 #~ msgstr "Vytvoriť rolu"
 
 #~ msgid "Role permissions apply to every user assigned to that role."
-#~ msgstr ""
-#~ "Oprávnenia roly sa vzťahujú na každého používateľa priradeného k tejto roli."
+#~ msgstr "Oprávnenia roly sa vzťahujú na každého používateľa priradeného k tejto roli."
 
 #~ msgid "Role permissions"
 #~ msgstr "Oprávnenia roly"
@@ -3815,8 +3372,7 @@ msgstr "Vitajte! Práve ste sa prihlásili!"
 #~ msgid "Edit User Access"
 #~ msgstr "Upraviť prístup používateľa"
 
-#~ msgid ""
-#~ "Use roles for normal access, then direct permissions only for exceptions."
+#~ msgid "Use roles for normal access, then direct permissions only for exceptions."
 #~ msgstr "Použi roly na bežný prístup a priame oprávnenia iba pre výnimky."
 
 #~ msgid "Recommended"
@@ -3841,8 +3397,7 @@ msgstr "Vitajte! Práve ste sa prihlásili!"
 #~ msgstr "Zoznam prístupov používateľov"
 
 #~ msgid "Open a user to edit roles and individual permissions."
-#~ msgstr ""
-#~ "Otvor používateľa, aby si mohol upraviť roly a individuálne oprávnenia."
+#~ msgstr "Otvor používateľa, aby si mohol upraviť roly a individuálne oprávnenia."
 
 #~ msgid "No roles"
 #~ msgstr "Žiadne roly"
@@ -3865,11 +3420,8 @@ msgstr "Vitajte! Práve ste sa prihlásili!"
 #~ msgid "Create Account"
 #~ msgstr "Vytvoriť účet"
 
-#~ msgid ""
-#~ "Whoops! It looks like someone's already created the first user account. "
-#~ "Please log in."
-#~ msgstr ""
-#~ "Ups! Vyzerá to, že niekto už vytvoril prvý používateľský účet. Prihláste sa."
+#~ msgid "Whoops! It looks like someone's already created the first user account. Please log in."
+#~ msgstr "Ups! Vyzerá to, že niekto už vytvoril prvý používateľský účet. Prihláste sa."
 
 #, python-format
 #~ msgid "Welcome! You've created an account for %s."
@@ -3895,12 +3447,8 @@ msgstr "Vitajte! Práve ste sa prihlásili!"
 #~ msgid "DebateXML file"
 #~ msgstr "Súbor DebateXML"
 
-#~ msgid ""
-#~ "Upload a Tabbycat DebateXML export. The converter returns an SDA-style XLSX "
-#~ "results workbook."
-#~ msgstr ""
-#~ "Nahraj export Tabbycat DebateXML. Konvertor vráti XLSX zošit s výsledkami vo"
-#~ " formáte SDA."
+#~ msgid "Upload a Tabbycat DebateXML export. The converter returns an SDA-style XLSX results workbook."
+#~ msgstr "Nahraj export Tabbycat DebateXML. Konvertor vráti XLSX zošit s výsledkami vo formáte SDA."
 
 #~ msgid "Please upload an XML file."
 #~ msgstr "Nahrajte prosím XML súbor."
@@ -3939,12 +3487,8 @@ msgstr "Vitajte! Práve ste sa prihlásili!"
 #~ msgid "Convert DebateXML"
 #~ msgstr "Konvertovať DebateXML"
 
-#~ msgid ""
-#~ "Upload a Tabbycat DebateXML export and download an SDA-style XLSX results "
-#~ "workbook."
-#~ msgstr ""
-#~ "Nahrajte export Tabbycat DebateXML a stiahnite XLSX zošit s výsledkami vo "
-#~ "formáte SDA."
+#~ msgid "Upload a Tabbycat DebateXML export and download an SDA-style XLSX results workbook."
+#~ msgstr "Nahrajte export Tabbycat DebateXML a stiahnite XLSX zošit s výsledkami vo formáte SDA."
 
 #~ msgid "Manage access"
 #~ msgstr "Spravovať prístup"
@@ -3952,12 +3496,8 @@ msgstr "Vitajte! Práve ste sa prihlásili!"
 #~ msgid "Convert"
 #~ msgstr "Konvertovať"
 
-#~ msgid ""
-#~ "This file could not be converted. Please make sure it is a valid Tabbycat "
-#~ "DebateXML export."
-#~ msgstr ""
-#~ "Tento súbor sa nepodarilo konvertovať. Uistite sa, že ide o platný export "
-#~ "Tabbycat DebateXML."
+#~ msgid "This file could not be converted. Please make sure it is a valid Tabbycat DebateXML export."
+#~ msgstr "Tento súbor sa nepodarilo konvertovať. Uistite sa, že ide o platný export Tabbycat DebateXML."
 
 #, python-format
 #~ msgid "Converter access updated for %(user)s."

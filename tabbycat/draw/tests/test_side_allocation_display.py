@@ -2,7 +2,7 @@ from unittest.mock import patch
 
 from django.contrib.auth import get_user_model
 from django.core.cache import cache
-from django.test import TestCase
+from django.test import override_settings, TestCase
 
 from availability.utils import set_availability
 from participants.models import Team
@@ -12,10 +12,12 @@ from tournaments.models import Round
 from utils.misc import add_query_string_parameter, reverse_tournament
 from utils.tests import CompletedTournamentTestMixin
 
+from ..dbutils import delete_round_draw
 from ..models import ByeTeamOverride, TeamSideAllocation
 from ..side_allocation_display import get_team_navigation
 
 
+@override_settings(LANGUAGE_CODE='en')
 class SideAllocationDisplayTest(CompletedTournamentTestMixin, TestCase):
 
     def setUp(self):
@@ -24,6 +26,7 @@ class SideAllocationDisplayTest(CompletedTournamentTestMixin, TestCase):
         super().setUp()
         self.round1 = self.tournament.round_set.get(seq=1)
         self.round2 = self.tournament.round_set.get(seq=2)
+        delete_round_draw(self.round2)
         self.teams = list(self.tournament.team_set.order_by("short_name", "id"))
         self.tournament.preferences['standings__team_standings_precedence'] = ['points', 'speaks_sum']
 
@@ -123,6 +126,7 @@ class SideAllocationDisplayTest(CompletedTournamentTestMixin, TestCase):
         self.assertEqual(TeamSideAllocation.objects.filter(round=self.round2).count(), len(self.teams))
 
 
+@override_settings(LANGUAGE_CODE='en')
 class SideAllocationWorkspaceTest(CompletedTournamentTestMixin, TestCase):
 
     def setUp(self):
@@ -131,6 +135,7 @@ class SideAllocationWorkspaceTest(CompletedTournamentTestMixin, TestCase):
         super().setUp()
         self.round1 = self.tournament.round_set.get(seq=1)
         self.round2 = self.tournament.round_set.get(seq=2)
+        delete_round_draw(self.round2)
         self.tournament.round_set.filter(id__in=[self.round1.id, self.round2.id]).update(draw_type=Round.DrawType.RANDOM)
         set_availability(self.tournament.team_set.all(), self.round1)
         set_availability(self.tournament.team_set.all(), self.round2)

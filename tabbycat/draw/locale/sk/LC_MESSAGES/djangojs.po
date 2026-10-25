@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-27 15:04+0200\n"
+"POT-Creation-Date: 2026-10-25 07:25+1100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -46,6 +46,44 @@ msgstr "Debatný klub"
 msgid ""
 "Note: You should almost certainly not being using this page once results\n"
 "                               have been released. Be sure to fill all gaps before leaving."
-msgstr ""
-"Poznámka: po zverejnení výsledkov by si túto stránku takmer určite nemal/a "
-"používať. Pred odchodom sa uisti, že si vyplnil/a všetky medzery."
+msgstr "Poznámka: po zverejnení výsledkov by si túto stránku takmer určite nemal/a používať. Pred odchodom sa uisti, že si vyplnil/a všetky medzery."
+
+#: draw/templates/side_allocations.js:45
+msgid "Z–A"
+msgstr "Z–A"
+
+#: draw/templates/side_allocations.js:45
+msgid "A–Z"
+msgstr "A–Z"
+
+#: draw/templates/side_allocations.js:46
+msgid "Lowest bracket first"
+msgstr "Najnižšia skupina ako prvá"
+
+#: draw/templates/side_allocations.js:46
+msgid "Highest bracket first"
+msgstr "Najvyššia skupina ako prvá"
+
+#: draw/templates/side_allocations.js:68
+msgid "Unranked"
+msgstr "Bez poradia"
+
+#: draw/templates/side_allocations.js:77
+msgid "Rank %(rank)s"
+msgstr "Poradie %(rank)s"
+
+#: draw/templates/side_allocations.js:135
+msgid "Unsaved manual changes."
+msgstr "Neuložené ručné zmeny."
+
+#: draw/templates/side_allocations.js:146
+msgid "Saving…"
+msgstr "Ukladá sa…"
+
+#: draw/templates/side_allocations.js:154
+msgid "Saved."
+msgstr "Uložené."
+
+#: draw/templates/side_allocations.js:166
+msgid "Could not save the side. Try again."
+msgstr "Stranu sa nepodarilo uložiť. Skúste to znova."

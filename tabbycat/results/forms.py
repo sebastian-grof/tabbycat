@@ -343,12 +343,16 @@ class BaseBallotSetForm(BaseResultForm):
         # ballots enabled, a solo debate is still submitted via SingleBallotSetForm), and
         # only have any effect when the confirmed result ends up voting-based (`per-adj`),
         # since that's the only result type that tracks votes_given/votes_possible.
-        self.allowing_self_split = (
-            len(self.adjudicators) == 1 and
-            self.tournament.pref('teams_in_debate') == 2 and
-            self.tournament.pref('adjudicator_weighting') == 'tabbycat-default' and
-            self.tournament.ballots_per_debate(self.debate.round.stage) == 'per-adj' and
-            self.tournament.pref('allow_self_split_ballots'))
+        self.allowing_self_split = self.ballotsub.allows_self_split
+
+    def clean(self):
+        cleaned_data = super().clean()
+        requested = forms.BooleanField(required=False).to_python(self.data.get('self_split'))
+        if requested and (not self.allowing_self_split or any(
+                value for key, value in cleaned_data.items() if key.endswith('_forfeit'))):
+            self.add_error(None, forms.ValidationError(
+                _("Self-split requires an enabled solo-adjudicated voting ballot without a bye or forfeit.")))
+        return cleaned_data
 
     @staticmethod
     def _fieldname_self_split():

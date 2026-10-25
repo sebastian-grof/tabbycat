@@ -1,7 +1,7 @@
 from decimal import Decimal
 from unittest.mock import patch
 
-from django.test import TestCase
+from django.test import override_settings, TestCase
 
 from options.fields import EMPTY_CHOICE
 from options.presets import APDAPreferences, get_preset_from_slug, KarlPopperPreferences, PreferencesPreset, WSDCPreferences
@@ -69,6 +69,7 @@ class TestPresets(TestCase):
 
         tournament.delete()
 
+    @override_settings(LANGUAGE_CODE='en')
     def test_karl_popper_preset(self):
         tournament = self.set_up_tournament()
         form = KarlPopperPreferences.get_form(tournament)

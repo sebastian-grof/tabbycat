@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tabbycat\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-17 09:00+0200\n"
+"POT-Creation-Date: 2026-10-25 07:25+1100\n"
 "PO-Revision-Date: 2026-06-16 00:00+0200\n"
 "Last-Translator: Sebastian Grof\n"
 "Language-Team: Slovak\n"
@@ -141,12 +141,8 @@ msgstr "nevyvážená na hladine %(level)s"
 
 #: motions/statistics.py:127
 #, python-format
-msgid ""
-"χ² statistic is %(chisq).3f, providing %(evidence)s to suggest that this "
-"motion was imbalanced — at a %(level)s level of significance."
-msgstr ""
-"χ² štatistika je %(chisq).3f, čo poskytuje %(evidence)s, že táto téza bola "
-"nevyvážená — na hladine významnosti %(level)s."
+msgid "χ² statistic is %(chisq).3f, providing %(evidence)s to suggest that this motion was imbalanced — at a %(level)s level of significance."
+msgstr "χ² štatistika je %(chisq).3f, čo poskytuje %(evidence)s, že táto téza bola nevyvážená — na hladine významnosti %(level)s."
 
 #: motions/statistics.py:132
 msgid "probably balanced"
@@ -154,12 +150,8 @@ msgstr "pravdepodobne vyvážená"
 
 #: motions/statistics.py:133
 #, python-format
-msgid ""
-"χ² statistic is %(chisq).3f, providing insufficient evidence to suggest that"
-" this motion was imbalanced at any level of significance."
-msgstr ""
-"χ² štatistika je %(chisq).3f, čo neposkytuje dostatočný dôkaz na to, aby sme"
-" tvrdili, že táto téza bola nevyvážená na akejkoľvek hladine významnosti."
+msgid "χ² statistic is %(chisq).3f, providing insufficient evidence to suggest that this motion was imbalanced at any level of significance."
+msgstr "χ² štatistika je %(chisq).3f, čo neposkytuje dostatočný dôkaz na to, aby sme tvrdili, že táto téza bola nevyvážená na akejkoľvek hladine významnosti."
 
 #: motions/templates/motion_global_statistics.html:22
 #: motions/templates/motion_round_statistics.html:31
@@ -178,43 +170,21 @@ msgstr[3] "výsledky z %(ndebates)s debát"
 
 #: motions/templates/motion_statistics_bp_elim.html:26
 #, python-format
-msgid ""
-"%(advancing)s of %(ndebates)s team on %(side)s (%(percentage)s%%) advanced"
-msgid_plural ""
-"%(advancing)s of %(ndebates)s teams on %(side)s (%(percentage)s%%) advanced"
-msgstr[0] ""
-"%(advancing)s z %(ndebates)s tímu na strane %(side)s (%(percentage)s%%) "
-"postúpil"
-msgstr[1] ""
-"%(advancing)s z %(ndebates)s tímov na strane %(side)s (%(percentage)s%%) "
-"postúpili"
-msgstr[2] ""
-"%(advancing)s z %(ndebates)s tímu na strane %(side)s (%(percentage)s%%) "
-"postúpilo"
-msgstr[3] ""
-"%(advancing)s z %(ndebates)s tímov na strane %(side)s (%(percentage)s%%) "
-"postúpilo"
+msgid "%(advancing)s of %(ndebates)s team on %(side)s (%(percentage)s%%) advanced"
+msgid_plural "%(advancing)s of %(ndebates)s teams on %(side)s (%(percentage)s%%) advanced"
+msgstr[0] "%(advancing)s z %(ndebates)s tímu na strane %(side)s (%(percentage)s%%) postúpil"
+msgstr[1] "%(advancing)s z %(ndebates)s tímov na strane %(side)s (%(percentage)s%%) postúpili"
+msgstr[2] "%(advancing)s z %(ndebates)s tímu na strane %(side)s (%(percentage)s%%) postúpilo"
+msgstr[3] "%(advancing)s z %(ndebates)s tímov na strane %(side)s (%(percentage)s%%) postúpilo"
 
 #: motions/templates/motion_statistics_bp_elim.html:31
 #, python-format
-msgid ""
-"%(eliminated)s of %(ndebates)s team on %(side)s (%(percentage)s%%) were "
-"eliminated"
-msgid_plural ""
-"%(eliminated)s of %(ndebates)s teams on %(side)s (%(percentage)s%%) were "
-"eliminated"
-msgstr[0] ""
-"%(eliminated)s z %(ndebates)s tímu na strane %(side)s (%(percentage)s%%) bol"
-" vyradený"
-msgstr[1] ""
-"%(eliminated)s z %(ndebates)s tímov na strane %(side)s (%(percentage)s%%) "
-"boli vyradené"
-msgstr[2] ""
-"%(eliminated)s z %(ndebates)s tímu na strane %(side)s (%(percentage)s%%) "
-"bolo vyradených"
-msgstr[3] ""
-"%(eliminated)s z %(ndebates)s tímov na strane %(side)s (%(percentage)s%%) "
-"bolo vyradených"
+msgid "%(eliminated)s of %(ndebates)s team on %(side)s (%(percentage)s%%) were eliminated"
+msgid_plural "%(eliminated)s of %(ndebates)s teams on %(side)s (%(percentage)s%%) were eliminated"
+msgstr[0] "%(eliminated)s z %(ndebates)s tímu na strane %(side)s (%(percentage)s%%) bol vyradený"
+msgstr[1] "%(eliminated)s z %(ndebates)s tímov na strane %(side)s (%(percentage)s%%) boli vyradené"
+msgstr[2] "%(eliminated)s z %(ndebates)s tímu na strane %(side)s (%(percentage)s%%) bolo vyradených"
+msgstr[3] "%(eliminated)s z %(ndebates)s tímov na strane %(side)s (%(percentage)s%%) bolo vyradených"
 
 #: motions/templates/motion_statistics_bp_elim.html:41
 msgid "advanced"
@@ -279,18 +249,12 @@ msgstr[3] "priemerné body na pozíciu (%(ndebates)s debát)"
 
 #: motions/templates/motion_statistics_bp_prelim.html:78
 #, python-format
-msgid ""
-"%(count)s result for %(side)s (%(percentage)s%%) were for %(points)s points"
-msgid_plural ""
-"%(count)s results for %(side)s (%(percentage)s%%) were for %(points)s points"
-msgstr[0] ""
-"%(count)s výsledok pre %(side)s (%(percentage)s%%) bol za %(points)s bodov"
-msgstr[1] ""
-"%(count)s výsledky pre %(side)s (%(percentage)s%%) boli za %(points)s bodov"
-msgstr[2] ""
-"%(count)s výsledku pre %(side)s (%(percentage)s%%) bolo za %(points)s bodov"
-msgstr[3] ""
-"%(count)s výsledkov pre %(side)s (%(percentage)s%%) bolo za %(points)s bodov"
+msgid "%(count)s result for %(side)s (%(percentage)s%%) were for %(points)s points"
+msgid_plural "%(count)s results for %(side)s (%(percentage)s%%) were for %(points)s points"
+msgstr[0] "%(count)s výsledok pre %(side)s (%(percentage)s%%) bol za %(points)s bodov"
+msgstr[1] "%(count)s výsledky pre %(side)s (%(percentage)s%%) boli za %(points)s bodov"
+msgstr[2] "%(count)s výsledku pre %(side)s (%(percentage)s%%) bolo za %(points)s bodov"
+msgstr[3] "%(count)s výsledkov pre %(side)s (%(percentage)s%%) bolo za %(points)s bodov"
 
 #: motions/templates/motion_statistics_bp_prelim.html:101
 #, python-format
@@ -325,8 +289,7 @@ msgstr[3] "%(count)s viet %(side)s"
 msgid "No teams vetoed this motion"
 msgstr "Žiadne tímy nevetoovali túto tézu"
 
-#: motions/templates/motions_edit.html:4
-#: motions/templates/motions_edit.html:10
+#: motions/templates/motions_edit.html:4 motions/templates/motions_edit.html:10
 msgid "Edit Motion"
 msgid_plural "Edit Motions"
 msgstr[0] "Upraviť tézu"
@@ -339,12 +302,8 @@ msgid "Display Draw"
 msgstr "Zobraziť pairing"
 
 #: motions/templates/motions_edit.html:29
-msgid ""
-"This will replace all existing motions for this round. The motions "
-"themselves will still be in the database."
-msgstr ""
-"Toto nahradí všetky existujúce tézy tohto kola. Samotné tézy zostanú v "
-"databáze."
+msgid "This will replace all existing motions for this round. The motions themselves will still be in the database."
+msgstr "Toto nahradí všetky existujúce tézy tohto kola. Samotné tézy zostanú v databáze."
 
 #: motions/templates/motions_edit.html:31
 msgid "Reuse Motions from Last Round"
@@ -355,26 +314,12 @@ msgid "Use Existing Motions"
 msgstr "Použiť existujúce tézy"
 
 #: motions/templates/motions_edit.html:50
-msgid ""
-"The motion for this round is currently publicly displayed because it was "
-"released. Any changes made here will be publicly visible as well as soon as "
-"they are saved."
-msgid_plural ""
-"The motions for this round are currently publicly displayed because they "
-"were released. Any changes made here will be publicly visible as well as "
-"soon as they are saved."
-msgstr[0] ""
-"Téza tohto kola je momentálne verejne zobrazená, pretože bola zverejnená. "
-"Všetky zmeny vykonané tu budú verejne viditeľné ihneď po uložení."
-msgstr[1] ""
-"Tézy tohto kola sú momentálne verejne zobrazené, pretože boli zverejnené. "
-"Všetky zmeny vykonané tu budú verejne viditeľné ihneď po uložení."
-msgstr[2] ""
-"Tézy tohto kola sú momentálne verejne zobrazené, pretože boli zverejnené. "
-"Všetky zmeny vykonané tu budú verejne viditeľné ihneď po uložení."
-msgstr[3] ""
-"Tézy tohto kola sú momentálne verejne zobrazené, pretože boli zverejnené. "
-"Všetky zmeny vykonané tu budú verejne viditeľné ihneď po uložení."
+msgid "The motion for this round is currently publicly displayed because it was released. Any changes made here will be publicly visible as well as soon as they are saved."
+msgid_plural "The motions for this round are currently publicly displayed because they were released. Any changes made here will be publicly visible as well as soon as they are saved."
+msgstr[0] "Téza tohto kola je momentálne verejne zobrazená, pretože bola zverejnená. Všetky zmeny vykonané tu budú verejne viditeľné ihneď po uložení."
+msgstr[1] "Tézy tohto kola sú momentálne verejne zobrazené, pretože boli zverejnené. Všetky zmeny vykonané tu budú verejne viditeľné ihneď po uložení."
+msgstr[2] "Tézy tohto kola sú momentálne verejne zobrazené, pretože boli zverejnené. Všetky zmeny vykonané tu budú verejne viditeľné ihneď po uložení."
+msgstr[3] "Tézy tohto kola sú momentálne verejne zobrazené, pretože boli zverejnené. Všetky zmeny vykonané tu budú verejne viditeľné ihneď po uložení."
 
 #: motions/templates/motions_edit.html:85
 msgid "Save Motion"
@@ -460,12 +405,8 @@ msgid "Failed to release info-slides"
 msgstr "Zverejnenie info-slidov zlyhalo"
 
 #: motions/utils.py:11
-msgid ""
-"Not all latest ballots have the same motion. The correct motion must be set "
-"manually."
-msgstr ""
-"Nie všetky posledné balloty majú rovnakú tézu. Správna téza musí byť "
-"nastavená ručne."
+msgid "Not all latest ballots have the same motion. The correct motion must be set manually."
+msgstr "Nie všetky posledné balloty majú rovnakú tézu. Správna téza musí byť nastavená ručne."
 
 #: motions/utils.py:29
 msgid "Motion vetos are inconsistent; they must be set manually."
@@ -547,6 +488,14 @@ msgstr[3] "Informačné slidy boli zverejnené."
 msgid "Round Motions"
 msgstr "Tézy kola"
 
-#: motions/views.py:267
+#: motions/views.py:261
+msgid "round name"
+msgstr "názov kola"
+
+#: motions/views.py:262
+msgid "list of released motions"
+msgstr "zoznam zverejnených téz"
+
+#: motions/views.py:271
 msgid "Motion Statistics"
 msgstr "Štatistiky tém"

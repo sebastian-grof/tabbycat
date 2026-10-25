@@ -10,6 +10,8 @@ from draw.models import Debate, DebateTeam, TeamSideAllocation
 from draw.side_allocations import SideAllocationError
 from participants.models import Team
 from tournaments.models import Round, Tournament
+from users.models import UserPermission
+from users.permissions import Permission
 from utils.misc import reverse_tournament
 
 
@@ -85,3 +87,43 @@ class SideAllocationIntegrationTests(TestCase):
         self.assertEqual(self.update().status_code, 403)
         self.assertEqual(self.bulk().status_code, 403)
         self.assertFalse(TeamSideAllocation.objects.exists())
+
+    def test_matrix_is_inside_workspace_and_uses_the_same_allocations(self):
+        matrix = reverse_tournament('draw-side-allocations-matrix', self.tournament)
+        workspace = reverse_tournament('draw-side-allocations', self.tournament)
+        response = self.client.get(workspace)
+        self.assertContains(response, 'data-side-preallocation', count=len(self.teams))
+        self.assertNotContains(response, f'href="{matrix}')
+        self.assertRedirects(self.client.get(matrix), workspace)
+        self.assertEqual(self.update(side=1).status_code, 200)
+        response = self.client.get(workspace)
+        field = response.context['manual_form'][f'team_{self.teams[0].pk}']
+        self.assertEqual(int(field.value()), 1)
+
+    def test_tournament_scoped_editor_can_use_matrix_and_mutations(self):
+        user = get_user_model().objects.create(username='allocation-scoped-editor')
+        UserPermission.objects.create(user=user, tournament=self.tournament, permission=Permission.EDIT_ALLOCATESIDES)
+        self.client.force_login(user)
+        self.assertEqual(self.client.get(reverse_tournament('draw-side-allocations', self.tournament)).status_code, 200)
+        self.assertEqual(self.update().status_code, 200)
+        self.assertEqual(self.bulk(direction='same').status_code, 302)
+
+    def test_generated_round_is_read_only_in_both_mutation_endpoints(self):
+        self.target.draw_status = Round.Status.DRAFT
+        self.target.save()
+        self.assertEqual(self.update().status_code, 400)
+        self.assertEqual(self.bulk().status_code, 302)
+        self.assertFalse(TeamSideAllocation.objects.exists())
+        response = self.client.get(reverse_tournament('draw-side-allocations', self.tournament), {'round_seq': self.target.seq})
+        self.assertTrue(all(field.disabled for field in response.context['manual_form'].fields.values()))
+        self.assertFalse(response.context['generate_form'].fields['target_round'].queryset.filter(pk=self.target.pk).exists())
+
+    def test_drawn_round_shows_actual_sides_instead_of_old_preallocations(self):
+        team = self.teams[0]
+        TeamSideAllocation.objects.create(round=self.source, team=team, side=0)
+        DebateTeam.objects.create(debate=Debate.objects.create(round=self.source), team=team, side=1)
+        response = self.client.get(reverse_tournament('draw-side-allocations', self.tournament))
+        row = next(row for row in response.context['allocation_rows'] if row['team'] == team)
+        cell = next(cell for cell in row['cells'] if cell['round'] == self.source)
+        self.assertEqual(cell['side'], 1)
+        self.assertFalse(cell['editable'])

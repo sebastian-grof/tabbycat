@@ -44,17 +44,22 @@ class TournamentPreferenceFormTests(TestCase):
                     form.clean()
                 self.assertIsNotNone(cm.exception.args[0].get(section + "__" + prefs[-1][0]))
 
-    def test_sda_weighting_rejects_median_and_self_split_across_sections(self):
+    def test_sda_weighting_rejects_median(self):
         self.tournament.preferences['debate_rules__adjudicator_weighting'] = 'weighted-to-three'
         for section, name, value in (
             ('scoring', 'score_aggregation_function', 'median'),
-            ('data_entry', 'allow_self_split_ballots', True),
         ):
             with self.subTest(preference=name):
                 form = tournament_preference_form_builder(self.tournament, section=section)()
                 form.cleaned_data = {section + '__' + name: value}
                 with self.assertRaises(ValidationError):
                     form.clean()
+
+    def test_sda_weighting_allows_self_split(self):
+        self.tournament.preferences['debate_rules__adjudicator_weighting'] = 'weighted-to-three'
+        form = tournament_preference_form_builder(self.tournament, section='data_entry')()
+        form.cleaned_data = {'data_entry__allow_self_split_ballots': True}
+        form.clean()
 
     def test_weighting_cannot_switch_to_sda_with_median_enabled(self):
         self.tournament.preferences['scoring__score_aggregation_function'] = 'median'

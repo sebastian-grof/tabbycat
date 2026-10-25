@@ -126,7 +126,7 @@ class BreakLeagueManagementTests(TestCase):
 
 class BreaksCalculationTests(TestCase):
     def setUp(self):
-        self.league = BreakLeague.objects.get(slug='sdl')
+        self.league, _ = BreakLeague.objects.get_or_create(slug='sdl', defaults={'name': 'SDL'})
         self.season = BreakSeason.objects.create(
             name='SDL 2025/26', slug='sdl-2025', league=self.league,
             regional_slots=3, invited_teams=1,
@@ -512,7 +512,7 @@ class BreakCutoffTieTests(TestCase):
     than decided silently by an arbitrary sort order."""
 
     def setUp(self):
-        self.league = BreakLeague.objects.get(slug='sdl')
+        self.league, _ = BreakLeague.objects.get_or_create(slug='sdl', defaults={'name': 'SDL'})
         self.season = BreakSeason.objects.create(
             name='Cutoff 2025/26', slug='cutoff-2025', league=self.league,
             regional_slots=1, invited_teams=0,
