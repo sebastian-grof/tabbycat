@@ -138,13 +138,7 @@ class SuperuserRequiredWebsocketMixin(AccessWebsocketMixin):
 # ==============================================================================
 
 class WarnAboutDatabaseUseMixin(ContextMixin):
-    """Mixin for views that should stop people exceeding database counts.
-
-    If a user has hit 8000 rows they have received Heroku's shut down
-    notification. They are probably fine to finish current tournament even if it
-    exceeds these limits because of the one-week grace period. However, they
-    should not create new tournaments as this typically happens after the grace
-    period and is thus subject to major disruptions."""
+    """Show the legacy Heroku row-count warning only on Heroku deployments."""
 
     def get_database_row_count(self):
         cursor = connection.cursor()
@@ -157,7 +151,8 @@ class WarnAboutDatabaseUseMixin(ContextMixin):
         # in place the 10,000-row cap no longer applies, so allow it to be
         # disabled via the DISABLE_DATABASE_LIMIT_WARNING environment variable.
         warning_disabled = os.environ.get('DISABLE_DATABASE_LIMIT_WARNING', '').lower() in ('1', 'true', 'yes')
-        if not warning_disabled and 'DATABASE_URL' in os.environ and self.request.user.is_authenticated:
+        if (getattr(settings, 'USING_HEROKU', False) and not warning_disabled and
+                'DATABASE_URL' in os.environ and self.request.user.is_authenticated):
             rows = self.get_database_row_count()
             if rows >= 8000:
                 kwargs['database_rows_used'] = rows

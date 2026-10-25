@@ -13,6 +13,8 @@ from .core import TABBYCAT_VERSION
 # Heroku
 # ==============================================================================
 
+USING_HEROKU = True
+
 # Store Tab Director Emails for reporting purposes
 if environ.get('TAB_DIRECTOR_EMAIL', ''):
     TAB_DIRECTOR_EMAIL = environ.get('TAB_DIRECTOR_EMAIL')
