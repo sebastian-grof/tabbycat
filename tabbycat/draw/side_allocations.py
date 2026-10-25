@@ -1,7 +1,7 @@
 import logging
+import random
 from collections import Counter
 from itertools import combinations
-import random
 
 from django.utils.translation import gettext as _
 
@@ -191,7 +191,7 @@ def _ordered_target_side_counts(total_teams, sides, existing_counts=None):
             key=lambda counts: (
                 counts[preferred_side] == counts[sides[0] if preferred_side == sides[1] else sides[1]],
                 -counts[preferred_side],
-            )
+            ),
         )
         return candidates
 

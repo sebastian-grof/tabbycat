@@ -1,0 +1,99 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-25 07:16+1100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);\n"
+
+#: checkins/templates/CheckInScanContainer.vue:209
+msgid "Scan Using Camera"
+msgstr "Skenovanie pomocou fotoaparátu"
+
+#: checkins/templates/CheckInScanContainer.vue:216
+msgid "Stop Camera Scan"
+msgstr "Zastaviť skenovanie fotoaparátom"
+
+#: checkins/templates/CheckInScanContainer.vue:227
+msgid "Turn On Sounds"
+msgstr "Zapnúť zvuky"
+
+#: checkins/templates/CheckInStatusContainer.vue:96
+msgid "Anonymous (due to team codes)"
+msgstr "Anonymné (kvôli tímovým kódom)"
+
+#: checkins/templates/CheckInStatusContainer.vue:96
+msgid "Anon"
+msgstr "Anon"
+
+#: checkins/templates/CheckInStatusContainer.vue:140
+msgid "Independent"
+msgstr "Nezávislý"
+
+#: checkins/templates/CheckInStatusContainer.vue:216 checkins/templates/CheckInStatusContainer.vue:222
+msgid "Unaffiliated"
+msgstr "Nezávislý"
+
+#: checkins/templates/CheckInStatusContainer.vue:264 checkins/templates/CheckInStatusContainer.vue:270
+msgid "No Category"
+msgstr "Bez kategórie"
+
+#: checkins/templates/CheckInStatusContainer.vue:301 checkins/templates/CheckInStatusContainer.vue:323
+msgid "Not Checked In"
+msgstr "Neprihlásený"
+
+#: checkins/templates/CheckInStatusContainer.vue:489
+msgid "result"
+msgid_plural "results"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+
+#: checkins/templates/CheckInStatusContainer.vue:502
+msgid "All"
+msgstr "Všetky"
+
+#: checkins/templates/CheckInStatusContainer.vue:554
+msgid "Real Names"
+msgstr "Skutočné mená"
+
+#: checkins/templates/CheckInStatusContainer.vue:561
+msgid "Code Names"
+msgstr "Kódové mená"
+
+#: checkins/templates/CheckInStatusContainer.vue:567
+msgid "Order"
+msgstr "Poradie"
+
+#: checkins/templates/CheckInStatusContainer.vue:585
+msgid "No matching rooms found."
+msgstr "Nenašli sa žiadne zodpovedajúce mietnosti."
+
+#: checkins/templates/CheckInStatusContainer.vue:591
+msgid "No matching people found."
+msgstr "Nenašli sa žiadne zodpovedajúce osoby."
+
+#: checkins/templates/CheckInStatusContainer.vue:594
+msgid "This page will live-update with new check-ins as they occur although the initial list may be up to a minute old."
+msgstr "Táto stránka sa bude aktualizovať v reálnom čase s novými registráciami, ako sa budú vyskytovať, hoci počiatočný zoznam môže byť starý až jednu minútu."
+
+#: checkins/templates/CheckInStatusContainer.vue:613
+msgid "✓ All"
+msgstr "✓ Všetky"
+
+#: checkins/templates/CheckInStatusContainer.vue:620
+msgid "☓ All"
+msgstr "☓ Všetky"

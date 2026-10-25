@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-17 14:40+0200\n"
+"POT-Creation-Date: 2026-09-27 15:04+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,116 +17,123 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-#: apps.py:7
+
+#: xmlconverter/apps.py:7
 msgid "XML converter"
 msgstr ""
 
-#: forms.py:14
+#: xmlconverter/forms.py:14
 msgid "DebateXML file"
 msgstr ""
 
-#: forms.py:15
-msgid "Upload a Tabbycat DebateXML export. The converter returns an SDA-style XLSX results workbook."
+#: xmlconverter/forms.py:15
+msgid ""
+"Upload a Tabbycat DebateXML export. The converter returns an SDA-style XLSX "
+"results workbook."
 msgstr ""
 
-#: forms.py:21
+#: xmlconverter/forms.py:21
 msgid "Please upload an XML file."
 msgstr ""
 
-#: forms.py:24
+#: xmlconverter/forms.py:24
 #, python-format
 msgid "This file is too large (limit %(limit)d MB)."
 msgstr ""
 
-#: forms.py:30 templates/xmlconverter/access.html:48
+#: xmlconverter/forms.py:30 xmlconverter/templates/xmlconverter/access.html:48
 msgid "User"
 msgstr ""
 
-#: forms.py:35 templates/xmlconverter/access.html:49
+#: xmlconverter/forms.py:35 xmlconverter/templates/xmlconverter/access.html:49
 msgid "Permissions"
 msgstr ""
 
-#: models.py:9
+#: xmlconverter/models.py:9
 msgid "use converter"
 msgstr ""
 
-#: models.py:10
+#: xmlconverter/models.py:10
 msgid "manage converter access"
 msgstr ""
 
-#: models.py:14
+#: xmlconverter/models.py:14
 msgid "user"
 msgstr ""
 
-#: models.py:15
+#: xmlconverter/models.py:15
 msgid "permission"
 msgstr ""
 
-#: models.py:19
+#: xmlconverter/models.py:19
 msgid "global converter permission"
 msgstr ""
 
-#: models.py:20
+#: xmlconverter/models.py:20
 msgid "global converter permissions"
 msgstr ""
 
-#: templates/xmlconverter/access.html:11 views.py:61
+#: xmlconverter/templates/xmlconverter/access.html:11 xmlconverter/views.py:61
 msgid "Converter access"
 msgstr ""
 
-#: templates/xmlconverter/access.html:12
+#: xmlconverter/templates/xmlconverter/access.html:12
 msgid "Grant global access to the XML converter."
 msgstr ""
 
-#: templates/xmlconverter/access.html:16
+#: xmlconverter/templates/xmlconverter/access.html:16
 msgid "Return to Converter"
 msgstr ""
 
-#: templates/xmlconverter/access.html:26
+#: xmlconverter/templates/xmlconverter/access.html:26
 msgid "Grant converter access"
 msgstr ""
 
-#: templates/xmlconverter/access.html:36
+#: xmlconverter/templates/xmlconverter/access.html:36
 msgid "Save access"
 msgstr ""
 
-#: templates/xmlconverter/access.html:43
+#: xmlconverter/templates/xmlconverter/access.html:43
 msgid "Current access"
 msgstr ""
 
-#: templates/xmlconverter/access.html:60
+#: xmlconverter/templates/xmlconverter/access.html:60
 msgid "No users have explicit converter access yet."
 msgstr ""
 
-#: templates/xmlconverter/index.html:12
+#: xmlconverter/templates/xmlconverter/index.html:12
 msgid "Convert DebateXML"
 msgstr ""
 
-#: templates/xmlconverter/index.html:14
-msgid "Upload a Tabbycat DebateXML export and download an SDA-style XLSX results workbook."
+#: xmlconverter/templates/xmlconverter/index.html:14
+msgid ""
+"Upload a Tabbycat DebateXML export and download an SDA-style XLSX results "
+"workbook."
 msgstr ""
 
-#: templates/xmlconverter/index.html:19
+#: xmlconverter/templates/xmlconverter/index.html:19
 msgid "Return to Site Tools"
 msgstr ""
 
-#: templates/xmlconverter/index.html:23
+#: xmlconverter/templates/xmlconverter/index.html:23
 msgid "Manage access"
 msgstr ""
 
-#: templates/xmlconverter/index.html:54
+#: xmlconverter/templates/xmlconverter/index.html:54
 msgid "Convert"
 msgstr ""
 
-#: views.py:26
+#: xmlconverter/views.py:26
 msgid "Converter"
 msgstr ""
 
-#: views.py:45
-msgid "This file could not be converted. Please make sure it is a valid Tabbycat DebateXML export."
+#: xmlconverter/views.py:45
+msgid ""
+"This file could not be converted. Please make sure it is a valid Tabbycat "
+"DebateXML export."
 msgstr ""
 
-#: views.py:80
+#: xmlconverter/views.py:80
 #, python-format
 msgid "Converter access updated for %(user)s."
 msgstr ""

@@ -1,28 +1,13 @@
 from __future__ import annotations
 
 import argparse
-import copy
 import zipfile
 from io import BytesIO
 from pathlib import Path
-from xml.etree import ElementTree as ET
+from xml.etree import ElementTree as ET  # noqa: N817
 
-from .converter_core import (
-    AdjudicatorInfo,
-    TeamInfo,
-    TeamStanding,
-    SpeakerStanding,
-    DebateResult,
-    build_aggregates,
-    build_output_path,
-    adjudicator_short,
-    format_number,
-    parse_debatexml,
-    safe_stdev,
-    team_display,
-    trimmed_total,
-    weighted_ballots_for_side,
-)
+from .converter_core import (adjudicator_short, AdjudicatorInfo, build_aggregates, build_output_path, DebateResult, format_number, parse_debatexml, safe_stdev, SpeakerStanding, team_display, TeamInfo,
+                             TeamStanding, trimmed_total, weighted_ballots_for_side)
 
 DEFAULT_TEMPLATE_PATH = Path(__file__).resolve().parent / "assets" / "sda_results_template.xlsx"
 
@@ -372,7 +357,7 @@ def remove_calc_chain(entries: dict[str, bytes]) -> None:
 
     rels_name = "xl/_rels/workbook.xml.rels"
     if rels_name in entries:
-        rel_ns = "http://schemas.openxmlformats.org/package/2006/relationships"
+        "http://schemas.openxmlformats.org/package/2006/relationships"
         rel_root = ET.fromstring(entries[rels_name])
         for rel in list(rel_root):
             if rel.attrib.get("Target") == "calcChain.xml":
@@ -469,7 +454,19 @@ def fill_codes_sheet(sheet_root: ET.Element, title: str, subtitle: str, teams: d
     trim_sheet(sheet_root, max_row, col_index("F"))
 
 
-def fill_debaty_sheet(sheet_root: ET.Element, title: str, subtitle: str, rounds: list[str], motions: dict[str, str], debates: list[DebateResult], teams: dict[str, TeamInfo], adjudicators: dict[str, AdjudicatorInfo]) -> None:
+def fill_debaty_sheet(
+    sheet_root: ET.Element,
+    title: str,
+    subtitle: str,
+    rounds: list[str],
+    motions: dict[str,
+    str],
+    debates: list[DebateResult],
+    teams: dict[str,
+    TeamInfo],
+    adjudicators: dict[str,
+    AdjudicatorInfo],
+) -> None:
     style_map = snapshot_styles(sheet_root)
     clear_range(sheet_root, 8, 220, "A", "O")
     set_cell_value(sheet_root, "A8", title)
@@ -566,7 +563,18 @@ def fill_debaty_sheet(sheet_root: ET.Element, title: str, subtitle: str, rounds:
     trim_sheet(sheet_root, max_row, max_col)
 
 
-def fill_body_sheet(sheet_root: ET.Element, title: str, subtitle: str, rounds: list[str], team_stats: dict[str, TeamStanding], teams: dict[str, TeamInfo], speaker_stats: dict[str, SpeakerStanding]) -> None:
+def fill_body_sheet(
+    sheet_root: ET.Element,
+    title: str,
+    subtitle: str,
+    rounds: list[str],
+    team_stats: dict[str,
+    TeamStanding],
+    teams: dict[str,
+    TeamInfo],
+    speaker_stats: dict[str,
+    SpeakerStanding],
+) -> None:
     style_map = snapshot_styles(sheet_root)
     clear_range(sheet_root, 7, 220, "A", "AC")
     set_cell_value(sheet_root, "A7", title)
@@ -800,8 +808,17 @@ def fill_results_sheet(sheet_root: ET.Element, title: str, subtitle: str, team_s
         row["rank"] = rank
     team_ranks = {row["team_id"]: row["rank"] for row in team_rank_rows}
 
-    sorted_speakers = sorted(speaker_stats.values(), key=lambda row: (-(row.total_points / row.weighted_ballot_count if row.weighted_ballot_count else 0), -row.total_points, row.team_name.lower(), row.speaker_name.lower()))
-    speaker_rank_rows = [{"speaker_id": row.speaker_id, "avg": round(row.total_points / row.weighted_ballot_count if row.weighted_ballot_count else 0, 6), "points": round(row.total_points, 6)} for row in sorted_speakers]
+    sorted_speakers = sorted(
+        speaker_stats.values(),
+        key=lambda row: (-(row.total_points / row.weighted_ballot_count if row.weighted_ballot_count else 0), -row.total_points, row.team_name.lower(), row.speaker_name.lower()),
+    )
+    speaker_rank_rows = [
+        {
+            "speaker_id": row.speaker_id,
+            "avg": round(row.total_points / row.weighted_ballot_count if row.weighted_ballot_count else 0, 6),
+            "points": round(row.total_points, 6),
+        } for row in sorted_speakers
+    ]
     previous = None
     rank = 0
     for index, row in enumerate(speaker_rank_rows, start=1):
@@ -834,7 +851,23 @@ def fill_results_sheet(sheet_root: ET.Element, title: str, subtitle: str, team_s
     trim_sheet(sheet_root, max_row, col_index("K"))
 
 
-def build_workbook_bytes(template_path: Path, title: str, subtitle: str, rounds: list[str], teams: dict[str, TeamInfo], adjudicators: dict[str, AdjudicatorInfo], motions: dict[str, str], debates: list[DebateResult], team_stats: dict[str, TeamStanding], speaker_stats: dict[str, SpeakerStanding]) -> bytes:
+def build_workbook_bytes(
+    template_path: Path,
+    title: str,
+    subtitle: str,
+    rounds: list[str],
+    teams: dict[str,
+    TeamInfo],
+    adjudicators: dict[str,
+    AdjudicatorInfo],
+    motions: dict[str,
+    str],
+    debates: list[DebateResult],
+    team_stats: dict[str,
+    TeamStanding],
+    speaker_stats: dict[str,
+    SpeakerStanding],
+) -> bytes:
     entries, sheets = load_template(template_path)
     remove_calc_chain(entries)
     fill_codes_sheet(sheets[0], title, subtitle, teams, adjudicators)
@@ -856,7 +889,24 @@ def build_workbook_bytes(template_path: Path, title: str, subtitle: str, rounds:
     return output.getvalue()
 
 
-def write_from_template(template_path: Path, output_path: Path, title: str, subtitle: str, rounds: list[str], teams: dict[str, TeamInfo], adjudicators: dict[str, AdjudicatorInfo], motions: dict[str, str], debates: list[DebateResult], team_stats: dict[str, TeamStanding], speaker_stats: dict[str, SpeakerStanding]) -> None:
+def write_from_template(
+    template_path: Path,
+    output_path: Path,
+    title: str,
+    subtitle: str,
+    rounds: list[str],
+    teams: dict[str,
+    TeamInfo],
+    adjudicators: dict[str,
+    AdjudicatorInfo],
+    motions: dict[str,
+    str],
+    debates: list[DebateResult],
+    team_stats: dict[str,
+    TeamStanding],
+    speaker_stats: dict[str,
+    SpeakerStanding],
+) -> None:
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_bytes(build_workbook_bytes(
         template_path, title, subtitle, rounds, teams, adjudicators,

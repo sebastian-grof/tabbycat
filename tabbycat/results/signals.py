@@ -3,6 +3,7 @@ from django.dispatch import receiver
 
 from draw.models import DebateTeam
 from draw.types import DebateSide
+from tournaments.models import Tournament
 
 from .bye_scores import bye_average_results_enabled, refresh_bye_ballots, refresh_forfeit_ballots
 from .models import BallotSubmission
@@ -16,6 +17,12 @@ def _refresh_auto_ballots(tournament, *, trigger_debate_is_bye):
         refresh_forfeit_ballots(tournament)
 
 
+def _deleting_tournament(origin):
+    # A cascade must not recreate preferences after their owning tournament
+    # has been deleted. No automatic results need refreshing in that case.
+    return isinstance(origin, Tournament) or getattr(origin, 'model', None) is Tournament
+
+
 @receiver(post_save, sender=BallotSubmission)
 def refresh_byes_after_ballot_save(sender, instance, raw=False, **kwargs):
     if raw:  # fixture loading; related rows may not exist yet
@@ -25,7 +32,9 @@ def refresh_byes_after_ballot_save(sender, instance, raw=False, **kwargs):
 
 
 @receiver(post_delete, sender=BallotSubmission)
-def refresh_byes_after_ballot_delete(sender, instance, **kwargs):
+def refresh_byes_after_ballot_delete(sender, instance, origin=None, **kwargs):
+    if _deleting_tournament(origin):
+        return
     tournament = instance.debate.round.tournament
     _refresh_auto_ballots(tournament, trigger_debate_is_bye=instance.debate.is_bye)
 
@@ -56,7 +65,9 @@ def refresh_byes_after_debateteam_save(sender, instance, raw=False, **kwargs):
 
 
 @receiver(post_delete, sender=DebateTeam)
-def refresh_byes_after_debateteam_delete(sender, instance, **kwargs):
+def refresh_byes_after_debateteam_delete(sender, instance, origin=None, **kwargs):
+    if _deleting_tournament(origin):
+        return
     if not _debate_might_need_bye_refresh(instance.debate, instance.side):
         return
     refresh_bye_ballots(instance.debate.round.tournament, debates=[instance.debate])

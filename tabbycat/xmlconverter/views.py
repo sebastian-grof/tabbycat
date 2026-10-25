@@ -1,13 +1,14 @@
 import logging
-from pathlib import Path
 from collections import defaultdict
+from pathlib import Path
 
 from django.contrib import messages
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.utils.text import slugify
-from django.utils.translation import gettext as _, gettext_lazy
+from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 
@@ -42,7 +43,7 @@ class ConverterView(UserPassesTestMixin, FormView):
         except Exception:
             logger.exception('Failed to convert DebateXML upload')
             form.add_error('xml_file', _(
-                "This file could not be converted. Please make sure it is a valid Tabbycat DebateXML export."
+                "This file could not be converted. Please make sure it is a valid Tabbycat DebateXML export.",
             ))
             return self.form_invalid(form)
 

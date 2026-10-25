@@ -1,6 +1,6 @@
 from django.contrib.contenttypes.models import ContentType
 from django.core.cache import cache
-from django.forms import CharField, ChoiceField, DateTimeInput, Form, HiddenInput, ModelChoiceField, ModelForm
+from django.forms import CharField, ChoiceField, DateTimeInput, Form, ModelChoiceField, ModelForm
 from django.forms.fields import IntegerField, NumberInput
 from django.forms.models import ModelChoiceIterator
 from django.utils.html import escape
@@ -76,6 +76,7 @@ class TournamentStartForm(ModelForm):
                 break_size=break_size,
                 is_general=True,
                 priority=100,
+                reserve_size=2,
             )
             open_break.full_clean()
             open_break.save()
@@ -324,16 +325,21 @@ class RoundWeightForm(Form):
 
 class ScheduleEventForm(ModelForm):
 
+    round = RoundField(
+        queryset=Round.objects.none(),
+        required=False,
+        label=_("Round"),
+        help_text=_("If the event belongs to a specific round, which round"),
+    )
+
     def __init__(self, tournament, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['tournament'].initial = tournament
         self.fields['round'].queryset = tournament.round_set.all()
 
     class Meta:
         model = ScheduleEvent
-        fields = ('tournament', 'type', 'title', 'start_time', 'end_time', 'round')
+        fields = ('type', 'title', 'start_time', 'end_time', 'round')
         widgets = {
-            'tournament': HiddenInput(),
-            'start_time': DateTimeInput(attrs={'type': 'datetime-local'}),
-            'end_time':   DateTimeInput(attrs={'type': 'datetime-local'}),
+            'start_time': DateTimeInput(format='%Y-%m-%dT%H:%M', attrs={'type': 'datetime-local'}),
+            'end_time':   DateTimeInput(format='%Y-%m-%dT%H:%M', attrs={'type': 'datetime-local'}),
         }

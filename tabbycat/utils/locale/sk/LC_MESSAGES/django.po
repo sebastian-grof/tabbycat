@@ -1,8 +1,9 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: tabbycat\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-17 09:00+0200\n"
+"POT-Creation-Date: 2026-10-25 06:56+1100\n"
 "PO-Revision-Date: 2026-04-27 09:38+0200\n"
 "Last-Translator: philip_tc\n"
 "Language-Team: Slovak\n"
@@ -11,18 +12,18 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 3;\n"
-"X-Generator: Poedit 3.9\n"
-"X-Crowdin-Project: tabbycat\n"
-"X-Crowdin-Language: sk\n"
 "X-Crowdin-File: /develop/tabbycat/utils/locale/en/LC_MESSAGES/django.po\n"
-"X-Crowdin-Project-ID: 364715\n"
 "X-Crowdin-File-ID: 954\n"
+"X-Crowdin-Language: sk\n"
+"X-Crowdin-Project: tabbycat\n"
+"X-Crowdin-Project-ID: 364715\n"
+"X-Generator: Poedit 3.9\n"
 
-#: utils/admin.py:41 utils/tables.py:546
+#: utils/admin.py:41 utils/tables.py:588
 msgid "Round"
 msgstr "Kolo"
 
-#: utils/admin.py:48 utils/tables.py:706
+#: utils/admin.py:48 utils/tables.py:751
 msgid "Team"
 msgstr "Tím"
 
@@ -30,15 +31,15 @@ msgstr "Tím"
 msgid "Speaker"
 msgstr "Rečník/rečníčka"
 
-#: utils/admin.py:56 utils/tables.py:537
+#: utils/admin.py:56 utils/tables.py:579
 msgid "Tournament"
 msgstr "Turnaje"
 
-#: utils/admin.py:63 utils/tables.py:1009
+#: utils/admin.py:63 utils/tables.py:1054
 msgid "Side"
 msgstr "Strana"
 
-#: utils/admin.py:67 utils/tables.py:691
+#: utils/admin.py:67 utils/tables.py:736
 msgid "Motion"
 msgstr "Téza"
 
@@ -50,237 +51,241 @@ msgstr "Potvrdené"
 msgid "Adjudicator"
 msgstr "Rozhodca"
 
-#: utils/tables.py:72
+#: utils/tables.py:84
 msgid "No Data Available"
 msgstr "Nie sú dostupné žiadne dáta"
 
-#: utils/tables.py:186 utils/tables.py:187
+#: utils/tables.py:228 utils/tables.py:229
 msgid "Ⓒ"
 msgstr "Ⓒ"
 
-#: utils/tables.py:188
+#: utils/tables.py:230
 msgid "Ⓣ"
 msgstr "Ⓣ"
 
-#: utils/tables.py:192
+#: utils/tables.py:234
 msgid "chair"
 msgstr "chair"
 
-#: utils/tables.py:193
+#: utils/tables.py:235
 msgid "panellist"
 msgstr "panelista"
 
-#: utils/tables.py:194
+#: utils/tables.py:236
 msgid "trainee"
 msgstr "shadow"
 
-#: utils/tables.py:197
+#: utils/tables.py:239
 msgid "—"
 msgstr "—"
 
-#: utils/tables.py:198
+#: utils/tables.py:240
 msgid "Redacted"
 msgstr "Skryté"
 
-#: utils/tables.py:267 utils/tables.py:273
+#: utils/tables.py:309 utils/tables.py:315
 #, python-format
 msgid "View %(a)s's %(d)s Record"
 msgstr "Zobraziť záznam: %(a)s %(d)s"
 
-#: utils/tables.py:283 utils/tables.py:288
+#: utils/tables.py:325 utils/tables.py:330
 #, python-format
 msgid "View %(team)s's Record"
 msgstr "Zobraziť záznam tímu %(team)s"
 
-#: utils/tables.py:310
+#: utils/tables.py:352
 #, python-format
 msgid "Code name: <strong>%(name)s</strong>"
 msgstr "Kódové meno: <strong>%(name)s</strong>"
 
-#: utils/tables.py:312
+#: utils/tables.py:354
 #, python-format
 msgid "Real name: <strong>%(name)s</strong>"
 msgstr "Skutočný názov: <strong>%(name)s</strong>"
 
-#: utils/tables.py:332
+#: utils/tables.py:374
 #, python-format
 msgid "%(team)s won"
 msgstr "%(team)s vyhral"
 
-#: utils/tables.py:337
+#: utils/tables.py:379
 #, python-format
 msgid "%(team)s lost"
 msgstr "%(team)s prehral"
 
-#: utils/tables.py:342 utils/tables.py:354 utils/tables.py:379
+#: utils/tables.py:384 utils/tables.py:396 utils/tables.py:421
 #, python-format
 msgid "%(team)s—no result"
 msgstr "%(team)s – bez výsledku"
 
-#: utils/tables.py:359
+#: utils/tables.py:401
 #, python-format
 msgid "%(team)s placed %(place)s"
 msgstr "%(team)s skoncil na %(place)s. mieste"
 
-#: utils/tables.py:369
+#: utils/tables.py:411
 #, python-format
 msgid "%(team)s is advancing"
 msgstr "%(team)s postupuje"
 
-#: utils/tables.py:374
+#: utils/tables.py:416
 #, python-format
 msgid "%(team)s was eliminated"
 msgstr "%(team)s bol vyradeny"
 
-#: utils/tables.py:387
+#: utils/tables.py:429
 msgid "View/edit debate ballot"
 msgstr "Zobraziť/upraviť ballot debaty"
 
-#: utils/tables.py:393
+#: utils/tables.py:435
 msgid "View debate ballot"
 msgstr "Zobraziť ballot debaty"
 
-#: utils/tables.py:404 utils/tables.py:1031
+#: utils/tables.py:446 utils/tables.py:1076
 msgid "Bye"
 msgstr "Stojí"
 
-#: utils/tables.py:405 utils/tables.py:409
+#: utils/tables.py:447 utils/tables.py:451
 msgid "Team was given a bye"
 msgstr "Tím dostal bye"
 
-#: utils/tables.py:423
+#: utils/tables.py:465
 #, python-format
 msgid " vs %(opposition)s"
 msgstr " vs %(opposition)s"
 
-#: utils/tables.py:430
+#: utils/tables.py:472
 #, python-format
 msgid "Won against %(team)s"
 msgstr "Výhra proti %(team)s"
 
-#: utils/tables.py:432
+#: utils/tables.py:474
 #, python-format
 msgid "Lost to %(team)s"
 msgstr "Prehra s %(team)s"
 
-#: utils/tables.py:434
+#: utils/tables.py:476
 #, python-format
 msgid "No result for debate against %(team)s"
 msgstr "Žiadny výsledok pre debatu proti %(team)s"
 
-#: utils/tables.py:459
+#: utils/tables.py:501
 #, python-format
 msgid "%(side)s speech"
 msgstr "Reč strany %(side)s"
 
-#: utils/tables.py:460
+#: utils/tables.py:502
 msgid "Solo speech"
 msgstr "Sólová reč"
 
-#: utils/tables.py:478
+#: utils/tables.py:520
 #, python-format
 msgid "Total speaker score: <strong>%s</strong>"
 msgstr "Celkové rečnícke body: <strong>%s</strong>"
 
-#: utils/tables.py:486
+#: utils/tables.py:528
 msgid "Teams in debate:"
 msgstr "Tímy v debate:"
 
-#: utils/tables.py:489
+#: utils/tables.py:531
 #, python-format
 msgid "%(team)s (%(side)s)"
 msgstr "%(team)s (%(side)s)"
 
-#: utils/tables.py:490 utils/tables.py:494 utils/tables.py:520
-#: utils/tables.py:688
+#: utils/tables.py:532 utils/tables.py:536 utils/tables.py:562
+#: utils/tables.py:733
 msgid "??"
 msgstr "??"
 
-#: utils/tables.py:508
+#: utils/tables.py:550
 msgid "advancing"
 msgstr "postupujúci"
 
-#: utils/tables.py:509
+#: utils/tables.py:551
 msgid "Advancing"
 msgstr "Postupujúci"
 
-#: utils/tables.py:511
+#: utils/tables.py:553
 msgid "eliminated"
 msgstr "vyradený"
 
-#: utils/tables.py:512
+#: utils/tables.py:554
 msgid "Eliminated"
 msgstr "Vyradený"
 
-#: utils/tables.py:515 utils/tables.py:525
+#: utils/tables.py:557 utils/tables.py:567
 msgid "No result for debate"
 msgstr "Žiadny výsledok pre debatu"
 
-#: utils/tables.py:522
+#: utils/tables.py:564
 #, python-format
 msgid "Placed %(place)s"
 msgstr "%(place)s. miesto"
 
-#: utils/tables.py:570 utils/tables.py:743
+#: utils/tables.py:612 utils/tables.py:788
 msgid "Name"
 msgstr "Meno"
 
-#: utils/tables.py:576 utils/tables.py:720
+#: utils/tables.py:618 utils/tables.py:765
 msgid "Institution"
 msgstr "Debatný klub"
 
-#: utils/tables.py:582
+#: utils/tables.py:624
 msgid "Member of the Adjudication Core"
 msgstr "Člen/ka adjudication core"
 
-#: utils/tables.py:589
+#: utils/tables.py:631
 msgid "Independent Adjudicator"
 msgstr "Nezávislý rozhodca"
 
-#: utils/tables.py:597
+#: utils/tables.py:639
 msgid "Always Trainee"
 msgstr "Vždy Shadow"
 
-#: utils/tables.py:632
+#: utils/tables.py:675
+msgid "self-declared split"
+msgstr "rozhodnutie 2 : 1 jediného rozhodcu"
+
+#: utils/tables.py:677
 msgid "in minority"
 msgstr "v menšine"
 
-#: utils/tables.py:665
+#: utils/tables.py:710
 msgid "Debate Adjudicators"
 msgstr "Rozhodcovia debaty"
 
-#: utils/tables.py:711 utils/tables.py:765
+#: utils/tables.py:756 utils/tables.py:810
 msgid "Categories"
 msgstr "Kategórie"
 
-#: utils/tables.py:763
+#: utils/tables.py:808
 msgid "Category"
 msgstr "Kategória"
 
-#: utils/tables.py:790
+#: utils/tables.py:835
 #, python-format
 msgid "This room %(predicate)s."
 msgstr "Tato miestnosť %(predicate)s."
 
-#: utils/tables.py:792
+#: utils/tables.py:837
 #, python-format
 msgid "This room %(predicates)s, and %(last_predicate)s."
 msgstr "Tato miestnosť %(predicates)s a %(last_predicate)s."
 
-#: utils/tables.py:807
+#: utils/tables.py:852
 msgid "Room"
 msgstr "Miestnosť"
 
-#: utils/tables.py:826
+#: utils/tables.py:871
 msgid "Scheduled time"
 msgstr "Naplánovaný čas"
 
-#: utils/tables.py:841
+#: utils/tables.py:886
 #, python-format
 msgid "Pull-up team (%(ordinal)s pull-up)"
 msgstr "Pull-up tím (%(ordinal)s pull-up)"
 
-#: utils/tables.py:852
+#: utils/tables.py:897
 #, python-format
 msgid "Teams have met once"
 msgid_plural "Teams have met %(count)d times"
@@ -289,89 +294,89 @@ msgstr[1] "Tímy sa stretli %(count)d-krát"
 msgstr[2] "Tímy sa stretli %(count)d-krát"
 msgstr[3] "Tímy sa stretli %(count)d-krát"
 
-#: utils/tables.py:858
+#: utils/tables.py:903
 msgid "Teams are from the same institution"
 msgstr "Tímy sú z rovnakého debatného klubu"
 
-#: utils/tables.py:864
+#: utils/tables.py:909
 msgid "Conflicts/Flags"
 msgstr "Konflikty/flagy"
 
-#: utils/tables.py:921
+#: utils/tables.py:966
 msgid "The confirmed ballot"
 msgstr "Potvrdený ballot"
 
-#: utils/tables.py:926
+#: utils/tables.py:971
 msgid "No ballot"
 msgstr "Žiadnt ballot"
 
-#: utils/tables.py:928 utils/tables.py:962
+#: utils/tables.py:973 utils/tables.py:1007
 msgid "No scores"
 msgstr "Žiadne body"
 
-#: utils/tables.py:931 utils/tables.py:970 utils/tables.py:985
+#: utils/tables.py:976 utils/tables.py:1015 utils/tables.py:1030
 msgid "View Ballot"
 msgstr "Zobraziť Ballot"
 
-#: utils/tables.py:939
+#: utils/tables.py:984
 msgid "The ballot you submitted"
 msgstr "Ballot, ktorý si odoslal/a"
 
-#: utils/tables.py:940
+#: utils/tables.py:985
 msgid "No Ballot"
 msgstr "Žiadny Ballot"
 
-#: utils/tables.py:944
+#: utils/tables.py:989
 msgid "View/Edit Ballot"
 msgstr "Zobraziť/Upraviť Ballot"
 
-#: utils/tables.py:993
+#: utils/tables.py:1038
 msgid "Result"
 msgstr "Výsledok"
 
 #. Translators: "TBC" stands for "to be confirmed".
-#: utils/tables.py:1001
+#: utils/tables.py:1046
 msgid "TBC"
 msgstr "TBC"
 
-#: utils/tables.py:1033
+#: utils/tables.py:1078
 msgid "Team was given a bye this round"
 msgstr "Tím v tomto kole stojí"
 
-#: utils/tables.py:1065
+#: utils/tables.py:1110
 msgid "Team iron-personed this round and the last."
 msgstr "Tím mal iron-person (duplicitnú, dvojformát) reč v tomto aj minulom kole."
 
-#: utils/tables.py:1068
+#: utils/tables.py:1113
 msgid "Team iron-personed this round."
 msgstr "Tím mal iron-person (duplicitnú, dvojformát) reč v tomto kole."
 
-#: utils/tables.py:1071
+#: utils/tables.py:1116
 msgid "Team iron-personed last round."
 msgstr "Tím mal iron-person (duplicitnú, dvojformát) reč v minulom kole."
 
-#: utils/tables.py:1088 utils/tables.py:1089
+#: utils/tables.py:1133 utils/tables.py:1134
 #, python-format
 msgid "Team %(num)d"
 msgstr "Tím %(num)d"
 
-#: utils/tables.py:1099
+#: utils/tables.py:1144
 msgid "Postponed"
 msgstr "Odložené"
 
-#: utils/tables.py:1103
+#: utils/tables.py:1148
 msgid "Postpone"
 msgstr "Odložiť"
 
-#: utils/tables.py:1119
+#: utils/tables.py:1165
 msgid "Event"
 msgstr "Událosť"
 
-#: utils/tables.py:1126
+#: utils/tables.py:1179
 msgid "Start Time"
 msgstr "Začiatok"
 
-#: utils/tables.py:1136
+#: utils/tables.py:1186
 msgid "End Time"
 msgstr "Koniec"
 

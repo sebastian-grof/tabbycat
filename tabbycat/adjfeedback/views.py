@@ -138,6 +138,7 @@ class FeedbackOverview(AdministratorMixin, BaseFeedbackOverview):
 
         table.add_adjudicator_columns(adjudicators, show_institutions=False, subtext='institution')
         table.add_breaking_checkbox(adjudicators)
+        table.add_tester_checkbox(adjudicators)
         table.add_weighted_score_columns(adjudicators, scores)
         table.add_base_score_columns(adjudicators, editable=True)
         table.add_feedback_only_columns(adjudicators)
@@ -683,18 +684,40 @@ class SetAdjudicatorBaseScoreView(BaseAdjudicatorActionView):
         self.atsh = atsh
 
 
-class SetAdjudicatorBreakingStatusView(AdministratorMixin, TournamentMixin, LogActionMixin, View):
+class BaseJsonAttributeSetView(AdministratorMixin, TournamentMixin, LogActionMixin, View):
+    post_field = None
+    adj_field = None
+
+    def post(self, request, *args, **kwargs):
+        try:
+            posted_info = json.loads(request.body.decode('utf-8'))
+            value = posted_info[self.post_field]
+            if type(value) is not bool:
+                raise ValueError
+            adjudicator = Adjudicator.objects.get(
+                (Q(tournament=self.tournament) | Q(tournament=None)), id=posted_info['id'])
+        except (KeyError, TypeError, ValueError, Adjudicator.DoesNotExist):
+            return JsonResponse({'error': _("Invalid adjudicator or status.")}, status=400)
+        setattr(adjudicator, self.adj_field, value)
+        adjudicator.save(update_fields=[self.adj_field])
+        self.log_action(content_object=adjudicator)
+        return JsonResponse(json.dumps(True), safe=False)
+
+
+class SetAdjudicatorBreakingStatusView(BaseJsonAttributeSetView):
 
     edit_permission = Permission.EDIT_ADJ_BREAK
     action_log_type = ActionLogEntry.ActionType.ADJUDICATOR_BREAK_SET
+    post_field = 'breaking'
+    adj_field = 'breaking'
 
-    def post(self, request, *args, **kwargs):
-        body = self.request.body.decode('utf-8')
-        posted_info = json.loads(body)
-        adjudicator = Adjudicator.objects.get((Q(tournament=self.tournament) | Q(tournament=None)), id=posted_info['id'])
-        adjudicator.breaking = posted_info['breaking']
-        adjudicator.save()
-        return JsonResponse(json.dumps(True), safe=False)
+
+class SetAdjudicatorTesterStatusView(BaseJsonAttributeSetView):
+
+    edit_permission = Permission.EDIT_ADJ_TESTER
+    action_log_type = ActionLogEntry.ActionType.ADJUDICATOR_TESTER_SET
+    post_field = 'tester'
+    adj_field = 'is_tester'
 
 
 class SetFeedbackWeightView(LogActionMixin, AdministratorMixin, RoundMixin, PostOnlyRedirectView):

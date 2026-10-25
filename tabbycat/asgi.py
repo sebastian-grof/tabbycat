@@ -9,14 +9,14 @@ from django.urls import re_path
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings")
 django.setup()
 
-from actionlog.consumers import ActionLogEntryConsumer # noqa: E402 (has to come after settings)
-from adjallocation.consumers import AdjudicatorAllocationWorkerConsumer, PanelEditConsumer # noqa: E402 (has to come after settings)
-from checkins.consumers import CheckInEventConsumer # noqa: E402 (has to come after settings)
-from draw.consumers import DebateEditConsumer # noqa: E402 (has to come after settings)
-from feedbackexport.consumers import FeedbackExportConsumer # noqa: E402 (has to come after settings)
-from notifications.consumers import NotificationQueueConsumer # noqa: E402 (has to come after settings)
-from results.consumers import BallotResultConsumer, BallotStatusConsumer # noqa: E402 (has to come after settings)
-from venues.consumers import VenuesWorkerConsumer # noqa: E402 (has to come after settings)
+from actionlog.consumers import ActionLogEntryConsumer  # noqa: E402 (has to come after settings)
+from adjallocation.consumers import AdjudicatorAllocationWorkerConsumer, PanelEditConsumer  # noqa: E402 (has to come after settings)
+from checkins.consumers import CheckInEventConsumer  # noqa: E402 (has to come after settings)
+from draw.consumers import DebateEditConsumer  # noqa: E402 (has to come after settings)
+from feedbackexport.consumers import FeedbackExportConsumer  # noqa: E402 (has to come after settings)
+from notifications.consumers import NotificationQueueConsumer  # noqa: E402 (has to come after settings)
+from results.consumers import BallotResultConsumer, BallotStatusConsumer  # noqa: E402 (has to come after settings)
+from venues.consumers import VenuesWorkerConsumer  # noqa: E402 (has to come after settings)
 
 application = ProtocolTypeRouter({
 

@@ -1,8 +1,9 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: tabbycat\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-17 09:00+0200\n"
+"POT-Creation-Date: 2026-10-25 07:25+1100\n"
 "PO-Revision-Date: 2026-06-16 00:00+0200\n"
 "Last-Translator: Sebastian Grof\n"
 "Language-Team: Slovak\n"
@@ -11,10 +12,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 3;\n"
-"X-Generator: crowdin.com\n"
-"X-Crowdin-Project: tabbycat\n"
-"X-Crowdin-Language: sk\n"
 "X-Crowdin-File: /develop/tabbycat/notifications/locale/en/LC_MESSAGES/django.po\n"
+"X-Crowdin-Language: sk\n"
+"X-Crowdin-Project: tabbycat\n"
+"X-Generator: crowdin.com\n"
 
 #: notifications/apps.py:7
 msgid "Notifications"
@@ -62,7 +63,7 @@ msgstr "príjemca"
 msgid "method"
 msgstr "metóda"
 
-#: notifications/models.py:30 notifications/models.py:112
+#: notifications/models.py:30 notifications/models.py:114
 msgid "context"
 msgstr "kontext"
 
@@ -70,8 +71,8 @@ msgstr "kontext"
 msgid "notification"
 msgstr "notifikácia"
 
-#: notifications/models.py:35 notifications/models.py:65
-#: notifications/models.py:108
+#: notifications/models.py:35 notifications/models.py:67
+#: notifications/models.py:110
 msgid "timestamp"
 msgstr "časová pečiatka"
 
@@ -132,132 +133,156 @@ msgid "participant slots allocated"
 msgstr "pridelené sloty pre účastníkov"
 
 #: notifications/models.py:60
+msgid "user invitation"
+msgstr "pozvánka používateľa"
+
+#: notifications/models.py:61
+msgid "custom institution message"
+msgstr "vlastná správa inštitúcii"
+
+#: notifications/models.py:62
 msgid "custom message"
 msgstr "vlastná správa"
 
-#: notifications/models.py:63 notifications/models.py:110
+#: notifications/models.py:65 notifications/models.py:112
 msgid "event"
 msgstr "udalosť"
 
-#: notifications/models.py:68 notifications/models.py:146
+#: notifications/models.py:70 notifications/models.py:148
 msgid "tournament"
 msgstr "turnaj"
 
-#: notifications/models.py:70
+#: notifications/models.py:72
 msgid "round"
 msgstr "kolo"
 
-#: notifications/models.py:73
+#: notifications/models.py:75
 msgid "subject template"
 msgstr "šablóna predmetu"
 
-#: notifications/models.py:75
+#: notifications/models.py:77
 msgid "body template"
 msgstr "šablóna tela správy"
 
-#: notifications/models.py:78
+#: notifications/models.py:80
 msgid "bulk notification"
 msgstr "hromadná notifikácia"
 
-#: notifications/models.py:79
+#: notifications/models.py:81
 msgid "bulk notifications"
 msgstr "hromadné notifikácie"
 
-#: notifications/models.py:92
+#: notifications/models.py:94
 msgid "Processed"
 msgstr "Spracovaný"
 
-#: notifications/models.py:93
+#: notifications/models.py:95
 msgid "Dropped"
 msgstr "Zamietnutý"
 
-#: notifications/models.py:94
+#: notifications/models.py:96
 msgid "Deferred"
 msgstr "Odložený"
 
-#: notifications/models.py:95
+#: notifications/models.py:97
 msgid "Delivered"
 msgstr "Doručený"
 
-#: notifications/models.py:96
+#: notifications/models.py:98
 msgid "Bounced"
 msgstr "Vrátený"
 
-#: notifications/models.py:97
+#: notifications/models.py:99
 msgid "Opened"
 msgstr "Otvorený"
 
-#: notifications/models.py:98
+#: notifications/models.py:100
 msgid "Clicked"
 msgstr "Kliknutý"
 
-#: notifications/models.py:99
+#: notifications/models.py:101
 msgid "Unsubscribed"
 msgstr "Odhlásený"
 
-#: notifications/models.py:100
+#: notifications/models.py:102
 msgid "Marked as spam"
 msgstr "Označený ako spam"
 
-#: notifications/models.py:101
+#: notifications/models.py:103
 msgid "Unsubscribed from group"
 msgstr "Odhlásený zo skupiny"
 
-#: notifications/models.py:102
+#: notifications/models.py:104
 msgid "Resubscribed to group"
 msgstr "Znovu prihlásený do skupiny"
 
-#: notifications/models.py:103
+#: notifications/models.py:105
 msgid "Failed to send"
 msgstr "Odoslanie zlyhalo"
 
-#: notifications/models.py:106
+#: notifications/models.py:108
 msgid "email message"
 msgstr "e-mailová správa"
 
-#: notifications/models.py:115
+#: notifications/models.py:117
 msgid "email status"
 msgstr "stav e-mailu"
 
-#: notifications/models.py:116
+#: notifications/models.py:118
 msgid "email statuses"
 msgstr "stavy e-mailov"
 
-#: notifications/models.py:135
+#: notifications/models.py:137
 msgid "participant"
 msgstr "účastník"
 
-#: notifications/models.py:136
+#: notifications/models.py:138
 msgid "The participant (adjudicator or speaker) who owns this device"
 msgstr "Účastník (rozhodca alebo rečník), ktorý vlastní toto zariadenie"
 
-#: notifications/models.py:142
+#: notifications/models.py:144
 msgid "language"
 msgstr "jazyk"
 
-#: notifications/models.py:143
+#: notifications/models.py:145
 msgid "The language preference of the participant at subscription time"
 msgstr "Jazyková preferencia účastníka v čase prihlásenia na odber"
 
-#: notifications/models.py:149
+#: notifications/models.py:151
 msgid "WebPush device"
 msgstr "WebPush zariadenie"
 
-#: notifications/models.py:150
+#: notifications/models.py:152
 msgid "WebPush devices"
 msgstr "WebPush zariadenia"
 
-#: notifications/templates/email_participants.html:12
+#: notifications/templates/email_participants.html:16
 #, python-format
 msgid "You have not specified a reply-to address. This means that participants may not reply to the message if they have questions. Please set one in the <a href=\"%(notifications_options_url)s\">Notifications section of the preferences</a>."
 msgstr "Nezadal/a si adresu pre odpoveď. To znamená, že účastníci nemusia byť schopní odpovedať na správu, ak majú otázky. Nastav ju v <a href=\"%(notifications_options_url)s\">sekcii Notifikácie v nastaveniach</a>."
 
-#: notifications/templates/email_participants.html:20
+#: notifications/templates/email_participants.html:24
 #, python-format
 msgid "The webhook URL for use in SendGrid is <a href=\"%(notifications_webhook_url)s\">%(notifications_webhook_url)s</a>. Please point the HTTP POST URL in <a href=\"https://app.sendgrid.com/settings/mail_settings\">SendGrid</a> to that."
 msgstr "Webhook URL pre SendGrid je <a href=\"%(notifications_webhook_url)s\">%(notifications_webhook_url)s</a>. Nasmeruj HTTP POST URL v <a href=\"https://app.sendgrid.com/settings/mail_settings\">SendGrid</a> na túto adresu."
 
-#: notifications/templates/email_participants.html:50
+#: notifications/templates/email_participants.html:33
+msgid "Available variables"
+msgstr "Dostupné premenné"
+
+#: notifications/templates/email_participants.html:35
+msgid "You can personalise the subject and message using the variables below. They are replaced per recipient when the email is sent."
+msgstr "Predmet a správu môžete prispôsobiť pomocou premenných uvedených nižšie. Pri odoslaní e-mailu sa nahradia údajmi konkrétneho príjemcu."
+
+#: notifications/templates/email_participants.html:51
+msgid "Arithmetic (for pricing, etc.)"
+msgstr "Výpočty (napríklad pre ceny)"
+
+#: notifications/templates/email_participants.html:53
+msgid "Use the <code>calc</code> tag for calculations with <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>:"
+msgstr "Na výpočty s <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code> použite značku <code>calc</code>:"
+
+#: notifications/templates/email_participants.html:92
 msgid "Send Message(s)"
 msgstr "Odoslať správu/správy"
 
@@ -265,7 +290,7 @@ msgstr "Odoslať správu/správy"
 msgid "Emails can be sent by Tabbycat for a variety of purposes. Emails are sent when specific preferences are enabled (i.e. enabling Ballot Receipts) or through actions available on specific pages (i.e. the Draw Display page for matchups; or the Participants page for team registration). This page shows the status of previously-sent emails."
 msgstr "Tabbycat môže posielať e-maily na rôzne účely. E-maily sa odosielajú pri aktivácii určitých nastavení (napr. Potvrdenia ballotov) alebo prostredníctvom akcií na konkrétnych stránkach (napr. stránka zobrazenia pairingu pre zápasy alebo stránka Účastníci pre registráciu tímu). Táto stránka zobrazuje stav predtým odoslaných e-mailov."
 
-#: notifications/templates/notifications_nav.html:5 notifications/views.py:86
+#: notifications/templates/notifications_nav.html:5 notifications/views.py:89
 msgid "Email Statuses"
 msgstr "Stavy e-mailov"
 
@@ -314,7 +339,7 @@ msgid "a trainee"
 msgstr "shadow"
 
 #: notifications/utils.py:99 notifications/utils.py:145
-#: notifications/utils.py:373
+#: notifications/utils.py:414
 msgid "TBA"
 msgstr "TBA"
 
@@ -355,68 +380,76 @@ msgstr "<li>%(text)s (%(ref)s)</li>"
 msgid ", "
 msgstr ", "
 
-#: notifications/views.py:58
+#: notifications/views.py:61
 #, python-format
 msgid "The email (SMTP) server returned an error sending the test email: [SMTP code %(code)d] %(error)s"
 msgstr "E-mailový (SMTP) server vrátil chybu pri odosielaní testovacieho e-mailu: [SMTP kód %(code)d] %(error)s"
 
-#: notifications/views.py:62
+#: notifications/views.py:65
 msgid "Hint: If the error is about sender identity verification in SendGrid, and you've already completed the steps in SendGrid, it may be that you need to update the DEFAULT_FROM_EMAIL config var in Heroku to match your verified sender identity."
 msgstr "Tip: Ak sa chyba týka overenia identity odosielateľa v SendGrid a kroky v SendGrid si už dokončil/a, možno budeš musieť aktualizovať premennú DEFAULT_FROM_EMAIL v Heroku, aby zodpovedala overenému odosielateľovi."
 
-#: notifications/views.py:71
+#: notifications/views.py:74
 #, python-format
 msgid "There was an error sending the test email: %(error)s"
 msgstr "Pri odosielaní testovacieho e-mailu nastala chyba: %(error)s"
 
-#: notifications/views.py:76
+#: notifications/views.py:79
 #, python-format
 msgid "A test email has been sent to %(recipient)s."
 msgstr "Testovací e-mail bol odoslaný na %(recipient)s."
 
-#: notifications/views.py:93
+#: notifications/views.py:96
 msgid "N/A"
 msgstr "N/A"
 
-#: notifications/views.py:94
+#: notifications/views.py:97
 msgid "Not known"
 msgstr "Neznámy"
 
-#: notifications/views.py:99
+#: notifications/views.py:102
 #, python-format
 msgid "%(status)s @ %(time)s"
 msgstr "%(status)s @ %(time)s"
 
-#: notifications/views.py:146
+#: notifications/views.py:149
 #, python-format
 msgid "@ %s"
 msgstr "@ %s"
 
-#: notifications/views.py:165
+#: notifications/views.py:168
 msgid "Timeline"
 msgstr "Časová os"
 
-#: notifications/views.py:178 notifications/views.py:276
+#: notifications/views.py:181 notifications/views.py:293
 msgid "Participant"
 msgstr "Účastník"
 
-#: notifications/views.py:179 notifications/views.py:281
+#: notifications/views.py:182 notifications/views.py:298
 msgid "Email address"
 msgstr "E-mailová adresa"
 
-#: notifications/views.py:180
+#: notifications/views.py:183
 msgid "Status"
 msgstr "Stav"
 
-#: notifications/views.py:181
+#: notifications/views.py:184
 msgid "Time"
 msgstr "Čas"
 
-#: notifications/views.py:219
+#: notifications/views.py:222
 msgid "Email Participants"
 msgstr "Poslať e-mail účastníkom"
 
-#: notifications/views.py:249
+#: notifications/views.py:226
+msgid "name of the recipient"
+msgstr "meno príjemcu"
+
+#: notifications/views.py:227
+msgid "tournament name"
+msgstr "názov turnaja"
+
+#: notifications/views.py:265
 #, python-format
 msgid "%(email_count)s email has been queued for sending."
 msgid_plural "%(email_count)s emails have been queued for sending."
@@ -425,34 +458,46 @@ msgstr[1] "%(email_count)s e-maily boli zaradené do frontu na odoslanie."
 msgstr[2] "%(email_count)s e-mailu bolo zaradených do frontu na odoslanie."
 msgstr[3] "%(email_count)s e-mailov bolo zaradených do frontu na odoslanie."
 
-#: notifications/views.py:255
-msgid "No emails were sent — likely because no recipients were selected."
-msgstr "Žiadne e-maily neboli odoslané — pravdepodobne preto, že nebol vybraný žiadny príjemca."
+#: notifications/views.py:271
+msgid "No emails were queued — likely because no valid recipients were selected."
+msgstr "Do frontu neboli zaradené žiadne e-maily — pravdepodobne neboli vybraní platní príjemcovia."
 
-#: notifications/views.py:266
+#: notifications/views.py:283
 msgid "Send Email"
 msgstr "Odoslať e-mail"
 
-#: notifications/views.py:282
+#: notifications/views.py:299
 msgid "Not Provided"
 msgstr "Nezadané"
 
-#: notifications/views.py:295
+#: notifications/views.py:312
 msgid "Role"
 msgstr "Rola"
 
-#: notifications/views.py:296
+#: notifications/views.py:313
 msgid "Adjudicator"
 msgstr "Rozhodca"
 
-#: notifications/views.py:296
+#: notifications/views.py:313
 msgid "Speaker"
 msgstr "Rečník"
 
-#: notifications/views.py:304
+#: notifications/views.py:321
 msgid "Speakers"
 msgstr "Rečníci"
 
-#: notifications/views.py:305
+#: notifications/views.py:322
 msgid "Adjudicators"
 msgstr "Rozhodcovia"
+
+#: notifications/views.py:356
+#, python-format
+msgid "The email to %(recipients)s was not queued because the email address is invalid."
+msgid_plural "Emails to %(recipients)s were not queued because their email addresses are invalid."
+msgstr[0] "E-mail pre %(recipients)s nebol zaradený do frontu, pretože e-mailová adresa je neplatná."
+msgstr[1] "E-maily pre %(recipients)s neboli zaradené do frontu, pretože ich e-mailové adresy sú neplatné."
+msgstr[2] "E-maily pre %(recipients)s neboli zaradené do frontu, pretože ich e-mailové adresy sú neplatné."
+msgstr[3] "E-maily pre %(recipients)s neboli zaradené do frontu, pretože ich e-mailové adresy sú neplatné."
+
+#~ msgid "No emails were sent — likely because no recipients were selected."
+#~ msgstr "Žiadne e-maily neboli odoslané — pravdepodobne preto, že nebol vybraný žiadny príjemca."

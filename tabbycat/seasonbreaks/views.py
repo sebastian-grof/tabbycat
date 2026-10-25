@@ -11,46 +11,12 @@ from django.urls import reverse
 from django.utils.translation import gettext as _, gettext_lazy
 from django.views.generic import TemplateView
 
-from .forms import (
-    BreakAdjudicatorForm,
-    BreakLeagueForm,
-    BreakRegionForm,
-    BreakSeasonForm,
-    BreakSpeakerForm,
-    BreakTeamForm,
-    BreakTournamentForm,
-    BreaksAccessForm,
-)
-from .models import (
-    BreakAdjudicator,
-    BreakAdjudicatorLink,
-    BreakAdjudicatorTournamentStats,
-    BreakCutoffAdvancement,
-    BreakLeague,
-    BreaksPermission,
-    BreakRegion,
-    BreakSeason,
-    BreakSpeakerLink,
-    BreakTeam,
-    BreakTeamLink,
-    BreakTournament,
-    GlobalBreaksPermission,
-)
+from .forms import BreakAdjudicatorForm, BreakLeagueForm, BreakRegionForm, BreaksAccessForm, BreakSeasonForm, BreakSpeakerForm, BreakTeamForm, BreakTournamentForm
+from .models import (BreakAdjudicator, BreakAdjudicatorLink, BreakAdjudicatorTournamentStats, BreakCutoffAdvancement, BreakLeague, BreakRegion, BreakSeason, BreakSpeakerLink, BreaksPermission,
+                     BreakTeam, BreakTeamLink, BreakTournament, GlobalBreaksPermission)
 from .permissions import has_breaks_permission
-from .services import (
-    calculate_global_ranking,
-    calculate_rankings,
-    calculate_region_quotas,
-    freeze_break_tournament,
-    publish_public_breaks_snapshot,
-    season_has_unresolved_cutoff_tie,
-    prune_all_unused_break_identities,
-    prune_unused_break_identities,
-    reassign_break_adjudicator_link,
-    reassign_break_speaker_link,
-    reassign_break_team_link,
-    season_summary,
-)
+from .services import (calculate_global_ranking, calculate_rankings, calculate_region_quotas, freeze_break_tournament, prune_all_unused_break_identities, prune_unused_break_identities,
+                       publish_public_breaks_snapshot, reassign_break_adjudicator_link, reassign_break_speaker_link, reassign_break_team_link, season_has_unresolved_cutoff_tie, season_summary)
 
 
 class BreaksPermissionMixin(UserPassesTestMixin):
@@ -341,7 +307,7 @@ class SeasonRegionsView(SeasonMixin, TemplateView):
             {
                 'region': region,
                 'form': region_form_override if region_form_override and region_form_override.instance.id == region.id
-                    else BreakRegionForm(instance=region, prefix="region-%s" % region.id),
+                else BreakRegionForm(instance=region, prefix="region-%s" % region.id),
             }
             for region in self.season.regions.select_related('source_region').all()
         ]
@@ -508,7 +474,7 @@ class SeasonIdentitiesView(SeasonMixin, TemplateView):
         if request.POST.get('action') == 'cleanup_orphan_identities':
             deleted = prune_all_unused_break_identities(self.season)
             messages.success(request, _(
-                "Cleaned stale identities: %(teams)d teams, %(speakers)d speakers, %(adjudicators)d adjudicators."
+                "Cleaned stale identities: %(teams)d teams, %(speakers)d speakers, %(adjudicators)d adjudicators.",
             ) % deleted)
         return redirect('seasonbreaks-identities', season_slug=self.season.slug)
 

@@ -1,17 +1,19 @@
 """Standings generator for speakers."""
 
-from collections import defaultdict
 import logging
+from builtins import round as round_score
+from collections import defaultdict
+from functools import partialmethod
 
-from django.db.models import Case, Count, F, FloatField, Max, Min, Q, StdDev, Sum, When
-from django.db.models.functions import Cast, NullIf
+from django.db.models import Avg, Case, Count, F, FloatField, Max, Min, OuterRef, Q, StdDev, Subquery, Sum, Value, When
+from django.db.models.functions import Cast, Coalesce, NullIf, Round as RoundScore
 from django.utils.translation import gettext_lazy as _
 
 from results.models import SpeakerScore, TeamScore
 from tournaments.models import Round
 
-from .base import BaseStandingsGenerator
-from .metrics import BaseMetricAnnotator, QuerySetMetricAnnotator
+from .base import BaseStandingsGenerator, StandingsError
+from .metrics import BaseMetricAnnotator, QuerySetMetricAnnotator, SCORE_PRECISION
 from .ranking import BasicRankAnnotator
 
 logger = logging.getLogger(__name__)
@@ -29,12 +31,11 @@ class SpeakerScoreQuerySetMetricAnnotator(QuerySetMetricAnnotator):
     replies = False
     field = 'speakerscore__score'
     where_value = None
+    round_value = True
+    preserve_sda_precision = True
 
-    def get_annotation(self, round):
-        """Returns a QuerySet annotated with the metric given. All positional
-        arguments from the third onwards, and all keyword arguments, are passed
-        to get_annotation_metric_query_str()."""
-
+    def get_annotation_filter(self, round):
+        """Returns the Q object restricting which speeches the metric counts."""
         annotation_filter = Q(
             speakerscore__ballot_submission__confirmed=True,
             speakerscore__debate_team__debate__round__seq__lte=round.seq,
@@ -46,12 +47,24 @@ class SpeakerScoreQuerySetMetricAnnotator(QuerySetMetricAnnotator):
         else:
             annotation_filter &= Q(speakerscore__position__lte=round.tournament.last_substantive_position)
 
-        return self.function(self.field, filter=annotation_filter)
+        return annotation_filter
+
+    def get_annotation(self, round):
+        annotation = self.get_aggregation(round)
+        if self.round_value and (not self.preserve_sda_precision or
+                round.tournament.pref('adjudicator_weighting') != 'weighted-to-three'):
+            return RoundScore(annotation, precision=SCORE_PRECISION)
+        return annotation
+
+    def get_aggregation(self, round):
+        """Build the unrounded aggregate so derived metrics round only once."""
+        return self.function(self.field, filter=self.get_annotation_filter(round))
 
 
 class TeamMetricQuerySetMetricAnnotator(SpeakerScoreQuerySetMetricAnnotator):
 
     combinable = False
+    round_value = False
 
     def get_annotation(self, round):
         """Returns a QuerySet annotated with the metric."""
@@ -126,7 +139,12 @@ class AverageSpeakerScoreMetricAnnotator(BaseMetricAnnotator):
 
         for speaker in speakers:
             scores = scores_by_speaker.get(speaker.id)
-            standings.add_metric(speaker, self.key, (sum(scores) / len(scores)) if scores else None)
+            value = sum(scores) / len(scores) if scores else None
+            # Existing SDA rankings compare these values at their original
+            # precision. Rounding first can create ties or move tied speakers.
+            if value is not None and not normalize_weighted_scores:
+                value = round_score(value, SCORE_PRECISION)
+            standings.add_metric(speaker, self.key, value)
 
 
 class SpeakerTeamPointsMetricAnnotator(TeamMetricQuerySetMetricAnnotator):
@@ -220,6 +238,7 @@ class NumberOfSpeechesMetricAnnotator(SpeakerScoreQuerySetMetricAnnotator):
     name = _("number of speeches given")
     abbr = _("Num")
     function = Count
+    round_value = False
 
 
 class TotalReplyScoreMetricAnnotator(SpeakerScoreQuerySetMetricAnnotator):
@@ -258,6 +277,7 @@ class NumberOfRepliesMetricAnnotator(SpeakerScoreQuerySetMetricAnnotator):
     name = _("replies given")
     abbr = _("Num")
     function = Count
+    round_value = False
     replies = True
     listed = False
 
@@ -286,15 +306,18 @@ class TrimmedMeanSpeakerScoreMetricAnnotator(SpeakerScoreQuerySetMetricAnnotator
         return super().get_annotated_queryset(queryset, round=round)
 
     def get_annotation(self, round=None):
-        total = TotalSpeakerScoreMetricAnnotator().get_annotation(round)
-        highest = self.MaximumScore().get_annotation(round)
-        lowest = self.MinimumScore().get_annotation(round)
+        total = TotalSpeakerScoreMetricAnnotator().get_aggregation(round)
+        highest = self.MaximumScore().get_aggregation(round)
+        lowest = self.MinimumScore().get_aggregation(round)
 
-        return Case(
+        annotation = Case(
             When(speech_count__gt=2, then=(total - highest - lowest) / (F('speech_count') - 2)),
             When(speech_count__gt=0, then=total / F('speech_count')),
             output_field=FloatField(),
         )
+        if round.tournament.pref('adjudicator_weighting') == 'weighted-to-three':
+            return annotation
+        return RoundScore(annotation, precision=SCORE_PRECISION)
 
 
 class SpeakerScoreRankingsMetricAnnotator(SpeakerScoreQuerySetMetricAnnotator):
@@ -305,6 +328,120 @@ class SpeakerScoreRankingsMetricAnnotator(SpeakerScoreQuerySetMetricAnnotator):
     function = Sum
     ascending = True
     field = 'speakerscore__rank'
+    round_value = False
+
+
+# ==============================================================================
+# Score criterion metric annotators
+# ==============================================================================
+
+class BaseCriterionMetricAnnotator(SpeakerScoreQuerySetMetricAnnotator):
+    """Base class for metrics on a single score criterion. These are keyed by
+    the criterion's seq, so use criterion_metric_annotator_classes() to build
+    them for a tournament rather than instantiating these directly."""
+
+    field = 'speakerscore__speakercriterionscore__score'
+    preserve_sda_precision = False
+    key_prefix = None  # must be set by subclasses
+    name_format = None  # must be set by subclasses
+    abbr_format = None  # must be set by subclasses
+
+    # The criterion join gives one row per criterion per speech, which would
+    # inflate other aggregations if combined into the shared query.
+    combinable = False
+
+    # Set by views dedicated to a single criterion, where the criterion's name
+    # is already in the page title and would just repeat in every column.
+    standalone = False
+
+    def __init__(self, criterion):
+        self.criterion = criterion
+        self.key = self.build_key(criterion.seq)
+        self.name = self.name_format % {'criterion': criterion.name}
+        self.abbr = self.short_abbr if self.standalone else (
+            self.abbr_format % {'criterion': criterion.name})
+
+    @classmethod
+    def build_key(cls, seq):
+        return '%s%d' % (cls.key_prefix, seq)
+
+    @classmethod
+    def choice_label(cls):
+        return (cls.name_format % {'criterion': cls.criterion_name}).capitalize()
+
+    def get_annotation_filter(self, round):
+        # The inherited filter restricts this to the substantive speeches, as
+        # for the other speaker metrics. The criterion's own speech_type
+        # doesn't narrow it further: a criterion is only ever scored on the
+        # speeches it applies to, and one scored only on replies has no
+        # standings of its own.
+        return super().get_annotation_filter(round) & Q(
+            speakerscore__speakercriterionscore__criterion=self.criterion)
+
+
+class TotalCriterionScoreMetricAnnotator(BaseCriterionMetricAnnotator):
+    """Metric annotator for total score on a single criterion."""
+    key_prefix = "criterion_total_"
+    name_format = _("total for %(criterion)s")
+    abbr_format = _("%(criterion)s Total")
+    short_abbr = _("Total")
+    function = Sum
+
+
+class AverageCriterionScoreMetricAnnotator(BaseCriterionMetricAnnotator):
+    """Metric annotator for average score on a single criterion."""
+    key_prefix = "criterion_avg_"
+    name_format = _("average for %(criterion)s")
+    abbr_format = _("%(criterion)s Avg")
+    short_abbr = _("Avg")
+    function = Avg
+
+    def get_aggregation(self, round):
+        score = F(self.field)
+        if round.tournament.pref('adjudicator_weighting') == 'weighted-to-three':
+            # Criterion scores are stored as weighted panel totals in SDA.
+            # Normalize only the average, as the overall speaker average and
+            # per-round criterion columns do. Total retains weighted points.
+            # Panel sizes may vary.
+            votes = TeamScore.objects.filter(
+                ballot_submission_id=OuterRef('speakerscore__ballot_submission_id'),
+                debate_team_id=OuterRef('speakerscore__debate_team_id'),
+            ).values('votes_possible')[:1]
+            divisor = Coalesce(NullIf(Subquery(votes), 0), Value(1))
+            score = score / Cast(divisor, FloatField())
+        return self.function(score, filter=self.get_annotation_filter(round))
+
+
+def is_criterion_metric_key(key):
+    """Whether `key` names a score criterion metric. The criteria themselves are
+    per-tournament, so preference validation, which has no tournament to hand,
+    checks the key's shape only; unavailable criteria raise a StandingsError
+    when the standings are generated."""
+    for base in (AverageCriterionScoreMetricAnnotator, TotalCriterionScoreMetricAnnotator):
+        if key.startswith(base.key_prefix) and key[len(base.key_prefix):].isdigit():
+            return True
+    return False
+
+
+def criterion_metric_annotator_classes(tournament, standalone_criterion=None):
+    """Returns the metric annotator classes for the tournament's score criteria,
+    keyed by metric key. Criteria scored only on replies are left out, since
+    these metrics are over substantive speeches. Each binds its criterion, so that they can
+    be used like the classes in SpeakerStandingsGenerator's static dict.
+
+    `standalone_criterion`, if given, is the criterion whose page this is, and
+    so whose metrics should be labelled without repeating its name."""
+    classes = {}
+    for criterion in tournament.substantive_score_criteria:
+        for base in (AverageCriterionScoreMetricAnnotator, TotalCriterionScoreMetricAnnotator):
+            key = base.build_key(criterion.seq)
+            classes[key] = type(base.__name__, (base,), {
+                '__init__': partialmethod(base.__init__, criterion),
+                'key': key,
+                'criterion_name': criterion.name,
+                'standalone': criterion == standalone_criterion,
+            })
+    return classes
 
 
 # ==============================================================================
@@ -354,3 +491,35 @@ class SpeakerStandingsGenerator(BaseStandingsGenerator):
     }
 
     tournament_field = 'team__tournament'
+
+    def __init__(self, metrics, rankings, extra_metrics=(), tournament=None,
+            standalone_criterion=None, **options):
+        # Score criteria are per-tournament rows, so their annotator classes
+        # can't live in the class-level dict; build them per instance.
+        if tournament is not None:
+            self.metric_annotator_classes = {
+                **self.metric_annotator_classes,
+                **criterion_metric_annotator_classes(tournament, standalone_criterion),
+            }
+            unavailable = [m for m in (*metrics, *extra_metrics)
+                if is_criterion_metric_key(m) and m not in self.metric_annotator_classes]
+            if unavailable:
+                raise StandingsError(_(
+                    "The speaker standings reference unavailable score criteria: %(metrics)s. "
+                    "Update the speaker standings precedence and extra metrics in Setup > Standings.",
+                ) % {'metrics': ", ".join(dict.fromkeys(unavailable))})
+        super().__init__(metrics, rankings, extra_metrics, **options)
+
+    @classmethod
+    def get_metric_choices(cls, ranked_only=True, for_extra=False, tournament=None):
+        """Adds this tournament's score criteria to the standard choices."""
+        choices = super().get_metric_choices(ranked_only=ranked_only, for_extra=for_extra)
+        if tournament is None:
+            return choices
+
+        criterion_choices = [
+            (key, annotator.choice_label())
+            for key, annotator in criterion_metric_annotator_classes(tournament).items()
+        ]
+        criterion_choices.sort(key=lambda x: x[1])
+        return choices + criterion_choices

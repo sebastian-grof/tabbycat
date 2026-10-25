@@ -120,6 +120,10 @@ class BallotSubmission(Submission):
     forfeit = models.BooleanField(default=False,
         verbose_name=_("forfeit"),
         help_text=_("Whether a team had forfeited the debate and so speaker scores were exceptionally not attributed."))
+    self_split = models.BooleanField(default=False,
+        verbose_name=_("self-declared split"),
+        help_text=_("For solo-adjudicated debates: whether the adjudicator has declared their decision "
+                    "as a 2:1 split (rather than unanimous), per Karl Popper rules."))
 
     class Meta:
         constraints = [UniqueConstraint(fields=['debate', 'version'])]
@@ -132,6 +136,18 @@ class BallotSubmission(Submission):
         else:
             return ("[{0.id}] Ballot for {0.debate!s}, submitted at "
                 "{0.timestamp:%Y-%m-%dT%H:%M:%S} (v{0.version})").format(self)
+
+    @property
+    def allows_self_split(self):
+        """Whether a new self-split decision is valid for this ballot."""
+        tournament = self.debate.round.tournament
+        return (
+            not self.forfeit and not self.debate.is_bye and
+            tournament.pref('teams_in_debate') == 2 and
+            tournament.ballots_per_debate(self.debate.round.stage) == 'per-adj' and
+            tournament.pref('allow_self_split_ballots') and
+            len(list(self.debate.adjudicators.voting())) == 1
+        )
 
     @property
     def result(self):
@@ -304,6 +320,13 @@ class SpeakerScoreByAdj(models.Model):
         verbose_name=_("debate team"))
     score = ScoreField(verbose_name=_("score"))
     position = models.IntegerField(verbose_name=_("position"))
+    speaker_score = models.ForeignObject(
+        'SpeakerScore', models.DO_NOTHING,
+        from_fields=('ballot_submission', 'debate_team', 'position'),
+        to_fields=('ballot_submission', 'debate_team', 'position'),
+        null=True,
+        related_name='+',
+    )
 
     class Meta:
         constraints = [
@@ -421,6 +444,7 @@ class SpeakerScore(models.Model):
         except ObjectDoesNotExist:
             pass
 
+
 class CrossExamination(models.Model):
     """A named cross-examination criterion configured per tournament."""
 
@@ -442,6 +466,7 @@ class CrossExamination(models.Model):
 
     def __str__(self):
         return f"{self.tournament}: {self.name}"
+
 
 class CrossExaminationScore(models.Model):
     ballot_submission = models.ForeignKey(BallotSubmission, models.CASCADE,
@@ -519,6 +544,7 @@ class CrossExaminationScoreByAdj(models.Model):
         except ObjectDoesNotExist:
             pass
 
+
 class ScoreCriterion(models.Model):
     """Score criterion for speaker score"""
     class SpeechType(models.TextChoices):
@@ -542,7 +568,6 @@ class ScoreCriterion(models.Model):
         max_length=20, choices=SpeechType.choices, default=SpeechType.ALL,
         verbose_name=_("speech type"),
     )
-
 
     class Meta:
         constraints = [UniqueConstraint(fields=['tournament', 'seq'])]

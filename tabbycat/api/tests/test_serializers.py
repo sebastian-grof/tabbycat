@@ -4,6 +4,7 @@ from datetime import date, datetime, time
 
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
+from django.utils import timezone
 from rest_framework.test import APIClient, APITestCase
 
 from adjallocation.models import DebateAdjudicator
@@ -209,7 +210,7 @@ class RoundSerializerTests(CompletedTournamentTestMixin, APITestCase):
             'starts_at': '00:00:00',
         })
         self.assertEqual(response.status_code, 201)
-        self.assertEqual(datetime.fromisoformat(response.data['starts_at']), datetime.combine(date.today(), time(0, 0, 0, tzinfo=tz)))
+        self.assertEqual(datetime.fromisoformat(response.data['starts_at']), datetime.combine(date.today(), time(0, 0, 0, tzinfo=timezone.get_current_timezone())))
 
 
 class MotionSerializerTests(CompletedTournamentTestMixin, APITestCase):
@@ -251,6 +252,49 @@ class AdjudicatorSerializerTests(CompletedTournamentTestMixin, APITestCase):
             "url_key": "laZzBPo6FsGEr12VtB8LSHM8",
         })
         self.assertEqual(response.status_code, 201)
+
+    def test_create_adj_without_conflicts(self):
+        self.client.login(username="admin", password="admin")
+        response = self.client.post(reverse_tournament('api-adjudicator-list', self.tournament), {
+            'name': 'No conflicts',
+            'institution': None,
+        })
+        self.assertEqual(response.status_code, 201, response.data)
+        for field in ('institution_conflicts', 'team_conflicts', 'adjudicator_conflicts'):
+            self.assertEqual(response.data[field], [])
+
+
+class SpeakerSerializerTests(CompletedTournamentTestMixin, APITestCase):
+
+    def test_create_speaker_without_categories(self):
+        self.client.login(username="admin", password="admin")
+        response = self.client.post(reverse_tournament('api-speaker-list', self.tournament), {
+            'name': 'No categories',
+            'team': reverse_tournament('api-team-detail', self.tournament,
+                                       kwargs={'pk': self.tournament.team_set.first().pk}),
+        })
+        self.assertEqual(response.status_code, 201, response.data)
+        self.assertEqual(response.data['categories'], [])
+
+
+class VenueSerializerTests(CompletedTournamentTestMixin, APITestCase):
+
+    def test_create_room_without_categories(self):
+        self.client.login(username="admin", password="admin")
+        response = self.client.post(reverse_tournament('api-venue-list', self.tournament), {
+            'name': 'Uncategorised room',
+            'priority': 10,
+        })
+        self.assertEqual(response.status_code, 201, response.data)
+        self.assertEqual(response.data['categories'], [])
+
+    def test_create_room_category_without_venues(self):
+        self.client.login(username="admin", password="admin")
+        response = self.client.post(reverse_tournament('api-venuecategory-list', self.tournament), {
+            'name': 'Empty room category',
+        })
+        self.assertEqual(response.status_code, 201, response.data)
+        self.assertEqual(response.data['venues'], [])
 
 
 class BallotSerializerTests(APITestCase):
@@ -297,7 +341,7 @@ class BallotSerializerTests(APITestCase):
         self.user.delete()
         logging.disable(logging.NOTSET)
 
-    def test_can_create_consensus_ballot_scores(self):
+    def test_can_create_consensus_ballot_scores_with_ghost(self):
         client = APIClient()
         client.force_authenticate(user=self.user)
         response = client.post(reverse_round('api-ballot-list', self.round, kwargs={'debate_pk': self.debate.pk}), {
@@ -309,7 +353,7 @@ class BallotSerializerTests(APITestCase):
                             'team': reverse_tournament('api-team-detail', self.tournament, kwargs={'pk': self.t1.pk}),
                             'speeches': [
                                 {
-                                    'ghost': False,
+                                    'ghost': True,
                                     'score': 80,
                                     'speaker': reverse_tournament('api-speaker-detail', self.tournament, kwargs={'pk': self.s1.pk}),
                                 },
@@ -341,6 +385,7 @@ class BallotSerializerTests(APITestCase):
             },
         })
         self.assertEqual(response.status_code, 201)
+        self.assertTrue(response.data['result']['sheets'][0]['teams'][0]['speeches'][0]['ghost'])
 
     def test_rejects_reply_criterion_on_substantive_speech(self):
         self.tournament.preferences['debate_rules__reply_scores_enabled'] = True

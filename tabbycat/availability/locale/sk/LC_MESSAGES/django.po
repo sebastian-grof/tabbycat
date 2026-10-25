@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tabbycat\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-17 09:00+0200\n"
+"POT-Creation-Date: 2026-10-25 06:56+1100\n"
 "PO-Revision-Date: 2026-04-26 00:00+0200\n"
 "Last-Translator: \n"
 "Language-Team: Slovak\n"
@@ -346,11 +346,11 @@ msgstr[3] "Pre daný počet debát musí byť označených aspoň %(required_cou
 msgid "Edit room availability"
 msgstr "Upraviť dostupnosť miestností"
 
-#: availability/views.py:106
+#: availability/views.py:110
 msgid "no teams are debating"
 msgstr "žiadne tímy nedebatujú"
 
-#: availability/views.py:115
+#: availability/views.py:119
 #, python-format
 msgid "%(nteams)d breaking team is debating this round"
 msgid_plural "%(nteams)d breaking teams are debating this round"
@@ -360,7 +360,7 @@ msgstr[2] "%(nteams)d postupujúce tímy debatujú v tomto kole"
 msgstr[3] "%(nteams)d postupujúcich tímov debatuje v tomto kole"
 
 #. Translators: nteams in this string can only be 0 or 1
-#: availability/views.py:122
+#: availability/views.py:126
 #, python-format
 msgid "%(nteams)d breaking team — no debates can happen"
 msgid_plural "%(nteams)d breaking teams — no debates can happen"
@@ -370,7 +370,7 @@ msgstr[2] "%(nteams)d postupujúce tímy — nemôže sa konať žiadna debata"
 msgstr[3] "%(nteams)d postupujúcich tímov — nemôže sa konať žiadna debata"
 
 #. Translators: ndebating in this string is always at least 2
-#: availability/views.py:130
+#: availability/views.py:134
 #, python-format
 msgid "%(ndebating)d breaking team is debating this round"
 msgid_plural "%(ndebating)d breaking teams are debating this round"
@@ -382,7 +382,7 @@ msgstr[3] "%(ndebating)d postupujúcich tímov debatuje v tomto kole"
 #. Translators: This gets appended to the previous string (the one with
 #. ndebating in it) if (and only if) nbypassing is greater than 0.
 #. "It" refers to this round.
-#: availability/views.py:138
+#: availability/views.py:142
 #, python-format
 msgid "; %(nbypassing)d team is bypassing it"
 msgid_plural "; %(nbypassing)d teams are bypassing it"
@@ -392,7 +392,7 @@ msgstr[2] "; %(nbypassing)d tímy ho obchádzajú"
 msgstr[3] "; %(nbypassing)d tímov ho obchádza"
 
 #. Translators: nadvancing in this string is always at least 2
-#: availability/views.py:157
+#: availability/views.py:161
 #, python-format
 msgid "%(nadvancing)s advancing team is debating this round"
 msgid_plural "%(nadvancing)s advancing teams are debating this round"
@@ -401,59 +401,59 @@ msgstr[1] "%(nadvancing)s postupujúce tímy debatujú v tomto kole"
 msgstr[2] "%(nadvancing)s postupujúce tímy debatujú v tomto kole"
 msgstr[3] "%(nadvancing)s postupujúcich tímov debatuje v tomto kole"
 
-#: availability/views.py:197
+#: availability/views.py:201
 msgid "Active Now"
 msgstr "Aktívny teraz"
 
-#: availability/views.py:208
+#: availability/views.py:212
 #, python-format
 msgid "Active in %(prev_round)s"
 msgstr "Aktívny v %(prev_round)s"
 
-#: availability/views.py:214
+#: availability/views.py:218
 msgid "Checked-In"
 msgstr "Prihlásený"
 
-#: availability/views.py:229
+#: availability/views.py:233
 msgid "Team Availability"
 msgstr "Dostupnosť tímov"
 
-#: availability/views.py:252
+#: availability/views.py:256
 msgid "Adjudicator Availability"
 msgstr "Dostupnosť rozhodcov"
 
-#: availability/views.py:275
+#: availability/views.py:279
 msgid "Room Availability"
 msgstr "Dostupnosť miestností"
 
-#: availability/views.py:289
-msgid "Room"
-msgstr "Miestnosť"
-
-#: availability/views.py:291
+#: availability/views.py:294
 msgid "Display Name (for the draw)"
 msgstr "Zobrazovaný názov (pre pairing)"
 
-#: availability/views.py:294
+#: availability/views.py:297
+msgid "Room"
+msgstr "Miestnosť"
+
+#: availability/views.py:298
 msgid "Categories"
 msgstr "Kategórie"
 
-#: availability/views.py:295
+#: availability/views.py:299
 msgid "Priority"
 msgstr "Priorita"
 
-#: availability/views.py:316
+#: availability/views.py:320
 msgid "Failed to update some or all availabilities due to an integrityerror. You should retry this action or make individual updates."
 msgstr "Aktualizácia niektorých alebo všetkých dostupností zlyhala kvôli chybe integrity. Skús akciu zopakovať alebo vykonaj zmeny jednotlivo."
 
-#: availability/views.py:324
+#: availability/views.py:328
 msgid "Checked in all teams, adjudicators and rooms."
 msgstr "Prihlásené všetky tímy, rozhodcovia a miestnosti."
 
-#: availability/views.py:331
+#: availability/views.py:335
 msgid "Checked in all breaking adjudicators."
 msgstr "Prihlásení všetci postupujúci rozhodcovia."
 
-#: availability/views.py:339
+#: availability/views.py:343
 msgid "Checked in all teams, adjudicators and rooms from previous round."
 msgstr "Prihlásené všetky tímy, rozhodcovia a miestnosti z predchádzajúceho kola."

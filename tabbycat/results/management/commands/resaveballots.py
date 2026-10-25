@@ -1,6 +1,5 @@
-from utils.management.base import TournamentCommand
-
 from draw.types import DebateSide
+from utils.management.base import TournamentCommand
 
 from ...bye_scores import refresh_bye_ballots
 from ...models import BallotSubmission

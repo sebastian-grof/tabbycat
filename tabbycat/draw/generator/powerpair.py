@@ -79,6 +79,7 @@ class BasePowerPairedDrawGenerator(BasePairDrawGenerator):
         "pullup_restriction"    : "none",
         "pullup_debates_penalty": 0,
         "pullup_penalty"        : 0,
+        "bracket_penalty"       : 0,
     }
 
     PAIRING_FUNCTIONS = {
@@ -284,7 +285,7 @@ class BasePowerPairedDrawGenerator(BasePairDrawGenerator):
 
         brackets = self._make_raw_brackets()
         top_bracket = len(brackets) == 1
-        odd_bracket, _ = self._get_final_odd_bracket_details(brackets)
+        odd_bracket, bracket_details = self._get_final_odd_bracket_details(brackets)
         if not odd_bracket:
             raise DrawUserError(_("Couldn't determine a final odd bracket for bye selection."))
 
@@ -520,8 +521,7 @@ class GraphCostMixin:
             penalty += max(t1.pullup_debates, t2.pullup_debates) * self.options["pullup_debates_penalty"]
 
         # Add penalty for deviations in the pairing method
-        if self.options["pairing_method"] != "random":
-            penalty += self.calculate_pairing_penalty(t1, t2, size, bracket)
+        penalty += self.calculate_pairing_penalty(t1, t2, size, bracket)
         return penalty
 
     def calculate_pairing_penalty(self, t1, t2, size, bracket=None) -> int:
@@ -542,11 +542,14 @@ class GraphCostMixin:
 
     @staticmethod
     def _pairings_fold(teams, size: int, bracket: Optional[int] = None) -> int:
-        return abs(teams[0] + teams[1] - 1 - size)
+        return abs(teams[0] + teams[1] - 1 - size) ** 2
 
     @staticmethod
     def _pairings_random(teams, size: int, bracket: Optional[int] = None) -> int:
-        return 0
+        # A tiny random value here is safe at pairing_penalty=1:
+        # ~1,000,000x below the smallest real penalty
+        # unit (side_penalty=1), so it can only ever break exact ties.
+        return random.uniform(0, 1e-6)
 
     @staticmethod
     def _pairings_adjacent(teams, size: int, bracket: Optional[int] = None) -> int:
@@ -763,14 +766,26 @@ class SingleGraphPowerPairedDrawGenerator(GraphCostMixin, GraphGeneratorMixin, B
             return None
 
         # Add penalty for pulling up
-        if (is_pullup := max_points - min_points) >= 1:
-            if is_pullup > 1 and any(n_teams != 0 for points, n_teams in self.n_teams_per_points.items() if min_points < points < max_points):
+        gap = max_points - min_points
+        if gap >= 1:
+            if gap > 1 and any(n_teams != 0 for points, n_teams in self.n_teams_per_points.items() if min_points < points < max_points):
                 # Don't allow pulling up more than one bracket (all in between are empty)
                 return None
 
             pullup_team = min([t1, t2], key=attrgetter('points'))  # Include penalty for the pulled up team
             penalty += pullup_team.pullup_magnitude
+
+        if bracket_penalty := self.options["bracket_penalty"]:
+            penalty += gap ** 2 * bracket_penalty * self._bracket_penalty_scale(size)
         return penalty
+
+    def _bracket_penalty_scale(self, size: int) -> int:
+        """Scale cross-bracket penalty above pull-up bucket and pairing deviations."""
+        n = len(self.teams)
+        competing = (n - 1) * self.options['pullup_penalty']
+        if self.options['pairing_method'] != 'random':
+            competing = max(competing, size * self.options['pairing_penalty'])
+        return competing + 1
 
     def calculate_pairing_penalty(self, t1, t2, size, bracket=None) -> int:
         subpool_penalty_func = self.get_option_function("pairing_method", self.PAIRING_FUNCTIONS)
@@ -824,11 +839,13 @@ class SingleGraphPowerPairedDrawGenerator(GraphCostMixin, GraphGeneratorMixin, B
 
     @staticmethod
     def _pullup_lowest_ds_rank(team, size=None):
-        return -getattr(team, 'draw_strength_rank', 0)
+        rank = getattr(team, 'draw_strength_rank', None)
+        # Teams with no previous opponents have the lowest draw strength.
+        return (rank is not None, -rank if rank is not None else 0)
 
     @staticmethod
     def _pullup_lowest_ds_rank_npulls(team, size=None):
-        return [team.npullups, -team.draw_strength_rank]
+        return (team.npullups or 0, *SingleGraphPowerPairedDrawGenerator._pullup_lowest_ds_rank(team, size))
 
     def annotate_team_flags(self, pairings):
         """Only flag that can be added is 'pullup', and can only be determined after generation"""
@@ -840,6 +857,7 @@ class SingleGraphPowerPairedDrawGenerator(GraphCostMixin, GraphGeneratorMixin, B
 
 class AustralsPowerPairedDrawGenerator(AustralsPairingMixin, BasePowerPairedDrawGenerator):
     pass
+
 
 class PowerPairedWithAllocatedSidesDrawGenerator(BasePowerPairedDrawGenerator):
     """Power-paired draw with allocated sides.
@@ -871,6 +889,7 @@ class PowerPairedWithAllocatedSidesDrawGenerator(BasePowerPairedDrawGenerator):
         "avoid_conflicts"       : None,
         "pullup_restriction"    : "none",
         "pullup_penalty"        : 0,
+        "bracket_penalty"       : 0,
     }
 
     def __init__(self, *args, **kwargs):
@@ -888,7 +907,7 @@ class PowerPairedWithAllocatedSidesDrawGenerator(BasePowerPairedDrawGenerator):
 
         brackets = self._make_raw_brackets()
         top_bracket = len(brackets) == 1
-        odd_bracket, _ = self._get_final_odd_bracket_details(brackets)
+        odd_bracket, bracket_details = self._get_final_odd_bracket_details(brackets)
         if not odd_bracket:
             raise DrawUserError(_("Couldn't determine a final odd bracket for bye selection."))
         team_ids = {

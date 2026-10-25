@@ -99,9 +99,13 @@ class RandomisedUrlsView(RandomisedUrlsMixin, VueTableTemplateView):
         return table
 
     def get_speakers_table(self) -> TabbycatTableBuilder:
-        speakers = Speaker.objects.filter(team__tournament=self.tournament)
+        speakers = Speaker.objects.select_related('team').prefetch_related('team__speaker_set').filter(team__tournament=self.tournament)
         table = TabbycatTableBuilder(view=self, title=_("Speakers"), sort_key="name")
         table.add_speaker_columns(speakers, categories=False)
+        table.add_column(
+            {'key': 'team', 'tooltip': _("Team"), 'icon': 'users'},
+            [table._team_cell(speaker.team, show_emoji=True) for speaker in speakers],
+        )
         self.add_url_columns(table, speakers, self.request)
 
         return table
@@ -165,6 +169,10 @@ class EmailRandomisedUrlsView(RoleColumnMixin, TournamentTemplateEmailCreateView
     message_template = 'url_email_message'
 
     tournament_redirect_pattern_name = 'privateurls-list'
+    template_variables = TournamentTemplateEmailCreateView.template_variables + [
+        ("URL", _("recipient private URL")),
+        ("KEY", _("recipient private URL key")),
+    ]
 
     def get_extra(self) -> Dict[str, Any]:
         extra = super().get_extra()

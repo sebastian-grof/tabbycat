@@ -1,5 +1,8 @@
 # Copying this over will mess up database settings
 */*/settings_local.py
+tabbycat/settings/local.py
+.env
+.env.*
 
 # Not needed in the image, and in a git worktree this is a file pointing at a
 # host path, which breaks every git command run during the build
@@ -8,6 +11,7 @@
 # Dependencies
 node_modules/
 venv/
+.venv/
 
 # Compilations
 tabbycat/staticfiles/

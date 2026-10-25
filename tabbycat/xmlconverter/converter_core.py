@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 import argparse
 import math
@@ -11,7 +11,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from statistics import pstdev
 from typing import BinaryIO, Iterable
-from xml.etree import ElementTree as ET
+from xml.etree import ElementTree as ET  # noqa: N817
 from xml.sax.saxutils import escape
 
 from defusedxml.ElementTree import parse as safe_parse
@@ -359,7 +359,10 @@ def source_stem(xml_source: Path | str | BinaryIO, source_name: str | None = Non
     return "DebateXML"
 
 
-def parse_debatexml(xml_source: Path | str | BinaryIO, source_name: str | None = None) -> tuple[str, str, list[str], dict[str, TeamInfo], dict[str, AdjudicatorInfo], dict[str, str], dict[str, str], list[DebateResult]]:
+def parse_debatexml(
+    xml_source: Path | str | BinaryIO,
+    source_name: str | None = None,
+) -> tuple[str, str, list[str], dict[str, TeamInfo], dict[str, AdjudicatorInfo], dict[str, str], dict[str, str], list[DebateResult]]:
     # Parse with defusedxml: the upload is untrusted, so this blocks XXE,
     # external-entity, and entity-expansion (billion-laughs) attacks. ET is
     # still imported above only for type hints and trusted output building.
@@ -631,11 +634,8 @@ def build_codes_sheet(tournament_name: str, tournament_short: str, teams: dict[s
     merges: list[str] = ["A8:F8", "A11:F11"]
     team_items = sorted(teams.values(), key=lambda team: team_display(team).lower())
     adjudicator_items = sorted(adjudicators.values(), key=lambda adj: adj.name.lower())
-    max_len = max(sum(max(len(team.speakers), 1) for team in team_items), len(adjudicator_items))
 
     current_row = 14
-    team_pointer = 0
-    team_remaining_rows: list[list[object]] = []
     left_rows: list[list[object]] = []
     left_meta: list[tuple[int, int]] = []
     ordinal = 1
@@ -937,7 +937,13 @@ def build_results_sheet(
         speaker_stats.values(),
         key=lambda row: (-(average_or_none(row.total_points, row.weighted_ballot_count) or 0), -row.total_points, row.team_name.lower(), row.speaker_name.lower()),
     )
-    speaker_rank_rows = [{"speaker_id": row.speaker_id, "avg": round(average_or_none(row.total_points, row.weighted_ballot_count) or 0, 6), "points": round(row.total_points, 6)} for row in sorted_speakers]
+    speaker_rank_rows = [
+        {
+            "speaker_id": row.speaker_id,
+            "avg": round(average_or_none(row.total_points, row.weighted_ballot_count) or 0, 6),
+            "points": round(row.total_points, 6),
+        } for row in sorted_speakers
+    ]
     rank_rows(speaker_rank_rows, ("avg", "points"))
     speaker_ranks = {row["speaker_id"]: row["rank"] for row in speaker_rank_rows}
 
@@ -950,7 +956,12 @@ def build_results_sheet(
             team_cells = [team_ranks[team.team_id], team.team_name, team.wins, team.ballots, format_number(team.total_points), ""]
         if index < len(sorted_speakers):
             speaker = sorted_speakers[index]
-            speaker_cells = [speaker_ranks[speaker.speaker_id], speaker.speaker_name, format_number(speaker.total_points), format_number(average_or_none(speaker.total_points, speaker.weighted_ballot_count)), format_number(trimmed_total(speaker.round_totals))]
+            speaker_cells = [
+                speaker_ranks[speaker.speaker_id], speaker.speaker_name,
+                format_number(speaker.total_points),
+                format_number(average_or_none(speaker.total_points, speaker.weighted_ballot_count)),
+                format_number(trimmed_total(speaker.round_totals)),
+            ]
         rows.append(team_cells + speaker_cells)
 
     merges = ["A8:K8", "A11:J11", "A13:E13", "G13:K13"]
@@ -1044,7 +1055,8 @@ def root_rels_xml() -> str:
 
 
 def content_types_xml(sheet_count: int) -> str:
-    overrides = ''.join(f'<Override PartName="/xl/worksheets/sheet{index}.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>' for index in range(1, sheet_count + 1))
+    overrides = ''.join((f'<Override PartName="/xl/worksheets/sheet{index}.xml" '
+        f'ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>') for index in range(1, sheet_count + 1))
     overrides += '<Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/>'
     overrides += '<Override PartName="/docProps/core.xml" ContentType="application/vnd.openxmlformats-package.core-properties+xml"/>'
     overrides += '<Override PartName="/docProps/app.xml" ContentType="application/vnd.openxmlformats-officedocument.extended-properties+xml"/>'
@@ -1074,7 +1086,8 @@ def core_xml() -> str:
     timestamp = datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace('+00:00', 'Z')
     return (
         '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
-        '<cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dcmitype="http://purl.org/dc/dcmitype/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">'
+        '<cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/"'
+        ' xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dcmitype="http://purl.org/dc/dcmitype/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">'
         '<dc:creator>Tabbycat XML Converter</dc:creator>'
         '<cp:lastModifiedBy>Tabbycat XML Converter</cp:lastModifiedBy>'
         f'<dcterms:created xsi:type="dcterms:W3CDTF">{timestamp}</dcterms:created>'
@@ -1087,7 +1100,9 @@ def theme_xml() -> str:
     return (
         '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
         '<a:theme xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" name="Office Theme">'
-        '<a:themeElements><a:clrScheme name="Office"><a:dk1><a:sysClr val="windowText" lastClr="000000"/></a:dk1><a:lt1><a:sysClr val="window" lastClr="FFFFFF"/></a:lt1></a:clrScheme><a:fontScheme name="Office"><a:majorFont/><a:minorFont/></a:fontScheme><a:fmtScheme name="Office"><a:fillStyleLst/><a:lnStyleLst/><a:effectStyleLst/><a:bgFillStyleLst/></a:fmtScheme></a:themeElements>'
+        '<a:themeElements><a:clrScheme name="Office"><a:dk1><a:sysClr val="windowText" lastClr="000000"/></a:dk1><a:lt1><a:sysClr val="window" lastClr="FFFFFF"/></a:lt1>'
+        '</a:clrScheme><a:fontScheme name="Office"><a:majorFont/><a:minorFont/></a:fontScheme><a:fmtScheme name="Office"><a:fillStyleLst/><a:lnStyleLst/>'
+        '<a:effectStyleLst/><a:bgFillStyleLst/></a:fmtScheme></a:themeElements>'
         '</a:theme>'
     )
 

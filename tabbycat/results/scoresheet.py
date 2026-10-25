@@ -10,6 +10,8 @@ since the scoresheet classes don't know about team identities, the word "team"
 should not appear in any of them.
 """
 
+from decimal import Decimal
+
 from draw.types import DebateSide
 
 
@@ -123,7 +125,7 @@ class ScoresMixin:
                     if getattr(criterion, 'required', True):
                         return None
                     continue
-                total += score * type(score)(criterion.weight)
+                total += score * (Decimal(str(criterion.weight)) if isinstance(score, Decimal) else criterion.weight)
             return total
         return self.scores[side][position]
 
@@ -164,7 +166,7 @@ class ScoresMixin:
                 if getattr(cross, 'required', True):
                     return None
                 continue
-            total += score * type(score)(getattr(cross, 'weight', 1))
+            total += score * (Decimal(str(cross.weight)) if isinstance(score, Decimal) else cross.weight)
         return total
 
     def get_total(self, side):

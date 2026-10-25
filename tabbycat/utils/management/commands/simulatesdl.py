@@ -276,16 +276,16 @@ class Command(BaseCommand):
         self.stdout.write(self.style.SUCCESS("SDL smoke simulation passed."))
         self.stdout.write(
             f"- {summary['name']} ({summary['speakers']} speakers, {summary['teams']} teams, "
-            f"{len(summary['rounds'])} rounds)"
+            f"{len(summary['rounds'])} rounds)",
         )
         for round_summary in summary["rounds"]:
             self.stdout.write(
                 "  R{seq}: {debates} debates, {ballots} confirmed ballots, "
-                "{team_scores} team scores, {speaker_scores} speaker scores".format(**round_summary)
+                "{team_scores} team scores, {speaker_scores} speaker scores".format(**round_summary),
             )
         self.stdout.write(
             f"  standings: {summary['team_standings']} team rows, "
-            f"{summary['speaker_standings']} speaker rows"
+            f"{summary['speaker_standings']} speaker rows",
         )
         if kept:
             self.stdout.write(f"  kept tournament slug: {summary['slug']}")

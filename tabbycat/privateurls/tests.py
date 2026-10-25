@@ -1,7 +1,7 @@
 from unittest.mock import patch
 from urllib.parse import parse_qs, urlsplit
 
-from django.test import TestCase
+from django.test import override_settings, TestCase
 
 from adjallocation.models import DebateAdjudicator
 from adjfeedback.models import AdjudicatorFeedback
@@ -13,6 +13,7 @@ from tournaments.models import Round, Tournament
 from utils.misc import reverse_tournament
 
 
+@override_settings(LANGUAGE_CODE='en')
 class MissingTeamFeedbackTests(TestCase):
 
     def setUp(self):

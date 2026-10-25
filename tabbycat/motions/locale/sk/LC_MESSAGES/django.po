@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tabbycat\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-17 09:00+0200\n"
+"POT-Creation-Date: 2026-10-25 07:25+1100\n"
 "PO-Revision-Date: 2026-06-16 00:00+0200\n"
 "Last-Translator: Sebastian Grof\n"
 "Language-Team: Slovak\n"
@@ -488,6 +488,14 @@ msgstr[3] "Informačné slidy boli zverejnené."
 msgid "Round Motions"
 msgstr "Tézy kola"
 
-#: motions/views.py:267
+#: motions/views.py:261
+msgid "round name"
+msgstr "názov kola"
+
+#: motions/views.py:262
+msgid "list of released motions"
+msgstr "zoznam zverejnených téz"
+
+#: motions/views.py:271
 msgid "Motion Statistics"
 msgstr "Štatistiky tém"

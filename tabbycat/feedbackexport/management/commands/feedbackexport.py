@@ -4,11 +4,11 @@ import threading
 
 from django.core.management.base import BaseCommand, CommandError
 from django.db import close_old_connections
+
 from feedbackexport.jobs import (
     cleanup_successful, configuration, create_backlog_job, create_job, prune_history, worker_tick,
 )
 from feedbackexport.services import build_adjudicator_stats_payload, build_feedback_payload
-
 from tournaments.models import Tournament
 
 

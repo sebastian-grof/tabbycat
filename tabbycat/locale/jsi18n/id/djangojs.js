@@ -1,226 +1,496 @@
 
-
-'use strict'
+'use strict';
 {
-  const globals = this
-  const django = globals.django || (globals.django = {})
+  const globals = this;
+  const django = globals.django || (globals.django = {});
 
-
+  
   django.pluralidx = function(n) {
-    const v = 0
+    const v = 0;
     if (typeof v === 'boolean') {
-      return v ? 1 : 0
+      return v ? 1 : 0;
     } else {
-      return v
+      return v;
     }
-  }
-
+  };
+  
 
   /* gettext library */
 
-  django.catalog = django.catalog || {}
-
+  django.catalog = django.catalog || {};
+  
   const newcatalog = {
-    '%(sel)s of %(cnt)s selected': [
-      '%(sel)s dari %(cnt)s terpilih',
+    "%(sel)s of %(cnt)s selected": [
+      "%(sel)s dari %(cnt)s terpilih"
     ],
-    '6 a.m.': '6 pagi',
-    '6 p.m.': '18.00',
-    'April': 'April',
-    'August': 'Agustus',
-    'Available %s': '%s yang tersedia',
-    'Break': 'Break',
-    'Cancel': 'Batal',
-    'Category': 'Kategori',
-    'Checked-In': 'Sudah Cek-In',
-    'Choose': 'Pilih',
-    'Choose a Date': 'Pilih Tanggal',
-    'Choose a Time': 'Pilih Waktu',
-    'Choose a time': 'Pilih waktu',
-    'Choose all': 'Pilih semua',
-    'Chosen %s': '%s terpilih',
-    'Click to choose all %s at once.': 'Pilih untuk memilih seluruh %s sekaligus.',
-    'Click to remove all chosen %s at once.': 'Klik untuk menghapus semua pilihan %s sekaligus.',
-    'December': 'Desember',
-    'February': 'Februari',
-    'Filter': 'Filter',
-    'Hide': 'Ciutkan',
-    'January': 'Januari',
-    'July': 'Juli',
-    'June': 'Juni',
-    'March': 'Maret',
-    'May': 'Mei',
-    'Midnight': 'Tengah malam',
-    'Noon': 'Siang',
-    'Note: You are %s hour ahead of server time.': [
-      'Catatan: Waktu Anda lebih cepat %s jam dibandingkan waktu server.',
+    "%1 %2 from %3": "%1 %2 dari %3",
+    "%1 %2 from %3 %4": "%1 %2 dari %3 %4",
+    "%1 %2 from %3 on %4 (Chair)": "%1 %2 dari %3 di %4 (Kursi)",
+    "%1 %2 from %3 on %4 (Panellist)": "%1 %2 dari %3 di %4 (panelis)",
+    "%1 %2 from %3 on %4 (Trainee)": "%1 %2 dari %3 di %4 (Peserta Pelatihan)",
+    "%1 (%2) with identifier of %3": "%1 (%2) dengan penanda %3",
+    "%1 (%2) with no assigned identifier": "%1 (%2) tanpa pengenal yang ditetapkan",
+    "%1 (%2, %3)": "%1 (%2, %3)",
+    "%1 (Absent; id=%2)": "%1 (Absen; id=%2)",
+    "%1 (Present; id=%2)": "%1 (Hadir; id=%2)",
+    "%1 (no category) with identifier of %2": "%1 (tidak ada kategori) dengan pengenal dari %2",
+    "%1 (no category) with no assigned identifier": "%1 (tanpa kategori) tanpa pengenal yang ditetapkan",
+    "%1 checked in %2: %3": "%1 men-cek in %2: %3",
+    "%1, %2": "%1, %2",
+    "%1, a %2": "%1, sebuah %2",
+    "%1, a %2 from %3 with identifier of %4": "%1, sebuah %2 dari %3 dengan pengidentifikasi dari %4",
+    "%1, a %2 from %3 with no assigned identifier": "%1, sebuah %2 dari %3 dengan tanpa pengidentifikasi ditentukan",
+    "%1, a %2 of no institutional affiliation with identifier of %3": "%1, sebuah %2 dari tanpa afiliasi institusional dengan pengidentifikasi %3",
+    "%1, a %2 of no institutional affiliation with no assigned identifier": "%1, sebuah %2 dari tanpa afiliasi institusional dengan tanpa pengidentifikasi yang ditentukan",
+    "%1, a team with speakers %2": "%1, sebuah tim dengan pembicara %2",
+    "%1:": "%1:",
+    "%s event": [
+      "%s udalos\u0165"
     ],
-    'Note: You are %s hour behind server time.': [
-      'Catatan: Waktu Anda lebih lambat %s jam dibandingkan waktu server.',
+    "%s selected option not visible": [
+      "%s pilihan terpilih tidak muncul"
     ],
-    'November': 'November',
-    'Now': 'Sekarang',
-    'October': 'Oktober',
-    'Remove': 'Hapus',
-    'Remove all': 'Hapus semua',
-    'Room:': 'Ruangan:',
-    'September': 'September',
-    'Show': 'Bentangkan',
-    'Team': 'Tim',
-    'This is the list of available %s. You may choose some by selecting them in the box below and then clicking the "Choose" arrow between the two boxes.': 'Berikut adalah daftar %s yang tersedia. Anda dapat memilih satu atau lebih dengan memilihnya pada kotak di bawah, lalu mengeklik tanda panah "Pilih" di antara kedua kotak.',
-    'This is the list of chosen %s. You may remove some by selecting them in the box below and then clicking the "Remove" arrow between the two boxes.': 'Berikut adalah daftar %s yang terpilih. Anda dapat menghapus satu atau lebih dengan memilihnya pada kotak di bawah, lalu mengeklik tanda panah "Hapus" di antara kedua kotak.',
-    'Today': 'Hari ini',
-    'Tomorrow': 'Besok',
-    'Type into this box to filter down the list of available %s.': 'Ketik pada kotak ini untuk menyaring daftar %s yang tersedia.',
-    'Unknown': 'Tak diketahui',
-    'Yesterday': 'Kemarin',
-    'You have already submitted this form. Are you sure you want to submit it again?': 'Anda telah mengajukan formulir ini. Apakah anda yakin ingin mengajukannya kembali?',
-    'You have selected an action, and you haven\u2019t made any changes on individual fields. You\u2019re probably looking for the Go button rather than the Save button.': 'Anda telah memilih tindakan, dan Anda belum membuat perubahan apa pun di setiap bidang. Anda mungkin mencari tombol Buka daripada tombol Simpan.',
-    'You have selected an action, but you haven\u2019t saved your changes to individual fields yet. Please click OK to save. You\u2019ll need to re-run the action.': 'Anda telah memilih tindakan, tetapi Anda belum menyimpan perubahan ke masing-masing bidang. Silakan klik OK untuk menyimpan. Anda harus menjalankan kembali tindakan tersebut.',
-    'You have unsaved changes on individual editable fields. If you run an action, your unsaved changes will be lost.': 'Beberapa perubahan bidang yang Anda lakukan belum tersimpan. Perubahan yang telah dilakukan akan hilang.',
-    'abbrev. month April\u0004Apr': 'Apr',
-    'abbrev. month August\u0004Aug': 'Agu',
-    'abbrev. month December\u0004Dec': 'Des',
-    'abbrev. month February\u0004Feb': 'Feb',
-    'abbrev. month January\u0004Jan': 'Jan',
-    'abbrev. month July\u0004Jul': 'Jul',
-    'abbrev. month June\u0004Jun': 'Jun',
-    'abbrev. month March\u0004Mar': 'Mar',
-    'abbrev. month May\u0004May': 'Mei',
-    'abbrev. month November\u0004Nov': 'Nov',
-    'abbrev. month October\u0004Oct': 'Okt',
-    'abbrev. month September\u0004Sep': 'Sep',
-    'one letter Friday\u0004F': 'J',
-    'one letter Monday\u0004M': 'S',
-    'one letter Saturday\u0004S': 'S',
-    'one letter Sunday\u0004S': 'M',
-    'one letter Thursday\u0004T': 'K',
-    'one letter Tuesday\u0004T': 'S',
-    'one letter Wednesday\u0004W': 'R',
-  }
+    "(click to clear)": "(klik untuk membersihkan)",
+    "6 a.m.": "6 pagi",
+    "6 p.m.": "18.00",
+    "; ": ";",
+    "<strong>%1</strong>: %2": "<strong>%1</strong>:%2",
+    "<strong>\u2613</strong> All": "<strong>\u2613</strong> Semua",
+    "<strong>\u2713</strong> All": "<strong>\u2713</strong> Semua",
+    "Active": "Akt\u00edvna",
+    "Add Ballot": "Tambah Balot",
+    "Add day": "Prida\u0165 de\u0148",
+    "Add event": "Prida\u0165 udalos\u0165",
+    "Adjudicating with %1.": "Mengadili dengan %1.",
+    "Adjudicator Demographics": "Demografi Juri",
+    "Adjudicator Results": "Hasil Juri",
+    "Aff Veto": "Aff Veto",
+    "All": "Semua",
+    "Allocate": "Prideli\u0165",
+    "Allocates panels in exact order going from top to bottom (ignoring debate priority and conflicts.)": "Pride\u013euje panely v presnom porad\u00ed zhora nadol (ignoruje prioritu debaty a konflikty).",
+    "Allocates preformed panels to debates of similar priority level, while avoiding conflicts.": "Pride\u013euje predpripraven\u00e9 panely debat\u00e1m s podobnou \u00farov\u0148ou priority a z\u00e1rove\u0148 sa vyh\u00fdba konfliktom.",
+    "Anon": "Anon",
+    "Anonymous (due to team codes)": "Anonim (karena kode tim)",
+    "April": "April",
+    "Assign Automatic Priorities by Bracket": "Priradi\u0165 automatick\u00e9 priority pod\u013ea ko\u0161a",
+    "Assign Automatic Priorities by Liveness": "Priradi\u0165 automatick\u00e9 priority pod\u013ea liveness",
+    "August": "Agustus",
+    "Auto-Allocate": "Alokasi Otomatis",
+    "Auto-Allocate Adjudicators": "Automaticky prideli\u0165 rozhodcov",
+    "Auto-Allocate Individual Adjudicators": "Automaticky prideli\u0165 jednotliv\u00fdch rozhodcov",
+    "Auto-Allocate Preformed Panels": "Automaticky prideli\u0165 predpripraven\u00e9 panely",
+    "Auto-Allocate Rooms to Debates": "Automaticky prideli\u0165 miestnosti debat\u00e1m",
+    "Auto-Prioritise": "Prioritas Otomatis",
+    "Auto-allocate will remove adjudicators from all debates\n        and create new panels in their place.": "Automatick\u00e9 pridelenie odstr\u00e1ni rozhodcov zo v\u0161etk\u00fdch deb\u00e1t a vytvor\u00ed nov\u00e9 panely na ich mieste.",
+    "Available %s": "%s yang tersedia",
+    "A\u2013Z": "A\u2013Z",
+    "Ballot Check-Ins": "Balot Check-In",
+    "Ballot Statuses": "Status Balot",
+    "Ballots Status": "Status balot",
+    "Break": "Break",
+    "By ": "Od ",
+    "By %1": "Oleh %1",
+    "By how many points did they win:": "Dengan berapa nilai mereka menang:",
+    "Cancel": "Batal",
+    "Category": "Kategori",
+    "Chair": "Chair",
+    "Chair for Panel of %1": "Kursi untuk panel %1",
+    "Check time": "Skontrolujte \u010das",
+    "Checked-In": "Sudah Cek-In",
+    "Choose": "Vybra\u0165",
+    "Choose %s by selecting them and then select the \"Choose\" arrow button.": "Pilih %s dengan memilih mereka dan kemudian memilih tombol panah \"Choose\".",
+    "Choose a Date": "Pilih Tanggal",
+    "Choose a Time": "Pilih Waktu",
+    "Choose a date above to start building the schedule.": "Vyberte d\u00e1tum vy\u0161\u0161ie a za\u010dnite zostavova\u0165 rozvrh.",
+    "Choose a time": "Pilih waktu",
+    "Choose all": "Vybra\u0165 v\u0161etko",
+    "Choose all %s": "Pilih semua %s",
+    "Choose selected %s": "Pilih terpilih %s",
+    "Chosen %s": "%s terpilih",
+    "Circle %1": "Lingkaran %1",
+    "Circle Rank:": "Peringkat Lingkaran:",
+    "Circle the last digit of the %1's score:": "Lingkari angka terakhir dari nilai %1:",
+    "Circle the last digit of the team's total:": "Lingkarin angka terakhir dari total regu:",
+    "Click to check-in manually": "Klik untuk cek-in secara manual",
+    "Click to choose all %s at once.": "Kliknite sem pre vybratie v\u0161etk\u00fdch %s naraz.",
+    "Click to remove all chosen %s at once.": "Kliknite sem pre vymazanie vybrat\u00fdch %s naraz.",
+    "Click to undo a check-in": "Klik untuk membatalkan sebuah cek-in",
+    "Close Shard": "Zatvori\u0165 shard",
+    "Code Names": "K\u00f3dov\u00e9 men\u00e1",
+    "Confirmed": "Terkonfirmasi",
+    "Conflict": "Konflikt",
+    "Conflict penalty \u2014 higher numbers will more strongly avoid recorded conflicts": "Pokuta za konflikt \u2014 vy\u0161\u0161ie \u010d\u00edsla bud\u00fa silnej\u0161ie predch\u00e1dza\u0165 zaznamenan\u00fdm konfliktom",
+    "Constraint": "Obmedzenie",
+    "Copy From Check-Ins": "Salin dari Check in",
+    "Correct the start time below": "Opravte \u010das za\u010diatku ni\u017e\u0161ie",
+    "Could not save the side. Try again.": "Stranu sa nepodarilo ulo\u017ei\u0165. Sk\u00faste to znova.",
+    "Create Panels": "Vytvori\u0165 panely",
+    "Create Preformed Panels": "Vytvori\u0165 predpripraven\u00e9 panely",
+    "Create preformed panels by estimating the general brackets that will\n                              occur during this round.": "Vytvor predpripraven\u00e9 panely odhadnut\u00edm v\u0161eobecn\u00fdch ko\u0161ov, ktor\u00e9 sa vyskytn\u00fa po\u010das tohto kola.",
+    "Custom title": "Vlastn\u00fd n\u00e1zov",
+    "Debated": "Diperdebatkan",
+    "December": "Desember",
+    "Delete this folder?": "Vymaza\u0165 tento prie\u010dinok?",
+    "Delete this folder? Its contents will move up to the level above.": "Vymaza\u0165 tento prie\u010dinok? Jeho obsah sa presunie o \u00farove\u0148 vy\u0161\u0161ie.",
+    "Description": "Popis",
+    "Did %1 deliver the adjudication?": "Apakah %1 menyampaikan putusan tersebut?",
+    "Direct Allocate": "Priame pridelenie",
+    "Discard all unsaved changes?": "Zahodi\u0165 v\u0161etky neulo\u017een\u00e9 zmeny?",
+    "Discard changes": "Zahodi\u0165 zmeny",
+    "Do not allocate panellists": "Nepride\u013eova\u0165 panelistov",
+    "Do not allocate trainees": "Nepride\u013eova\u0165 shadows",
+    "Duration": "Trvanie",
+    "Empty \u2014 drag folders or tournaments here.": "Pr\u00e1zdne \u2014 presu\u0148te sem prie\u010dinky alebo turnaje.",
+    "End": "Koniec",
+    "Event type": "Typ udalosti",
+    "Every tournament is filed into a folder.": "Ka\u017ed\u00fd turnaj je zaraden\u00fd do prie\u010dinka.",
+    "February": "Februari",
+    "Filter": "Filter",
+    "Find in Table": "Temukan di Tabel",
+    "Folders": "Prie\u010dinky",
+    "Friday": "Jum'at",
+    "Gender": "Gender",
+    "Hidden": "Skryt\u00e9",
+    "Hide": "Skry\u0165",
+    "Highest bracket first": "Najvy\u0161\u0161ia skupina ako prv\u00e1",
+    "History penalty \u2014 higher numbers will more strongly avoid\n                                         matching adjudicators to teams or panellists they have seen\n                                         before": "Pokuta za hist\u00f3riu \u2014 vy\u0161\u0161ie \u010d\u00edsla bud\u00fa silnej\u0161ie predch\u00e1dza\u0165 tomu, aby rozhodcovia posudzovali t\u00edmy alebo panelistov, ktor\u00fdch u\u017e videli predt\u00fdm",
+    "ID %1,": "ID %1,",
+    "IMPORTANT: Check and explicitly note if a speaker gives multiple speeches": "PENTING : Periksa dan catat secara eksplisit jika seorang pembicara memberikan banyak pidato",
+    "If you want to view this page without the sidebar (i.e. for displaying to an auditorium) you can use the assistant version.": "Jika Anda ingin melihat laman ini tanpa papantepi (misalkan, untuk menampilkan di auditorium), Anda bisa menggunakan versi asisten.",
+    "Importance mismatch penalty \u2014 higher numbers will more\n                                         strongly match panel strengths to assigned importances": "Pokuta za nes\u00falad d\u00f4le\u017eitosti \u2014 vy\u0161\u0161ie \u010d\u00edsla bud\u00fa silnej\u0161ie prira\u010fova\u0165 silu panelov k pridelen\u00fdm d\u00f4le\u017eitostiam",
+    "In ": "V ",
+    "Incomplete": "Ne\u00fapln\u00e9",
+    "Independent": "Independen",
+    "Institution": "Debatn\u00fd klub",
+    "January": "Januari",
+    "July": "Juli",
+    "June": "Juni",
+    "Latest Actions": "Tindakan Terbaru",
+    "Latest Results": "Hasil terbaru",
+    "Leave blank to show": "Ponechajte pr\u00e1zdne, ak chcete zobrazi\u0165",
+    "Loading...": "Na\u010d\u00edtavam...",
+    "Lowest bracket first": "Najni\u017e\u0161ia skupina ako prv\u00e1",
+    "March": "Maret",
+    "Mark replies %1 to %2; <strong>%3</strong>.": "Tandai balasan %1 ke %2; <strong>%3</strong>.",
+    "Mark speeches %1 to %2; <strong>%3</strong>.": "Tandai pidato %1 to %2; <strong>%3</strong>.",
+    "Match": "Cocok",
+    "Match Check-Ins": "Check-Ins yang Tepat",
+    "May": "Mei",
+    "Merge Ballot(s)": "Zl\u00fa\u010di\u0165 ballot(y)",
+    "Midnight": "Tengah malam",
+    "Minimum feedback score required to be a chair or panellist": "Minim\u00e1lne sk\u00f3re sp\u00e4tnej v\u00e4zby potrebn\u00e9 na to, aby mohol by\u0165 chair alebo panelista",
+    "Missing": "Ch\u00fdba",
+    "Monday": "Senin",
+    "Motion is:": "T\u00e9za je:",
+    "N/A": "N/A",
+    "Needs a date": "Ch\u00fdba d\u00e1tum",
+    "Neg Veto": "Neg Veto",
+    "New folder": "Nov\u00fd prie\u010dinok",
+    "New schedule day": "Nov\u00fd de\u0148 rozvrhu",
+    "No": "Tidak",
+    "No ": "Nie ",
+    "No Actions Yet": "Belum ada tindakan sama sekali",
+    "No Adjudicator Ratings Information": "Tidak Ada Informasi Peringkat Juri",
+    "No Adjudicator-Adjudicator Feedback Information": "Tidak Ada Informasi Nilai Juri - Juri",
+    "No Category": "Tanpa Kategori",
+    "No Confirmed Results Yet": "Belum Ada Hasil Yang Dikonfirmasi",
+    "No Gender Information": "Tidak Ada Informasi Gender",
+    "No Position Information": "Tidak Ada Informasi Posisi",
+    "No Region Information": "Tidak Ada Informasi Wilayah",
+    "No Results Yet": "Zatia\u013e \u017eiadne v\u00fdsledky",
+    "No Speaker Categories Information": "Tidak Ada Informasi Kategori Pembicara",
+    "No changes": "Tidak ada perubahan",
+    "No code name set": "Tidak ada nama kode yang ditetapkan",
+    "No folders or tournaments match your search.": "\u017diadne prie\u010dinky ani turnaje nezodpovedaj\u00fa vyh\u013ead\u00e1vaniu.",
+    "No folders yet. Click \u201cNew folder\u201d to create one.": "Zatia\u013e tu nie s\u00fa \u017eiadne prie\u010dinky. Vytvorte ich kliknut\u00edm na \u201eNov\u00fd prie\u010dinok\u201c.",
+    "No matching people found.": "Orang yang cocok tidak ditemukan.",
+    "No matching rooms found.": "Ruangan yang cocok tidak ditemukan.",
+    "No preformed panels exist for this round. You can create some by going to Setup, and then Preformed Panels.": "Pre toto kolo neexistuj\u00fa \u017eiadne predpripraven\u00e9 panely. M\u00f4\u017ee\u0161 ich vytvori\u0165 v \u010dasti Nastavenie a potom Predpripraven\u00e9 panely.",
+    "No schedule events yet": "Zatia\u013e tu nie s\u00fa \u017eiadne udalosti",
+    "No, I am submitting feedback on:": "Tidak, saya menyerahkah umpan balik pada:",
+    "Noon": "Siang",
+    "Not Checked In": "Neprihl\u00e1sen\u00fd",
+    "Not Checked-In": "Tidak Check-In",
+    "Note that 'liveness' doesn't factor in special rules other than a\n                              strict mathematical break. Be sure to double-check the results": "Upozornenie: liveness nezoh\u013ead\u0148uje \u0161peci\u00e1lne pravidl\u00e1 okrem pr\u00edsneho matematick\u00e9ho postupu. Nezabudni si v\u00fdsledky dvojito skontrolova\u0165.",
+    "Note: You are %s hour ahead of server time.": [
+      "Catatan: Waktu Anda lebih cepat %s jam dibandingkan waktu server."
+    ],
+    "Note: You are %s hour behind server time.": [
+      "Catatan: Waktu Anda lebih lambat %s jam dibandingkan waktu server."
+    ],
+    "Note: You should almost certainly not being using this page once results\n                               have been released. Be sure to fill all gaps before leaving.": "Pozn\u00e1mka: po zverejnen\u00ed v\u00fdsledkov by si t\u00fato str\u00e1nku takmer ur\u010dite nemal/a pou\u017e\u00edva\u0165. Pred odchodom sa uisti, \u017ee si vyplnil/a v\u0161etky medzery.",
+    "November": "November",
+    "Now": "Sekarang",
+    "October": "Oktober",
+    "Open": "Open",
+    "Open the assistant version.": "Buka versi asisten.",
+    "Order": "Poradie",
+    "Panellist": "Panelis",
+    "Prioritise": "Prioritizova\u0165",
+    "Prioritise by bracket will split the draw into quartiles by bracket\n                              and give higher priorities to higher brackets.": "Prioritiz\u00e1cia pod\u013ea ko\u0161a rozdel\u00ed pairing do kvartilov pod\u013ea ko\u0161a a prirad\u00ed vy\u0161\u0161\u00edm ko\u0161om vy\u0161\u0161ie priority.",
+    "Prioritise by liveness assign live rooms to be important,\n                              safe rooms (where all teams are guaranteed to break) to be neutral>,\n                              and dead rooms (where all teams cannot break) to be meh. This is\n                              typically only useful in the very last preliminary rounds, when many\n                              teams are ruled out of the break.": "Prioritiz\u00e1cia pod\u013ea liveness prirad\u00ed live miestnostiam d\u00f4le\u017eitos\u0165, bezpe\u010dn\u00fdm miestnostiam (kde je postup v\u0161etk\u00fdch t\u00edmov zaru\u010den\u00fd) neutr\u00e1lnu hodnotu a m\u0155tvym miestnostiam (kde \u017eiadny t\u00edm nem\u00f4\u017ee post\u00fapi\u0165) n\u00edzku hodnotu. Toto je spravidla u\u017eito\u010dn\u00e9 iba v posledn\u00fdch predkol\u00e1ch, ke\u010f s\u00fa mnoh\u00e9 t\u00edmy vyl\u00fa\u010den\u00e9 z postupu.",
+    "Priority %1": "Prioritas %1",
+    "Private": "S\u00fakromn\u00e1",
+    "Public": "Verejn\u00e9",
+    "Rank": "Peringkat",
+    "Rank %(rank)s": "Poradie %(rank)s",
+    "Re-Edit": "Edit kembali",
+    "Real Names": "Skuto\u010dn\u00e9 men\u00e1",
+    "Region": "Wilayah",
+    "Remove": "Odstr\u00e1ni\u0165",
+    "Remove %s by selecting them and then select the \"Remove\" arrow button.": "Pindahkan%s dengan memilih mereka dan kemudian memilih tombol panah \"Remove\".",
+    "Remove all": "Odstr\u00e1ni\u0165 v\u0161etky",
+    "Remove all %s": "Pindahkan semua %s",
+    "Remove selected %s": "Pindahkan terpilih %s",
+    "Return ballots to %1.": "Kembalikan surat suara ke %1.",
+    "Return to Draw": "Kembali Ke Pengundian",
+    "Review": "Ulasan",
+    "Room:": "Ruangan:",
+    "Round": "Kolo",
+    "Saturday": "Sabtu",
+    "Save layout": "Ulo\u017ei\u0165 usporiadanie",
+    "Saved.": "Ulo\u017een\u00e9.",
+    "Saving\u2026": "Uklad\u00e1 sa\u2026",
+    "Scan Using Camera": "Pindai Menggunakan Kamera",
+    "Score:": "Nilai:",
+    "Seen": "Viden\u00fd",
+    "Select a count, sort, and mix to open a shard": "Vyber po\u010det, zoradenie a mie\u0161anie na otvorenie shardu",
+    "September": "September",
+    "Set All Breaking as Available": "Tetapkan Semua Kerusakan yang Tersedia",
+    "Set Breaking": "Nastavi\u0165 postupuj\u00facich",
+    "Set all availabilities to exactly match check-ins.": "Tetapkan semua ketersediaan ke check-ins yang tepat.",
+    "Set all the availabilities to exactly match what they were in the previous round.": "Tetapkan semua ketersediaan agar sama persis dengan keadaan mereka di babak sebelumnya.",
+    "Set people as available only if they have a check-in and are currently unavailable \u2014 i.e. it will not overwrite any existing availabilities.": "Set orang sebagai tersedia hanya jika mereka memiliki check-in dan saat ini tidak tersedia - yaitu tidak akan menimpa ketersediaan yang ada.",
+    "Shard Mix": "Shard Mix",
+    "Shard Sort": "Shard Sort",
+    "Shard Split": "Shard Split",
+    "Show": "Zobrazi\u0165",
+    "Slug (public URL)": "Identifik\u00e1tor (verejn\u00e1 URL)",
+    "Smart Allocate": "Smart pridelenie",
+    "Solo Chair": "Kursi Solo",
+    "Solo speech mode: adjudicators can be assigned to multiple speeches in this round. Drag a judge from the bottom pool to every speech they judge; drag from a speech back to the pool to remove only that assignment. Auto-allocation is disabled for this format.": "Re\u017eim s\u00f3lovej re\u010di: rozhodcov mo\u017eno priradi\u0165 k viacer\u00fdm re\u010diam v tomto kole. Pretiahni rozhodcu zo spodn\u00e9ho zoznamu ku ka\u017edej re\u010di, ktor\u00fa posudzuje; pretiahnut\u00edm re\u010di sp\u00e4\u0165 do zoznamu odstr\u00e1ni\u0161 iba toto priradenie. Automatick\u00e9 pridelenie je pre tento form\u00e1t vypnut\u00e9.",
+    "Speaker Demographics": "Demografi Pembicara",
+    "Speaker Results": "Hasil Pembicara",
+    "Start": "Za\u010diatok",
+    "Stop Camera Scan": "Hentikan Pindaian Kamera",
+    "Sunday": "Ahad",
+    "Team": "Tim",
+    "The allocator assigns rooms to debates while trying to match\n                               all of the room constraints that have been specified.": "Pride\u013eova\u010d prirad\u00ed miestnosti debat\u00e1m a pritom sa sna\u017e\u00ed splni\u0165 v\u0161etky zadan\u00e9 obmedzenia miestnost\u00ed.",
+    "The allocator creates stronger panels for debates that were given\n                                  higher importances. If importances have not been set it will allocate\n                                  stronger panels to debates in higher brackets.": "Pride\u013eova\u010d vytvor\u00ed silnej\u0161ie panely pre debaty s vy\u0161\u0161ou d\u00f4le\u017eitos\u0165ou. Ak d\u00f4le\u017eitosti neboli nastaven\u00e9, prirad\u00ed silnej\u0161ie panely debat\u00e1m vo vy\u0161\u0161\u00edch ko\u0161och.",
+    "The bracket range of the hypothetical debate": "Kisaran braket dari debat hipotetis",
+    "The debate's bracket": "Kelompok debat",
+    "The estimated total number of live break categories across all teams of the hypothetical debate": "Perkiraan jumlah total kategori istirahat langsung di semua tim debat hipotetis",
+    "The motion is <em>%1</em>": "Pergerakannya adalah <em>%1</em>",
+    "The total number of live break categories across all teams": "Jumlah total kategori jeda langsung di semua tim",
+    "This debate's priority": "Prioritas debat ini",
+    "This is the list of available %s. You may choose some by selecting them in the box below and then clicking the \"Choose\" arrow between the two boxes.": "Toto je zoznam dostupn\u00fdch %s. Pre v\u00fdber je potrebn\u00e9 ozna\u010di\u0165 ich v poli a n\u00e1sledne kliknut\u00edm na \u0161\u00edpku \u201eVybra\u0165\u201c presun\u00fa\u0165.",
+    "This is the list of chosen %s. You may remove some by selecting them in the box below and then clicking the \"Remove\" arrow between the two boxes.": "Toto je zoznam dostupn\u00fdch %s. Pre vymazanie je potrebn\u00e9 ozna\u010di\u0165 ich v poli a n\u00e1sledne kliknut\u00edm na \u0161\u00edpku \u201eVymaza\u0165\u201c vymaza\u0165.",
+    "This page will live-update with new check-ins as they occur although the initial list may be up to a minute old.": "Laman ini akan terbarui secara live dengan cek-in baru saat terjadi walaupun daftar inisial akan berumur satu menit.",
+    "This person does not have a check-in identifier so they can't be checked in": "Orang ini tidak memiliki pengidentifikasi cek-in sehingga ybs tidak dapat di cek-in",
+    "Thursday": "Kamis",
+    "Today": "Hari ini",
+    "Tomorrow": "Besok",
+    "Total:": "Total:",
+    "Tournaments here appear directly on the homepage. Drop one onto a folder to file it away.": "Tieto turnaje sa zobrazuj\u00fa priamo na domovskej str\u00e1nke. Presunut\u00edm do prie\u010dinka ich zarad\u00edte.",
+    "Trainee": "Peserta pelatihan",
+    "Tuesday": "Selasa",
+    "Turn On Sounds": "Nyalakan Suara",
+    "Type into this box to filter down the list of available %s.": "Ketik pada kotak ini untuk menyaring daftar %s yang tersedia.",
+    "Type into this box to filter down the list of selected %s.": "Ketik di dalam kotak utnuk menyaring daftar dar %s terpilih.",
+    "Unaffiliated": "Tidak terafiliasi",
+    "Unavailable": "Nedostupn\u00fd",
+    "Uncategorised": "Tidak terkategorisasi",
+    "Uncategorised tournaments": "Nezaraden\u00e9 turnaje",
+    "Unconfirmed": "Tidak Dikonfirmasi",
+    "Unknown": "Tak diketahui",
+    "Unknown Adj": "Nezn\u00e1my rozhodca",
+    "Unranked": "Bez poradia",
+    "Unsaved changes": "Neulo\u017een\u00e9 zmeny",
+    "Unsaved changes.": "Neulo\u017een\u00e9 zmeny.",
+    "Unsaved manual changes.": "Neulo\u017een\u00e9 ru\u010dn\u00e9 zmeny.",
+    "Unsure": "Tidak yakin",
+    "Untitled event": "Udalos\u0165 bez n\u00e1zvu",
+    "Wednesday": "Rabu",
+    "Which team won the debate:": "Regu mana yang memenangkan perdebatan:",
+    "Yes": "Ya",
+    "Yesterday": "Kemarin",
+    "You cannot confirm this ballot because you entered it": "Anda tidak bisa mengkonfirmasi balot ini karena Andam telah memasukan nya",
+    "You have selected an action, and you haven\u2019t made any changes on individual fields. You\u2019re probably looking for the Go button rather than the Save button.": "Anda telah memilih tindakan, dan Anda belum membuat perubahan apa pun di setiap bidang. Anda mungkin mencari tombol Buka daripada tombol Simpan.",
+    "You have selected an action, but you haven\u2019t saved your changes to individual fields yet. Please click OK to save. You\u2019ll need to re-run the action.": "Anda telah memilih tindakan, tetapi Anda belum menyimpan perubahan ke masing-masing bidang. Silakan klik OK untuk menyimpan. Anda harus menjalankan kembali tindakan tersebut.",
+    "You have unsaved changes on individual editable fields. If you run an action, your unsaved changes will be lost.": "Beberapa perubahan bidang yang Anda lakukan belum tersimpan. Perubahan yang telah dilakukan akan hilang.",
+    "Z\u2013A": "Z\u2013A",
+    "abbrev. day Friday\u0004Fri": "Jum",
+    "abbrev. day Monday\u0004Mon": "Sen",
+    "abbrev. day Saturday\u0004Sat": "Sab",
+    "abbrev. day Sunday\u0004Sun": "Ahd",
+    "abbrev. day Thursday\u0004Thur": "Kam",
+    "abbrev. day Tuesday\u0004Tue": "Sel",
+    "abbrev. day Wednesday\u0004Wed": "Rab",
+    "abbrev. month April\u0004Apr": "Apr",
+    "abbrev. month August\u0004Aug": "Agu",
+    "abbrev. month December\u0004Dec": "Des",
+    "abbrev. month February\u0004Feb": "Feb",
+    "abbrev. month January\u0004Jan": "Jan",
+    "abbrev. month July\u0004Jul": "Jul",
+    "abbrev. month June\u0004Jun": "Jun",
+    "abbrev. month March\u0004Mar": "Mar",
+    "abbrev. month May\u0004May": "Mei",
+    "abbrev. month November\u0004Nov": "Nov",
+    "abbrev. month October\u0004Oct": "Okt",
+    "abbrev. month September\u0004Sep": "Sep",
+    "adjudicators with gender data": "juri dengan data gender",
+    "confirmed": "potvrden\u00e9",
+    "decimal marks are allowed": "Tanda desimal diperbolehkan",
+    "feedback scores analysed": "analyzovan\u00fdch sk\u00f3re sp\u00e4tnej v\u00e4zby",
+    "feedback scores total": "total skor penilaian",
+    "folder": "prie\u010dinok",
+    "folders": "prie\u010dinky",
+    "inactive": "neakt\u00edvny",
+    "no \u00bd marks": "Tidak ada \u00bd tanda",
+    "one letter Friday\u0004F": "J",
+    "one letter Monday\u0004M": "S",
+    "one letter Saturday\u0004S": "S",
+    "one letter Sunday\u0004S": "M",
+    "one letter Thursday\u0004T": "K",
+    "one letter Tuesday\u0004T": "S",
+    "one letter Wednesday\u0004W": "R",
+    "optional": "nepovinn\u00e9",
+    "saving...": "menyimpan...",
+    "speaker scores analysed": "analyzovan\u00fdch sk\u00f3re re\u010dn\u00edkov",
+    "speaker scores total": "total skor pembicara",
+    "speakers with gender data": "pembicara dengan data gender",
+    "tab check": "Tab cek",
+    "tab entry": "Tab entri",
+    "tournament": "turnaj",
+    "tournaments": "turnaje",
+    "unconfirmed": "nepotvrden\u00e9",
+    "\u00bd marks are allowed": " \u00bd tanda diperbolehkan",
+    "\u2613 All": "\u2613 V\u0161etky",
+    "\u2713 All": "\u2713 V\u0161etky"
+  };
   for (const key in newcatalog) {
-    django.catalog[key] = newcatalog[key]
+    django.catalog[key] = newcatalog[key];
   }
-
+  
 
   if (!django.jsi18n_initialized) {
     django.gettext = function(msgid) {
-      const value = django.catalog[msgid]
+      const value = django.catalog[msgid];
       if (typeof value === 'undefined') {
-        return msgid
+        return msgid;
       } else {
-        return (typeof value === 'string') ? value : value[0]
+        return (typeof value === 'string') ? value : value[0];
       }
-    }
+    };
 
     django.ngettext = function(singular, plural, count) {
-      const value = django.catalog[singular]
+      const value = django.catalog[singular];
       if (typeof value === 'undefined') {
-        return (count == 1) ? singular : plural
+        return (count == 1) ? singular : plural;
       } else {
-        return value.constructor === Array ? value[django.pluralidx(count)] : value
+        return value.constructor === Array ? value[django.pluralidx(count)] : value;
       }
-    }
+    };
 
-    django.gettext_noop = function(msgid) { return msgid }
+    django.gettext_noop = function(msgid) { return msgid; };
 
     django.pgettext = function(context, msgid) {
-      let value = django.gettext(context + '\x04' + msgid)
+      let value = django.gettext(context + '\x04' + msgid);
       if (value.includes('\x04')) {
-        value = msgid
+        value = msgid;
       }
-      return value
-    }
+      return value;
+    };
 
     django.npgettext = function(context, singular, plural, count) {
-      let value = django.ngettext(context + '\x04' + singular, context + '\x04' + plural, count)
+      let value = django.ngettext(context + '\x04' + singular, context + '\x04' + plural, count);
       if (value.includes('\x04')) {
-        value = django.ngettext(singular, plural, count)
+        value = django.ngettext(singular, plural, count);
       }
-      return value
-    }
+      return value;
+    };
 
     django.interpolate = function(fmt, obj, named) {
       if (named) {
-        return fmt.replace(/%\(\w+\)s/g, function(match){return String(obj[match.slice(2,-2)])})
+        return fmt.replace(/%\(\w+\)s/g, function(match){return String(obj[match.slice(2,-2)])});
       } else {
-        return fmt.replace(/%s/g, function(match){return String(obj.shift())})
+        return fmt.replace(/%s/g, function(match){return String(obj.shift())});
       }
-    }
+    };
 
 
     /* formatting library */
 
     django.formats = {
-      'DATETIME_FORMAT': 'j N Y, G.i',
-      'DATETIME_INPUT_FORMATS': [
-        '%d-%m-%Y %H.%M.%S',
-        '%d-%m-%Y %H.%M.%S.%f',
-        '%d-%m-%Y %H.%M',
-        '%d-%m-%y %H.%M.%S',
-        '%d-%m-%y %H.%M.%S.%f',
-        '%d-%m-%y %H.%M',
-        '%m/%d/%y %H.%M.%S',
-        '%m/%d/%y %H.%M.%S.%f',
-        '%m/%d/%y %H.%M',
-        '%m/%d/%Y %H.%M.%S',
-        '%m/%d/%Y %H.%M.%S.%f',
-        '%m/%d/%Y %H.%M',
-        '%Y-%m-%d %H:%M:%S',
-        '%Y-%m-%d %H:%M:%S.%f',
-        '%Y-%m-%d %H:%M',
-        '%Y-%m-%d',
-      ],
-      'DATE_FORMAT': 'j N Y',
-      'DATE_INPUT_FORMATS': [
-        '%d-%m-%Y',
-        '%d/%m/%Y',
-        '%d-%m-%y',
-        '%d/%m/%y',
-        '%d %b %Y',
-        '%d %B %Y',
-        '%m/%d/%y',
-        '%m/%d/%Y',
-        '%Y-%m-%d',
-      ],
-      'DECIMAL_SEPARATOR': ',',
-      'FIRST_DAY_OF_WEEK': 1,
-      'MONTH_DAY_FORMAT': 'j F',
-      'NUMBER_GROUPING': 3,
-      'SHORT_DATETIME_FORMAT': 'd-m-Y G.i',
-      'SHORT_DATE_FORMAT': 'd-m-Y',
-      'THOUSAND_SEPARATOR': '.',
-      'TIME_FORMAT': 'G.i',
-      'TIME_INPUT_FORMATS': [
-        '%H.%M.%S',
-        '%H.%M',
-        '%H:%M:%S',
-        '%H:%M:%S.%f',
-        '%H:%M',
-      ],
-      'YEAR_MONTH_FORMAT': 'F Y',
-    }
+    "DATETIME_FORMAT": "j N Y, G.i",
+    "DATETIME_INPUT_FORMATS": [
+      "%d-%m-%Y %H.%M.%S",
+      "%d-%m-%Y %H.%M.%S.%f",
+      "%d-%m-%Y %H.%M",
+      "%d-%m-%y %H.%M.%S",
+      "%d-%m-%y %H.%M.%S.%f",
+      "%d-%m-%y %H.%M",
+      "%m/%d/%y %H.%M.%S",
+      "%m/%d/%y %H.%M.%S.%f",
+      "%m/%d/%y %H.%M",
+      "%m/%d/%Y %H.%M.%S",
+      "%m/%d/%Y %H.%M.%S.%f",
+      "%m/%d/%Y %H.%M",
+      "%Y-%m-%d %H:%M:%S",
+      "%Y-%m-%d %H:%M:%S.%f",
+      "%Y-%m-%d %H:%M",
+      "%Y-%m-%d"
+    ],
+    "DATE_FORMAT": "j N Y",
+    "DATE_INPUT_FORMATS": [
+      "%d-%m-%Y",
+      "%d/%m/%Y",
+      "%d-%m-%y",
+      "%d/%m/%y",
+      "%d %b %Y",
+      "%d %B %Y",
+      "%m/%d/%y",
+      "%m/%d/%Y",
+      "%Y-%m-%d"
+    ],
+    "DECIMAL_SEPARATOR": ",",
+    "FIRST_DAY_OF_WEEK": 1,
+    "MONTH_DAY_FORMAT": "j F",
+    "NUMBER_GROUPING": 3,
+    "SHORT_DATETIME_FORMAT": "d-m-Y G.i",
+    "SHORT_DATE_FORMAT": "d-m-Y",
+    "THOUSAND_SEPARATOR": ".",
+    "TIME_FORMAT": "G.i",
+    "TIME_INPUT_FORMATS": [
+      "%H.%M.%S",
+      "%H.%M",
+      "%H:%M:%S",
+      "%H:%M:%S.%f",
+      "%H:%M"
+    ],
+    "YEAR_MONTH_FORMAT": "F Y"
+  };
 
     django.get_format = function(format_type) {
-      const value = django.formats[format_type]
+      const value = django.formats[format_type];
       if (typeof value === 'undefined') {
-        return format_type
+        return format_type;
       } else {
-        return value
+        return value;
       }
-    }
+    };
 
     /* add to global namespace */
-    globals.pluralidx = django.pluralidx
-    globals.gettext = django.gettext
-    globals.ngettext = django.ngettext
-    globals.gettext_noop = django.gettext_noop
-    globals.pgettext = django.pgettext
-    globals.npgettext = django.npgettext
-    globals.interpolate = django.interpolate
-    globals.get_format = django.get_format
+    globals.pluralidx = django.pluralidx;
+    globals.gettext = django.gettext;
+    globals.ngettext = django.ngettext;
+    globals.gettext_noop = django.gettext_noop;
+    globals.pgettext = django.pgettext;
+    globals.npgettext = django.npgettext;
+    globals.interpolate = django.interpolate;
+    globals.get_format = django.get_format;
 
-    django.jsi18n_initialized = true
+    django.jsi18n_initialized = true;
   }
 };
 

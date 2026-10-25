@@ -14,6 +14,8 @@ from django.db import close_old_connections, OperationalError
 from django.test import Client, override_settings, TestCase, TransactionTestCase
 from django.urls import reverse
 from django.utils import timezone
+
+from adjfeedback.models import AdjudicatorFeedback
 from feedbackexport.jobs import (
     acquire_worker, claim_item, cleanup_successful, control_job, create_backlog_job,
     create_job, finish_item, job_summary, LostLeaseError, prepare_batch, prune_history, worker_tick,
@@ -23,8 +25,6 @@ from feedbackexport.models import (
     GlobalFeedbackExportPermission,
 )
 from feedbackexport.services import bounded_diagnostic, queue_feedback_export
-
-from adjfeedback.models import AdjudicatorFeedback
 
 from . import test_feedbackexport as fixtures
 

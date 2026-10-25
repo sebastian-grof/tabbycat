@@ -49,6 +49,10 @@ class Exporter:
             'adjudicator-weighting': tournament.pref('adjudicator_weighting'),
             'teamscore-includes-ghosts': str(tournament.pref('teamscore_includes_ghosts')).lower(),
             'winners-in-ballots': tournament.pref('winners_in_ballots'),
+            'score-aggregation-function': tournament.pref('score_aggregation_function'),
+            'allow-self-split-ballots': str(tournament.pref('allow_self_split_ballots')).lower(),
+            'ballots-per-debate-prelim': tournament.pref('ballots_per_debate_prelim'),
+            'ballots-per-debate-elim': tournament.pref('ballots_per_debate_elim'),
         })
         if tournament.pref('teams_in_debate') == 4:
             self.root.set('style', 'bp')
@@ -105,6 +109,8 @@ class Exporter:
         })
         if debate.is_bye:
             debate_tag.set('bye', 'true')
+        if debate.confirmed_ballot is not None and debate.confirmed_ballot.self_split:
+            debate_tag.set('self-split', 'true')
         if debate.confirmed_ballot is not None and debate.confirmed_ballot.forfeit:
             debate_tag.set('forfeit', 'true')
 
@@ -252,10 +258,10 @@ class Exporter:
                         })
                         ballot_tag.text = str(scoresheet.get_score(side, pos))
                 else:
-                        ballot_tag = SubElement(speech_tag, 'ballot', {
-                            'adjudicators': " ".join([ADJ_PREFIX + str(d_adj.adjudicator_id) for d_adj in debate.debateadjudicator_set.all()]),
-                        })
-                        ballot_tag.text = str(result.get_score(side, pos))
+                    ballot_tag = SubElement(speech_tag, 'ballot', {
+                        'adjudicators': " ".join([ADJ_PREFIX + str(d_adj.adjudicator_id) for d_adj in debate.debateadjudicator_set.all()]),
+                    })
+                    ballot_tag.text = str(result.get_score(side, pos))
 
                 self.add_speech_criteria(speech_tag, debate, result, side, pos)
 
@@ -388,6 +394,7 @@ class Exporter:
                 'id': ADJ_PREFIX + str(adj.id),
                 'name': adj.name,
                 'core': str(adj.adj_core).lower(),
+                'tester': str(adj.is_tester).lower(),
                 'independent': str(adj.independent).lower(),
                 'score': str(adj.base_score),
             })
@@ -571,6 +578,14 @@ class Importer:
         else:
             self.preliminary_consensus = self._is_consensus_ballot('false')
             self.elimination_consensus = self._is_consensus_ballot('true')
+            # A single judge's voting ballot is indistinguishable from consensus
+            # by ballot count alone. Preserve the explicit policy in new archives.
+            for stage, attribute in (('prelim', 'preliminary_consensus'), ('elim', 'elimination_consensus')):
+                policy = self.root.get('ballots-per-debate-' + stage)
+                if policy is not None:
+                    if policy not in {'per-debate', 'per-adj'}:
+                        raise ValueError("Unknown archive ballot policy")
+                    setattr(self, attribute, policy == 'per-debate')
             first_side_with_speeches = next((
                 side for side in self.root.findall("round/debate/side")
                 if side.find('speech') is not None
@@ -606,6 +621,14 @@ class Importer:
                 self.tournament.preferences['debate_rules__winners_in_ballots'] = winners_in_ballots
                 self.tournament._prefs.pop('winners_in_ballots', None)
             self.tournament._prefs.pop('cross_examinations_enabled', None)
+            aggregation = self.root.get('score-aggregation-function', 'mean')
+            allow_self_split = self._is_true(self.root.get('allow-self-split-ballots', 'false'))
+            if aggregation not in {'mean', 'median'}:
+                raise ValueError("Unknown archive score aggregation function")
+            if self.tournament.pref('adjudicator_weighting') == 'weighted-to-three' and aggregation != 'mean':
+                raise ValueError("Median scoring requires default adjudicator weighting")
+            self.tournament.preferences['scoring__score_aggregation_function'] = aggregation
+            self.tournament.preferences['data_entry__allow_self_split_ballots'] = allow_self_split
 
     def import_score_components(self):
         self.score_criteria = {}
@@ -810,6 +833,7 @@ class Importer:
                 tournament=self.tournament, base_score=adj.get('score', 0),
                 institution=self.institutions.get(adj.get('institutions', "").split(" ")[0]),
                 independent=adj.get('independent', False) == 'true', adj_core=adj.get('core', False) == 'true',
+                is_tester=self._is_true(adj.get('tester', 'false')),
                 name=adj.get('name'), gender=adj.get('gender', ''), email=adj.get('email', ''))
             adj_obj.save()
             self.adjudicators[adj.get('id')] = adj_obj
@@ -963,7 +987,10 @@ class Importer:
                 bs_obj = BallotSubmission(
                     version=1, submitter_type=Submission.Submitter.TABROOM, confirmed=True,
                     debate=self.debates[debate.get('id')], motion=self.motions.get(debate.get('motion')),
-                    forfeit=debate.get('forfeit', 'false') == 'true')
+                    forfeit=debate.get('forfeit', 'false') == 'true',
+                    self_split=self._is_true(debate.get('self-split', 'false')))
+                if bs_obj.self_split and not bs_obj.allows_self_split:
+                    raise ValueError("Invalid self-split ballot in archive")
                 bs_obj.save()
                 if self._debate_is_bye(debate):
                     self._import_bye_result(bs_obj, debate)

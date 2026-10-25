@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tabbycat\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-17 09:00+0200\n"
+"POT-Creation-Date: 2026-10-25 06:56+1100\n"
 "PO-Revision-Date: 2026-04-26 00:00+0200\n"
 "Last-Translator: \n"
 "Language-Team: Slovak\n"
@@ -198,6 +198,10 @@ msgstr "Slúži na vysvetlenie, prečo inak kvalifikovaný tím nepostúpil"
 msgid "breaking team"
 msgstr "postupujúci tím"
 
+#: breakqual/templates/bracket.html:4 breakqual/templates/bracket.html:5
+msgid "Bracket"
+msgstr "Pavúk"
+
 #: breakqual/templates/break_categories_edit.html:4
 #: breakqual/templates/break_categories_edit.html:5
 #: breakqual/templates/breaking_index.html:30
@@ -240,7 +244,7 @@ msgstr "Oprávnenosť tímov"
 #: breakqual/templates/breaking_teams.html:4
 #: breakqual/templates/breaking_teams.html:14
 #: breakqual/templates/breakqual_subnav.html:9
-#: breakqual/templates/public_break_index.html:15 breakqual/views.py:77
+#: breakqual/templates/public_break_index.html:15 breakqual/views.py:81
 #, python-format
 msgid "%(category)s Break"
 msgstr "Postup %(category)s"
@@ -350,8 +354,8 @@ msgid "It looks like there aren't any break categories are defined. If you'd lik
 msgstr "Zdá sa, že nie sú definované žiadne postupové kategórie. Ak chceš vytvoriť nové postupové kategórie, najprv ich budeš musieť <a href=\"%(categories_url)s\" class=\"alert-link\"> pridať v oblasti Upraviť databázu</a>, potom sa vrátiť na túto stránku a nastaviť oprávnenosť tímov."
 
 #: breakqual/templates/public_break_index.html:4
-#: breakqual/templates/public_break_index.html:5 breakqual/views.py:70
-#: breakqual/views.py:99
+#: breakqual/templates/public_break_index.html:5 breakqual/views.py:74
+#: breakqual/views.py:103
 msgid "Break"
 msgstr "Postup"
 
@@ -480,74 +484,74 @@ msgid "%sTOF"
 msgstr "%sTOF"
 
 #. Translators: "UBR" stands for "unknown break round" (used as a fallback when we don't know what it's called)
-#: breakqual/utils.py:169
+#: breakqual/utils.py:170
 #, python-format
 msgid "Unknown %s break round"
 msgstr "Neznáme kolo postupu %s"
 
-#: breakqual/utils.py:169
+#: breakqual/utils.py:170
 #, python-format
 msgid "U%sBR"
 msgstr "U%sBR"
 
-#: breakqual/utils.py:170
+#: breakqual/utils.py:171
 msgid "Unknown break round"
 msgstr "Neznáme kolo postupu"
 
-#: breakqual/utils.py:170
+#: breakqual/utils.py:171
 msgid "UBR"
 msgstr "UBR"
 
-#: breakqual/views.py:118
+#: breakqual/views.py:122
 #, python-format
 msgid "There was an error generating the break for category %(category)s: %(message)s"
 msgstr "Pri generovaní postupu pre kategóriu %(category)s nastala chyba: %(message)s"
 
-#: breakqual/views.py:163
+#: breakqual/views.py:167
 msgid "Eligible for"
 msgstr "Oprávnený na"
 
-#: breakqual/views.py:167
+#: breakqual/views.py:171
 msgid "Edit Remark"
 msgstr "Upraviť poznámku"
 
-#: breakqual/views.py:183
+#: breakqual/views.py:187
 #, python-format
 msgid "Changes to breaking team remarks saved and teams break updated for the following break categories: %(categories)s."
 msgstr "Zmeny poznámok postupujúcich tímov uložené a postup tímov aktualizovaný pre nasledujúce postupové kategórie: %(categories)s."
 
-#: breakqual/views.py:190
+#: breakqual/views.py:194
 #, python-format
 msgid "Changes to breaking team remarks saved and teams break updated for break category %(category)s."
 msgstr "Zmeny poznámok postupujúcich tímov uložené a postup tímov aktualizovaný pre postupovú kategóriu %(category)s."
 
-#: breakqual/views.py:195
+#: breakqual/views.py:199
 msgid "Changes to breaking team remarks saved."
 msgstr "Zmeny poznámok postupujúcich tímov boli uložené."
 
-#: breakqual/views.py:220
+#: breakqual/views.py:224
 #, python-format
 msgid "Teams break generated for the following break categories: %(categories)s."
 msgstr "Postup tímov vygenerovaný pre nasledujúce postupové kategórie: %(categories)s."
 
-#: breakqual/views.py:233
+#: breakqual/views.py:237
 msgid "Breaking Adjudicators"
 msgstr "Postupujúci rozhodcovia"
 
-#: breakqual/views.py:267
+#: breakqual/views.py:271
 msgid "Four-team formats require the break size to be either six times or four times a power of two."
 msgstr "Formáty pre štyri tímy vyžadujú, aby veľkosť postupu bola šesťnásobok alebo štvornásobok mocniny dvoch."
 
-#: breakqual/views.py:309
+#: breakqual/views.py:313
 msgid "Break Eligibility"
 msgstr "Oprávnenosť na postup"
 
-#: breakqual/views.py:341
+#: breakqual/views.py:345
 #, python-format
 msgid "%s Speakers"
 msgstr "%s Rečníci"
 
-#: breakqual/views.py:344
+#: breakqual/views.py:348
 #, python-format
 msgid "Team has %(nspeakers)s speaker with the %(category)s speaker category assigned"
 msgid_plural "Team has %(nspeakers)s speakers with the %(category)s speaker category assigned"
@@ -555,3 +559,8 @@ msgstr[0] "Tím má %(nspeakers)s rečníka s pridelenou kategóriou rečníka %
 msgstr[1] "Tím má %(nspeakers)s rečníkov s pridelenou kategóriou rečníka %(category)s"
 msgstr[2] "Tím má %(nspeakers)s rečníkov s pridelenou kategóriou rečníka %(category)s"
 msgstr[3] "Tím má %(nspeakers)s rečníkov s pridelenou kategóriou rečníka %(category)s"
+
+#: breakqual/views.py:389
+#, python-format
+msgid "%(category)s Bracket"
+msgstr "Pavúk kategórie %(category)s"

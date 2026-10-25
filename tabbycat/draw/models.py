@@ -393,6 +393,8 @@ class TeamSideAllocation(models.Model):
 class ByeTeamOverride(models.Model):
     """Optional per-round override for bye selection in side allocation flows."""
 
+    id = models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")
+
     round = models.OneToOneField(
         'tournaments.Round',
         models.CASCADE,

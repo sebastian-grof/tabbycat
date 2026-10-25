@@ -117,6 +117,32 @@ class TestTrivialStandings(TestCase):
     def test_speaks_stddev(self):
         self._base_metric_test({'speaks_stddev': [.5, .5]})
 
+    def test_score_metrics_ignore_float_noise(self):
+        for team, score in ((self.team1, 75.1), (self.team2, 75.1 + 1e-12)):
+            TeamScore.objects.filter(debate_team__team=team).update(score=score, margin=score)
+        for metric in ('speaks_sum', 'speaks_avg', 'speaks_stddev', 'margin_sum', 'margin_avg', 'draw_strength_speaks'):
+            with self.subTest(metric=metric):
+                standings = self.get_standings(TeamStandingsGenerator((metric,), ('rank',)))
+                for team in (self.team1, self.team2):
+                    self.assertEqual(standings.get_standing(team).rankings['rank'], (1, True))
+
+    def test_individual_score_average_ignores_float_noise(self):
+        self.set_up_speaker_scores(1)
+        for team, score in ((self.team1, 75.1), (self.team2, 75.1 + 1e-12)):
+            SpeakerScore.objects.filter(debate_team__team=team).update(score=score)
+        standings = self.get_standings(TeamStandingsGenerator(('speaks_ind_avg',), ('rank',)))
+        for team in (self.team1, self.team2):
+            self.assertEqual(standings.get_standing(team).rankings['rank'], (1, True))
+
+    def test_score_average_preserves_sub_display_differences(self):
+        TeamScore.objects.filter(debate_team__team=self.team1).update(score=75)
+        TeamScore.objects.filter(debate_team__team=self.team2).update(score=75 + .1 / 30)
+        standings = self.get_standings(TeamStandingsGenerator(('speaks_avg',), ('rank',)))
+        first, second = [standings.get_standing(team) for team in (self.team1, self.team2)]
+        self.assertEqual(format(first.metrics['speaks_avg'], '.2f'), format(second.metrics['speaks_avg'], '.2f'))
+        self.assertEqual(first.rankings['rank'], (2, False))
+        self.assertEqual(second.rankings['rank'], (1, False))
+
     def test_draw_strength(self):
         # losing team has faced winning team twice, so draw strength is 2 * 2 = 4
         self._base_metric_test({'draw_strength': [0, 4]})
@@ -195,6 +221,14 @@ class TestTrivialStandings(TestCase):
         self.assertEqual(standings.get_standing(self.team1).rankings['rank'], (1, False))
         self.assertEqual(standings.get_standing(self.team2).rankings['rank'], (2, False))
         self.assertEqual(standings.get_standing(team_extra).rankings['rank'], (3, False))
+
+    def test_draw_strength_rank_no_debates(self):
+        team_extra = Team.objects.create(tournament=self.tournament, reference="extra", use_institution_prefix=False)
+        generator = TeamStandingsGenerator(('points',), ('rank', 'subrank'), extra_metrics=('draw_strength_rank',))
+        standings = self.get_standings(generator)
+        self.assertEqual(standings.get_standing(self.team1).metrics['draw_strength_rank'], 2)
+        self.assertEqual(standings.get_standing(self.team2).metrics['draw_strength_rank'], 1)
+        self.assertIsNone(standings.get_standing(team_extra).metrics['draw_strength_rank'])
 
     def test_wins_with_extra_team(self):
         # check that a team with no debates doesn't throw off the rankings
@@ -412,6 +446,7 @@ class TestSpeakerStandingsAverageMetric(TestCase):
         self.speaker2 = Speaker.objects.create(team=self.team2, name="Speaker 2")
 
     def tearDown(self):
+        DebateTeam.objects.filter(debate__round__tournament=self.tournament).delete()
         self.tournament.delete()
 
     def set_tournament_preference(self, section, name, value):

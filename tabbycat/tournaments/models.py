@@ -266,6 +266,14 @@ class Tournament(models.Model):
         from adjfeedback.models import AdjudicatorFeedbackQuestion
         return AdjudicatorFeedbackQuestion.objects.filter(tournament=self).order_by("seq")
 
+    @cached_property
+    def substantive_score_criteria(self):
+        """The score criteria that get their own speaker standings, i.e. all but
+        those scored only on reply speeches, since those standings are over
+        substantive speeches."""
+        from results.models import ScoreCriterion
+        return self.scorecriterion_set.exclude(speech_type=ScoreCriterion.SpeechType.REPLY)
+
     def break_categories_nongeneral(self):
         return self.breakcategory_set.exclude(is_general=True)
 
@@ -290,11 +298,15 @@ class Tournament(models.Model):
     @cached_property
     def current_round_seq_limit(self):
         """Largest `seq` among `current_rounds` (for eligibility filters when parallel
-        preliminary panels use different sequence numbers)."""
+        preliminary panels use different sequence numbers), falling back to
+        `current_round` when no rounds are current."""
         crs = self.current_rounds
-        if not crs:
-            return 0
-        return max(r.seq for r in crs)
+        if crs:
+            return max(r.seq for r in crs)
+        # Keep completed rounds eligible after the tournament ends and while
+        # waiting for the first elimination draw to be created.
+        current = self.current_round
+        return current.seq if current is not None else 0
 
     @cached_property
     def current_rounds(self):
@@ -702,7 +714,8 @@ class ScheduleEvent(models.Model):
 
     tournament = models.ForeignKey(Tournament, models.CASCADE, verbose_name=_("tournament"),
                                    help_text=_("The tournament the event takes place in"))
-    title = models.CharField(max_length=100, verbose_name=_("title"), help_text=_("e.g. \"Lunch\""))
+    title = models.CharField(max_length=100, blank=True, verbose_name=_("title"),
+                             help_text=_("Optional custom title; leave blank to use the event type and round"))
     type = models.CharField(max_length=1, choices=Types.choices, default=Types.OTHER, verbose_name=_("event type"),
                             help_text=_("What sort of event this is, use \"Other\" if the type is not available"))
 
@@ -719,5 +732,16 @@ class ScheduleEvent(models.Model):
         verbose_name_plural = _('schedule events')
         ordering = ['tournament', 'start_time']
 
+    @property
+    def display_title(self):
+        if self.title:
+            return self.title
+
+        title_parts = []
+        if self.round_id:
+            title_parts.append(self.round.name)
+        title_parts.append(str(self.get_type_display()))
+        return " — ".join(title_parts)
+
     def __str__(self):
-        return "[%s] %s (%s)" % (self.tournament, self.title, self.start_time)
+        return "[%s] %s (%s)" % (self.tournament, self.display_title, self.start_time)

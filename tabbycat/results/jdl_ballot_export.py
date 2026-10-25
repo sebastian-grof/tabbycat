@@ -4,7 +4,7 @@ import zipfile
 from io import BytesIO
 from numbers import Number
 from pathlib import Path
-from xml.etree import ElementTree as ET
+from xml.etree import ElementTree as ET  # noqa: N817
 
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils.text import slugify
@@ -12,18 +12,9 @@ from django.utils.text import slugify
 from adjallocation.models import DebateAdjudicator
 from draw.types import DebateSide
 from xmlconverter.converter_core import adjudicator_short, format_number
-from xmlconverter.styled import (
-    col_index,
-    q,
-    remove_calc_chain,
-    remove_sheet_protection,
-    serialize_worksheet,
-    set_cell_value,
-    trim_sheet,
-)
+from xmlconverter.styled import col_index, q, remove_calc_chain, remove_sheet_protection, serialize_worksheet, set_cell_value, trim_sheet
 
 from .models import BallotSubmission, ScoreCriterion, SpeakerScore, SpeakerScoreByAdj
-
 
 JDL_FIRST_CATEGORY_EXPORT_FORMAT = 'jdl_first_category'
 DEFAULT_TEMPLATE_PATH = Path(__file__).resolve().parent / "assets" / "jdl_first_category_ballot.xlsx"

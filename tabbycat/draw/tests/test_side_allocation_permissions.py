@@ -9,6 +9,7 @@ from users.permissions import Permission
 from utils.misc import add_query_string_parameter, reverse_tournament
 from utils.tests import CompletedTournamentTestMixin
 
+from ..dbutils import delete_round_draw
 from ..models import ByeTeamOverride, TeamSideAllocation
 
 
@@ -19,6 +20,7 @@ class SideAllocationPermissionTest(CompletedTournamentTestMixin, TestCase):
         self.addCleanup(cache.clear)
         super().setUp()
         self.round = self.tournament.round_set.get(seq=2)
+        delete_round_draw(self.round)
         self.round.draw_type = Round.DrawType.RANDOM
         self.round.save(update_fields=['draw_type'])
         self.tournament.preferences['draw_rules__bye_team_selection'] = 'random'

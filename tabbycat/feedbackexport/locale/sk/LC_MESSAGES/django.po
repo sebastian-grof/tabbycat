@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tabbycat DR exports\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-23 00:46+0200\n"
+"POT-Creation-Date: 2026-10-25 06:56+1100\n"
 "PO-Revision-Date: 2026-10-23 09:00+0200\n"
 "Last-Translator: Tabbycat contributors\n"
 "Language-Team: Slovak\n"
@@ -12,621 +12,793 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n "
-">= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);\n"
+"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);\n"
 
-#: apps.py:7
+#: feedbackexport/apps.py:7
 msgid "API Exports"
 msgstr "API exporty"
 
-#: forms.py:14 templates/feedbackexport/access.html:38
+#: feedbackexport/forms.py:14
+#: feedbackexport/templates/feedbackexport/access.html:38
 msgid "User"
 msgstr "Používateľ"
 
-#: forms.py:19 templates/feedbackexport/access.html:38
+#: feedbackexport/forms.py:19
+#: feedbackexport/templates/feedbackexport/access.html:38
 msgid "Permissions"
 msgstr "Povolenia"
 
-#: forms.py:37
+#: feedbackexport/forms.py:37
 msgid "All statuses"
 msgstr "Všetky stavy"
 
-#: forms.py:38
+#: feedbackexport/forms.py:38
 msgid "Pending"
 msgstr "Čaká sa"
 
-#: forms.py:39 models.py:198 templates/feedbackexport/job.html:16
+#: feedbackexport/forms.py:39 feedbackexport/models.py:198
+#: feedbackexport/templates/feedbackexport/job.html:16
 msgid "Sent"
 msgstr "Odoslané"
 
-#: forms.py:40 models.py:200 templates/feedbackexport/job.html:19
+#: feedbackexport/forms.py:40 feedbackexport/models.py:200
+#: feedbackexport/templates/feedbackexport/job.html:19
 msgid "Failed"
 msgstr "Zlyhalo"
 
-#: forms.py:41
+#: feedbackexport/forms.py:41
 msgid "Permanently failed"
 msgstr "Natrvalo zlyhalo"
 
-#: models.py:12
+#: feedbackexport/models.py:12
 msgid "view feedback export"
 msgstr "zobraziť export spätnej väzby"
 
-#: models.py:13
+#: feedbackexport/models.py:13
 msgid "manage feedback export"
 msgstr "spravovať export spätnej väzby"
 
-#: models.py:17
+#: feedbackexport/models.py:17
 msgid "user"
 msgstr "používateľ"
 
-#: models.py:18
+#: feedbackexport/models.py:18
 msgid "permission"
 msgstr "povolenie"
 
-#: models.py:22
+#: feedbackexport/models.py:22
 msgid "global feedback export permission"
 msgstr "globálne povolenie exportu spätnej väzby"
 
-#: models.py:23
+#: feedbackexport/models.py:23
 msgid "global feedback export permissions"
 msgstr "globálne povolenia exportu spätnej väzby"
 
-#: models.py:31 models.py:90
+#: feedbackexport/models.py:31 feedbackexport/models.py:90
 msgid "pending"
 msgstr "čaká sa"
 
-#: models.py:32 models.py:91 templates/feedbackexport/history.html:12
+#: feedbackexport/models.py:32 feedbackexport/models.py:91
+#: feedbackexport/templates/feedbackexport/history.html:12
 msgid "sent"
 msgstr "odoslané"
 
-#: models.py:33 models.py:92 templates/feedbackexport/history.html:12
+#: feedbackexport/models.py:33 feedbackexport/models.py:92
+#: feedbackexport/templates/feedbackexport/history.html:12
 msgid "failed"
 msgstr "zlyhalo"
 
-#: models.py:34 models.py:93
+#: feedbackexport/models.py:34 feedbackexport/models.py:93
 msgid "permanently failed"
 msgstr "natrvalo zlyhalo"
 
-#: models.py:39
+#: feedbackexport/models.py:39
 msgid "feedback"
 msgstr "spätná väzba"
 
-#: models.py:41 models.py:106
+#: feedbackexport/models.py:41 feedbackexport/models.py:106
 msgid "status"
 msgstr "stav"
 
-#: models.py:42 models.py:107
+#: feedbackexport/models.py:42 feedbackexport/models.py:107
 msgid "idempotency key"
 msgstr "kľúč idempotentnosti"
 
-#: models.py:43 models.py:108
+#: feedbackexport/models.py:43 feedbackexport/models.py:108
 msgid "attempts"
 msgstr "pokusy"
 
-#: models.py:44 models.py:109
+#: feedbackexport/models.py:44 feedbackexport/models.py:109
 msgid "next attempt at"
 msgstr "ďalší pokus o"
 
-#: models.py:45 models.py:110
+#: feedbackexport/models.py:45 feedbackexport/models.py:110
 msgid "last error"
 msgstr "posledná chyba"
 
-#: models.py:46 models.py:111
+#: feedbackexport/models.py:46 feedbackexport/models.py:111
 msgid "last HTTP status"
 msgstr "posledný HTTP stav"
 
-#: models.py:48 models.py:113
+#: feedbackexport/models.py:48 feedbackexport/models.py:113
 msgid "payload hash"
 msgstr "hash payloadu"
 
-#: models.py:49 models.py:114
+#: feedbackexport/models.py:49 feedbackexport/models.py:114
 msgid "payload"
 msgstr "payload"
 
-#: models.py:50 models.py:115
+#: feedbackexport/models.py:50 feedbackexport/models.py:115
 msgid "remote response"
 msgstr "vzdialená odpoveď"
 
-#: models.py:51 models.py:116
+#: feedbackexport/models.py:51 feedbackexport/models.py:116
 msgid "sent at"
 msgstr "odoslané o"
 
-#: models.py:52 models.py:117
+#: feedbackexport/models.py:52 feedbackexport/models.py:117
 msgid "created at"
 msgstr "vytvorené"
 
-#: models.py:53 models.py:118
+#: feedbackexport/models.py:53 feedbackexport/models.py:118
 msgid "updated at"
 msgstr "aktualizované"
 
-#: models.py:57
+#: feedbackexport/models.py:57
 msgid "feedback export event"
 msgstr "exportný event spätnej väzby"
 
-#: models.py:58
+#: feedbackexport/models.py:58
 msgid "feedback export events"
 msgstr "exportné eventy spätnej väzby"
 
-#: models.py:96
+#: feedbackexport/models.py:96
 msgid "tournament"
 msgstr "turnaj"
 
-#: models.py:98
+#: feedbackexport/models.py:98
 msgid "break tournament"
 msgstr "postup turnaj"
 
-#: models.py:100
+#: feedbackexport/models.py:100
 msgid "source tournament ID"
 msgstr "ID zdrojového turnaja"
 
-#: models.py:101
+#: feedbackexport/models.py:101
 msgid "source tournament slug"
 msgstr "slug zdrojového turnaja"
 
-#: models.py:102
+#: feedbackexport/models.py:102
 msgid "source tournament name"
 msgstr "názov zdrojového turnaja"
 
-#: models.py:104
+#: feedbackexport/models.py:104
 msgid "source tournament short name"
 msgstr "skrátený názov zdrojového turnaja"
 
-#: models.py:122
+#: feedbackexport/models.py:122
 msgid "adjudicator stats export event"
 msgstr "exportný event štatistík rozhodcu"
 
-#: models.py:123
+#: feedbackexport/models.py:123
 msgid "adjudicator stats export events"
 msgstr "exportné eventy štatistík rozhodcov"
 
-#: models.py:158
+#: feedbackexport/models.py:158
 msgid "Queued"
 msgstr "Zaradené"
 
-#: models.py:159 models.py:193
+#: feedbackexport/models.py:159 feedbackexport/models.py:193
 msgid "Preparing"
 msgstr "Pripravuje sa"
 
-#: models.py:160 models.py:195
+#: feedbackexport/models.py:160 feedbackexport/models.py:195
 msgid "Sending"
 msgstr "Odosiela sa"
 
-#: models.py:161 models.py:196 templates/feedbackexport/job.html:18
+#: feedbackexport/models.py:161 feedbackexport/models.py:196
+#: feedbackexport/templates/feedbackexport/job.html:18
 msgid "Waiting for retry"
 msgstr "Čaká na ďalší pokus"
 
-#: models.py:162
+#: feedbackexport/models.py:162
 msgid "Paused"
 msgstr "Pozastavené"
 
-#: models.py:163 models.py:197 templates/feedbackexport/job.html:20
+#: feedbackexport/models.py:163 feedbackexport/models.py:197
+#: feedbackexport/templates/feedbackexport/job.html:20
 msgid "Needs attention"
 msgstr "Vyžaduje pozornosť"
 
-#: models.py:164
+#: feedbackexport/models.py:164
 msgid "Completed"
 msgstr "Dokončené"
 
-#: models.py:165
+#: feedbackexport/models.py:165
 msgid "Completed with errors"
 msgstr "Dokončené s chybami"
 
-#: models.py:194
+#: feedbackexport/models.py:194
 msgid "Ready"
 msgstr "Pripravené"
 
-#: models.py:199 templates/feedbackexport/job.html:17
+#: feedbackexport/models.py:199
+#: feedbackexport/templates/feedbackexport/job.html:17
 msgid "Unchanged"
 msgstr "Bez zmeny"
 
-#: models.py:203 templates/feedbackexport/base.html:26
-#: templates/feedbackexport/history.html:8
-#: templates/feedbackexport/history.html:12
-#: templates/feedbackexport/index.html:32 templates/feedbackexport/job.html:29
+#: feedbackexport/models.py:203
+#: feedbackexport/templates/feedbackexport/base.html:26
+#: feedbackexport/templates/feedbackexport/history.html:8
+#: feedbackexport/templates/feedbackexport/history.html:12
+#: feedbackexport/templates/feedbackexport/index.html:32
+#: feedbackexport/templates/feedbackexport/job.html:29
 msgid "Feedback"
 msgstr "Spätná väzba"
 
-#: models.py:203 templates/feedbackexport/base.html:27
-#: templates/feedbackexport/history.html:8
-#: templates/feedbackexport/history.html:12
-#: templates/feedbackexport/index.html:33 templates/feedbackexport/job.html:29
+#: feedbackexport/models.py:203
+#: feedbackexport/templates/feedbackexport/base.html:27
+#: feedbackexport/templates/feedbackexport/history.html:8
+#: feedbackexport/templates/feedbackexport/history.html:12
+#: feedbackexport/templates/feedbackexport/index.html:33
+#: feedbackexport/templates/feedbackexport/job.html:29
 msgid "Judge activity"
 msgstr "Odrozhodované debaty"
 
-#: templates/feedbackexport/access.html:7 views.py:41
+#: feedbackexport/templates/feedbackexport/access.html:7
+#: feedbackexport/views.py:41
 msgid "Access"
 msgstr "Prístupy"
 
-#: templates/feedbackexport/access.html:8
+#: feedbackexport/templates/feedbackexport/access.html:8
 msgid "Grant global access to API Exports. Manage implies view access."
-msgstr ""
-"Udeľ globálny prístup k API exportom. Správa automaticky zahŕňa aj "
-"zobrazenie."
+msgstr "Udeľ globálny prístup k API exportom. Správa automaticky zahŕňa aj zobrazenie."
 
-#: templates/feedbackexport/access.html:15
+#: feedbackexport/templates/feedbackexport/access.html:15
 msgid "Grant access"
 msgstr "Udeliť prístup"
 
-#: templates/feedbackexport/access.html:26
+#: feedbackexport/templates/feedbackexport/access.html:26
 msgid "Save access"
 msgstr "Uložiť prístup"
 
-#: templates/feedbackexport/access.html:33
+#: feedbackexport/templates/feedbackexport/access.html:33
 msgid "Current access"
 msgstr "Aktuálny prístup"
 
-#: templates/feedbackexport/access.html:53
+#: feedbackexport/templates/feedbackexport/access.html:53
 msgid "No users have explicit API export access yet."
 msgstr "Zatiaľ nikto nemá explicitný prístup k API exportom."
 
-#: templates/feedbackexport/base.html:11 views.py:27
+#: feedbackexport/templates/feedbackexport/base.html:11
+#: feedbackexport/views.py:27
 msgid "DR exports"
 msgstr "Exporty do DR"
 
-#: templates/feedbackexport/base.html:12
+#: feedbackexport/templates/feedbackexport/base.html:12
 msgid "Choose what to send. We’ll take care of the rest."
 msgstr "Vyberte údaje na odoslanie. O zvyšok sa postaráme."
 
-#: templates/feedbackexport/base.html:13
+#: feedbackexport/templates/feedbackexport/base.html:13
 msgid "Site tools"
 msgstr "Správa webu"
 
-#: templates/feedbackexport/base.html:15
+#: feedbackexport/templates/feedbackexport/base.html:15
 msgid "Export navigation"
 msgstr "Navigácia exportov"
 
-#: templates/feedbackexport/base.html:22
+#: feedbackexport/templates/feedbackexport/base.html:22
 msgid "Export health"
 msgstr "Stav exportovania"
 
-#: templates/feedbackexport/base.html:24 templates/feedbackexport/job.html:4
+#: feedbackexport/templates/feedbackexport/base.html:24
+#: feedbackexport/templates/feedbackexport/job.html:4
 msgid "Worker online"
 msgstr "Služba exportovania je dostupná"
 
-#: templates/feedbackexport/base.html:24 templates/feedbackexport/job.html:4
+#: feedbackexport/templates/feedbackexport/base.html:24
+#: feedbackexport/templates/feedbackexport/job.html:4
 msgid "Worker unavailable"
 msgstr "Služba exportovania je nedostupná"
 
-#: templates/feedbackexport/base.html:26 templates/feedbackexport/base.html:27
+#: feedbackexport/templates/feedbackexport/base.html:26
+#: feedbackexport/templates/feedbackexport/base.html:27
 msgid "Configured"
 msgstr "Nastavené"
 
-#: templates/feedbackexport/base.html:26 templates/feedbackexport/base.html:27
+#: feedbackexport/templates/feedbackexport/base.html:26
+#: feedbackexport/templates/feedbackexport/base.html:27
 msgid "Disabled or unconfigured"
 msgstr "Vypnuté alebo nenastavené"
 
-#: templates/feedbackexport/base.html:29
-msgid ""
-"The export worker is not responding. Jobs are saved safely and will continue "
-"when it returns. Contact your site administrator."
+#: feedbackexport/templates/feedbackexport/base.html:29
+msgid "The export worker is not responding. Jobs are saved safely and will continue when it returns. Contact your site administrator."
 msgstr "Služba exportovania neodpovedá. Úlohy sú bezpečne uložené a po jej obnovení budú pokračovať. Kontaktujte správcu webu."
 
-#: templates/feedbackexport/history.html:5
+#: feedbackexport/templates/feedbackexport/history.html:5
 msgid "Export history"
 msgstr "História exportov"
 
-#: templates/feedbackexport/history.html:5
+#: feedbackexport/templates/feedbackexport/history.html:5
 msgid "Review previous runs and records that need attention."
 msgstr "Prezrite si predchádzajúce exporty a záznamy, ktoré vyžadujú pozornosť."
 
-#: templates/feedbackexport/history.html:7
-#: templates/feedbackexport/index.html:19
+#: feedbackexport/templates/feedbackexport/history.html:7
+#: feedbackexport/templates/feedbackexport/index.html:19
 msgid "Tournament"
 msgstr "Turnaj"
 
-#: templates/feedbackexport/history.html:7
-#: templates/feedbackexport/index.html:16
+#: feedbackexport/templates/feedbackexport/history.html:7
+#: feedbackexport/templates/feedbackexport/index.html:16
 msgid "All tournaments"
 msgstr "Všetky turnaje"
 
-#: templates/feedbackexport/history.html:8
-#: templates/feedbackexport/index.html:31
+#: feedbackexport/templates/feedbackexport/history.html:8
+#: feedbackexport/templates/feedbackexport/index.html:31
 msgid "Export type"
 msgstr "Typ exportu"
 
-#: templates/feedbackexport/history.html:8
+#: feedbackexport/templates/feedbackexport/history.html:8
 msgid "All types"
 msgstr "Všetky typy"
 
-#: templates/feedbackexport/history.html:9
-#: templates/feedbackexport/history.html:11
-#: templates/feedbackexport/job.html:28
+#: feedbackexport/templates/feedbackexport/history.html:9
+#: feedbackexport/templates/feedbackexport/history.html:11
+#: feedbackexport/templates/feedbackexport/job.html:28
 msgid "Outcome"
 msgstr "Výsledok"
 
-#: templates/feedbackexport/history.html:9 templates/feedbackexport/job.html:28
+#: feedbackexport/templates/feedbackexport/history.html:9
+#: feedbackexport/templates/feedbackexport/job.html:28
 msgid "All outcomes"
 msgstr "Všetky výsledky"
 
-#: templates/feedbackexport/history.html:9 templates/feedbackexport/job.html:28
+#: feedbackexport/templates/feedbackexport/history.html:9
+#: feedbackexport/templates/feedbackexport/job.html:28
 msgid "Filter"
 msgstr "Filtrovať"
 
-#: templates/feedbackexport/history.html:11 views.py:39
+#: feedbackexport/templates/feedbackexport/history.html:11
+#: feedbackexport/views.py:39
 msgid "Export"
 msgstr "Export"
 
-#: templates/feedbackexport/history.html:11
+#: feedbackexport/templates/feedbackexport/history.html:11
 msgid "Scope"
 msgstr "Rozsah"
 
-#: templates/feedbackexport/history.html:11
+#: feedbackexport/templates/feedbackexport/history.html:11
 msgid "Started by"
 msgstr "Spustil"
 
-#: templates/feedbackexport/history.html:11
+#: feedbackexport/templates/feedbackexport/history.html:11
 msgid "Results"
 msgstr "Výsledky"
 
-#: templates/feedbackexport/history.html:12
-#: templates/feedbackexport/index.html:46 templates/feedbackexport/job.html:5
+#: feedbackexport/templates/feedbackexport/history.html:12
+#: feedbackexport/templates/feedbackexport/index.html:46
+#: feedbackexport/templates/feedbackexport/job.html:5
 msgid "Existing backlog"
 msgstr "Existujúce čakajúce záznamy"
 
-#: templates/feedbackexport/history.html:12
+#: feedbackexport/templates/feedbackexport/history.html:12
 msgid "unchanged"
 msgstr "bez zmeny"
 
-#: templates/feedbackexport/history.html:13
+#: feedbackexport/templates/feedbackexport/history.html:13
 msgid "No exports yet. Start with a tournament on the Export page."
 msgstr "Zatiaľ nebol spustený žiadny export. Vyberte turnaj na stránke Export."
 
-#: templates/feedbackexport/history.html:15
+#: feedbackexport/templates/feedbackexport/history.html:15
 msgid "History pages"
 msgstr "Stránky histórie"
 
-#: templates/feedbackexport/history.html:15
-#: templates/feedbackexport/job.html:32
+#: feedbackexport/templates/feedbackexport/history.html:15
+#: feedbackexport/templates/feedbackexport/job.html:32
 msgid "Previous"
 msgstr "Predchádzajúca"
 
-#: templates/feedbackexport/history.html:15
-#: templates/feedbackexport/job.html:32
+#: feedbackexport/templates/feedbackexport/history.html:15
+#: feedbackexport/templates/feedbackexport/job.html:32
 msgid "Next"
 msgstr "Nasledujúca"
 
-#: templates/feedbackexport/index.html:5
+#: feedbackexport/templates/feedbackexport/index.html:5
 msgid "An export is in progress"
 msgstr "Prebieha export"
 
-#: templates/feedbackexport/index.html:5
+#: feedbackexport/templates/feedbackexport/index.html:5
 msgid "New exports will wait their turn."
 msgstr "Nové exporty počkajú, kým prídu na rad."
 
-#: templates/feedbackexport/index.html:5
+#: feedbackexport/templates/feedbackexport/index.html:5
 msgid "View progress"
 msgstr "Zobraziť priebeh"
 
-#: templates/feedbackexport/index.html:7
+#: feedbackexport/templates/feedbackexport/index.html:7
 msgid "Latest export"
 msgstr "Posledný export"
 
-#: templates/feedbackexport/index.html:7
+#: feedbackexport/templates/feedbackexport/index.html:7
 msgid "View results"
 msgstr "Zobraziť výsledky"
 
-#: templates/feedbackexport/index.html:13
+#: feedbackexport/templates/feedbackexport/index.html:13
 msgid "Select tournaments"
 msgstr "Vyberte turnaje"
 
-#: templates/feedbackexport/index.html:13
+#: feedbackexport/templates/feedbackexport/index.html:13
 msgid "Only the tournaments you select will be exported."
 msgstr "Exportujú sa iba turnaje, ktoré vyberiete."
 
-#: templates/feedbackexport/index.html:15
+#: feedbackexport/templates/feedbackexport/index.html:15
 msgid "Search tournaments"
 msgstr "Vyhľadať turnaje"
 
-#: templates/feedbackexport/index.html:15
+#: feedbackexport/templates/feedbackexport/index.html:15
 msgid "Name or slug"
 msgstr "Názov alebo slug"
 
-#: templates/feedbackexport/index.html:16
+#: feedbackexport/templates/feedbackexport/index.html:16
 msgid "Show"
 msgstr "Zobraziť"
 
-#: templates/feedbackexport/index.html:16
-#: templates/feedbackexport/index.html:23
+#: feedbackexport/templates/feedbackexport/index.html:16
+#: feedbackexport/templates/feedbackexport/index.html:23
 msgid "Active"
 msgstr "Aktívne"
 
-#: templates/feedbackexport/index.html:16
-#: templates/feedbackexport/index.html:23
+#: feedbackexport/templates/feedbackexport/index.html:16
+#: feedbackexport/templates/feedbackexport/index.html:23
 msgid "Archived"
 msgstr "Archivované"
 
-#: templates/feedbackexport/index.html:18
+#: feedbackexport/templates/feedbackexport/index.html:18
 msgid "Select all matching tournaments"
 msgstr "Vybrať všetky zodpovedajúce turnaje"
 
-#: templates/feedbackexport/index.html:18
+#: feedbackexport/templates/feedbackexport/index.html:18
 msgid "Clear selection"
 msgstr "Zrušiť výber"
 
-#: templates/feedbackexport/index.html:19
+#: feedbackexport/templates/feedbackexport/index.html:19
 msgid "Confirmed feedback"
 msgstr "Potvrdené feedbacky"
 
-#: templates/feedbackexport/index.html:19 templates/feedbackexport/job.html:29
+#: feedbackexport/templates/feedbackexport/index.html:19
+#: feedbackexport/templates/feedbackexport/job.html:29
 msgid "Status"
 msgstr "Stav"
 
-#: templates/feedbackexport/index.html:25
+#: feedbackexport/templates/feedbackexport/index.html:25
 msgid "No tournaments exist yet."
 msgstr "Zatiaľ neexistujú žiadne turnaje."
 
-#: templates/feedbackexport/index.html:27
+#: feedbackexport/templates/feedbackexport/index.html:27
 msgid "No tournaments match your search."
 msgstr "Vyhľadávaniu nezodpovedá žiadny turnaj."
 
-#: templates/feedbackexport/index.html:30
+#: feedbackexport/templates/feedbackexport/index.html:30
 msgid "Choose your export"
 msgstr "Vyberte údaje na export"
 
-#: templates/feedbackexport/index.html:32
+#: feedbackexport/templates/feedbackexport/index.html:32
 msgid "Confirmed judge feedback and answers"
 msgstr "Potvrdená spätná väzba a odpovede"
 
-#: templates/feedbackexport/index.html:33
+#: feedbackexport/templates/feedbackexport/index.html:33
 msgid "Adjudicated debate counts per tournament"
 msgstr "Počty odrozhodovaných debát podľa turnajov"
 
-#: templates/feedbackexport/index.html:34
+#: feedbackexport/templates/feedbackexport/index.html:34
 msgid "Both"
 msgstr "Oboje"
 
-#: templates/feedbackexport/index.html:34
+#: feedbackexport/templates/feedbackexport/index.html:34
 msgid "Feedback and judge activity together"
 msgstr "Spätná väzba a aktivita rozhodcov spolu"
 
-#: templates/feedbackexport/index.html:36
+#: feedbackexport/templates/feedbackexport/index.html:36
 msgid "Selected tournaments"
 msgstr "Vybrané turnaje"
 
-#: templates/feedbackexport/index.html:36
+#: feedbackexport/templates/feedbackexport/index.html:36
 msgid "Eligible feedback"
 msgstr "Spätná väzba na export"
 
-#: templates/feedbackexport/index.html:36
+#: feedbackexport/templates/feedbackexport/index.html:36
 msgid "Activity snapshots"
 msgstr "Záznamy aktivity"
 
-#: templates/feedbackexport/index.html:37
-msgid ""
-"Unchanged records are skipped. Exact totals are calculated as the export is "
-"prepared."
+#: feedbackexport/templates/feedbackexport/index.html:37
+msgid "Unchanged records are skipped. Exact totals are calculated as the export is prepared."
 msgstr "Nezmenené záznamy sa preskočia. Presné počty sa vypočítajú počas prípravy exportu."
 
-#: templates/feedbackexport/index.html:38
+#: feedbackexport/templates/feedbackexport/index.html:38
 msgid "Advanced options"
 msgstr "Rozšírené možnosti"
 
-#: templates/feedbackexport/index.html:38
+#: feedbackexport/templates/feedbackexport/index.html:38
 msgid "Force re-export"
 msgstr "Vynútiť opätovný export"
 
-#: templates/feedbackexport/index.html:38
+#: feedbackexport/templates/feedbackexport/index.html:38
 msgid "Send unchanged records again using their existing DR identifiers."
 msgstr "Odoslať aj nezmenené záznamy s ich existujúcimi identifikátormi v DR."
 
-#: templates/feedbackexport/index.html:39
+#: feedbackexport/templates/feedbackexport/index.html:39
 msgid "Export to DR"
 msgstr "Exportovať do DR"
 
-#: templates/feedbackexport/index.html:39
+#: feedbackexport/templates/feedbackexport/index.html:39
 msgid "Enable JavaScript to select tournaments and start an export."
 msgstr "Na výber turnajov a spustenie exportu povoľte JavaScript."
 
-#: templates/feedbackexport/index.html:39
+#: feedbackexport/templates/feedbackexport/index.html:39
 msgid "You have view-only access. Ask an export manager to start a job."
 msgstr "Máte prístup iba na čítanie. O spustenie exportu požiadajte správcu exportov."
 
-#: templates/feedbackexport/index.html:40
-msgid ""
-"You can close this page after starting. Sending and retries continue in the "
-"background."
+#: feedbackexport/templates/feedbackexport/index.html:40
+msgid "You can close this page after starting. Sending and retries continue in the background."
 msgstr "Po spustení môžete stránku zavrieť. Odosielanie aj opakované pokusy pokračujú na pozadí."
 
-#: templates/feedbackexport/index.html:46
+#: feedbackexport/templates/feedbackexport/index.html:46
 msgid "Previously queued records are waiting for a manual start."
 msgstr "Predtým zaradené záznamy čakajú na ručné spustenie."
 
-#: templates/feedbackexport/index.html:46
+#: feedbackexport/templates/feedbackexport/index.html:46
 msgid "Resume existing backlog"
 msgstr "Spustiť čakajúce záznamy"
 
-#: templates/feedbackexport/job.html:4
-msgid ""
-"Connection interrupted. Reconnecting; the export continues in the background."
+#: feedbackexport/templates/feedbackexport/job.html:4
+msgid "Connection interrupted. Reconnecting; the export continues in the background."
 msgstr "Spojenie sa prerušilo. Obnovujeme ho; export pokračuje na pozadí."
 
-#: templates/feedbackexport/job.html:5
+#: feedbackexport/templates/feedbackexport/job.html:5
 msgid "EXPORT"
 msgstr "EXPORT"
 
-#: templates/feedbackexport/job.html:7
+#: feedbackexport/templates/feedbackexport/job.html:7
 msgid "Pause"
 msgstr "Pozastaviť"
 
-#: templates/feedbackexport/job.html:8
+#: feedbackexport/templates/feedbackexport/job.html:8
 msgid "Resume"
 msgstr "Pokračovať"
 
-#: templates/feedbackexport/job.html:9
+#: feedbackexport/templates/feedbackexport/job.html:9
 msgid "Retry failed"
 msgstr "Skúsiť znova zlyhané"
 
-#: templates/feedbackexport/job.html:10
+#: feedbackexport/templates/feedbackexport/job.html:10
 msgid "New export"
 msgstr "Nový export"
 
-#: templates/feedbackexport/job.html:12
-msgid ""
-"Preparing records in batches. Totals will settle when preparation is "
-"complete."
+#: feedbackexport/templates/feedbackexport/job.html:12
+msgid "Preparing records in batches. Totals will settle when preparation is complete."
 msgstr "Záznamy sa pripravujú po dávkach. Konečné počty sa zobrazia po dokončení prípravy."
 
-#: templates/feedbackexport/job.html:13
+#: feedbackexport/templates/feedbackexport/job.html:13
 msgid "Export progress"
 msgstr "Priebeh exportu"
 
-#: templates/feedbackexport/job.html:15
+#: feedbackexport/templates/feedbackexport/job.html:15
 msgid "Records"
 msgstr "Záznamy"
 
-#: templates/feedbackexport/job.html:23
+#: feedbackexport/templates/feedbackexport/job.html:23
 msgid "Last progress"
 msgstr "Posledný pokrok"
 
-#: templates/feedbackexport/job.html:23
+#: feedbackexport/templates/feedbackexport/job.html:23
 msgid "Next retry"
 msgstr "Ďalší pokus"
 
-#: templates/feedbackexport/job.html:24
-msgid ""
-"You can leave this page. Each prepared version stays fixed through retries; "
-"later edits are picked up by your next export."
+#: feedbackexport/templates/feedbackexport/job.html:24
+msgid "You can leave this page. Each prepared version stays fixed through retries; later edits are picked up by your next export."
 msgstr "Túto stránku môžete opustiť. Pripravená verzia sa pri opakovaných pokusoch nemení; neskoršie úpravy sa odošlú pri ďalšom exporte."
 
-#: templates/feedbackexport/job.html:28
+#: feedbackexport/templates/feedbackexport/job.html:28
 msgid "Record details"
 msgstr "Podrobnosti záznamov"
 
-#: templates/feedbackexport/job.html:28
-msgid ""
-"Invalid records need a source correction and a new export. Delivery failures "
-"can retry the prepared version."
+#: feedbackexport/templates/feedbackexport/job.html:28
+msgid "Invalid records need a source correction and a new export. Delivery failures can retry the prepared version."
 msgstr "Neplatné záznamy vyžadujú opravu zdrojových údajov a nový export. Pri chybe doručenia možno zopakovať odoslanie pripravenej verzie."
 
-#: templates/feedbackexport/job.html:29
+#: feedbackexport/templates/feedbackexport/job.html:29
 msgid "Record"
 msgstr "Záznam"
 
-#: templates/feedbackexport/job.html:29
+#: feedbackexport/templates/feedbackexport/job.html:29
 msgid "Type"
 msgstr "Typ"
 
-#: templates/feedbackexport/job.html:29
+#: feedbackexport/templates/feedbackexport/job.html:29
 msgid "Attempts"
 msgstr "Pokusy"
 
-#: templates/feedbackexport/job.html:29 templates/feedbackexport/job.html:30
+#: feedbackexport/templates/feedbackexport/job.html:29
+#: feedbackexport/templates/feedbackexport/job.html:30
 msgid "Details"
 msgstr "Podrobnosti"
 
-#: templates/feedbackexport/job.html:29 templates/feedbackexport/job.html:30
+#: feedbackexport/templates/feedbackexport/job.html:29
+#: feedbackexport/templates/feedbackexport/job.html:30
 msgid "No records match this filter yet."
 msgstr "Tomuto filtru zatiaľ nezodpovedajú žiadne záznamy."
 
-#: templates/feedbackexport/job.html:32
+#: feedbackexport/templates/feedbackexport/job.html:32
 msgid "Record pages"
 msgstr "Stránky záznamov"
 
-#: views.py:40
+#: feedbackexport/views.py:40
 msgid "History"
 msgstr "História"
 
-#: views.py:214
+#: feedbackexport/views.py:214
 #, python-format
 msgid "API export access updated for %(user)s."
 msgstr "Prístup k API exportom bol aktualizovaný pre %(user)s."
+
+#~ msgid "Live feedback export is disabled. Queueing still works, but sending requires SDA_JUDGES_FEEDBACK_EXPORT_ENABLED=True."
+#~ msgstr "Live export spätnej väzby je vypnutý. Zaraďovanie stále funguje, ale odosielanie vyžaduje SDA_JUDGES_FEEDBACK_EXPORT_ENABLED=True."
+
+#~ msgid "No external feedback API endpoint is configured. Set SDA_JUDGES_FEEDBACK_API_URL before processing feedback sends."
+#~ msgstr "Nie je nastavený externý API endpoint pre spätnú väzbu. Pred odosielaním nastav SDA_JUDGES_FEEDBACK_API_URL."
+
+#~ msgid "Live judge activity export is disabled. Manual queueing still works, but sending requires SDA_JUDGES_ACTIVITY_EXPORT_ENABLED=True."
+#~ msgstr "Live export odrozhodovaných debát je vypnutý. Manuálne zaraďovanie stále funguje, ale odosielanie vyžaduje SDA_JUDGES_ACTIVITY_EXPORT_ENABLED=True."
+
+#~ msgid "No external judge activity API endpoint is configured. Set SDA_JUDGES_ACTIVITY_API_URL before processing activity sends."
+#~ msgstr "Nie je nastavený externý API endpoint pre odrozhodované debaty. Pred odosielaním nastav SDA_JUDGES_ACTIVITY_API_URL."
+
+#~ msgid "Export structured SDA data from Tabbycat to external systems. Judge exports are managed together here; feedback and activity still remain separate records under the hood."
+#~ msgstr "Exportuj štruktúrované SDA dáta z Tabbycatu do externých systémov. Exporty rozhodcov sa spravujú spolu; feedbacky a odrozhodované debaty zostávajú technicky samostatné záznamy."
+
+#~ msgid "Return to Site Tools"
+#~ msgstr "Späť do Správy webu"
+
+#~ msgid "API export navigation"
+#~ msgstr "Navigácia API exportov"
+
+#~ msgid "Pipeline health and next actions"
+#~ msgstr "Stav exportov a ďalšie kroky"
+
+#~ msgid "Feedback and adjudicated debate counts"
+#~ msgstr "Feedbacky a počty odrozhodovaných debát"
+
+#~ msgid "Global permissions"
+#~ msgstr "Globálne povolenia"
+
+#~ msgid "Judge Data"
+#~ msgstr "Dáta rozhodcov"
+
+#~ msgid "One workspace for exporting judge feedback and adjudicated debate counts to DR. They remain separate records, but are operated from one place."
+#~ msgstr "Jedno pracovné miesto na export feedbackov rozhodcov a počtov odrozhodovaných debát do DR. Záznamy zostávajú samostatné, ale ovládajú sa z jedného miesta."
+
+#~ msgid "Confirmed feedback exports with source identifiers. DR handles judge matching and duplicate resolution."
+#~ msgstr "Potvrdené feedbacky sa exportujú so zdrojovými identifikátormi. Párovanie rozhodcov a duplicity rieši DR."
+
+#~ msgid "Queue feedback"
+#~ msgstr "Zaradiť feedbacky"
+
+#~ msgid "Send pending"
+#~ msgstr "Odoslať čakajúce"
+
+#~ msgid "Tournament debate counts export with source identifiers. DR falls back to email, name or local ID."
+#~ msgstr "Počty debát za turnaj sa exportujú so zdrojovými identifikátormi. DR použije e-mail, meno alebo lokálne ID."
+
+#~ msgid "Tournament activity exports"
+#~ msgstr "Export odrozhodovaných debát za turnaje"
+
+#~ msgid "Select only the tournaments you want to export or re-export. Feedback is queued separately above."
+#~ msgstr "Vyber iba turnaje, ktoré chceš exportovať alebo re-exportovať. Feedbacky sa zaraďujú samostatne vyššie."
+
+#~ msgid "Queue selected activity"
+#~ msgstr "Zaradiť vybrané debaty"
+
+#~ msgid "Force re-export selected"
+#~ msgstr "Vynútiť re-export vybraných"
+
+#~ msgid "Catalog metadata"
+#~ msgstr "Katalógové metadáta"
+
+#~ msgid "Activity status"
+#~ msgstr "Stav aktivity"
+
+#~ msgid "Last sent"
+#~ msgstr "Naposledy odoslané"
+
+#~ msgid "Last error"
+#~ msgstr "Posledná chyba"
+
+#~ msgid "No Break management metadata"
+#~ msgstr "Bez metadát zo Správy postupov"
+
+#~ msgid "Feedback export history"
+#~ msgstr "História exportu feedbackov"
+
+#~ msgid "Recent feedback export events. Use the status filter if you only need failures or pending sends."
+#~ msgstr "Nedávne exportné eventy feedbackov. Ak potrebuješ iba zlyhané alebo čakajúce odoslania, použi filter stavov."
+
+#~ msgid "Target"
+#~ msgstr "Cieľ"
+
+#~ msgid "HTTP"
+#~ msgstr "HTTP"
+
+#~ msgid "Updated"
+#~ msgstr "Aktualizované"
+
+#~ msgid "DR response"
+#~ msgstr "Odpoveď DR"
+
+#~ msgid "Retry"
+#~ msgstr "Skúsiť znova"
+
+#~ msgid "No feedback export events match this filter."
+#~ msgstr "Tomuto filtru nezodpovedajú žiadne exportné eventy feedbackov."
+
+#~ msgid "Archived local activity events"
+#~ msgstr "Archivované lokálne eventy odrozhodovaných debát"
+
+#~ msgid "These local export events still exist, but their source tournament has been removed from Tabbycat."
+#~ msgstr "Tieto lokálne exportné eventy stále existujú, ale ich zdrojový turnaj bol z Tabbycatu odstránený."
+
+#~ msgid "Overview"
+#~ msgstr "Prehľad"
+
+#~ msgid "A short control room for judge data exports. DR owns judge identity matching; Tabbycat sends source names, emails and local IDs."
+#~ msgstr "Krátky riadiaci panel exportov dát rozhodcov. Párovanie identít rieši DR; Tabbycat posiela zdrojové mená, e-maily a lokálne ID."
+
+#~ msgid "Feedback export"
+#~ msgstr "Export feedbackov"
+
+#~ msgid "Exports confirmed adjudicator feedback to DR. DR matches judges by exported ID when present, then email, name and local fallback."
+#~ msgstr "Exportuje potvrdený feedback rozhodcov do DR. DR páruje podľa exportovaného ID, ak existuje, potom podľa e-mailu, mena a lokálneho fallbacku."
+
+#~ msgid "Open Judge Data"
+#~ msgstr "Otvoriť dáta rozhodcov"
+
+#~ msgid "Judge activity export"
+#~ msgstr "Export odrozhodovaných debát"
+
+#~ msgid "Exports adjudicated debate counts by tournament. DR matches judges by exported ID when present, then email, name and local fallback."
+#~ msgstr "Exportuje počty odrozhodovaných debát podľa turnaja. DR páruje podľa exportovaného ID, ak existuje, potom podľa e-mailu, mena a lokálneho fallbacku."
+
+#~ msgid "Export events"
+#~ msgstr "Exportné eventy"
+
+#, python-format
+#~ msgid "%(queued)s feedback export events queued; %(skipped)s skipped."
+#~ msgstr "Zaradené exportné eventy feedbackov: %(queued)s; preskočené: %(skipped)s."
+
+#, python-format
+#~ msgid "%(processed)s export events processed; %(sent)s sent; %(failed)s failed."
+#~ msgstr "Spracované exportné eventy: %(processed)s; odoslané: %(sent)s; zlyhané: %(failed)s."
+
+#~ msgid "Feedback export event was queued for retry."
+#~ msgstr "Exportný event feedbacku bol zaradený na opakovanie."
+
+#, python-format
+#~ msgid "%(count)s failed export events were queued for retry."
+#~ msgstr "Zlyhané exportné eventy zaradené na opakovanie: %(count)s."
+
+#, python-format
+#~ msgid "%(queued)s judge activity export events queued."
+#~ msgstr "Zaradené eventy exportu odrozhodovaných debát: %(queued)s."
+
+#, python-format
+#~ msgid "%(queued)s failed judge activity events queued for retry."
+#~ msgstr "Zlyhané eventy odrozhodovaných debát zaradené na opakovanie: %(queued)s."
+
+#, python-format
+#~ msgid "%(processed)s judge activity events processed; %(sent)s sent; %(failed)s failed."
+#~ msgstr "Spracované eventy odrozhodovaných debát: %(processed)s; odoslané: %(sent)s; zlyhané: %(failed)s."
+
+#~ msgid "Not exported"
+#~ msgstr "Neexportované"
+
+#~ msgid "Needs re-export"
+#~ msgstr "Vyžaduje re-export"

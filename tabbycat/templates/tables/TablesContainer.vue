@@ -1,6 +1,8 @@
 <script setup>
 import SmartTable from './SmartTable.vue'
+import SearchInput from '../components/SearchInput.vue'
 import { computed, ref } from 'vue'
+import AutoSaveCounter from '../allocations/AutoSaveCounter.vue'
 import { useDjangoI18n } from '../composables/useDjangoI18n.js'
 
 const props = defineProps({
@@ -12,8 +14,13 @@ const emit = defineEmits(['toggle-checked'])
 
 const { gettext } = useDjangoI18n()
 const filterKey = ref('')
+const lastSaved = ref(null)
 
 const tableRefs = ref({})
+
+const hasAjaxSelectCells = computed(() => props.tablesData.some(table =>
+  table.data.some(row => row.some(cell => cell.component === 'ajax-select-cell')),
+))
 
 const setTableRef = (i) => (el) => {
   if (el) {
@@ -47,17 +54,13 @@ const copyTableTrigger = (i) => {
 <template>
   <div class="row">
     <div class="col-12 mb-3 d-print-none">
-      <div class="input-group">
-        <input
+      <div class="d-flex align-items-center">
+        <search-input
           id="table-search"
           v-model="filterKey"
-          class="form-control table-search"
-          type="search"
+          :label="gettext('Find in Table')"
           :placeholder="gettext('Find in Table')"
-        >
-        <div class="input-group-append">
-          <span class="input-group-text"><i data-feather="search" /></span>
-        </div>
+        />
         <div
           v-for="(table, i) in tablesData"
           :key="i"
@@ -71,6 +74,11 @@ const copyTableTrigger = (i) => {
             <i data-feather="clipboard" />
           </button>
         </div>
+        <auto-save-counter
+          v-if="hasAjaxSelectCells"
+          class="ml-2"
+          :last-saved="lastSaved"
+        />
       </div>
     </div>
 
@@ -104,9 +112,11 @@ const copyTableTrigger = (i) => {
             :table-class="table.class"
             :default-sort-key="table.sort_key"
             :default-sort-order="table.sort_order"
+            :default-sort-history="table.sort_history"
             :empty-title="table.empty_title"
             :highlight-column="table.highlight_column"
             :external-filter-key="filterKey"
+            @saved="lastSaved = $event"
             @toggle-checked="emit('toggle-checked', $event)"
           />
         </div>

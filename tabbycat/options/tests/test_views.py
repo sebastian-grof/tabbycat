@@ -26,6 +26,7 @@ class TestPreset(PreferencesPreset):
 
 class TournamentConfigIndexViewTests(TestCase):
 
+    @translation.override('en')
     def test_order_presets(self):
         tournament = Tournament.objects.create(slug="optionform", name="Option Form Testing")
         view = TournamentConfigIndexView()
