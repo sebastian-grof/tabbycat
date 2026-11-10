@@ -494,6 +494,9 @@ class Adjudicator(Person):
         verbose_name=_("independent"))
     adj_core = models.BooleanField(default=False, blank=True,
         verbose_name=_("adjudication core"))
+    is_online = models.BooleanField(default=False, blank=True,
+        verbose_name=_("Mark as online"),
+        help_text=_("This adjudicator participates remotely. This does not change their check-in or round availability."))
     is_tester = models.BooleanField(default=False, blank=True,
         verbose_name=_("tester"),
         help_text=_("Whether this adjudicator tests other adjudicators. Members of "

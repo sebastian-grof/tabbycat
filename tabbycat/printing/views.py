@@ -14,6 +14,7 @@ from checkins.utils import create_identifiers
 from draw.models import DebateTeam
 from draw.types import DebateSide
 from options.utils import use_team_code_names
+from participants.display import name_with_online_status_text
 from participants.models import Adjudicator, Speaker
 from results.utils import side_and_position_names
 from tournaments.mixins import (CurrentRoundMixin, OptionalAssistantTournamentPageMixin,
@@ -52,7 +53,7 @@ class BasePrintFeedbackFormsView(RoundMixin, TemplateView):
 
     def construct_info(self, venue, source, source_p, target, target_p):
         if hasattr(source, 'name'): # Not a team
-            source_n = source.name
+            source_n = name_with_online_status_text(source, source.name)
         elif use_team_code_names(self.tournament, False):
             source_n = source.code_name
         else:
@@ -62,7 +63,7 @@ class BasePrintFeedbackFormsView(RoundMixin, TemplateView):
             'venue': VenueSerializer(venue).data if venue else '',
             'authorInstitution': escape(source.institution.code) if source.institution else _("Unaffiliated"),
             'author': escape(source_n), 'authorPosition': source_p,
-            'target': escape(target.name), 'targetPosition': target_p,
+            'target': escape(name_with_online_status_text(target, target.name)), 'targetPosition': target_p,
         }
 
     def get_team_feedbacks(self, debate, team):
@@ -172,7 +173,7 @@ class BasePrintScoresheetsView(RoundMixin, TemplateView):
             for adj, pos in debate.adjudicators.with_positions():
                 da_dict = {'position': pos}
                 da_dict['adjudicator'] = {
-                    'name': escape(adj.get_public_name(self.tournament)),
+                    'name': escape(name_with_online_status_text(adj, adj.get_public_name(self.tournament))),
                     'institution': {'code': escape(adj.institution.code) if adj.institution else _("Unaffiliated")},
                 }
                 debate_dict['debateAdjudicators'].append(da_dict)
@@ -192,7 +193,7 @@ class BasePrintScoresheetsView(RoundMixin, TemplateView):
             for author, pos in authors:
                 if author:
                     ballot_dict = {
-                        'author': escape(author.name),
+                        'author': escape(name_with_online_status_text(author, author.name)),
                         'authorInstitution': escape(author.institution.code) if author.institution else _("Unaffiliated"),
                         'authorPosition': pos,
                     }

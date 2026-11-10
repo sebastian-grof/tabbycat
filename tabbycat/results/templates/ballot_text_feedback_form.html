@@ -13,7 +13,7 @@
             Last saved: {{ time }}
           {% endblocktrans %}
           {% if ballot_text_feedback.updated_by_adjudicator %}
-            {% person_display_name ballot_text_feedback.updated_by_adjudicator as editor_name %}
+            {% person_display_name_with_status ballot_text_feedback.updated_by_adjudicator as editor_name %}
             ·
             {% blocktrans trimmed with name=editor_name %}
               edited by {{ name }}

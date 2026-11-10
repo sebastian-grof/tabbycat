@@ -691,6 +691,7 @@ class AdjudicatorSerializer(serializers.ModelSerializer):
 
         # Remove private fields in the public endpoint if needed
         if not is_staff(kwargs.get('context')):
+            self.fields['is_online'].read_only = True
             t = kwargs['context']['tournament']
             with_permission = partial(has_permission, user=kwargs['context']['request'].user, tournament=t)
 

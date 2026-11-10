@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue'
+import OnlineStatusBadge from '../../templates/components/OnlineStatusBadge.vue'
 import { useDragAndDropStore } from '../../templates/allocations/DragAndDropStore.js'
 import { useDjangoI18n } from '../../templates/composables/useDjangoI18n.js'
 import { useHighlightable } from '../../templates/composables/useHighlightable.js'
@@ -133,6 +134,12 @@ const showHovers = () => {
     @mouseenter="showHovers"
     @mouseleave="store.unsetHoverVenueConstraints"
   >
-    <div>{{ displayName }}<span v-if="symbol">&nbsp;{{ symbol }}</span></div>
+    <div class="text-truncate">
+      {{ displayName }}<span v-if="symbol">&nbsp;{{ symbol }}</span>
+    </div>
+    <online-status-badge
+      :online="adjudicator.is_online"
+      class="flex-shrink-0"
+    />
   </div>
 </template>

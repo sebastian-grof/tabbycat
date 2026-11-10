@@ -17,6 +17,7 @@ from django.views.generic.edit import FormView
 from actionlog.mixins import LogActionMixin
 from actionlog.models import ActionLogEntry
 from options.utils import use_team_code_names, use_team_code_names_data_entry
+from participants.display import name_with_online_status
 from participants.models import Adjudicator, Speaker, Team
 from participants.prefetch import populate_feedback_scores
 from participants.templatetags.team_name_for_data_entry import team_name_for_data_entry
@@ -396,7 +397,8 @@ class BaseAddFeedbackIndexView(TournamentMixin, VueTableTemplateView):
         adjudicators = tournament.adjudicator_set.all()
 
         add_link_data = [{
-            'text': escape(adj.get_public_name(tournament)),
+            'text': name_with_online_status(adj, adj.get_public_name(tournament)),
+            'sort': adj.get_public_name(tournament),
             'link': self.get_from_adj_link(adj),
         } for adj in adjudicators]
         header = {'key': 'adjudicator', 'title': _("Adjudicator")}

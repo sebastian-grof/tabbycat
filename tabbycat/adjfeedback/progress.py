@@ -15,6 +15,7 @@ from operator import attrgetter
 from adjallocation.models import DebateAdjudicator
 from adjfeedback.models import AdjudicatorFeedback
 from draw.models import DebateTeam
+from participants.display import name_with_online_status_text
 from results.prefetch import populate_confirmed_ballots
 from tournaments.models import Round
 
@@ -62,7 +63,7 @@ class BaseFeedbackExpectedSubmissionTracker:
             return None
 
     def acceptable_target_names(self):
-        return [adj.get_public_name(self.round.tournament) for adj in self.acceptable_targets()]
+        return [name_with_online_status_text(adj, adj.get_public_name(self.round.tournament)) for adj in self.acceptable_targets()]
 
 
 class FeedbackExpectedSubmissionFromTeamTracker(BaseFeedbackExpectedSubmissionTracker):

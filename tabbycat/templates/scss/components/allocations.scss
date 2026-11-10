@@ -73,6 +73,11 @@
 .vue-draggable {
   position: relative; /* For the position of the tooltip */
 
+  .online-status {
+    font-size: 0.6em;
+    padding: 0.1em 0.3em;
+  }
+
   .history-tooltip {
     bottom: 1px;
     font-size: 12px;

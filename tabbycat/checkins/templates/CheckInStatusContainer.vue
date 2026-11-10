@@ -2,6 +2,7 @@
 import _ from 'lodash'
 
 import { computed, ref, toRef } from 'vue'
+import OnlineStatusBadge from '../../templates/components/OnlineStatusBadge.vue'
 import { useWebSocket } from '../../templates/composables/useWebSocket.js'
 import { useDjangoI18n } from '../../templates/composables/useDjangoI18n.js'
 import { normaliseSearch, searchGroups } from './checkinSearch.js'
@@ -630,11 +631,15 @@ const forAdmin = toRef(props, 'forAdmin')
               >
                 <div class="row no-gutters h6 mb-0 pb-1 pr-1 p-0 text-white">
                   <div
-                    :class="['col p-2 text-truncate ', getEntityStatusClass(entity)]"
+                    :class="['col p-2 d-flex align-items-center ', getEntityStatusClass(entity)]"
                     data-toggle="tooltip"
                     :title="getToolTipForEntity(entity)"
                   >
-                    {{ entity.name }}
+                    <span class="text-truncate">{{ entity.name }}</span>
+                    <online-status-badge
+                      :online="entity.is_online"
+                      class="flex-shrink-0"
+                    />
                   </div>
                   <template v-if="forAdmin">
                     <a

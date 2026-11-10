@@ -1,5 +1,5 @@
 {% extends "seasonbreaks/base.html" %}
-{% load i18n %}
+{% load debate_tags i18n %}
 
 {% block season_content %}
 
@@ -65,7 +65,7 @@
             {% for link in selected_group.links %}
               <tr>
                 <td>
-                  <strong>{{ link.adjudicator.name }}</strong>
+                  <strong>{{ link.adjudicator.name }}</strong> {% online_status link.adjudicator %}
                   {% if link.adjudicator.email %}
                     <span class="text-muted">- {{ link.adjudicator.email }}</span>
                   {% endif %}
@@ -81,7 +81,7 @@
                       <select name="break_adjudicator" class="form-control form-control-sm mr-2 flex-grow-1">
                         {% for adjudicator in adjudicators %}
                           <option value="{{ adjudicator.id }}" {% if adjudicator.id == link.break_adjudicator_id %}selected{% endif %}>
-                            {{ adjudicator.name }}{% if adjudicator.email %} - {{ adjudicator.email }}{% endif %}
+                            {{ adjudicator.name }}{% if adjudicator.is_online %} ({% trans "Online" %}){% endif %}{% if adjudicator.email %} - {{ adjudicator.email }}{% endif %}
                           </option>
                         {% endfor %}
                       </select>

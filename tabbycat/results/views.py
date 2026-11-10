@@ -13,7 +13,6 @@ from django.http import HttpResponseRedirect
 from django.http.response import Http404
 from django.shortcuts import render
 from django.utils import timezone
-from django.utils.html import escape
 from django.utils.text import slugify
 from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy
@@ -29,6 +28,7 @@ from motions.models import DebateTeamMotionPreference, RoundMotion
 from motions.utils import merge_motion_vetos, merge_motions
 from notifications.models import BulkNotification
 from options.utils import use_team_code_names, use_team_code_names_data_entry
+from participants.display import name_with_online_status
 from participants.models import Adjudicator
 from participants.templatetags.team_name_for_data_entry import team_name_for_data_entry
 from tournaments.mixins import (CurrentRoundMixin, PersonalizablePublicTournamentPageMixin, PublicTournamentPageMixin,
@@ -1217,7 +1217,7 @@ class PublicBallotSubmissionIndexView(PublicTournamentPageMixin, RoundMixin, Vue
         table = TabbycatTableBuilder(view=self, sort_key='adj')
 
         data = [{
-            'text': _("Add result from %(adjudicator)s") % {'adjudicator': escape(da.adjudicator.get_public_name(self.tournament))},
+            'text': _("Add result from %(adjudicator)s") % {'adjudicator': name_with_online_status(da.adjudicator, da.adjudicator.get_public_name(self.tournament))},
             'link': reverse_round('old-results-public-ballotset-new-pk', self.round,
                     kwargs={'adjudicator_pk': da.adjudicator_id}),
         } for da in debateadjs]

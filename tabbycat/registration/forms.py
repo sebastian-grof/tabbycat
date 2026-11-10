@@ -499,7 +499,7 @@ class AdminAdjudicatorEditForm(CustomQuestionsFormMixin, forms.ModelForm):
         fields = (
             'name', 'institution', 'email', 'phone', 'gender', 'pronoun',
             'anonymous', 'code_name', 'base_score', 'trainee', 'breaking',
-            'independent', 'adj_core', 'registration_status',
+            'independent', 'adj_core', 'is_online', 'registration_status',
         )
         labels = {
             'name': _("Full name for tab"),

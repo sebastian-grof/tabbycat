@@ -193,6 +193,20 @@ def person_display_name(context, person):
     return person.get_public_name(context['tournament'])
 
 
+@register.simple_tag(takes_context=True)
+def person_display_name_with_status(context, person):
+    from participants.display import name_with_online_status
+
+    return name_with_online_status(person, person_display_name(context, person))
+
+
+@register.simple_tag
+def online_status(person):
+    from participants.display import online_badge
+
+    return online_badge(person)
+
+
 @register.filter
 def next_value(value, arg):
     try:

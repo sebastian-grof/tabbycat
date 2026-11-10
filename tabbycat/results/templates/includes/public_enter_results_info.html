@@ -1,7 +1,8 @@
-{% load i18n %}
+{% load debate_tags i18n %}
 
 {% if private_url %}
-  {% blocktrans trimmed with name=adjudicator.name asvar p1 %}
+  {% person_display_name_with_status adjudicator as adjudicator_name %}
+  {% blocktrans trimmed with name=adjudicator_name asvar p1 %}
     The URL of this page is personalised to you, {{ name }}. <strong>Do not
     share it with anyone;</strong> anyone who knows this URL can submit results and/or
     feedback for your debates. You may bookmark this page and return here after each

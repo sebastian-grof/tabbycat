@@ -5,7 +5,7 @@
 
 {% block head-title %}
   <span class="emoji">{{ page_emoji }}</span>
-  {% person_display_name adjudicator as name %}
+  {% person_display_name_with_status adjudicator as name %}
   {% blocktranslate trimmed with name=name %}Record for {{ name }}{% endblocktranslate %}
 {% endblock %}
 
@@ -20,7 +20,7 @@
     {% if pref.public_participants or admin_page %}
 
       {# Just call it 'name' since this string is also used with teams #}
-      {% person_display_name adjudicator as name %}
+      {% person_display_name_with_status adjudicator as name %}
       {% blocktrans trimmed with name=name asvar card_title %}
         About {{ name }}
       {% endblocktrans %}
@@ -32,7 +32,7 @@
   </div>
 
   {% if pref.feedback_progress or admin_page %}
-    {% person_display_name adjudicator as participant_name %}
+    {% person_display_name_with_status adjudicator as participant_name %}
     {% include "feedback_progress_panel.html" with participant_name=participant_name %}
   {% endif %}
 

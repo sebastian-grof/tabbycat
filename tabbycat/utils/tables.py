@@ -19,6 +19,7 @@ from draw.generator import DRAW_FLAG_DESCRIPTIONS
 from draw.models import Debate, DebateTeam
 from draw.types import DebateSide
 from options.utils import use_team_code_names
+from participants.display import name_with_online_status, online_badge
 from results.models import BallotSubmission
 from results.result import get_result_class
 from standings.templatetags.standingsformat import metricformat, rankingformat
@@ -599,7 +600,8 @@ class TabbycatTableBuilder(BaseTableBuilder):
         unredact = self.admin and has_permission(self.user, Permission.VIEW_ANONYMOUS, self.tournament)
         for adj in adjudicators:
             if adj.anonymous and not unredact:
-                adj_data.append(self.REDACTED_CELL)
+                cell = self.REDACTED_CELL.copy()
+                cell['text'] = adj.get_public_name(self.tournament)
             else:
                 cell = {'text': escape_if_unsafe(adj.name if unredact else adj.get_public_name(self.tournament))}
                 if adj.anonymous:
@@ -608,7 +610,9 @@ class TabbycatTableBuilder(BaseTableBuilder):
                     cell['popover'] = {'title': escape_if_unsafe(adj.get_public_name(self.tournament)), 'content': [self._adjudicator_record_link(adj)]}
                 if subtext == 'institution' and adj.institution is not None:
                     cell['subtext'] = escape(adj.institution.code)
-                adj_data.append(cell)
+            cell['sort'] = cell['text']
+            cell['text'] = name_with_online_status(adj, cell['text'])
+            adj_data.append(cell)
         self.add_column({'key': 'name', 'tooltip': _("Name"), 'icon': 'user'}, adj_data)
 
         if show_institutions and self.tournament.pref('show_adjudicator_institutions'):
@@ -648,7 +652,7 @@ class TabbycatTableBuilder(BaseTableBuilder):
         def construct_text(adjs_data):
             adjs_list = []
             for a in adjs_data:
-                adj_str = '<span class="d-inline">' + escape_if_unsafe(a['adj'].get_public_name(self.tournament))
+                adj_str = '<span class="d-inline">' + name_with_online_status(a['adj'], a['adj'].get_public_name(self.tournament))
                 symbol = self.ADJ_SYMBOLS.get(a['position'])
                 if symbol:
                     adj_str += "<i class='adj-symbol'>%s</i>" % symbol
@@ -680,9 +684,11 @@ class TabbycatTableBuilder(BaseTableBuilder):
                 descriptors = " (%s)" % (", ".join(descriptors)) if descriptors else ""
 
                 if self._show_record_links:
-                    popover_data.append(self._adjudicator_record_link(a['adj'], suffix=descriptors))
+                    link = self._adjudicator_record_link(a['adj'], suffix=descriptors)
+                    link['text'] += ' ' + online_badge(a['adj'])
+                    popover_data.append(link)
                 else:
-                    popover_data.append({'text': text + "" + descriptors})
+                    popover_data.append({'text': text + descriptors + ' ' + online_badge(a['adj'])})
 
             return popover_data
 

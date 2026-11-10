@@ -55,6 +55,22 @@ h6,
   font-weight: bold; // deprecate; use font-weight-bold
 }
 
+// A self-contained status badge remains visible over allocation/check-in colors.
+.online-status {
+  display: inline-block;
+  margin-left: 0.25rem;
+  padding: 0.2em 0.4em;
+  border: 1px solid #fff;
+  border-radius: 0.25rem;
+  background-color: #0056b3;
+  color: #fff;
+  font-size: 0.7em;
+  font-weight: 600;
+  line-height: 1;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
 .lead .strong,
 .lead strong {
   font-weight: bold; // The font for .lead items doesn't have a 'bolder' weight

@@ -18,6 +18,7 @@ from actionlog.mixins import LogActionMixin
 from actionlog.models import ActionLogEntry
 from notifications.models import BulkNotification
 from notifications.views import TournamentTemplateEmailCreateView
+from participants.display import name_with_online_status
 from participants.emoji import EMOJI_NAMES
 from participants.models import (
     Adjudicator,
@@ -753,7 +754,7 @@ class AdminEditAdjudicatorRegistrationView(LogActionMixin, TournamentMixin, Admi
     def get_context_data(self, **kwargs):
         adjudicator = self.get_object()
         kwargs['adjudicator'] = adjudicator
-        kwargs['page_subtitle'] = adjudicator.name
+        kwargs['page_subtitle'] = name_with_online_status(adjudicator, adjudicator.name)
         return super().get_context_data(**kwargs)
 
     def form_valid(self, form):

@@ -324,11 +324,11 @@ class AdjudicatorAdmin(InstitutionConflictAdminMixin, ModelAdmin):
     form = AdjudicatorForm
     institution_conflict_model = AdjudicatorInstitutionConflict
     institution_conflict_object_field = 'adjudicator'
-    list_display = ('name', 'institution', 'tournament', 'trainee',
+    list_display = ('name', 'institution', 'tournament', 'trainee', 'is_online',
                     'independent', 'adj_core', 'gender', 'base_score', 'registration_status')
     search_fields = ('name', 'tournament__name', 'institution__name', 'institution__code')
-    list_filter = ('tournament', 'institution', 'registration_status')
-    list_editable = ('independent', 'adj_core', 'trainee', 'base_score', 'registration_status')
+    list_filter = ('tournament', 'institution', 'registration_status', 'is_online')
+    list_editable = ('independent', 'adj_core', 'trainee', 'is_online', 'base_score', 'registration_status')
     inlines = (AdjudicatorTeamConflictInline, AdjudicatorInstitutionConflictInline,
                AdjudicatorAdjudicatorConflictInline, AdjudicatorBaseScoreHistoryInline,
                RoundAvailabilityInline, AnswerInline)

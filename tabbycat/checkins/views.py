@@ -104,6 +104,7 @@ class CheckInPeopleStatusView(BaseCheckInStatusView):
                 'identifier': [code], 'locked': False, 'independent': adj.independent,
                 'institution': institution,
                 'breaking': adj.breaking,
+                'is_online': adj.is_online,
             })
         kwargs["adjudicators"] = json.dumps(adjudicators)
 

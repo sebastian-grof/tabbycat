@@ -28,7 +28,7 @@
           {% for summary in solo_adjudicator_side_summaries %}
             <div class="list-group-item lead {% if draw_released %}active{% else %}list-group-item-dark{% endif %}">
               {% if grammatical_person == "3" %}
-                {% person_display_name adjudicator as adjudicator_name %}
+                {% person_display_name_with_status adjudicator as adjudicator_name %}
                 {% blocktrans trimmed with adjudicator=adjudicator_name side=summary.side speakers=summary.speakers count counter=summary.count %}
                   {{ adjudicator }} is chairing 1 speech on the <strong>{{ side }}</strong> side: {{ speakers }}.
                 {% plural %}
@@ -53,7 +53,7 @@
           <div class="list-group-item">
             <em>
               {% if grammatical_person == "3" %}
-                {% person_display_name adjudicator as adjudicator_name %}
+                {% person_display_name_with_status adjudicator as adjudicator_name %}
                 {% blocktrans trimmed with adjudicator=adjudicator_name %}
                   {{ adjudicator }} is not adjudicating this round.
                 {% endblocktrans %}

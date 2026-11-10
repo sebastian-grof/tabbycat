@@ -184,7 +184,7 @@
         <div>
           <strong>{% trans "Adjudicator Conflicts:" %}</strong>
           {% for ac in team.adjudicatorteamconflict_set.all %}
-            {% person_display_name ac.adjudicator %}{% if not forloop.last %}{% trans ", " %}{% endif %}
+            {% person_display_name_with_status ac.adjudicator %}{% if not forloop.last %}{% trans ", " %}{% endif %}
           {% empty %}
             {% trans "None" %}
           {% endfor %}

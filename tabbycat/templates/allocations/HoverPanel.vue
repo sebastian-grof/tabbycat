@@ -20,11 +20,14 @@ const {
 const makeItem = (title, css, icon) => ({ title: title, css: css, icon: icon })
 
 const makePersonItem = (participant) => {
-  return makeItem(
-    participant.name + ` (${participant.gender ? participant.gender : '?'})`,
-    `gender-display gender-${participant.gender}`,
-    'user',
-  )
+  return {
+    ...makeItem(
+      participant.name + ` (${participant.gender ? participant.gender : '?'})`,
+      `gender-display gender-${participant.gender}`,
+      'user',
+    ),
+    is_online: participant.is_online,
+  }
 }
 
 const makeInstitutionItem = (subject) => {
@@ -52,7 +55,7 @@ const makeClashItems = (clashes) => {
     for (const clash of clashes.adjudicator) {
       const adj = allAdjudicators.value?.[clash.id]
       if (adj) {
-        adjudicators.push(makeItem(adj.name, 'conflictable hover-adjudicator', ''))
+        adjudicators.push({ ...makeItem(adj.name, 'conflictable hover-adjudicator', ''), is_online: adj.is_online })
       }
     }
   }
@@ -89,7 +92,9 @@ const makeHistoryItems = (histories) => {
       if (history.id in allAdjudicators.value) {
         const adjName = allAdjudicators.value[history.id].name.split(' ')[0]
         const css = `btn-xs-text btn-outline-info conflictable panel-histories-${history.ago}-ago`
-        formattedHistories[history.ago].push(makeItem(adjName, css, false))
+        formattedHistories[history.ago].push({
+          ...makeItem(adjName, css, false), is_online: allAdjudicators.value[history.id].is_online,
+        })
       }
     }
   }

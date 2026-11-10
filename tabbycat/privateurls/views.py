@@ -17,6 +17,7 @@ from checkins.utils import get_unexpired_checkins
 from draw.types import DebateSide
 from notifications.models import BulkNotification, SentMessage
 from notifications.views import RoleColumnMixin, TournamentTemplateEmailCreateView
+from participants.display import name_with_online_status_text
 from participants.models import Adjudicator, Person, Speaker, SpeakerCategory
 from participants.tables import AdjudicatorDebateTable, TeamDebateTable
 from participants.views import BaseRecordView
@@ -241,7 +242,7 @@ class PersonIndexView(SingleObjectByRandomisedUrlMixin, PersonalizablePublicTour
                 url += '?' + urlencode({'target': f'{tracker.source.debate_id}-{targets[0].pk}'})
             group = groups.setdefault(round.pk, {'round': round, 'items': []})
             group['items'].append({
-                'target_names': [target.get_public_name(self.tournament) for target in targets],
+                'target_names': [name_with_online_status_text(target, target.get_public_name(self.tournament)) for target in targets],
                 'orallist_choice': progress.expect_orallists and len(targets) > 1,
                 'url': url,
             })

@@ -62,7 +62,7 @@
           <strong>{% trans "Custom Questions:" %}</strong>
 
           <details>
-            <summary>{{ adjudicator.name }}</summary>
+            <summary>{{ adjudicator.name }} {% online_status adjudicator %}</summary>
 
             <ul>
               {% for answer in adjudicator.answers.all %}
@@ -94,9 +94,9 @@
           <strong>{% trans "Adjudicator Conflicts:" %}</strong>
           {% for adj in adjadj_conflicts %}
             {% if pref.public_record %}
-              <a href="{% adj_record_link adj admin_page %}">{% person_display_name adj %}</a>{% if not forloop.last %}{% trans ", " %}{% endif %}
+              <a href="{% adj_record_link adj admin_page %}">{% person_display_name_with_status adj %}</a>{% if not forloop.last %}{% trans ", " %}{% endif %}
             {% else %}
-              {% person_display_name adj %}{% if not forloop.last %}{% trans ", " %}{% endif %}
+              {% person_display_name_with_status adj %}{% if not forloop.last %}{% trans ", " %}{% endif %}
             {% endif %}
           {% empty %}
             {% trans "None" %}

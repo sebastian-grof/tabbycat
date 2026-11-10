@@ -1,4 +1,5 @@
 <script setup>
+import OnlineStatusBadge from '../components/OnlineStatusBadge.vue'
 defineProps({ groups: Array })
 </script>
 
@@ -14,6 +15,7 @@ defineProps({ groups: Array })
           :class="['btn', item.css]"
         >
           {{ item.title }}
+          <online-status-badge :online="item.is_online" />
         </button>
       </div>
     </template>

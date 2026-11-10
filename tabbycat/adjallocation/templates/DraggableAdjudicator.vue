@@ -2,6 +2,7 @@
 // Note the checks for "this.adjudicator" are a means of coping when an adj is assigned that is not
 // in the master list — i.e. those from another tournament or that were added since the page was loaded
 import { computed } from 'vue'
+import OnlineStatusBadge from '../../templates/components/OnlineStatusBadge.vue'
 import DraggableItem from '../../templates/allocations/DraggableItem.vue'
 import { useDragAndDropStore } from '../../templates/allocations/DragAndDropStore.js'
 import { useDjangoI18n } from '../../templates/composables/useDjangoI18n.js'
@@ -152,8 +153,12 @@ const scoreB = computed(() => {
       </span>
     </template>
     <template #title>
-      <span>
-        {{ initialledName }}
+      <span class="d-flex align-items-center">
+        <span class="text-truncate">{{ initialledName }}</span>
+        <online-status-badge
+          :online="adjudicator.is_online"
+          class="flex-shrink-0"
+        />
       </span>
     </template>
     <template #subtitle>
