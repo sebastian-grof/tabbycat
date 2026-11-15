@@ -220,6 +220,12 @@ msgstr "orezaný priemer (bez najvyššieho najnižšieho)"
 
 #: standings/speakers.py:289
 msgid "Trim"
+msgstr "B-MIN/MAX Priemer"
+
+msgid "trimmed total (high-low drop)"
+msgstr "orezaný súčet (bez najvyššieho a najnižšieho)"
+
+msgid "TrimTot"
 msgstr "B-MIN/MAX"
 
 #: standings/speakers.py:326

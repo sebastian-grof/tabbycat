@@ -42,7 +42,7 @@ class TestSpeakerScoreRounding(TestCase):
         second = (75.2 + 75.1 + 75.0) / 3
         self.assertNotEqual(first, second)
         self.add_scores([[first] * 4, [second] * 4])
-        for metric in ('total', 'average', 'trimmed_mean', 'stdev'):
+        for metric in ('total', 'average', 'trimmed_mean', 'trimmed_total', 'stdev'):
             with self.subTest(metric=metric):
                 standings = self.standings(metric)
                 self.assertEqual(standings[0].metrics[metric], standings[1].metrics[metric])
@@ -69,3 +69,17 @@ class TestSpeakerScoreRounding(TestCase):
         self.add_scores([[70, 75 + 1/3, 76 + 1/3, 80], [70, 75, 76, 80]])
         standings = self.standings('trimmed_mean')
         self.assertEqual(standings[0].metrics['trimmed_mean'], 75.833333)
+
+    def test_trimmed_total_drops_high_and_low(self):
+        self.add_scores([[70, 75, 76, 80], [72, 74, 78, 79]])
+        standings = self.standings('trimmed_total')
+        self.assertEqual(standings[0].metrics['trimmed_total'], 151)
+        self.assertEqual(standings[1].metrics['trimmed_total'], 152)
+        self.assertEqual(standings[1].rankings['rank'], (1, False))
+        self.assertEqual(standings[0].rankings['rank'], (2, False))
+
+    def test_trimmed_total_without_enough_speeches_is_plain_total(self):
+        self.add_scores([[70, 75], [72, 74]])
+        standings = self.standings('trimmed_total')
+        self.assertEqual(standings[0].metrics['trimmed_total'], 145)
+        self.assertEqual(standings[1].metrics['trimmed_total'], 146)

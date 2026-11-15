@@ -320,6 +320,29 @@ class TrimmedMeanSpeakerScoreMetricAnnotator(SpeakerScoreQuerySetMetricAnnotator
         return RoundScore(annotation, precision=SCORE_PRECISION)
 
 
+class TrimmedTotalSpeakerScoreMetricAnnotator(TrimmedMeanSpeakerScoreMetricAnnotator):
+    """Metric annotator for trimmed total speaker score: the sum of all speeches
+    except the highest and lowest. Speakers with two or fewer speeches get their
+    plain total. Unlike the trimmed mean, this rewards speaking more rounds."""
+    key = "trimmed_total"
+    name = _("trimmed total (high-low drop)")
+    abbr = _("TrimTot")
+
+    def get_annotation(self, round=None):
+        total = TotalSpeakerScoreMetricAnnotator().get_aggregation(round)
+        highest = self.MaximumScore().get_aggregation(round)
+        lowest = self.MinimumScore().get_aggregation(round)
+
+        annotation = Case(
+            When(speech_count__gt=2, then=total - highest - lowest),
+            When(speech_count__gt=0, then=total),
+            output_field=FloatField(),
+        )
+        if round.tournament.pref('adjudicator_weighting') == 'weighted-to-three':
+            return annotation
+        return RoundScore(annotation, precision=SCORE_PRECISION)
+
+
 class SpeakerScoreRankingsMetricAnnotator(SpeakerScoreQuerySetMetricAnnotator):
     """Metric annotator for standard deviation of speaker score."""
     key = "srank"
@@ -471,6 +494,7 @@ class SpeakerStandingsGenerator(BaseStandingsGenerator):
         "total"         : TotalSpeakerScoreMetricAnnotator,
         "average"       : AverageSpeakerScoreMetricAnnotator,
         "trimmed_mean"  : TrimmedMeanSpeakerScoreMetricAnnotator,
+        "trimmed_total" : TrimmedTotalSpeakerScoreMetricAnnotator,
         "team_points"   : SpeakerTeamPointsMetricAnnotator,
         "stdev"         : StandardDeviationSpeakerScoreMetricAnnotator,
         "count"         : NumberOfSpeechesMetricAnnotator,
