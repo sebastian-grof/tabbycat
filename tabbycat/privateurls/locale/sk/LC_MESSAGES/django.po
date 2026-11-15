@@ -266,3 +266,28 @@ msgstr "{action}: {round} - {speaker} ({side})"
 #: privateurls/views.py:326
 msgid "Submit Ballot"
 msgstr "Odovzdať ballot"
+
+#: privateurls/templates/private_url_landing.html
+#, python-format
+msgid "Thank you for participating in %(tournament)s!"
+msgstr "Ďakujeme za účasť na turnaji %(tournament)s!"
+
+#: privateurls/templates/private_url_landing.html
+msgid "The tournament is over. You can see the final results here:"
+msgstr "Turnaj sa skončil. Konečné výsledky si môžete pozrieť tu:"
+
+#: privateurls/templates/private_url_landing.html
+msgid "The tournament is over. The final results will be available here once they are published."
+msgstr "Turnaj sa skončil. Konečné výsledky tu nájdete hneď, ako budú zverejnené."
+
+#: privateurls/templates/private_url_landing.html
+msgid "Team results"
+msgstr "Výsledky tímov"
+
+#: privateurls/templates/private_url_landing.html
+msgid "Speaker results"
+msgstr "Výsledky rečníkov"
+
+#: privateurls/templates/private_url_landing.html
+msgid "Tournament page"
+msgstr "Stránka turnaja"

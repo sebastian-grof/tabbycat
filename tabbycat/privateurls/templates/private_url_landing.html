@@ -24,13 +24,48 @@
     {% include "components/explainer-card.html" with type="warning" %}
   {% endif %}
 
-  {% blocktrans trimmed with name=object.name asvar p1 %}
-    The URL of this page is personalised to you, {{ name }}. <strong>Do not
-    share it with anyone;</strong> anyone who knows this URL can submit results and/or
-    feedback for your debates. You may bookmark this page and return here after each
-    debate for the available actions.
-  {% endblocktrans %}
-  {% include "components/explainer-card.html" with type="warning" %}
+  {% if tournament_completed %}
+    <div class="card border-success mb-3" id="tournament-completed">
+      <div class="card-body">
+        <h5 class="card-title">
+          {% blocktrans trimmed with tournament=tournament.name %}
+            Thank you for participating in {{ tournament }}!
+          {% endblocktrans %}
+        </h5>
+        <p class="card-text">
+          {% if pref.team_tab_released or pref.speaker_tab_released %}
+            {% trans "The tournament is over. You can see the final results here:" %}
+          {% else %}
+            {% trans "The tournament is over. The final results will be available here once they are published." %}
+          {% endif %}
+        </p>
+        {# Stacked full-width on phones, inline row from the sm breakpoint up #}
+        <div class="d-flex flex-column flex-sm-row flex-sm-wrap">
+          {% if pref.team_tab_released %}
+            <a href="{% tournamenturl 'standings-public-tab-team' %}" class="btn btn-success mb-2 mr-sm-2">
+              <i data-feather="users"></i> {% trans "Team results" %}
+            </a>
+          {% endif %}
+          {% if pref.speaker_tab_released %}
+            <a href="{% tournamenturl 'standings-public-tab-speaker' %}" class="btn btn-success mb-2 mr-sm-2">
+              <i data-feather="user"></i> {% trans "Speaker results" %}
+            </a>
+          {% endif %}
+          <a href="{% tournamenturl 'tournament-public-index' %}" class="btn btn-outline-success mb-2 mr-sm-2">
+            <i data-feather="home"></i> {% trans "Tournament page" %}
+          </a>
+        </div>
+      </div>
+    </div>
+  {% else %}
+    {% blocktrans trimmed with name=object.name asvar p1 %}
+      The URL of this page is personalised to you, {{ name }}. <strong>Do not
+      share it with anyone;</strong> anyone who knows this URL can submit results and/or
+      feedback for your debates. You may bookmark this page and return here after each
+      debate for the available actions.
+    {% endblocktrans %}
+    {% include "components/explainer-card.html" with type="warning" %}
+  {% endif %}
 
 {% endblock %}
 

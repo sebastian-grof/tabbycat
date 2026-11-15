@@ -392,6 +392,10 @@ class PersonIndexView(SingleObjectByRandomisedUrlMixin, PersonalizablePublicTour
                 )
 
         kwargs['draw_released'] = draw_released
+        # A tournament is "done" once every round has been marked as completed
+        # (same condition as the "you're done with the tournament" message).
+        kwargs['tournament_completed'] = (
+            t.round_set.exists() and not t.round_set.filter(completed=False).exists())
         kwargs['feedback_pref'] = t.pref('participant_feedback') == 'private-urls'
         kwargs['ballots_pref'] = t.pref('participant_ballots') == 'private-urls'
         kwargs['vapid_application_server_key'] = settings.PUSH_NOTIFICATIONS_SETTINGS['application_server_key']

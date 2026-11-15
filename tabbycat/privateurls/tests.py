@@ -260,3 +260,54 @@ class MissingTeamFeedbackPreferenceTests(TestCase):
                 preset.save(self.tournament)
                 self.assertTrue(self.tournament.pref('show_missing_team_feedback'))
                 self.assertEqual(self.tournament.pref('feedback_from_teams'), 'all-voting-adjs')
+
+
+@override_settings(LANGUAGE_CODE='en')
+class TournamentCompletedBannerTests(TestCase):
+
+    def setUp(self):
+        self.tournament = Tournament.objects.create(slug='completed-banner', name='Completed Cup')
+        institution = Institution.objects.create(name='School', code='SCH')
+        team = Team.objects.create(tournament=self.tournament, institution=institution, reference='A')
+        self.speaker = Speaker.objects.create(team=team, name='Speaker', url_key='speaker-key')
+        self.adj = Adjudicator.objects.create(
+            tournament=self.tournament, institution=institution, name='Judge', base_score=3, url_key='adj-key')
+        self.round = Round.objects.create(
+            tournament=self.tournament, seq=1, name='Round 1', abbreviation='R1',
+            draw_status=Round.Status.RELEASED,
+        )
+
+    def _get(self, url_key='speaker-key'):
+        return self.client.get(reverse_tournament('privateurls-person-index', self.tournament,
+                                                  kwargs={'url_key': url_key}))
+
+    def _complete(self):
+        self.round.completed = True
+        self.round.save()
+
+    def test_shows_do_not_share_warning_while_tournament_running(self):
+        response = self._get()
+        self.assertFalse(response.context['tournament_completed'])
+        self.assertContains(response, 'Do not')
+        self.assertNotContains(response, 'Thank you for participating')
+
+    def test_shows_thank_you_with_result_buttons_when_completed(self):
+        self._complete()
+        self.tournament.preferences['tab_release__team_tab_released'] = True
+        self.tournament.preferences['tab_release__speaker_tab_released'] = True
+        for url_key in ['speaker-key', 'adj-key']:
+            response = self._get(url_key)
+            self.assertTrue(response.context['tournament_completed'])
+            self.assertContains(response, 'Thank you for participating in Completed Cup!')
+            self.assertNotContains(response, 'Do not')
+            self.assertContains(response, reverse_tournament('standings-public-tab-team', self.tournament))
+            self.assertContains(response, reverse_tournament('standings-public-tab-speaker', self.tournament))
+
+    def test_hides_buttons_for_unreleased_tabs(self):
+        self._complete()
+        response = self._get()
+        self.assertContains(response, 'Thank you for participating')
+        self.assertContains(response, 'once they are published')
+        self.assertContains(response, reverse_tournament('tournament-public-index', self.tournament))
+        self.assertNotContains(response, reverse_tournament('standings-public-tab-team', self.tournament))
+        self.assertNotContains(response, reverse_tournament('standings-public-tab-speaker', self.tournament))
