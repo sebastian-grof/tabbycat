@@ -7,6 +7,7 @@ from django.forms import modelformset_factory
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
+from django.utils.http import content_disposition_header
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _, ngettext
 from django.views import View
@@ -287,7 +288,8 @@ class ExportArchiveAllView(AdministratorMixin, TournamentMixin, View):
 
     def get(self, request, *args, **kwargs):
         response = HttpResponse(self.get_xml(), content_type='text/xml; charset=utf-8')
-        response['Content-Disposition'] = 'attachment; filename="' + self.tournament.short_name + '.xml"'
+        filename = (self.tournament.short_name or self.tournament.slug) + '.xml'
+        response['Content-Disposition'] = content_disposition_header(True, filename)
 
         return response
 
