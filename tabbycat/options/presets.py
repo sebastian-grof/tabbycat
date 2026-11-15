@@ -582,7 +582,7 @@ class SDLFormatPreferences(PreferencesPreset):
     standings__standings_missed_replies        = 2
     standings__team_standings_precedence       = ['wins', 'num_adjs', 'speaks_sum']
     standings__team_standings_extra_metrics    = []
-    standings__speaker_standings_precedence    = ['average', 'trimmed_mean']
+    standings__speaker_standings_precedence    = ['average', 'total', 'trimmed_mean']
     standings__speaker_standings_extra_metrics = []
 
     # Tab Release / Public Features
@@ -779,7 +779,7 @@ class JDLFirstCategoryPreferences(JDLFormatPreferences):
 
     standings__team_standings_precedence       = ['speaks_sum', 'num_adjs']
     standings__team_standings_extra_metrics    = []
-    standings__speaker_standings_precedence    = ['average', 'trimmed_mean']
+    standings__speaker_standings_precedence    = ['total', 'average', 'trimmed_mean']
     standings__speaker_standings_extra_metrics = []
 
 
