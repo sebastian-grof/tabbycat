@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-25 06:56+1100\n"
+"POT-Creation-Date: 2026-11-17 03:42+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -585,6 +585,10 @@ msgstr "Debatný klub"
 #: seasonbreaks/templates/seasonbreaks/identities_teams.html:60
 msgid "Season identity"
 msgstr "Identita sezóny"
+
+#: seasonbreaks/templates/seasonbreaks/identities_adjudicators.html:84
+msgid "Online"
+msgstr "Online"
 
 #: seasonbreaks/templates/seasonbreaks/identities_adjudicators.html:88
 #: seasonbreaks/templates/seasonbreaks/identities_speakers.html:87

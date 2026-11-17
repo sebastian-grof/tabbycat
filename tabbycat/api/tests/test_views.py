@@ -12,10 +12,11 @@ from actionlog.models import ActionLogEntry
 from adjallocation.models import PreformedPanel
 from availability.models import RoundAvailability
 from checkins.models import Event
-from participants.models import Team
+from participants.models import Adjudicator, Speaker, Team
 from results.models import BallotSubmission, SpeakerScore
-from tournaments.models import Round
+from tournaments.models import Round, Tournament
 from utils.tests import CompletedTournamentTestMixin, V1_ROOT_URL
+from venues.models import Venue
 
 
 class RootTests(APITestCase):
@@ -29,6 +30,10 @@ class RootTests(APITestCase):
             "version": settings.TABBYCAT_VERSION,
             "version_name": settings.TABBYCAT_CODENAME,
         })
+
+    def test_get_schema(self):
+        response = self.client.get(reverse('api-schema'))
+        self.assertEqual(response.status_code, 200)
 
     def test_get_v1_root(self):
         response = self.client.get(reverse('api-v1-root'))
@@ -200,6 +205,112 @@ class RoundViewsetTests(CompletedTournamentTestMixin, APITestCase):
         self.assertEqual(self.round.silent, True)
 
 
+class PairingViewsetTests(CompletedTournamentTestMixin, APITestCase):
+    round_seq = 1
+
+    def setUp(self):
+        super().setUp()
+        self.tournament.preferences['public_features__public_draw'] = 'all-released'
+        debate = self.round.debate_set.first()
+        debate.flags = ['max_swapped']
+        debate.save()
+        debate.debateteam_set.update(flags=['pullup'])
+
+    def test_exclude_flags_public(self):
+        response = self.client.get(self.reverse_url('api-pairing-list'))
+        self.assertEqual(response.status_code, 200)
+        for debate in response.data:
+            self.assertNotIn('flags', debate)
+            for team in debate['teams']:
+                self.assertNotIn('flags', team)
+
+    def test_include_flags_authenticated(self):
+        self.client.login(username="admin", password="admin")
+        response = self.client.get(self.reverse_url('api-pairing-list'))
+        self.assertEqual(response.status_code, 200)
+        flagged = [debate for debate in response.data if debate['flags']]
+        self.assertEqual(len(flagged), 1)
+        self.assertEqual([team['flags'] for team in flagged[0]['teams']], [['pullup'], ['pullup']])
+
+
+class InstitutionViewsetTests(CompletedTournamentTestMixin, APITestCase):
+
+    def setUp(self):
+        super().setUp()
+        self.tournament.preferences['public_features__public_institutions_list'] = True
+        institution = self.tournament.team_set.exclude(institution=None).first().institution
+        tournament_institution = self.tournament.tournamentinstitution_set.create(institution=institution)
+        tournament_institution.coach_set.create(name="Coach", email="coach@example.com",
+            phone="0123456789", url_key="coachkey", gender='F', pronoun="she")
+
+    def get_coaches(self):
+        response = self.client.get(self.reverse_url('api-institution-list'))
+        self.assertEqual(response.status_code, 200)
+        return [coach for institution in response.data for coach in institution.get('coaches') or []]
+
+    def test_exclude_coach_private_fields_public(self):
+        coaches = self.get_coaches()
+        self.assertEqual(len(coaches), 1)
+        for field in ('email', 'phone', 'url_key', 'gender', 'pronoun', 'answers'):
+            self.assertNotIn(field, coaches[0])
+        self.assertEqual(coaches[0]['name'], "Coach")
+
+    def test_include_coach_private_fields_authenticated(self):
+        self.client.login(username="admin", password="admin")
+        coaches = self.get_coaches()
+        self.assertEqual(len(coaches), 1)
+        self.assertEqual(coaches[0]['email'], "coach@example.com")
+        self.assertEqual(coaches[0]['url_key'], "coachkey")
+
+
+class TeamViewsetTests(CompletedTournamentTestMixin, APITestCase):
+
+    def setUp(self):
+        super().setUp()
+        self.tournament.preferences['public_features__public_participants'] = True
+        Speaker.objects.filter(team__tournament=self.tournament).update(email="speaker@example.com")
+
+    def test_exclude_speaker_private_fields_public(self):
+        response = self.client.get(self.reverse_url('api-team-list'))
+        self.assertEqual(response.status_code, 200)
+        for team in response.data:
+            self.assertGreater(len(team['speakers']), 0)
+            for speaker in team['speakers']:
+                for field in ('email', 'phone', 'url_key', 'gender', 'pronoun', 'barcode', 'answers'):
+                    self.assertNotIn(field, speaker)
+                self.assertIn('name', speaker)
+
+    def test_include_speaker_private_fields_authenticated(self):
+        self.client.login(username="admin", password="admin")
+        response = self.client.get(self.reverse_url('api-team-list'))
+        self.assertEqual(response.status_code, 200)
+        for team in response.data:
+            self.assertGreater(len(team['speakers']), 0)
+            for speaker in team['speakers']:
+                self.assertEqual(speaker['email'], "speaker@example.com")
+                self.assertIn('url_key', speaker)
+
+    def test_create_with_speakers(self):
+        self.client.login(username="admin", password="admin")
+        response = self.client.post(self.reverse_url('api-team-list'), {
+            'reference': "New team",
+            'speakers': [{'name': "New speaker", 'email': "new@example.com"}],
+        })
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual([speaker['name'] for speaker in response.data['speakers']], ["New speaker"])
+        self.assertEqual(Speaker.objects.get(email="new@example.com").team_id, response.data['id'])
+
+    def test_update_with_speakers(self):
+        self.client.login(username="admin", password="admin")
+        team = self.tournament.team_set.first()
+        speakers = team.speaker_set.count()
+        response = self.client.patch(self.reverse_url('api-team-detail', pk=team.pk), {
+            'speakers': [{'name': "New speaker", 'email': "new@example.com"}],
+        })
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(team.speaker_set.count(), speakers + 1)
+
+
 class SpeakerCategoryViewsetTests(CompletedTournamentTestMixin, APITestCase):
 
     def setUp(self):
@@ -215,6 +326,48 @@ class SpeakerCategoryViewsetTests(CompletedTournamentTestMixin, APITestCase):
         self.client.login(username="admin", password="admin")
         response = self.client.get(reverse('api-speakercategory-list', kwargs={'tournament_slug': self.tournament.slug}))
         self.assertEqual(len(response.data), 2)
+
+
+class StandingsRoundTests(CompletedTournamentTestMixin, APITestCase):
+
+    view_names = ('api-substantive-speaker-standings', 'api-reply-speaker-standings', 'api-team-standings')
+
+    def setUp(self):
+        super().setUp()
+        self.client.login(username="admin", password="admin")
+
+    def test_requires_explicit_round_when_no_prelims_completed(self):
+        self.tournament.round_set.filter(stage=Round.Stage.PRELIMINARY).update(completed=False)
+
+        for view_name in self.view_names:
+            with self.subTest(view=view_name):
+                response = self.client.get(self.reverse_url(view_name))
+                self.assertEqual(response.status_code, 400)
+                self.assertEqual(response.data, {'round': 'No completed preliminary rounds. Specify a round explicitly.'})
+
+    def test_explicit_round_can_be_incomplete(self):
+        self.tournament.round_set.update(completed=False)
+
+        for view_name in self.view_names:
+            with self.subTest(view=view_name):
+                response = self.client.get(self.reverse_url(view_name), {'round': 2})
+                self.assertEqual(response.status_code, 200)
+                self.assertTrue(response.data)
+
+    def test_defaults_to_last_completed_preliminary_round(self):
+        last_completed = self.tournament.round_set.filter(stage=Round.Stage.PRELIMINARY, completed=True).order_by('seq').last()
+
+        for view_name in self.view_names:
+            with self.subTest(view=view_name):
+                url = self.reverse_url(view_name)
+                response = self.client.get(url)
+                explicit_response = self.client.get(url, {'round': last_completed.seq})
+                self.assertEqual(response.status_code, 200)
+                self.assertEqual(explicit_response.status_code, 200)
+                self.assertTrue(response.data)
+                # Tied rows are randomly ordered (SDA ranks speaker averages in
+                # Python), so compare the rows, not their order among ties.
+                self.assertCountEqual(response.data, explicit_response.data)
 
 
 class SpeakerRoundStandingsViewsetTests(CompletedTournamentTestMixin, APITestCase):
@@ -489,3 +642,82 @@ class AvailabilitiesViewSetTests(CompletedTournamentTestMixin, APITestCase):
             {int(url.rsplit('/', 1)[-1]) for url in availabilities},
             {self.objects['teams'].pk, self.objects['venues'].pk},
         )
+
+    def test_marking_available_participants_is_idempotent(self):
+        params = {param: 'true' for param in self.objects}
+        expected = self.get_availabilities(params)
+        url = self.reverse_url('api-availability-list') + '?' + '&'.join('%s=true' % param for param in params)
+
+        for _ in range(2):
+            response = self.client.put(url, expected)
+
+            self.assertEqual(response.status_code, 200)
+            self.assertCountEqual(response.data, expected)
+            self.assertEqual(RoundAvailability.objects.filter(round=self.round).count(), len(expected))
+
+    def test_marking_available_ignores_duplicates_and_adds_new_participants(self):
+        params = {param: 'true' for param in self.objects}
+        existing = self.get_availabilities(params)
+        new_urls = []
+        for obj in self.objects.values():
+            participant = getattr(self.tournament, obj._meta.model_name + '_set').exclude(pk=obj.pk).first()
+            self.assertIsNotNone(participant)
+            new_urls.append('http://testserver' + reverse('api-%s-detail' % obj._meta.model_name, kwargs={
+                'tournament_slug': self.tournament.slug, 'pk': participant.pk,
+            }))
+        url = self.reverse_url('api-availability-list') + '?' + '&'.join('%s=true' % param for param in params)
+
+        response = self.client.put(url, existing + new_urls * 2)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertCountEqual(response.data, existing + new_urls)
+        self.assertEqual(RoundAvailability.objects.filter(round=self.round).count(), len(existing) + len(new_urls))
+
+    def test_write_methods_accept_items_from_tournament(self):
+        for method in ('put', 'patch', 'post'):
+            for obj in self.objects.values():
+                with self.subTest(method=method, model=type(obj).__name__):
+                    availability = obj.round_availabilities.filter(round=self.round)
+                    availability.delete()
+                    if method != 'put':
+                        RoundAvailability.objects.create(round=self.round, content_object=obj)
+                    url = reverse('api-%s-detail' % obj._meta.model_name, kwargs={
+                        'tournament_slug': self.tournament.slug, 'pk': obj.pk,
+                    })
+
+                    response = getattr(self.client, method)(
+                        self.reverse_url('api-availability-list'), [url], format='json')
+
+                    self.assertEqual(response.status_code, 200)
+                    self.assertEqual(availability.exists(), method == 'put')
+
+    def test_write_methods_reject_items_from_other_tournament(self):
+        other_tournament = Tournament.objects.create(slug='other')
+        other_objects = [
+            Adjudicator.objects.create(tournament=other_tournament, name='Other adjudicator'),
+            Team.objects.create(tournament=other_tournament, reference='Other team'),
+            Venue.objects.create(tournament=other_tournament, name='Other room', priority=0),
+        ]
+        for method in ('put', 'patch', 'post'):
+            for obj in other_objects:
+                for slug in (other_tournament.slug, self.tournament.slug):
+                    with self.subTest(method=method, model=type(obj).__name__, slug=slug):
+                        local_obj = self.objects['teams']
+                        if method == 'put':
+                            local_obj.round_availabilities.filter(round=self.round).delete()
+                        elif not local_obj.round_availabilities.filter(round=self.round).exists():
+                            RoundAvailability.objects.create(round=self.round, content_object=local_obj)
+                        local_url = reverse('api-team-detail', kwargs={
+                            'tournament_slug': self.tournament.slug, 'pk': local_obj.pk,
+                        })
+                        foreign_url = reverse('api-%s-detail' % obj._meta.model_name, kwargs={
+                            'tournament_slug': slug, 'pk': obj.pk,
+                        })
+                        before = set(RoundAvailability.objects.values_list('pk', flat=True))
+
+                        response = getattr(self.client, method)(
+                            self.reverse_url('api-availability-list'),
+                            [local_url, foreign_url], format='json')
+
+                        self.assertEqual(response.status_code, 400)
+                        self.assertEqual(set(RoundAvailability.objects.values_list('pk', flat=True)), before)

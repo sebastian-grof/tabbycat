@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tabbycat\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-25 07:25+1100\n"
+"POT-Creation-Date: 2026-11-17 03:42+0100\n"
 "PO-Revision-Date: 2026-06-16 00:00+0200\n"
 "Last-Translator: Sebastian Grof\n"
 "Language-Team: Slovak\n"
@@ -322,61 +322,61 @@ msgstr "E-mail bude odoslaný od: <strong>%(default_from_email)s</strong>. Ak to
 msgid "Go back to the site home page"
 msgstr "Späť na domovskú stránku"
 
-#: notifications/utils.py:35
+#: notifications/utils.py:37
 msgid "the chair"
 msgstr "chair"
 
-#: notifications/utils.py:36
+#: notifications/utils.py:38
 msgid "the only"
 msgstr "jediný rozhodca"
 
-#: notifications/utils.py:37
+#: notifications/utils.py:39
 msgid "a panellist"
 msgstr "panelista"
 
-#: notifications/utils.py:38
+#: notifications/utils.py:40
 msgid "a trainee"
 msgstr "shadow"
 
-#: notifications/utils.py:99 notifications/utils.py:145
-#: notifications/utils.py:414
+#: notifications/utils.py:101 notifications/utils.py:147
+#: notifications/utils.py:428
 msgid "TBA"
 msgstr "TBA"
 
-#: notifications/utils.py:144
+#: notifications/utils.py:146
 #, python-format
 msgid "%(tournament)s %(round)s @ %(room)s"
 msgstr "%(tournament)s %(round)s @ %(room)s"
 
-#: notifications/utils.py:155
+#: notifications/utils.py:157
 #, python-format
 msgid "<li>%(side)s: %(team)s (%(points)d points with %(speaks)s total speaks)"
 msgstr "<li>%(side)s: %(team)s (%(points)d bodov s celkovým skóre %(speaks)s)"
 
-#: notifications/utils.py:158
+#: notifications/utils.py:160
 #, python-format
 msgid "<li>%(side)s: %(team)s (%(points)s - %(speaks)s total speaks)"
 msgstr "<li>%(side)s: %(team)s (%(points)s - celkové skóre %(speaks)s)"
 
-#: notifications/utils.py:159
+#: notifications/utils.py:161
 msgid "Win"
 msgstr "Výhra"
 
-#: notifications/utils.py:159
+#: notifications/utils.py:161
 msgid "Loss"
 msgstr "Prehra"
 
-#: notifications/utils.py:171
+#: notifications/utils.py:173
 #, python-format
 msgid "<li>%(pos)s: %(speaker)s (%(score)s)</li>"
 msgstr "<li>%(pos)s: %(speaker)s (%(score)s)</li>"
 
-#: notifications/utils.py:254
+#: notifications/utils.py:256
 #, python-format
 msgid "<li>%(text)s (%(ref)s)</li>"
 msgstr "<li>%(text)s (%(ref)s)</li>"
 
-#: notifications/utils.py:292 notifications/utils.py:293
+#: notifications/utils.py:294 notifications/utils.py:295
 msgid ", "
 msgstr ", "
 

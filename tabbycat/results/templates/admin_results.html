@@ -3,7 +3,7 @@
 
 {% block page-subnav-sections %}
   <a href="{% roundurl 'draw-display' %}" class="btn btn-outline-primary">
-    <i data-feather="chevron-left"></i> {% trans "Display Draw" %}
+    <i data-icon="chevron-left"></i> {% trans "Display Draw" %}
   </a>
   <a class="btn btn-outline-primary" href="{% tournamenturl 'admin-checkin-prescan' %}">
     {% trans "Check-In Ballots" %}
@@ -14,7 +14,7 @@
          href="{% roundurl 'results-round-download-ballots' %}"
          data-toggle="tooltip"
          title="{% blocktrans trimmed with submitted=s.submitted total=s.debates notes=s.with_notes %}{{ submitted }} of {{ total }} ballots submitted; {{ notes }} of {{ submitted }} have notes.{% endblocktrans %}">
-        <i data-feather="download"></i> {% trans "Download Ballots" %}
+        <i data-icon="download"></i> {% trans "Download Ballots" %}
         <span class="badge badge-light ml-1">{% blocktrans trimmed with submitted=s.submitted total=s.debates %}{{ submitted }}/{{ total }} ballots{% endblocktrans %}</span>
         <span class="badge badge-light ml-1">{% blocktrans trimmed with notes=s.with_notes total=s.submitted %}{{ notes }}/{{ total }} notes{% endblocktrans %}</span>
       </a>
@@ -81,16 +81,16 @@
       <button type="submit" class="btn {% if round.silent %}btn-warning{% else %}btn-outline-primary{% endif %}"
               aria-pressed="{{ round.silent|yesno:'true,false' }}">
         {% if round.silent %}
-          <i data-feather="volume-x"></i> {% trans "Unmark as Silent" %}
+          <i data-icon="volume-x"></i> {% trans "Unmark as Silent" %}
         {% else %}
-          <i data-feather="volume-2"></i> {% trans "Mark as Silent" %}
+          <i data-icon="volume-2"></i> {% trans "Mark as Silent" %}
         {% endif %}
       </button>
     </form>
   {% endif %}
   {% if round.is_current %}
     <a class="btn {% if incomplete_ballots %}btn-danger disabled{% else %}btn-outline-success{% endif %} " href="{% roundurl 'tournament-complete-round-check' %}">
-      {% trans "Complete Round" %} <i data-feather="chevron-right"></i>
+      {% trans "Complete Round" %} <i data-icon="chevron-right"></i>
     </a>
   {% else %}
     <div class="hidden"></div><!-- Just keeps the spacing consistent -->
@@ -125,7 +125,7 @@
       <a href="{{ editdb_speakerscorebyadj_url }}?debate_adjudicator__type__exact=T" class="alert-link">"speaker
       scores by adj" objects</a>, and then opening and resaving the result here.
     {% endblocktrans %}
-    {% include "components/alert.html" with type="danger" icon="alert-octagon" extra=trainee_extra %}
+    {% include "components/alert.html" with type="danger" icon="octagon-alert" extra=trainee_extra %}
   {% endif %}
 
   {% comment %}
@@ -144,7 +144,7 @@
       debate(s) and ballot submissions yourself in the Edit Database area, or if
       that doesn't work, you might need to find them using SQL queries directly.
     {% endblocktrans %}
-    {% include "components/alert.html" with type="danger" icon="alert-octagon" %}
+    {% include "components/alert.html" with type="danger" icon="octagon-alert" %}
   {% endif %}
 
   {% if pref.teams_in_debate == 4 and round.ballots_per_debate == "per-adj" %}

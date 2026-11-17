@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-27 15:04+0200\n"
+"POT-Creation-Date: 2026-11-17 03:42+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -128,35 +128,19 @@ msgid "Generate all identifiers"
 msgstr ""
 
 #: checkins/templates/checkin_ids.html:49
-msgid ""
-"There are no identifiers available to view. An admin will need to generate "
-"them."
+msgid "There are no identifiers available to view. An admin will need to generate them."
 msgstr ""
 
 #: checkins/templates/checkin_printables.html:10
-msgid ""
-"Each of the barcodes below is also an image file that can be downloaded "
-"individually. If you want to download them all at once try using a 'bulk "
-"downloader' extension/plugin for your browser, such as <a href=\"https://"
-"chrome.google.com/webstore/detail/svg-export/"
-"naeaaedieihlkmdajjefioajbbdbdjgp?hl=en-GB\">this one (for Chrome)</a>. To "
-"download them as a list you can go to Check-Ins section of the Edit Database "
-"area and copy/paste from the relevant table."
+msgid "Each of the barcodes below is also an image file that can be downloaded individually. If you want to download them all at once try using a 'bulk downloader' extension/plugin for your browser, such as <a href=\"https://chrome.google.com/webstore/detail/svg-export/naeaaedieihlkmdajjefioajbbdbdjgp?hl=en-GB\">this one (for Chrome)</a>. To download them as a list you can go to Check-Ins section of the Edit Database area and copy/paste from the relevant table."
 msgstr ""
 
 #: checkins/templates/checkin_printables.html:15
-msgid ""
-"You can use Ctrl+P for printing or saving the barcodes PDF. Be sure to set "
-"the appropriate <strong>page orientation</strong>, to turn off "
-"<strong>headers/footers</strong> and turn on <strong>background graphics</"
-"strong>. Works best in Chrome."
+msgid "You can use Ctrl+P for printing or saving the barcodes PDF. Be sure to set the appropriate <strong>page orientation</strong>, to turn off <strong>headers/footers</strong> and turn on <strong>background graphics</strong>. Works best in Chrome."
 msgstr ""
 
 #: checkins/templates/checkin_scan.html:18
-msgid ""
-"To scan an identifier type the number below (it will auto-submit). You can "
-"also use a barcode scanner (configured to work as a keyboard) or scan from a "
-"webcam or phone camera using the button below."
+msgid "To scan an identifier type the number below (it will auto-submit). You can also use a barcode scanner (configured to work as a keyboard) or scan from a webcam or phone camera using the button below."
 msgstr ""
 
 #: checkins/utils.py:61
@@ -191,53 +175,51 @@ msgstr ""
 msgid "People's Check-In Statuses"
 msgstr ""
 
-#: checkins/views.py:151
+#: checkins/views.py:157
 msgid "Rooms' Check-In Statuses"
 msgstr ""
 
-#: checkins/views.py:202
+#: checkins/views.py:208
 msgid "Make Identifiers"
 msgstr ""
 
-#: checkins/views.py:209
+#: checkins/views.py:215
 msgid "Speakers"
 msgstr ""
 
-#: checkins/views.py:214
+#: checkins/views.py:220
 msgid "Adjudicators"
 msgstr ""
 
-#: checkins/views.py:219
+#: checkins/views.py:225
 msgid "Rooms"
 msgstr ""
 
-#: checkins/views.py:261
+#: checkins/views.py:267
 #, python-format
 msgid "Generated identifiers for %s"
 msgstr ""
 
-#: checkins/views.py:268
+#: checkins/views.py:274
 msgid "Identifiers"
 msgstr ""
 
-#: checkins/views.py:304
-msgid ""
-"Could not check you in as you do not have an identifying code — your tab "
-"director may need to make you an identifier."
-msgstr ""
-
-#: checkins/views.py:315
-msgid "You have revoked your check-in."
-msgstr ""
-
-#: checkins/views.py:317
-msgid "Whoops! Looks like your check-in was already revoked."
+#: checkins/views.py:310
+msgid "Could not check you in as you do not have an identifying code — your tab director may need to make you an identifier."
 msgstr ""
 
 #: checkins/views.py:321
-msgid "Whoops! Looks like you're already checked in."
+msgid "You have revoked your check-in."
+msgstr ""
+
+#: checkins/views.py:323
+msgid "Whoops! Looks like your check-in was already revoked."
 msgstr ""
 
 #: checkins/views.py:327
+msgid "Whoops! Looks like you're already checked in."
+msgstr ""
+
+#: checkins/views.py:333
 msgid "You are now checked in."
 msgstr ""

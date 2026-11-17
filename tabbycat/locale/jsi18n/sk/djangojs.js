@@ -20,6 +20,8 @@
   django.catalog = django.catalog || {};
   
   const newcatalog = {
+    " Set Checked-In as Available": " Ozna\u010di\u0165 pr\u00edtomn\u00fdch ako dostupn\u00fdch",
+    " Set Not Checked-In as Unavailable": " Ozna\u010di\u0165 nepr\u00edtomn\u00fdch ako nedostupn\u00fdch",
     "%(sel)s of %(cnt)s selected": [
       "%(sel)s z %(cnt)s vybran\u00e9",
       "%(sel)s z %(cnt)s vybran\u00e9",
@@ -132,6 +134,8 @@
     "Loading...": "Na\u010d\u00edtavam...",
     "Lowest bracket first": "Najni\u017e\u0161ia skupina ako prv\u00e1",
     "March": "marec",
+    "Match": "Prevzia\u0165 z",
+    "Match Check-Ins": "Prevzia\u0165 z pr\u00edchodov",
     "May": "m\u00e1j",
     "Merge Ballot(s)": "Zl\u00fa\u010di\u0165 ballot(y)",
     "Midnight": "Polnoc",

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-27 15:04+0200\n"
+"POT-Creation-Date: 2026-11-17 03:42+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -128,52 +128,20 @@ msgid "Generate all identifiers"
 msgstr "Vygenerovať všetky identifikátory"
 
 #: checkins/templates/checkin_ids.html:49
-msgid ""
-"There are no identifiers available to view. An admin will need to generate "
-"them."
-msgstr ""
-"Nie sú dostupné žiadne identifikátory na zobrazenie. Administrátor ich musí "
-"vygenerovať."
+msgid "There are no identifiers available to view. An admin will need to generate them."
+msgstr "Nie sú dostupné žiadne identifikátory na zobrazenie. Administrátor ich musí vygenerovať."
 
 #: checkins/templates/checkin_printables.html:10
-msgid ""
-"Each of the barcodes below is also an image file that can be downloaded "
-"individually. If you want to download them all at once try using a 'bulk "
-"downloader' extension/plugin for your browser, such as <a "
-"href=\"https://chrome.google.com/webstore/detail/svg-"
-"export/naeaaedieihlkmdajjefioajbbdbdjgp?hl=en-GB\">this one (for "
-"Chrome)</a>. To download them as a list you can go to Check-Ins section of "
-"the Edit Database area and copy/paste from the relevant table."
-msgstr ""
-"Každý z čiarových kódov nižšie je aj samostatný obrázkový súbor, ktorý si "
-"môžeš stiahnuť osobitne. Ak ich chceš stiahnuť všetky naraz, skús použiť "
-"rozšírenie alebo doplnok prehliadača na hromadné sťahovanie, napríklad <a "
-"href=\"https://chrome.google.com/webstore/detail/svg-"
-"export/naeaaedieihlkmdajjefioajbbdbdjgp?hl=en-GB\">toto rozšírenie pre "
-"Chrome</a>. Ak ich chceš stiahnuť ako zoznam, prejdi do sekcie Príchody v "
-"časti Upraviť databázu a skopíruj ich z príslušnej tabuľky."
+msgid "Each of the barcodes below is also an image file that can be downloaded individually. If you want to download them all at once try using a 'bulk downloader' extension/plugin for your browser, such as <a href=\"https://chrome.google.com/webstore/detail/svg-export/naeaaedieihlkmdajjefioajbbdbdjgp?hl=en-GB\">this one (for Chrome)</a>. To download them as a list you can go to Check-Ins section of the Edit Database area and copy/paste from the relevant table."
+msgstr "Každý z čiarových kódov nižšie je aj samostatný obrázkový súbor, ktorý si môžeš stiahnuť osobitne. Ak ich chceš stiahnuť všetky naraz, skús použiť rozšírenie alebo doplnok prehliadača na hromadné sťahovanie, napríklad <a href=\"https://chrome.google.com/webstore/detail/svg-export/naeaaedieihlkmdajjefioajbbdbdjgp?hl=en-GB\">toto rozšírenie pre Chrome</a>. Ak ich chceš stiahnuť ako zoznam, prejdi do sekcie Príchody v časti Upraviť databázu a skopíruj ich z príslušnej tabuľky."
 
 #: checkins/templates/checkin_printables.html:15
-msgid ""
-"You can use Ctrl+P for printing or saving the barcodes PDF. Be sure to set "
-"the appropriate <strong>page orientation</strong>, to turn off "
-"<strong>headers/footers</strong> and turn on <strong>background "
-"graphics</strong>. Works best in Chrome."
-msgstr ""
-"Na tlač alebo uloženie PDF s čiarovými kódmi môžeš použiť Ctrl+P. Nastav "
-"správnu <strong>orientáciu stránky</strong>, vypni "
-"<strong>hlavičky/päty</strong> a zapni <strong>grafiku pozadia</strong>. "
-"Najlepšie funguje v Chrome."
+msgid "You can use Ctrl+P for printing or saving the barcodes PDF. Be sure to set the appropriate <strong>page orientation</strong>, to turn off <strong>headers/footers</strong> and turn on <strong>background graphics</strong>. Works best in Chrome."
+msgstr "Na tlač alebo uloženie PDF s čiarovými kódmi môžeš použiť Ctrl+P. Nastav správnu <strong>orientáciu stránky</strong>, vypni <strong>hlavičky/päty</strong> a zapni <strong>grafiku pozadia</strong>. Najlepšie funguje v Chrome."
 
 #: checkins/templates/checkin_scan.html:18
-msgid ""
-"To scan an identifier type the number below (it will auto-submit). You can "
-"also use a barcode scanner (configured to work as a keyboard) or scan from a"
-" webcam or phone camera using the button below."
-msgstr ""
-"Na naskenovanie identifikátora napíš číslo nižšie (odošle sa automaticky). "
-"Môžeš použiť aj skener čiarových kódov nastavený ako klávesnica alebo "
-"skenovať cez webkameru či fotoaparát telefónu tlačidlom nižšie."
+msgid "To scan an identifier type the number below (it will auto-submit). You can also use a barcode scanner (configured to work as a keyboard) or scan from a webcam or phone camera using the button below."
+msgstr "Na naskenovanie identifikátora napíš číslo nižšie (odošle sa automaticky). Môžeš použiť aj skener čiarových kódov nastavený ako klávesnica alebo skenovať cez webkameru či fotoaparát telefónu tlačidlom nižšie."
 
 #: checkins/utils.py:61
 #, python-format
@@ -207,55 +175,51 @@ msgstr "Skenovať identifikátory"
 msgid "People's Check-In Statuses"
 msgstr "Stav príchodov osôb"
 
-#: checkins/views.py:151
+#: checkins/views.py:157
 msgid "Rooms' Check-In Statuses"
 msgstr "Stav príchodov miestností"
 
-#: checkins/views.py:202
+#: checkins/views.py:208
 msgid "Make Identifiers"
 msgstr "Vytvoriť identifikátory"
 
-#: checkins/views.py:209
+#: checkins/views.py:215
 msgid "Speakers"
 msgstr "Rečníci"
 
-#: checkins/views.py:214
+#: checkins/views.py:220
 msgid "Adjudicators"
 msgstr "Rozhodcovia"
 
-#: checkins/views.py:219
+#: checkins/views.py:225
 msgid "Rooms"
 msgstr "Miestnosti"
 
-#: checkins/views.py:261
+#: checkins/views.py:267
 #, python-format
 msgid "Generated identifiers for %s"
 msgstr "Vygenerované identifikátory pre %s"
 
-#: checkins/views.py:268
+#: checkins/views.py:274
 msgid "Identifiers"
 msgstr "Identifikátory"
 
-#: checkins/views.py:304
-msgid ""
-"Could not check you in as you do not have an identifying code — your tab "
-"director may need to make you an identifier."
-msgstr ""
-"Nepodarilo sa potvrdiť tvoju prítomnosť, pretože nemáš identifikačný kód. "
-"Vedúci tabu ti možno musí vytvoriť identifikátor."
+#: checkins/views.py:310
+msgid "Could not check you in as you do not have an identifying code — your tab director may need to make you an identifier."
+msgstr "Nepodarilo sa potvrdiť tvoju prítomnosť, pretože nemáš identifikačný kód. Vedúci tabu ti možno musí vytvoriť identifikátor."
 
-#: checkins/views.py:315
+#: checkins/views.py:321
 msgid "You have revoked your check-in."
 msgstr "Zrušil/a si svoje potvrdenie prítomnosti."
 
-#: checkins/views.py:317
+#: checkins/views.py:323
 msgid "Whoops! Looks like your check-in was already revoked."
 msgstr "Ups! Vyzerá to, že tvoje potvrdenie prítomnosti už bolo zrušené."
 
-#: checkins/views.py:321
+#: checkins/views.py:327
 msgid "Whoops! Looks like you're already checked in."
 msgstr "Ups! Vyzerá to, že už máš potvrdenú prítomnosť."
 
-#: checkins/views.py:327
+#: checkins/views.py:333
 msgid "You are now checked in."
 msgstr "Vaša prítomnosť bola potvrdená."

@@ -26,20 +26,29 @@ def metricgetter(items, negate=None):
      - After `f = metricgetter(("a",))`, the call `f(x)` returns `(x.metrics["a"],)`.
      - After `g = metricgetter((4, 9))`, the call `g(x)` returns `(x.metrics[4], x.metrics[9])`.
 
-    If the metric is None (e.g. no scores so can't calculate stdev), use 0 instead to sort.
+    If the metric is None (e.g. no scores so can't calculate stdev), use 0
+    unless its annotator specifies that None should sort below all values.
     """
+
+    def get_value(x, item, coeff=1):
+        value = x.metrics[item]
+        if value is None:
+            if item in x.standings.metrics_with_none_lowest:
+                return float('-inf')
+            return 0
+        return coeff * value
 
     if negate is None:
 
         def metricitemgetter(x):
-            return tuple(x.metrics[item] or 0 for item in items)
+            return tuple(get_value(x, item) for item in items)
 
     else:
         assert len(items) == len(negate), "items had %d items but negate had %d" % (len(items), len(negate))
         coeffs = [-1 if neg else 1 for neg in negate]
 
         def metricitemgetter(x):
-            return tuple(coeff * (x.metrics[item] or 0) for (coeff, item) in zip(coeffs, items))
+            return tuple(get_value(x, item, coeff) for (coeff, item) in zip(coeffs, items))
 
     return metricitemgetter
 
@@ -65,13 +74,20 @@ class BaseMetricAnnotator:
     repeatable = False
     listed = True
     ascending = False  # if True, this metric is sorted in ascending order, not descending
-    combinable = False  # if True, use single query with all combinable metrics
+    none_is_lowest = False  # if True, None sorts below all numeric values rather than as zero
 
-    def run(self, queryset, standings, round=None):
-        standings.record_added_metric(self.key, self.name, self.abbr, self.icon, self.ascending)
-        self.annotate(queryset, standings, round)
+    def run(self, queryset, standings, round=None, tournament=None):
+        standings.record_added_metric(
+            self.key,
+            self.name,
+            self.abbr,
+            self.icon,
+            self.ascending,
+            self.none_is_lowest,
+        )
+        self.annotate(queryset, standings, round, tournament=tournament)
 
-    def annotate(self, queryset, standings, round=None):
+    def annotate(self, queryset, standings, round=None, tournament=None):
         """Annotates the given `standings` by calling `add_metric()` on every
         `StandingInfo` object in `standings`.
 
@@ -103,7 +119,10 @@ class RepeatedMetricAnnotator(BaseMetricAnnotator):
 
 class QuerySetMetricAnnotator(BaseMetricAnnotator):
     """Base class for annotators that metrics based on conditional aggregations."""
-    combinable = True
+
+    # Metrics may share a query only when their joins preserve the same rows.
+    # None gives the annotator its own query; subclasses can name a shared group.
+    query_group = None
 
     def get_annotation(self, round):
         raise NotImplementedError("Subclasses of QuerySetMetricAnnotator must implement get_annotation().")
@@ -125,9 +144,6 @@ class QuerySetMetricAnnotator(BaseMetricAnnotator):
         for item in queryset:
             standings.add_metric(item, self.key, getattr(item, self.key))
 
-    def annotate(self, queryset, standings, round=None):
-        if self.combinable:
-            assert self.queryset_annotated, "get_annotated_queryset() must be run before annotate()"
-            self.annotate_with_queryset(queryset, standings)
-        else:
-            self.annotate_with_queryset(self.get_annotated_queryset(queryset, round), standings)
+    def annotate(self, queryset, standings, round=None, tournament=None):
+        assert self.queryset_annotated, "get_annotated_queryset() must be run before annotate()"
+        self.annotate_with_queryset(queryset, standings)

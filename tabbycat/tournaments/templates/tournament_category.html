@@ -12,11 +12,11 @@
       <div class="btn-group" role="group">
         {% if category.parent %}
           <a class="btn btn-outline-secondary" href="{{ category.parent.get_absolute_url }}">
-            <i data-feather="corner-left-up"></i> {% blocktrans trimmed with name=category.parent.name %}Up to {{ name }}{% endblocktrans %}
+            <i data-icon="corner-left-up"></i> {% blocktrans trimmed with name=category.parent.name %}Up to {{ name }}{% endblocktrans %}
           </a>
         {% endif %}
         <a class="btn btn-outline-secondary" href="{% url 'tabbycat-index' %}">
-          <i data-feather="home"></i> {% trans "Return to Site Home" %}
+          <i data-icon="house"></i> {% trans "Return to Site Home" %}
         </a>
       </div>
     </div>

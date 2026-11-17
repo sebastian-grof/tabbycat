@@ -1,6 +1,7 @@
 import logging
 
 from django.contrib.messages import ERROR
+from django.test import override_settings
 
 from availability.utils import set_availability
 from draw.generator import DrawUserError
@@ -40,6 +41,7 @@ class TestCreateDrawViewErrors(TournamentTestCase):
         self.assertEqual(len(messages), 1)
         message = list(messages)[0]
         self.assertEqual(message.level, ERROR)
+        return str(message)
 
     def reverse_round(self, view_name):
         return reverse_round(view_name, self.round)
@@ -60,3 +62,13 @@ class TestCreateDrawViewErrors(TournamentTestCase):
         TournamentPreferenceModel.objects.update_or_create(instance=self.tournament, section='standings',
                 name='team_standings_precedence',
                 defaults={'raw_value': MultiValueSerializer.separator.join(['wins', 'speaks_sum'])})
+
+    @override_settings(LANGUAGE_CODE='en')  # asserts on an untranslated string
+    def test_elim_progress_in_power_paired_precedence(self):
+        self.tournament.preferences['standings__team_standings_precedence'] = [
+            'elim_progress', 'wins', 'speaks_sum',
+        ]
+
+        message = self.run_test_for_error_response(logging.WARNING, DrawUserError)
+
+        self.assertIn("Power-paired draws can't be generated when elimination", message)

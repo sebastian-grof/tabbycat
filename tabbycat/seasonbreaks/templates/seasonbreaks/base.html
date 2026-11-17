@@ -87,7 +87,7 @@
 {% block page-subnav-actions %}
   {% if season %}
     <a class="btn btn-outline-secondary" href="{% url 'seasonbreaks-index' %}">
-      <i data-feather="arrow-left"></i> {% trans "Back to seasons" %}
+      <i data-icon="arrow-left"></i> {% trans "Back to seasons" %}
     </a>
   {% else %}
     {% if can_edit_breaks %}
@@ -97,12 +97,12 @@
       </a>
       <a class="btn btn-primary" data-toggle="collapse" href="#create-season" role="button"
          aria-expanded="false" aria-controls="create-season">
-        <i data-feather="plus-circle"></i> {% trans "Create season" %}
+        <i data-icon="circle-plus"></i> {% trans "Create season" %}
       </a>
     {% endif %}
     {% if can_manage_breaks_access %}
       <a class="btn btn-outline-secondary" href="{% url 'seasonbreaks-access' %}">
-        <i data-feather="lock"></i> {% trans "Access" %}
+        <i data-icon="lock"></i> {% trans "Access" %}
       </a>
     {% endif %}
   {% endif %}

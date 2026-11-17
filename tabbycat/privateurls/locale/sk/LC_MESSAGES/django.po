@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tabbycat\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-25 07:25+1100\n"
+"POT-Creation-Date: 2026-11-17 03:42+0100\n"
 "PO-Revision-Date: 2026-06-15 17:56+0200\n"
 "Last-Translator: philip_tc\n"
 "Language-Team: Slovak\n"
@@ -33,112 +33,137 @@ msgstr "Súkromná URL"
 msgid "for %(name)s"
 msgstr "pre %(name)s"
 
-#: privateurls/templates/private_url_landing.html:12
+#: privateurls/templates/private_url_landing.html:13
 #, python-format
 msgid "(%(team)s)"
 msgstr "(%(team)s)"
 
-#: privateurls/templates/private_url_landing.html:19
+#: privateurls/templates/private_url_landing.html:20
 #, python-format
 msgid "Your team has an incomplete number of speakers. Please share the registration link with your partner(s): <a href=\"%(link)s\">%(link)s</a>"
 msgstr "Váš tím nemá kompletný počet rečníkov. Prosím, pošlite odkaz na registráciu svojim partnerom: <a href=\"%(link)s\">%(link)s</a>"
 
-#: privateurls/templates/private_url_landing.html:26
+#: privateurls/templates/private_url_landing.html:31
+#, python-format
+msgid "Thank you for participating in %(tournament)s!"
+msgstr "Ďakujeme za účasť na turnaji %(tournament)s!"
+
+#: privateurls/templates/private_url_landing.html:37
+msgid "The tournament is over. You can see the final results here:"
+msgstr "Turnaj sa skončil. Konečné výsledky si môžete pozrieť tu:"
+
+#: privateurls/templates/private_url_landing.html:39
+msgid "The tournament is over. The final results will be available here once they are published."
+msgstr "Turnaj sa skončil. Konečné výsledky tu nájdete hneď, ako budú zverejnené."
+
+#: privateurls/templates/private_url_landing.html:46
+msgid "Team results"
+msgstr "Výsledky tímov"
+
+#: privateurls/templates/private_url_landing.html:51
+msgid "Speaker results"
+msgstr "Výsledky rečníkov"
+
+#: privateurls/templates/private_url_landing.html:55
+msgid "Tournament page"
+msgstr "Stránka turnaja"
+
+#: privateurls/templates/private_url_landing.html:61
 #, python-format
 msgid "The URL of this page is personalised to you, %(name)s. <strong>Do not share it with anyone;</strong> anyone who knows this URL can submit results and/or feedback for your debates. You may bookmark this page and return here after each debate for the available actions."
 msgstr "Táto stránka je vytvorená pre vás, %(name)s. <strong>Nezdieľajte ju s nikým;</strong> každý, kto pozná túto URL, môže odosielať výsledky a/alebo spätnú väzbu k vašim debatám. Túto stránku si môžete pridať do záložiek a vrátiť sa sem po každej debate, kde nájdete dostupné možnosti."
 
-#: privateurls/templates/private_url_landing.html:41
+#: privateurls/templates/private_url_landing.html:77
 msgid "Subscribe to Push Notifications"
 msgstr "Prihlásiť sa na odber push notifikácií"
 
-#: privateurls/templates/private_url_landing.html:50
+#: privateurls/templates/private_url_landing.html:86
 #, python-format
 msgid "Revoke check-in from %(check_time)s"
 msgstr "Zrušiť príchod z %(check_time)s"
 
-#: privateurls/templates/private_url_landing.html:56
+#: privateurls/templates/private_url_landing.html:92
 msgid "Check in"
 msgstr "Potvrdiť príchod"
 
 #. Translators: Include the full-stop; English doesn't because "a.m." already has a full stop.
-#: privateurls/templates/private_url_landing.html:63
+#: privateurls/templates/private_url_landing.html:99
 #, python-format
 msgid "You have been checked in at %(check_time)s"
 msgstr "Tvoj príchod bol potvrdený o %(check_time)s"
 
-#: privateurls/templates/private_url_landing.html:68
+#: privateurls/templates/private_url_landing.html:104
 msgid "You are not currently checked in."
 msgstr "Momentálne nemáš potvrdený príchod."
 
-#: privateurls/templates/private_url_landing.html:74
+#: privateurls/templates/private_url_landing.html:110
 msgid "Show barcode for check-in"
 msgstr "Zobraziť čiarový kód pre check-in"
 
-#: privateurls/templates/private_url_landing.html:86
+#: privateurls/templates/private_url_landing.html:122
 #, python-format
 msgid "Submit Ballot for %(round)s"
 msgstr "Odovzdať ballot pre %(round)s"
 
-#: privateurls/templates/private_url_landing.html:94
+#: privateurls/templates/private_url_landing.html:130
 msgid "Submit Feedback"
 msgstr "Odoslať spätnú väzbu"
 
-#: privateurls/templates/private_url_landing.html:108
+#: privateurls/templates/private_url_landing.html:144
 #, python-format
 msgid "Registration (%(name)s)"
 msgstr "Registrácia (%(name)s)"
 
-#: privateurls/templates/private_url_landing.html:125
+#: privateurls/templates/private_url_landing.html:161
 msgid "Missing feedback"
 msgstr "Chýbajúce feedbacky"
 
-#: privateurls/templates/private_url_landing.html:132
+#: privateurls/templates/private_url_landing.html:168
 msgid "Oral adjudicator (one of):"
 msgstr "Rozhodca, ktorý poskytol ústny feedback (jeden z):"
 
-#: privateurls/templates/private_url_landing.html:133
+#: privateurls/templates/private_url_landing.html:169
 msgid "Submit feedback"
 msgstr "Odovzdať feedback"
 
-#: privateurls/templates/private_url_landing.html:138
+#: privateurls/templates/private_url_landing.html:174
 msgid "No feedback is currently missing from your team."
 msgstr "Vášmu tímu momentálne nechýbajú žiadne feedbacky."
 
-#: privateurls/templates/private_url_landing.html:167
+#: privateurls/templates/private_url_landing.html:203
 msgid "Push notification permission denied"
 msgstr "Povolenie push notifikácií bolo zamietnuté"
 
-#: privateurls/templates/private_url_landing.html:168
+#: privateurls/templates/private_url_landing.html:204
 msgid "Push notifications are blocked. Please enable them in your browser settings."
 msgstr "Push notifikácie sú zablokované. Povoľ ich, prosím, v nastaveniach prehliadača."
 
-#: privateurls/templates/private_url_landing.html:169
+#: privateurls/templates/private_url_landing.html:205
 msgid "Push notifications are not supported in this browser."
 msgstr "Tento prehliadač nepodporuje push notifikácie."
 
-#: privateurls/templates/private_url_landing.html:170
+#: privateurls/templates/private_url_landing.html:206
 msgid "Permission for notifications was denied"
 msgstr "Povolenie notifikácií bolo zamietnuté"
 
-#: privateurls/templates/private_url_landing.html:171
+#: privateurls/templates/private_url_landing.html:207
 msgid "Unable to subscribe to push notifications:"
 msgstr "Nepodarilo sa prihlásiť na odber push notifikácií:"
 
-#: privateurls/templates/private_url_landing.html:172
+#: privateurls/templates/private_url_landing.html:208
 msgid "Server returned"
 msgstr "Server vrátil"
 
-#: privateurls/templates/private_url_landing.html:173
+#: privateurls/templates/private_url_landing.html:209
 msgid "Successfully subscribed to push notifications!"
 msgstr "Odber push notifikácií bol úspešne zapnutý!"
 
-#: privateurls/templates/private_url_landing.html:174
+#: privateurls/templates/private_url_landing.html:210
 msgid "Error subscribing to push notifications:"
 msgstr "Chyba pri prihlasovaní na odber push notifikácií:"
 
 #: privateurls/templates/private_urls.html:4
-#: privateurls/templates/private_urls.html:5 privateurls/views.py:166
+#: privateurls/templates/private_urls.html:5 privateurls/views.py:167
 msgid "Private URLs"
 msgstr "Súkromné URL"
 
@@ -200,31 +225,31 @@ msgstr "Vygenerovať URL"
 msgid "All participants already have private URLs."
 msgstr "Všetci účastníci uź majú súkromnú URL."
 
-#: privateurls/views.py:79 privateurls/views.py:188
+#: privateurls/views.py:80 privateurls/views.py:189
 msgid "no URL"
 msgstr "žiadna URL"
 
-#: privateurls/views.py:92
+#: privateurls/views.py:93
 msgid "URL"
 msgstr "URL"
 
-#: privateurls/views.py:103
+#: privateurls/views.py:104
 msgid "Speakers"
 msgstr "Rečník"
 
-#: privateurls/views.py:106
+#: privateurls/views.py:107
 msgid "Team"
 msgstr "Tím"
 
-#: privateurls/views.py:117
+#: privateurls/views.py:118
 msgid "Adjudicators"
 msgstr "Rozhodcovia"
 
-#: privateurls/views.py:140
+#: privateurls/views.py:141
 msgid "All participants already have private URLs. If you want to delete them, use the Edit Database area."
 msgstr "Všetci používatelia už majú svoju súkromnú URL. Ak si ich želáte vymazať, upravte databázu."
 
-#: privateurls/views.py:147
+#: privateurls/views.py:148
 #, python-format
 msgid "A private URL was generated for %(nblank_people)d person."
 msgid_plural "Private URLs were generated for all %(nblank_people)d people."
@@ -233,7 +258,7 @@ msgstr[1] "Soukromé URL byly vygenerovány pro všechny %(nblank_people)d osoby
 msgstr[2] "Soukromé URL byly vygenerovány pro všech %(nblank_people)d osob."
 msgstr[3] "Soukromé URL byly vygenerovány pro všech %(nblank_people)d osob."
 
-#: privateurls/views.py:152
+#: privateurls/views.py:153
 #, python-format
 msgid "The already-existing private URL for %(nexisting_people)d person was left intact."
 msgid_plural "The already-existing private URLs for %(nexisting_people)d people were left intact."
@@ -242,52 +267,27 @@ msgstr[1] "Již existující soukromé URL pro %(nexisting_people)d osoby byly p
 msgstr[2] "Již existující soukromé URL pro %(nexisting_people)d osob byly ponechány nedotčené."
 msgstr[3] "Již existující soukromé URL pro %(nexisting_people)d osob byly ponechány nedotčené."
 
-#: privateurls/views.py:173
+#: privateurls/views.py:174
 msgid "recipient private URL"
 msgstr "súkromný odkaz príjemcu"
 
-#: privateurls/views.py:174
+#: privateurls/views.py:175
 msgid "recipient private URL key"
 msgstr "kľúč súkromného odkazu príjemcu"
 
-#: privateurls/views.py:196
+#: privateurls/views.py:197
 msgid "URL Key"
 msgstr "URL kľúč"
 
-#: privateurls/views.py:208
+#: privateurls/views.py:209
 msgid "Debates"
 msgstr "Debaty"
 
-#: privateurls/views.py:325
+#: privateurls/views.py:326
 #, python-brace-format
 msgid "{action}: {round} - {speaker} ({side})"
 msgstr "{action}: {round} - {speaker} ({side})"
 
-#: privateurls/views.py:326
+#: privateurls/views.py:327
 msgid "Submit Ballot"
 msgstr "Odovzdať ballot"
-
-#: privateurls/templates/private_url_landing.html
-#, python-format
-msgid "Thank you for participating in %(tournament)s!"
-msgstr "Ďakujeme za účasť na turnaji %(tournament)s!"
-
-#: privateurls/templates/private_url_landing.html
-msgid "The tournament is over. You can see the final results here:"
-msgstr "Turnaj sa skončil. Konečné výsledky si môžete pozrieť tu:"
-
-#: privateurls/templates/private_url_landing.html
-msgid "The tournament is over. The final results will be available here once they are published."
-msgstr "Turnaj sa skončil. Konečné výsledky tu nájdete hneď, ako budú zverejnené."
-
-#: privateurls/templates/private_url_landing.html
-msgid "Team results"
-msgstr "Výsledky tímov"
-
-#: privateurls/templates/private_url_landing.html
-msgid "Speaker results"
-msgstr "Výsledky rečníkov"
-
-#: privateurls/templates/private_url_landing.html
-msgid "Tournament page"
-msgstr "Stránka turnaja"

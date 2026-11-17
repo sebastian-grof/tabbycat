@@ -204,3 +204,19 @@ msgstr ""
 #: templates/tables/CheckboxTablesContainer.vue:158
 msgid "Set Breaking"
 msgstr ""
+
+#: templates/tables/CheckboxTablesContainer.vue:177
+msgid "Match"
+msgstr ""
+
+#: templates/tables/CheckboxTablesContainer.vue:181
+msgid "Match Check-Ins"
+msgstr ""
+
+#: templates/tables/CheckboxTablesContainer.vue:191
+msgid " Set Checked-In as Available"
+msgstr ""
+
+#: templates/tables/CheckboxTablesContainer.vue:197
+msgid " Set Not Checked-In as Unavailable"
+msgstr ""

@@ -5,37 +5,37 @@
   <div class="list-group mb-3">
     <a class="list-group-item list-group-item-action" href="{% url 'seasonbreaks-identities-teams' season_slug=season.slug %}">
       <div class="row align-items-center">
-        <div class="col-auto pr-1"><i data-feather="users"></i></div>
+        <div class="col-auto pr-1"><i data-icon="users"></i></div>
         <div class="col pl-0">
           <h5 class="mb-1">{% trans "Teams" %}</h5>
           <div class="text-muted">{% trans "Link tournament teams to season team identities." %}</div>
           <small class="text-muted">{{ team_identity_count }} {% trans "identities" %} · {{ team_link_count }} {% trans "links" %}</small>
         </div>
-        <div class="col-auto pr-1"><i data-feather="chevron-right"></i></div>
+        <div class="col-auto pr-1"><i data-icon="chevron-right"></i></div>
       </div>
     </a>
 
     <a class="list-group-item list-group-item-action" href="{% url 'seasonbreaks-identities-speakers' season_slug=season.slug %}">
       <div class="row align-items-center">
-        <div class="col-auto pr-1"><i data-feather="mic"></i></div>
+        <div class="col-auto pr-1"><i data-icon="mic"></i></div>
         <div class="col pl-0">
           <h5 class="mb-1">{% trans "Speakers" %}</h5>
           <div class="text-muted">{% trans "Link tournament speakers to season speaker identities." %}</div>
           <small class="text-muted">{{ speaker_identity_count }} {% trans "identities" %} · {{ speaker_link_count }} {% trans "links" %}</small>
         </div>
-        <div class="col-auto pr-1"><i data-feather="chevron-right"></i></div>
+        <div class="col-auto pr-1"><i data-icon="chevron-right"></i></div>
       </div>
     </a>
 
     <a class="list-group-item list-group-item-action" href="{% url 'seasonbreaks-identities-adjudicators' season_slug=season.slug %}">
       <div class="row align-items-center">
-        <div class="col-auto pr-1"><i data-feather="award"></i></div>
+        <div class="col-auto pr-1"><i data-icon="award"></i></div>
         <div class="col pl-0">
           <h5 class="mb-1">{% trans "Adjudicators" %}</h5>
           <div class="text-muted">{% trans "Link tournament adjudicators to season adjudicator identities." %}</div>
           <small class="text-muted">{{ adjudicator_identity_count }} {% trans "identities" %} · {{ adjudicator_link_count }} {% trans "links" %}</small>
         </div>
-        <div class="col-auto pr-1"><i data-feather="chevron-right"></i></div>
+        <div class="col-auto pr-1"><i data-icon="chevron-right"></i></div>
       </div>
     </a>
   </div>
@@ -54,7 +54,7 @@
           <input type="hidden" name="action" value="cleanup_orphan_identities">
           {% trans "Remove all stale unlinked identities from this Breaks season?" as cleanup_warning %}
           <button class="btn btn-outline-danger" type="submit" onclick="return confirm('{{ cleanup_warning|escapejs }}')">
-            <i data-feather="trash-2"></i> {% trans "Clean stale identities" %}
+            <i data-icon="trash"></i> {% trans "Clean stale identities" %}
           </button>
         </form>
       </div>

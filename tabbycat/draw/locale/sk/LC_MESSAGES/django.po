@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tabbycat\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-25 07:25+1100\n"
+"POT-Creation-Date: 2026-11-17 03:42+0100\n"
 "PO-Revision-Date: 2026-04-26 00:00+0200\n"
 "Last-Translator: \n"
 "Language-Team: Slovak\n"
@@ -221,7 +221,9 @@ msgstr "Počet tímov (%d) v tomto kole nie je mocninou dvoch."
 msgid "Couldn't find a complete matching for bye selection."
 msgstr "Nepodarilo sa nájsť úplné párovanie pre výber bye."
 
-#: draw/generator/graph.py:83 draw/generator/graph.py:167 draw/generator/powerpair.py:709 draw/generator/powerpair.py:751 draw/generator/powerpair.py:1318
+#: draw/generator/graph.py:83 draw/generator/graph.py:167
+#: draw/generator/powerpair.py:709 draw/generator/powerpair.py:751
+#: draw/generator/powerpair.py:1318
 msgid "Unmatched-team bye selection requires an odd number of teams."
 msgstr "Výber bye nepárovaným tímom vyžaduje nepárny počet tímov."
 
@@ -248,7 +250,8 @@ msgstr "Uložené priradenia strán zanechali neplatný kôš %(bracket)s po pul
 msgid "%(noninteger)d out of %(total)d teams have a noninteger first metric in the team standings. Intermediate brackets require the first team standings metric to be an integer (typically points or wins)."
 msgstr "%(noninteger)d z %(total)d tímov má necelé číslo ako prvú metriku v poradí tímov. Medzikošové pairingy vyžadujú, aby prvá metrika poradia tímov bola celé číslo (zvyčajne body alebo výhry)."
 
-#: draw/generator/powerpair.py:128 draw/generator/powerpair.py:284 draw/generator/powerpair.py:901 draw/generator/powerpair.py:906
+#: draw/generator/powerpair.py:128 draw/generator/powerpair.py:284
+#: draw/generator/powerpair.py:901 draw/generator/powerpair.py:906
 msgid "This bye-selection method requires an odd number of teams."
 msgstr "Táto metóda výberu bye vyžaduje nepárny počet tímov."
 
@@ -256,16 +259,19 @@ msgstr "Táto metóda výberu bye vyžaduje nepárny počet tímov."
 msgid "This bye-selection method isn't supported with a custom pairing method."
 msgstr "Táto metóda výberu bye nie je podporovaná s vlastnou metódou pairingu."
 
-#: draw/generator/powerpair.py:172 draw/generator/powerpair.py:195 draw/generator/powerpair.py:221
+#: draw/generator/powerpair.py:172 draw/generator/powerpair.py:195
+#: draw/generator/powerpair.py:221
 #, python-format
 msgid "This bye-selection method isn't supported with the pairing method '%(method)s'."
 msgstr "Táto metóda výberu bye nie je podporovaná s metódou pairingu '%(method)s'."
 
-#: draw/generator/powerpair.py:180 draw/generator/powerpair.py:279 draw/generator/powerpair.py:927
+#: draw/generator/powerpair.py:180 draw/generator/powerpair.py:279
+#: draw/generator/powerpair.py:927
 msgid "Couldn't determine an unmatched team in the final odd bracket."
 msgstr "Nepodarilo sa určiť nepárovaný tím v záverečnom nepárnom koši."
 
-#: draw/generator/powerpair.py:290 draw/generator/powerpair.py:714 draw/generator/powerpair.py:912 draw/generator/powerpair.py:1323
+#: draw/generator/powerpair.py:290 draw/generator/powerpair.py:714
+#: draw/generator/powerpair.py:912 draw/generator/powerpair.py:1323
 msgid "Couldn't determine a final odd bracket for bye selection."
 msgstr "Nepodarilo sa určiť záverečný nepárny kôš pre výber bye."
 
@@ -282,7 +288,8 @@ msgstr "Pull-upy na základe sily pairingu vyžadujú 'Párovanie s minimálnymi
 msgid "Intermediate-type pullups require 'One-up-one-down' as the conflict avoidance method"
 msgstr "Pull-upy stredného typu vyžadujú 'Jeden nahor-jeden nadol' ako metódu vyhýbania sa konfliktom"
 
-#: draw/generator/powerpair.py:997 draw/generator/powerpair.py:1034 draw/generator/powerpair.py:1085
+#: draw/generator/powerpair.py:997 draw/generator/powerpair.py:1034
+#: draw/generator/powerpair.py:1085
 msgid "Saved side allocations left more than one odd bracket after pullups."
 msgstr "Uložené priradenia strán zanechali viac ako jeden nepárny kôš po pull-upoch."
 
@@ -359,27 +366,31 @@ msgstr "Priraď uloženú afirmatívnu/negatívnu stranu každému aktívnemu t�
 msgid "Assign saved sides for every active team before using this bye-selection method with pre-allocated sides."
 msgstr "Priraď uložené strany každému aktívnemu tímu pred použitím tejto metódy výberu bye s predpriradením strán."
 
-#: draw/manager.py:548 draw/manager.py:630
+#: draw/manager.py:548 draw/manager.py:636
 msgid "This bye-selection method isn't supported for this draw configuration."
 msgstr "Táto metóda výberu bye nie je podporovaná pre túto konfiguráciu pairingu."
 
-#: draw/manager.py:625
+#: draw/manager.py:590
+msgid "Power-paired draws can't be generated when elimination round progression is included in the team standings precedence. Remove it before generating this draw."
+msgstr "Pairing podľa výsledkov nie je možné vygenerovať, keď je postup vo vyraďovacích kolách zahrnutý v prednosti v poradí tímov. Pred vygenerovaním tohto pairingu ho odstráňte."
+
+#: draw/manager.py:631
 msgid "This bye-selection method is only supported for one bye in two-team preliminary draws."
 msgstr "Táto metóda výberu bye je podporovaná len pre jeden bye v predbežných pairingoch s dvoma tímami."
 
-#: draw/manager.py:628
+#: draw/manager.py:634
 msgid "This bye-selection method isn't supported with the conflict-avoidance method that determines pullups itself."
 msgstr "Táto metóda výberu bye nie je podporovaná s metódou vyhýbania sa konfliktom, ktorá sama určuje pull-upy."
 
-#: draw/manager.py:646
+#: draw/manager.py:652
 msgid "This bye-selection method isn't supported for seeded draws."
 msgstr "Táto metóda výberu bye nie je podporovaná pre nasadené pairingy."
 
-#: draw/manager.py:695
+#: draw/manager.py:701
 msgid "Every team must have a seed set for round-robin draws. Assign seeds before generating the draw."
 msgstr "Každý tím musí mať nastavené nasadenie pre párovanie každý s každým. Priraďte nasadenia pred vytvorením párovania."
 
-#: draw/manager.py:786
+#: draw/manager.py:792
 #, python-format
 msgid "The break size (%(size)d) for this break category was invalid. It must be either six times or four times a power of two."
 msgstr "Veľkosť postupu (%(size)d) pre túto postupovú kategóriu je neplatná. Musí byť šesťnásobok alebo štvornásobok mocniny dvoch."
@@ -578,7 +589,7 @@ msgstr "Kolo %(round)s má neplatné priradenie strán."
 msgid "%(side)s: %(metric)s"
 msgstr "%(side)s: %(metric)s"
 
-#: draw/tables.py:82 draw/views.py:971 draw/views.py:1084
+#: draw/tables.py:82 draw/views.py:978 draw/views.py:1091
 msgid "Bye"
 msgstr "Bye"
 
@@ -713,7 +724,8 @@ msgstr "STOP!!! Najprv si toto prečítaj! Vymazanie tímov debaty z databázy m
 msgid "Tabbycat requires that all debates have <strong>exactly</strong> one debate team for each side, and no other debate teams, at all times. If you delete any debate teams, you must then either replace each one with a new debate team in the same debate, or delete the associated debate objects. If you don't do this correctly, many pages <strong>will</strong> crash."
 msgstr "Tabbycat vyžaduje, aby všetky debaty mali <strong>presne</strong> jeden tím pre každú stranu a žiadne iné tímy debaty, vždy. Ak vymažeš nejaké tímy debaty, musíš každý nahradiť novým tímom v tej istej debate alebo vymazať príslušné objekty debaty. Ak to neurobíš správne, mnoho stránok <strong>spadne</strong>."
 
-#: draw/templates/admin/draw/debateteam/delete_warning.html:15 draw/templates/admin/draw/debateteam/edit_warning.html:15
+#: draw/templates/admin/draw/debateteam/delete_warning.html:15
+#: draw/templates/admin/draw/debateteam/edit_warning.html:15
 msgid "This is a common source of errors. If it happens to you, check the debates (under the Draw section in this Edit Database area) and ensure that all of them have exactly one affirmative and one negative team."
 msgstr "Toto je bežný zdroj chýb. Ak sa ti to stane, skontroluj debaty (v sekcii Pairing v oblasti Upraviť databázu) a uisti sa, že každá z nich má presne jeden afirmatívny a jeden negatívny tím."
 
@@ -835,7 +847,10 @@ msgstr "Detaily pairingu"
 msgid "Position Balance"
 msgstr "Rovnováha pozícií"
 
-#: draw/templates/draw_base.html:31 draw/templates/draw_display_admin.html:4 draw/templates/draw_display_admin.html:5 draw/templates/draw_display_assistant.html:4 draw/templates/draw_display_assistant.html:5
+#: draw/templates/draw_base.html:31 draw/templates/draw_display_admin.html:4
+#: draw/templates/draw_display_admin.html:5
+#: draw/templates/draw_display_assistant.html:4
+#: draw/templates/draw_display_assistant.html:5
 msgid "Display Draw"
 msgstr "Zobraziť pairing"
 
@@ -843,7 +858,8 @@ msgstr "Zobraziť pairing"
 msgid "Confirm draw regeneration"
 msgstr "Potvrdiť opätovné generovanie pairingu"
 
-#: draw/templates/draw_confirm_regeneration.html:10 draw/templates/draw_subpage.html:6
+#: draw/templates/draw_confirm_regeneration.html:10
+#: draw/templates/draw_subpage.html:6
 msgid "Back to Draw"
 msgstr "Späť na pairing"
 
@@ -940,7 +956,8 @@ msgstr "Zverejniť pairing s rozhodcami"
 msgid "The draw has been released publicly (teams only, without adjudicators)."
 msgstr "Pairing bol verejne zverejnený (len tímy, bez rozhodcov)."
 
-#: draw/templates/draw_display_admin.html:110 draw/templates/draw_display_admin.html:141
+#: draw/templates/draw_display_admin.html:110
+#: draw/templates/draw_display_admin.html:141
 msgid "View public draw page"
 msgstr "Zobraziť verejnú stránku pairingu"
 
@@ -1092,37 +1109,45 @@ msgstr "Zobraziť verejnú stránku téz"
 msgid "You have released the motions, but they will not show to the public unless the \"public view of motions\" setting is enabled in <a class=\"alert-link\" href=\"%(alert_link)s\">this tournament's configuration</a>."
 msgstr "Zverejnil/a si tézy, ale verejnosti sa nezobrazia, pokiaľ nie je v <a class=\"alert-link\" href=\"%(alert_link)s\">konfigurácii tohto turnaja</a> povolené nastavenie \"verejné zobrazenie téz\"."
 
-#: draw/templates/draw_display_admin.html:364 draw/templates/draw_display_assistant.html:13
+#: draw/templates/draw_display_admin.html:364
+#: draw/templates/draw_display_assistant.html:13
 msgid "(for the briefing room)"
 msgstr "(pre briefingovú miestnosť)"
 
-#: draw/templates/draw_display_admin.html:369 draw/templates/draw_display_assistant.html:18
+#: draw/templates/draw_display_admin.html:369
+#: draw/templates/draw_display_assistant.html:18
 msgid "Display Draw ordered by Room"
 msgstr "Zobraziť pairing zoradený podľa miestnosti"
 
-#: draw/templates/draw_display_admin.html:373 draw/templates/draw_display_assistant.html:22
+#: draw/templates/draw_display_admin.html:373
+#: draw/templates/draw_display_assistant.html:22
 msgid "Display Draw ordered by Team"
 msgstr "Zobraziť pairing zoradený podľa tímu"
 
-#: draw/templates/draw_display_admin.html:379 draw/templates/draw_display_assistant.html:28
+#: draw/templates/draw_display_admin.html:379
+#: draw/templates/draw_display_assistant.html:28
 msgid "Display Draws for <strong>All Current Rounds</strong> ordered by Room"
 msgstr "Zobraziť pairingy pre <strong>všetky aktuálne kolá</strong> zoradené podľa miestnosti"
 
-#: draw/templates/draw_display_admin.html:383 draw/templates/draw_display_assistant.html:32
+#: draw/templates/draw_display_admin.html:383
+#: draw/templates/draw_display_assistant.html:32
 msgid "Display Draws for <strong>All Current Rounds</strong> ordered by Team"
 msgstr "Zobraziť pairingy pre <strong>všetky aktuálne kolá</strong> zoradené podľa tímu"
 
-#: draw/templates/draw_display_admin.html:387 draw/templates/draw_display_assistant.html:38
+#: draw/templates/draw_display_admin.html:387
+#: draw/templates/draw_display_assistant.html:38
 #, python-format
 msgid "Display Draw for <strong>%(round)s</strong> ordered by Room"
 msgstr "Zobraziť pairing pre <strong>%(round)s</strong> zoradený podľa miestnosti"
 
-#: draw/templates/draw_display_admin.html:393 draw/templates/draw_display_assistant.html:44
+#: draw/templates/draw_display_admin.html:393
+#: draw/templates/draw_display_assistant.html:44
 #, python-format
 msgid "Display Draw for <strong>%(round)s</strong> ordered by Team"
 msgstr "Zobraziť pairing pre <strong>%(round)s</strong> zoradený podľa tímu"
 
-#: draw/templates/draw_display_admin.html:401 draw/templates/draw_display_assistant.html:55
+#: draw/templates/draw_display_admin.html:401
+#: draw/templates/draw_display_assistant.html:55
 msgid "Display Motions"
 msgstr "Zobraziť tézy"
 
@@ -1158,7 +1183,8 @@ msgstr "Rýchlosť posúvania"
 msgid "Fast"
 msgstr "Rýchlo"
 
-#: draw/templates/draw_display_by.html:23 draw/templates/draw_display_by.html:53
+#: draw/templates/draw_display_by.html:23
+#: draw/templates/draw_display_by.html:53
 msgid "Medium"
 msgstr "Stredne"
 
@@ -1268,7 +1294,8 @@ msgstr[3] "Pre toto kolo je dostupných %(npanels)s predpripravených panelov."
 msgid "There are no preformed panels available for this round"
 msgstr "Pre toto kolo nie sú dostupné žiadne predpripravené panely"
 
-#: draw/templates/draw_status_confirmed.html:112 draw/templates/draw_status_confirmed.html:119
+#: draw/templates/draw_status_confirmed.html:112
+#: draw/templates/draw_status_confirmed.html:119
 #, python-format
 msgid "Edit preformed panels for %(round)s"
 msgstr "Upraviť predpripravené panely pre %(round)s"
@@ -1352,7 +1379,7 @@ msgstr "Reporty rovnováhy pozícií sa nepočítajú pre prvé kolo turnaja."
 msgid "Return to availability"
 msgstr "Späť na dostupnosť"
 
-#: draw/templates/side_allocations.html:14 draw/views.py:1163
+#: draw/templates/side_allocations.html:14 draw/views.py:1170
 msgid "Can't change side pre-allocations after generating the draw."
 msgstr "Po vytvorení párovania nemožno meniť predbežné priradenia strán."
 
@@ -1380,7 +1407,8 @@ msgstr "Toto kolo nemá žiadne aktívne uložené priradenia strán, takže pai
 msgid "Unavailable teams"
 msgstr "Nedostupné tímy"
 
-#: draw/templates/side_allocations.html:47 draw/templates/side_allocations.html:202
+#: draw/templates/side_allocations.html:47
+#: draw/templates/side_allocations.html:202
 msgid "None"
 msgstr "Žiadny"
 
@@ -1448,12 +1476,14 @@ msgstr "Manuálna úprava"
 msgid "Results before this round. Team points = total speaker points."
 msgstr "Výsledky pred týmto kolom. Tímové body = súčet rečníckych bodov."
 
-#: draw/templates/side_allocations.html:112 draw/templates/side_allocations.html:231
+#: draw/templates/side_allocations.html:112
+#: draw/templates/side_allocations.html:231
 #, python-format
 msgid "%%(matching)s of %%(total)s teams"
 msgstr "%%(matching)s z %%(total)s tímov"
 
-#: draw/templates/side_allocations.html:112 draw/templates/side_allocations.html:231
+#: draw/templates/side_allocations.html:112
+#: draw/templates/side_allocations.html:231
 #, python-format
 msgid "%(count)s teams"
 msgstr "%(count)s tímov"
@@ -1467,7 +1497,8 @@ msgstr "Ručné pridelenie strán pre %(round)s"
 msgid "Rank"
 msgstr "Poradie"
 
-#: draw/templates/side_allocations.html:126 draw/templates/side_allocations.html:236
+#: draw/templates/side_allocations.html:126
+#: draw/templates/side_allocations.html:236
 msgid "Team"
 msgstr "Tím"
 
@@ -1483,11 +1514,13 @@ msgstr "Hlasy"
 msgid "Team points"
 msgstr "Tímové body"
 
-#: draw/templates/side_allocations.html:149 draw/templates/side_allocations.html:255
+#: draw/templates/side_allocations.html:149
+#: draw/templates/side_allocations.html:255
 msgid "No matching teams."
 msgstr "Žiadne zodpovedajúce tímy."
 
-#: draw/templates/side_allocations.html:149 draw/templates/side_allocations.html:255
+#: draw/templates/side_allocations.html:149
+#: draw/templates/side_allocations.html:255
 msgid "Clear search"
 msgstr "Vymazať vyhľadávanie"
 
@@ -1508,7 +1541,8 @@ msgstr "Uloží pridelenia pre všetky aktívne tímy vrátane tímov skrytých 
 msgid "There are no debating teams available to assign in this round right now."
 msgstr "V tomto kole momentálne nie sú dostupné žiadne debatujúce tímy na priradenie."
 
-#: draw/templates/side_allocations.html:165 draw/templates/side_allocations.html:222
+#: draw/templates/side_allocations.html:165
+#: draw/templates/side_allocations.html:222
 msgid "There are no preliminary rounds to edit yet."
 msgstr "Zatiaľ nie sú žiadne predbežné kolá na úpravu."
 
@@ -1567,7 +1601,6 @@ msgstr "Uložené pridelenia strán tímov podľa kola"
 
 #: draw/templates/side_allocations.html:244
 #, python-format
-#| msgid "%(tournament)s - %(round)s"
 msgid "Side for %(team)s in %(round)s"
 msgstr "Strana tímu %(team)s v kole %(round)s"
 
@@ -1816,24 +1849,24 @@ msgstr "Predpripravené panely boli prepísané aktuálnymi panelmi."
 msgid "Deleted the draw. You can now recreate it as normal."
 msgstr "Pairing bol vymazaný. Teraz ho môžeš znovu vytvoriť štandardným spôsobom."
 
-#: draw/views.py:832 draw/views.py:899
+#: draw/views.py:832 draw/views.py:906
 msgid "The draw has already been released."
 msgstr "Pairing už bol zverejnený."
 
-#: draw/views.py:834 draw/views.py:901
+#: draw/views.py:834 draw/views.py:908
 msgid "The draw must be confirmed before being released."
 msgstr "Pairing musí byť potvrdený pred zverejnením."
 
-#: draw/views.py:844
+#: draw/views.py:847
 msgid "Released the draw."
 msgstr "Pairing bol zverejnený."
 
-#: draw/views.py:852
+#: draw/views.py:855
 #, python-format
 msgid "%(tournament)s - %(round)s"
 msgstr "%(tournament)s – %(round)s"
 
-#: draw/views.py:863
+#: draw/views.py:866
 #, python-format
 msgid "You are the %(type)s in %(venue)s, adjudicating %(matchup)s"
 msgid_plural "You are a %(type)s in %(venue)s, adjudicating %(matchup)s"
@@ -1842,37 +1875,37 @@ msgstr[1] "Si %(type)s v %(venue)s, rozhoduješ %(matchup)s"
 msgstr[2] "Si %(type)s v %(venue)s, rozhoduješ %(matchup)s"
 msgstr[3] "Si %(type)s v %(venue)s, rozhoduješ %(matchup)s"
 
-#: draw/views.py:868 draw/views.py:883
+#: draw/views.py:871 draw/views.py:888
 msgid "Room TBA"
 msgstr "Miestnosť bude oznámená"
 
-#: draw/views.py:881
+#: draw/views.py:886
 #, python-format
 msgid "You are the %(type)s in %(venue)s, with %(matchup)s"
 msgstr "Si %(type)s v %(venue)s, s %(matchup)s"
 
-#: draw/views.py:908
+#: draw/views.py:915
 msgid "Released the draw (teams only)."
 msgstr "Pairing bol zverejnený (len tímy)."
 
-#: draw/views.py:919
+#: draw/views.py:926
 msgid "The draw had been unreleased."
 msgstr "Zverejnenie pairingu bolo zrušené."
 
-#: draw/views.py:925
+#: draw/views.py:932
 msgid "Unreleased the draw."
 msgstr "Zverejnenie pairingu bolo zrušené."
 
-#: draw/views.py:939
+#: draw/views.py:946
 #, python-format
 msgid "Sorry, \"%(input)s\" isn't a valid time. It must be in 24-hour format, with a colon, for example: \"13:57\"."
 msgstr "Ľutujem, \"%(input)s\" nie je platný čas. Musí byť v 24-hodinovom formáte s dvojbodkou, napríklad: \"13:57\"."
 
-#: draw/views.py:958 draw/views.py:987
+#: draw/views.py:965 draw/views.py:994
 msgid "Side Pre-Allocations"
 msgstr "Predpriradenia strán"
 
-#: draw/views.py:1184
+#: draw/views.py:1191
 #, python-format
 msgid "%(count)d active team is unassigned."
 msgid_plural "%(count)d active teams are unassigned."
@@ -1881,7 +1914,7 @@ msgstr[1] "%(count)d aktívne tímy sú nepriradené."
 msgstr[2] "%(count)d aktívneho tímu je nepriradených."
 msgstr[3] "%(count)d aktívnych tímov je nepriradených."
 
-#: draw/views.py:1190
+#: draw/views.py:1197
 #, python-format
 msgid "%(count)d saved allocation belongs to a team that is currently unavailable."
 msgid_plural "%(count)d saved allocations belong to teams that are currently unavailable."
@@ -1890,88 +1923,88 @@ msgstr[1] "%(count)d uložené priradenia patria tímom, ktoré sú momentálne 
 msgstr[2] "%(count)d uloženého priradenia patrí tímom, ktoré sú momentálne nedostupné."
 msgstr[3] "%(count)d uložených priradení patrí tímom, ktoré sú momentálne nedostupné."
 
-#: draw/views.py:1197
+#: draw/views.py:1204
 #, python-format
 msgid "Current split is %(left)s %(left_count)d / %(right)s %(right_count)d, which doesn't match a valid split for the active teams in this round."
 msgstr "Aktuálne rozdelenie je %(left)s %(left_count)d / %(right)s %(right_count)d, čo nezodpovedá platnému rozdeleniu pre aktívne tímy v tomto kole."
 
-#: draw/views.py:1227
+#: draw/views.py:1234
 #, python-format
 msgid "Random side allocations generated for %(round)s."
 msgstr "Pre %(round)s boli vygenerované náhodné priradenia strán."
 
-#: draw/views.py:1231
+#: draw/views.py:1238
 #, python-format
 msgid "Side allocations for %(target)s were copied as the opposite of %(source)s."
 msgstr "Priradenia strán pre %(target)s boli skopírované ako opak %(source)s."
 
-#: draw/views.py:1244
+#: draw/views.py:1251
 #, python-format
 msgid "All teams set to affirmation for %(round)s."
 msgstr "Všetky tímy boli pre %(round)s nastavené na afirmáciu."
 
-#: draw/views.py:1247
+#: draw/views.py:1254
 #, python-format
 msgid "All teams set to negation for %(round)s."
 msgstr "Všetky tímy boli pre %(round)s nastavené na negáciu."
 
-#: draw/views.py:1250
+#: draw/views.py:1257
 #, python-format
 msgid "Cleared saved side allocations for %(round)s. This round will pair first and assign sides afterwards."
 msgstr "Uložené priradenia strán pre %(round)s boli vymazané. Toto kolo sa najprv spáruje a strany budú priradené potom."
 
-#: draw/views.py:1274
+#: draw/views.py:1281
 #, python-format
 msgid "Cleared the bye override for %(round)s. The tournament setting will be used."
 msgstr "Manuálne určenie bye pre %(round)s bolo vymazané. Použije sa nastavenie turnaja."
 
-#: draw/views.py:1276
+#: draw/views.py:1283
 #, python-format
 msgid "Set %(team)s as the manual bye override for %(round)s."
 msgstr "%(team)s bol nastavený ako manuálne určenie bye pre %(round)s."
 
-#: draw/views.py:1296
+#: draw/views.py:1303
 #, python-format
 msgid "Saved side allocations for %(round)s."
 msgstr "Priradenia strán pre %(round)s boli uložené."
 
-#: draw/views.py:1301
+#: draw/views.py:1308
 msgid "Unrecognized side allocation action."
 msgstr "Nerozpoznaná akcia priradenia strán."
 
-#: draw/views.py:1327
+#: draw/views.py:1334
 msgid "Invalid team or round."
 msgstr "Neplatný tím alebo kolo."
 
-#: draw/views.py:1330
+#: draw/views.py:1337
 msgid "Can't change a side pre-allocation once the draw for that round has been generated."
 msgstr "Predbežné priradenie strany nemožno zmeniť po vytvorení párovania daného kola."
 
-#: draw/views.py:1338
+#: draw/views.py:1345
 msgid "Invalid side."
 msgstr "Neplatná strana."
 
-#: draw/views.py:1361
+#: draw/views.py:1368
 msgid "Invalid round."
 msgstr "Neplatné kolo."
 
-#: draw/views.py:1365
+#: draw/views.py:1372
 msgid "Choose an earlier source round and a valid copy direction."
 msgstr "Vyberte skoršie zdrojové kolo a platný smer kopírovania."
 
-#: draw/views.py:1370
+#: draw/views.py:1377
 msgid "Can't set side pre-allocations for a round whose draw has already been generated."
 msgstr "Predbežné priradenia strán nemožno nastaviť pre kolo, ktoré už má vytvorené párovanie."
 
-#: draw/views.py:1374
+#: draw/views.py:1381
 msgid "The source round must be a finished round with a confirmed draw."
 msgstr "Zdrojové kolo musí byť ukončené a mať potvrdené párovanie."
 
-#: draw/views.py:1385
+#: draw/views.py:1392
 msgid "Side allocations generated from the opposite sides of the source round."
 msgstr "Priradenia strán boli vygenerované z opačných strán zdrojového kola."
 
-#: draw/views.py:1406
+#: draw/views.py:1413
 #, python-format
 msgid "Set the side pre-allocation for %(applied)d team (skipped %(skipped)d with no result in %(round)s)."
 msgid_plural "Set the side pre-allocation for %(applied)d teams (skipped %(skipped)d with no result in %(round)s)."
@@ -1980,7 +2013,7 @@ msgstr[1] "Predbežné priradenie strany bolo nastavené pre %(applied)d tímy (
 msgstr[2] "Predbežné priradenie strany bolo nastavené pre %(applied)d tímu (preskočených: %(skipped)d bez výsledku v kole %(round)s)."
 msgstr[3] "Predbežné priradenie strany bolo nastavené pre %(applied)d tímov (preskočených: %(skipped)d bez výsledku v kole %(round)s)."
 
-#: draw/views.py:1419
+#: draw/views.py:1426
 msgid "Edit Matchups"
 msgstr "Upraviť zápasy"
 

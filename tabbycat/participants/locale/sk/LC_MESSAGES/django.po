@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tabbycat\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-25 07:25+1100\n"
+"POT-Creation-Date: 2026-11-17 03:42+0100\n"
 "PO-Revision-Date: 2026-04-27 09:52+0200\n"
 "Last-Translator: philip_tc\n"
 "Language-Team: Slovak\n"
@@ -87,6 +87,23 @@ msgstr[3] "%(count)d rozhodcom bolo odstránených URL kľúčov."
 #: participants/apps.py:7 participants/views.py:51
 msgid "Participants"
 msgstr "Účastníci"
+
+#: participants/display.py:19
+msgid "Participating remotely"
+msgstr "Zúčastňuje sa na diaľku"
+
+#: participants/display.py:19
+msgid "Online adjudicator: participating remotely"
+msgstr "Online rozhodca/rozhodkyňa: zúčastňuje sa na diaľku"
+
+#: participants/display.py:19
+msgid "Online"
+msgstr "Online"
+
+#: participants/display.py:29
+#, python-format
+msgid "%(name)s (Online)"
+msgstr "%(name)s (online)"
 
 #: participants/forms.py:6
 msgid "Speaker's full name"
@@ -288,7 +305,7 @@ msgstr "osoba"
 msgid "persons"
 msgstr "osoby"
 
-#: participants/models.py:184
+#: participants/models.py:184 participants/tests/test_online_status.py:139
 msgid "Redacted"
 msgstr "Skryté"
 
@@ -384,7 +401,7 @@ msgstr "typ"
 msgid "emoji"
 msgstr "emoji"
 
-#: participants/models.py:293 participants/models.py:506
+#: participants/models.py:293 participants/models.py:509
 msgid "registration status"
 msgstr "stav registrácie"
 
@@ -453,38 +470,46 @@ msgid "adjudication core"
 msgstr "adjudication core"
 
 #: participants/models.py:498
+msgid "Mark as online"
+msgstr "Označiť ako online"
+
+#: participants/models.py:499
+msgid "This adjudicator participates remotely. This does not change their check-in or round availability."
+msgstr "Tento rozhodca / táto rozhodkyňa sa zúčastňuje na diaľku. Nemení to čas príchodu ani dostupnosť v kole."
+
+#: participants/models.py:501
 msgid "tester"
 msgstr "testujúci rozhodca"
 
-#: participants/models.py:499
+#: participants/models.py:502
 msgid "Whether this adjudicator tests other adjudicators. Members of the adjudication core count as testers whether or not this is checked"
 msgstr "Či tento rozhodca testuje ostatných rozhodcov. Členovia rozhodcovského jadra sa považujú za testujúcich bez ohľadu na toto nastavenie"
 
-#: participants/models.py:507
+#: participants/models.py:510
 msgid "Whether the adjudicator's registration has been confirmed by tournament staff"
 msgstr "Či registrácia rozhodcu bola potvrdená organizátormi turnaja"
 
-#: participants/models.py:517
+#: participants/models.py:520
 msgid "adjudicator"
 msgstr "rozhodca"
 
-#: participants/models.py:518
+#: participants/models.py:521
 msgid "adjudicators"
 msgstr "rozhodcovia"
 
-#: participants/tables.py:32
+#: participants/tables.py:31
 msgid "Points after this debate"
 msgstr "Body po tejto debate"
 
-#: participants/tables.py:34
+#: participants/tables.py:33
 msgid "Wins after this debate"
 msgstr "Výhry po tejto debate"
 
-#: participants/tables.py:43
+#: participants/tables.py:47
 msgid "Speaker scores<br>(in speaking order)"
 msgstr "Rečnícke body<br>(v poradi rečí)"
 
-#: participants/tables.py:43
+#: participants/tables.py:47
 msgid "Speaks"
 msgstr "Rečnícke body"
 

@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tabbycat\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-25 06:56+1100\n"
+"POT-Creation-Date: 2026-11-17 03:42+0100\n"
 "PO-Revision-Date: 2026-04-27 09:44+0200\n"
 "Last-Translator: philip_tc\n"
 "Language-Team: Slovak\n"
@@ -19,11 +19,11 @@ msgstr ""
 "X-Crowdin-Project-ID: 364715\n"
 "X-Generator: Poedit 3.9\n"
 
-#: results/admin.py:125
+#: results/admin.py:126
 msgid "Resave results"
 msgstr "Znovu uložiť výsledky"
 
-#: results/admin.py:135
+#: results/admin.py:136
 #, python-format
 msgid "Resaved results for %(count)d ballot submission."
 msgid_plural "Resaved results for %(count)d ballot submissions."
@@ -32,23 +32,30 @@ msgstr[1] "Znovu uložené výsledky pre %(count)d odovzdania ballotov."
 msgstr[2] "Znovu uložené výsledky pre %(count)d odovzdaní ballotov."
 msgstr[3] "Znovu uložené výsledky pre %(count)d odovzdaní ballotov."
 
-#: results/admin.py:242
+#: results/admin.py:243
 msgid "Speaker"
 msgstr "Rečník"
 
-#: results/apps.py:7 results/templates/public_results_index.html:4 results/templates/public_results_index.html:5 results/views.py:287
+#: results/apps.py:7 results/templates/public_results_index.html:4
+#: results/templates/public_results_index.html:5 results/views.py:287
 msgid "Results"
 msgstr "Výsledky"
 
-#: results/criterion_forms.py:10 results/templates/criterion_management.html:96 results/templates/criterion_management.html:154 results/templates/criterion_management.html:212
+#: results/criterion_forms.py:10 results/templates/criterion_management.html:96
+#: results/templates/criterion_management.html:154
+#: results/templates/criterion_management.html:212
 msgid "Order"
 msgstr "Poradie"
 
-#: results/criterion_forms.py:11 results/templates/criterion_management.html:97 results/templates/criterion_management.html:155 results/templates/criterion_management.html:213
+#: results/criterion_forms.py:11 results/templates/criterion_management.html:97
+#: results/templates/criterion_management.html:155
+#: results/templates/criterion_management.html:213
 msgid "Name"
 msgstr "Názov"
 
-#: results/criterion_forms.py:12 results/templates/criterion_management.html:98 results/templates/criterion_management.html:156 results/templates/criterion_management.html:214
+#: results/criterion_forms.py:12 results/templates/criterion_management.html:98
+#: results/templates/criterion_management.html:156
+#: results/templates/criterion_management.html:214
 msgid "Weight"
 msgstr "Váha"
 
@@ -60,19 +67,32 @@ msgstr "Minimum"
 msgid "Maximum"
 msgstr "Maximum"
 
-#: results/criterion_forms.py:15 results/templates/criterion_management.html:101 results/templates/criterion_management.html:159 results/templates/criterion_management.html:217
+#: results/criterion_forms.py:15
+#: results/templates/criterion_management.html:101
+#: results/templates/criterion_management.html:159
+#: results/templates/criterion_management.html:217
 msgid "Step"
 msgstr "Krok"
 
-#: results/criterion_forms.py:16 results/templates/criterion_management.html:102 results/templates/criterion_management.html:160 results/templates/criterion_management.html:218
+#: results/criterion_forms.py:16
+#: results/templates/criterion_management.html:102
+#: results/templates/criterion_management.html:160
+#: results/templates/criterion_management.html:218
 msgid "Required"
 msgstr "Povinné"
 
-#: results/criterion_forms.py:17 results/templates/criterion_management.html:103 results/templates/criterion_management.html:161 results/templates/criterion_management.html:219 results/templates/criterion_management.html:376
+#: results/criterion_forms.py:17
+#: results/templates/criterion_management.html:103
+#: results/templates/criterion_management.html:161
+#: results/templates/criterion_management.html:219
+#: results/templates/criterion_management.html:376
 msgid "Delete"
 msgstr "Vymazať"
 
-#: results/criterion_forms.py:41 results/forms.py:688 results/forms.py:1082 results/forms.py:1095 results/forms.py:1107 results/forms.py:1115 results/forms.py:1211 results/forms.py:1447 results/forms.py:1460 results/forms.py:1472 results/forms.py:1480
+#: results/criterion_forms.py:41 results/forms.py:688 results/forms.py:1082
+#: results/forms.py:1095 results/forms.py:1107 results/forms.py:1115
+#: results/forms.py:1211 results/forms.py:1447 results/forms.py:1460
+#: results/forms.py:1472 results/forms.py:1480
 msgid "This field is required."
 msgstr "Toto pole je povinné."
 
@@ -104,7 +124,8 @@ msgstr "Predvolená konfigurácia na odstránenie"
 msgid "Choose a preset"
 msgstr "Vyber predvolenú konfiguráciu"
 
-#: results/criterion_views.py:24 results/templates/criterion_management.html:4 results/templates/criterion_management.html:5
+#: results/criterion_views.py:24 results/templates/criterion_management.html:4
+#: results/templates/criterion_management.html:5
 msgid "Criterion Management"
 msgstr "Správa kritérií"
 
@@ -135,7 +156,8 @@ msgstr "Heslo pre turnaj"
 msgid "That password isn't correct."
 msgstr "Heslo je nesprávne."
 
-#: results/forms.py:149 results/templates/ballot_text_feedback_form.html:6 results/templates/ballot_text_feedback_list.html:6
+#: results/forms.py:149 results/templates/ballot_text_feedback_form.html:6
+#: results/templates/ballot_text_feedback_list.html:6
 msgid "Notes"
 msgstr "Poznámky"
 
@@ -212,7 +234,8 @@ msgstr "Rečník záverečnej reči za tento tím nemal substantívnu reč."
 msgid "The total score for this block must be a whole number."
 msgstr "Celkové skóre tohto bloku musí byť celé číslo."
 
-#: results/forms.py:891 results/models.py:554 results/models.py:623 results/templates/public_ballot_set.html:161
+#: results/forms.py:891 results/models.py:554 results/models.py:623
+#: results/templates/public_ballot_set.html:161
 msgid "Cross-examinations"
 msgstr "Krížové výsluchy"
 
@@ -370,7 +393,9 @@ msgstr "rozhodnutie 2 : 1 jediného rozhodcu"
 msgid "For solo-adjudicated debates: whether the adjudicator has declared their decision as a 2:1 split (rather than unanimous), per Karl Popper rules."
 msgstr "Pri debatách s jediným rozhodcom: či rozhodca označil svoje rozhodnutie ako 2 : 1 namiesto jednomyseľného rozhodnutia podľa pravidiel formátu Karl Popper."
 
-#: results/models.py:130 results/models.py:248 results/models.py:272 results/models.py:316 results/models.py:365 results/models.py:408 results/models.py:473 results/models.py:509
+#: results/models.py:130 results/models.py:248 results/models.py:272
+#: results/models.py:316 results/models.py:365 results/models.py:408
+#: results/models.py:473 results/models.py:509
 msgid "ballot submission"
 msgstr "odovzdanie ballotu"
 
@@ -420,7 +445,8 @@ msgstr "Textová spätná väzba k %(ballot)s"
 msgid "debate adjudicator"
 msgstr "rozhodca debaty"
 
-#: results/models.py:276 results/models.py:320 results/models.py:367 results/models.py:410 results/models.py:475 results/models.py:513
+#: results/models.py:276 results/models.py:320 results/models.py:367
+#: results/models.py:410 results/models.py:475 results/models.py:513
 msgid "debate team"
 msgstr "tím debaty"
 
@@ -432,7 +458,9 @@ msgstr "výhra"
 msgid "margin"
 msgstr "rozdiel"
 
-#: results/models.py:283 results/models.py:321 results/models.py:376 results/models.py:415 results/models.py:478 results/models.py:516 results/models.py:649 results/models.py:666
+#: results/models.py:283 results/models.py:321 results/models.py:376
+#: results/models.py:415 results/models.py:478 results/models.py:516
+#: results/models.py:649 results/models.py:666
 msgid "score"
 msgstr "skóre"
 
@@ -668,23 +696,23 @@ msgstr "Nekonzistentné označenie duplicitných iron-person rečí"
 msgid "Winners are not identical"
 msgstr "Víťazi nie sú zhodní"
 
-#: results/result.py:1418
+#: results/result.py:1420
 msgid "Criterion scores are not identical"
 msgstr "Body za kritériá nie sú zhodné"
 
-#: results/result.py:1423
+#: results/result.py:1425
 msgid "Scores are not identical"
 msgstr "Body nie sú zhodné"
 
-#: results/result.py:1428
+#: results/result.py:1430
 msgid "Speech ranks are not identical"
 msgstr "Poradia rečí nie sú zhodné"
 
-#: results/result.py:1436
+#: results/result.py:1438
 msgid "Cross-examination scores are not identical"
 msgstr "Body za krížové výsluchy nie sú zhodné"
 
-#: results/result.py:1442
+#: results/result.py:1444
 msgid "Cross-examination totals are not identical"
 msgstr "Súčty krížových výsluchov nie sú zhodné"
 
@@ -811,11 +839,14 @@ msgstr "Konfigurácia turnaja umožňuje rozhodcom odovzdávať balloty online. 
 msgid "Your tournament configuration allows feedback to be submitted online by participants. The draw <a href=\"%(display_url)s\" class=\"alert-link\">must be released</a> before they can do so for this round."
 msgstr "Konfigurácia turnaja umožňuje účastníkom odovzdávať spätnú väzbu online. Pairing <a href=\"%(display_url)s\" class=\"alert-link\">musí byť zverejnený</a>, až potom ju môžu v tomto kole odovzdávať."
 
-#: results/templates/assistant_enter_results.html:7 results/templates/ballot_entry_base.html:11
+#: results/templates/assistant_enter_results.html:7
+#: results/templates/ballot_entry_base.html:11
 msgid "Back to All Results"
 msgstr "Späť na všetky výsledky"
 
-#: results/templates/assistant_enter_results.html:11 results/templates/ballot_entry_base.html:16 results/templates/ballot_entry_base.html:20
+#: results/templates/assistant_enter_results.html:11
+#: results/templates/ballot_entry_base.html:16
+#: results/templates/ballot_entry_base.html:20
 msgid "Create a new ballot set for this debate"
 msgstr "Vytvoriť nový set ballotov pre túto debatu"
 
@@ -835,11 +866,13 @@ msgstr "Potvrdit výsledky"
 msgid "Results are incorrect"
 msgstr "Výsledky sú nesprávne"
 
-#: results/templates/assistant_enter_results.html:54 results/templates/enter_results.html:53
+#: results/templates/assistant_enter_results.html:54
+#: results/templates/enter_results.html:53
 msgid "Emails will be sent to adjudicators when the ballot is confirmed."
 msgstr "Po potvrdení ballotu budú rozhodcom odoslané e-maily."
 
-#: results/templates/assistant_results.html:4 results/templates/assistant_results.html:5 results/views.py:682
+#: results/templates/assistant_results.html:4
+#: results/templates/assistant_results.html:5 results/views.py:682
 msgid "Enter Results"
 msgstr "Zadať výsledky"
 
@@ -905,21 +938,25 @@ msgstr "V tomto ballote sa vyskytli chyby. Prosím, skontrolujte ho a opravte ic
 msgid "Use slider ballot UI"
 msgstr "Použiť posuvné rozhranie ballotu"
 
-#: results/templates/ballot/ballot_set.html:176 results/templates/ballot/ballot_set.html:177
+#: results/templates/ballot/ballot_set.html:176
+#: results/templates/ballot/ballot_set.html:177
 msgid "Use classic ballot UI"
 msgstr "Použiť klasické rozhranie ballotu"
 
-#: results/templates/ballot/ballot_set.html:191 results/templates/ballot_entry_form.html:24
+#: results/templates/ballot/ballot_set.html:191
+#: results/templates/ballot_entry_form.html:24
 #, python-format
 msgid "Ballot from %(name)s (%(institution)s)"
 msgstr "Ballot od %(name)s (%(institution)s)"
 
-#: results/templates/ballot/ballot_set.html:195 results/templates/ballot_entry_form.html:28
+#: results/templates/ballot/ballot_set.html:195
+#: results/templates/ballot_entry_form.html:28
 #, python-format
 msgid "Ballot from %(name)s"
 msgstr "Ballot od %(name)s"
 
-#: results/templates/ballot/ballot_set.html:203 results/templates/public_ballot_set.html:113
+#: results/templates/ballot/ballot_set.html:203
+#: results/templates/public_ballot_set.html:113
 msgid "Scoresheet"
 msgstr "Rozhodcovský zápis"
 
@@ -927,11 +964,13 @@ msgstr "Rozhodcovský zápis"
 msgid "Solo Chair"
 msgstr "Samostatný predseda panelu"
 
-#: results/templates/ballot/ballot_set.html:207 results/templates/ballot_entry_form.html:33
+#: results/templates/ballot/ballot_set.html:207
+#: results/templates/ballot_entry_form.html:33
 msgid "Chair"
 msgstr "Predseda panelu"
 
-#: results/templates/ballot/ballot_set.html:207 results/templates/ballot_entry_form.html:35
+#: results/templates/ballot/ballot_set.html:207
+#: results/templates/ballot_entry_form.html:35
 msgid "Panellist"
 msgstr "Panelista"
 
@@ -1074,7 +1113,8 @@ msgstr "Tieto poznámky sa zobrazia tímom v ich súkromnom zobrazení ballotu. 
 msgid "Last saved: %(time)s"
 msgstr "Naposledy uložené: %(time)s"
 
-#: results/templates/ballot_text_feedback_form.html:18 results/templates/ballot_text_feedback_form.html:23
+#: results/templates/ballot_text_feedback_form.html:18
+#: results/templates/ballot_text_feedback_form.html:23
 #, python-format
 msgid "edited by %(name)s"
 msgstr "upravil/a %(name)s"
@@ -1099,7 +1139,8 @@ msgstr "Ak pole necháš prázdne a uložíš, poznámky sa odstránia."
 msgid "Save notes"
 msgstr "Uložiť poznámky"
 
-#: results/templates/ballot_text_feedback_list.html:13 results/templates/ballot_text_feedback_list.html:18
+#: results/templates/ballot_text_feedback_list.html:13
+#: results/templates/ballot_text_feedback_list.html:18
 #, python-format
 msgid "From %(name)s"
 msgstr "Od %(name)s"
@@ -1124,7 +1165,8 @@ msgstr "Kritériá turnaja"
 msgid "Edit the criteria used on ballots for this tournament."
 msgstr "Uprav kritériá používané v ballotoch pre tento turnaj."
 
-#: results/templates/criterion_management.html:77 results/templates/criterion_management.html:256
+#: results/templates/criterion_management.html:77
+#: results/templates/criterion_management.html:256
 msgid "Save Criteria"
 msgstr "Uložiť kritériá"
 
@@ -1136,15 +1178,21 @@ msgstr "Vecné reči"
 msgid "Criteria shown for non-reply speeches."
 msgstr "Kritériá zobrazené pre vecné reči."
 
-#: results/templates/criterion_management.html:88 results/templates/criterion_management.html:146 results/templates/criterion_management.html:204
+#: results/templates/criterion_management.html:88
+#: results/templates/criterion_management.html:146
+#: results/templates/criterion_management.html:204
 msgid "Add Criterion"
 msgstr "Pridať kritérium"
 
-#: results/templates/criterion_management.html:99 results/templates/criterion_management.html:157 results/templates/criterion_management.html:215
+#: results/templates/criterion_management.html:99
+#: results/templates/criterion_management.html:157
+#: results/templates/criterion_management.html:215
 msgid "Min"
 msgstr "Min"
 
-#: results/templates/criterion_management.html:100 results/templates/criterion_management.html:158 results/templates/criterion_management.html:216
+#: results/templates/criterion_management.html:100
+#: results/templates/criterion_management.html:158
+#: results/templates/criterion_management.html:216
 msgid "Max"
 msgstr "Max"
 
@@ -1164,7 +1212,8 @@ msgstr "Krížové výsluchy"
 msgid "Criteria shown in the cross-examination section of the ballot."
 msgstr "Kritériá zobrazené v časti krížového výsluchu ballotu."
 
-#: results/templates/criterion_management.html:264 results/templates/criterion_management.html:284
+#: results/templates/criterion_management.html:264
+#: results/templates/criterion_management.html:284
 msgid "Apply Preset"
 msgstr "Použiť predvolenú konfiguráciu"
 
@@ -1188,7 +1237,8 @@ msgstr "Vytvor globálnu predvolenú konfiguráciu z aktuálnych kritérií toht
 msgid "Save Global Preset"
 msgstr "Uložiť globálnu predvolenú konfiguráciu"
 
-#: results/templates/criterion_management.html:320 results/templates/criterion_management.html:338
+#: results/templates/criterion_management.html:320
+#: results/templates/criterion_management.html:338
 msgid "Remove Preset"
 msgstr "Odstrániť predvolenú konfiguráciu"
 
@@ -1249,26 +1299,32 @@ msgstr "Uložiť ballot"
 msgid "Cancel Entry"
 msgstr "Zrušiť zadávanie"
 
-#: results/templates/includes/public_enter_results_info.html:4
+#: results/templates/includes/public_enter_results_info.html:5
 #, python-format
 msgid "The URL of this page is personalised to you, %(name)s. <strong>Do not share it with anyone;</strong> anyone who knows this URL can submit results and/or feedback for your debates. You may bookmark this page and return here after each debate for the available actions."
 msgstr "URL tejto stránky je personalizovaná pre teba, %(name)s. <strong>Nezdieľaj ju s nikým;</strong> ktokoľvek, kto pozná túto URL, môže odovzdávať výsledky a/alebo spätnú väzbu k tvojim debatám. Túto stránku si môžeš uložiť do záložiek a po každej debate sa sem vrátiť k dostupným akciám."
 
-#: results/templates/privateurl_ballot_set.html:6 results/templates/privateurl_ballot_set_error.html:11
+#: results/templates/privateurl_ballot_set.html:7
+#: results/templates/privateurl_ballot_set_error.html:12
 #, python-format
 msgid "The page is provided to allow you, <strong>%(name)s</strong>, to verify your own scoresheet. <strong>You must not share this URL with anyone.</strong> Sharing the URL will allow others to access <strong>all</strong> actions from your personal landing page."
 msgstr "Táto stránka slúži na to, aby si ty, <strong>%(name)s</strong>, mohol/mohla overiť svoj vlastný bodovací hárok. <strong>Túto URL nesmieš s nikým zdieľať.</strong> Zdieľanie URL umožní ostatným prístup ku <strong>všetkým</strong> akciám z tvojej osobnej stránky."
 
-#: results/templates/privateurl_ballot_set_error.html:4 results/templates/privateurl_ballot_set_error.html:6 results/templates/public_ballot_set_error.html:4 results/templates/public_ballot_set_error.html:6
+#: results/templates/privateurl_ballot_set_error.html:4
+#: results/templates/privateurl_ballot_set_error.html:6
+#: results/templates/public_ballot_set_error.html:4
+#: results/templates/public_ballot_set_error.html:6
 msgid "Ballot Not Available"
 msgstr "Ballot nie je dostupný"
 
-#: results/templates/privateurl_ballot_set_error.html:26
+#: results/templates/privateurl_ballot_set_error.html:27
 #, python-format
 msgid "<a href=\"%(url)s\">Back to your private landing page.</a>"
 msgstr "<a href=\"%(url)s\">Späť na tvoju súkromnú stránku.</a>"
 
-#: results/templates/public_add_ballot.html:4 results/templates/public_add_ballot_unreleased.html:4 results/templates/public_add_ballot_unreleased.html:5
+#: results/templates/public_add_ballot.html:4
+#: results/templates/public_add_ballot_unreleased.html:4
+#: results/templates/public_add_ballot_unreleased.html:5
 msgid "Enter Ballot"
 msgstr "Zadať ballot"
 
@@ -1285,7 +1341,10 @@ msgstr "(klikni na svoje meno v zozname)"
 msgid "The draw and/or motions for %(round)s have yet to be released."
 msgstr "Pairing a/alebo tézy pre %(round)s ešte neboli zverejnené."
 
-#: results/templates/public_ballot_set.html:6 results/templates/public_ballot_set.html:10 results/templates/public_ballot_set.html:17 results/templates/public_ballot_set.html:21
+#: results/templates/public_ballot_set.html:6
+#: results/templates/public_ballot_set.html:10
+#: results/templates/public_ballot_set.html:17
+#: results/templates/public_ballot_set.html:21
 #, python-format
 msgid "Ballot for %(matchup)s"
 msgstr "Ballot pre %(matchup)s"
@@ -1325,12 +1384,14 @@ msgstr "Pre túto reč nie je dostupné rozdelenie podľa kritérií."
 msgid "Cross-examinations total"
 msgstr "Celkom za krížové výsluchy"
 
-#: results/templates/public_ballot_set.html:188 results/templates/public_ballot_set.html:192
+#: results/templates/public_ballot_set.html:188
+#: results/templates/public_ballot_set.html:192
 #, python-format
 msgid "<em>Total for %(name)s (%(side)s)</em>"
 msgstr "<em>Spolu pre %(name)s (%(side)s)</em>"
 
-#: results/templates/public_ballot_set.html:203 results/templates/public_ballot_set.html:207
+#: results/templates/public_ballot_set.html:203
+#: results/templates/public_ballot_set.html:207
 #, python-format
 msgid "<em>%(name)s (%(side)s)</em>"
 msgstr "<em>%(name)s (%(side)s)</em>"
@@ -1366,7 +1427,9 @@ msgstr[1] "Tento formulár už bol odoslaný <strong>%(nsubmissions)s</strong>-k
 msgstr[2] "Tento formulár už bol odoslaný <strong>%(nsubmissions)s</strong>-krát. Po odoslaní kontaktuj tab tím."
 msgstr[3] "Tento formulár už bol odoslaný <strong>%(nsubmissions)s</strong>-krát. Po odoslaní kontaktuj tab tím."
 
-#: results/templates/public_enter_results.html:65 results/tests/test_jdl_multi_speech_private_urls.py:192 results/tests/test_jdl_multi_speech_private_urls.py:213
+#: results/templates/public_enter_results.html:65
+#: results/tests/test_jdl_multi_speech_private_urls.py:192
+#: results/tests/test_jdl_multi_speech_private_urls.py:213
 msgid "Submit Ballot"
 msgid_plural "Submit Ballots"
 msgstr[0] "Odoslať ballot"
@@ -1400,7 +1463,10 @@ msgstr "Zobraziť podľa debaty"
 msgid "Results for %(round)s"
 msgstr "Výsledky pre %(round)s"
 
-#: results/templates/public_results_not_available.html:4 results/templates/public_results_not_available.html:6 results/templates/public_results_silent.html:4 results/templates/public_results_silent.html:6
+#: results/templates/public_results_not_available.html:4
+#: results/templates/public_results_not_available.html:6
+#: results/templates/public_results_silent.html:4
+#: results/templates/public_results_silent.html:6
 msgid "Results Not Available"
 msgstr "Výsledky nie sú dostupné"
 
@@ -1611,7 +1677,8 @@ msgstr "Tvoja debata nemá predsedu panelu, takže pre ňu nemôžeš zadať vý
 msgid "It looks like the sides for this debate haven't yet been confirmed, so you can't enter results for it. Please contact a tab room official."
 msgstr "Vyzerá to, že strany v tejto debate ešte neboli potvrdené, takže pre ňu nemôžeš zadať výsledky. Kontaktuj tab tím."
 
-#: results/views.py:942 results/views.py:1008 results/views.py:1059 results/views.py:1134 results/views.py:1177
+#: results/views.py:942 results/views.py:1008 results/views.py:1059
+#: results/views.py:1134 results/views.py:1177
 msgid "It looks like you were assigned to two or more debates. Please contact a tab room official."
 msgstr "Vyzerá to, že si priradený/priradená k dvom alebo viacerým debatám. Kontaktuj tab tím."
 

@@ -277,6 +277,45 @@ class SpeakerSerializerTests(CompletedTournamentTestMixin, APITestCase):
         self.assertEqual(response.data['categories'], [])
 
 
+class PrivateUrlUpdateTests(CompletedTournamentTestMixin, APITestCase):
+
+    def test_clear_private_urls(self):
+        self.client.login(username="admin", password="admin")
+        for model, endpoint, lookup in ((Speaker, 'api-speaker-detail', 'team__tournament'),
+                                        (Adjudicator, 'api-adjudicator-detail', 'tournament')):
+            people = list(model.objects.filter(**{lookup: self.tournament}).order_by('pk')[:2])
+            for person in people:
+                person.url_key = f'private-{person.pk}'
+                person.save()
+                url = reverse_tournament(endpoint, self.tournament, kwargs={'pk': person.pk})
+                with self.subTest(model=model.__name__, person=person.pk):
+                    response = self.client.patch(url, {'name': person.name})
+                    self.assertEqual(response.status_code, 200, response.data)
+                    person.refresh_from_db()
+                    self.assertEqual(person.url_key, f'private-{person.pk}')
+                    response = self.client.patch(url, {'url_key': ''})
+                    self.assertEqual(response.status_code, 200, response.data)
+                    person.refresh_from_db()
+                    self.assertIsNone(person.url_key)
+
+    def test_list_and_generate_legacy_empty_key(self):
+        self.client.login(username="admin", password="admin")
+        speaker = Speaker.objects.first()
+        speaker.url_key = ''
+        speaker.save()
+        other = Speaker.objects.exclude(pk=speaker.pk).first()
+        other.url_key = 'keep-this-private-key'
+        other.save()
+        response = self.client.get(reverse_tournament('privateurls-list', self.tournament))
+        self.assertEqual(response.status_code, 200)
+        response = self.client.post(reverse_tournament('privateurls-generate', self.tournament))
+        self.assertEqual(response.status_code, 302)
+        speaker.refresh_from_db()
+        self.assertTrue(speaker.url_key)
+        other.refresh_from_db()
+        self.assertEqual(other.url_key, 'keep-this-private-key')
+
+
 class VenueSerializerTests(CompletedTournamentTestMixin, APITestCase):
 
     def test_create_room_without_categories(self):
@@ -1171,6 +1210,39 @@ class PairingSerializerTests(APITestCase):
         })
         self.assertEqual(response.status_code, 201)
         self.assertEqual([dt.team for dt in self.round.debate_set.prefetch_related('debateteam_set__team').first().debateteam_set.order_by('side')], [self.t1, self.t2])
+
+    def test_can_create_and_update_pairing_flags(self):
+        client = APIClient()
+        client.force_authenticate(user=self.user)
+        response = client.post(reverse_round('api-pairing-list', self.round), {
+            'flags': ['max_swapped'],
+            'teams': [
+                {
+                    'team': reverse_tournament('api-team-detail', self.tournament, kwargs={'pk': self.t1.pk}),
+                    'flags': ['1u1d_hist'],
+                },
+                {
+                    'team': reverse_tournament('api-team-detail', self.tournament, kwargs={'pk': self.t2.pk}),
+                },
+            ],
+        })
+        self.assertEqual(response.status_code, 201, response.data)
+        debate = self.round.debate_set.first()
+        self.assertEqual(debate.flags, ['max_swapped'])
+        self.assertEqual(debate.debateteam_set.get(side=0).flags, ['1u1d_hist'])
+
+        response = client.patch(reverse_round('api-pairing-detail', self.round, kwargs={'debate_pk': debate.pk}), {
+            'flags': ['bub_up_hist'],
+            'teams': [{
+                'team': reverse_tournament('api-team-detail', self.tournament, kwargs={'pk': self.t1.pk}),
+                'side': 'aff',
+                'flags': ['1u1d_inst'],
+            }],
+        })
+        self.assertEqual(response.status_code, 200, response.data)
+        debate.refresh_from_db()
+        self.assertEqual(debate.flags, ['bub_up_hist'])
+        self.assertEqual(debate.debateteam_set.get(side=0).flags, ['1u1d_inst'])
 
     def test_can_create_pairing_sides_precedence(self):
         client = APIClient()

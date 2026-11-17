@@ -62,7 +62,7 @@
           <strong>{% trans "Custom Questions:" %}</strong>
 
           <details>
-            <summary>{{ adjudicator.name }} {% online_status adjudicator %}</summary>
+            <summary>{% person_display_name_with_status adjudicator %}</summary>
 
             <ul>
               {% for answer in adjudicator.answers.all %}
