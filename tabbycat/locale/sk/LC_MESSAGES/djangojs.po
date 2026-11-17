@@ -228,6 +228,22 @@ msgstr "Zatvoriť shard"
 msgid "Set Breaking"
 msgstr "Nastaviť postupujúcich"
 
+#: templates/tables/CheckboxTablesContainer.vue:177
+msgid "Match"
+msgstr "Prevziať z"
+
+#: templates/tables/CheckboxTablesContainer.vue:181
+msgid "Match Check-Ins"
+msgstr "Prevziať z príchodov"
+
+#: templates/tables/CheckboxTablesContainer.vue:191
+msgid " Set Checked-In as Available"
+msgstr " Označiť prítomných ako dostupných"
+
+#: templates/tables/CheckboxTablesContainer.vue:197
+msgid " Set Not Checked-In as Unavailable"
+msgstr " Označiť neprítomných ako nedostupných"
+
 #~ msgid "Scan Using Camera"
 #~ msgstr "Skenovanie pomocou fotoaparátu"
 
@@ -493,15 +509,9 @@ msgstr "Nastaviť postupujúcich"
 #~ "round."
 #~ msgstr "Nastaví všetku dostupnosť presne podľa predchádzajúceho kola."
 
-#~ msgid "Match"
-#~ msgstr "Zhodovať"
-
 #~ msgid "Set all availabilities to exactly match check-ins."
 #~ msgstr ""
 #~ "Nastavte všetky dostupné termíny tak, aby presne zodpovedali registrácií."
-
-#~ msgid "Match Check-Ins"
-#~ msgstr "Zhodovať s check-inmi"
 
 #~ msgid ""
 #~ "Set people as available only if they have a check-in and are currently "
@@ -702,12 +712,6 @@ msgstr "Nastaviť postupujúcich"
 
 #~ msgid "unconfirmed"
 #~ msgstr "nepotvrdené"
-
-#~ msgid " Set Checked-In as Available"
-#~ msgstr " Nastaviť prihlásených ako dostupných"
-
-#~ msgid " Set Not Checked-In as Unavailable"
-#~ msgstr " Nastaviť neprihlásených ako nedostupných"
 
 #~ msgid "Auto-Allocate Rooms to Debates"
 #~ msgstr "Automaticky prideliť miestnosti debatám"

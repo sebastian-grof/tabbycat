@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-27 15:04+0200\n"
+"POT-Creation-Date: 2026-11-17 03:42+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,16 +22,16 @@ msgstr ""
 msgid "Season Breaks"
 msgstr ""
 
-#: seasonbreaks/forms.py:33
+#: seasonbreaks/forms.py:23
 msgid "Enter a valid slug."
 msgstr ""
 
-#: seasonbreaks/forms.py:141 seasonbreaks/templates/seasonbreaks/access.html:41
+#: seasonbreaks/forms.py:131 seasonbreaks/templates/seasonbreaks/access.html:41
 msgid "User"
 msgstr ""
 
-#: seasonbreaks/forms.py:146 seasonbreaks/templates/seasonbreaks/access.html:41
-#: seasonbreaks/views.py:159
+#: seasonbreaks/forms.py:136 seasonbreaks/templates/seasonbreaks/access.html:41
+#: seasonbreaks/views.py:125
 msgid "Permissions"
 msgstr ""
 
@@ -141,9 +141,7 @@ msgid "expected tournaments this season"
 msgstr ""
 
 #: seasonbreaks/models.py:77
-msgid ""
-"Drives the best N−1 ranking rule. Leave at 0 to use the number of counting "
-"tournaments already added to this region."
+msgid "Drives the best N−1 ranking rule. Leave at 0 to use the number of counting tournaments already added to this region."
 msgstr ""
 
 #: seasonbreaks/models.py:80
@@ -171,8 +169,7 @@ msgid "counts for team and speaker break"
 msgstr ""
 
 #: seasonbreaks/models.py:100
-msgid ""
-"If unchecked, this tournament only counts toward adjudicator statistics."
+msgid "If unchecked, this tournament only counts toward adjudicator statistics."
 msgstr ""
 
 #: seasonbreaks/models.py:101
@@ -384,9 +381,7 @@ msgid "Adjudicator stats"
 msgstr ""
 
 #: seasonbreaks/templates/seasonbreaks/adjudicators.html:9
-msgid ""
-"Season totals from confirmed preliminary debates. Trainee debates are shown "
-"but excluded from totals."
+msgid "Season totals from confirmed preliminary debates. Trainee debates are shown but excluded from totals."
 msgstr ""
 
 #: seasonbreaks/templates/seasonbreaks/adjudicators.html:13
@@ -430,7 +425,7 @@ msgstr ""
 msgid "Freeze tournaments to calculate adjudicator stats."
 msgstr ""
 
-#: seasonbreaks/templates/seasonbreaks/base.html:21 seasonbreaks/views.py:59
+#: seasonbreaks/templates/seasonbreaks/base.html:21 seasonbreaks/views.py:25
 msgid "Break management"
 msgstr ""
 
@@ -462,14 +457,14 @@ msgstr ""
 msgid "Create season"
 msgstr ""
 
-#: seasonbreaks/templates/seasonbreaks/base.html:105 seasonbreaks/views.py:118
+#: seasonbreaks/templates/seasonbreaks/base.html:105 seasonbreaks/views.py:84
 msgid "Access"
 msgstr ""
 
 #: seasonbreaks/templates/seasonbreaks/global_ranking.html:8
 #: seasonbreaks/templates/seasonbreaks/public_season.html:31
-#: seasonbreaks/tests/test_breaks.py:449 seasonbreaks/tests/test_breaks.py:457
-#: seasonbreaks/views.py:116 seasonbreaks/views.py:149
+#: seasonbreaks/tests/test_breaks.py:431 seasonbreaks/tests/test_breaks.py:439
+#: seasonbreaks/views.py:82 seasonbreaks/views.py:115
 msgid "Global ranking"
 msgstr ""
 
@@ -483,13 +478,13 @@ msgstr ""
 
 #: seasonbreaks/templates/seasonbreaks/global_ranking.html:16
 #: seasonbreaks/templates/seasonbreaks/regions.html:74
-#: seasonbreaks/tests/test_breaks.py:142
+#: seasonbreaks/tests/test_breaks.py:124
 msgid "Hidden from public page"
 msgstr ""
 
 #: seasonbreaks/templates/seasonbreaks/identities.html:10
 #: seasonbreaks/templates/seasonbreaks/overview.html:37
-#: seasonbreaks/views.py:112 seasonbreaks/views.py:139
+#: seasonbreaks/views.py:78 seasonbreaks/views.py:105
 msgid "Teams"
 msgstr ""
 
@@ -511,7 +506,7 @@ msgstr ""
 
 #: seasonbreaks/templates/seasonbreaks/identities.html:22
 #: seasonbreaks/templates/seasonbreaks/overview.html:38
-#: seasonbreaks/views.py:113 seasonbreaks/views.py:141
+#: seasonbreaks/views.py:79 seasonbreaks/views.py:107
 msgid "Speakers"
 msgstr ""
 
@@ -521,8 +516,7 @@ msgstr ""
 
 #: seasonbreaks/templates/seasonbreaks/identities.html:34
 #: seasonbreaks/templates/seasonbreaks/overview.html:39
-#: seasonbreaks/views.py:117 seasonbreaks/views.py:152
-#: seasonbreaks/views.py:153
+#: seasonbreaks/views.py:83 seasonbreaks/views.py:118 seasonbreaks/views.py:119
 msgid "Adjudicators"
 msgstr ""
 
@@ -536,9 +530,7 @@ msgid "Clean stale identities"
 msgstr ""
 
 #: seasonbreaks/templates/seasonbreaks/identities.html:49
-msgid ""
-"Remove unlinked team, speaker and adjudicator identities that no longer have "
-"frozen results or statistics."
+msgid "Remove unlinked team, speaker and adjudicator identities that no longer have frozen results or statistics."
 msgstr ""
 
 #: seasonbreaks/templates/seasonbreaks/identities.html:55
@@ -546,9 +538,7 @@ msgid "Remove all stale unlinked identities from this Breaks season?"
 msgstr ""
 
 #: seasonbreaks/templates/seasonbreaks/identities_adjudicators.html:7
-msgid ""
-"Choose a source tournament, then repair only that tournament's adjudicator "
-"links."
+msgid "Choose a source tournament, then repair only that tournament's adjudicator links."
 msgstr ""
 
 #: seasonbreaks/templates/seasonbreaks/identities_adjudicators.html:9
@@ -596,6 +586,10 @@ msgstr ""
 msgid "Season identity"
 msgstr ""
 
+#: seasonbreaks/templates/seasonbreaks/identities_adjudicators.html:84
+msgid "Online"
+msgstr ""
+
 #: seasonbreaks/templates/seasonbreaks/identities_adjudicators.html:88
 #: seasonbreaks/templates/seasonbreaks/identities_speakers.html:87
 #: seasonbreaks/templates/seasonbreaks/identities_teams.html:86
@@ -610,8 +604,7 @@ msgid "Pick a tournament above to edit its adjudicator links."
 msgstr ""
 
 #: seasonbreaks/templates/seasonbreaks/identities_speakers.html:7
-msgid ""
-"Choose a source tournament, then repair only that tournament's speaker links."
+msgid "Choose a source tournament, then repair only that tournament's speaker links."
 msgstr ""
 
 #: seasonbreaks/templates/seasonbreaks/identities_speakers.html:15
@@ -640,8 +633,7 @@ msgid "Pick a tournament above to edit its speaker links."
 msgstr ""
 
 #: seasonbreaks/templates/seasonbreaks/identities_teams.html:7
-msgid ""
-"Choose a source tournament, then repair only that tournament's team links."
+msgid "Choose a source tournament, then repair only that tournament's team links."
 msgstr ""
 
 #: seasonbreaks/templates/seasonbreaks/identities_teams.html:15
@@ -714,13 +706,12 @@ msgstr ""
 #: seasonbreaks/templates/seasonbreaks/index.html:121
 #: seasonbreaks/templates/seasonbreaks/overview.html:17
 #: seasonbreaks/templates/seasonbreaks/public_season.html:13
-#: seasonbreaks/views.py:109 seasonbreaks/views.py:128
-#: seasonbreaks/views.py:129
+#: seasonbreaks/views.py:75 seasonbreaks/views.py:94 seasonbreaks/views.py:95
 msgid "Regions"
 msgstr ""
 
-#: seasonbreaks/templates/seasonbreaks/index.html:124 seasonbreaks/views.py:110
-#: seasonbreaks/views.py:132 seasonbreaks/views.py:133
+#: seasonbreaks/templates/seasonbreaks/index.html:124 seasonbreaks/views.py:76
+#: seasonbreaks/views.py:98 seasonbreaks/views.py:99
 msgid "Tournaments"
 msgstr ""
 
@@ -755,9 +746,7 @@ msgid "Start by creating the first season."
 msgstr ""
 
 #: seasonbreaks/templates/seasonbreaks/overview.html:6
-msgid ""
-"Public Breaks use a manually published snapshot. Live edits appear only "
-"after you publish a new snapshot."
+msgid "Public Breaks use a manually published snapshot. Live edits appear only after you publish a new snapshot."
 msgstr ""
 
 #: seasonbreaks/templates/seasonbreaks/overview.html:16
@@ -787,7 +776,7 @@ msgid "Frozen"
 msgstr ""
 
 #: seasonbreaks/templates/seasonbreaks/overview.html:36
-#: seasonbreaks/views.py:111
+#: seasonbreaks/views.py:77
 msgid "Identities"
 msgstr ""
 
@@ -828,8 +817,7 @@ msgid "Public snapshot"
 msgstr ""
 
 #: seasonbreaks/templates/seasonbreaks/overview.html:83
-msgid ""
-"The public Breaks page shows the last published snapshot, not live data."
+msgid "The public Breaks page shows the last published snapshot, not live data."
 msgstr ""
 
 #: seasonbreaks/templates/seasonbreaks/overview.html:85
@@ -849,7 +837,7 @@ msgid "Preview global ranking"
 msgstr ""
 
 #: seasonbreaks/templates/seasonbreaks/overview.html:112
-#: seasonbreaks/views.py:157
+#: seasonbreaks/views.py:123
 msgid "Season settings"
 msgstr ""
 
@@ -862,9 +850,7 @@ msgid "Danger zone"
 msgstr ""
 
 #: seasonbreaks/templates/seasonbreaks/overview.html:143
-msgid ""
-"Permanently deletes the season, its regions, frozen snapshots, identities, "
-"rankings and public snapshot."
+msgid "Permanently deletes the season, its regions, frozen snapshots, identities, rankings and public snapshot."
 msgstr ""
 
 #: seasonbreaks/templates/seasonbreaks/overview.html:144
@@ -924,7 +910,7 @@ msgid "Ballots"
 msgstr ""
 
 #: seasonbreaks/templates/seasonbreaks/public_table.html:13
-#: seasonbreaks/tests/test_breaks.py:436
+#: seasonbreaks/tests/test_breaks.py:418
 msgid "Speaker points"
 msgstr ""
 
@@ -938,9 +924,7 @@ msgstr ""
 
 #: seasonbreaks/templates/seasonbreaks/quotas.html:9
 #, python-format
-msgid ""
-"%(slots)s regional slots · %(invited)s invited teams. Raw quota, floor and "
-"remainder are shown for auditability."
+msgid "%(slots)s regional slots · %(invited)s invited teams. Raw quota, floor and remainder are shown for auditability."
 msgstr ""
 
 #: seasonbreaks/templates/seasonbreaks/quotas.html:20
@@ -972,10 +956,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: seasonbreaks/templates/seasonbreaks/ranking_region.html:16
-msgid ""
-"These teams are tied on every ranking metric at the break cutoff. Tabbycat "
-"will not pick between identical records automatically — apply your league's "
-"tiebreak rule and choose who advances."
+msgid "These teams are tied on every ranking metric at the break cutoff. Tabbycat will not pick between identical records automatically — apply your league's tiebreak rule and choose who advances."
 msgstr ""
 
 #: seasonbreaks/templates/seasonbreaks/ranking_region.html:30
@@ -1074,8 +1055,7 @@ msgid "Season regions"
 msgstr ""
 
 #: seasonbreaks/templates/seasonbreaks/regions.html:42
-msgid ""
-"Hidden regions stay internal but are excluded from the next public snapshot."
+msgid "Hidden regions stay internal but are excluded from the next public snapshot."
 msgstr ""
 
 #: seasonbreaks/templates/seasonbreaks/regions.html:58
@@ -1211,222 +1191,212 @@ msgstr ""
 msgid "No tournaments are assigned to this season yet."
 msgstr ""
 
-#: seasonbreaks/views.py:108 seasonbreaks/views.py:124
-#: seasonbreaks/views.py:125
+#: seasonbreaks/views.py:74 seasonbreaks/views.py:90 seasonbreaks/views.py:91
 msgid "Overview"
 msgstr ""
 
-#: seasonbreaks/views.py:114 seasonbreaks/views.py:145
+#: seasonbreaks/views.py:80 seasonbreaks/views.py:111
 msgid "Quotas"
 msgstr ""
 
-#: seasonbreaks/views.py:115 seasonbreaks/views.py:147
+#: seasonbreaks/views.py:81 seasonbreaks/views.py:113
 msgid "Rankings"
 msgstr ""
 
-#: seasonbreaks/views.py:126
+#: seasonbreaks/views.py:92
 msgid "Status, frozen data and quotas"
 msgstr ""
 
-#: seasonbreaks/views.py:130
+#: seasonbreaks/views.py:96
 msgid "Region settings and public visibility"
 msgstr ""
 
-#: seasonbreaks/views.py:134
+#: seasonbreaks/views.py:100
 msgid "Source tournaments and snapshots"
 msgstr ""
 
-#: seasonbreaks/views.py:136
+#: seasonbreaks/views.py:102
 msgid "Identity"
 msgstr ""
 
-#: seasonbreaks/views.py:137
+#: seasonbreaks/views.py:103
 msgid "Identity hub"
 msgstr ""
 
-#: seasonbreaks/views.py:138
+#: seasonbreaks/views.py:104
 msgid "Teams, speakers and adjudicators"
 msgstr ""
 
-#: seasonbreaks/views.py:140
+#: seasonbreaks/views.py:106
 msgid "Season team identities"
 msgstr ""
 
-#: seasonbreaks/views.py:142
+#: seasonbreaks/views.py:108
 msgid "Season speaker identities"
 msgstr ""
 
-#: seasonbreaks/views.py:144 seasonbreaks/views.py:281
+#: seasonbreaks/views.py:110 seasonbreaks/views.py:247
 msgid "Breaks"
 msgstr ""
 
-#: seasonbreaks/views.py:146
+#: seasonbreaks/views.py:112
 msgid "Regional slot calculation"
 msgstr ""
 
-#: seasonbreaks/views.py:148
+#: seasonbreaks/views.py:114
 msgid "Team rankings and eligibility"
 msgstr ""
 
-#: seasonbreaks/views.py:150
+#: seasonbreaks/views.py:116
 msgid "Cross-region ranking preview"
 msgstr ""
 
-#: seasonbreaks/views.py:154
+#: seasonbreaks/views.py:120
 msgid "Chair, panel and trainee statistics"
 msgstr ""
 
-#: seasonbreaks/views.py:156
+#: seasonbreaks/views.py:122
 msgid "Settings"
 msgstr ""
 
-#: seasonbreaks/views.py:158
+#: seasonbreaks/views.py:124
 msgid "Public visibility, season fields and dangerous actions"
 msgstr ""
 
-#: seasonbreaks/views.py:159
+#: seasonbreaks/views.py:125
 msgid "Global Breaks permissions"
 msgstr ""
 
-#: seasonbreaks/views.py:200
+#: seasonbreaks/views.py:166
 #, python-format
 msgid "Break league %(league)s was created."
 msgstr ""
 
-#: seasonbreaks/views.py:208
+#: seasonbreaks/views.py:174
 #, python-format
 msgid "Break league %(league)s was updated."
 msgstr ""
 
-#: seasonbreaks/views.py:217
+#: seasonbreaks/views.py:183
 #, python-format
 msgid "Break league %(league)s cannot be deleted because it still has seasons."
 msgstr ""
 
-#: seasonbreaks/views.py:219
+#: seasonbreaks/views.py:185
 #, python-format
 msgid "Break league %(league)s was deleted."
 msgstr ""
 
-#: seasonbreaks/views.py:224
+#: seasonbreaks/views.py:190
 #, python-format
 msgid "Break season %(season)s was created."
 msgstr ""
 
-#: seasonbreaks/views.py:248
+#: seasonbreaks/views.py:214
 msgid "Public Breaks snapshot was published."
 msgstr ""
 
-#: seasonbreaks/views.py:251
-msgid ""
-"A tie at the break cutoff is still unresolved. The affected teams are "
-"published as not advancing until an editor resolves the tie on the region "
-"ranking page and republishes."
+#: seasonbreaks/views.py:217
+msgid "A tie at the break cutoff is still unresolved. The affected teams are published as not advancing until an editor resolves the tie on the region ranking page and republishes."
 msgstr ""
 
-#: seasonbreaks/views.py:263
+#: seasonbreaks/views.py:229
 #, python-format
-msgid ""
-"Break season %(season)s cannot be deleted because it still has protected "
-"data."
+msgid "Break season %(season)s cannot be deleted because it still has protected data."
 msgstr ""
 
-#: seasonbreaks/views.py:267
+#: seasonbreaks/views.py:233
 #, python-format
 msgid "Break season %(season)s was deleted."
 msgstr ""
 
-#: seasonbreaks/views.py:272
+#: seasonbreaks/views.py:238
 msgid "Break season settings were updated."
 msgstr ""
 
-#: seasonbreaks/views.py:361
+#: seasonbreaks/views.py:327
 #, python-format
 msgid "Region %(region)s was added."
 msgstr ""
 
-#: seasonbreaks/views.py:369
+#: seasonbreaks/views.py:335
 #, python-format
 msgid "Region %(region)s was updated."
 msgstr ""
 
-#: seasonbreaks/views.py:392
+#: seasonbreaks/views.py:358
 #, python-format
 msgid "Tournament %(tournament)s was added."
 msgstr ""
 
-#: seasonbreaks/views.py:417
+#: seasonbreaks/views.py:383
 msgid "Tournament type was updated."
 msgstr ""
 
-#: seasonbreaks/views.py:439
+#: seasonbreaks/views.py:405
 #, python-format
 msgid "Tournament %(tournament)s was removed from this Breaks season."
 msgstr ""
 
-#: seasonbreaks/views.py:444
+#: seasonbreaks/views.py:410
 #, python-format
-msgid ""
-"Updated snapshot: %(teams)d teams, %(speakers)d speaker links, "
-"%(adjudicators)d adjudicators."
+msgid "Updated snapshot: %(teams)d teams, %(speakers)d speaker links, %(adjudicators)d adjudicators."
 msgstr ""
 
-#: seasonbreaks/views.py:511
+#: seasonbreaks/views.py:477
 #, python-format
-msgid ""
-"Cleaned stale identities: %(teams)d teams, %(speakers)d speakers, "
-"%(adjudicators)d adjudicators."
+msgid "Cleaned stale identities: %(teams)d teams, %(speakers)d speakers, %(adjudicators)d adjudicators."
 msgstr ""
 
-#: seasonbreaks/views.py:524 seasonbreaks/views.py:567
+#: seasonbreaks/views.py:490 seasonbreaks/views.py:533
 msgid "Unknown tournament"
 msgstr ""
 
-#: seasonbreaks/views.py:543
+#: seasonbreaks/views.py:509
 #, python-format
 msgid "Season team %(team)s was created."
 msgstr ""
 
-#: seasonbreaks/views.py:552
+#: seasonbreaks/views.py:518
 msgid "Team link was updated."
 msgstr ""
 
-#: seasonbreaks/views.py:586
+#: seasonbreaks/views.py:552
 #, python-format
 msgid "Season speaker %(speaker)s was created."
 msgstr ""
 
-#: seasonbreaks/views.py:595
+#: seasonbreaks/views.py:561
 msgid "Speaker link was updated."
 msgstr ""
 
-#: seasonbreaks/views.py:610
+#: seasonbreaks/views.py:576
 msgid "Shared adjudicators"
 msgstr ""
 
-#: seasonbreaks/views.py:629
+#: seasonbreaks/views.py:595
 #, python-format
 msgid "Season adjudicator %(adjudicator)s was created."
 msgstr ""
 
-#: seasonbreaks/views.py:638
+#: seasonbreaks/views.py:604
 msgid "Adjudicator link was updated."
 msgstr ""
 
-#: seasonbreaks/views.py:709
+#: seasonbreaks/views.py:675
 msgid "There is no tie to resolve in this region."
 msgstr ""
 
-#: seasonbreaks/views.py:724
+#: seasonbreaks/views.py:690
 #, python-format
 msgid "Select exactly %(n)d team(s) to take the remaining seat(s)."
 msgstr ""
 
-#: seasonbreaks/views.py:732
+#: seasonbreaks/views.py:698
 msgid "The tie at the cutoff was resolved."
 msgstr ""
 
-#: seasonbreaks/views.py:793
+#: seasonbreaks/views.py:759
 #, python-format
 msgid "Breaks access updated for %(user)s."
 msgstr ""

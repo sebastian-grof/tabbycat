@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-27 15:04+0200\n"
+"POT-Creation-Date: 2026-11-17 03:42+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -31,12 +31,11 @@ msgstr ""
 #: draw/admin.py:79
 #, python-format
 msgid "%(count)d debate was marked as having its sides not confirmed."
-msgid_plural ""
-"%(count)d debates were marked as having their sides not confirmed."
+msgid_plural "%(count)d debates were marked as having their sides not confirmed."
 msgstr[0] ""
 msgstr[1] ""
 
-#: draw/apps.py:7 draw/views.py:472 draw/views.py:475
+#: draw/apps.py:7 draw/views.py:474 draw/views.py:477
 msgid "Draw"
 msgstr ""
 
@@ -106,11 +105,10 @@ msgid "This round doesn't currently require a bye."
 msgstr ""
 
 #: draw/forms.py:124
-msgid ""
-"Manual bye overrides are only supported when exactly one bye is required."
+msgid "Manual bye overrides are only supported when exactly one bye is required."
 msgstr ""
 
-#: draw/forms.py:149
+#: draw/forms.py:149 draw/templates/side_allocations.html:35
 msgid "Unassigned"
 msgstr ""
 
@@ -162,29 +160,24 @@ msgstr ""
 msgid "Pull-up team"
 msgstr ""
 
-#: draw/generator/bpelimination.py:34 draw/generator/elimination.py:68
+#: draw/generator/bpelimination.py:34 draw/generator/elimination.py:73
 #, python-format
 msgid "%d debates in the previous round don't have a result."
 msgstr ""
 
 #: draw/generator/bpelimination.py:36
 #, python-format
-msgid ""
-"%d debates in the previous round don't have exactly two teams advancing."
+msgid "%d debates in the previous round don't have exactly two teams advancing."
 msgstr ""
 
 #: draw/generator/bpelimination.py:69
 #, python-format
-msgid ""
-"The room ranks of the partial elimination round indicate that an odd number "
-"of teams (%(nbypassing)d) bypassed it."
+msgid "The room ranks of the partial elimination round indicate that an odd number of teams (%(nbypassing)d) bypassed it."
 msgstr ""
 
 #: draw/generator/bpelimination.py:73
 #, python-format
-msgid ""
-"The room ranks of the partial elimination round indicate that %(nbypassing)d "
-"teams bypassed it, but %(nadvancing)d teams advanced from it."
+msgid "The room ranks of the partial elimination round indicate that %(nbypassing)d teams bypassed it, but %(nadvancing)d teams advanced from it."
 msgstr ""
 
 #: draw/generator/bpelimination.py:119
@@ -199,8 +192,7 @@ msgstr ""
 
 #: draw/generator/common.py:54
 #, python-format
-msgid ""
-"The number of teams presented for the draw was not a multiple of %(num)d."
+msgid "The number of teams presented for the draw was not a multiple of %(num)d."
 msgstr ""
 
 #: draw/generator/common.py:57
@@ -209,12 +201,14 @@ msgstr ""
 
 #: draw/generator/elimination.py:43
 #, python-format
-msgid ""
-"There are only %d teams breaking in this category; there need to be at least "
-"two to generate an elimination round draw."
+msgid "There are only %d teams breaking in this category; there need to be at least two to generate an elimination round draw."
 msgstr ""
 
-#: draw/generator/elimination.py:75
+#: draw/generator/elimination.py:67
+msgid "There are no results from the previous round."
+msgstr ""
+
+#: draw/generator/elimination.py:80
 #, python-format
 msgid "The number of teams (%d) in this round is not a power of two."
 msgstr ""
@@ -224,8 +218,8 @@ msgid "Couldn't find a complete matching for bye selection."
 msgstr ""
 
 #: draw/generator/graph.py:83 draw/generator/graph.py:167
-#: draw/generator/powerpair.py:706 draw/generator/powerpair.py:748
-#: draw/generator/powerpair.py:1299
+#: draw/generator/powerpair.py:709 draw/generator/powerpair.py:751
+#: draw/generator/powerpair.py:1318
 msgid "Unmatched-team bye selection requires an odd number of teams."
 msgstr ""
 
@@ -235,9 +229,7 @@ msgstr ""
 
 #: draw/generator/graph.py:146
 #, python-format
-msgid ""
-"Saved side allocations left %(aff)d affirmative teams but %(neg)d negative "
-"teams in the bracket after pullups."
+msgid "Saved side allocations left %(aff)d affirmative teams but %(neg)d negative teams in the bracket after pullups."
 msgstr ""
 
 #: draw/generator/graph.py:159
@@ -246,109 +238,87 @@ msgstr ""
 
 #: draw/generator/graph.py:209
 #, python-format
-msgid ""
-"Saved side allocations left an invalid bracket %(bracket)s after pullups: "
-"%(message)s"
+msgid "Saved side allocations left an invalid bracket %(bracket)s after pullups: %(message)s"
 msgstr ""
 
-#: draw/generator/powerpair.py:99
+#: draw/generator/powerpair.py:100
 #, python-format
-msgid ""
-"%(noninteger)d out of %(total)d teams have a noninteger first metric in the "
-"team standings. Intermediate brackets require the first team standings "
-"metric to be an integer (typically points or wins)."
+msgid "%(noninteger)d out of %(total)d teams have a noninteger first metric in the team standings. Intermediate brackets require the first team standings metric to be an integer (typically points or wins)."
 msgstr ""
 
-#: draw/generator/powerpair.py:127 draw/generator/powerpair.py:283
-#: draw/generator/powerpair.py:882 draw/generator/powerpair.py:887
+#: draw/generator/powerpair.py:128 draw/generator/powerpair.py:284
+#: draw/generator/powerpair.py:901 draw/generator/powerpair.py:906
 msgid "This bye-selection method requires an odd number of teams."
 msgstr ""
 
-#: draw/generator/powerpair.py:144
+#: draw/generator/powerpair.py:145
 msgid "This bye-selection method isn't supported with a custom pairing method."
 msgstr ""
 
-#: draw/generator/powerpair.py:171 draw/generator/powerpair.py:194
-#: draw/generator/powerpair.py:220
+#: draw/generator/powerpair.py:172 draw/generator/powerpair.py:195
+#: draw/generator/powerpair.py:221
 #, python-format
-msgid ""
-"This bye-selection method isn't supported with the pairing method "
-"'%(method)s'."
+msgid "This bye-selection method isn't supported with the pairing method '%(method)s'."
 msgstr ""
 
-#: draw/generator/powerpair.py:179 draw/generator/powerpair.py:278
-#: draw/generator/powerpair.py:908
+#: draw/generator/powerpair.py:180 draw/generator/powerpair.py:279
+#: draw/generator/powerpair.py:927
 msgid "Couldn't determine an unmatched team in the final odd bracket."
 msgstr ""
 
-#: draw/generator/powerpair.py:289 draw/generator/powerpair.py:711
-#: draw/generator/powerpair.py:893 draw/generator/powerpair.py:1304
+#: draw/generator/powerpair.py:290 draw/generator/powerpair.py:714
+#: draw/generator/powerpair.py:912 draw/generator/powerpair.py:1323
 msgid "Couldn't determine a final odd bracket for bye selection."
 msgstr ""
 
-#: draw/generator/powerpair.py:306 draw/generator/powerpair.py:939
+#: draw/generator/powerpair.py:307 draw/generator/powerpair.py:958
 #, python-format
-msgid ""
-"This bye-selection method isn't supported with the odd-bracket setting "
-"'%(setting)s'."
+msgid "This bye-selection method isn't supported with the odd-bracket setting '%(setting)s'."
 msgstr ""
 
-#: draw/generator/powerpair.py:578
-msgid ""
-"Draw strength pullups require 'Minimum cost matching (including pullups)' as "
-"the conflict avoidance method"
+#: draw/generator/powerpair.py:581
+msgid "Draw strength pullups require 'Minimum cost matching (including pullups)' as the conflict avoidance method"
 msgstr ""
 
-#: draw/generator/powerpair.py:733 draw/generator/powerpair.py:750
-msgid ""
-"Intermediate-type pullups require 'One-up-one-down' as the conflict "
-"avoidance method"
+#: draw/generator/powerpair.py:736 draw/generator/powerpair.py:753
+msgid "Intermediate-type pullups require 'One-up-one-down' as the conflict avoidance method"
 msgstr ""
 
-#: draw/generator/powerpair.py:978 draw/generator/powerpair.py:1015
-#: draw/generator/powerpair.py:1066
+#: draw/generator/powerpair.py:997 draw/generator/powerpair.py:1034
+#: draw/generator/powerpair.py:1085
 msgid "Saved side allocations left more than one odd bracket after pullups."
 msgstr ""
 
-#: draw/generator/random.py:139
+#: draw/generator/random.py:150
 #, python-format
-msgid ""
-"There were %(aff_count)d affirmative teams but %(neg_count)d negative teams."
+msgid "There were %(aff_count)d affirmative teams but %(neg_count)d negative teams."
 msgstr ""
 
-#: draw/generator/random.py:142
-msgid ""
-"One or more teams had an allocated side that wasn't affirmative or negative."
+#: draw/generator/random.py:153
+msgid "One or more teams had an allocated side that wasn't affirmative or negative."
 msgstr ""
 
-#: draw/generator/random.py:193
+#: draw/generator/random.py:204
 msgid "Ranked solo draws require exactly one team per debate."
 msgstr ""
 
 #: draw/generator/roundrobin.py:18
-msgid ""
-"Berger round-robin requires an even number of teams with no byes in the draw."
+msgid "Berger round-robin requires an even number of teams with no byes in the draw."
 msgstr ""
 
 #: draw/generator/roundrobin.py:21
 #, python-format
-msgid ""
-"This round's position in the round-robin schedule (%(rr)d) is not valid for "
-"%(n)d teams (expected between 1 and %(max)d)."
+msgid "This round's position in the round-robin schedule (%(rr)d) is not valid for %(n)d teams (expected between 1 and %(max)d)."
 msgstr ""
 
 #: draw/generator/roundrobin.py:66
 #, python-format
-msgid ""
-"British Parliamentary round-robin draws are only implemented for "
-"%(supported)s teams at the moment (this tournament has %(n)d)."
+msgid "British Parliamentary round-robin draws are only implemented for %(supported)s teams at the moment (this tournament has %(n)d)."
 msgstr ""
 
 #: draw/generator/roundrobin.py:74
 #, python-format
-msgid ""
-"This round's position in the round-robin schedule (%(rr)d) is not valid — "
-"expected between 1 and %(max)d for %(n)d teams."
+msgid "This round's position in the round-robin schedule (%(rr)d) is not valid — expected between 1 and %(max)d for %(n)d teams."
 msgstr ""
 
 #: draw/generator/roundrobin.py:83
@@ -356,86 +326,69 @@ msgstr ""
 msgid "Team seeds must be the integers 1 through %(n)d for BP round-robin."
 msgstr ""
 
-#: draw/manager.py:61
+#: draw/manager.py:62
 #, python-format
 msgid "The draw type %(type)s can't be used with two-team formats."
 msgstr ""
 
-#: draw/manager.py:63
+#: draw/manager.py:64
 #, python-format
 msgid "The draw type %(type)s can't be used with British Parliamentary."
 msgstr ""
 
-#: draw/manager.py:65
+#: draw/manager.py:66
 #, python-format
 msgid "Unrecognised \"teams in debate\" option: %(option)s"
 msgstr ""
 
-#: draw/manager.py:142
+#: draw/manager.py:143
 #, python-format
-msgid ""
-"The odd-bracket method %(method)s requires side allocations before pairing."
+msgid "The odd-bracket method %(method)s requires side allocations before pairing."
 msgstr ""
 
-#: draw/manager.py:219
-#, python-format
-msgid ""
-"There are too many active teams without side pre-allocations for %(round)s. "
-"Assign all debating teams, or leave exactly %(count)d team unassigned to "
-"receive the bye."
-msgstr ""
-
-#: draw/manager.py:326
+#: draw/manager.py:328
 msgid "Solo speech draws require at least one available side."
 msgstr ""
 
-#: draw/manager.py:339
+#: draw/manager.py:341
 msgid "Solo speech draws must have exactly one team in each debate."
 msgstr ""
 
-#: draw/manager.py:347 draw/manager.py:353
-msgid ""
-"Assign a saved affirmative/negative side for every active team before "
-"generating this solo speech draw."
+#: draw/manager.py:349 draw/manager.py:355
+msgid "Assign a saved affirmative/negative side for every active team before generating this solo speech draw."
 msgstr ""
 
-#: draw/manager.py:538
-msgid ""
-"Assign saved sides for every active team before using this bye-selection "
-"method with pre-allocated sides."
+#: draw/manager.py:543
+msgid "Assign saved sides for every active team before using this bye-selection method with pre-allocated sides."
 msgstr ""
 
-#: draw/manager.py:543 draw/manager.py:625
+#: draw/manager.py:548 draw/manager.py:636
 msgid "This bye-selection method isn't supported for this draw configuration."
 msgstr ""
 
-#: draw/manager.py:620
-msgid ""
-"This bye-selection method is only supported for one bye in two-team "
-"preliminary draws."
+#: draw/manager.py:590
+msgid "Power-paired draws can't be generated when elimination round progression is included in the team standings precedence. Remove it before generating this draw."
 msgstr ""
 
-#: draw/manager.py:623
-msgid ""
-"This bye-selection method isn't supported with the conflict-avoidance method "
-"that determines pullups itself."
+#: draw/manager.py:631
+msgid "This bye-selection method is only supported for one bye in two-team preliminary draws."
 msgstr ""
 
-#: draw/manager.py:641
+#: draw/manager.py:634
+msgid "This bye-selection method isn't supported with the conflict-avoidance method that determines pullups itself."
+msgstr ""
+
+#: draw/manager.py:652
 msgid "This bye-selection method isn't supported for seeded draws."
 msgstr ""
 
-#: draw/manager.py:690
-msgid ""
-"Every team must have a seed set for round-robin draws. Assign seeds before "
-"generating the draw."
+#: draw/manager.py:701
+msgid "Every team must have a seed set for round-robin draws. Assign seeds before generating the draw."
 msgstr ""
 
-#: draw/manager.py:781
+#: draw/manager.py:792
 #, python-format
-msgid ""
-"The break size (%(size)d) for this break category was invalid. It must be "
-"either six times or four times a power of two."
+msgid "The break size (%(size)d) for this break category was invalid. It must be either six times or four times a power of two."
 msgstr ""
 
 #: draw/models.py:35 draw/models.py:41
@@ -467,8 +420,7 @@ msgid "scheduled time"
 msgstr ""
 
 #: draw/models.py:55
-msgid ""
-"Optional start time for this debate, if it differs from the round schedule."
+msgid "Optional start time for this debate, if it differs from the round schedule."
 msgstr ""
 
 #: draw/models.py:59
@@ -492,9 +444,7 @@ msgid "sides confirmed"
 msgstr ""
 
 #: draw/models.py:72
-msgid ""
-"If unchecked, the sides assigned to teams in this debate are just "
-"placeholders."
+msgid "If unchecked, the sides assigned to teams in this debate are just placeholders."
 msgstr ""
 
 #: draw/models.py:75 draw/models.py:274
@@ -572,6 +522,28 @@ msgstr ""
 msgid "bye team overrides"
 msgstr ""
 
+#: draw/side_allocation_display.py:19
+msgid "No prior results. Standings and bracket views use alphabetical order."
+msgstr ""
+
+#: draw/side_allocation_display.py:43
+#, python-format
+msgid "Standings through %(round)s"
+msgstr ""
+
+#: draw/side_allocation_display.py:46
+msgid "No standings metrics configured; using alphabetical order."
+msgstr ""
+
+#: draw/side_allocation_display.py:58
+msgid "Standings unavailable; using alphabetical order."
+msgstr ""
+
+#: draw/side_allocation_display.py:87
+#, python-format
+msgid "%(metric)s: %(value)s"
+msgstr ""
+
 #: draw/side_allocation_pairings.py:21
 msgid "Post-pairing side allocations are only supported in two-team formats."
 msgstr ""
@@ -581,16 +553,12 @@ msgid "Side pre-allocation tools only support two-team formats."
 msgstr ""
 
 #: draw/side_allocations.py:161 draw/side_allocations.py:183
-msgid ""
-"The available teams can't be split into valid saved side allocations for "
-"this round."
+msgid "The available teams can't be split into valid saved side allocations for this round."
 msgstr ""
 
 #: draw/side_allocations.py:384
 #, python-format
-msgid ""
-"Round %(round)s does not have usable side allocations for the teams debating "
-"there."
+msgid "Round %(round)s does not have usable side allocations for the teams debating there."
 msgstr ""
 
 #: draw/side_allocations.py:404 draw/side_allocations.py:426
@@ -598,9 +566,7 @@ msgid "There are no available teams for this round yet."
 msgstr ""
 
 #: draw/side_allocations.py:406
-msgid ""
-"The round still has an odd number of debating teams after accounting for "
-"byes. Check availability or bye settings before generating side allocations."
+msgid "The round still has an odd number of debating teams after accounting for byes. Check availability or bye settings before generating side allocations."
 msgstr ""
 
 #: draw/side_allocations.py:444
@@ -619,7 +585,7 @@ msgstr ""
 msgid "%(side)s: %(metric)s"
 msgstr ""
 
-#: draw/tables.py:82 draw/views.py:972 draw/views.py:1029 draw/views.py:1117
+#: draw/tables.py:82 draw/views.py:978 draw/views.py:1091
 msgid "Bye"
 msgstr ""
 
@@ -675,7 +641,7 @@ msgstr ""
 msgid "No metrics in the team standings precedence"
 msgstr ""
 
-#: draw/tables.py:367 draw/templates/side_allocations.html:116
+#: draw/tables.py:367 draw/templates/side_allocations.html:130
 msgid "Side"
 msgstr ""
 
@@ -743,26 +709,16 @@ msgid "position cost"
 msgstr ""
 
 #: draw/templates/admin/draw/debateteam/delete_warning.html:5
-msgid ""
-"STOP!!! Read this first! Deleting debate teams from the database may crash "
-"Tabbycat!"
+msgid "STOP!!! Read this first! Deleting debate teams from the database may crash Tabbycat!"
 msgstr ""
 
 #: draw/templates/admin/draw/debateteam/delete_warning.html:10
-msgid ""
-"Tabbycat requires that all debates have <strong>exactly</strong> one debate "
-"team for each side, and no other debate teams, at all times. If you delete "
-"any debate teams, you must then either replace each one with a new debate "
-"team in the same debate, or delete the associated debate objects. If you "
-"don't do this correctly, many pages <strong>will</strong> crash."
+msgid "Tabbycat requires that all debates have <strong>exactly</strong> one debate team for each side, and no other debate teams, at all times. If you delete any debate teams, you must then either replace each one with a new debate team in the same debate, or delete the associated debate objects. If you don't do this correctly, many pages <strong>will</strong> crash."
 msgstr ""
 
 #: draw/templates/admin/draw/debateteam/delete_warning.html:15
 #: draw/templates/admin/draw/debateteam/edit_warning.html:15
-msgid ""
-"This is a common source of errors. If it happens to you, check the debates "
-"(under the Draw section in this Edit Database area) and ensure that all of "
-"them have exactly one affirmative and one negative team."
+msgid "This is a common source of errors. If it happens to you, check the debates (under the Draw section in this Edit Database area) and ensure that all of them have exactly one affirmative and one negative team."
 msgstr ""
 
 #: draw/templates/admin/draw/debateteam/edit_warning.html:5
@@ -770,11 +726,7 @@ msgid "WARNING!!! If you are editing debate teams, read this first!"
 msgstr ""
 
 #: draw/templates/admin/draw/debateteam/edit_warning.html:10
-msgid ""
-"Tabbycat requires that there be <strong>exactly</strong> one debate team for "
-"each side, and no other debate teams, in each debate. If you edit debate "
-"teams in the database, you must ensure that this remains the case. If you "
-"don't do this correctly, many pages <strong>will</strong> crash."
+msgid "Tabbycat requires that there be <strong>exactly</strong> one debate team for each side, and no other debate teams, in each debate. If you edit debate teams in the database, you must ensure that this remains the case. If you don't do this correctly, many pages <strong>will</strong> crash."
 msgstr ""
 
 #: draw/templates/draw_alerts_adjudicators.html:6
@@ -787,17 +739,14 @@ msgstr[1] ""
 #: draw/templates/draw_alerts_adjudicators.html:15
 #, python-format
 msgid "<strong>%(adjudicators)s</strong> is adjudicating multiple debates."
-msgid_plural ""
-"The following <strong>%(nadjs)s</strong> adjudicators are adjudicating "
-"multiple debates: <strong>%(adjudicators)s</strong>"
+msgid_plural "The following <strong>%(nadjs)s</strong> adjudicators are adjudicating multiple debates: <strong>%(adjudicators)s</strong>"
 msgstr[0] ""
 msgstr[1] ""
 
 #: draw/templates/draw_alerts_adjudicators.html:24
 #, python-format
 msgid "1 debate has a panel with an even number of adjudicators."
-msgid_plural ""
-"%(ndebates)s debates have panels with an even number of adjudicators."
+msgid_plural "%(ndebates)s debates have panels with an even number of adjudicators."
 msgstr[0] ""
 msgstr[1] ""
 
@@ -810,29 +759,22 @@ msgstr[1] ""
 
 #: draw/templates/draw_alerts_adjudicators.html:42
 #, python-format
-msgid ""
-"<strong>%(adjudicators)s</strong> is unavailable this round, but is assigned "
-"to a debate."
-msgid_plural ""
-"The following <strong>%(nadjs)s</strong> adjudicators are unavailable this "
-"round, but are assigned to debates: <strong>%(adjudicators)s</strong>"
+msgid "<strong>%(adjudicators)s</strong> is unavailable this round, but is assigned to a debate."
+msgid_plural "The following <strong>%(nadjs)s</strong> adjudicators are unavailable this round, but are assigned to debates: <strong>%(adjudicators)s</strong>"
 msgstr[0] ""
 msgstr[1] ""
 
 #: draw/templates/draw_alerts_adjudicators.html:51
 #, python-format
 msgid "1 adjudicator is available but not assigned to a debate."
-msgid_plural ""
-"%(ndebates)s adjudicators are available but not assigned to a debate."
+msgid_plural "%(ndebates)s adjudicators are available but not assigned to a debate."
 msgstr[0] ""
 msgstr[1] ""
 
 #: draw/templates/draw_alerts_teams.html:6
 #, python-format
 msgid "<strong>%(teams)s</strong> is competing in multiple debates."
-msgid_plural ""
-"The following <strong>%(nteams)s</strong> teams are competing in multiple "
-"debates: <strong>%(teams)s</strong>"
+msgid_plural "The following <strong>%(nteams)s</strong> teams are competing in multiple debates: <strong>%(teams)s</strong>"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -846,9 +788,7 @@ msgstr[1] ""
 #: draw/templates/draw_alerts_venues.html:14
 #, python-format
 msgid "There are multiple debates in <strong>%(rooms)s</strong>."
-msgid_plural ""
-"The following <strong>%(ndebates)s</strong> rooms have multiple debates in "
-"them: <strong>%(rooms)s</strong>"
+msgid_plural "The following <strong>%(ndebates)s</strong> rooms have multiple debates in them: <strong>%(rooms)s</strong>"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -902,11 +842,7 @@ msgstr ""
 
 #: draw/templates/draw_confirm_regeneration.html:22
 #, python-format
-msgid ""
-"Do you really want to regenerate the draw for %(round)s? This will delete "
-"<strong>all the debates in the current draw</strong> —  including their "
-"ballots and adjudicator allocations — and cannot be undone. You probably "
-"don't want to do this if any results have been entered!"
+msgid "Do you really want to regenerate the draw for %(round)s? This will delete <strong>all the debates in the current draw</strong> —  including their ballots and adjudicator allocations — and cannot be undone. You probably don't want to do this if any results have been entered!"
 msgstr ""
 
 #: draw/templates/draw_confirm_regeneration.html:34
@@ -949,16 +885,11 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: draw/templates/draw_display_admin.html:65
-msgid ""
-"Your configuration/format requires motions to be specified as part of ballot "
-"entry. Make sure they are added before results come in!"
+msgid "Your configuration/format requires motions to be specified as part of ballot entry. Make sure they are added before results come in!"
 msgstr ""
 
 #: draw/templates/draw_display_admin.html:67
-msgid ""
-"A motion should be added if you want to display it during announcements, "
-"print it on your ballots, or to display it (later) on the public motions/"
-"statistics pages."
+msgid "A motion should be added if you want to display it during announcements, print it on your ballots, or to display it (later) on the public motions/statistics pages."
 msgstr ""
 
 #: draw/templates/draw_display_admin.html:70
@@ -972,15 +903,11 @@ msgid "Release Draw"
 msgstr ""
 
 #: draw/templates/draw_display_admin.html:92
-msgid ""
-"You have not generated a draw for this round yet. There is nothing to "
-"release."
+msgid "You have not generated a draw for this round yet. There is nothing to release."
 msgstr ""
 
 #: draw/templates/draw_display_admin.html:97
-msgid ""
-"The draw for this round is still in a draft state. Confirm the draw before "
-"releasing it."
+msgid "The draw for this round is still in a draft state. Confirm the draw before releasing it."
 msgstr ""
 
 #: draw/templates/draw_display_admin.html:102
@@ -1002,10 +929,7 @@ msgstr ""
 
 #: draw/templates/draw_display_admin.html:119
 #, python-format
-msgid ""
-"You have released the draw (teams only), but it will not show to the public "
-"unless the \"public view of draw\" setting is enabled in <a class=\"alert-"
-"link\" href=\"%(alert_link)s\"> this tournament's configuration</a>."
+msgid "You have released the draw (teams only), but it will not show to the public unless the \"public view of draw\" setting is enabled in <a class=\"alert-link\" href=\"%(alert_link)s\"> this tournament's configuration</a>."
 msgstr ""
 
 #: draw/templates/draw_display_admin.html:134
@@ -1018,20 +942,12 @@ msgstr ""
 
 #: draw/templates/draw_display_admin.html:150
 #, python-format
-msgid ""
-"You have released the draw, so ballots and/or feedback can be submitted from "
-"the public forms (if enabled). However, the draw itself will not show to the "
-"public unless the \"public view of draw\" setting is enabled in <a "
-"class=\"alert-link\" href=\"%(alert_link)s\"> this tournament's "
-"configuration</a>."
+msgid "You have released the draw, so ballots and/or feedback can be submitted from the public forms (if enabled). However, the draw itself will not show to the public unless the \"public view of draw\" setting is enabled in <a class=\"alert-link\" href=\"%(alert_link)s\"> this tournament's configuration</a>."
 msgstr ""
 
 #: draw/templates/draw_display_admin.html:155
 #, python-format
-msgid ""
-"You have released the draw, but it will not show to the public unless the "
-"\"public view of draw\" setting is enabled in <a class=\"alert-link\" "
-"href=\"%(alert_link)s\"> this tournament's configuration</a>."
+msgid "You have released the draw, but it will not show to the public unless the \"public view of draw\" setting is enabled in <a class=\"alert-link\" href=\"%(alert_link)s\"> this tournament's configuration</a>."
 msgstr ""
 
 #: draw/templates/draw_display_admin.html:167
@@ -1043,33 +959,23 @@ msgid "Release draw (teams only)"
 msgstr ""
 
 #: draw/templates/draw_display_admin.html:173
-msgid ""
-"Your tournament allows ballots and feedback to be submitted online by "
-"adjudicators. The draw must be released before they can do so."
+msgid "Your tournament allows ballots and feedback to be submitted online by adjudicators. The draw must be released before they can do so."
 msgstr ""
 
 #: draw/templates/draw_display_admin.html:176
-msgid ""
-"Your tournament allows ballots to be submitted online by adjudicators. The "
-"draw must be released before they can do so."
+msgid "Your tournament allows ballots to be submitted online by adjudicators. The draw must be released before they can do so."
 msgstr ""
 
 #: draw/templates/draw_display_admin.html:179
-msgid ""
-"Your tournament allows feedback to be submitted online by participants. The "
-"draw must be released before they can do so."
+msgid "Your tournament allows feedback to be submitted online by participants. The draw must be released before they can do so."
 msgstr ""
 
 #: draw/templates/draw_display_admin.html:183
-msgid ""
-"Your tournament is configured to show the draw publicly. Releasing a draw "
-"will allow it to show it on the public page."
+msgid "Your tournament is configured to show the draw publicly. Releasing a draw will allow it to show it on the public page."
 msgstr ""
 
 #: draw/templates/draw_display_admin.html:196
-msgid ""
-"Your configuration doesn't have a public draw page or feedback/ballot "
-"submissions. There's no reason to release the draw."
+msgid "Your configuration doesn't have a public draw page or feedback/ballot submissions. There's no reason to release the draw."
 msgstr ""
 
 #: draw/templates/draw_display_admin.html:218
@@ -1109,44 +1015,28 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: draw/templates/draw_display_admin.html:262
-msgid ""
-"Your tournament is configured to require motions to be selected in ballots "
-"and to allow ballots to be submitted by adjudicators. Ensure that you "
-"release the motions before debates finish, otherwise ballots will not be "
-"able to be submitted."
+msgid "Your tournament is configured to require motions to be selected in ballots and to allow ballots to be submitted by adjudicators. Ensure that you release the motions before debates finish, otherwise ballots will not be able to be submitted."
 msgstr ""
 
 #: draw/templates/draw_display_admin.html:265
-msgid ""
-"Your tournament is configured to allow motions to be vetoed and to allow "
-"ballots to be submitted by adjudicators. Ensure that you release the motions "
-"before debates finish, otherwise ballots will not be able to nominate vetoes."
+msgid "Your tournament is configured to allow motions to be vetoed and to allow ballots to be submitted by adjudicators. Ensure that you release the motions before debates finish, otherwise ballots will not be able to nominate vetoes."
 msgstr ""
 
 #: draw/templates/draw_display_admin.html:268
-msgid ""
-"Your tournament is configured to show the motion for each round on the "
-"public site. You'll need to first release the motion for it to show there."
-msgid_plural ""
-"Your tournament is configured to show the motions for each round on the "
-"public site. You'll need to first release the motions for it to show there."
+msgid "Your tournament is configured to show the motion for each round on the public site. You'll need to first release the motion for it to show there."
+msgid_plural "Your tournament is configured to show the motions for each round on the public site. You'll need to first release the motions for it to show there."
 msgstr[0] ""
 msgstr[1] ""
 
 #: draw/templates/draw_display_admin.html:275
-msgid ""
-"Your tournament is not configured to show the motion for each round on the "
-"public site. There's no need to release the motion."
-msgid_plural ""
-"Your tournament is not configured to show the motions for each round on the "
-"public site. There's no need to release the motions."
+msgid "Your tournament is not configured to show the motion for each round on the public site. There's no need to release the motion."
+msgid_plural "Your tournament is not configured to show the motions for each round on the public site. There's no need to release the motions."
 msgstr[0] ""
 msgstr[1] ""
 
 #: draw/templates/draw_display_admin.html:307
 msgid "Info-slides have been released. You can now release the full motions."
-msgid_plural ""
-"Info-slides have been released. You can now release the full motions."
+msgid_plural "Info-slides have been released. You can now release the full motions."
 msgstr[0] ""
 msgstr[1] ""
 
@@ -1162,10 +1052,7 @@ msgstr ""
 
 #: draw/templates/draw_display_admin.html:340
 #, python-format
-msgid ""
-"You have released the motions, but they will not show to the public unless "
-"the \"public view of motions\" setting is enabled in <a class=\"alert-link\" "
-"href=\"%(alert_link)s\">this tournament's configuration</a>."
+msgid "You have released the motions, but they will not show to the public unless the \"public view of motions\" setting is enabled in <a class=\"alert-link\" href=\"%(alert_link)s\">this tournament's configuration</a>."
 msgstr ""
 
 #: draw/templates/draw_display_admin.html:364
@@ -1378,87 +1265,44 @@ msgstr ""
 
 #: draw/templates/draw_status_draft.html:25
 #, python-format
-msgid ""
-"The team standings precedence is empty. This means that teams aren't ranked "
-"according to any metrics, so all teams are in a single bracket containing "
-"everyone. If this isn't what you intended, set the team standings precedence "
-"in the <a href=\"%(standings_config_url)s\" class=\"alert-link\">Standings "
-"section of this tournament's configuration</a>, then delete and recreate the "
-"draw. In most tournaments, the first metric should be points or wins."
+msgid "The team standings precedence is empty. This means that teams aren't ranked according to any metrics, so all teams are in a single bracket containing everyone. If this isn't what you intended, set the team standings precedence in the <a href=\"%(standings_config_url)s\" class=\"alert-link\">Standings section of this tournament's configuration</a>, then delete and recreate the draw. In most tournaments, the first metric should be points or wins."
 msgstr ""
 
 #: draw/templates/draw_status_draft.html:41
 #, python-format
-msgid ""
-"Brackets are formed using the first metric in the team standings precedence, "
-"which is currently set to <strong>%(metric)s</strong>, rather than team "
-"points, which is the more usual convention. If this isn't what you wanted, "
-"you can <a href=\"%(standings_config_url)s\" class=\"alert-link\">change the "
-"team standings precedence in the standings configuration page</a>."
+msgid "Brackets are formed using the first metric in the team standings precedence, which is currently set to <strong>%(metric)s</strong>, rather than team points, which is the more usual convention. If this isn't what you wanted, you can <a href=\"%(standings_config_url)s\" class=\"alert-link\">change the team standings precedence in the standings configuration page</a>."
 msgstr ""
 
 #: draw/templates/draw_status_draft.html:53
 #, python-format
-msgid ""
-"The draw type for this round is set to <strong>manual</strong>, so Tabbycat "
-"has just made a blank draw. Head on over to <a "
-"href=\"%(edit_matchups_url)s\" class=\"alert-link\">Edit Sides/Matchups</a> "
-"to fill it in."
+msgid "The draw type for this round is set to <strong>manual</strong>, so Tabbycat has just made a blank draw. Head on over to <a href=\"%(edit_matchups_url)s\" class=\"alert-link\">Edit Sides/Matchups</a> to fill it in."
 msgstr ""
 
 #: draw/templates/draw_status_draft.html:64
 #, python-format
-msgid ""
-"The adjudicator score range is 0, and so adjudicator scores will be ignored "
-"when allocating. You can <a href=\"%(feedback_config_url)s\" class=\"alert-"
-"link\">change the adjudicator score range in the feedback configuration "
-"page</a>."
+msgid "The adjudicator score range is 0, and so adjudicator scores will be ignored when allocating. You can <a href=\"%(feedback_config_url)s\" class=\"alert-link\">change the adjudicator score range in the feedback configuration page</a>."
 msgstr ""
 
 #: draw/templates/draw_status_draft.html:74
-msgid ""
-"Tabbycat assigns sides in elimination rounds randomly. However, because in "
-"elimination rounds, many tournaments draw lots for sides in front of an "
-"audience, the sides are marked as \"unconfirmed\", so that it doesn't look "
-"like sides have been pre-assigned. After you confirm the draw, you'll need "
-"to confirm sides on the \"Edit Sides/Matchups\" page, even if you wish to "
-"accept Tabbycat's random assignment."
+msgid "Tabbycat assigns sides in elimination rounds randomly. However, because in elimination rounds, many tournaments draw lots for sides in front of an audience, the sides are marked as \"unconfirmed\", so that it doesn't look like sides have been pre-assigned. After you confirm the draw, you'll need to confirm sides on the \"Edit Sides/Matchups\" page, even if you wish to accept Tabbycat's random assignment."
 msgstr ""
 
 #: draw/templates/draw_status_draft.html:81
-msgid ""
-"Highlighted cells relate to changes in position balance, as follows: <ul> "
-"<li>Red cells indicates that the team could not be allocated a position that "
-"maintains position balance.</li> <li>Yellow cells indicate that the team was "
-"previously imbalanced, and is given the best position possible in this draw, "
-"but is nonetheless still imbalanced.</li> <li>Green cells indicate that the "
-"team's previous imbalance is resolved with this draw.</li> </ul>"
+msgid "Highlighted cells relate to changes in position balance, as follows: <ul> <li>Red cells indicates that the team could not be allocated a position that maintains position balance.</li> <li>Yellow cells indicate that the team was previously imbalanced, and is given the best position possible in this draw, but is nonetheless still imbalanced.</li> <li>Green cells indicate that the team's previous imbalance is resolved with this draw.</li> </ul>"
 msgstr ""
 
 #: draw/templates/draw_status_none.html:6
 #, python-format
-msgid ""
-"A draw for %(round)s hasn't yet been generated. To generate one, go to the "
-"<a href=\"%(availability_url)s\" class=\"alert-link\">Availability section</"
-"a>."
+msgid "A draw for %(round)s hasn't yet been generated. To generate one, go to the <a href=\"%(availability_url)s\" class=\"alert-link\">Availability section</a>."
 msgstr ""
 
 #: draw/templates/position_balance.html:6
-msgid ""
-"It looks like sides aren't confirmed for some debates in this round. This "
-"position balance report is generated using the \"unconfirmed sides\" in the "
-"database, and as a consequence, may not make much sense. It's best to "
-"confirm sides in all debates before looking at this report."
+msgid "It looks like sides aren't confirmed for some debates in this round. This position balance report is generated using the \"unconfirmed sides\" in the database, and as a consequence, may not make much sense. It's best to confirm sides in all debates before looking at this report."
 msgstr ""
 
 #: draw/templates/position_balance.html:15
 #, python-format
-msgid ""
-"Your current position cost function is <strong>%(cost_func)s</strong>, "
-"raised to an exponent of <strong>%(exponent)s</strong>. <a href=\"https://"
-"tabbycat.readthedocs.io/en/latest/features/draw-generation-bp.html#position-"
-"cost-options\" target=_\"blank\">Read more about how position cost functions "
-"work</a> in our documentation."
+msgid "Your current position cost function is <strong>%(cost_func)s</strong>, raised to an exponent of <strong>%(exponent)s</strong>. <a href=\"https://tabbycat.readthedocs.io/en/latest/features/draw-generation-bp.html#position-cost-options\" target=_\"blank\">Read more about how position cost functions work</a> in our documentation."
 msgstr ""
 
 #: draw/templates/position_balance_break.html:6
@@ -1466,123 +1310,194 @@ msgid "Position balance reports aren't computed for elimination rounds."
 msgstr ""
 
 #: draw/templates/position_balance_nonbp.html:6
-msgid ""
-"Position balance reports are only available for British Parliamentary "
-"tournaments."
+msgid "Position balance reports are only available for British Parliamentary tournaments."
 msgstr ""
 
 #: draw/templates/position_balance_round1.html:6
-msgid ""
-"Position balance reports aren't computed for the first round of a tournament."
+msgid "Position balance reports aren't computed for the first round of a tournament."
 msgstr ""
 
-#: draw/templates/side_allocations.html:7
-msgid "Return"
+#: draw/templates/side_allocations.html:6
+msgid "Return to availability"
 msgstr ""
 
-#: draw/templates/side_allocations.html:16
-msgid "This round already has a draw. Its recorded sides are read-only."
+#: draw/templates/side_allocations.html:14 draw/views.py:1170
+msgid "Can't change side pre-allocations after generating the draw."
 msgstr ""
 
-#: draw/templates/side_allocations.html:20
-msgid ""
-"These tools are designed for two-team formats. The overview table below will "
-"still display saved allocations, but automatic generation is disabled."
+#: draw/templates/side_allocations.html:18
+msgid "These tools are designed for two-team formats. The overview table below will still display saved allocations, but automatic generation is disabled."
 msgstr ""
 
-#: draw/templates/side_allocations.html:29
-msgid ""
-"Use this page to save explicit side allocations for preliminary rounds. "
-"Automatic generation and manual editing use all teams marked available for "
-"the selected round. The simulated bye preview is informational only and does "
-"not remove a team from the allocation table. If a round has no saved "
-"allocations, Tabbycat will pair the draw first and then assign sides "
-"afterwards."
+#: draw/templates/side_allocations.html:31
+msgid "Saved allocations"
 msgstr ""
 
-#: draw/templates/side_allocations.html:38
-msgid "Manual editing"
+#: draw/templates/side_allocations.html:33
+msgid "Active teams"
 msgstr ""
 
-#: draw/templates/side_allocations.html:44
-msgid "Round to edit"
+#: draw/templates/side_allocations.html:34
+msgid "Assigned"
 msgstr ""
 
-#: draw/templates/side_allocations.html:57
-#, python-format
-msgid "Assigned active teams: %(count)s"
+#: draw/templates/side_allocations.html:43
+msgid "This round has no active saved side allocations, so the draw will be paired first and sides will be assigned afterwards."
 msgstr ""
 
-#: draw/templates/side_allocations.html:60
-#, python-format
-msgid "Unassigned active teams: %(count)s"
-msgstr ""
-
-#: draw/templates/side_allocations.html:70
-#, python-format
-msgid "Active teams this round: %(count)s"
-msgstr ""
-
-#: draw/templates/side_allocations.html:73
-msgid "Simulated bye if generated now"
-msgstr ""
-
-#: draw/templates/side_allocations.html:77
-#: draw/templates/side_allocations.html:85
-msgid "None"
-msgstr ""
-
-#: draw/templates/side_allocations.html:81
+#: draw/templates/side_allocations.html:46
 msgid "Unavailable teams"
 msgstr ""
 
-#: draw/templates/side_allocations.html:91
-msgid ""
-"This round has no active saved side allocations, so the draw will be paired "
-"first and sides will be assigned afterwards."
+#: draw/templates/side_allocations.html:47
+#: draw/templates/side_allocations.html:202
+msgid "None"
+msgstr ""
+
+#: draw/templates/side_allocations.html:57
+msgid "Round workspace"
+msgstr ""
+
+#: draw/templates/side_allocations.html:58
+msgid "Prepare sides, review teams, and manage the bye for a preliminary round."
+msgstr ""
+
+#: draw/templates/side_allocations.html:61
+msgid "Round to edit"
+msgstr ""
+
+#: draw/templates/side_allocations.html:67
+msgid "Change round"
+msgstr ""
+
+#: draw/templates/side_allocations.html:72
+msgid "Search teams"
+msgstr ""
+
+#: draw/templates/side_allocations.html:74
+msgid "Short or full team name"
+msgstr ""
+
+#: draw/templates/side_allocations.html:76
+msgid "Clear"
+msgstr ""
+
+#: draw/templates/side_allocations.html:81
+msgid "Sort teams"
+msgstr ""
+
+#: draw/templates/side_allocations.html:83
+msgid "Alphabetical"
+msgstr ""
+
+#: draw/templates/side_allocations.html:84
+msgid "Bracket / standings"
+msgstr ""
+
+#: draw/templates/side_allocations.html:88
+msgid "Reverse team order"
+msgstr ""
+
+#: draw/templates/side_allocations.html:89
+msgid "A–Z"
+msgstr ""
+
+#: draw/templates/side_allocations.html:93
+msgid "Apply sort"
 msgstr ""
 
 #: draw/templates/side_allocations.html:96
-#, python-format
-msgid ""
-"There are %(count)s saved allocations on teams that are currently "
-"unavailable; saving this form will clear them."
+msgid "Search and sorting apply to the editor and overview. All teams are still included when saving or generating allocations."
 msgstr ""
 
-#: draw/templates/side_allocations.html:115
+#: draw/templates/side_allocations.html:108
+msgid "Manual editing"
+msgstr ""
+
+#: draw/templates/side_allocations.html:110
+msgid "Results before this round. Team points = total speaker points."
+msgstr ""
+
+#: draw/templates/side_allocations.html:112
+#: draw/templates/side_allocations.html:231
+#, python-format
+msgid "%%(matching)s of %%(total)s teams"
+msgstr ""
+
+#: draw/templates/side_allocations.html:112
+#: draw/templates/side_allocations.html:231
+#, python-format
+msgid "%(count)s teams"
+msgstr ""
+
+#: draw/templates/side_allocations.html:122
+#, python-format
+msgid "Manual side allocations for %(round)s"
+msgstr ""
+
+#: draw/templates/side_allocations.html:125
+msgid "Rank"
+msgstr ""
+
+#: draw/templates/side_allocations.html:126
+#: draw/templates/side_allocations.html:236
 msgid "Team"
 msgstr ""
 
-#: draw/templates/side_allocations.html:132
+#: draw/templates/side_allocations.html:127
+msgid "Wins"
+msgstr ""
+
+#: draw/templates/side_allocations.html:128
+msgid "Ballots"
+msgstr ""
+
+#: draw/templates/side_allocations.html:129
+msgid "Team points"
+msgstr ""
+
+#: draw/templates/side_allocations.html:149
+#: draw/templates/side_allocations.html:255
+msgid "No matching teams."
+msgstr ""
+
+#: draw/templates/side_allocations.html:149
+#: draw/templates/side_allocations.html:255
+msgid "Clear search"
+msgstr ""
+
+#: draw/templates/side_allocations.html:156
+#, python-format
+msgid "There are %(count)s saved allocations on teams that are currently unavailable; saving this form will clear them."
+msgstr ""
+
+#: draw/templates/side_allocations.html:159
 msgid "Save manual allocations"
 msgstr ""
 
-#: draw/templates/side_allocations.html:135
-msgid ""
-"There are no debating teams available to assign in this round right now."
+#: draw/templates/side_allocations.html:160
+msgid "Saves allocations for all active teams, including teams hidden by search."
 msgstr ""
 
-#: draw/templates/side_allocations.html:137
-#: draw/templates/side_allocations.html:233
+#: draw/templates/side_allocations.html:165
+msgid "There are no debating teams available to assign in this round right now."
+msgstr ""
+
+#: draw/templates/side_allocations.html:165
+#: draw/templates/side_allocations.html:222
 msgid "There are no preliminary rounds to edit yet."
 msgstr ""
 
-#: draw/templates/side_allocations.html:146
+#: draw/templates/side_allocations.html:173
 msgid "Automatic generation"
 msgstr ""
 
-#: draw/templates/side_allocations.html:172
+#: draw/templates/side_allocations.html:173
+msgid "Uses all teams available in the target round."
+msgstr ""
+
+#: draw/templates/side_allocations.html:193
 msgid "Generate allocations"
-msgstr ""
-
-#: draw/templates/side_allocations.html:183
-msgid "Current overview"
-msgstr ""
-
-#: draw/templates/side_allocations.html:186
-msgid ""
-"Drawn rounds show recorded sides. Edit the selected undrawn round directly "
-"below."
 msgstr ""
 
 #: draw/templates/side_allocations.html:198
@@ -1590,28 +1505,69 @@ msgid "Bye Override"
 msgstr ""
 
 #: draw/templates/side_allocations.html:201
+msgid "Simulated bye if generated now"
+msgstr ""
+
+#: draw/templates/side_allocations.html:203
+msgid "This preview is informational only. The team remains in the allocation table."
+msgstr ""
+
+#: draw/templates/side_allocations.html:206
 #, python-format
 msgid "Manual override currently set to %(team)s."
 msgstr ""
 
-#: draw/templates/side_allocations.html:205
+#: draw/templates/side_allocations.html:206
 msgid "No manual override is set. The tournament's bye setting will be used."
 msgstr ""
 
-#: draw/templates/side_allocations.html:225
+#: draw/templates/side_allocations.html:219
 msgid "Save bye override"
 msgstr ""
 
-#: draw/templates/side_allocations.html:229
-msgid ""
-"Choose Automatic to keep using the tournament's configured bye selection "
-"method for this round."
+#: draw/templates/side_allocations.html:220
+msgid "Choose Automatic to keep using the tournament's configured bye selection method for this round."
+msgstr ""
+
+#: draw/templates/side_allocations.html:230
+msgid "Current overview"
+msgstr ""
+
+#: draw/templates/side_allocations.html:230
+msgid "Drawn rounds show recorded sides. Edit the selected undrawn round directly below."
+msgstr ""
+
+#: draw/templates/side_allocations.html:235
+msgid "Saved team side allocations by round"
+msgstr ""
+
+#: draw/templates/side_allocations.html:244
+#, python-format
+msgid "Side for %(team)s in %(round)s"
+msgstr ""
+
+#: draw/templates/side_allocations.html:246
+msgid "Unallocated"
+msgstr ""
+
+#: draw/templates/side_allocations.html:254
+msgid "There are no teams to display yet."
+msgstr ""
+
+#: draw/templates/side_allocations.html:260
+msgid "Matrix changes save immediately. Manual editor changes are saved with Save manual allocations."
+msgstr ""
+
+#: draw/templates/side_allocations.html:266
+msgid "Use this page to save explicit side allocations for preliminary rounds. Automatic generation and manual editing use all teams marked available for the selected round."
+msgstr ""
+
+#: draw/templates/side_allocations.html:267
+msgid "If a round has no saved allocations, Tabbycat will pair the draw first and then assign sides afterwards."
 msgstr ""
 
 #: draw/templates/side_allocations_bulk.html:3
-msgid ""
-"This will overwrite the current side pre-allocations for every team in the "
-"selected round. Continue?"
+msgid "This will overwrite the current side pre-allocations for every team in the selected round. Continue?"
 msgstr ""
 
 #: draw/templates/side_allocations_bulk.html:9
@@ -1619,12 +1575,7 @@ msgid "Bulk-apply from a previous round"
 msgstr ""
 
 #: draw/templates/side_allocations_bulk.html:11
-msgid ""
-"Sets every team's side pre-allocation for the chosen round from their actual "
-"side in an earlier finished round, either the same side or the opposite. For "
-"two-sided formats, opposite-side generation also allocates missing teams and "
-"balances the target round. Same-side copying and BP copying leave teams "
-"without a recorded side untouched."
+msgid "Sets every team's side pre-allocation for the chosen round from their actual side in an earlier finished round, either the same side or the opposite. For two-sided formats, opposite-side generation also allocates missing teams and balances the target round. Same-side copying and BP copying leave teams without a recorded side untouched."
 msgstr ""
 
 #: draw/templates/side_allocations_bulk.html:25
@@ -1651,359 +1602,343 @@ msgstr ""
 msgid "No finished rounds yet to copy from."
 msgstr ""
 
-#: draw/views.py:94 draw/views.py:505
+#: draw/views.py:80 draw/views.py:507
 msgid "No debates in this round"
 msgstr ""
 
-#: draw/views.py:102
+#: draw/views.py:88
 #, python-format
 msgid "Draw for %(round)s"
 msgstr ""
 
-#: draw/views.py:104
+#: draw/views.py:90
 msgid "Draws for Current Rounds"
 msgstr ""
 
-#: draw/views.py:108
+#: draw/views.py:94
 #, python-format
 msgid "debates start at %(time)s (in %(time_zone)s)"
 msgstr ""
 
-#: draw/views.py:112
+#: draw/views.py:98
 #, python-format
 msgid "start times in time zone: %(time_zone)s"
 msgstr ""
 
-#: draw/views.py:151
+#: draw/views.py:137
 #, python-format
 msgid "debate starts at %(time)s"
 msgid_plural "debates start at %(time)s"
 msgstr[0] ""
 msgstr[1] ""
 
-#: draw/views.py:198
+#: draw/views.py:184
 msgid "The draw for this round hasn't been released."
 msgstr ""
 
-#: draw/views.py:400
+#: draw/views.py:386
 msgid "Adjudicator Assignments"
 msgstr ""
 
-#: draw/views.py:422
+#: draw/views.py:394 draw/views.py:444
+msgid "round name"
+msgstr ""
+
+#: draw/views.py:395 draw/views.py:445
+msgid "assigned venue name"
+msgstr ""
+
+#: draw/views.py:396
+msgid "all adjudicators in the panel with positions"
+msgstr ""
+
+#: draw/views.py:397 draw/views.py:447
+msgid "team matchup in the debate"
+msgstr ""
+
+#: draw/views.py:398
+msgid "recipient adjudicator's position"
+msgstr ""
+
+#: draw/views.py:399
+msgid "link to the recipient's private URL"
+msgstr ""
+
+#: draw/views.py:416
 msgid "Position"
 msgstr ""
 
-#: draw/views.py:442
+#: draw/views.py:436
 msgid "Team Pairings"
 msgstr ""
 
-#: draw/views.py:467
-msgid "No Draw"
+#: draw/views.py:446
+msgid "adjudicator panel for the debate"
+msgstr ""
+
+#: draw/views.py:448
+msgid "recipient team name"
+msgstr ""
+
+#: draw/views.py:449
+msgid "recipient team side"
 msgstr ""
 
 #: draw/views.py:469
+msgid "No Draw"
+msgstr ""
+
+#: draw/views.py:471
 msgid "Draft Draw"
 msgstr ""
 
 #. Translators: e.g. "Affirmative: Break rank"
-#: draw/views.py:577
+#: draw/views.py:579
 #, python-format
 msgid "%(side)s: Break rank"
 msgstr ""
 
 #. Translators: "BR" stands for "Break rank"
-#: draw/views.py:582
+#: draw/views.py:584
 msgid "BR"
 msgstr ""
 
-#: draw/views.py:607
+#: draw/views.py:609
 msgid "Draw with Details"
 msgstr ""
 
-#: draw/views.py:615
+#: draw/views.py:617
 msgid "Position Balance Report"
 msgstr ""
 
-#: draw/views.py:626
+#: draw/views.py:628
 #, python-format
 msgid "Rényi entropy of order %(order)s"
 msgstr ""
 
 #. Translators: This is appended to the string "Rényi entropy of order 1.0"
-#: draw/views.py:629
+#: draw/views.py:631
 msgid " (<i>i.e.</i>, Shannon entropy)"
 msgstr ""
 
-#: draw/views.py:665
+#: draw/views.py:667
 msgid "Teams with position imbalances"
 msgstr ""
 
-#: draw/views.py:666
+#: draw/views.py:668
 msgid "No teams with position imbalances! Hooray!"
 msgstr ""
 
-#: draw/views.py:669
+#: draw/views.py:671
 msgid "Annotated draw"
 msgstr ""
 
-#: draw/views.py:706
+#: draw/views.py:708
 #, python-format
 msgid "Could not create draw for %(round)s, there is already a draw!"
 msgstr ""
 
-#: draw/views.py:716
+#: draw/views.py:718
 #, python-format
 msgid ""
-"<p>The draw could not be created, for the following reason: <em>%(message)s</"
-"em></p>\n"
+"<p>The draw could not be created, for the following reason: <em>%(message)s</em></p>\n"
 "<p>Please fix this issue before attempting to create the draw.</p>"
 msgstr ""
 
-#: draw/views.py:724
+#: draw/views.py:726
 #, python-format
 msgid ""
-"<p>The draw could not be created, because the following error occurred: "
-"<em>%(message)s</em></p>\n"
-"<p>If this issue persists and you're not sure how to resolve it, please "
-"contact the developers.</p>"
+"<p>The draw could not be created, because the following error occurred: <em>%(message)s</em></p>\n"
+"<p>If this issue persists and you're not sure how to resolve it, please contact the developers.</p>"
 msgstr ""
 
-#: draw/views.py:733
+#: draw/views.py:735
 #, python-format
 msgid ""
-"<p>The team standings could not be generated, because the following error "
-"occurred: <em>%(message)s</em></p>\n"
-"<p>Because generating the draw uses the current team standings, this "
-"prevents the draw from being generated.</p>"
+"<p>The team standings could not be generated, because the following error occurred: <em>%(message)s</em></p>\n"
+"<p>Because generating the draw uses the current team standings, this prevents the draw from being generated.</p>"
 msgstr ""
 
-#: draw/views.py:744
-msgid ""
-"The draw could not be created, because another user was also creating a draw."
+#: draw/views.py:746
+msgid "The draw could not be created, because another user was also creating a draw."
 msgstr ""
 
-#: draw/views.py:752
-msgid ""
-"Rooms were not auto-allocated because there are one or more adjudicator room "
-"constraints. You should run room allocations after allocating adjudicators."
-msgstr ""
-
-#: draw/views.py:766
-msgid "There is no draw."
+#: draw/views.py:754
+msgid "Rooms were not auto-allocated because there are one or more adjudicator room constraints. You should run room allocations after allocating adjudicators."
 msgstr ""
 
 #: draw/views.py:768
+msgid "There is no draw."
+msgstr ""
+
+#: draw/views.py:770
 msgid "The draw had already been confirmed."
 msgstr ""
 
-#: draw/views.py:812
+#: draw/views.py:814
 msgid "Overwrote preformed panels with current panels."
 msgstr ""
 
-#: draw/views.py:815
+#: draw/views.py:817
 msgid "Deleted the draw. You can now recreate it as normal."
 msgstr ""
 
-#: draw/views.py:830 draw/views.py:897
+#: draw/views.py:832 draw/views.py:906
 msgid "The draw has already been released."
 msgstr ""
 
-#: draw/views.py:832 draw/views.py:899
+#: draw/views.py:834 draw/views.py:908
 msgid "The draw must be confirmed before being released."
 msgstr ""
 
-#: draw/views.py:842
+#: draw/views.py:847
 msgid "Released the draw."
 msgstr ""
 
-#: draw/views.py:850
+#: draw/views.py:855
 #, python-format
 msgid "%(tournament)s - %(round)s"
 msgstr ""
 
-#: draw/views.py:861
+#: draw/views.py:866
 #, python-format
 msgid "You are the %(type)s in %(venue)s, adjudicating %(matchup)s"
 msgid_plural "You are a %(type)s in %(venue)s, adjudicating %(matchup)s"
 msgstr[0] ""
 msgstr[1] ""
 
-#: draw/views.py:866 draw/views.py:881
+#: draw/views.py:871 draw/views.py:888
 msgid "Room TBA"
 msgstr ""
 
-#: draw/views.py:879
+#: draw/views.py:886
 #, python-format
 msgid "You are the %(type)s in %(venue)s, with %(matchup)s"
 msgstr ""
 
-#: draw/views.py:906
+#: draw/views.py:915
 msgid "Released the draw (teams only)."
 msgstr ""
 
-#: draw/views.py:917
+#: draw/views.py:926
 msgid "The draw had been unreleased."
 msgstr ""
 
-#: draw/views.py:923
+#: draw/views.py:932
 msgid "Unreleased the draw."
 msgstr ""
 
-#: draw/views.py:937
+#: draw/views.py:946
 #, python-format
-msgid ""
-"Sorry, \"%(input)s\" isn't a valid time. It must be in 24-hour format, with "
-"a colon, for example: \"13:57\"."
+msgid "Sorry, \"%(input)s\" isn't a valid time. It must be in 24-hour format, with a colon, for example: \"13:57\"."
 msgstr ""
 
-#: draw/views.py:956 draw/views.py:1039
+#: draw/views.py:965 draw/views.py:994
 msgid "Side Pre-Allocations"
 msgstr ""
 
-#: draw/views.py:1013
-msgid "Unallocated"
-msgstr ""
-
-#: draw/views.py:1015
-msgid "Set side pre-allocation"
-msgstr ""
-
-#: draw/views.py:1185
-msgid "Can't change side pre-allocations after generating the draw."
-msgstr ""
-
-#: draw/views.py:1206
+#: draw/views.py:1191
 #, python-format
 msgid "%(count)d active team is unassigned."
 msgid_plural "%(count)d active teams are unassigned."
 msgstr[0] ""
 msgstr[1] ""
 
-#: draw/views.py:1212
+#: draw/views.py:1197
 #, python-format
-msgid ""
-"%(count)d saved allocation belongs to a team that is currently unavailable."
-msgid_plural ""
-"%(count)d saved allocations belong to teams that are currently unavailable."
+msgid "%(count)d saved allocation belongs to a team that is currently unavailable."
+msgid_plural "%(count)d saved allocations belong to teams that are currently unavailable."
 msgstr[0] ""
 msgstr[1] ""
 
-#: draw/views.py:1219
+#: draw/views.py:1204
 #, python-format
-msgid ""
-"Current split is %(left)s %(left_count)d / %(right)s %(right_count)d, which "
-"doesn't match a valid split for the active teams in this round."
+msgid "Current split is %(left)s %(left_count)d / %(right)s %(right_count)d, which doesn't match a valid split for the active teams in this round."
 msgstr ""
 
-#: draw/views.py:1227
-msgid ""
-"Pre-allocated draws work best when every active team is assigned and the "
-"saved side split is valid for the current field."
-msgstr ""
-
-#: draw/views.py:1248
+#: draw/views.py:1234
 #, python-format
 msgid "Random side allocations generated for %(round)s."
 msgstr ""
 
-#: draw/views.py:1252
+#: draw/views.py:1238
 #, python-format
-msgid ""
-"Side allocations for %(target)s were copied as the opposite of %(source)s."
+msgid "Side allocations for %(target)s were copied as the opposite of %(source)s."
 msgstr ""
 
-#: draw/views.py:1258
-#, python-format
-msgid ""
-"All teams in %(target)s were assigned the same side because %(source)s has "
-"one-sided side allocations, so this round can't be paired. Balance the sides "
-"before pairing this round."
-msgstr ""
-
-#: draw/views.py:1264
+#: draw/views.py:1251
 #, python-format
 msgid "All teams set to affirmation for %(round)s."
 msgstr ""
 
-#: draw/views.py:1267
+#: draw/views.py:1254
 #, python-format
 msgid "All teams set to negation for %(round)s."
 msgstr ""
 
-#: draw/views.py:1270
+#: draw/views.py:1257
 #, python-format
-msgid ""
-"Cleared saved side allocations for %(round)s. This round will pair first and "
-"assign sides afterwards."
+msgid "Cleared saved side allocations for %(round)s. This round will pair first and assign sides afterwards."
 msgstr ""
 
-#: draw/views.py:1294
+#: draw/views.py:1281
 #, python-format
-msgid ""
-"Cleared the bye override for %(round)s. The tournament setting will be used."
+msgid "Cleared the bye override for %(round)s. The tournament setting will be used."
 msgstr ""
 
-#: draw/views.py:1296
+#: draw/views.py:1283
 #, python-format
 msgid "Set %(team)s as the manual bye override for %(round)s."
 msgstr ""
 
-#: draw/views.py:1316
+#: draw/views.py:1303
 #, python-format
 msgid "Saved side allocations for %(round)s."
 msgstr ""
 
-#: draw/views.py:1321
+#: draw/views.py:1308
 msgid "Unrecognized side allocation action."
 msgstr ""
 
-#: draw/views.py:1336
+#: draw/views.py:1334
 msgid "Invalid team or round."
 msgstr ""
 
-#: draw/views.py:1339
-msgid ""
-"Can't change a side pre-allocation once the draw for that round has been "
-"generated."
+#: draw/views.py:1337
+msgid "Can't change a side pre-allocation once the draw for that round has been generated."
 msgstr ""
 
-#: draw/views.py:1347
+#: draw/views.py:1345
 msgid "Invalid side."
 msgstr ""
 
-#: draw/views.py:1367
+#: draw/views.py:1368
 msgid "Invalid round."
 msgstr ""
 
-#: draw/views.py:1371
+#: draw/views.py:1372
 msgid "Choose an earlier source round and a valid copy direction."
 msgstr ""
 
-#: draw/views.py:1376
-msgid ""
-"Can't set side pre-allocations for a round whose draw has already been "
-"generated."
+#: draw/views.py:1377
+msgid "Can't set side pre-allocations for a round whose draw has already been generated."
 msgstr ""
 
-#: draw/views.py:1380
+#: draw/views.py:1381
 msgid "The source round must be a finished round with a confirmed draw."
 msgstr ""
 
-#: draw/views.py:1391
+#: draw/views.py:1392
 msgid "Side allocations generated from the opposite sides of the source round."
 msgstr ""
 
-#: draw/views.py:1412
+#: draw/views.py:1413
 #, python-format
-msgid ""
-"Set the side pre-allocation for %(applied)d team (skipped %(skipped)d with "
-"no result in %(round)s)."
-msgid_plural ""
-"Set the side pre-allocation for %(applied)d teams (skipped %(skipped)d with "
-"no result in %(round)s)."
+msgid "Set the side pre-allocation for %(applied)d team (skipped %(skipped)d with no result in %(round)s)."
+msgid_plural "Set the side pre-allocation for %(applied)d teams (skipped %(skipped)d with no result in %(round)s)."
 msgstr[0] ""
 msgstr[1] ""
 
-#: draw/views.py:1425
+#: draw/views.py:1426
 msgid "Edit Matchups"
 msgstr ""

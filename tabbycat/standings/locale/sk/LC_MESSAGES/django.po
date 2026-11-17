@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tabbycat\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-25 07:25+1100\n"
+"POT-Creation-Date: 2026-11-17 03:42+0100\n"
 "PO-Revision-Date: 2026-04-26 13:46+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -20,15 +20,15 @@ msgstr ""
 "X-Criadokdin-Project-ID: 364715\n"
 "X-Generator: Poedit 3.7\n"
 
-#: standings/base.py:317
+#: standings/base.py:319
 msgid "The same metric would be added twice:"
 msgstr "Tá istá metrika by sa pridala dvakrát:"
 
-#: standings/base.py:318
+#: standings/base.py:320
 msgid "The same ranking would be added twice:"
 msgstr "Toto poradie by sa pridalo dvakrát:"
 
-#: standings/base.py:458
+#: standings/base.py:471
 #, python-format
 msgid "Unrecognized metric code: \"%(code)s\""
 msgstr "Neznámy metrický kód: „%(code)s“"
@@ -129,255 +129,265 @@ msgstr "Priemer rečníka/rečníčky %(num)d"
 msgid "Average Finals Score"
 msgstr "Priemerné skóre vo finále"
 
-#: standings/speakers.py:85 standings/speakers.py:247
+#: standings/speakers.py:89 standings/speakers.py:254
 msgid "total"
 msgstr "súčet"
 
-#: standings/speakers.py:86 standings/speakers.py:248 standings/speakers.py:387
+#: standings/speakers.py:90 standings/speakers.py:255 standings/speakers.py:415
 msgid "Total"
 msgstr "Súčet"
 
-#: standings/speakers.py:93 standings/speakers.py:257
+#: standings/speakers.py:97 standings/speakers.py:264
 msgid "average"
 msgstr "priemer"
 
-#: standings/speakers.py:94 standings/speakers.py:258 standings/speakers.py:396
+#: standings/speakers.py:98 standings/speakers.py:265 standings/speakers.py:424
 msgid "Avg"
 msgstr "Priemer"
 
-#: standings/speakers.py:153
+#: standings/speakers.py:160
 msgid "team points"
 msgstr "tímové body"
 
-#: standings/speakers.py:154
+#: standings/speakers.py:161
 msgid "Team"
 msgstr "Tím"
 
-#: standings/speakers.py:163 standings/speakers.py:164 standings/teams.py:83
-#: standings/views.py:682
+#: standings/speakers.py:170 standings/speakers.py:171 standings/teams.py:135
+#: standings/views.py:756
 msgid "Wins"
 msgstr "Výhry"
 
-#: standings/speakers.py:174 standings/teams.py:355
+#: standings/speakers.py:181 standings/teams.py:408
 msgid "number of firsts"
 msgstr "počet prvých miest"
 
-#: standings/speakers.py:175 standings/teams.py:356
+#: standings/speakers.py:182 standings/teams.py:409
 msgid "1sts"
 msgstr "1."
 
-#: standings/speakers.py:185 standings/teams.py:365
+#: standings/speakers.py:192 standings/teams.py:418
 msgid "number of seconds"
 msgstr "počet druhých miest"
 
-#: standings/speakers.py:186 standings/teams.py:366
+#: standings/speakers.py:193 standings/teams.py:419
 msgid "2nds"
 msgstr "2."
 
-#: standings/speakers.py:196 standings/teams.py:375
+#: standings/speakers.py:203 standings/teams.py:428
 msgid "number of thirds"
 msgstr "počet tretích miest"
 
-#: standings/speakers.py:197 standings/teams.py:376
+#: standings/speakers.py:204 standings/teams.py:429
 msgid "3rds"
 msgstr "3."
 
-#: standings/speakers.py:206 standings/teams.py:329
+#: standings/speakers.py:213 standings/teams.py:382
 msgid "number of adjudicators who voted for this team"
 msgstr "počet ballotov získaných na tomto turnaji"
 
-#: standings/speakers.py:207 standings/teams.py:330
+#: standings/speakers.py:214 standings/teams.py:383
 msgid "Ballots"
 msgstr "Balloty"
 
-#: standings/speakers.py:208 standings/teams.py:331
+#: standings/speakers.py:215 standings/teams.py:384
 msgid "votes/ballots carried"
 msgstr "získané hlasy/balloty"
 
-#: standings/speakers.py:229 standings/speakers.py:266
+#: standings/speakers.py:236 standings/speakers.py:273
 msgid "standard deviation"
 msgstr "štandardná odchýlka"
 
-#: standings/speakers.py:230 standings/speakers.py:267
+#: standings/speakers.py:237 standings/speakers.py:274
 msgid "Stdev"
 msgstr "Odchýlka"
 
-#: standings/speakers.py:238
+#: standings/speakers.py:245
 msgid "number of speeches given"
 msgstr "počet rečí"
 
-#: standings/speakers.py:239 standings/speakers.py:278
+#: standings/speakers.py:246 standings/speakers.py:285
 msgid "Num"
 msgstr "Počet"
 
-#: standings/speakers.py:277
+#: standings/speakers.py:284
 msgid "replies given"
 msgstr "počet záverečných rečí"
 
-#: standings/speakers.py:288
+#: standings/speakers.py:295
 msgid "trimmed mean (high-low drop)"
 msgstr "orezaný priemer (bez najvyššieho najnižšieho)"
 
-#: standings/speakers.py:289
+#: standings/speakers.py:296
 msgid "Trim"
 msgstr "B-MIN/MAX Priemer"
 
+#: standings/speakers.py:335
 msgid "trimmed total (high-low drop)"
 msgstr "orezaný súčet (bez najvyššieho a najnižšieho)"
 
+#: standings/speakers.py:336
 msgid "TrimTot"
 msgstr "B-MIN/MAX"
 
-#: standings/speakers.py:326
+#: standings/speakers.py:356
 msgid "speech ranks"
 msgstr "poradie prejavov"
 
-#: standings/speakers.py:327
+#: standings/speakers.py:357
 msgid "SRank"
 msgstr "PPrej"
 
-#: standings/speakers.py:385
+#: standings/speakers.py:413
 #, python-format
 msgid "total for %(criterion)s"
 msgstr "súčet za %(criterion)s"
 
-#: standings/speakers.py:386
+#: standings/speakers.py:414
 #, python-format
 msgid "%(criterion)s Total"
 msgstr "%(criterion)s – súčet"
 
-#: standings/speakers.py:394
+#: standings/speakers.py:422
 #, python-format
 msgid "average for %(criterion)s"
 msgstr "priemer za %(criterion)s"
 
-#: standings/speakers.py:395
+#: standings/speakers.py:423
 #, python-format
 msgid "%(criterion)s Avg"
 msgstr "%(criterion)s – priemer"
 
-#: standings/speakers.py:493
+#: standings/speakers.py:537
 #, python-format
 msgid "The speaker standings reference unavailable score criteria: %(metrics)s. Update the speaker standings precedence and extra metrics in Setup > Standings."
 msgstr "Rebríček rečníkov odkazuje na nedostupné hodnotiace kritériá: %(metrics)s. Upravte poradie kritérií a doplnkové ukazovatele v Nastavenia > Rebríčky."
 
-#: standings/teams.py:68
+#: standings/teams.py:31
+msgid "progression through elimination rounds"
+msgstr "postup vo vyraďovacích kolách"
+
+#: standings/teams.py:32
+msgid "Elim"
+msgstr "Vyraď."
+
+#: standings/teams.py:120
 msgid "points"
 msgstr "body"
 
-#: standings/teams.py:69
+#: standings/teams.py:121
 msgid "Pts"
 msgstr "Body"
 
-#: standings/teams.py:82
+#: standings/teams.py:134
 msgid "wins"
 msgstr "výhry"
 
-#: standings/teams.py:93
+#: standings/teams.py:145
 msgid "total speaker score"
 msgstr "celkové rečnícke body"
 
-#: standings/teams.py:94
+#: standings/teams.py:146
 msgid "Spk"
 msgstr "RB"
 
-#: standings/teams.py:104
+#: standings/teams.py:156
 msgid "average total speaker score"
 msgstr "priemer celkových rečníckych bodov"
 
-#: standings/teams.py:105
+#: standings/teams.py:157
 msgid "ATSS"
 msgstr "PCRB"
 
-#: standings/teams.py:115
+#: standings/teams.py:167
 msgid "speaker score standard deviation"
 msgstr "štandardná odchýlka rečníckych bodov"
 
-#: standings/teams.py:116
+#: standings/teams.py:168
 msgid "SSD"
 msgstr "OdchRB"
 
-#: standings/teams.py:127
+#: standings/teams.py:179
 msgid "sum of margins"
 msgstr "súčet rozdielov"
 
-#: standings/teams.py:128
+#: standings/teams.py:180
 msgid "Marg"
 msgstr "Rozdiel"
 
-#: standings/teams.py:138
+#: standings/teams.py:190
 msgid "average margin"
 msgstr "priemerný rozdiel"
 
-#: standings/teams.py:139
+#: standings/teams.py:191
 msgid "AWM"
 msgstr "PriemRozd"
 
-#: standings/teams.py:149
+#: standings/teams.py:201
 msgid "average individual speaker score"
 msgstr "priemerné individuálne rečnícke body"
 
-#: standings/teams.py:150
+#: standings/teams.py:202
 msgid "AISS"
 msgstr "PIRB"
 
-#: standings/teams.py:230
+#: standings/teams.py:282
 msgid "draw strength by rank"
 msgstr "sila pairingu podľa poradia"
 
-#: standings/teams.py:231
+#: standings/teams.py:283
 msgid "DSR"
 msgstr "SPPP"
 
-#: standings/teams.py:271
+#: standings/teams.py:323
 msgid "draw strength by wins"
 msgstr "sila pairingu podľa výhier"
 
-#: standings/teams.py:272
+#: standings/teams.py:324
 msgid "DS"
 msgstr "SP"
 
-#: standings/teams.py:279
+#: standings/teams.py:331
 msgid "draw strength by total speaker score"
 msgstr "sila pairingu podľa celkových rečníckych bodov"
 
-#: standings/teams.py:280
+#: standings/teams.py:332
 msgid "DSS"
 msgstr "SDRB"
 
-#: standings/teams.py:292
+#: standings/teams.py:344
 msgid "number of pullups"
 msgstr "počet pullupov"
 
-#: standings/teams.py:293
+#: standings/teams.py:345
 msgid "PU"
 msgstr "PU"
 
-#: standings/teams.py:313
+#: standings/teams.py:366
 msgid "number of times in pullup debates"
 msgstr "počet debát v pullupe"
 
-#: standings/teams.py:314
+#: standings/teams.py:367
 msgid "SPu"
 msgstr "DebPU"
 
-#: standings/teams.py:386
+#: standings/teams.py:439
 msgid "number of times ironed"
 msgstr "počet dvojformulárátov"
 
-#: standings/teams.py:387
+#: standings/teams.py:440
 msgid "Irons"
 msgstr "Dvojformuláráty"
 
-#: standings/teams.py:400
+#: standings/teams.py:453
 msgid "Who-beat-whom"
 msgstr "Kto porazil koho"
 
-#: standings/teams.py:401
+#: standings/teams.py:454
 msgid "WBW"
 msgstr "KPK"
 
-#: standings/teams.py:402
+#: standings/teams.py:455
 msgid "who-beat-whom"
 msgstr "kto porazil koho"
 
@@ -552,48 +562,53 @@ msgctxt "All [Teams]"
 msgid "All"
 msgstr "Všetko"
 
-#: standings/templates/standings_menu.html:32
+#: standings/templates/standings_menu.html:25
+#: standings/templates/standings_menu.html:53
+msgid "All Categories"
+msgstr "Všetky kategórie"
+
+#: standings/templates/standings_menu.html:38
 msgid "Speakers"
 msgstr "Rečníci/rečníčky"
 
-#: standings/templates/standings_menu.html:37
+#: standings/templates/standings_menu.html:43
 msgctxt "Substantive speeches"
 msgid "Substantives"
 msgstr "Reči"
 
-#: standings/templates/standings_menu.html:39
+#: standings/templates/standings_menu.html:45
 msgctxt "All [Speakers]"
 msgid "All"
 msgstr "Všetko"
 
-#: standings/templates/standings_menu.html:41
+#: standings/templates/standings_menu.html:47
 msgid "Speakers "
 msgstr "Rečníci "
 
-#: standings/templates/standings_menu.html:47
+#: standings/templates/standings_menu.html:59
 #, python-format
 msgid "%(category)s"
 msgstr "%(category)s"
 
-#: standings/templates/standings_menu.html:55
+#: standings/templates/standings_menu.html:67
 msgid "Replies"
 msgstr "Záverečné reči"
 
-#: standings/templates/standings_menu.html:61
+#: standings/templates/standings_menu.html:73
 #, python-format
 msgid "%(criterion)s"
 msgstr "%(criterion)s"
 
-#: standings/templates/standings_menu.html:71
-#: standings/templates/standings_menu.html:84
+#: standings/templates/standings_menu.html:83
+#: standings/templates/standings_menu.html:96
 msgid "Motions"
 msgstr "Tézy"
 
-#: standings/templates/standings_menu.html:74
+#: standings/templates/standings_menu.html:86
 msgid "By Round"
 msgstr "Podľa kola"
 
-#: standings/templates/standings_menu.html:89
+#: standings/templates/standings_menu.html:101
 msgid "Diversity"
 msgstr "Diverzita"
 
@@ -621,102 +636,115 @@ msgstr "<p>Vedúci tabu musí vyriešiť tento problém.</p>"
 msgid "as of %(round)s"
 msgstr "po %(round)s"
 
+#: standings/views.py:164
+#, python-format
+msgid "%(category)s rank"
+msgstr "Poradie – %(category)s"
+
 #. Translators: 'title' is the main title; "(Top 15 Only)" is just a suffix
-#: standings/views.py:185
+#: standings/views.py:223
 #, python-format
 msgid "%(title)s (Top %(limit)d Only)"
 msgstr "%(title)s (iba top %(limit)d)"
 
-#: standings/views.py:213 standings/views.py:503
+#: standings/views.py:251 standings/views.py:556
 msgid "The tab can't be displayed because all rounds so far in this tournament are silent."
 msgstr "Tab sa nedá zobraziť, pretože všetky doterajšie kolá v turnaji sú tiché."
 
-#: standings/views.py:297
+#: standings/views.py:335
 msgid "Speaker Standings"
 msgstr "Poradie rečníkov/rečníčok"
 
-#: standings/views.py:334
+#: standings/views.py:374
+msgid "Speaker Standings by Category"
+msgstr "Poradie rečníkov/rečníčok podľa kategórií"
+
+#: standings/views.py:387
 msgid "Speaker Tab"
 msgstr "Výsledky rečníkov"
 
-#: standings/views.py:349
+#: standings/views.py:402
 #, python-format
 msgid "%(category)s Speaker Standings"
 msgstr "Poradie rečníkov/rečníčok: %(category)s"
 
-#: standings/views.py:367
+#: standings/views.py:420
 #, python-format
 msgid "%(category)s Speaker Tab"
 msgstr "Výsledky rečníkov: %(category)s"
 
-#: standings/views.py:380
+#: standings/views.py:433
 msgid "Reply Speaker Standings"
 msgstr "Poradie záverečných rečí"
 
-#: standings/views.py:388
+#: standings/views.py:441
 msgid "Reply speeches aren't enabled in this tournament."
 msgstr "Záverečné reči nie sú v tomto turnaji zapnuté."
 
-#: standings/views.py:417
+#: standings/views.py:470
 msgid "Reply Speaker Tab"
 msgstr "Výsledky záverečných rečí"
 
-#: standings/views.py:450
+#: standings/views.py:503
 #, python-format
 msgid "%(criterion)s Speaker Standings"
 msgstr "Rebríček rečníkov – %(criterion)s"
 
-#: standings/views.py:484
+#: standings/views.py:537
 #, python-format
 msgid "%(criterion)s Speaker Tab"
 msgstr "Výsledky rečníkov – %(criterion)s"
 
-#: standings/views.py:495 standings/views.py:760
+#: standings/views.py:548 standings/views.py:625 standings/views.py:834
 msgid "Team Standings"
 msgstr "Poradie tímov"
 
-#: standings/views.py:575
+#: standings/views.py:626
+msgid "for all categories"
+msgstr "pre všetky kategórie"
+
+#: standings/views.py:649
 msgid "Team Tab"
 msgstr "Výsledky tímov"
 
-#: standings/views.py:594
+#: standings/views.py:668
 #, python-format
 msgid "%(category)s Team Standings"
 msgstr "Poradie tímov: %(category)s"
 
-#: standings/views.py:622
+#: standings/views.py:696
 #, python-format
 msgid "%(category)s Team Tab"
 msgstr "Tímový tab: %(category)s"
 
-#: standings/views.py:633
+#: standings/views.py:707
 msgid "Current Team Standings"
 msgstr "Aktuálne poradie tímov"
 
-#: standings/views.py:682
+#: standings/views.py:756
 msgid "Points"
 msgstr "Body"
 
-#: standings/views.py:729
+#: standings/views.py:803
 msgid "Feedback Overview"
 msgstr "Prehľad spätnej väzby"
 
-#: standings/views.py:746
+#: standings/views.py:820
 msgid "An adjudicator's score is determined by a customisable mix of their base score and their feedback ratings. The current mix is specified below as the 'Score Components.' Feedback ratings are determined by averaging the results of all individual pieces of feedback across all rounds. <a href='https://tabbycat.readthedocs.io/en/stable/features/adjudicator-feedback.html#how-is-an-adjudicator-s-score-determined'>Read more</a>."
 msgstr "Hodnotenie rozhodcu sa určuje na základe individuálne nastaviteľného pomeru jeho základného skóre a hodnotení spätnej väzby. Aktuálny pomer je uvedený nižšie ako „Komponenty skóre”. Hodnotenia spätnej väzby sa určujú ako priemer výsledkov všetkých jednotlivých hodnotení zo všetkých kôl. <a href=’https://tabbycat.readthedocs.io/en/stable/features/adjudicator-feedback.html#how-is-an-adjudicator-s-score-determined’>Čítaj viac</a>."
 
-#: standings/views.py:768
+#: standings/views.py:842
 msgid "round name"
 msgstr "názov kola"
 
-#: standings/views.py:769
+#: standings/views.py:843
 msgid "link to public team standings (if enabled)"
 msgstr "odkaz na verejný rebríček tímov (ak je povolený)"
 
-#: standings/views.py:770
+#: standings/views.py:844
 msgid "recipient team name"
 msgstr "názov tímu príjemcu"
 
-#: standings/views.py:771
+#: standings/views.py:845
 msgid "recipient team points total"
 msgstr "celkový počet bodov tímu príjemcu"

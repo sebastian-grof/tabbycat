@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-27 15:04+0200\n"
+"POT-Creation-Date: 2026-11-17 03:42+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,9 +27,7 @@ msgid "DebateXML file"
 msgstr ""
 
 #: xmlconverter/forms.py:15
-msgid ""
-"Upload a Tabbycat DebateXML export. The converter returns an SDA-style XLSX "
-"results workbook."
+msgid "Upload a Tabbycat DebateXML export. The converter returns an SDA-style XLSX results workbook."
 msgstr ""
 
 #: xmlconverter/forms.py:21
@@ -73,7 +71,7 @@ msgstr ""
 msgid "global converter permissions"
 msgstr ""
 
-#: xmlconverter/templates/xmlconverter/access.html:11 xmlconverter/views.py:61
+#: xmlconverter/templates/xmlconverter/access.html:11 xmlconverter/views.py:62
 msgid "Converter access"
 msgstr ""
 
@@ -106,9 +104,7 @@ msgid "Convert DebateXML"
 msgstr ""
 
 #: xmlconverter/templates/xmlconverter/index.html:14
-msgid ""
-"Upload a Tabbycat DebateXML export and download an SDA-style XLSX results "
-"workbook."
+msgid "Upload a Tabbycat DebateXML export and download an SDA-style XLSX results workbook."
 msgstr ""
 
 #: xmlconverter/templates/xmlconverter/index.html:19
@@ -123,17 +119,15 @@ msgstr ""
 msgid "Convert"
 msgstr ""
 
-#: xmlconverter/views.py:26
+#: xmlconverter/views.py:27
 msgid "Converter"
 msgstr ""
 
-#: xmlconverter/views.py:45
-msgid ""
-"This file could not be converted. Please make sure it is a valid Tabbycat "
-"DebateXML export."
+#: xmlconverter/views.py:46
+msgid "This file could not be converted. Please make sure it is a valid Tabbycat DebateXML export."
 msgstr ""
 
-#: xmlconverter/views.py:80
+#: xmlconverter/views.py:81
 #, python-format
 msgid "Converter access updated for %(user)s."
 msgstr ""

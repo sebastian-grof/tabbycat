@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tabbycat\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-25 06:56+1100\n"
+"POT-Creation-Date: 2026-11-17 03:42+0100\n"
 "PO-Revision-Date: 2026-04-26 00:00+0200\n"
 "Last-Translator: \n"
 "Language-Team: Slovak\n"
@@ -21,11 +21,11 @@ msgstr ""
 msgid "Break Qualification"
 msgstr "Kvalifikácia na postup"
 
-#: breakqual/base.py:74
+#: breakqual/base.py:77
 msgid "There are too few teams eligible for this break category."
 msgstr "Pre túto postupovú kategóriu je príliš málo oprávnených tímov."
 
-#: breakqual/base.py:100
+#: breakqual/base.py:103
 #, python-format
 msgid "The %(rule)s break qualification rule is missing the following required metric in the team standings precedence: %(missing)s"
 msgid_plural "The %(rule)s break qualification rule is missing the following required metrics in the team standings precedence: %(missing)s"
@@ -34,167 +34,171 @@ msgstr[1] "Pravidlu kvalifikácie na postup %(rule)s chýbajú nasledujúce pož
 msgstr[2] "Pravidlu kvalifikácie na postup %(rule)s chýbajú nasledujúce požadované metriky v poradí tímov: %(missing)s"
 msgstr[3] "Pravidlu kvalifikácie na postup %(rule)s chýbajú nasledujúce požadované metriky v poradí tímov: %(missing)s"
 
-#: breakqual/models.py:12
+#: breakqual/models.py:13
+msgid "Break size must be zero or at least two."
+msgstr "Veľkosť postupu musí byť nula alebo aspoň dva."
+
+#: breakqual/models.py:18
 msgid "tournament"
 msgstr "turnaj"
 
-#: breakqual/models.py:14
+#: breakqual/models.py:20
 msgid "name"
 msgstr "názov"
 
-#: breakqual/models.py:15
+#: breakqual/models.py:21
 msgid "Name to be displayed, e.g., \"ESL\""
 msgstr "Zobrazovaný názov, napr. \"ESL\""
 
-#: breakqual/models.py:17
+#: breakqual/models.py:23
 msgid "slug"
 msgstr "slug"
 
-#: breakqual/models.py:18
+#: breakqual/models.py:24
 msgid "Slug for URLs, e.g., \"esl\""
 msgstr "Slug pre URL adresy, napr. \"esl\""
 
-#: breakqual/models.py:20
+#: breakqual/models.py:26
 msgid "sequence number"
 msgstr "poradové číslo"
 
-#: breakqual/models.py:21
+#: breakqual/models.py:27
 msgid "The order in which the categories are displayed"
 msgstr "Poradie, v akom sa kategórie zobrazujú"
 
-#: breakqual/models.py:23
+#: breakqual/models.py:29
 msgid "break size"
 msgstr "veľkosť postupu"
 
-#: breakqual/models.py:24
+#: breakqual/models.py:30
 msgid "Number of breaking teams in this category"
 msgstr "Počet tímov postupujúcich v tejto kategórii"
 
-#: breakqual/models.py:25
+#: breakqual/models.py:31
 msgid "Reserve size"
 msgstr "Veľkosť rezervy"
 
-#: breakqual/models.py:26
+#: breakqual/models.py:32
 msgid "Number of reserve teams in this category."
 msgstr "Počet rezervných tímov v tejto kategórii."
 
-#: breakqual/models.py:28
+#: breakqual/models.py:34
 msgid "is general"
 msgstr "je všeobecná"
 
-#: breakqual/models.py:29
+#: breakqual/models.py:35
 msgid "Are teams eligible for this break by default"
 msgstr "Či sú tímy predvolene oprávnené na tento postup"
 
-#: breakqual/models.py:31
+#: breakqual/models.py:37
 msgid "priority"
 msgstr "priorita"
 
-#: breakqual/models.py:32
+#: breakqual/models.py:38
 msgid "If a team breaks in multiple categories, higher priority numbers take precedence; teams can break into multiple categories if and only if they all have the same priority"
 msgstr "Ak tím postupuje vo viacerých kategóriách, vyššie čísla priority majú prednosť; tímy môžu postupovať do viacerých kategórií práve vtedy, keď majú všetky rovnakú prioritu"
 
-#: breakqual/models.py:36
+#: breakqual/models.py:42
 msgid "limit"
 msgstr "limit"
 
-#: breakqual/models.py:37
+#: breakqual/models.py:43
 msgid "At most this many teams will be shown on the public tab for this category, or use 0 for no limit"
 msgstr "Na verejnom tabe sa pre túto kategóriu zobrazí najviac toľko tímov, alebo použi 0 pre neobmedzený počet"
 
-#: breakqual/models.py:40
+#: breakqual/models.py:46
 msgid "Standard"
 msgstr "Štandardné"
 
-#: breakqual/models.py:41
+#: breakqual/models.py:47
 msgid "AIDA 1996"
 msgstr "AIDA 1996"
 
-#: breakqual/models.py:42
+#: breakqual/models.py:48
 msgid "AIDA 2016 (Easters)"
 msgstr "AIDA 2016 (Easters)"
 
-#: breakqual/models.py:43
+#: breakqual/models.py:49
 msgid "AIDA 2016 (Australs)"
 msgstr "AIDA 2016 (Australs)"
 
-#: breakqual/models.py:44
+#: breakqual/models.py:50
 msgid "AIDA 2019 (Australs, Dynamic Cap)"
 msgstr "AIDA 2019 (Australs, Dynamic Cap)"
 
-#: breakqual/models.py:48
+#: breakqual/models.py:54
 msgid "rule"
 msgstr "pravidlo"
 
-#: breakqual/models.py:49
+#: breakqual/models.py:55
 msgid "Rule for how the break is calculated (most tournaments should use \"Standard\")"
 msgstr "Pravidlo pre výpočet postupu (väčšina turnajov by mala používať \"Štandardné\")"
 
-#: breakqual/models.py:52 breakqual/models.py:109
+#: breakqual/models.py:58 breakqual/models.py:117
 msgid "breaking teams"
 msgstr "postupujúce tímy"
 
-#: breakqual/models.py:63 breakqual/models.py:84
+#: breakqual/models.py:69 breakqual/models.py:92
 msgid "break category"
 msgstr "postupová kategória"
 
-#: breakqual/models.py:64
+#: breakqual/models.py:70
 msgid "break categories"
 msgstr "postupové kategórie"
 
-#: breakqual/models.py:86
+#: breakqual/models.py:94
 msgid "team"
 msgstr "tím"
 
-#: breakqual/models.py:88
+#: breakqual/models.py:96
 msgid "rank"
 msgstr "poradie"
 
-#: breakqual/models.py:90
+#: breakqual/models.py:98
 msgid "break rank"
 msgstr "poradie postupu"
 
-#: breakqual/models.py:93
+#: breakqual/models.py:101
 msgid "Capped"
 msgstr "Obmedzený"
 
-#: breakqual/models.py:94
+#: breakqual/models.py:102
 msgid "Ineligible"
 msgstr "Neoprávnený"
 
-#: breakqual/models.py:95
+#: breakqual/models.py:103
 msgid "Different break"
 msgstr "Iný postup"
 
-#: breakqual/models.py:96
+#: breakqual/models.py:104
 msgid "Disqualified"
 msgstr "Diskvalifikovaný"
 
-#: breakqual/models.py:97
+#: breakqual/models.py:105
 msgid "Lost coin toss"
 msgstr "Prehral žreb"
 
-#: breakqual/models.py:98
+#: breakqual/models.py:106
 msgid "Withdrawn"
 msgstr "Stiahnutý"
 
-#: breakqual/models.py:99
+#: breakqual/models.py:107
 msgid "Reserve"
 msgstr "Rezerva"
 
-#: breakqual/models.py:100
+#: breakqual/models.py:108
 msgid "Absent"
 msgstr "Neprítomný"
 
-#: breakqual/models.py:103
+#: breakqual/models.py:111
 msgid "remark"
 msgstr "poznámka"
 
-#: breakqual/models.py:104
+#: breakqual/models.py:112
 msgid "Used to explain why an otherwise-qualified team didn't break"
 msgstr "Slúži na vysvetlenie, prečo inak kvalifikovaný tím nepostúpil"
 
-#: breakqual/models.py:108
+#: breakqual/models.py:116
 msgid "breaking team"
 msgstr "postupujúci tím"
 
@@ -538,20 +542,20 @@ msgstr "Postup tímov vygenerovaný pre nasledujúce postupové kategórie: %(ca
 msgid "Breaking Adjudicators"
 msgstr "Postupujúci rozhodcovia"
 
-#: breakqual/views.py:271
+#: breakqual/views.py:272
 msgid "Four-team formats require the break size to be either six times or four times a power of two."
 msgstr "Formáty pre štyri tímy vyžadujú, aby veľkosť postupu bola šesťnásobok alebo štvornásobok mocniny dvoch."
 
-#: breakqual/views.py:313
+#: breakqual/views.py:314
 msgid "Break Eligibility"
 msgstr "Oprávnenosť na postup"
 
-#: breakqual/views.py:345
+#: breakqual/views.py:346
 #, python-format
 msgid "%s Speakers"
 msgstr "%s Rečníci"
 
-#: breakqual/views.py:348
+#: breakqual/views.py:349
 #, python-format
 msgid "Team has %(nspeakers)s speaker with the %(category)s speaker category assigned"
 msgid_plural "Team has %(nspeakers)s speakers with the %(category)s speaker category assigned"
@@ -560,7 +564,7 @@ msgstr[1] "Tím má %(nspeakers)s rečníkov s pridelenou kategóriou rečníka 
 msgstr[2] "Tím má %(nspeakers)s rečníkov s pridelenou kategóriou rečníka %(category)s"
 msgstr[3] "Tím má %(nspeakers)s rečníkov s pridelenou kategóriou rečníka %(category)s"
 
-#: breakqual/views.py:389
+#: breakqual/views.py:390
 #, python-format
 msgid "%(category)s Bracket"
 msgstr "Pavúk kategórie %(category)s"

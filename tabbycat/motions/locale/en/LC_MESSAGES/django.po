@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-17 09:02+0200\n"
+"POT-Creation-Date: 2026-11-17 03:42+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -448,6 +448,14 @@ msgstr[1] ""
 msgid "Round Motions"
 msgstr ""
 
-#: motions/views.py:267
+#: motions/views.py:261
+msgid "round name"
+msgstr ""
+
+#: motions/views.py:262
+msgid "list of released motions"
+msgstr ""
+
+#: motions/views.py:271
 msgid "Motion Statistics"
 msgstr ""

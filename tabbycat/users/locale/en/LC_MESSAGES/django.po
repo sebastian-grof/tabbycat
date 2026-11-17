@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-27 15:04+0200\n"
+"POT-Creation-Date: 2026-11-17 03:42+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,16 +19,14 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: users/admin.py:32
-msgid ""
-"Users with staff status can view and edit the Edit Database area. This is "
-"potentially dangerous and should be reserved for the actual tab director(s)."
+msgid "Users with staff status can view and edit the Edit Database area. This is potentially dangerous and should be reserved for the actual tab director(s)."
 msgstr ""
 
 #: users/admin.py:50
 msgid "Personal info"
 msgstr ""
 
-#: users/admin.py:51 users/forms.py:333
+#: users/admin.py:51 users/forms.py:334
 msgid "Permissions"
 msgstr ""
 
@@ -72,76 +70,74 @@ msgstr ""
 msgid "Feedback"
 msgstr ""
 
-#: users/forms.py:125
+#: users/forms.py:126
 msgid "Breaks"
 msgstr ""
 
-#: users/forms.py:140
+#: users/forms.py:141
 msgid "Check-Ins and Private URLs"
 msgstr ""
 
-#: users/forms.py:148
+#: users/forms.py:149
 msgid "Rounds and Schedule"
 msgstr ""
 
-#: users/forms.py:157
+#: users/forms.py:158
 msgid "Settings, Data and Registration"
 msgstr ""
 
-#: users/forms.py:182
+#: users/forms.py:183
 msgid "Email address"
 msgstr ""
 
-#: users/forms.py:202
+#: users/forms.py:203
 msgid "Email addresses"
 msgstr ""
 
-#: users/forms.py:203
+#: users/forms.py:204
 msgid "Separate multiple addresses with commas or new lines."
 msgstr ""
 
-#: users/forms.py:215
+#: users/forms.py:216
 msgid "Enter at least one email address."
 msgstr ""
 
-#: users/forms.py:222
+#: users/forms.py:223
 #, python-format
 msgid "%(email)s is not a valid email address."
 msgstr ""
 
-#: users/forms.py:224
+#: users/forms.py:225
 #, python-format
 msgid "Duplicate email address: %(email)s"
 msgstr ""
 
-#: users/forms.py:317
+#: users/forms.py:318
 msgid "Username"
 msgstr ""
 
-#: users/forms.py:328
+#: users/forms.py:329
 msgid "Role name"
 msgstr ""
 
-#: users/forms.py:357
+#: users/forms.py:358
 msgid "A role with this name already exists in this tournament."
 msgstr ""
 
-#: users/forms.py:387
+#: users/forms.py:388
 msgid "User"
 msgstr ""
 
-#: users/forms.py:392
+#: users/forms.py:393
 msgid "Roles"
 msgstr ""
 
-#: users/forms.py:398
+#: users/forms.py:399
 msgid "Individual permissions"
 msgstr ""
 
-#: users/forms.py:399
-msgid ""
-"Optional permissions granted directly to this user, in addition to their "
-"roles."
+#: users/forms.py:400
+msgid "Optional permissions granted directly to this user, in addition to their roles."
 msgstr ""
 
 #: users/groups.py:31
@@ -698,9 +694,7 @@ msgstr ""
 
 #: users/templates/account_invitation_email.html:6
 #, python-format
-msgid ""
-"An administrator for the Tabbycat site hosting %(name)s has invited you to "
-"create an user account on their site, at %(protocol)s://%(domain)s."
+msgid "An administrator for the Tabbycat site hosting %(name)s has invited you to create an user account on their site, at %(protocol)s://%(domain)s."
 msgstr ""
 
 #: users/templates/account_invitation_email.html:10
@@ -717,12 +711,7 @@ msgid "Invitation to join Tabbycat site for %(name)s"
 msgstr ""
 
 #: users/templates/admin/auth/delete_user_warning.html:6
-msgid ""
-"<strong>Warning:</strong> You shouldn't delete users from the database once "
-"they've done something, because the database logs actions taken by those "
-"users, and deleting the users also deletes the related logs. If you wish to "
-"deactivate a user account, go back to edit the user, click on the "
-"“Permissions” tab, unchecked the “Active” box, and save the user."
+msgid "<strong>Warning:</strong> You shouldn't delete users from the database once they've done something, because the database logs actions taken by those users, and deleting the users also deletes the related logs. If you wish to deactivate a user account, go back to edit the user, click on the “Permissions” tab, unchecked the “Active” box, and save the user."
 msgstr ""
 
 #: users/templates/invite_user.html:8
@@ -756,9 +745,7 @@ msgid "User Access"
 msgstr ""
 
 #: users/templates/role_management.html:110
-msgid ""
-"Assign existing users to roles, with optional individual permission "
-"overrides."
+msgid "Assign existing users to roles, with optional individual permission overrides."
 msgstr ""
 
 #: users/templates/role_management.html:117
@@ -835,8 +822,7 @@ msgid "Edit User Access"
 msgstr ""
 
 #: users/templates/role_management.html:241
-msgid ""
-"Use roles for normal access, then direct permissions only for exceptions."
+msgid "Use roles for normal access, then direct permissions only for exceptions."
 msgstr ""
 
 #: users/templates/role_management.html:262
@@ -900,9 +886,7 @@ msgid "Create Account"
 msgstr ""
 
 #: users/views.py:54
-msgid ""
-"Whoops! It looks like someone's already created the first user account. "
-"Please log in."
+msgid "Whoops! It looks like someone's already created the first user account. Please log in."
 msgstr ""
 
 #: users/views.py:62
@@ -916,10 +900,8 @@ msgstr ""
 
 #: users/views.py:99
 #, python-format
-msgid ""
-"Successfully invited %(count)s user to create an account for the tournament."
-msgid_plural ""
-"Successfully invited %(count)s users to create an account for the tournament."
+msgid "Successfully invited %(count)s user to create an account for the tournament."
+msgid_plural "Successfully invited %(count)s users to create an account for the tournament."
 msgstr[0] ""
 msgstr[1] ""
 

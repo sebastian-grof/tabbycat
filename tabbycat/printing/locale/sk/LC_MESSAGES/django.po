@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tabbycat\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-25 06:56+1100\n"
+"POT-Creation-Date: 2026-11-17 03:42+0100\n"
 "PO-Revision-Date: 2026-06-16 00:00+0200\n"
 "Last-Translator: Sebastian Grof\n"
 "Language-Team: Slovak\n"
@@ -111,14 +111,14 @@ msgstr "Zmeny tém sa automaticky prejavia v zobrazených ballotoch"
 msgid "Speeches are x minutes, the speaker score range is from x to x. You have x minutes to form an adjudication."
 msgstr "Prejav trvá x minút, rozsah rečníckych bodov je od x do x. Na rozhodnutie máš x minút."
 
-#: printing/views.py:36
+#: printing/views.py:37
 msgid "Overall Score"
 msgstr "Celkové skóre"
 
-#: printing/views.py:63 printing/views.py:176 printing/views.py:196
+#: printing/views.py:64 printing/views.py:177 printing/views.py:197
 msgid "Unaffiliated"
 msgstr "Bez príslušnosti"
 
-#: printing/views.py:76 printing/views.py:80 printing/views.py:83
+#: printing/views.py:77 printing/views.py:81 printing/views.py:84
 msgid "Team"
 msgstr "Tím"

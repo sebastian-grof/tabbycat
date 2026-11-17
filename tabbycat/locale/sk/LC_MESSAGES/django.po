@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tabbycat\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-25 06:56+1100\n"
+"POT-Creation-Date: 2026-11-17 03:42+0100\n"
 "PO-Revision-Date: 2026-04-28 13:00+0200\n"
 "Last-Translator: \n"
 "Language-Team: Slovak\n"
@@ -19,111 +19,111 @@ msgstr ""
 "X-Crowdin-Project-ID: 364715\n"
 "X-Generator: Poedit 3.9\n"
 
-#: settings/core.py:68
+#: settings/core.py:69
 msgid "Arabic"
 msgstr "Arabčina"
 
-#: settings/core.py:69
+#: settings/core.py:70
 msgid "Asturian"
 msgstr "Astúrčina"
 
-#: settings/core.py:70
+#: settings/core.py:71
 msgid "Bengali"
 msgstr "Bengálčina"
 
-#: settings/core.py:71
+#: settings/core.py:72
 msgid "Bulgarian"
 msgstr "Bulharčina"
 
-#: settings/core.py:72
+#: settings/core.py:73
 msgid "Catalan"
 msgstr "Katalánčina"
 
-#: settings/core.py:73
+#: settings/core.py:74
 msgid "Czech"
 msgstr "Čeština"
 
-#: settings/core.py:74
+#: settings/core.py:75
 msgid "German"
 msgstr "Nemčina"
 
-#: settings/core.py:75
+#: settings/core.py:76
 msgid "Greek"
 msgstr "gréčtina"
 
-#: settings/core.py:76
+#: settings/core.py:77
 msgid "English"
 msgstr "Angličtina"
 
-#: settings/core.py:77
+#: settings/core.py:78
 msgid "Spanish"
 msgstr "Španielčina"
 
-#: settings/core.py:78
+#: settings/core.py:79
 msgid "French"
 msgstr "Francúzština"
 
-#: settings/core.py:79
+#: settings/core.py:80
 msgid "Hebrew"
 msgstr "Hebrejčina"
 
-#: settings/core.py:80
+#: settings/core.py:81
 msgid "Hindi"
 msgstr "Hindčina"
 
-#: settings/core.py:81
+#: settings/core.py:82
 msgid "Indonesian"
 msgstr "Indonézština"
 
-#: settings/core.py:82
+#: settings/core.py:83
 msgid "Italian"
 msgstr "Taliančina"
 
-#: settings/core.py:83
+#: settings/core.py:84
 msgid "Japanese"
 msgstr "Japončina"
 
-#: settings/core.py:84
+#: settings/core.py:85
 msgid "Kazakh"
 msgstr "Kazaština"
 
-#: settings/core.py:85
+#: settings/core.py:86
 msgid "Malay"
 msgstr "Malajčina"
 
-#: settings/core.py:86
+#: settings/core.py:87
 msgid "Portuguese"
 msgstr "Portugalčina"
 
-#: settings/core.py:87
+#: settings/core.py:88
 msgid "Romanian"
 msgstr "Rumunčina"
 
-#: settings/core.py:88
+#: settings/core.py:89
 msgid "Russian"
 msgstr "Ruština"
 
-#: settings/core.py:89
+#: settings/core.py:90
 msgid "Slovak"
 msgstr "Slovenčina"
 
-#: settings/core.py:90
+#: settings/core.py:91
 msgid "Turkish"
 msgstr "Turečtina"
 
-#: settings/core.py:91
+#: settings/core.py:92
 msgid "Ukrainian"
 msgstr "ukrajinčina"
 
-#: settings/core.py:92
+#: settings/core.py:93
 msgid "Vietnamese"
 msgstr "Vietnamčina"
 
-#: settings/core.py:93
+#: settings/core.py:94
 msgid "Simplified Chinese"
 msgstr "Zjednodušená čínština"
 
-#: settings/core.py:94
+#: settings/core.py:95
 msgid "Translation"
 msgstr "Preklad"
 
@@ -195,7 +195,8 @@ msgstr "Ups! V jednom alebo viacerých poliach bola chyba."
 msgid "Save and Add More"
 msgstr "Uložiť a pridať ďalšie"
 
-#: templates/errors/assistant_403.html:4 templates/errors/assistant_403.html:6 templates/errors/public_403.html:4 templates/errors/public_403.html:6
+#: templates/errors/assistant_403.html:4 templates/errors/assistant_403.html:6
+#: templates/errors/public_403.html:4 templates/errors/public_403.html:6
 msgid "Permission Denied (403)"
 msgstr "Prístup zamietnutý (403)"
 
@@ -343,7 +344,8 @@ msgstr "Asistencia"
 msgid "Public Area"
 msgstr "Verejný priestor"
 
-#: templates/nav/admin_nav.html:66 templates/nav/admin_nav.html:189 templates/nav/admin_nav.html:244 templates/nav/admin_nav.html:311
+#: templates/nav/admin_nav.html:66 templates/nav/admin_nav.html:189
+#: templates/nav/admin_nav.html:244 templates/nav/admin_nav.html:311
 msgid "Overview"
 msgstr "Prehľad"
 
@@ -359,7 +361,8 @@ msgstr "Konfigurácia"
 msgid "Import Data"
 msgstr "Importovať údaje"
 
-#: templates/nav/admin_nav.html:87 templates/nav/assistant_nav.html:18 templates/nav/public_nav.html:186
+#: templates/nav/admin_nav.html:87 templates/nav/assistant_nav.html:18
+#: templates/nav/public_nav.html:186
 msgid "Participants"
 msgstr "Účastníci"
 
@@ -391,7 +394,8 @@ msgstr "Strany"
 msgid "Registration"
 msgstr "Registrácia"
 
-#: templates/nav/admin_nav.html:132 templates/nav/assistant_nav.html:25 templates/nav/public_nav.html:191
+#: templates/nav/admin_nav.html:132 templates/nav/assistant_nav.html:25
+#: templates/nav/public_nav.html:191
 msgid "Institutions"
 msgstr "Debatné kluby"
 
@@ -403,7 +407,8 @@ msgstr "Tímy"
 msgid "Adjudicators"
 msgstr "Rozhodcovia"
 
-#: templates/nav/admin_nav.html:148 templates/nav/assistant_nav.html:38 templates/nav/public_nav.html:116
+#: templates/nav/admin_nav.html:148 templates/nav/assistant_nav.html:38
+#: templates/nav/public_nav.html:116
 msgid "Check-Ins"
 msgstr "Príchody"
 
@@ -495,7 +500,6 @@ msgstr "Záverečné reči"
 
 #: templates/nav/admin_nav.html:283
 #, python-format
-#| msgid "%(category)s Speakers"
 msgid "%(criterion)s Speakers"
 msgstr "Rečníci – %(criterion)s"
 
@@ -574,7 +578,6 @@ msgstr "Poradie záverečných rečí"
 
 #: templates/nav/public_nav.html:47
 #, python-format
-#| msgid "Motions Tab"
 msgid "%(criterion)s Tab"
 msgstr "Výsledky – %(criterion)s"
 
@@ -705,7 +708,8 @@ msgstr "Váš účet nemá prístup k tejto stránke. Ak chcete pokračovať, pr
 msgid "Please log in to see this page."
 msgstr "Prihláste sa, aby ste mohli zobraziť túto stránku."
 
-#: templates/registration/password_change_done.html:4 templates/registration/password_change_done.html:5
+#: templates/registration/password_change_done.html:4
+#: templates/registration/password_change_done.html:5
 msgctxt "page title"
 msgid "Password changed"
 msgstr "Heslo zmenené"
@@ -718,7 +722,8 @@ msgstr "Vaše heslo bolo zmenené."
 msgid "Go to the home page"
 msgstr "Prejsť na domovskú stránku"
 
-#: templates/registration/password_change_form.html:4 templates/registration/password_change_form.html:27
+#: templates/registration/password_change_form.html:4
+#: templates/registration/password_change_form.html:27
 msgctxt "page title"
 msgid "Password Change"
 msgstr "Zmena hesla"
@@ -736,16 +741,19 @@ msgstr "API token umožní externým aplikáciám pristupovať na stránku s opr
 msgid "Please enter your old password, then enter a new one."
 msgstr "Prosím, zadajte svoje staré heslo a potom zadajte nové."
 
-#: templates/registration/password_change_form.html:33 templates/registration/password_reset_confirm.html:25
+#: templates/registration/password_change_form.html:33
+#: templates/registration/password_reset_confirm.html:25
 msgctxt "button"
 msgid "Change my password"
 msgstr "Zmeniť moje heslo"
 
-#: templates/registration/password_change_form.html:34 templates/registration/password_reset_confirm.html:26
+#: templates/registration/password_change_form.html:34
+#: templates/registration/password_reset_confirm.html:26
 msgid "Cancel and go back to the site home page"
 msgstr "Zrušiť a vrátiť sa na domovskú stránku"
 
-#: templates/registration/password_reset_complete.html:4 templates/registration/password_reset_complete.html:5
+#: templates/registration/password_reset_complete.html:4
+#: templates/registration/password_reset_complete.html:5
 msgctxt "page title"
 msgid "Password reset complete"
 msgstr "Zmena hesla úspešná"
@@ -754,7 +762,8 @@ msgstr "Zmena hesla úspešná"
 msgid "Your password has been reset."
 msgstr "Vaše heslo bolo obnovené."
 
-#: templates/registration/password_reset_complete.html:14 templates/registration/password_reset_done.html:15
+#: templates/registration/password_reset_complete.html:14
+#: templates/registration/password_reset_done.html:15
 msgid "Go to the login page"
 msgstr "Prejsť na prihlasovaciu stránku"
 
@@ -763,7 +772,8 @@ msgctxt "page title"
 msgid "Password Reset Confirmation"
 msgstr "Potvrdenie obnovenia hesla"
 
-#: templates/registration/password_reset_confirm.html:16 templates/registration/password_reset_form.html:4
+#: templates/registration/password_reset_confirm.html:16
+#: templates/registration/password_reset_form.html:4
 msgctxt "page title"
 msgid "Password Reset"
 msgstr "Obnovenie hesla"
@@ -776,7 +786,8 @@ msgstr "Zadajte nové heslo (dvakrát):"
 msgid "The password reset link was invalid, possibly because it has already been used.  Please request a new password reset."
 msgstr "Odkaz na obnovenie hesla bol neplatný, pravdepodobne preto, že už bol použitý.  Požiadajte o nové obnovenie hesla."
 
-#: templates/registration/password_reset_done.html:4 templates/registration/password_reset_done.html:5
+#: templates/registration/password_reset_done.html:4
+#: templates/registration/password_reset_done.html:5
 msgctxt "page title"
 msgid "Password reset email sent"
 msgstr "E-mail na obnovenie hesla odoslaný"
