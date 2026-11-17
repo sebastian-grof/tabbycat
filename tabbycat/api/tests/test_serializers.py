@@ -281,8 +281,9 @@ class PrivateUrlUpdateTests(CompletedTournamentTestMixin, APITestCase):
 
     def test_clear_private_urls(self):
         self.client.login(username="admin", password="admin")
-        for model, endpoint in ((Speaker, 'api-speaker-detail'), (Adjudicator, 'api-adjudicator-detail')):
-            people = list(model.objects.all()[:2])
+        for model, endpoint, lookup in ((Speaker, 'api-speaker-detail', 'team__tournament'),
+                                        (Adjudicator, 'api-adjudicator-detail', 'tournament')):
+            people = list(model.objects.filter(**{lookup: self.tournament}).order_by('pk')[:2])
             for person in people:
                 person.url_key = f'private-{person.pk}'
                 person.save()

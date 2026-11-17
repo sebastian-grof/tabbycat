@@ -1,6 +1,7 @@
 import logging
 
 from django.contrib.messages import ERROR
+from django.test import override_settings
 
 from availability.utils import set_availability
 from draw.generator import DrawUserError
@@ -62,6 +63,7 @@ class TestCreateDrawViewErrors(TournamentTestCase):
                 name='team_standings_precedence',
                 defaults={'raw_value': MultiValueSerializer.separator.join(['wins', 'speaks_sum'])})
 
+    @override_settings(LANGUAGE_CODE='en')  # asserts on an untranslated string
     def test_elim_progress_in_power_paired_precedence(self):
         self.tournament.preferences['standings__team_standings_precedence'] = [
             'elim_progress', 'wins', 'speaks_sum',

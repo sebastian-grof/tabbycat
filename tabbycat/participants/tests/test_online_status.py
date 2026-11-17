@@ -20,7 +20,7 @@ from utils.tables import TabbycatTableBuilder
 from utils.tests import CompletedTournamentTestMixin
 
 
-@override_settings(STORAGES={**settings.STORAGES, 'staticfiles': {
+@override_settings(LANGUAGE_CODE='en', STORAGES={**settings.STORAGES, 'staticfiles': {
     'BACKEND': 'django.contrib.staticfiles.storage.StaticFilesStorage',
 }})
 class OnlineAdjudicatorTests(CompletedTournamentTestMixin, TestCase):

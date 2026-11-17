@@ -365,7 +365,9 @@ class StandingsRoundTests(CompletedTournamentTestMixin, APITestCase):
                 self.assertEqual(response.status_code, 200)
                 self.assertEqual(explicit_response.status_code, 200)
                 self.assertTrue(response.data)
-                self.assertEqual(response.data, explicit_response.data)
+                # Tied rows are randomly ordered (SDA ranks speaker averages in
+                # Python), so compare the rows, not their order among ties.
+                self.assertCountEqual(response.data, explicit_response.data)
 
 
 class SpeakerRoundStandingsViewsetTests(CompletedTournamentTestMixin, APITestCase):
