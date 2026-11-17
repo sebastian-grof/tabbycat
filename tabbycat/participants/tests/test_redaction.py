@@ -3,12 +3,13 @@ from unittest.mock import patch
 
 from django.contrib.auth.models import AnonymousUser
 from django.template import Context, Template
-from django.test import SimpleTestCase
+from django.test import override_settings, SimpleTestCase
 
 from participants.models import Adjudicator, Speaker
 from participants.tables import TeamResultTableBuilder
 
 
+@override_settings(LANGUAGE_CODE='en')  # asserts on untranslated strings
 class RecordRedactionTests(SimpleTestCase):
 
     def setUp(self):

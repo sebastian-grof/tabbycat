@@ -10,6 +10,7 @@ from tournaments.models import Round
 from utils.misc import reverse_tournament
 
 
+@override_settings(LANGUAGE_CODE='en')  # asserts on untranslated strings
 class DrawReleaseNotificationTests(SimpleTestCase):
 
     def setUp(self):
