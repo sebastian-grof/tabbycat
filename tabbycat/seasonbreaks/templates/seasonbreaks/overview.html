@@ -6,7 +6,7 @@
   {% blocktrans trimmed asvar snapshot_note %}
     Public Breaks use a manually published snapshot. Live edits appear only after you publish a new snapshot.
   {% endblocktrans %}
-  {% include "components/alert.html" with type="info" message=snapshot_note icon="check-circle" %}
+  {% include "components/alert.html" with type="info" message=snapshot_note icon="circle-check-big" %}
 
   {# Summary — three plain cards with list-group metric rows. #}
   <div class="row">
@@ -95,10 +95,10 @@
                   {% trans "Show the global ranking across regions on the public page" %}
                 </label>
               </div>
-              <button type="submit" class="btn btn-primary"><i data-feather="send"></i> {% trans "Publish public snapshot" %}</button>
+              <button type="submit" class="btn btn-primary"><i data-icon="send"></i> {% trans "Publish public snapshot" %}</button>
             </form>
             <a class="btn btn-outline-secondary btn-sm mt-3" href="{% url 'seasonbreaks-global-ranking' season_slug=season.slug %}">
-              <i data-feather="bar-chart-2"></i> {% trans "Preview global ranking" %}
+              <i data-icon="chart-no-axes-column"></i> {% trans "Preview global ranking" %}
             </a>
           </div>
         </div>
@@ -145,7 +145,7 @@
         <form method="post" onsubmit="return confirm('{{ delete_confirm|escapejs }}')">
           {% csrf_token %}
           <input type="hidden" name="action" value="delete_season">
-          <button type="submit" class="btn btn-outline-danger"><i data-feather="trash-2"></i> {% trans "Delete season" %}</button>
+          <button type="submit" class="btn btn-outline-danger"><i data-icon="trash"></i> {% trans "Delete season" %}</button>
         </form>
       </div>
     </div>

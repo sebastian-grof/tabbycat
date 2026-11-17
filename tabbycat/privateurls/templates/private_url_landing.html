@@ -43,16 +43,16 @@
         <div class="d-flex flex-column flex-sm-row flex-sm-wrap">
           {% if pref.team_tab_released %}
             <a href="{% tournamenturl 'standings-public-tab-team' %}" class="btn btn-success mb-2 mr-sm-2">
-              <i data-feather="users"></i> {% trans "Team results" %}
+              <i data-icon="users"></i> {% trans "Team results" %}
             </a>
           {% endif %}
           {% if pref.speaker_tab_released %}
             <a href="{% tournamenturl 'standings-public-tab-speaker' %}" class="btn btn-success mb-2 mr-sm-2">
-              <i data-feather="user"></i> {% trans "Speaker results" %}
+              <i data-icon="user"></i> {% trans "Speaker results" %}
             </a>
           {% endif %}
           <a href="{% tournamenturl 'tournament-public-index' %}" class="btn btn-outline-success mb-2 mr-sm-2">
-            <i data-feather="home"></i> {% trans "Tournament page" %}
+            <i data-icon="house"></i> {% trans "Tournament page" %}
           </a>
         </div>
       </div>

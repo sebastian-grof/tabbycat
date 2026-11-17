@@ -14,7 +14,7 @@
          href="{% roundurl 'results-round-download-ballots' %}"
          data-toggle="tooltip"
          title="{% blocktrans trimmed with submitted=s.submitted total=s.debates notes=s.with_notes %}{{ submitted }} of {{ total }} ballots submitted; {{ notes }} of {{ submitted }} have notes.{% endblocktrans %}">
-        <i data-feather="download"></i> {% trans "Download Ballots" %}
+        <i data-icon="download"></i> {% trans "Download Ballots" %}
         <span class="badge badge-light ml-1">{% blocktrans trimmed with submitted=s.submitted total=s.debates %}{{ submitted }}/{{ total }} ballots{% endblocktrans %}</span>
         <span class="badge badge-light ml-1">{% blocktrans trimmed with notes=s.with_notes total=s.submitted %}{{ notes }}/{{ total }} notes{% endblocktrans %}</span>
       </a>
@@ -81,9 +81,9 @@
       <button type="submit" class="btn {% if round.silent %}btn-warning{% else %}btn-outline-primary{% endif %}"
               aria-pressed="{{ round.silent|yesno:'true,false' }}">
         {% if round.silent %}
-          <i data-feather="volume-x"></i> {% trans "Unmark as Silent" %}
+          <i data-icon="volume-x"></i> {% trans "Unmark as Silent" %}
         {% else %}
-          <i data-feather="volume-2"></i> {% trans "Mark as Silent" %}
+          <i data-icon="volume-2"></i> {% trans "Mark as Silent" %}
         {% endif %}
       </button>
     </form>

@@ -186,44 +186,44 @@
       <div class="collapse" id="feedh">
         {% if can_view_feedback_overview %}
           <a class="list-group-item" href="{% tournamenturl 'adjfeedback-overview' %}" data-parent="#feedh">
-            <i data-feather="maximize"></i>{% trans "Overview" %}
+            <i data-icon="maximize"></i>{% trans "Overview" %}
           </a>
         {% endif %}
         {% if can_view_feedback %}
           <a class="list-group-item" href="{% tournamenturl 'adjfeedback-view-latest' %}" data-parent="#feedh">
-            <i data-feather="clock"></i>{% trans "Latest" %}
+            <i data-icon="clock"></i>{% trans "Latest" %}
           </a>
           <a class="list-group-item" href="{% tournamenturl 'adjfeedback-view-important' %}" data-parent="#feedh">
-            <i data-feather="star"></i>{% trans "Important" %}
+            <i data-icon="star"></i>{% trans "Important" %}
           </a>
           <a class="list-group-item" href="{% tournamenturl 'adjfeedback-view-comments' %}" data-parent="#feedh">
-            <i data-feather="message-square"></i>{% trans "Comments" %}
+            <i data-icon="message-square"></i>{% trans "Comments" %}
           </a>
           <a class="list-group-item" href="{% tournamenturl 'adjfeedback-view-by-source' %}" data-parent="#feedh">
-            <i data-feather="phone-outgoing"></i>{% trans "Find by Source" %}
+            <i data-icon="phone-outgoing"></i>{% trans "Find by Source" %}
           </a>
           <a class="list-group-item" href="{% tournamenturl 'adjfeedback-view-by-target' %}" data-parent="#feedh">
-            <i data-feather="phone-incoming"></i>{% trans "Find by Target" %}
+            <i data-icon="phone-incoming"></i>{% trans "Find by Target" %}
           </a>
         {% endif %}
         {% if can_view_feedback_unsubmitted %}
           <a class="list-group-item" href="{% tournamenturl 'adjfeedback-progress' %}" data-parent="#feedh">
-            <i data-feather="x-circle"></i>{% trans "Unsubmitted" %}
+            <i data-icon="circle-x"></i>{% trans "Unsubmitted" %}
           </a>
         {% endif %}
         {% if can_edit_feedback_questions %}
           <a class="list-group-item" href="{% tournamenturl 'adjfeedback-edit-questions' %}" data-parent="#feedh">
-            <i data-feather="paperclip"></i>{% trans "Feedback Questions" %}
+            <i data-icon="paperclip"></i>{% trans "Feedback Questions" %}
           </a>
         {% endif %}
         {% if can_add_feedback %}
           <a class="list-group-item" href="{% tournamenturl 'adjfeedback-add-index' %}" data-parent="#feedh">
-            <i data-feather="plus-circle"></i>{% trans "Add Feedback" %}
+            <i data-icon="circle-plus"></i>{% trans "Add Feedback" %}
           </a>
         {% endif %}
         {% if can_edit_judge_scores %}
           <a class="list-group-item" href="{% tournamenturl 'adjfeedback-update-scores-bulk' %}">
-            <i data-feather="upload"></i>{% trans "Bulk Update" %}
+            <i data-icon="upload"></i>{% trans "Bulk Update" %}
           </a>
         {% endif %}
       </div>

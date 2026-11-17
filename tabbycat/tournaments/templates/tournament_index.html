@@ -9,7 +9,7 @@
          href="{% tournamenturl 'results-tournament-download-ballots' %}"
          data-toggle="tooltip"
          title="{% blocktrans trimmed with submitted=s.submitted total=s.debates notes=s.with_notes %}{{ submitted }} of {{ total }} ballots submitted; {{ notes }} of {{ submitted }} have notes.{% endblocktrans %}">
-        <i data-feather="download"></i> {% trans "Download All Ballots" %}
+        <i data-icon="download"></i> {% trans "Download All Ballots" %}
         <span class="badge badge-light ml-1">{% blocktrans trimmed with submitted=s.submitted total=s.debates %}{{ submitted }}/{{ total }} ballots{% endblocktrans %}</span>
         <span class="badge badge-light ml-1">{% blocktrans trimmed with notes=s.with_notes total=s.submitted %}{{ notes }}/{{ total }} notes{% endblocktrans %}</span>
       </a>
