@@ -99,12 +99,15 @@ class AverageSpeakerScoreMetricAnnotator(BaseMetricAnnotator):
 
     replies = False
 
-    def annotate(self, queryset, standings, round=None):
+    def annotate(self, queryset, standings, round=None, tournament=None):
         speakers = list(queryset)
         speaker_ids = [speaker.id for speaker in speakers]
         scores_by_speaker = defaultdict(list)
 
-        tournament = round.tournament if round is not None else (speakers[0].team.tournament if speakers else None)
+        if round is not None:
+            tournament = round.tournament
+        elif tournament is None and speakers:
+            tournament = speakers[0].team.tournament
         normalize_weighted_scores = (
             tournament is not None and
             tournament.pref('adjudicator_weighting') == 'weighted-to-three'

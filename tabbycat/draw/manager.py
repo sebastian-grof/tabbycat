@@ -468,14 +468,6 @@ class ManualDrawManager(BaseDrawManager):
 class PowerPairedDrawManager(BaseDrawManager):
     generator_type = "power_paired"
 
-    def create(self, options: dict | None = None) -> list[Debate]:
-        if 'elim_progress' in self.round.tournament.pref('team_standings_precedence'):
-            raise DrawUserError(_(
-                "Power-paired draws can't be generated when elimination round progression is included "
-                "in the team standings precedence. Remove it before generating this draw.",
-            ))
-        return super().create(options)
-
     def get_relevant_options(self):
         options = super().get_relevant_options()
         if self.teams_in_debate == 2:
@@ -593,6 +585,12 @@ class PowerPairedDrawManager(BaseDrawManager):
         return self._split_teams_and_byes(ranked, selector=select_byes)
 
     def create(self, options: dict | None = None) -> list[Debate]:
+        if 'elim_progress' in self.round.tournament.pref('team_standings_precedence'):
+            raise DrawUserError(_(
+                "Power-paired draws can't be generated when elimination round progression is included "
+                "in the team standings precedence. Remove it before generating this draw.",
+            ))
+
         if self.round.draw_status != Round.Status.NONE:
             raise RuntimeError("Tried to create a draw on round that already has a draw")
 
