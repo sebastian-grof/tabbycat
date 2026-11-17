@@ -1,11 +1,11 @@
 from types import SimpleNamespace
 from unittest.mock import patch
 
-from api.fields import AnonymisingParticipantNameField, SideChoiceField, TournamentHyperlinkedRelatedField
 from django.contrib.auth.models import AnonymousUser
 from django.test import SimpleTestCase
 from rest_framework.serializers import Serializer
 
+from api.fields import AnonymisingParticipantNameField, SideChoiceField, TournamentHyperlinkedRelatedField
 from participants.models import Adjudicator, Speaker
 from tournaments.models import Tournament
 from users.permissions import Permission

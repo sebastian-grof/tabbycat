@@ -14,7 +14,9 @@ on:
 jobs:
   build-ubuntu:
 
-    runs-on: ubuntu-latest
+    # ubuntu-latest is Ubuntu 26.04, which has no build of the Python pinned in
+    # .python-version (3.11.9), so setup-python fails before any test runs.
+    runs-on: ubuntu-24.04
 
     services:
       postgres:
