@@ -26,6 +26,7 @@ from actionlog.models import ActionLogEntry
 from breakqual.models import BreakCategory
 from breakqual.utils import auto_make_break_rounds
 from draw.models import Debate
+from draw.types import DebateSide
 from feedbackexport.permissions import can_view_feedback_export
 from notifications.models import BulkNotification
 from results.models import BallotSubmission
@@ -733,15 +734,26 @@ class FixDebateTeamsView(AdministratorMixin, TournamentMixin, TemplateView):
     template_name = "fix_debate_teams.html"
 
     def get_incomplete_debates(self):
-        annotations = {  # annotates with the number of DebateTeams on each side in the debate
-            side: Count('debateteam', filter=Q(debateteam__side=side), distinct=True)
+        # Annotates with the number of DebateTeams on each side in the debate.
+        # Sides are integers, so they need a prefix to be valid annotation names.
+        side_annotations = {
+            's%d_nteams' % side: Count('debateteam', filter=Q(debateteam__side=side), distinct=True)
             for side in self.tournament.sides
         }
         debates = Debate.objects.filter(round__tournament=self.tournament)
-        debates = debates.prefetch_related('debateteam_set__team').annotate(**annotations)
+        debates = debates.prefetch_related('debateteam_set__team').annotate(
+            nteams=Count('debateteam', distinct=True),
+            nbyes=Count('debateteam', filter=Q(debateteam__side=DebateSide.BYE), distinct=True),
+            **side_annotations,
+        )
 
-        # A debate is incomplete if there isn't exactly one team on each side
-        incomplete_debates = debates.filter(~Q(**{side: 1 for side in self.tournament.sides}))
+        # A debate is incomplete if there isn't exactly one team on each side,
+        # unless it is a bye or the format has one team per debate
+        if self.tournament.pref('teams_in_debate') == 1:
+            complete = Q(nteams=1)
+        else:
+            complete = Q(**{key: 1 for key in side_annotations}) | Q(nteams=1, nbyes=1)
+        incomplete_debates = debates.filter(~complete)
 
         # Finally, go through and populate lists of teams on each side
         for debate in incomplete_debates:
@@ -760,7 +772,10 @@ class FixDebateTeamsView(AdministratorMixin, TournamentMixin, TemplateView):
         return super().get_context_data(**kwargs)
 
     def dispatch(self, request, *args, **kwargs):
-        # bypass the TournamentMixin checks, to avoid potential redirect loops
+        # bypass the TournamentMixin checks, to avoid potential redirect loops,
+        # but keep the AdministratorMixin access check
+        if not self.test_func():
+            return self.handle_no_permission()
         return TemplateView.dispatch(self, request, *args, **kwargs)
 
 
