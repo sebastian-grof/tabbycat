@@ -26,7 +26,7 @@
           {% hasadminaccess user tournament as can_access_admin %}
           {% if can_access_admin %}
             <a class="dropdown-item px-2" href="{% url 'tournament-admin-home' tournament_slug=tournament.slug %}">
-              <i data-feather="settings"></i>
+              <i data-icon="settings"></i>
               {% blocktrans trimmed %}
                 Administrator area for <strong>{{ tournament }}</strong>
               {% endblocktrans %}
@@ -36,7 +36,7 @@
           {% hasassistantaccess user tournament as can_access_assistant %}
           {% if can_access_assistant %}
             <a class="dropdown-item px-2" href="{% url 'tournament-assistant-home' tournament_slug=tournament.slug %}">
-              <i data-feather="pocket"></i>
+              <i data-icon="hand-helping"></i>
               {% blocktrans trimmed %}
                 Assistant area for <strong>{{ tournament }}</strong>
               {% endblocktrans %}
@@ -45,12 +45,12 @@
 
           <a class="dropdown-item px-2" href="{% url 'tournament-public-index' tournament_slug=tournament.slug %}">
             {% if user.is_authenticated %}
-              <i data-feather="globe"></i>
+              <i data-icon="globe"></i>
               {% blocktrans trimmed %}
                 Public area for <strong>{{ tournament }}</strong>
               {% endblocktrans %}
             {% else %}
-              <i data-feather="award"></i>
+              <i data-icon="award"></i>
               {{ tournament }}
             {% endif %}
           </a>
@@ -60,36 +60,36 @@
 
         {% if user.is_staff %}
           <a href="{% url 'admin:index' %}" target="_blank" class="dropdown-item px-2">
-            <i data-feather="database"></i>{% translate "Edit Database" %}
+            <i data-icon="database"></i>{% translate "Edit Database" %}
           </a>
           <div class="dropdown-divider"></div>
         {% endif %}
 
         {% if user.is_superuser or can_view_global_breaks or can_view_feedback_export or can_use_converter %}
           <a class="dropdown-item px-2" href="{% url 'site-tools' %}">
-            <i data-feather="tool"></i>{% trans "Site tools" %}
+            <i data-icon="wrench"></i>{% trans "Site tools" %}
           </a>
         {% endif %}
 
         {% if can_view_global_breaks %}
           <a class="dropdown-item px-2" href="{% url 'seasonbreaks-index' %}">
-            <i data-feather="award"></i>{% trans "Break management" %}
+            <i data-icon="award"></i>{% trans "Break management" %}
           </a>
         {% endif %}
 
         {% if can_view_feedback_export %}
           <a class="dropdown-item px-2" href="{% url 'feedbackexport-index' %}">
-            <i data-feather="navigation"></i>{% trans "API Exports" %}
+            <i data-icon="navigation"></i>{% trans "API Exports" %}
           </a>
         {% endif %}
 
         {% if can_use_converter %}
           <a class="dropdown-item px-2" href="{% url 'xmlconverter-index' %}">
-            <i data-feather="repeat"></i>{% trans "Converter" %}
+            <i data-icon="repeat"></i>{% trans "Converter" %}
           </a>
         {% endif %}
 
-        <a class="dropdown-item px-2" href="/"><i data-feather="home"></i>{% trans "Site Home" %}</a>
+        <a class="dropdown-item px-2" href="/"><i data-icon="house"></i>{% trans "Site Home" %}</a>
       </div>
 
     </div>

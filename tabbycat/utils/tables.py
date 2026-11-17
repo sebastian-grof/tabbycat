@@ -38,7 +38,7 @@ _postpone_button_html = """
     <input type="hidden" name="csrfmiddlewaretoken" value="{}"/>
     <button type="submit" class="btn btn-sm btn-success">
         <div class="d-flex justify-content-center align-items-center">
-            <i data-feather="clock" style="height: 16px;width: 16px;margin-bottom: -2.5px;"></i>
+            <i data-icon="clock" style="height: 16px;width: 16px;margin-bottom: -2.5px;"></i>
         </div>
     </button>
 </form>"""
@@ -618,7 +618,7 @@ class TabbycatTableBuilder(BaseTableBuilder):
         if show_institutions and self.tournament.pref('show_adjudicator_institutions'):
             self.add_column({
                 'key': "institution",
-                'icon': 'home',
+                'icon': 'house',
                 'tooltip': _("Institution"),
             }, [escape(adj.institution.code) if adj.institution else self.BLANK_TEXT for adj in adjudicators])
 
@@ -767,7 +767,7 @@ class TabbycatTableBuilder(BaseTableBuilder):
         if self.tournament.pref('show_team_institutions'):
             self.add_column({
                 'key': "institution",
-                'icon': 'home',
+                'icon': 'house',
                 'tooltip': _("Institution"),
             }, [
                 escape(team.institution.code)

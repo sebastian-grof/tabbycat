@@ -839,7 +839,10 @@ class DrawReleaseView(DrawStatusEdit):
         self.log_action()
 
         if settings.ENABLE_PUSH_NOTIFICATIONS:
-            self.send_push_notifications()
+            try:
+                self.send_push_notifications()
+            except Exception:
+                logger.exception("Failed to send push notifications for round %s", self.round.pk)
 
         messages.success(request, _("Released the draw."))
         return super().post(request, *args, **kwargs)
@@ -868,7 +871,9 @@ class DrawReleaseView(DrawStatusEdit):
                                     'venue': getattr(debate.venue, 'display_name', _('Room TBA')),
                                     'matchup': matchup,
                                 },
-                                "url": self.request.build_absolute_uri(reverse_tournament('privateurls-person-index', self.tournament, {'url_key': d_adjudicator.adjudicator.url_key})),
+                                "url": self.request.build_absolute_uri(reverse_tournament(
+                                    'privateurls-person-index', self.tournament, kwargs={'url_key': d_adjudicator.adjudicator.url_key},
+                                )),
                             }),
                         )
             for d_team in debate.debateteam_set.all():
@@ -883,7 +888,9 @@ class DrawReleaseView(DrawStatusEdit):
                                         'venue': getattr(debate.venue, 'display_name', _('Room TBA')),
                                         'matchup': matchup,
                                     },
-                                    "url": self.request.build_absolute_uri(reverse_tournament('privateurls-person-index', self.tournament, {'url_key': speaker.url_key})),
+                                    "url": self.request.build_absolute_uri(reverse_tournament(
+                                        'privateurls-person-index', self.tournament, kwargs={'url_key': speaker.url_key},
+                                    )),
                                 }),
                             )
 
