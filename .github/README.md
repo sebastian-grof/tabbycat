@@ -19,7 +19,7 @@
 > This repository is an **unofficial fork** of [Tabbycat](https://github.com/TabbycatDebate/tabbycat), maintained by Sebastian Grof for Slovak Debate Association (SDA) tournament operations. It is **not affiliated with or endorsed by** the upstream Tabbycat developers.
 >
 > - Upstream project: <https://github.com/TabbycatDebate/tabbycat>
-> - This fork: <https://github.com/sebastian-grof/tabbycat>
+> - This fork: <https://github.com/slovakdebate/tabbycat>
 > - **Summary of changes:** [MODIFICATIONS.md](../MODIFICATIONS.md)
 > - Licence: [GNU AGPL v3.0](../LICENSE.md) — unchanged from upstream
 >
