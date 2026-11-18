@@ -3,7 +3,7 @@
 This repository is a modified fork of Tabbycat, licensed under the GNU Affero General Public License v3.0.
 
 - Upstream project: https://github.com/TabbycatDebate/tabbycat
-- This fork: https://github.com/sebastian-grof/tabbycat
+- This fork: https://github.com/slovakdebate/tabbycat
 - Maintainer: Sebastian Grof
 
 ## Fork Notice
@@ -30,7 +30,7 @@ As of 2026-06-15, the fork includes changes in areas such as:
 
 If you are using or interacting with a hosted instance of this fork, the corresponding source code for that deployed version is intended to be available from:
 
-- https://github.com/sebastian-grof/tabbycat
+- https://github.com/slovakdebate/tabbycat
 
 ## Licensing
 

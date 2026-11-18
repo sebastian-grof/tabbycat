@@ -235,7 +235,7 @@ msgid "This site runs on Tabbycat %(tabbycat_version)s (%(tabbycat_codename)s)"
 msgstr ""
 
 #: templates/footer.html:20
-msgid "This SDA-hosted version is an unofficial modified fork maintained by <strong class=\"font-weight-bold text-dark\">Sebastian Grof</strong>. The official Tabbycat project is available at <strong><a href=\"https://tabbycat-debate.org/\">tabbycat-debate.org</a></strong>. See <a href=\"https://github.com/sebastian-grof/tabbycat/blob/develop/MODIFICATIONS.md\">Modifications</a> and <a href=\"https://github.com/sebastian-grof/tabbycat\">Source Code</a>."
+msgid "This SDA-hosted version is an unofficial modified fork maintained by <strong class=\"font-weight-bold text-dark\">Sebastian Grof</strong>. The official Tabbycat project is available at <strong><a href=\"https://tabbycat-debate.org/\">tabbycat-debate.org</a></strong>. See <a href=\"https://github.com/slovakdebate/tabbycat/blob/SDA/MODIFICATIONS.md\">Modifications</a> and <a href=\"https://github.com/slovakdebate/tabbycat\">Source Code</a>."
 msgstr ""
 
 #: templates/footer.html:25
