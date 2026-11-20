@@ -1400,3 +1400,57 @@ msgstr ""
 #, python-format
 msgid "Breaks access updated for %(user)s."
 msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/overview.html:111
+#, python-format
+msgid "Export job status: %(status)s."
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/overview.html:117
+msgid "Waiting to be sent"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/overview.html:119
+msgid "Not delivered"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/overview.html:123
+msgid "This status is for an earlier published snapshot."
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/overview.html:126
+msgid "Not sent yet."
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/overview.html:133
+#, python-format
+msgid "View export #%(id)s"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/overview.html:137 seasonbreaks/views.py:222
+msgid "Sending season breaks to Databáza SDA is turned off or not configured."
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/overview.html:142
+msgid "Send again to Databáza SDA"
+msgstr ""
+
+#: seasonbreaks/views.py:220
+msgid "Publish the public snapshot before sending it to Databáza SDA."
+msgstr ""
+
+#: seasonbreaks/views.py:224
+msgid "The published snapshot was queued for sending to Databáza SDA."
+msgstr ""
+
+#: seasonbreaks/views.py:226
+msgid "The snapshot could not be queued for sending. Try again later."
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/overview.html:110
+msgid "Queued"
+msgstr ""
+
+#: seasonbreaks/templates/seasonbreaks/overview.html:114
+msgid "Sent"
+msgstr ""

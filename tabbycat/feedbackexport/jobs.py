@@ -20,17 +20,24 @@ from tournaments.models import Tournament
 
 from .models import (
     AdjudicatorStatsExportEvent, ExportJob, ExportJobItem, ExportWorkerState, FeedbackExportEvent, ResultsExportEvent,
+    SeasonBreaksExportEvent,
 )
 from .services import (
     adjudicator_stats_export_enabled, adjudicator_stats_export_endpoint,
     deliver_snapshot, feedback_export_enabled, feedback_export_endpoint, feedback_export_queryset, MAX_ATTEMPTS,
-    queue_adjudicator_stats_export, queue_feedback_export, queue_results_export,
-    results_export_enabled, results_export_endpoint, retry_delay, truncate_bytes,
+    queue_adjudicator_stats_export, queue_feedback_export, queue_results_export, queue_season_breaks_export,
+    results_export_enabled, results_export_endpoint, retry_delay, season_breaks_export_enabled,
+    season_breaks_export_endpoint, truncate_bytes,
 )
 
 logger = logging.getLogger(__name__)
 TERMINAL = ['completed', 'completed_errors']
-MODELS = {'feedback': FeedbackExportEvent, 'activity': AdjudicatorStatsExportEvent, 'results': ResultsExportEvent}
+MODELS = {
+    'feedback': FeedbackExportEvent, 'activity': AdjudicatorStatsExportEvent, 'results': ResultsExportEvent,
+    'breaks': SeasonBreaksExportEvent,
+}
+# Tournament-scoped streams; season breaks jobs select break seasons instead.
+TOURNAMENT_KINDS = {'feedback', 'activity', 'results'}
 LEASE_SECONDS = 120
 PREPARE_BATCH = 100
 # A results snapshot builds a whole tournament's tabs; keep each preparation
@@ -52,7 +59,12 @@ def configuration():
         'feedback_ready': feedback_export_enabled() and bool(feedback_export_endpoint()),
         'activity_ready': adjudicator_stats_export_enabled() and bool(adjudicator_stats_export_endpoint()),
         'results_ready': results_export_enabled() and bool(results_export_endpoint()),
+        'breaks_ready': season_breaks_export_ready(),
     }
+
+
+def season_breaks_export_ready():
+    return season_breaks_export_enabled() and bool(season_breaks_export_endpoint())
 
 
 def create_job(*, tournament_ids, kinds, force=False, requested_by=None, submission_token=None):
@@ -61,7 +73,7 @@ def create_job(*, tournament_ids, kinds, force=False, requested_by=None, submiss
     if existing:
         return existing
     kinds = sorted(set(kinds))
-    if not kinds or not set(kinds) <= set(MODELS):
+    if not kinds or not set(kinds) <= TOURNAMENT_KINDS:
         raise ValueError('Choose feedback, judge activity, results, or a combination of them.')
     if any(isinstance(value, bool) or not str(value).isdigit() for value in tournament_ids):
         raise ValueError('Invalid tournament selection.')
@@ -89,6 +101,58 @@ def create_job(*, tournament_ids, kinds, force=False, requested_by=None, submiss
     return job
 
 
+def create_season_breaks_job(*, season_ids, force=False, requested_by=None, submission_token=None):
+    """Send the published break snapshot of each season (one item per season)."""
+    from seasonbreaks.models import BreakSeason
+    token = uuid.UUID(str(submission_token)) if submission_token else uuid.uuid4()
+    existing = ExportJob.objects.filter(submission_token=token).first()
+    if existing:
+        return existing
+    if any(isinstance(value, bool) or not str(value).isdigit() for value in season_ids):
+        raise ValueError('Invalid season selection.')
+    ids = sorted(set(int(value) for value in season_ids))
+    if not ids:
+        raise ValueError('Select at least one break season.')
+    seasons = list(BreakSeason.objects.filter(id__in=ids).order_by('id').values('id', 'name', 'slug'))
+    if len(seasons) != len(ids):
+        raise ValueError('One of the selected break seasons no longer exists. Refresh the selection.')
+    job, _ = ExportJob.objects.get_or_create(submission_token=token, defaults={
+        'requested_by': requested_by, 'seasons': seasons, 'export_types': ['breaks'],
+        'force': force, 'source_limits': {'breaks': max(ids)},
+    })
+    return job
+
+
+def queue_published_season_breaks(season, *, requested_by=None, force=False):
+    """Queue a DR delivery for a season's published snapshot, if the stream is on.
+
+    Returns the job, or None when the season breaks export is off or has no
+    endpoint (a later manual send covers snapshots published meanwhile).
+    """
+    if not season_breaks_export_ready() or not season.public_snapshot:
+        return None
+    return create_season_breaks_job(season_ids=[season.id], requested_by=requested_by, force=force)
+
+
+def season_breaks_export_status(season):
+    """What the break season page shows about delivering its snapshot to DR."""
+    from .services import make_season_breaks_idempotency_key
+    snapshot = season.public_snapshot if isinstance(season.public_snapshot, dict) else None
+    current_key = make_season_breaks_idempotency_key(season.id, snapshot['published_at']) \
+        if snapshot and snapshot.get('published_at') else None
+    event = SeasonBreaksExportEvent.objects.filter(source_season_id=season.id).order_by('-created_at', '-id').first()
+    job = ExportJob.objects.filter(
+        export_types__contains=['breaks'], seasons__contains=[{'id': season.id}],
+    ).exclude(status__in=TERMINAL).order_by('-id').first()
+    return {
+        'ready': season_breaks_export_ready(),
+        'published': current_key is not None,
+        'event': event,
+        'current': bool(event and current_key and event.idempotency_key == current_key),
+        'job': job,
+    }
+
+
 def create_backlog_job(*, kinds=None, requested_by=None, submission_token=None, event_ids=None):
     kinds = sorted(set(kinds or MODELS))
     if not set(kinds) <= set(MODELS):
@@ -109,6 +173,8 @@ def queue_export(kind, source, **kwargs):
         return queue_feedback_export(source, **kwargs)
     if kind == 'activity':
         return queue_adjudicator_stats_export(source, **kwargs)
+    if kind == 'breaks':
+        return queue_season_breaks_export(source, **kwargs)
     return queue_results_export(source, **kwargs)
 
 
@@ -191,6 +257,7 @@ def prepare_batch(job_id, token):
             return
         job.status = 'preparing'
         tournament_ids = [row['id'] for row in job.tournaments]
+        season_ids = [row['id'] for row in job.seasons]
         remaining = PREPARE_BATCH
         for kind in job.export_types:
             cursor = job.preparation_cursor.get(kind, 0)
@@ -209,6 +276,9 @@ def prepare_batch(job_id, token):
                     id__gt=cursor, id__lte=limit, adjudicator__tournament_id__in=tournament_ids, confirmed=True,
                 ).order_by('id').values_list('id', flat=True)[:take])
                 rows = _feedback_batch(ids)
+            elif kind == 'breaks':
+                from seasonbreaks.models import BreakSeason
+                rows = list(BreakSeason.objects.filter(id__in=season_ids, id__gt=cursor, id__lte=limit).order_by('id')[:take])
             else:
                 rows = list(Tournament.objects.filter(id__in=tournament_ids, id__gt=cursor, id__lte=limit).order_by('id')[:take])
             for source in rows:
@@ -217,14 +287,18 @@ def prepare_batch(job_id, token):
                     if job.backlog:
                         event = source
                         item.prepared_at = event.created_at
-                        item.tournament_id = event.source_tournament_id
-                        item.label = '%s #%s' % (kind, event.source_feedback_id if kind == 'feedback' else event.source_tournament_id)
+                        item.tournament_id = getattr(event, 'source_tournament_id', None)
+                        item.label = '%s #%s' % (kind, getattr(event, event.export_source_field))
                         # Backlog retries retain the already prepared version, even after source deletion.
                         if not event.payload:
                             raise ValueError('No saved payload. Start a new export from the source tournament.')
                     else:
-                        item.tournament_id = source.adjudicator.tournament_id if kind == 'feedback' else source.id
-                        item.label = source.adjudicator.name if kind == 'feedback' else source.short_name
+                        if kind == 'feedback':
+                            item.tournament_id, item.label = source.adjudicator.tournament_id, source.adjudicator.name
+                        elif kind == 'breaks':
+                            item.label = source.name
+                        else:
+                            item.tournament_id, item.label = source.id, source.short_name
                         # Savepoint isolates invalid source rows from the rest of the batch.
                         with transaction.atomic():
                             event = queue_export(kind, source, force=job.force, reset_attempts=True)
@@ -360,7 +434,7 @@ def settle_job(job_id, token):
 
 
 def _superseded(event, kind, prepared_at):
-    source_field = 'source_feedback_id' if kind == 'feedback' else 'source_tournament_id'
+    source_field = MODELS[kind].export_source_field
     source_id = getattr(event, source_field)
     if source_id is None:
         return False
@@ -422,7 +496,9 @@ def control_job(job_id, action):
             # Retrying the same job is safe only if no later active job can use its events.
             if ExportJob.objects.filter(id__gt=job.id).exclude(status__in=TERMINAL).exists():
                 raise ValueError('Finish newer jobs before retrying this export.')
-            job.items.filter(status='failed').exclude(feedback_event=None, activity_event=None, results_event=None).update(
+            job.items.filter(status='failed').exclude(
+                feedback_event=None, activity_event=None, results_event=None, breaks_event=None,
+            ).update(
                 status='ready', attempts=0, next_attempt_at=None, claim_token=None,
             )
             if not job.items.filter(status='ready').exists():
@@ -463,7 +539,7 @@ def prune_history():
         # Keep the latest successful receipt for each source. Older successful
         # versions may go once no retained job refers to them; failures never do.
         for kind, model in MODELS.items():
-            source_field = 'source_feedback_id' if kind == 'feedback' else 'source_tournament_id'
+            source_field = model.export_source_field
             newer = model.objects.filter(status='sent', **{source_field: OuterRef(source_field)}).filter(
                 Q(sent_at__gt=OuterRef('sent_at')) | Q(sent_at=OuterRef('sent_at'), id__gt=OuterRef('id')),
             )

@@ -1,3 +1,4 @@
+import logging
 from collections import defaultdict
 from dataclasses import dataclass
 from math import floor
@@ -27,6 +28,8 @@ from .models import (
     BreakTeamTournamentResult,
     BreakTournament,
 )
+
+logger = logging.getLogger(__name__)
 
 
 def _unique_name(model, season, base_name):
@@ -700,13 +703,29 @@ def build_public_breaks_snapshot(season: BreakSeason, published_at=None) -> dict
     }
 
 
-def publish_public_breaks_snapshot(season: BreakSeason) -> dict:
+def publish_public_breaks_snapshot(season: BreakSeason, requested_by=None) -> dict:
     published_at = timezone.now()
     snapshot = build_public_breaks_snapshot(season, published_at=published_at)
     season.public_snapshot = snapshot
     season.public_published_at = published_at
     season.save(update_fields=['public_snapshot', 'public_published_at'])
+    queue_season_breaks_dr_export(season, requested_by=requested_by)
     return snapshot
+
+
+def queue_season_breaks_dr_export(season: BreakSeason, requested_by=None, force=False):
+    """Queue delivery of the published snapshot to Databáza SDA (DR).
+
+    Only saves an export job; the export worker sends it. A failure here must
+    never undo or block publishing, so it is logged and reported as None.
+    """
+    from feedbackexport.jobs import queue_published_season_breaks
+    try:
+        with transaction.atomic():
+            return queue_published_season_breaks(season, requested_by=requested_by, force=force)
+    except Exception:
+        logger.exception('Could not queue the DR export of break season %s', season.id)
+        return None
 
 
 def _ineligible_reasons(participations, required_tournaments, eligible_members):

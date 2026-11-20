@@ -6,6 +6,7 @@ from .models import (
     FeedbackExportEvent,
     GlobalFeedbackExportPermission,
     ResultsExportEvent,
+    SeasonBreaksExportEvent,
 )
 
 
@@ -71,4 +72,12 @@ class ResultsExportEventAdmin(ReadOnlyExportAdmin):
         'idempotency_key',
         'last_error',
     )
+    readonly_fields = ('payload', 'remote_response')
+
+
+@admin.register(SeasonBreaksExportEvent)
+class SeasonBreaksExportEventAdmin(ReadOnlyExportAdmin):
+    list_display = ('season', 'source_season_id', 'published_at', 'status', 'attempts', 'last_http_status', 'sent_at', 'updated_at')
+    list_filter = ('status',)
+    search_fields = ('season__name', 'season__slug', 'source_season_name', 'source_season_slug', 'idempotency_key', 'last_error')
     readonly_fields = ('payload', 'remote_response')

@@ -822,3 +822,31 @@ msgstr "exportný event výsledkov"
 #: feedbackexport/models.py:195
 msgid "results export events"
 msgstr "exportné eventy výsledkov"
+
+#: feedbackexport/templates/feedbackexport/base.html:29 feedbackexport/templates/feedbackexport/history.html:8 feedbackexport/templates/feedbackexport/history.html:12 feedbackexport/templates/feedbackexport/job.html:29 feedbackexport/models.py:317
+msgid "Season breaks"
+msgstr "Postupy sezóny"
+
+#: feedbackexport/models.py:256
+msgid "season breaks export event"
+msgstr "exportný event postupov sezóny"
+
+#: feedbackexport/models.py:257
+msgid "season breaks export events"
+msgstr "exportné eventy postupov sezóny"
+
+#: feedbackexport/models.py:232
+msgid "source season ID"
+msgstr "ID zdrojovej sezóny"
+
+#: feedbackexport/models.py:233
+msgid "source season slug"
+msgstr "slug zdrojovej sezóny"
+
+#: feedbackexport/models.py:234
+msgid "source season name"
+msgstr "názov zdrojovej sezóny"
+
+#: feedbackexport/models.py:235
+msgid "published at"
+msgstr "publikované"
