@@ -6,9 +6,12 @@ from django.core.management.base import BaseCommand, CommandError
 from django.db import close_old_connections
 
 from feedbackexport.jobs import (
-    cleanup_successful, configuration, create_backlog_job, create_job, prune_history, worker_tick,
+    cleanup_successful, configuration, create_backlog_job, create_job, create_season_breaks_job, prune_history, worker_tick,
 )
-from feedbackexport.services import build_adjudicator_stats_payload, build_feedback_payload, build_results_payload
+from feedbackexport.services import (
+    build_adjudicator_stats_payload, build_feedback_payload, build_results_payload, build_season_breaks_payload,
+)
+from seasonbreaks.models import BreakSeason
 from tournaments.models import Tournament
 
 
@@ -32,13 +35,16 @@ class Command(BaseCommand):
             if name == 'queue-adjudicator-stats':
                 command.add_argument('--season')
                 command.add_argument('--break-tournament', type=int)
+        command = commands.add_parser('queue-season-breaks', help="Send break seasons' published snapshots")
+        command.add_argument('--season', help='Break season slug; omission selects every published season')
+        command.add_argument('--force', action='store_true')
         for name in ('send', 'send-adjudicator-stats', 'retry-failed', 'retry-failed-adjudicator-stats'):
             command = commands.add_parser(name)
             command.add_argument('--dry-run', action='store_true')
             command.add_argument('--limit', type=int, default=50, help='Compatibility option; background jobs drain the complete backlog')
             command.add_argument('--reset-attempts', action='store_true')
         for name, argument in [('payload', 'feedback_id'), ('adjudicator-stats-payload', 'tournament_id'),
-                               ('results-payload', 'tournament_id')]:
+                               ('results-payload', 'tournament_id'), ('season-breaks-payload', 'season_id')]:
             commands.add_parser(name).add_argument(argument, type=int)
 
     def handle(self, *args, **options):
@@ -80,6 +86,20 @@ class Command(BaseCommand):
             result = build_adjudicator_stats_payload(options['tournament_id'])
         elif command == 'results-payload':
             result = build_results_payload(options['tournament_id'])
+        elif command == 'season-breaks-payload':
+            try:
+                result = build_season_breaks_payload(options['season_id'])
+            except (BreakSeason.DoesNotExist, ValueError) as exc:
+                raise CommandError(str(exc)) from exc
+        elif command == 'queue-season-breaks':
+            seasons = BreakSeason.objects.filter(public_snapshot__isnull=False)
+            if options.get('season'):
+                seasons = seasons.filter(slug=options['season'])
+            try:
+                job = create_season_breaks_job(season_ids=list(seasons.values_list('id', flat=True)), force=options['force'])
+            except ValueError as exc:
+                raise CommandError(str(exc)) from exc
+            result = {'job_id': job.id, 'status': job.status, 'message': 'Job saved. The export worker will process it.'}
         else:
             kind = 'activity' if 'adjudicator-stats' in command else ('results' if 'results' in command else 'feedback')
             if command.startswith('queue'):

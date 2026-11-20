@@ -16,7 +16,8 @@ from .models import (BreakAdjudicator, BreakAdjudicatorLink, BreakAdjudicatorTou
                      BreakTeam, BreakTeamLink, BreakTournament, GlobalBreaksPermission)
 from .permissions import has_breaks_permission
 from .services import (calculate_global_ranking, calculate_rankings, calculate_region_quotas, freeze_break_tournament, prune_all_unused_break_identities, prune_unused_break_identities,
-                       publish_public_breaks_snapshot, reassign_break_adjudicator_link, reassign_break_speaker_link, reassign_break_team_link, season_has_unresolved_cutoff_tie, season_summary)
+                       publish_public_breaks_snapshot, queue_season_breaks_dr_export, reassign_break_adjudicator_link, reassign_break_speaker_link, reassign_break_team_link,
+                       season_has_unresolved_cutoff_tie, season_summary)
 
 
 class BreaksPermissionMixin(UserPassesTestMixin):
@@ -200,17 +201,37 @@ class SeasonOverviewView(SeasonMixin, TemplateView):
         kwargs['quotas'] = calculate_region_quotas(self.season)
         kwargs['season_form'] = kwargs.get('season_form') or BreakSeasonForm(instance=self.season)
         kwargs['active_tab'] = 'overview'
+        kwargs['dr_export'] = self.dr_export_status()
         return super().get_context_data(**kwargs)
+
+    def dr_export_status(self):
+        from feedbackexport.jobs import season_breaks_export_status
+        from feedbackexport.models import FeedbackExportPermission
+        from feedbackexport.permissions import has_feedback_export_permission
+        status = season_breaks_export_status(self.season)
+        status['can_view_jobs'] = has_feedback_export_permission(self.request.user, FeedbackExportPermission.VIEW)
+        return status
 
     def post(self, request, *args, **kwargs):
         if not has_breaks_permission(request.user, BreaksPermission.EDIT):
             return self.handle_no_permission()
+        if request.POST.get('action') == 'send_season_breaks_to_dr':
+            from feedbackexport.jobs import season_breaks_export_ready
+            if not self.season.public_snapshot:
+                messages.error(request, _("Publish the public snapshot before sending it to Databáza SDA."))
+            elif not season_breaks_export_ready():
+                messages.error(request, _("Sending season breaks to Databáza SDA is turned off or not configured."))
+            elif queue_season_breaks_dr_export(self.season, requested_by=request.user, force=True):
+                messages.success(request, _("The published snapshot was queued for sending to Databáza SDA."))
+            else:
+                messages.error(request, _("The snapshot could not be queued for sending. Try again later."))
+            return redirect('seasonbreaks-season-overview', season_slug=self.season.slug)
         if request.POST.get('action') == 'publish_public_snapshot':
             show_global = request.POST.get('show_global_ranking') == '1'
             if self.season.public_global_ranking != show_global:
                 self.season.public_global_ranking = show_global
                 self.season.save(update_fields=['public_global_ranking'])
-            publish_public_breaks_snapshot(self.season)
+            publish_public_breaks_snapshot(self.season, requested_by=request.user)
             messages.success(request, _("Public Breaks snapshot was published."))
             if season_has_unresolved_cutoff_tie(self.season):
                 messages.warning(request, _(

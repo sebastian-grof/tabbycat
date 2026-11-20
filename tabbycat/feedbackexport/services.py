@@ -21,7 +21,7 @@ from adjfeedback.models import AdjudicatorFeedback
 from results.models import BallotSubmission
 from tournaments.models import Tournament
 
-from .models import AdjudicatorStatsExportEvent, FeedbackExportEvent, ResultsExportEvent
+from .models import AdjudicatorStatsExportEvent, FeedbackExportEvent, ResultsExportEvent, SeasonBreaksExportEvent
 
 logger = logging.getLogger(__name__)
 
@@ -32,6 +32,12 @@ SEASON_LABEL_RE = re.compile(r'(20\d{2})\s*[/-]\s*(20\d{2})')
 RESULTS_PAYLOAD_VERSION = 1
 # The results contract asks for gzip above 1 MB (DR accepts up to 10 MB).
 RESULTS_GZIP_THRESHOLD = 1024 * 1024
+SEASON_BREAKS_PAYLOAD_VERSION = 1
+SEASON_BREAKS_SNAPSHOT_VERSION = 1
+# DR's limits for /api/v1/season-breaks/ (registry/api/ingest/season_breaks.py).
+SEASON_BREAKS_MAX_REGIONS = 50
+SEASON_BREAKS_MAX_BYTES = 2500 * 1024
+SDA_SEASON_RE = re.compile(r'^\d{4}/\d{4}$')
 
 
 def feedback_export_enabled():
@@ -68,6 +74,19 @@ def results_export_endpoint():
 
 def results_export_token():
     return getattr(settings, 'RESULTS_EXPORT_TOKEN', '') or feedback_export_token()
+
+
+def season_breaks_export_enabled():
+    return bool(getattr(settings, 'SEASON_BREAKS_EXPORT_ENABLED', False))
+
+
+def season_breaks_export_endpoint():
+    return getattr(settings, 'SEASON_BREAKS_EXPORT_ENDPOINT', '')
+
+
+def season_breaks_export_token():
+    # DR authorises season breaks with the results:write scope.
+    return getattr(settings, 'SEASON_BREAKS_EXPORT_TOKEN', '') or results_export_token()
 
 
 def make_idempotency_key(feedback_id, content_hash=None):
@@ -942,6 +961,74 @@ def validate_results_payload(payload):
     return payload
 
 
+def make_season_breaks_idempotency_key(season_id, published_at):
+    """One key per published snapshot: a republish always gets a new key."""
+    return '%s:season-breaks:%s:%s' % (SOURCE_SYSTEM, season_id, published_at)
+
+
+def _published_snapshot(season):
+    snapshot = season.public_snapshot
+    if not isinstance(snapshot, dict) or not snapshot.get('published_at'):
+        raise ValueError('Break season %s has no published snapshot. Publish it first.' % season.name)
+    return snapshot
+
+
+def season_breaks_sda_season(snapshot):
+    """The SDA season (e.g. 2026/2027) named by the snapshot's season, or None.
+
+    Read from the snapshot rather than the live season so the body stays
+    identical for its key even if the season is renamed after publishing.
+    DR derives the season from snapshot.published_at when this is missing.
+    """
+    season = snapshot.get('season') or {}
+    for value in (season.get('name'), season.get('slug')):
+        match = SEASON_LABEL_RE.search(value or '')
+        if match:
+            label = '%s/%s' % match.groups()
+            if SDA_SEASON_RE.match(label):
+                return label
+    return None
+
+
+def build_season_breaks_payload(season, *, generated_at=None):
+    """The published snapshot exactly as stored, wrapped in the v1 envelope."""
+    from seasonbreaks.models import BreakSeason
+    if not isinstance(season, BreakSeason):
+        season = BreakSeason.objects.get(pk=season)
+    snapshot = _published_snapshot(season)
+    payload = {
+        'version': SEASON_BREAKS_PAYLOAD_VERSION,
+        'source_system': SOURCE_SYSTEM,
+        'generated_at': timestamp_payload(generated_at or timezone.now().replace(microsecond=0)),
+        'snapshot': snapshot,
+    }
+    sda_season = season_breaks_sda_season(snapshot)
+    if sda_season:
+        payload['season'] = sda_season
+    return payload
+
+
+def validate_season_breaks_payload(payload):
+    """The parts of DR's season-breaks contract it rejects outright."""
+    snapshot = payload.get('snapshot')
+    if not isinstance(snapshot, dict):
+        raise ValueError('The season breaks payload has no snapshot.')
+    if snapshot.get('version') != SEASON_BREAKS_SNAPSHOT_VERSION:
+        raise ValueError('Unsupported break snapshot version %r. Republish the snapshot.' % snapshot.get('version'))
+    season = snapshot.get('season')
+    if not isinstance(season, dict):
+        raise ValueError('The break snapshot has no season. Republish the snapshot.')
+    for field in ('id', 'name', 'league', 'league_slug'):
+        if season.get(field) in (None, ''):
+            raise ValueError('The break snapshot has no season %s. Republish the snapshot.' % field)
+    regions = snapshot.get('regions') or []
+    if not isinstance(regions, list) or len(regions) > SEASON_BREAKS_MAX_REGIONS:
+        raise ValueError('DR accepts at most %d regions per season.' % SEASON_BREAKS_MAX_REGIONS)
+    if len(json.dumps(payload).encode('utf-8')) > SEASON_BREAKS_MAX_BYTES:
+        raise ValueError('The break snapshot is larger than DR accepts (2.5 MB).')
+    return payload
+
+
 def payload_hash(payload):
     raw = json.dumps(payload, sort_keys=True, separators=(',', ':'), ensure_ascii=True)
     return hashlib.sha256(raw.encode('utf-8')).hexdigest()
@@ -967,7 +1054,7 @@ def load_feedback(feedback):
     return feedback_export_queryset().get(pk=feedback)
 
 
-def _store_snapshot(model, payload, source_fields, *, force=False, reset_attempts=False):
+def _store_snapshot(model, payload, source_fields, *, force=False, reset_attempts=False, key=None):
     """One payload per content key, including unresolved versions of the same source.
 
     Queueing never sends or notifies a worker. Only an explicitly requested job can
@@ -975,13 +1062,13 @@ def _store_snapshot(model, payload, source_fields, *, force=False, reset_attempt
     """
     with transaction.atomic():
         event, created = model.objects.select_for_update().get_or_create(
-            idempotency_key=payload['idempotency_key'],
+            idempotency_key=key or payload['idempotency_key'],
             defaults={**source_fields, 'payload': payload, 'payload_hash': payload_hash(payload)},
         )
         # Do not reset a snapshot currently owned by another unfinished job.
         if event.job_items.exclude(job__status__in=['completed', 'completed_errors']).exists():
             return event
-        source_field = 'source_feedback_id' if model is FeedbackExportEvent else 'source_tournament_id'
+        source_field = model.export_source_field
         latest = model.objects.filter(
             **{source_field: source_fields[source_field]}, sent_at__isnull=False,
         ).order_by('-sent_at', '-id').first()
@@ -1051,6 +1138,26 @@ def queue_results_export(tournament, *, force=False, reset_attempts=False):
         'source_tournament_short_name': tournament.short_name,
         'generated_at': generated_at,
     }, force=force, reset_attempts=reset_attempts)
+
+
+def queue_season_breaks_export(season, *, force=False, reset_attempts=False):
+    """Freeze a season's published snapshot as a DR delivery (no network I/O)."""
+    from seasonbreaks.models import BreakSeason
+    if not isinstance(season, BreakSeason):
+        season = BreakSeason.objects.get(pk=season)
+    snapshot = _published_snapshot(season)
+    key = make_season_breaks_idempotency_key(season.id, snapshot['published_at'])
+    generated_at = SeasonBreaksExportEvent.objects.filter(idempotency_key=key).values_list('generated_at', flat=True).first()
+    generated_at = generated_at or timezone.now().replace(microsecond=0)
+    payload = validate_season_breaks_payload(build_season_breaks_payload(season, generated_at=generated_at))
+    return _store_snapshot(SeasonBreaksExportEvent, payload, {
+        'season': season,
+        'source_season_id': season.id,
+        'source_season_slug': season.slug,
+        'source_season_name': season.name,
+        'published_at': season.public_published_at,
+        'generated_at': generated_at,
+    }, force=force, reset_attempts=reset_attempts, key=key)
 
 
 def retry_delay(attempts):
@@ -1162,16 +1269,28 @@ def stream_configuration(kind):
                 adjudicator_stats_export_token(), 'ADJUDICATOR_STATS_EXPORT_TIMEOUT')
     if kind == 'results':
         return results_export_enabled(), results_export_endpoint(), results_export_token(), 'RESULTS_EXPORT_TIMEOUT'
+    if kind == 'breaks':
+        return (season_breaks_export_enabled(), season_breaks_export_endpoint(), season_breaks_export_token(),
+                'SEASON_BREAKS_EXPORT_TIMEOUT')
     return feedback_export_enabled(), feedback_export_endpoint(), feedback_export_token(), 'FEEDBACK_EXPORT_TIMEOUT'
 
 
 def encode_request_body(payload, kind):
-    """JSON body bytes and extra headers; large results snapshots are gzipped."""
+    """JSON body bytes and extra headers; large results snapshots are gzipped.
+
+    DR accepts gzip only on the results endpoint, so other streams send plain JSON.
+    """
     body = json.dumps(payload, sort_keys=True).encode('utf-8')
     if kind == 'results' and len(body) > RESULTS_GZIP_THRESHOLD:
         # mtime=0 keeps the compressed bytes identical across retries.
         return gzip.compress(body, mtime=0), {'Content-Encoding': 'gzip'}
     return body, {}
+
+
+NEW_ENDPOINT_SETTINGS = {
+    'results': 'SDA_JUDGES_RESULTS_API_URL',
+    'breaks': 'SDA_JUDGES_SEASON_BREAKS_API_URL',
+}
 
 
 def deliver_snapshot(event, kind):
@@ -1229,11 +1348,12 @@ def deliver_snapshot(event, kind):
             detail = detail.replace(token, '[redacted]')
         status = 'blocked' if exc.code in {401, 403} else ('retry' if exc.code == 429 or exc.code >= 500 else 'failed')
         error = 'DR returned HTTP %s. %s' % (exc.code, detail)
-        if kind == 'results' and exc.code == 404:
-            # The results endpoint is new in DR: a 404 means a wrong URL or an
+        if kind in NEW_ENDPOINT_SETTINGS and exc.code == 404:
+            # These endpoints are new in DR: a 404 means a wrong URL or an
             # undeployed receiver, so hold the stream instead of failing records.
             status = 'blocked'
-            error = 'DR has no results endpoint at the configured URL (HTTP 404). Check SDA_JUDGES_RESULTS_API_URL and that DR supports results imports, then resume. ' + detail
+            error = 'DR has no %s endpoint at the configured URL (HTTP 404). Check %s and that DR supports these imports, then resume. %s' % (
+                kind if kind == 'results' else 'season breaks', NEW_ENDPOINT_SETTINGS[kind], detail)
         if exc.code == 409:
             error = 'DR reported a conflict (HTTP 409). Inspect this record before retrying. ' + detail
         result = {'status': status, 'http_status': exc.code, 'error': truncate_bytes(error, 2048),

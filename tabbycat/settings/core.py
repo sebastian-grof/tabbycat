@@ -513,3 +513,29 @@ RESULTS_EXPORT_ENDPOINT = os.environ.get('SDA_JUDGES_RESULTS_API_URL', '')
 RESULTS_EXPORT_TOKEN = os.environ.get('SDA_JUDGES_RESULTS_API_TOKEN', '') or FEEDBACK_EXPORT_TOKEN
 # A whole tournament is imported in one DR transaction; allow the transport maximum.
 RESULTS_EXPORT_TIMEOUT = int(os.environ.get('RESULTS_EXPORT_TIMEOUT', '30'))
+
+# League-season break standings (POST /api/v1/season-breaks/), sent whenever a
+# season's public Breaks snapshot is published. It shares the results token
+# (results:write scope) and, unless set, the results stream's switch and host.
+# Empty values count as unset so compose files can pass blank defaults.
+SEASON_BREAKS_EXPORT_ENABLED = (
+    env_bool('SDA_JUDGES_SEASON_BREAKS_EXPORT_ENABLED')
+    if os.environ.get('SDA_JUDGES_SEASON_BREAKS_EXPORT_ENABLED', '').strip() else RESULTS_EXPORT_ENABLED
+)
+
+
+def _dr_endpoint_on_host_of(path, *urls):
+    from urllib.parse import urlsplit, urlunsplit
+    for url in urls:
+        parts = urlsplit(url or '')
+        if parts.scheme and parts.netloc:
+            return urlunsplit((parts.scheme, parts.netloc, path, '', ''))
+    return ''
+
+
+SEASON_BREAKS_EXPORT_ENDPOINT = (
+    os.environ.get('SDA_JUDGES_SEASON_BREAKS_API_URL', '').strip()
+    or _dr_endpoint_on_host_of('/api/v1/season-breaks/', RESULTS_EXPORT_ENDPOINT, FEEDBACK_EXPORT_ENDPOINT)
+)
+SEASON_BREAKS_EXPORT_TOKEN = RESULTS_EXPORT_TOKEN
+SEASON_BREAKS_EXPORT_TIMEOUT = int(os.environ.get('SEASON_BREAKS_EXPORT_TIMEOUT', '') or '10')

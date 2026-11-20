@@ -27,6 +27,9 @@ class GlobalFeedbackExportPermission(models.Model):
 
 
 class FeedbackExportEvent(models.Model):
+    # The local source each version belongs to; newer deliveries supersede older ones.
+    export_source_field = 'source_feedback_id'
+
     class Status(models.TextChoices):
         PENDING = 'pending', _('pending')
         SENT = 'sent', _('sent')
@@ -86,6 +89,8 @@ class FeedbackExportEvent(models.Model):
 
 
 class AdjudicatorStatsExportEvent(models.Model):
+    export_source_field = 'source_tournament_id'
+
     class Status(models.TextChoices):
         PENDING = 'pending', _('pending')
         SENT = 'sent', _('sent')
@@ -156,6 +161,8 @@ class AdjudicatorStatsExportEvent(models.Model):
 class ResultsExportEvent(models.Model):
     """One full-tournament results snapshot (POST /api/v1/results/), keyed by content."""
 
+    export_source_field = 'source_tournament_id'
+
     class Status(models.TextChoices):
         PENDING = 'pending', _('pending')
         SENT = 'sent', _('sent')
@@ -204,6 +211,59 @@ class ResultsExportEvent(models.Model):
         return self.status in {self.Status.PENDING, self.Status.FAILED, self.Status.PERMANENT_FAILED}
 
 
+class SeasonBreaksExportEvent(models.Model):
+    """One published break snapshot of a league season (POST /api/v1/season-breaks/).
+
+    Keyed by season and publication time: a published snapshot never changes,
+    and every republish produces a new key that replaces the season in DR.
+    """
+
+    export_source_field = 'source_season_id'
+
+    class Status(models.TextChoices):
+        PENDING = 'pending', _('pending')
+        SENT = 'sent', _('sent')
+        FAILED = 'failed', _('failed')
+        PERMANENT_FAILED = 'permanent_failed', _('permanently failed')
+
+    season = models.ForeignKey('seasonbreaks.BreakSeason', models.SET_NULL, blank=True, null=True,
+        related_name='export_events', verbose_name=_('break season'))
+    source_season_id = models.PositiveIntegerField(blank=True, null=True, db_index=True,
+        verbose_name=_('source season ID'))
+    source_season_slug = models.SlugField(blank=True, verbose_name=_('source season slug'))
+    source_season_name = models.CharField(blank=True, max_length=100, verbose_name=_('source season name'))
+    published_at = models.DateTimeField(blank=True, null=True, verbose_name=_('published at'))
+    # Fixed when this snapshot is first prepared, so a forced re-send of the
+    # same idempotency key carries a byte-identical body.
+    generated_at = models.DateTimeField(blank=True, null=True, verbose_name=_('generated at'))
+    status = models.CharField(max_length=20, choices=Status.choices, default=Status.PENDING, db_index=True,
+        verbose_name=_('status'))
+    idempotency_key = models.CharField(max_length=160, unique=True, verbose_name=_('idempotency key'))
+    attempts = models.PositiveSmallIntegerField(default=0, verbose_name=_('attempts'))
+    next_attempt_at = models.DateTimeField(blank=True, null=True, db_index=True, verbose_name=_('next attempt at'))
+    last_error = models.TextField(blank=True, verbose_name=_('last error'))
+    last_http_status = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name=_('last HTTP status'))
+    receipt = models.JSONField(default=dict, blank=True)
+    payload_hash = models.CharField(max_length=64, blank=True, verbose_name=_('payload hash'))
+    payload = models.JSONField(blank=True, null=True, verbose_name=_('payload'))
+    remote_response = models.JSONField(blank=True, null=True, verbose_name=_('remote response'))
+    sent_at = models.DateTimeField(blank=True, null=True, verbose_name=_('sent at'))
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created at'))
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=_('updated at'))
+
+    class Meta:
+        ordering = ['status', '-updated_at']
+        verbose_name = _('season breaks export event')
+        verbose_name_plural = _('season breaks export events')
+
+    def __str__(self):
+        return "%s season breaks for %s" % (self.status, self.season or self.source_season_name or self.source_season_id)
+
+    @property
+    def can_retry(self):
+        return self.status in {self.Status.PENDING, self.Status.FAILED, self.Status.PERMANENT_FAILED}
+
+
 class ExportJob(models.Model):
     class Status(models.TextChoices):
         QUEUED = 'queued', _('Queued')
@@ -218,6 +278,7 @@ class ExportJob(models.Model):
     submission_token = models.UUIDField(default=uuid.uuid4, unique=True)
     requested_by = models.ForeignKey(settings.AUTH_USER_MODEL, models.SET_NULL, null=True, blank=True)
     tournaments = models.JSONField(default=list)  # Stable IDs and names, including deleted tournaments.
+    seasons = models.JSONField(default=list)  # Same for break seasons (season breaks jobs).
     export_types = models.JSONField(default=list)
     force = models.BooleanField(default=False)
     backlog = models.BooleanField(default=False)
@@ -253,6 +314,7 @@ class ExportJobItem(models.Model):
     job = models.ForeignKey(ExportJob, models.CASCADE, related_name='items')
     kind = models.CharField(max_length=16, choices=[
         ('feedback', _('Feedback')), ('activity', _('Judge activity')), ('results', _('Results')),
+        ('breaks', _('Season breaks')),
     ])
     source_id = models.PositiveIntegerField()
     tournament_id = models.PositiveIntegerField(null=True, blank=True, db_index=True)
@@ -260,6 +322,7 @@ class ExportJobItem(models.Model):
     feedback_event = models.ForeignKey(FeedbackExportEvent, models.SET_NULL, null=True, blank=True, related_name='job_items')
     activity_event = models.ForeignKey(AdjudicatorStatsExportEvent, models.SET_NULL, null=True, blank=True, related_name='job_items')
     results_event = models.ForeignKey(ResultsExportEvent, models.SET_NULL, null=True, blank=True, related_name='job_items')
+    breaks_event = models.ForeignKey(SeasonBreaksExportEvent, models.SET_NULL, null=True, blank=True, related_name='job_items')
     status = models.CharField(max_length=16, choices=Status.choices, default=Status.PREPARING)
     attempts = models.PositiveSmallIntegerField(default=0)
     next_attempt_at = models.DateTimeField(null=True, blank=True)

@@ -4,7 +4,8 @@ DR exports
 ==========
 
 This fork exports confirmed adjudicator feedback, tournament adjudication
-counts and complete tournament results to DR. Open **Site tools → API
+counts, complete tournament results and league seasons' published break standings
+to DR. Open **Site tools → API
 Exports**, select tournaments, choose **Feedback**, **Judge activity**, **Both**
 or **Results** (*Výsledky*), and click **Export to DR**. Nothing is sent
 automatically when feedback or ballots are saved or confirmed.
@@ -70,6 +71,46 @@ side to test against (IDs come from the test database); regenerate it from the
     RESULTS_EXAMPLE_PATH=../docs/features/dr-results-payload-example.json \
         python manage.py test -t . feedbackexport.tests.test_results
 
+Season breaks
+-------------
+
+Each league season's published break standings go to
+``POST /api/v1/season-breaks/`` (payload v1, *Season breaks payload* in
+Databáza SDA's ``docs/tabbycat-api.md``). Unlike the other streams this one is
+triggered by the editor: clicking **Publish public snapshot** on a break season's
+overview page saves an export job for that season, and the export worker sends it.
+The body is::
+
+    {"version": 1, "source_system": "tabbycat-sda", "generated_at": "…",
+     "season": "2026/2027",
+     "snapshot": <BreakSeason.public_snapshot>}
+
+``snapshot`` is the published snapshot exactly as stored; nothing is recomputed,
+and Databáza SDA never recomputes it either. ``season`` is read from the
+snapshot's season name or slug (``2026/2027`` or ``2026-2027``) and is left out
+when neither names one; DR then derives it from ``snapshot.published_at``.
+
+The idempotency key is ``tabbycat-sda:season-breaks:<season id>:<published_at>``.
+A published snapshot never changes, so a republish always gets a new key and
+replaces the season in DR, while a retry of the same snapshot resends the
+identical body (``generated_at`` is fixed when the snapshot is first prepared).
+An older snapshot is never delivered after a newer one of the same season.
+
+The overview page's *Public snapshot* card shows the last send status (queued,
+sent with its HTTP status, or the DR error) and a **Send again to Databáza SDA**
+button, which queues a forced re-send of the current snapshot. Publishing never
+fails because of the export: if the stream is off or no job can be saved, the
+snapshot is still published and the card says so. Snapshots published while the
+stream was off can be sent later with that button or with
+``feedbackexport queue-season-breaks [--season <slug>] [--force]``.
+
+The stream uses the results token (``results:write`` scope) and, unless set
+explicitly, follows the results stream's switch and host. A 404 blocks this
+stream until the URL is fixed, like the results stream. Bodies are plain JSON;
+DR accepts gzip only for results. To inspect a payload::
+
+    python tabbycat/manage.py feedbackexport season-breaks-payload <season id>
+
 Progress and recovery
 ---------------------
 
@@ -120,8 +161,13 @@ both the web and export worker services:
   ``SDA_JUDGES_RESULTS_API_URL`` (e.g. ``https://rozhodcovia.sda.sk/api/v1/results/``)
 * ``SDA_JUDGES_RESULTS_API_TOKEN`` (falls back to the feedback token; DR needs the
   ``results:write`` scope on the ``tabbycat`` client)
+* ``SDA_JUDGES_SEASON_BREAKS_EXPORT_ENABLED`` (default: the value of
+  ``SDA_JUDGES_RESULTS_EXPORT_ENABLED``) and ``SDA_JUDGES_SEASON_BREAKS_API_URL``
+  (default: the results URL's host + ``/api/v1/season-breaks/``); the results
+  token is used. Blank values count as unset.
 * ``FEEDBACK_EXPORT_TIMEOUT`` and ``ADJUDICATOR_STATS_EXPORT_TIMEOUT`` (default
-  10 seconds) and ``RESULTS_EXPORT_TIMEOUT`` (default 30 seconds), bounded to
+  10 seconds), ``RESULTS_EXPORT_TIMEOUT`` (default 30 seconds) and
+  ``SEASON_BREAKS_EXPORT_TIMEOUT`` (default 10 seconds), bounded to
   1–30 seconds in the HTTP transport
 
 The existing non-SDA environment-variable aliases remain supported. Enabled flags

@@ -100,6 +100,48 @@
             <a class="btn btn-outline-secondary btn-sm mt-3" href="{% url 'seasonbreaks-global-ranking' season_slug=season.slug %}">
               <i data-icon="chart-no-axes-column"></i> {% trans "Preview global ranking" %}
             </a>
+
+            {# Delivery of the published snapshot to Databáza SDA (feedbackexport "breaks" stream). #}
+            <hr>
+            <h5>Databáza SDA</h5>
+            {% with event=dr_export.event job=dr_export.job %}
+              <p class="mb-2">
+                {% if job %}
+                  <span class="badge badge-info">{% trans "Queued" %}</span>
+                  {% blocktrans trimmed with status=job.get_status_display %}Export job status: {{ status }}.{% endblocktrans %}
+                {% elif event %}
+                  {% if event.status == 'sent' %}
+                    <span class="badge badge-success">{% trans "Sent" %}</span>
+                    {{ event.sent_at }}{% if event.last_http_status %} · HTTP {{ event.last_http_status }}{% endif %}
+                  {% elif event.status == 'pending' %}
+                    <span class="badge badge-info">{% trans "Waiting to be sent" %}</span>
+                  {% else %}
+                    <span class="badge badge-danger">{% trans "Not delivered" %}</span>
+                    {% if event.last_http_status %}HTTP {{ event.last_http_status }}{% endif %}
+                  {% endif %}
+                  {% if not dr_export.current %}
+                    <br><small class="text-muted">{% trans "This status is for an earlier published snapshot." %}</small>
+                  {% endif %}
+                {% else %}
+                  <span class="text-muted">{% trans "Not sent yet." %}</span>
+                {% endif %}
+              </p>
+              {% if event.last_error and event.status != 'sent' and not job %}
+                <p class="small text-danger mb-2">{{ event.last_error|truncatechars:300 }}</p>
+              {% endif %}
+              {% if job and dr_export.can_view_jobs %}
+                <p class="small mb-2"><a href="{% url 'feedbackexport-job' job.id %}">{% blocktrans trimmed with id=job.id %}View export #{{ id }}{% endblocktrans %}</a></p>
+              {% endif %}
+            {% endwith %}
+            {% if not dr_export.ready %}
+              <p class="small text-muted mb-2">{% trans "Sending season breaks to Databáza SDA is turned off or not configured." %}</p>
+            {% elif dr_export.published %}
+              <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="send_season_breaks_to_dr">
+                <button type="submit" class="btn btn-outline-primary btn-sm"><i data-icon="rotate-cw"></i> {% trans "Send again to Databáza SDA" %}</button>
+              </form>
+            {% endif %}
           </div>
         </div>
       </div>

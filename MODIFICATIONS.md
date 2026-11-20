@@ -24,6 +24,7 @@ As of 2026-06-15, the fork includes changes in areas such as:
 - footer source-code link for hosted instances
 - feedback and adjudicator-stats export to an external database (DR) through the API
 - full tournament results export (teams, speakers, debates, tabs and breaks) to DR through the API, off by default
+- published league-season break standings (seasonbreaks snapshot) sent to DR on publish, with a send-again action
 - Support for SDA 1-speech format (JDL)
 - Slovak localisation additions and fixes (side names, ballots, JDL export, browser gettext catalogs)
 
