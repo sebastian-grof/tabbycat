@@ -640,3 +640,23 @@ msgstr "History"
 #, python-format
 msgid "API export access updated for %(user)s."
 msgstr "API export access updated for %(user)s."
+
+#: feedbackexport/templates/feedbackexport/index.html:35
+msgid "Complete results, tabs and breaks of each tournament"
+msgstr ""
+
+#: feedbackexport/templates/feedbackexport/index.html:37
+msgid "Results snapshots"
+msgstr ""
+
+#: feedbackexport/models.py:179
+msgid "generated at"
+msgstr ""
+
+#: feedbackexport/models.py:194
+msgid "results export event"
+msgstr ""
+
+#: feedbackexport/models.py:195
+msgid "results export events"
+msgstr ""

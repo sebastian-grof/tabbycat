@@ -1,0 +1,1145 @@
+{
+  "adjudicators": [
+    {
+      "adj_core": false,
+      "anonymous": false,
+      "email": "chair@example.test",
+      "id": 382,
+      "independent": true,
+      "institution_id": 101,
+      "judge_profile_id": null,
+      "name": "Chair Judge",
+      "trainee": false
+    },
+    {
+      "adj_core": false,
+      "anonymous": false,
+      "email": null,
+      "id": 383,
+      "independent": false,
+      "institution_id": 100,
+      "judge_profile_id": null,
+      "name": "Panel Judge",
+      "trainee": false
+    },
+    {
+      "adj_core": false,
+      "anonymous": false,
+      "email": null,
+      "id": 384,
+      "independent": false,
+      "institution_id": null,
+      "judge_profile_id": null,
+      "name": "Trainee Judge",
+      "trainee": true
+    },
+    {
+      "adj_core": true,
+      "anonymous": false,
+      "email": null,
+      "id": 385,
+      "independent": false,
+      "institution_id": null,
+      "judge_profile_id": null,
+      "name": "Shared Judge",
+      "trainee": false
+    }
+  ],
+  "break_categories": [
+    {
+      "break_size": 2,
+      "id": 19,
+      "is_general": true,
+      "name": "Open",
+      "slug": "open"
+    }
+  ],
+  "breaks": [
+    {
+      "break_category_id": 19,
+      "break_rank": 1,
+      "rank": 1,
+      "remark": null,
+      "team_id": 117
+    },
+    {
+      "break_category_id": 19,
+      "break_rank": 2,
+      "rank": 2,
+      "remark": null,
+      "team_id": 119
+    },
+    {
+      "break_category_id": 19,
+      "break_rank": null,
+      "rank": 3,
+      "remark": "C",
+      "team_id": 118
+    }
+  ],
+  "debates": [
+    {
+      "adjudicators": [
+        {
+          "adjudicator_id": 382,
+          "role": "chair"
+        },
+        {
+          "adjudicator_id": 383,
+          "role": "panellist"
+        },
+        {
+          "adjudicator_id": 385,
+          "role": "panellist"
+        },
+        {
+          "adjudicator_id": 384,
+          "role": "trainee"
+        }
+      ],
+      "forfeit": false,
+      "id": 136,
+      "motion_id": 52,
+      "round_id": 102,
+      "teams": [
+        {
+          "cross_examination": [
+            {
+              "name": "Krížové otázky",
+              "score": 4.0
+            }
+          ],
+          "points": 1,
+          "score": 248.5,
+          "side": 0,
+          "side_name": "Súhlas",
+          "speakers": [
+            {
+              "criteria": [
+                {
+                  "name": "Obsah",
+                  "score": 30.0
+                }
+              ],
+              "ghost": false,
+              "position": 1,
+              "rank": 1,
+              "reply": false,
+              "score": 70.0,
+              "speaker_id": 370
+            },
+            {
+              "criteria": [
+                {
+                  "name": "Obsah",
+                  "score": 31.0
+                }
+              ],
+              "ghost": false,
+              "position": 2,
+              "rank": 2,
+              "reply": false,
+              "score": 71.0,
+              "speaker_id": 371
+            },
+            {
+              "criteria": [
+                {
+                  "name": "Obsah",
+                  "score": 32.0
+                }
+              ],
+              "ghost": false,
+              "position": 3,
+              "rank": 3,
+              "reply": false,
+              "score": 72.0,
+              "speaker_id": 372
+            },
+            {
+              "criteria": [],
+              "ghost": false,
+              "position": 4,
+              "rank": null,
+              "reply": true,
+              "score": 35.5,
+              "speaker_id": 370
+            }
+          ],
+          "team_id": 117,
+          "votes_given": 2,
+          "votes_possible": 3,
+          "win": true
+        },
+        {
+          "cross_examination": [
+            {
+              "name": "Krížové otázky",
+              "score": 5.0
+            }
+          ],
+          "points": 0,
+          "score": 241.0,
+          "side": 1,
+          "side_name": "Nesúhlas",
+          "speakers": [
+            {
+              "criteria": [
+                {
+                  "name": "Obsah",
+                  "score": 29.0
+                }
+              ],
+              "ghost": false,
+              "position": 1,
+              "rank": 1,
+              "reply": false,
+              "score": 69.0,
+              "speaker_id": 373
+            },
+            {
+              "criteria": [
+                {
+                  "name": "Obsah",
+                  "score": 30.0
+                }
+              ],
+              "ghost": false,
+              "position": 2,
+              "rank": 2,
+              "reply": false,
+              "score": 70.0,
+              "speaker_id": 374
+            },
+            {
+              "criteria": [
+                {
+                  "name": "Obsah",
+                  "score": 28.0
+                }
+              ],
+              "ghost": false,
+              "position": 3,
+              "rank": 3,
+              "reply": false,
+              "score": 68.0,
+              "speaker_id": 375
+            },
+            {
+              "criteria": [],
+              "ghost": false,
+              "position": 4,
+              "rank": null,
+              "reply": true,
+              "score": 34.0,
+              "speaker_id": 373
+            }
+          ],
+          "team_id": 118,
+          "votes_given": 1,
+          "votes_possible": 3,
+          "win": false
+        }
+      ]
+    },
+    {
+      "adjudicators": [
+        {
+          "adjudicator_id": 383,
+          "role": "chair"
+        }
+      ],
+      "forfeit": false,
+      "id": 137,
+      "motion_id": 52,
+      "round_id": 102,
+      "teams": [
+        {
+          "cross_examination": [
+            {
+              "name": "Krížové otázky",
+              "score": 4.0
+            }
+          ],
+          "points": 1,
+          "score": 222.0,
+          "side": 0,
+          "side_name": "Súhlas",
+          "speakers": [
+            {
+              "criteria": [
+                {
+                  "name": "Obsah",
+                  "score": 34.0
+                }
+              ],
+              "ghost": false,
+              "position": 1,
+              "rank": 1,
+              "reply": false,
+              "score": 74.0,
+              "speaker_id": 376
+            },
+            {
+              "criteria": [
+                {
+                  "name": "Obsah",
+                  "score": 33.0
+                }
+              ],
+              "ghost": false,
+              "position": 2,
+              "rank": 2,
+              "reply": false,
+              "score": 73.0,
+              "speaker_id": 377
+            },
+            {
+              "criteria": [
+                {
+                  "name": "Obsah",
+                  "score": 35.0
+                }
+              ],
+              "ghost": false,
+              "position": 3,
+              "rank": 3,
+              "reply": false,
+              "score": 75.0,
+              "speaker_id": 378
+            }
+          ],
+          "team_id": 119,
+          "votes_given": 1,
+          "votes_possible": 1,
+          "win": true
+        },
+        {
+          "cross_examination": [
+            {
+              "name": "Krížové otázky",
+              "score": 5.0
+            }
+          ],
+          "points": 0,
+          "score": 198.0,
+          "side": 1,
+          "side_name": "Nesúhlas",
+          "speakers": [
+            {
+              "criteria": [
+                {
+                  "name": "Obsah",
+                  "score": 25.0
+                }
+              ],
+              "ghost": false,
+              "position": 1,
+              "rank": 1,
+              "reply": false,
+              "score": 65.0,
+              "speaker_id": 379
+            },
+            {
+              "criteria": [
+                {
+                  "name": "Obsah",
+                  "score": 26.0
+                }
+              ],
+              "ghost": false,
+              "position": 2,
+              "rank": 2,
+              "reply": false,
+              "score": 66.0,
+              "speaker_id": 380
+            },
+            {
+              "criteria": [
+                {
+                  "name": "Obsah",
+                  "score": 27.0
+                }
+              ],
+              "ghost": true,
+              "position": 3,
+              "rank": 3,
+              "reply": false,
+              "score": 67.0,
+              "speaker_id": 379
+            }
+          ],
+          "team_id": 120,
+          "votes_given": 0,
+          "votes_possible": 1,
+          "win": false
+        }
+      ]
+    },
+    {
+      "adjudicators": [
+        {
+          "adjudicator_id": 382,
+          "role": "chair"
+        }
+      ],
+      "forfeit": false,
+      "id": 138,
+      "motion_id": 53,
+      "round_id": 103,
+      "teams": [
+        {
+          "cross_examination": [
+            {
+              "name": "Krížové otázky",
+              "score": 4.0
+            }
+          ],
+          "points": 1,
+          "score": 228.0,
+          "side": 0,
+          "side_name": "Súhlas",
+          "speakers": [
+            {
+              "criteria": [
+                {
+                  "name": "Obsah",
+                  "score": 35.0
+                }
+              ],
+              "ghost": false,
+              "position": 1,
+              "rank": 1,
+              "reply": false,
+              "score": 75.0,
+              "speaker_id": 370
+            },
+            {
+              "criteria": [
+                {
+                  "name": "Obsah",
+                  "score": 36.0
+                }
+              ],
+              "ghost": false,
+              "position": 2,
+              "rank": 2,
+              "reply": false,
+              "score": 76.0,
+              "speaker_id": 371
+            },
+            {
+              "criteria": [
+                {
+                  "name": "Obsah",
+                  "score": 37.0
+                }
+              ],
+              "ghost": false,
+              "position": 3,
+              "rank": 3,
+              "reply": false,
+              "score": 77.0,
+              "speaker_id": 372
+            }
+          ],
+          "team_id": 117,
+          "votes_given": 1,
+          "votes_possible": 1,
+          "win": true
+        },
+        {
+          "cross_examination": [
+            {
+              "name": "Krížové otázky",
+              "score": 5.0
+            }
+          ],
+          "points": 0,
+          "score": 210.0,
+          "side": 1,
+          "side_name": "Nesúhlas",
+          "speakers": [
+            {
+              "criteria": [
+                {
+                  "name": "Obsah",
+                  "score": 30.0
+                }
+              ],
+              "ghost": false,
+              "position": 1,
+              "rank": 1,
+              "reply": false,
+              "score": 70.0,
+              "speaker_id": 376
+            },
+            {
+              "criteria": [
+                {
+                  "name": "Obsah",
+                  "score": 30.0
+                }
+              ],
+              "ghost": false,
+              "position": 2,
+              "rank": 2,
+              "reply": false,
+              "score": 70.0,
+              "speaker_id": 377
+            },
+            {
+              "criteria": [
+                {
+                  "name": "Obsah",
+                  "score": 30.0
+                }
+              ],
+              "ghost": false,
+              "position": 3,
+              "rank": 3,
+              "reply": false,
+              "score": 70.0,
+              "speaker_id": 378
+            }
+          ],
+          "team_id": 119,
+          "votes_given": 0,
+          "votes_possible": 1,
+          "win": false
+        }
+      ]
+    },
+    {
+      "adjudicators": [
+        {
+          "adjudicator_id": 382,
+          "role": "chair"
+        }
+      ],
+      "forfeit": false,
+      "id": 140,
+      "motion_id": 54,
+      "round_id": 104,
+      "teams": [
+        {
+          "cross_examination": [
+            {
+              "name": "Krížové otázky",
+              "score": 4.0
+            }
+          ],
+          "points": 1,
+          "score": 234.0,
+          "side": 0,
+          "side_name": "Súhlas",
+          "speakers": [
+            {
+              "criteria": [
+                {
+                  "name": "Obsah",
+                  "score": 38.0
+                }
+              ],
+              "ghost": false,
+              "position": 1,
+              "rank": 1,
+              "reply": false,
+              "score": 78.0,
+              "speaker_id": 376
+            },
+            {
+              "criteria": [
+                {
+                  "name": "Obsah",
+                  "score": 38.0
+                }
+              ],
+              "ghost": false,
+              "position": 2,
+              "rank": 2,
+              "reply": false,
+              "score": 78.0,
+              "speaker_id": 377
+            },
+            {
+              "criteria": [
+                {
+                  "name": "Obsah",
+                  "score": 38.0
+                }
+              ],
+              "ghost": false,
+              "position": 3,
+              "rank": 3,
+              "reply": false,
+              "score": 78.0,
+              "speaker_id": 378
+            }
+          ],
+          "team_id": 119,
+          "votes_given": 1,
+          "votes_possible": 1,
+          "win": true
+        },
+        {
+          "cross_examination": [
+            {
+              "name": "Krížové otázky",
+              "score": 5.0
+            }
+          ],
+          "points": 0,
+          "score": 213.0,
+          "side": 1,
+          "side_name": "Nesúhlas",
+          "speakers": [
+            {
+              "criteria": [
+                {
+                  "name": "Obsah",
+                  "score": 31.0
+                }
+              ],
+              "ghost": false,
+              "position": 1,
+              "rank": 1,
+              "reply": false,
+              "score": 71.0,
+              "speaker_id": 370
+            },
+            {
+              "criteria": [
+                {
+                  "name": "Obsah",
+                  "score": 31.0
+                }
+              ],
+              "ghost": false,
+              "position": 2,
+              "rank": 2,
+              "reply": false,
+              "score": 71.0,
+              "speaker_id": 371
+            },
+            {
+              "criteria": [
+                {
+                  "name": "Obsah",
+                  "score": 31.0
+                }
+              ],
+              "ghost": false,
+              "position": 3,
+              "rank": 3,
+              "reply": false,
+              "score": 71.0,
+              "speaker_id": 372
+            }
+          ],
+          "team_id": 117,
+          "votes_given": 0,
+          "votes_possible": 1,
+          "win": false
+        }
+      ]
+    }
+  ],
+  "generated_at": "2026-11-20T18:08:50+00:00",
+  "idempotency_key": "tabbycat-sda:results:68:8e412a8e7fef:v1",
+  "institutions": [
+    {
+      "code": "Alfa",
+      "id": 100,
+      "name": "Gymnázium Alfa",
+      "region": "Západ"
+    },
+    {
+      "code": "Beta",
+      "id": 101,
+      "name": "Gymnázium Beta",
+      "region": null
+    }
+  ],
+  "rounds": [
+    {
+      "abbreviation": "K1",
+      "break_category_id": null,
+      "id": 102,
+      "motions": [
+        {
+          "id": 52,
+          "info_slide": "Info 1",
+          "reference": "Motion K1",
+          "seq": 1,
+          "text": "This House would Kolo 1"
+        }
+      ],
+      "name": "Kolo 1",
+      "seq": 1,
+      "silent": false,
+      "stage": "preliminary",
+      "starts_at": "2026-11-21T08:00:00+00:00"
+    },
+    {
+      "abbreviation": "K2",
+      "break_category_id": null,
+      "id": 103,
+      "motions": [
+        {
+          "id": 53,
+          "info_slide": "Info 2",
+          "reference": "Motion K2",
+          "seq": 1,
+          "text": "This House would Kolo 2"
+        }
+      ],
+      "name": "Kolo 2",
+      "seq": 2,
+      "silent": true,
+      "stage": "preliminary",
+      "starts_at": null
+    },
+    {
+      "abbreviation": "F",
+      "break_category_id": 19,
+      "id": 104,
+      "motions": [
+        {
+          "id": 54,
+          "info_slide": "Info 3",
+          "reference": "Motion F",
+          "seq": 1,
+          "text": "This House would Finále"
+        }
+      ],
+      "name": "Finále",
+      "seq": 3,
+      "silent": false,
+      "stage": "elimination",
+      "starts_at": "2026-11-22T08:00:00+00:00"
+    }
+  ],
+  "source_system": "tabbycat-sda",
+  "speaker_categories": [
+    {
+      "id": 18,
+      "name": "Novice",
+      "slug": "novice"
+    }
+  ],
+  "speaker_standings": [
+    {
+      "kind": "substantive",
+      "metrics": {
+        "average": 74.5,
+        "count": 2,
+        "total": 149.0
+      },
+      "rank": 1,
+      "rank_tied": false,
+      "speaker_category_id": null,
+      "speaker_id": 372
+    },
+    {
+      "kind": "substantive",
+      "metrics": {
+        "average": 73.5,
+        "count": 2,
+        "total": 147.0
+      },
+      "rank": 2,
+      "rank_tied": false,
+      "speaker_category_id": null,
+      "speaker_id": 371
+    },
+    {
+      "kind": "substantive",
+      "metrics": {
+        "average": 72.5,
+        "count": 2,
+        "total": 145.0
+      },
+      "rank": 3,
+      "rank_tied": true,
+      "speaker_category_id": null,
+      "speaker_id": 370
+    },
+    {
+      "kind": "substantive",
+      "metrics": {
+        "average": 72.5,
+        "count": 2,
+        "total": 145.0
+      },
+      "rank": 3,
+      "rank_tied": true,
+      "speaker_category_id": null,
+      "speaker_id": 378
+    },
+    {
+      "kind": "substantive",
+      "metrics": {
+        "average": 72.0,
+        "count": 2,
+        "total": 144.0
+      },
+      "rank": 5,
+      "rank_tied": false,
+      "speaker_category_id": null,
+      "speaker_id": 376
+    },
+    {
+      "kind": "substantive",
+      "metrics": {
+        "average": 71.5,
+        "count": 2,
+        "total": 143.0
+      },
+      "rank": 6,
+      "rank_tied": false,
+      "speaker_category_id": null,
+      "speaker_id": 377
+    },
+    {
+      "kind": "substantive",
+      "metrics": {
+        "average": 70.0,
+        "count": 1,
+        "total": 70.0
+      },
+      "rank": 7,
+      "rank_tied": false,
+      "speaker_category_id": null,
+      "speaker_id": 374
+    },
+    {
+      "kind": "substantive",
+      "metrics": {
+        "average": 69.0,
+        "count": 1,
+        "total": 69.0
+      },
+      "rank": 8,
+      "rank_tied": false,
+      "speaker_category_id": null,
+      "speaker_id": 373
+    },
+    {
+      "kind": "substantive",
+      "metrics": {
+        "average": 68.0,
+        "count": 1,
+        "total": 68.0
+      },
+      "rank": 9,
+      "rank_tied": false,
+      "speaker_category_id": null,
+      "speaker_id": 375
+    },
+    {
+      "kind": "substantive",
+      "metrics": {
+        "average": 66.0,
+        "count": 1,
+        "total": 66.0
+      },
+      "rank": 10,
+      "rank_tied": false,
+      "speaker_category_id": null,
+      "speaker_id": 380
+    },
+    {
+      "kind": "substantive",
+      "metrics": {
+        "average": 65.0,
+        "count": 1,
+        "total": 65.0
+      },
+      "rank": 11,
+      "rank_tied": false,
+      "speaker_category_id": null,
+      "speaker_id": 379
+    },
+    {
+      "kind": "substantive",
+      "metrics": {
+        "average": null,
+        "count": 0,
+        "total": null
+      },
+      "rank": 12,
+      "rank_tied": false,
+      "speaker_category_id": null,
+      "speaker_id": 381
+    },
+    {
+      "kind": "substantive",
+      "metrics": {
+        "average": 72.0,
+        "count": 2,
+        "total": 144.0
+      },
+      "rank": 1,
+      "rank_tied": false,
+      "speaker_category_id": 18,
+      "speaker_id": 376
+    },
+    {
+      "kind": "substantive",
+      "metrics": {
+        "average": 68.0,
+        "count": 1,
+        "total": 68.0
+      },
+      "rank": 2,
+      "rank_tied": false,
+      "speaker_category_id": 18,
+      "speaker_id": 375
+    },
+    {
+      "kind": "reply",
+      "metrics": {
+        "replies_avg": 35.5,
+        "replies_count": 1,
+        "replies_stddev": 0.0
+      },
+      "rank": 1,
+      "rank_tied": false,
+      "speaker_category_id": null,
+      "speaker_id": 370
+    },
+    {
+      "kind": "reply",
+      "metrics": {
+        "replies_avg": 34.0,
+        "replies_count": 1,
+        "replies_stddev": 0.0
+      },
+      "rank": 2,
+      "rank_tied": false,
+      "speaker_category_id": null,
+      "speaker_id": 373
+    }
+  ],
+  "team_standings": [
+    {
+      "metrics": {
+        "margin_sum": 25.5,
+        "speaks_sum": 476.5,
+        "wins": 2
+      },
+      "rank": 1,
+      "rank_tied": false,
+      "team_id": 117
+    },
+    {
+      "metrics": {
+        "margin_sum": 6.0,
+        "speaks_sum": 432.0,
+        "wins": 1
+      },
+      "rank": 2,
+      "rank_tied": false,
+      "team_id": 119
+    },
+    {
+      "metrics": {
+        "margin_sum": -7.5,
+        "speaks_sum": 241.0,
+        "wins": 0
+      },
+      "rank": 3,
+      "rank_tied": false,
+      "team_id": 118
+    },
+    {
+      "metrics": {
+        "margin_sum": -24.0,
+        "speaks_sum": 198.0,
+        "wins": 0
+      },
+      "rank": 4,
+      "rank_tied": false,
+      "team_id": 120
+    }
+  ],
+  "teams": [
+    {
+      "break_category_ids": [
+        19
+      ],
+      "code_name": "Code A",
+      "id": 117,
+      "institution_id": 100,
+      "name": "Gymnázium Alfa A",
+      "season_team": {
+        "id": 18,
+        "name": "Alfa A"
+      },
+      "short_name": "Alfa A",
+      "speakers": [
+        {
+          "anonymous": false,
+          "email": "a1@example.test",
+          "id": 370,
+          "name": "Speaker A1",
+          "speaker_category_ids": []
+        },
+        {
+          "anonymous": true,
+          "email": null,
+          "id": 371,
+          "name": "Speaker A2",
+          "speaker_category_ids": []
+        },
+        {
+          "anonymous": false,
+          "email": null,
+          "id": 372,
+          "name": "Speaker A3",
+          "speaker_category_ids": []
+        }
+      ]
+    },
+    {
+      "break_category_ids": [
+        19
+      ],
+      "code_name": "Code B",
+      "id": 118,
+      "institution_id": 100,
+      "name": "Gymnázium Alfa B",
+      "season_team": null,
+      "short_name": "Alfa B",
+      "speakers": [
+        {
+          "anonymous": false,
+          "email": "b1@example.test",
+          "id": 373,
+          "name": "Speaker B1",
+          "speaker_category_ids": []
+        },
+        {
+          "anonymous": false,
+          "email": null,
+          "id": 374,
+          "name": "Speaker B2",
+          "speaker_category_ids": []
+        },
+        {
+          "anonymous": false,
+          "email": null,
+          "id": 375,
+          "name": "Speaker B3",
+          "speaker_category_ids": [
+            18
+          ]
+        }
+      ]
+    },
+    {
+      "break_category_ids": [
+        19
+      ],
+      "code_name": "Code C",
+      "id": 119,
+      "institution_id": 101,
+      "name": "Gymnázium Beta C",
+      "season_team": null,
+      "short_name": "Beta C",
+      "speakers": [
+        {
+          "anonymous": false,
+          "email": "c1@example.test",
+          "id": 376,
+          "name": "Speaker C1",
+          "speaker_category_ids": [
+            18
+          ]
+        },
+        {
+          "anonymous": false,
+          "email": null,
+          "id": 377,
+          "name": "Speaker C2",
+          "speaker_category_ids": []
+        },
+        {
+          "anonymous": false,
+          "email": null,
+          "id": 378,
+          "name": "Speaker C3",
+          "speaker_category_ids": []
+        }
+      ]
+    },
+    {
+      "break_category_ids": [
+        19
+      ],
+      "code_name": "Code D",
+      "id": 120,
+      "institution_id": 101,
+      "name": "Gymnázium Beta D",
+      "season_team": null,
+      "short_name": "Beta D",
+      "speakers": [
+        {
+          "anonymous": false,
+          "email": "d1@example.test",
+          "id": 379,
+          "name": "Speaker D1",
+          "speaker_category_ids": []
+        },
+        {
+          "anonymous": false,
+          "email": null,
+          "id": 380,
+          "name": "Speaker D2",
+          "speaker_category_ids": []
+        },
+        {
+          "anonymous": false,
+          "email": null,
+          "id": 381,
+          "name": "Speaker D3",
+          "speaker_category_ids": []
+        }
+      ]
+    }
+  ],
+  "tournament": {
+    "break_tournament": {
+      "counts_for_break": true,
+      "frozen_at": null,
+      "id": 24,
+      "region": {
+        "id": 24,
+        "name": "Západ",
+        "slug": "zapad"
+      },
+      "season": {
+        "id": 24,
+        "name": "SDL 2026/2027",
+        "slug": "sdl-2026-2027"
+      }
+    },
+    "ends_on": "2026-11-22",
+    "format": {
+      "reply_speeches": true,
+      "speakers_per_team": 3,
+      "teams_per_debate": 2,
+      "uses_cross_examination": true
+    },
+    "id": 68,
+    "league": "SDL",
+    "league_slug": "sdl",
+    "name": "Results Open",
+    "season": "2026/2027",
+    "short_name": "RO",
+    "slug": "results-open",
+    "starts_on": "2026-11-21"
+  },
+  "version": 1
+}

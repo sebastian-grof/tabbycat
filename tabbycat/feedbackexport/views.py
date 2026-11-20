@@ -17,7 +17,9 @@ from tournaments.models import Tournament
 
 from .forms import access_rows, FeedbackExportAccessForm
 from .jobs import configuration, control_job, create_backlog_job, create_job, job_summary
-from .models import AdjudicatorStatsExportEvent, ExportJob, ExportJobItem, FeedbackExportEvent, FeedbackExportPermission
+from .models import (
+    AdjudicatorStatsExportEvent, ExportJob, ExportJobItem, FeedbackExportEvent, FeedbackExportPermission, ResultsExportEvent,
+)
 from .permissions import can_manage_feedback_export, has_feedback_export_permission
 
 
@@ -61,8 +63,10 @@ class FeedbackExportIndexView(FeedbackExportPermissionMixin, TemplateView):
             active_tab='export', tournaments=tournaments, submission_token=str(uuid.uuid4()), backlog_token=str(uuid.uuid4()),
             latest_job=ExportJob.objects.order_by('-id').first(),
             active_job=ExportJob.objects.exclude(status__in=['completed', 'completed_errors']).order_by('id').first(),
-            backlog_count=(FeedbackExportEvent.objects.exclude(status='sent').filter(job_items__isnull=True).count() +
-                           AdjudicatorStatsExportEvent.objects.exclude(status='sent').filter(job_items__isnull=True).count()),
+            backlog_count=sum(
+                model.objects.exclude(status='sent').filter(job_items__isnull=True).count()
+                for model in (FeedbackExportEvent, AdjudicatorStatsExportEvent, ResultsExportEvent)
+            ),
         )
         return super().get_context_data(**kwargs)
 
@@ -90,7 +94,7 @@ class ExportHistoryView(FeedbackExportPermissionMixin, TemplateView):
         if tournament_id.isdigit():
             filters['items__tournament_id'] = int(tournament_id)
         kind = self.request.GET.get('kind', '')
-        if kind in {'feedback', 'activity'}:
+        if kind in {'feedback', 'activity', 'results'}:
             jobs = jobs.filter(export_types__contains=[kind])
         status = self.request.GET.get('status', '')
         if status in ExportJob.Status.values:

@@ -18,18 +18,24 @@ from adjallocation.models import DebateAdjudicator
 from adjfeedback.models import AdjudicatorFeedback
 from tournaments.models import Tournament
 
-from .models import AdjudicatorStatsExportEvent, ExportJob, ExportJobItem, ExportWorkerState, FeedbackExportEvent
+from .models import (
+    AdjudicatorStatsExportEvent, ExportJob, ExportJobItem, ExportWorkerState, FeedbackExportEvent, ResultsExportEvent,
+)
 from .services import (
     adjudicator_stats_export_enabled, adjudicator_stats_export_endpoint,
     deliver_snapshot, feedback_export_enabled, feedback_export_endpoint, feedback_export_queryset, MAX_ATTEMPTS,
-    queue_adjudicator_stats_export, queue_feedback_export, retry_delay, truncate_bytes,
+    queue_adjudicator_stats_export, queue_feedback_export, queue_results_export,
+    results_export_enabled, results_export_endpoint, retry_delay, truncate_bytes,
 )
 
 logger = logging.getLogger(__name__)
 TERMINAL = ['completed', 'completed_errors']
-MODELS = {'feedback': FeedbackExportEvent, 'activity': AdjudicatorStatsExportEvent}
+MODELS = {'feedback': FeedbackExportEvent, 'activity': AdjudicatorStatsExportEvent, 'results': ResultsExportEvent}
 LEASE_SECONDS = 120
 PREPARE_BATCH = 100
+# A results snapshot builds a whole tournament's tabs; keep each preparation
+# transaction well inside the worker lease.
+PREPARE_KIND_BATCH = {'results': 3}
 SEND_BATCH = 25
 
 
@@ -45,6 +51,7 @@ def configuration():
         'heartbeat_at': state.heartbeat_at if state else None,
         'feedback_ready': feedback_export_enabled() and bool(feedback_export_endpoint()),
         'activity_ready': adjudicator_stats_export_enabled() and bool(adjudicator_stats_export_endpoint()),
+        'results_ready': results_export_enabled() and bool(results_export_endpoint()),
     }
 
 
@@ -55,7 +62,7 @@ def create_job(*, tournament_ids, kinds, force=False, requested_by=None, submiss
         return existing
     kinds = sorted(set(kinds))
     if not kinds or not set(kinds) <= set(MODELS):
-        raise ValueError('Choose feedback, judge activity, or both.')
+        raise ValueError('Choose feedback, judge activity, results, or a combination of them.')
     if any(isinstance(value, bool) or not str(value).isdigit() for value in tournament_ids):
         raise ValueError('Invalid tournament selection.')
     ids = sorted(set(int(value) for value in tournament_ids))
@@ -72,8 +79,9 @@ def create_job(*, tournament_ids, kinds, force=False, requested_by=None, submiss
         limits['feedback'] = AdjudicatorFeedback.objects.filter(
             adjudicator__tournament_id__in=ids, confirmed=True,
         ).aggregate(value=Max('id'))['value'] or 0
-    if 'activity' in kinds:
-        limits['activity'] = max(ids)
+    for kind in ('activity', 'results'):
+        if kind in kinds:
+            limits[kind] = max(ids)
     job, _ = ExportJob.objects.get_or_create(submission_token=token, defaults={
         'requested_by': requested_by, 'tournaments': tournaments, 'export_types': kinds,
         'force': force, 'source_limits': limits,
@@ -93,6 +101,15 @@ def create_backlog_job(*, kinds=None, requested_by=None, submission_token=None, 
         defaults={'requested_by': requested_by, 'backlog': True, 'export_types': kinds, 'source_limits': limits},
     )
     return job
+
+
+def queue_export(kind, source, **kwargs):
+    # Resolved at call time so the module-level functions stay patchable.
+    if kind == 'feedback':
+        return queue_feedback_export(source, **kwargs)
+    if kind == 'activity':
+        return queue_adjudicator_stats_export(source, **kwargs)
+    return queue_results_export(source, **kwargs)
 
 
 def acquire_worker():
@@ -180,19 +197,20 @@ def prepare_batch(job_id, token):
             limit = job.source_limits.get(kind, 0)
             if cursor >= limit or not remaining:
                 continue
+            take = min(remaining, PREPARE_KIND_BATCH.get(kind, PREPARE_BATCH))
             if job.backlog:
                 qs = MODELS[kind].objects.filter(id__gt=cursor, id__lte=limit).exclude(status='sent').order_by('id')
                 selected = job.source_limits.get('event_ids', {}).get(kind)
                 if selected is not None:
                     qs = qs.filter(id__in=selected)
-                rows = list(qs[:remaining])
+                rows = list(qs[:take])
             elif kind == 'feedback':
                 ids = list(AdjudicatorFeedback.objects.filter(
                     id__gt=cursor, id__lte=limit, adjudicator__tournament_id__in=tournament_ids, confirmed=True,
-                ).order_by('id').values_list('id', flat=True)[:remaining])
+                ).order_by('id').values_list('id', flat=True)[:take])
                 rows = _feedback_batch(ids)
             else:
-                rows = list(Tournament.objects.filter(id__in=tournament_ids, id__gt=cursor, id__lte=limit).order_by('id')[:remaining])
+                rows = list(Tournament.objects.filter(id__in=tournament_ids, id__gt=cursor, id__lte=limit).order_by('id')[:take])
             for source in rows:
                 item = ExportJobItem(job=job, kind=kind, source_id=source.id)
                 try:
@@ -209,9 +227,7 @@ def prepare_batch(job_id, token):
                         item.label = source.adjudicator.name if kind == 'feedback' else source.short_name
                         # Savepoint isolates invalid source rows from the rest of the batch.
                         with transaction.atomic():
-                            event = (queue_feedback_export if kind == 'feedback' else queue_adjudicator_stats_export)(
-                                source, force=job.force, reset_attempts=True,
-                            )
+                            event = queue_export(kind, source, force=job.force, reset_attempts=True)
                         if event is None:
                             raise ValueError('Feedback is no longer confirmed.')
                     setattr(item, kind + '_event', event)
@@ -230,7 +246,7 @@ def prepare_batch(job_id, token):
                     item.save()
                     logger.warning('export_prepare_failed job=%s item=%s kind=%s', job.id, item.id, kind)
                 job.preparation_cursor[kind] = source.id
-            if len(rows) < remaining:
+            if len(rows) < take:
                 job.preparation_cursor[kind] = limit
             remaining -= len(rows)
         job.preparation_done = all(job.preparation_cursor.get(k, 0) >= job.source_limits.get(k, 0) for k in job.export_types)
@@ -406,7 +422,7 @@ def control_job(job_id, action):
             # Retrying the same job is safe only if no later active job can use its events.
             if ExportJob.objects.filter(id__gt=job.id).exclude(status__in=TERMINAL).exists():
                 raise ValueError('Finish newer jobs before retrying this export.')
-            job.items.filter(status='failed').exclude(feedback_event=None, activity_event=None).update(
+            job.items.filter(status='failed').exclude(feedback_event=None, activity_event=None, results_event=None).update(
                 status='ready', attempts=0, next_attempt_at=None, claim_token=None,
             )
             if not job.items.filter(status='ready').exists():

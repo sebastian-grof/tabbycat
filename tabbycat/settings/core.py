@@ -505,3 +505,11 @@ ADJUDICATOR_STATS_EXPORT_TIMEOUT = int(os.environ.get(
     'ADJUDICATOR_STATS_EXPORT_TIMEOUT',
     os.environ.get('FEEDBACK_EXPORT_TIMEOUT', '10'),
 ))
+
+# Full tournament results snapshots (POST /api/v1/results/). Off by default
+# until the receiving endpoint is deployed in DR.
+RESULTS_EXPORT_ENABLED = env_bool('SDA_JUDGES_RESULTS_EXPORT_ENABLED', '0')
+RESULTS_EXPORT_ENDPOINT = os.environ.get('SDA_JUDGES_RESULTS_API_URL', '')
+RESULTS_EXPORT_TOKEN = os.environ.get('SDA_JUDGES_RESULTS_API_TOKEN', '') or FEEDBACK_EXPORT_TOKEN
+# A whole tournament is imported in one DR transaction; allow the transport maximum.
+RESULTS_EXPORT_TIMEOUT = int(os.environ.get('RESULTS_EXPORT_TIMEOUT', '30'))

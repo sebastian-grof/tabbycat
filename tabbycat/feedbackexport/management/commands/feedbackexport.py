@@ -8,7 +8,7 @@ from django.db import close_old_connections
 from feedbackexport.jobs import (
     cleanup_successful, configuration, create_backlog_job, create_job, prune_history, worker_tick,
 )
-from feedbackexport.services import build_adjudicator_stats_payload, build_feedback_payload
+from feedbackexport.services import build_adjudicator_stats_payload, build_feedback_payload, build_results_payload
 from tournaments.models import Tournament
 
 
@@ -24,7 +24,7 @@ class Command(BaseCommand):
         cleanup = commands.add_parser('cleanup')
         cleanup.add_argument('--dry-run', action='store_true')
         cleanup.add_argument('--batch-size', type=int, default=100)
-        for name in ('queue', 'queue-adjudicator-stats'):
+        for name in ('queue', 'queue-adjudicator-stats', 'queue-results'):
             command = commands.add_parser(name)
             command.add_argument('--tournament', help='Tournament slug; omission selects all tournaments')
             command.add_argument('--force', action='store_true')
@@ -37,7 +37,8 @@ class Command(BaseCommand):
             command.add_argument('--dry-run', action='store_true')
             command.add_argument('--limit', type=int, default=50, help='Compatibility option; background jobs drain the complete backlog')
             command.add_argument('--reset-attempts', action='store_true')
-        for name, argument in [('payload', 'feedback_id'), ('adjudicator-stats-payload', 'tournament_id')]:
+        for name, argument in [('payload', 'feedback_id'), ('adjudicator-stats-payload', 'tournament_id'),
+                               ('results-payload', 'tournament_id')]:
             commands.add_parser(name).add_argument(argument, type=int)
 
     def handle(self, *args, **options):
@@ -77,8 +78,10 @@ class Command(BaseCommand):
             result = build_feedback_payload(options['feedback_id'])
         elif command == 'adjudicator-stats-payload':
             result = build_adjudicator_stats_payload(options['tournament_id'])
+        elif command == 'results-payload':
+            result = build_results_payload(options['tournament_id'])
         else:
-            kind = 'activity' if 'adjudicator-stats' in command else 'feedback'
+            kind = 'activity' if 'adjudicator-stats' in command else ('results' if 'results' in command else 'feedback')
             if command.startswith('queue'):
                 tournaments = Tournament.objects.all()
                 if options.get('tournament'):

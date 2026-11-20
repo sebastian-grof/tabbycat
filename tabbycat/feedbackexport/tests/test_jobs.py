@@ -486,7 +486,7 @@ class ExportMigrationTests(TransactionTestCase):
         from django.db import connection
         from django.db.migrations.executor import MigrationExecutor
         previous = [('feedbackexport', '0004_remove_tabbycat_judge_mapping')]
-        current = [('feedbackexport', '0006_exportjobitem_prepared_at')]
+        current = [('feedbackexport', '0007_resultsexportevent')]
         executor = MigrationExecutor(connection)
         try:
             executor.migrate(previous)

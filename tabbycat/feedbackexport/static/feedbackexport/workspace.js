@@ -29,8 +29,9 @@
         if (checkbox.checked) { selected++; feedback += Number(checkbox.dataset.feedbackCount) }
       })
       document.getElementById('selected-count').textContent = selected
-      document.getElementById('selected-feedback').textContent = kind === 'activity' ? '0' : feedback
-      document.getElementById('selected-activity').textContent = kind === 'feedback' ? '0' : selected
+      document.getElementById('selected-feedback').textContent = ['feedback', 'both'].includes(kind) ? feedback : '0'
+      document.getElementById('selected-activity').textContent = ['activity', 'both'].includes(kind) ? selected : '0'
+      document.getElementById('selected-results').textContent = kind === 'results' ? selected : '0'
       document.getElementById('matching-count').textContent = `${matching} / ${rows.length}`
       document.getElementById('no-matches').hidden = matching !== 0
       if (button) button.disabled = submitting || selected === 0

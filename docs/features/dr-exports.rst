@@ -3,16 +3,72 @@
 DR exports
 ==========
 
-This fork exports confirmed adjudicator feedback and tournament adjudication
-counts to DR. Open **Site tools → API Exports**, select tournaments, choose
-**Feedback**, **Judge activity**, or **Both**, and click **Export to DR**.
-Nothing is sent automatically when feedback is saved or confirmed.
+This fork exports confirmed adjudicator feedback, tournament adjudication
+counts and complete tournament results to DR. Open **Site tools → API
+Exports**, select tournaments, choose **Feedback**, **Judge activity**, **Both**
+or **Results** (*Výsledky*), and click **Export to DR**. Nothing is sent
+automatically when feedback or ballots are saved or confirmed.
 
 The request saves a job and returns immediately. A separate worker prepares
 records in batches of 100 and sends batches of 25, one HTTP request at a time.
 It keeps processing without further clicks or an open browser. Ordinary exports
 skip records whose content has already been acknowledged. **Force re-export**
 resends unchanged content using the same DR idempotency keys.
+
+Results
+-------
+
+The **Results** stream sends one complete snapshot per tournament to
+``POST /api/v1/results/``, following the contract in Databáza SDA's
+``docs/results-api.md`` (v1). A snapshot contains:
+
+* the tournament with its format (teams per debate, speakers per team, replies,
+  cross-examinations) and, when the tournament is in a Breaks season, the season,
+  league and break-tournament metadata;
+* institutions used by the tournament's teams and adjudicators, break categories
+  and speaker categories;
+* teams with their speakers (name, optional email, the ``anonymous`` flag and
+  speaker categories) and the linked Breaks season team;
+* adjudicators (name, optional email, institution and the anonymous, trainee,
+  independent and adjudication-core flags);
+* rounds with their motions, and every debate that has a **confirmed** ballot:
+  sides, win/points/score/votes, speaker scores including replies and ghost
+  speeches, score-criterion breakdowns, cross-examination scores and the panel.
+  Draft, unconfirmed and discarded ballots are never sent;
+* the team tab and speaker tabs after the last preliminary round, generated with
+  the tournament's configured standings metrics: the open speaker tab, one tab per
+  speaker category, and the reply tab;
+* the breaking teams of each break category.
+
+Silent rounds are included; Databáza SDA decides what is public. Many debaters
+are minors, so the payload carries only what the contract lists: no phone
+numbers, gender, pronouns, URL keys, private URLs or IP addresses.
+
+Each snapshot replaces everything DR stored for that tournament. Its
+idempotency key is ``tabbycat-sda:results:<tournament id>:<content hash>:v1``,
+where the hash covers the content but not ``generated_at``. Exporting an
+unchanged tournament again is skipped as *Unchanged*; any correction produces a
+new key, and **Force re-export** resends the identical body with its original key
+and ``generated_at``. Bodies over 1 MB are sent with ``Content-Encoding: gzip``.
+Snapshots are prepared three tournaments per batch, so long tabs stay inside the
+worker lease.
+
+The stream is **disabled by default** because DR's endpoint is new. A 404 from DR
+is treated like a configuration problem: the results stream is blocked (other
+streams continue) until the URL is fixed or DR is deployed, then **Resume**.
+
+To inspect a snapshot without sending anything::
+
+    python tabbycat/manage.py feedbackexport results-payload <tournament id>
+
+``feedbackexport queue-results [--tournament <slug>] [--force]`` creates a
+results job from the command line. An example payload generated from the test
+fixture is kept in ``docs/features/dr-results-payload-example.json`` for the DR
+side to test against (IDs come from the test database); regenerate it from the
+``tabbycat`` directory with::
+
+    RESULTS_EXAMPLE_PATH=../docs/features/dr-results-payload-example.json \
+        python manage.py test -t . feedbackexport.tests.test_results
 
 Progress and recovery
 ---------------------
@@ -60,8 +116,13 @@ both the web and export worker services:
 * ``SDA_JUDGES_FEEDBACK_API_TOKEN``
 * ``SDA_JUDGES_ACTIVITY_EXPORT_ENABLED`` and ``SDA_JUDGES_ACTIVITY_API_URL``
 * ``SDA_JUDGES_ACTIVITY_API_TOKEN`` (falls back to the feedback token)
+* ``SDA_JUDGES_RESULTS_EXPORT_ENABLED`` (default off) and
+  ``SDA_JUDGES_RESULTS_API_URL`` (e.g. ``https://rozhodcovia.sda.sk/api/v1/results/``)
+* ``SDA_JUDGES_RESULTS_API_TOKEN`` (falls back to the feedback token; DR needs the
+  ``results:write`` scope on the ``tabbycat`` client)
 * ``FEEDBACK_EXPORT_TIMEOUT`` and ``ADJUDICATOR_STATS_EXPORT_TIMEOUT`` (default
-  10 seconds, bounded to 1–30 seconds in the HTTP transport)
+  10 seconds) and ``RESULTS_EXPORT_TIMEOUT`` (default 30 seconds), bounded to
+  1–30 seconds in the HTTP transport
 
 The existing non-SDA environment-variable aliases remain supported. Enabled flags
 now authorize sending; they do not enable automatic exports. Credentials and
@@ -135,7 +196,7 @@ All endpoints require existing global export permissions. POST actions require
 manage access, session authentication and CSRF protection.
 
 * ``POST /feedback-export/jobs/`` accepts ``tournament_ids``, ``export_types``
-  (``feedback``/``activity``), ``force`` and a UUID ``submission_token``. Reusing
+  (``feedback``/``activity``/``results``), ``force`` and a UUID ``submission_token``. Reusing
   the token returns the same job. JSON clients receive HTTP 202 and job/status URLs.
 * ``GET /feedback-export/jobs/<id>/status/`` returns progress and worker health.
 * ``GET /feedback-export/jobs/<id>/items/`` returns 50 records per page; accepts
@@ -153,3 +214,8 @@ It covers a 1,000-record export, duplicate submission, competing workers, recove
 and stale-result fencing, fixed retry payloads, rate limits, authentication errors,
 retry exhaustion, source deletion, migration of legacy events, compact receipts,
 permissions, CSRF, and workspace rendering without rebuilding payloads.
+``feedbackexport.tests.test_results`` builds a small tournament (replies, a ghost
+speech, criteria, cross-examinations, an elimination round, a speaker category,
+an anonymous speaker and an unconfirmed ballot) and checks the results payload
+against the contract, plus skipping, forced resends, corrections, gzip and the
+404 block.
