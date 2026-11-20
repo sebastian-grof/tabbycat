@@ -1,6 +1,8 @@
+import gzip
 import hashlib
 import json
 import logging
+import math
 import random
 import re
 import urllib.error
@@ -11,7 +13,7 @@ from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
 from django.db.models import Prefetch
-from django.utils import timezone
+from django.utils import timezone, translation
 from django.utils.text import slugify
 
 from adjallocation.models import DebateAdjudicator
@@ -19,7 +21,7 @@ from adjfeedback.models import AdjudicatorFeedback
 from results.models import BallotSubmission
 from tournaments.models import Tournament
 
-from .models import AdjudicatorStatsExportEvent, FeedbackExportEvent
+from .models import AdjudicatorStatsExportEvent, FeedbackExportEvent, ResultsExportEvent
 
 logger = logging.getLogger(__name__)
 
@@ -27,6 +29,9 @@ SOURCE_SYSTEM = 'tabbycat-sda'
 DEFAULT_TIMEOUT = 10
 MAX_ATTEMPTS = 8
 SEASON_LABEL_RE = re.compile(r'(20\d{2})\s*[/-]\s*(20\d{2})')
+RESULTS_PAYLOAD_VERSION = 1
+# The results contract asks for gzip above 1 MB (DR accepts up to 10 MB).
+RESULTS_GZIP_THRESHOLD = 1024 * 1024
 
 
 def feedback_export_enabled():
@@ -51,6 +56,18 @@ def adjudicator_stats_export_endpoint():
 
 def adjudicator_stats_export_token():
     return getattr(settings, 'ADJUDICATOR_STATS_EXPORT_TOKEN', '') or feedback_export_token()
+
+
+def results_export_enabled():
+    return bool(getattr(settings, 'RESULTS_EXPORT_ENABLED', False))
+
+
+def results_export_endpoint():
+    return getattr(settings, 'RESULTS_EXPORT_ENDPOINT', '')
+
+
+def results_export_token():
+    return getattr(settings, 'RESULTS_EXPORT_TOKEN', '') or feedback_export_token()
 
 
 def make_idempotency_key(feedback_id, content_hash=None):
@@ -470,6 +487,461 @@ def adjudicator_stats_event_needs_reexport(event, tournament=None):
     return event.payload_hash != adjudicator_stats_content_hash(tournament)
 
 
+# ==============================================================================
+# Tournament results snapshot (POST /api/v1/results/, contract v1)
+# ==============================================================================
+#
+# Data minimisation: many debaters are minors, so the payload carries only the
+# fields listed in the results contract. Never add phone, gender, pronoun,
+# url_key, code names of people, private URLs or IP addresses here.
+
+DEBATE_ROLE_NAMES = {
+    DebateAdjudicator.TYPE_CHAIR: 'chair',
+    DebateAdjudicator.TYPE_PANEL: 'panellist',
+    DebateAdjudicator.TYPE_TRAINEE: 'trainee',
+}
+DEBATE_ROLE_ORDER = {'chair': 0, 'panellist': 1, 'trainee': 2}
+
+
+def make_results_idempotency_key(tournament, content_hash):
+    return '%s:results:%s:%s:v1' % (SOURCE_SYSTEM, tournament.id, content_hash[:12])
+
+
+def results_content_hash(payload):
+    """Hash of the results content only: the build time and the key derived
+    from this hash are excluded, so an unchanged tournament keeps its key."""
+    return payload_hash({k: v for k, v in payload.items() if k not in ('generated_at', 'idempotency_key')})
+
+
+def _blank_to_none(value):
+    return value if value not in ('', None) else None
+
+
+def _number(value):
+    """Standings metrics as JSON numbers; anything else (e.g. who-beat-whom's
+    "n/a", NaN from a one-speech standard deviation) becomes null."""
+    if isinstance(value, bool):
+        return int(value)
+    if isinstance(value, int):
+        return value
+    try:
+        number = float(value)
+    except (TypeError, ValueError):
+        return None
+    return number if math.isfinite(number) else None
+
+
+def _side_name(tournament, side):
+    from tournaments.utils import get_side_name
+    name = str(get_side_name(tournament, side, 'full'))
+    return name[:1].upper() + name[1:]
+
+
+def _results_break_tournament_payload(break_tournament, season):
+    if break_tournament is None:
+        return None
+    return {
+        'id': break_tournament.id,
+        'counts_for_break': break_tournament.counts_for_break,
+        'frozen_at': timestamp_payload(break_tournament.frozen_at),
+        'region': {
+            'id': break_tournament.region_id,
+            'name': break_tournament.region.name,
+            'slug': slugify(break_tournament.region.name),
+        } if break_tournament.region_id else None,
+        'season': {
+            'id': season.id,
+            'slug': season.slug,
+            'name': season.name,
+        },
+    }
+
+
+def _results_tournament_payload(tournament, rounds, break_tournament, season):
+    dates = sorted(timezone.localdate(r.starts_at) for r in rounds if r.starts_at)
+    return {
+        'id': tournament.id,
+        'slug': tournament.slug,
+        'name': tournament.name,
+        'short_name': _blank_to_none(tournament.short_name),
+        'season': season_catalog_label(season),
+        'league': season.league.name if season else None,
+        'league_slug': season.league.slug if season else None,
+        'starts_on': dates[0].isoformat() if dates else None,
+        'ends_on': dates[-1].isoformat() if dates else None,
+        'format': {
+            'teams_per_debate': tournament.pref('teams_in_debate'),
+            'speakers_per_team': tournament.pref('substantive_speakers'),
+            'reply_speeches': bool(tournament.pref('reply_scores_enabled')),
+            'uses_cross_examination': bool(tournament.pref('cross_examinations_enabled')),
+        },
+        'break_tournament': _results_break_tournament_payload(break_tournament, season),
+    }
+
+
+def _season_team_links(tournament, season):
+    from seasonbreaks.models import BreakTeamLink
+
+    links = {}
+    queryset = BreakTeamLink.objects.filter(team__tournament=tournament).select_related('break_team').order_by('-season_id', 'id')
+    for link in queryset:
+        # Prefer the season this tournament counts for; otherwise the newest season.
+        if link.team_id not in links or (season is not None and link.season_id == season.id):
+            links[link.team_id] = link
+    return {team_id: {'id': link.break_team_id, 'name': link.break_team.name} for team_id, link in links.items()}
+
+
+def _results_teams_payload(tournament, season):
+    from participants.models import Speaker, Team
+
+    season_teams = _season_team_links(tournament, season)
+    teams = Team.objects.filter(tournament=tournament).prefetch_related(
+        'break_categories',
+        Prefetch('speaker_set', queryset=Speaker.objects.order_by('id').prefetch_related('categories')),
+    ).order_by('id')
+    payload = []
+    for team in teams:
+        payload.append({
+            'id': team.id,
+            'name': team.long_name,
+            'short_name': _blank_to_none(team.short_name),
+            'code_name': _blank_to_none(team.code_name),
+            'institution_id': team.institution_id,
+            'season_team': season_teams.get(team.id),
+            'break_category_ids': sorted(category.id for category in team.break_categories.all()),
+            'speakers': [{
+                'id': speaker.id,
+                'name': speaker.name,
+                'email': _blank_to_none(speaker.email),
+                'anonymous': speaker.anonymous,
+                'speaker_category_ids': sorted(category.id for category in speaker.categories.all()),
+            } for speaker in team.speaker_set.all()],
+        })
+    return payload, [team.institution_id for team in teams]
+
+
+def _results_adjudicators_payload(tournament, panel_adjudicator_ids):
+    from django.db.models import Q
+    from participants.models import Adjudicator
+
+    adjudicators = Adjudicator.objects.filter(
+        Q(tournament=tournament) | Q(id__in=panel_adjudicator_ids),
+    ).order_by('id')
+    payload = [{
+        'id': adjudicator.id,
+        'name': adjudicator.name,
+        'email': _blank_to_none(adjudicator.email),
+        'institution_id': adjudicator.institution_id,
+        'anonymous': adjudicator.anonymous,
+        'trainee': adjudicator.trainee,
+        'independent': adjudicator.independent,
+        'adj_core': adjudicator.adj_core,
+        # Same meaning as in the feedback payload; this fork keeps no DR mapping.
+        'judge_profile_id': None,
+    } for adjudicator in adjudicators]
+    return payload, [adjudicator.institution_id for adjudicator in adjudicators]
+
+
+def _results_institutions_payload(institution_ids):
+    from participants.models import Institution
+
+    institutions = Institution.objects.filter(id__in={i for i in institution_ids if i}).select_related('region').order_by('id')
+    return [{
+        'id': institution.id,
+        'name': institution.name,
+        'code': institution.code,
+        'region': institution.region.name if institution.region_id else None,
+    } for institution in institutions]
+
+
+def _results_rounds_payload(tournament, rounds):
+    from motions.models import RoundMotion
+    from tournaments.models import Round
+
+    motions = {}
+    for round_motion in RoundMotion.objects.filter(round__tournament=tournament).select_related('motion').order_by('round_id', 'seq', 'id'):
+        motion = round_motion.motion
+        motions.setdefault(round_motion.round_id, []).append({
+            'id': motion.id,
+            'seq': round_motion.seq,
+            'reference': motion.reference,
+            'text': motion.text,
+            'info_slide': motion.info_slide or '',
+        })
+    return [{
+        'id': round_.id,
+        'seq': round_.seq,
+        'name': round_.name,
+        'abbreviation': round_.abbreviation,
+        'stage': 'elimination' if round_.stage == Round.Stage.ELIMINATION else 'preliminary',
+        'break_category_id': round_.break_category_id if round_.stage == Round.Stage.ELIMINATION else None,
+        'silent': round_.silent,
+        'starts_at': timestamp_payload(round_.starts_at),
+        'motions': motions.get(round_.id, []),
+    } for round_ in rounds]
+
+
+def _confirmed_ballots(tournament):
+    """The confirmed, non-discarded ballot of each debate. Drafts, unconfirmed
+    and discarded ballots are never exported."""
+    ballots = {}
+    queryset = BallotSubmission.objects.filter(
+        confirmed=True, discarded=False, debate__round__tournament=tournament,
+    ).select_related('debate').order_by('debate_id', 'version', 'id')
+    for ballot in queryset:
+        ballots[ballot.debate_id] = ballot  # Tabbycat allows one; keep the latest if not.
+    return ballots
+
+
+def _results_debates_payload(tournament, rounds):
+    from draw.models import DebateTeam
+    from results.models import CrossExaminationScore, SpeakerCriterionScore, SpeakerScore, TeamScore
+
+    ballots = _confirmed_ballots(tournament)
+    ballot_ids = [ballot.id for ballot in ballots.values()]
+    round_seq = {round_.id: (round_.seq, round_.id) for round_ in rounds}
+    reply_position = tournament.reply_position
+
+    debate_teams = {}
+    for debate_team in DebateTeam.objects.filter(debate_id__in=ballots).order_by('debate_id', 'side', 'id'):
+        debate_teams.setdefault(debate_team.debate_id, []).append(debate_team)
+
+    team_scores = {score.debate_team_id: score for score in TeamScore.objects.filter(ballot_submission_id__in=ballot_ids)}
+
+    criteria = {}
+    for criterion_score in SpeakerCriterionScore.objects.filter(
+        speaker_score__ballot_submission_id__in=ballot_ids,
+    ).select_related('criterion').order_by('speaker_score_id', 'criterion__seq', 'criterion_id'):
+        criteria.setdefault(criterion_score.speaker_score_id, []).append(
+            {'name': criterion_score.criterion.name, 'score': criterion_score.score})
+
+    speeches = {}
+    for speaker_score in SpeakerScore.objects.filter(ballot_submission_id__in=ballot_ids).order_by('debate_team_id', 'position', 'id'):
+        speeches.setdefault(speaker_score.debate_team_id, []).append({
+            'speaker_id': speaker_score.speaker_id,
+            'position': speaker_score.position,
+            'reply': reply_position is not None and speaker_score.position == reply_position,
+            'score': speaker_score.score,
+            'rank': speaker_score.rank,
+            'ghost': speaker_score.ghost,
+            'criteria': criteria.get(speaker_score.id, []),
+        })
+
+    cross_examinations = {}
+    for cx_score in CrossExaminationScore.objects.filter(
+        ballot_submission_id__in=ballot_ids,
+    ).select_related('cross_examination').order_by('debate_team_id', 'cross_examination__seq', 'cross_examination_id'):
+        cross_examinations.setdefault(cx_score.debate_team_id, []).append(
+            {'name': cx_score.cross_examination.name, 'score': cx_score.score})
+
+    panels = {}
+    for allocation in DebateAdjudicator.objects.filter(debate_id__in=ballots):
+        role = DEBATE_ROLE_NAMES.get(allocation.type)
+        if role:
+            panels.setdefault(allocation.debate_id, []).append({'adjudicator_id': allocation.adjudicator_id, 'role': role})
+
+    payload = []
+    ordered = sorted(ballots.values(), key=lambda ballot: (round_seq.get(ballot.debate.round_id, (0, 0)), ballot.debate_id))
+    for ballot in ordered:
+        debate = ballot.debate
+        sides = []
+        for debate_team in debate_teams.get(debate.id, []):
+            team_score = team_scores.get(debate_team.id)
+            sides.append({
+                'team_id': debate_team.team_id,
+                'side': debate_team.side,
+                'side_name': _side_name(tournament, debate_team.side),
+                'win': team_score.win if team_score else None,
+                'points': team_score.points if team_score else None,
+                'score': team_score.score if team_score else None,
+                'votes_given': team_score.votes_given if team_score else None,
+                'votes_possible': team_score.votes_possible if team_score else None,
+                'speakers': speeches.get(debate_team.id, []),
+                'cross_examination': cross_examinations.get(debate_team.id, []),
+            })
+        panel = sorted(panels.get(debate.id, []), key=lambda a: (DEBATE_ROLE_ORDER[a['role']], a['adjudicator_id']))
+        payload.append({
+            'id': debate.id,
+            'round_id': debate.round_id,
+            'motion_id': ballot.motion_id,
+            'forfeit': ballot.forfeit,
+            'teams': sides,
+            'adjudicators': panel,
+        })
+    return payload, {a['adjudicator_id'] for debate in payload for a in debate['adjudicators']}
+
+
+def _standing_entry(info, **identity):
+    rank, tied = info.rankings.get('rank', (None, False))
+    return {
+        **identity,
+        'rank': rank,
+        'rank_tied': bool(tied) if rank is not None else False,
+        'metrics': {str(key): _number(value) for key, value in info.metrics.items()},
+    }
+
+
+def _sorted_standings(entries, id_key):
+    return sorted(entries, key=lambda e: (e['rank'] is None, e['rank'] or 0, e[id_key]))
+
+
+def _rank_filter(tournament, last_round, preference, field):
+    from tournaments.models import Round
+
+    missable = tournament.pref(preference)
+    if missable < 0:
+        return None, None
+    total = tournament.round_set.filter(stage=Round.Stage.PRELIMINARY, seq__lte=last_round.seq).count()
+    return field, total - missable
+
+
+def _results_standings_payload(tournament):
+    """Team and speaker tabs after the last preliminary round, generated with
+    the tournament's configured metrics (as on the admin standings pages)."""
+    from participants.models import Speaker, Team
+    from standings.base import StandingsError
+    from standings.speakers import SpeakerStandingsGenerator
+    from standings.teams import TeamStandingsGenerator
+
+    last_round = tournament.prelim_rounds().order_by('seq').last()
+    if last_round is None:
+        return [], []
+
+    try:
+        team_metrics = list(tournament.pref('team_standings_precedence'))
+        team_extra = list(tournament.pref('team_standings_extra_metrics'))
+        teams = tournament.team_set.exclude(type=Team.TYPE_BYE).select_related('institution')
+        team_standings = TeamStandingsGenerator(team_metrics, ('rank',), team_extra).generate(teams, round=last_round)
+        team_payload = _sorted_standings(
+            [_standing_entry(info, team_id=info.team.id) for info in team_standings], 'team_id')
+
+        speaker_metrics = list(tournament.pref('speaker_standings_precedence'))
+        speaker_extra = list(tournament.pref('speaker_standings_extra_metrics'))
+        if tournament.pref('standings_missed_debates') >= 0 and 'count' not in speaker_metrics + speaker_extra:
+            speaker_extra.append('count')
+        speaker_filter = _rank_filter(tournament, last_round, 'standings_missed_debates', 'count')
+
+        def speaker_tab(speakers, category_id):
+            generator = SpeakerStandingsGenerator(speaker_metrics, ('rank',), speaker_extra,
+                tournament=tournament, rank_filter=speaker_filter)
+            standings = generator.generate(speakers.select_related('team', 'team__institution'), round=last_round)
+            return _sorted_standings([_standing_entry(
+                info, speaker_id=info.speaker.id, speaker_category_id=category_id, kind='substantive',
+            ) for info in standings], 'speaker_id')
+
+        speaker_payload = speaker_tab(Speaker.objects.filter(team__tournament=tournament), None)
+        for category in tournament.speakercategory_set.order_by('seq', 'id'):
+            speaker_payload.extend(speaker_tab(category.speaker_set.all(), category.id))
+
+        reply_position = tournament.reply_position
+        if reply_position is not None:
+            repliers = Speaker.objects.filter(team__tournament=tournament, speakerscore__position=reply_position).distinct()
+            generator = SpeakerStandingsGenerator(('replies_avg',), ('rank',), ('replies_stddev', 'replies_count'),
+                tournament=tournament,
+                rank_filter=_rank_filter(tournament, last_round, 'standings_missed_replies', 'replies_count'))
+            standings = generator.generate(repliers.select_related('team', 'team__institution'), round=last_round)
+            speaker_payload.extend(_sorted_standings([_standing_entry(
+                info, speaker_id=info.speaker.id, speaker_category_id=None, kind='reply',
+            ) for info in standings], 'speaker_id'))
+    except StandingsError as exc:
+        raise ValueError('Could not generate standings: %s' % exc) from exc
+    return team_payload, speaker_payload
+
+
+def _results_breaks_payload(tournament):
+    from breakqual.models import BreakingTeam
+
+    breaking = BreakingTeam.objects.filter(break_category__tournament=tournament).order_by(
+        'break_category__seq', 'break_category_id', 'rank', 'team_id')
+    return [{
+        'break_category_id': row.break_category_id,
+        'team_id': row.team_id,
+        'rank': row.rank,
+        'break_rank': row.break_rank,
+        'remark': row.remark or None,
+    } for row in breaking]
+
+
+def build_results_payload(tournament, *, generated_at=None, idempotency_key=None):
+    tournament = load_tournament_for_activity(tournament)
+    break_tournament, season = break_tournament_metadata(tournament)
+    rounds = list(tournament.round_set.order_by('seq', 'id'))
+
+    # Side names are translated; build in the site language so the content,
+    # and therefore the idempotency key, does not depend on the caller's locale.
+    with translation.override(settings.LANGUAGE_CODE):
+        rounds_payload = _results_rounds_payload(tournament, rounds)
+        motion_ids = {motion['id'] for round_ in rounds_payload for motion in round_['motions']}
+        debates, panel_adjudicator_ids = _results_debates_payload(tournament, rounds)
+        for debate in debates:
+            if debate['motion_id'] not in motion_ids:
+                # A ballot can name a motion later detached from its round;
+                # only motions listed under `rounds` may be referenced.
+                debate['motion_id'] = None
+        teams, team_institutions = _results_teams_payload(tournament, season)
+        adjudicators, adjudicator_institutions = _results_adjudicators_payload(tournament, panel_adjudicator_ids)
+        team_standings, speaker_standings = _results_standings_payload(tournament)
+        payload = {
+            'source_system': SOURCE_SYSTEM,
+            'version': RESULTS_PAYLOAD_VERSION,
+            'idempotency_key': idempotency_key,
+            'generated_at': timestamp_payload(generated_at or timezone.now().replace(microsecond=0)),
+            'tournament': _results_tournament_payload(tournament, rounds, break_tournament, season),
+            'institutions': _results_institutions_payload(team_institutions + adjudicator_institutions),
+            'break_categories': [{
+                'id': category.id,
+                'slug': category.slug,
+                'name': category.name,
+                'is_general': category.is_general,
+                'break_size': category.break_size,
+            } for category in tournament.breakcategory_set.order_by('seq', 'id')],
+            'speaker_categories': [{
+                'id': category.id,
+                'slug': category.slug,
+                'name': category.name,
+            } for category in tournament.speakercategory_set.order_by('seq', 'id')],
+            'teams': teams,
+            'adjudicators': adjudicators,
+            'rounds': rounds_payload,
+            'debates': debates,
+            'team_standings': team_standings,
+            'speaker_standings': speaker_standings,
+            'breaks': _results_breaks_payload(tournament),
+        }
+    return normalise_json_value(payload)
+
+
+def validate_results_payload(payload):
+    """Every reference must resolve inside the snapshot; DR imports it as one
+    transaction, so a dangling ID would reject the whole tournament."""
+    team_ids = {team['id'] for team in payload['teams']}
+    speaker_ids = {speaker['id'] for team in payload['teams'] for speaker in team['speakers']}
+    adjudicator_ids = {adjudicator['id'] for adjudicator in payload['adjudicators']}
+    round_ids = {round_['id'] for round_ in payload['rounds']}
+    motion_ids = {motion['id'] for round_ in payload['rounds'] for motion in round_['motions']}
+    for team in payload['teams']:
+        if not (team['name'] or '').strip():
+            raise ValueError('Team %s has no name.' % team['id'])
+        for speaker in team['speakers']:
+            if not (speaker['name'] or '').strip():
+                raise ValueError('Speaker %s has no name.' % speaker['id'])
+    for debate in payload['debates']:
+        if debate['round_id'] not in round_ids:
+            raise ValueError('Debate %s refers to an unknown round.' % debate['id'])
+        if debate['motion_id'] is not None and debate['motion_id'] not in motion_ids:
+            raise ValueError('Debate %s refers to an unknown motion.' % debate['id'])
+        for side in debate['teams']:
+            if side['team_id'] not in team_ids:
+                raise ValueError('Debate %s refers to an unknown team.' % debate['id'])
+            for speech in side['speakers']:
+                if speech['speaker_id'] not in speaker_ids:
+                    raise ValueError('Debate %s refers to an unknown speaker.' % debate['id'])
+        for allocation in debate['adjudicators']:
+            if allocation['adjudicator_id'] not in adjudicator_ids:
+                raise ValueError('Debate %s refers to an unknown adjudicator.' % debate['id'])
+    return payload
+
+
 def payload_hash(payload):
     raw = json.dumps(payload, sort_keys=True, separators=(',', ':'), ensure_ascii=True)
     return hashlib.sha256(raw.encode('utf-8')).hexdigest()
@@ -561,6 +1033,26 @@ def queue_adjudicator_stats_export(tournament, *, force=False, reset_attempts=Fa
     }, force=force, reset_attempts=reset_attempts)
 
 
+def queue_results_export(tournament, *, force=False, reset_attempts=False):
+    tournament = load_tournament_for_activity(tournament)
+    payload = validate_results_payload(build_results_payload(tournament))
+    key = make_results_idempotency_key(tournament, results_content_hash(payload))
+    # Reuse the build time of an already prepared version of this content so a
+    # resend under the same key carries a byte-identical body.
+    generated_at = ResultsExportEvent.objects.filter(idempotency_key=key).values_list('generated_at', flat=True).first()
+    generated_at = generated_at or timezone.now().replace(microsecond=0)
+    payload['idempotency_key'] = key
+    payload['generated_at'] = timestamp_payload(generated_at)
+    return _store_snapshot(ResultsExportEvent, payload, {
+        'tournament': tournament,
+        'source_tournament_id': tournament.id,
+        'source_tournament_slug': tournament.slug,
+        'source_tournament_name': tournament.name,
+        'source_tournament_short_name': tournament.short_name,
+        'generated_at': generated_at,
+    }, force=force, reset_attempts=reset_attempts)
+
+
 def retry_delay(attempts):
     seconds = min(60 * 2 ** max(attempts - 1, 0), 3600)
     return timezone.now() + timedelta(seconds=seconds * random.uniform(0.8, 1.2))
@@ -632,6 +1124,13 @@ def send_adjudicator_stats_event(event, *, dry_run=False):
     return event
 
 
+def send_results_event(event, *, dry_run=False):
+    from .jobs import create_backlog_job
+    if not dry_run and event.status != event.Status.SENT:
+        create_backlog_job(kinds=['results'], event_ids={'results': [event.id]})
+    return event
+
+
 def send_pending_events(*, event_ids=None, limit=50, dry_run=False):
     from .jobs import create_backlog_job
     if dry_run:
@@ -656,15 +1155,31 @@ def queue_confirmed_feedback(queryset=None, *, force=False, reset_attempts=False
     return {'job_id': job.id}
 
 
+def stream_configuration(kind):
+    """(enabled, endpoint, token, timeout setting name) for one export stream."""
+    if kind == 'activity':
+        return (adjudicator_stats_export_enabled(), adjudicator_stats_export_endpoint(),
+                adjudicator_stats_export_token(), 'ADJUDICATOR_STATS_EXPORT_TIMEOUT')
+    if kind == 'results':
+        return results_export_enabled(), results_export_endpoint(), results_export_token(), 'RESULTS_EXPORT_TIMEOUT'
+    return feedback_export_enabled(), feedback_export_endpoint(), feedback_export_token(), 'FEEDBACK_EXPORT_TIMEOUT'
+
+
+def encode_request_body(payload, kind):
+    """JSON body bytes and extra headers; large results snapshots are gzipped."""
+    body = json.dumps(payload, sort_keys=True).encode('utf-8')
+    if kind == 'results' and len(body) > RESULTS_GZIP_THRESHOLD:
+        # mtime=0 keeps the compressed bytes identical across retries.
+        return gzip.compress(body, mtime=0), {'Content-Encoding': 'gzip'}
+    return body, {}
+
+
 def deliver_snapshot(event, kind):
     """HTTP transport only. The worker commits this result under its claim fence."""
     import time
     from email.utils import parsedate_to_datetime
 
-    activity = kind == 'activity'
-    enabled = adjudicator_stats_export_enabled() if activity else feedback_export_enabled()
-    endpoint = adjudicator_stats_export_endpoint() if activity else feedback_export_endpoint()
-    token = adjudicator_stats_export_token() if activity else feedback_export_token()
+    enabled, endpoint, token, timeout_name = stream_configuration(kind)
     if not enabled or not endpoint:
         return {'status': 'blocked', 'error': 'Export is disabled or its API endpoint is not configured.'}
     if not event.payload:
@@ -690,8 +1205,9 @@ def deliver_snapshot(event, kind):
     if token:
         headers['Authorization'] = 'Bearer %s' % token
     try:
-        request = urllib.request.Request(endpoint, data=json.dumps(event.payload, sort_keys=True).encode('utf-8'), headers=headers, method='POST')
-        timeout_name = 'ADJUDICATOR_STATS_EXPORT_TIMEOUT' if activity else 'FEEDBACK_EXPORT_TIMEOUT'
+        body, extra_headers = encode_request_body(event.payload, kind)
+        headers.update(extra_headers)
+        request = urllib.request.Request(endpoint, data=body, headers=headers, method='POST')
         timeout = max(1, min(int(getattr(settings, timeout_name, DEFAULT_TIMEOUT)), 30))
         with urllib.request.urlopen(request, timeout=timeout) as response:
             body = read_body(response)
@@ -713,6 +1229,11 @@ def deliver_snapshot(event, kind):
             detail = detail.replace(token, '[redacted]')
         status = 'blocked' if exc.code in {401, 403} else ('retry' if exc.code == 429 or exc.code >= 500 else 'failed')
         error = 'DR returned HTTP %s. %s' % (exc.code, detail)
+        if kind == 'results' and exc.code == 404:
+            # The results endpoint is new in DR: a 404 means a wrong URL or an
+            # undeployed receiver, so hold the stream instead of failing records.
+            status = 'blocked'
+            error = 'DR has no results endpoint at the configured URL (HTTP 404). Check SDA_JUDGES_RESULTS_API_URL and that DR supports results imports, then resume. ' + detail
         if exc.code == 409:
             error = 'DR reported a conflict (HTTP 409). Inspect this record before retrying. ' + detail
         result = {'status': status, 'http_status': exc.code, 'error': truncate_bytes(error, 2048),

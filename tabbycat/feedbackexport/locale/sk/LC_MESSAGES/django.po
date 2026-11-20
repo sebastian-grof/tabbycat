@@ -802,3 +802,23 @@ msgstr "Prístup k API exportom bol aktualizovaný pre %(user)s."
 
 #~ msgid "Needs re-export"
 #~ msgstr "Vyžaduje re-export"
+
+#: feedbackexport/templates/feedbackexport/index.html:35
+msgid "Complete results, tabs and breaks of each tournament"
+msgstr "Kompletné výsledky, tab a postupy každého turnaja"
+
+#: feedbackexport/templates/feedbackexport/index.html:37
+msgid "Results snapshots"
+msgstr "Záznamy výsledkov"
+
+#: feedbackexport/models.py:179
+msgid "generated at"
+msgstr "vytvorené"
+
+#: feedbackexport/models.py:194
+msgid "results export event"
+msgstr "exportný event výsledkov"
+
+#: feedbackexport/models.py:195
+msgid "results export events"
+msgstr "exportné eventy výsledkov"

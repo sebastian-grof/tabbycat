@@ -25,6 +25,7 @@
     </span>
     <span class="exports-health-item {% if health.feedback_ready %}is-ready{% endif %}"><span aria-hidden="true" class="exports-dot"></span>{% trans "Feedback" %}: {% if health.feedback_ready %}{% trans "Configured" %}{% else %}{% trans "Disabled or unconfigured" %}{% endif %}</span>
     <span class="exports-health-item {% if health.activity_ready %}is-ready{% endif %}"><span aria-hidden="true" class="exports-dot"></span>{% trans "Judge activity" %}: {% if health.activity_ready %}{% trans "Configured" %}{% else %}{% trans "Disabled or unconfigured" %}{% endif %}</span>
+    <span class="exports-health-item {% if health.results_ready %}is-ready{% endif %}"><span aria-hidden="true" class="exports-dot"></span>{% trans "Results" %}: {% if health.results_ready %}{% trans "Configured" %}{% else %}{% trans "Disabled or unconfigured" %}{% endif %}</span>
   </div>
   <p class="exports-notice" id="worker-warning" {% if health.worker_online %}hidden{% endif %}>{% trans "The export worker is not responding. Jobs are saved safely and will continue when it returns. Contact your site administrator." %}</p>
   <main class="exports-section-stack">{% block export_content %}{% endblock %}</main>

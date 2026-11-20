@@ -5,6 +5,7 @@ from .models import (
     ExportJob,
     FeedbackExportEvent,
     GlobalFeedbackExportPermission,
+    ResultsExportEvent,
 )
 
 
@@ -52,6 +53,21 @@ class AdjudicatorStatsExportEventAdmin(ReadOnlyExportAdmin):
         'break_tournament__season__name',
         'break_tournament__tournament__name',
         'break_tournament__tournament__slug',
+        'idempotency_key',
+        'last_error',
+    )
+    readonly_fields = ('payload', 'remote_response')
+
+
+@admin.register(ResultsExportEvent)
+class ResultsExportEventAdmin(ReadOnlyExportAdmin):
+    list_display = ('tournament', 'source_tournament_id', 'status', 'attempts', 'last_http_status', 'sent_at', 'updated_at')
+    list_filter = ('status',)
+    search_fields = (
+        'tournament__name',
+        'tournament__slug',
+        'source_tournament_name',
+        'source_tournament_slug',
         'idempotency_key',
         'last_error',
     )
