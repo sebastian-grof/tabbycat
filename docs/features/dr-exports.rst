@@ -24,7 +24,8 @@ The **Results** stream sends one complete snapshot per tournament to
 ``docs/results-api.md`` (v1). A snapshot contains:
 
 * the tournament with its format (teams per debate, speakers per team, replies,
-  cross-examinations) and, when the tournament is in a Breaks season, the season,
+  cross-examinations, and the team and speaker standings precedence and extra
+  metrics as metric keys in their configured order) and, when the tournament is in a Breaks season, the season,
   league and break-tournament metadata;
 * institutions used by the tournament's teams and adjudicators, break categories
   and speaker categories;
