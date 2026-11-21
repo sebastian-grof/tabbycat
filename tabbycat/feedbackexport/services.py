@@ -593,6 +593,12 @@ def _results_tournament_payload(tournament, rounds, break_tournament, season):
             'speakers_per_team': tournament.pref('substantive_speakers'),
             'reply_speeches': bool(tournament.pref('reply_scores_enabled')),
             'uses_cross_examination': bool(tournament.pref('cross_examinations_enabled')),
+            # Metric keys in the configured order, so DR can lay out the tabs'
+            # columns the way this tournament ranks them.
+            'team_standings_precedence': [str(m) for m in tournament.pref('team_standings_precedence')],
+            'team_standings_extra_metrics': [str(m) for m in tournament.pref('team_standings_extra_metrics')],
+            'speaker_standings_precedence': [str(m) for m in tournament.pref('speaker_standings_precedence')],
+            'speaker_standings_extra_metrics': [str(m) for m in tournament.pref('speaker_standings_extra_metrics')],
         },
         'break_tournament': _results_break_tournament_payload(break_tournament, season),
     }

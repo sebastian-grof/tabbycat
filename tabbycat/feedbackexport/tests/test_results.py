@@ -213,13 +213,29 @@ class ResultsPayloadTests(ResultsFixtureMixin, TestCase):
         self.assertEqual(tournament['season'], '2026/2027')
         self.assertEqual((tournament['league'], tournament['league_slug']), ('SDL', 'sdl'))
         self.assertEqual((tournament['starts_on'], tournament['ends_on']), ('2026-11-21', '2026-11-22'))
-        self.assertEqual(tournament['format'], {'teams_per_debate': 2, 'speakers_per_team': 3,
-                                                'reply_speeches': True, 'uses_cross_examination': True})
+        self.assertEqual(tournament['format'], {
+            'teams_per_debate': 2, 'speakers_per_team': 3, 'reply_speeches': True, 'uses_cross_examination': True,
+            'team_standings_precedence': ['wins', 'speaks_sum'], 'team_standings_extra_metrics': ['margin_sum'],
+            'speaker_standings_precedence': ['total'], 'speaker_standings_extra_metrics': ['average', 'count'],
+        })
         self.assertEqual(tournament['break_tournament']['counts_for_break'], True)
         self.assertIsNone(tournament['break_tournament']['frozen_at'])
         self.assertEqual(tournament['break_tournament']['region']['name'], 'Západ')
         self.assertEqual(tournament['break_tournament']['region']['slug'], 'zapad')
         self.assertEqual(tournament['break_tournament']['season']['slug'], 'sdl-2026-2027')
+
+    def test_standings_preferences_follow_the_tournament_in_order(self):
+        t = self.tournament
+        t.preferences['standings__team_standings_precedence'] = ['points', 'wbw', 'speaks_avg']
+        t.preferences['standings__team_standings_extra_metrics'] = []
+        t.preferences['standings__speaker_standings_precedence'] = ['average', 'total']
+        t.preferences['standings__speaker_standings_extra_metrics'] = ['stdev']
+        fmt = self.payload()['tournament']['format']
+        self.assertEqual(fmt['team_standings_precedence'], ['points', 'wbw', 'speaks_avg'])
+        self.assertEqual(fmt['team_standings_extra_metrics'], [])
+        self.assertEqual(fmt['speaker_standings_precedence'], ['average', 'total'])
+        self.assertEqual(fmt['speaker_standings_extra_metrics'], ['stdev'])
+        self.assertTrue(all(type(metric) is str for key in fmt if key.endswith(('precedence', 'metrics')) for metric in fmt[key]))
 
     def test_tournament_without_break_season_has_null_season_fields(self):
         self.break_tournament.delete()

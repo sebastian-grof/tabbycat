@@ -4,9 +4,9 @@
       "adj_core": false,
       "anonymous": false,
       "email": "chair@example.test",
-      "id": 382,
+      "id": 13,
       "independent": true,
-      "institution_id": 101,
+      "institution_id": 2,
       "judge_profile_id": null,
       "name": "Chair Judge",
       "trainee": false
@@ -15,9 +15,9 @@
       "adj_core": false,
       "anonymous": false,
       "email": null,
-      "id": 383,
+      "id": 14,
       "independent": false,
-      "institution_id": 100,
+      "institution_id": 1,
       "judge_profile_id": null,
       "name": "Panel Judge",
       "trainee": false
@@ -26,7 +26,7 @@
       "adj_core": false,
       "anonymous": false,
       "email": null,
-      "id": 384,
+      "id": 15,
       "independent": false,
       "institution_id": null,
       "judge_profile_id": null,
@@ -37,7 +37,7 @@
       "adj_core": true,
       "anonymous": false,
       "email": null,
-      "id": 385,
+      "id": 16,
       "independent": false,
       "institution_id": null,
       "judge_profile_id": null,
@@ -48,7 +48,7 @@
   "break_categories": [
     {
       "break_size": 2,
-      "id": 19,
+      "id": 1,
       "is_general": true,
       "name": "Open",
       "slug": "open"
@@ -56,51 +56,51 @@
   ],
   "breaks": [
     {
-      "break_category_id": 19,
+      "break_category_id": 1,
       "break_rank": 1,
       "rank": 1,
       "remark": null,
-      "team_id": 117
+      "team_id": 1
     },
     {
-      "break_category_id": 19,
+      "break_category_id": 1,
       "break_rank": 2,
       "rank": 2,
       "remark": null,
-      "team_id": 119
+      "team_id": 3
     },
     {
-      "break_category_id": 19,
+      "break_category_id": 1,
       "break_rank": null,
       "rank": 3,
       "remark": "C",
-      "team_id": 118
+      "team_id": 2
     }
   ],
   "debates": [
     {
       "adjudicators": [
         {
-          "adjudicator_id": 382,
+          "adjudicator_id": 13,
           "role": "chair"
         },
         {
-          "adjudicator_id": 383,
+          "adjudicator_id": 14,
           "role": "panellist"
         },
         {
-          "adjudicator_id": 385,
+          "adjudicator_id": 16,
           "role": "panellist"
         },
         {
-          "adjudicator_id": 384,
+          "adjudicator_id": 15,
           "role": "trainee"
         }
       ],
       "forfeit": false,
-      "id": 136,
-      "motion_id": 52,
-      "round_id": 102,
+      "id": 1,
+      "motion_id": 1,
+      "round_id": 1,
       "teams": [
         {
           "cross_examination": [
@@ -126,7 +126,7 @@
               "rank": 1,
               "reply": false,
               "score": 70.0,
-              "speaker_id": 370
+              "speaker_id": 1
             },
             {
               "criteria": [
@@ -140,7 +140,7 @@
               "rank": 2,
               "reply": false,
               "score": 71.0,
-              "speaker_id": 371
+              "speaker_id": 2
             },
             {
               "criteria": [
@@ -154,7 +154,7 @@
               "rank": 3,
               "reply": false,
               "score": 72.0,
-              "speaker_id": 372
+              "speaker_id": 3
             },
             {
               "criteria": [],
@@ -163,10 +163,10 @@
               "rank": null,
               "reply": true,
               "score": 35.5,
-              "speaker_id": 370
+              "speaker_id": 1
             }
           ],
-          "team_id": 117,
+          "team_id": 1,
           "votes_given": 2,
           "votes_possible": 3,
           "win": true
@@ -195,7 +195,7 @@
               "rank": 1,
               "reply": false,
               "score": 69.0,
-              "speaker_id": 373
+              "speaker_id": 4
             },
             {
               "criteria": [
@@ -209,7 +209,7 @@
               "rank": 2,
               "reply": false,
               "score": 70.0,
-              "speaker_id": 374
+              "speaker_id": 5
             },
             {
               "criteria": [
@@ -223,7 +223,7 @@
               "rank": 3,
               "reply": false,
               "score": 68.0,
-              "speaker_id": 375
+              "speaker_id": 6
             },
             {
               "criteria": [],
@@ -232,10 +232,10 @@
               "rank": null,
               "reply": true,
               "score": 34.0,
-              "speaker_id": 373
+              "speaker_id": 4
             }
           ],
-          "team_id": 118,
+          "team_id": 2,
           "votes_given": 1,
           "votes_possible": 3,
           "win": false
@@ -245,14 +245,14 @@
     {
       "adjudicators": [
         {
-          "adjudicator_id": 383,
+          "adjudicator_id": 14,
           "role": "chair"
         }
       ],
       "forfeit": false,
-      "id": 137,
-      "motion_id": 52,
-      "round_id": 102,
+      "id": 2,
+      "motion_id": 1,
+      "round_id": 1,
       "teams": [
         {
           "cross_examination": [
@@ -278,7 +278,7 @@
               "rank": 1,
               "reply": false,
               "score": 74.0,
-              "speaker_id": 376
+              "speaker_id": 7
             },
             {
               "criteria": [
@@ -292,7 +292,7 @@
               "rank": 2,
               "reply": false,
               "score": 73.0,
-              "speaker_id": 377
+              "speaker_id": 8
             },
             {
               "criteria": [
@@ -306,10 +306,10 @@
               "rank": 3,
               "reply": false,
               "score": 75.0,
-              "speaker_id": 378
+              "speaker_id": 9
             }
           ],
-          "team_id": 119,
+          "team_id": 3,
           "votes_given": 1,
           "votes_possible": 1,
           "win": true
@@ -338,7 +338,7 @@
               "rank": 1,
               "reply": false,
               "score": 65.0,
-              "speaker_id": 379
+              "speaker_id": 10
             },
             {
               "criteria": [
@@ -352,7 +352,7 @@
               "rank": 2,
               "reply": false,
               "score": 66.0,
-              "speaker_id": 380
+              "speaker_id": 11
             },
             {
               "criteria": [
@@ -366,10 +366,10 @@
               "rank": 3,
               "reply": false,
               "score": 67.0,
-              "speaker_id": 379
+              "speaker_id": 10
             }
           ],
-          "team_id": 120,
+          "team_id": 4,
           "votes_given": 0,
           "votes_possible": 1,
           "win": false
@@ -379,14 +379,14 @@
     {
       "adjudicators": [
         {
-          "adjudicator_id": 382,
+          "adjudicator_id": 13,
           "role": "chair"
         }
       ],
       "forfeit": false,
-      "id": 138,
-      "motion_id": 53,
-      "round_id": 103,
+      "id": 3,
+      "motion_id": 2,
+      "round_id": 2,
       "teams": [
         {
           "cross_examination": [
@@ -412,7 +412,7 @@
               "rank": 1,
               "reply": false,
               "score": 75.0,
-              "speaker_id": 370
+              "speaker_id": 1
             },
             {
               "criteria": [
@@ -426,7 +426,7 @@
               "rank": 2,
               "reply": false,
               "score": 76.0,
-              "speaker_id": 371
+              "speaker_id": 2
             },
             {
               "criteria": [
@@ -440,10 +440,10 @@
               "rank": 3,
               "reply": false,
               "score": 77.0,
-              "speaker_id": 372
+              "speaker_id": 3
             }
           ],
-          "team_id": 117,
+          "team_id": 1,
           "votes_given": 1,
           "votes_possible": 1,
           "win": true
@@ -472,7 +472,7 @@
               "rank": 1,
               "reply": false,
               "score": 70.0,
-              "speaker_id": 376
+              "speaker_id": 7
             },
             {
               "criteria": [
@@ -486,7 +486,7 @@
               "rank": 2,
               "reply": false,
               "score": 70.0,
-              "speaker_id": 377
+              "speaker_id": 8
             },
             {
               "criteria": [
@@ -500,10 +500,10 @@
               "rank": 3,
               "reply": false,
               "score": 70.0,
-              "speaker_id": 378
+              "speaker_id": 9
             }
           ],
-          "team_id": 119,
+          "team_id": 3,
           "votes_given": 0,
           "votes_possible": 1,
           "win": false
@@ -513,14 +513,14 @@
     {
       "adjudicators": [
         {
-          "adjudicator_id": 382,
+          "adjudicator_id": 13,
           "role": "chair"
         }
       ],
       "forfeit": false,
-      "id": 140,
-      "motion_id": 54,
-      "round_id": 104,
+      "id": 5,
+      "motion_id": 3,
+      "round_id": 3,
       "teams": [
         {
           "cross_examination": [
@@ -546,7 +546,7 @@
               "rank": 1,
               "reply": false,
               "score": 78.0,
-              "speaker_id": 376
+              "speaker_id": 7
             },
             {
               "criteria": [
@@ -560,7 +560,7 @@
               "rank": 2,
               "reply": false,
               "score": 78.0,
-              "speaker_id": 377
+              "speaker_id": 8
             },
             {
               "criteria": [
@@ -574,10 +574,10 @@
               "rank": 3,
               "reply": false,
               "score": 78.0,
-              "speaker_id": 378
+              "speaker_id": 9
             }
           ],
-          "team_id": 119,
+          "team_id": 3,
           "votes_given": 1,
           "votes_possible": 1,
           "win": true
@@ -606,7 +606,7 @@
               "rank": 1,
               "reply": false,
               "score": 71.0,
-              "speaker_id": 370
+              "speaker_id": 1
             },
             {
               "criteria": [
@@ -620,7 +620,7 @@
               "rank": 2,
               "reply": false,
               "score": 71.0,
-              "speaker_id": 371
+              "speaker_id": 2
             },
             {
               "criteria": [
@@ -634,10 +634,10 @@
               "rank": 3,
               "reply": false,
               "score": 71.0,
-              "speaker_id": 372
+              "speaker_id": 3
             }
           ],
-          "team_id": 117,
+          "team_id": 1,
           "votes_given": 0,
           "votes_possible": 1,
           "win": false
@@ -645,18 +645,18 @@
       ]
     }
   ],
-  "generated_at": "2026-11-20T18:08:50+00:00",
-  "idempotency_key": "tabbycat-sda:results:68:8e412a8e7fef:v1",
+  "generated_at": "2026-11-20T23:40:54+00:00",
+  "idempotency_key": "tabbycat-sda:results:1:ea3eaa0ea322:v1",
   "institutions": [
     {
       "code": "Alfa",
-      "id": 100,
+      "id": 1,
       "name": "Gymnázium Alfa",
       "region": "Západ"
     },
     {
       "code": "Beta",
-      "id": 101,
+      "id": 2,
       "name": "Gymnázium Beta",
       "region": null
     }
@@ -665,10 +665,10 @@
     {
       "abbreviation": "K1",
       "break_category_id": null,
-      "id": 102,
+      "id": 1,
       "motions": [
         {
-          "id": 52,
+          "id": 1,
           "info_slide": "Info 1",
           "reference": "Motion K1",
           "seq": 1,
@@ -684,10 +684,10 @@
     {
       "abbreviation": "K2",
       "break_category_id": null,
-      "id": 103,
+      "id": 2,
       "motions": [
         {
-          "id": 53,
+          "id": 2,
           "info_slide": "Info 2",
           "reference": "Motion K2",
           "seq": 1,
@@ -702,11 +702,11 @@
     },
     {
       "abbreviation": "F",
-      "break_category_id": 19,
-      "id": 104,
+      "break_category_id": 1,
+      "id": 3,
       "motions": [
         {
-          "id": 54,
+          "id": 3,
           "info_slide": "Info 3",
           "reference": "Motion F",
           "seq": 1,
@@ -723,7 +723,7 @@
   "source_system": "tabbycat-sda",
   "speaker_categories": [
     {
-      "id": 18,
+      "id": 1,
       "name": "Novice",
       "slug": "novice"
     }
@@ -739,7 +739,7 @@
       "rank": 1,
       "rank_tied": false,
       "speaker_category_id": null,
-      "speaker_id": 372
+      "speaker_id": 3
     },
     {
       "kind": "substantive",
@@ -751,7 +751,7 @@
       "rank": 2,
       "rank_tied": false,
       "speaker_category_id": null,
-      "speaker_id": 371
+      "speaker_id": 2
     },
     {
       "kind": "substantive",
@@ -763,7 +763,7 @@
       "rank": 3,
       "rank_tied": true,
       "speaker_category_id": null,
-      "speaker_id": 370
+      "speaker_id": 1
     },
     {
       "kind": "substantive",
@@ -775,7 +775,7 @@
       "rank": 3,
       "rank_tied": true,
       "speaker_category_id": null,
-      "speaker_id": 378
+      "speaker_id": 9
     },
     {
       "kind": "substantive",
@@ -787,7 +787,7 @@
       "rank": 5,
       "rank_tied": false,
       "speaker_category_id": null,
-      "speaker_id": 376
+      "speaker_id": 7
     },
     {
       "kind": "substantive",
@@ -799,7 +799,7 @@
       "rank": 6,
       "rank_tied": false,
       "speaker_category_id": null,
-      "speaker_id": 377
+      "speaker_id": 8
     },
     {
       "kind": "substantive",
@@ -811,7 +811,7 @@
       "rank": 7,
       "rank_tied": false,
       "speaker_category_id": null,
-      "speaker_id": 374
+      "speaker_id": 5
     },
     {
       "kind": "substantive",
@@ -823,7 +823,7 @@
       "rank": 8,
       "rank_tied": false,
       "speaker_category_id": null,
-      "speaker_id": 373
+      "speaker_id": 4
     },
     {
       "kind": "substantive",
@@ -835,7 +835,7 @@
       "rank": 9,
       "rank_tied": false,
       "speaker_category_id": null,
-      "speaker_id": 375
+      "speaker_id": 6
     },
     {
       "kind": "substantive",
@@ -847,7 +847,7 @@
       "rank": 10,
       "rank_tied": false,
       "speaker_category_id": null,
-      "speaker_id": 380
+      "speaker_id": 11
     },
     {
       "kind": "substantive",
@@ -859,7 +859,7 @@
       "rank": 11,
       "rank_tied": false,
       "speaker_category_id": null,
-      "speaker_id": 379
+      "speaker_id": 10
     },
     {
       "kind": "substantive",
@@ -871,7 +871,7 @@
       "rank": 12,
       "rank_tied": false,
       "speaker_category_id": null,
-      "speaker_id": 381
+      "speaker_id": 12
     },
     {
       "kind": "substantive",
@@ -882,8 +882,8 @@
       },
       "rank": 1,
       "rank_tied": false,
-      "speaker_category_id": 18,
-      "speaker_id": 376
+      "speaker_category_id": 1,
+      "speaker_id": 7
     },
     {
       "kind": "substantive",
@@ -894,8 +894,8 @@
       },
       "rank": 2,
       "rank_tied": false,
-      "speaker_category_id": 18,
-      "speaker_id": 375
+      "speaker_category_id": 1,
+      "speaker_id": 6
     },
     {
       "kind": "reply",
@@ -907,7 +907,7 @@
       "rank": 1,
       "rank_tied": false,
       "speaker_category_id": null,
-      "speaker_id": 370
+      "speaker_id": 1
     },
     {
       "kind": "reply",
@@ -919,7 +919,7 @@
       "rank": 2,
       "rank_tied": false,
       "speaker_category_id": null,
-      "speaker_id": 373
+      "speaker_id": 4
     }
   ],
   "team_standings": [
@@ -931,7 +931,7 @@
       },
       "rank": 1,
       "rank_tied": false,
-      "team_id": 117
+      "team_id": 1
     },
     {
       "metrics": {
@@ -941,7 +941,7 @@
       },
       "rank": 2,
       "rank_tied": false,
-      "team_id": 119
+      "team_id": 3
     },
     {
       "metrics": {
@@ -951,7 +951,7 @@
       },
       "rank": 3,
       "rank_tied": false,
-      "team_id": 118
+      "team_id": 2
     },
     {
       "metrics": {
@@ -961,20 +961,20 @@
       },
       "rank": 4,
       "rank_tied": false,
-      "team_id": 120
+      "team_id": 4
     }
   ],
   "teams": [
     {
       "break_category_ids": [
-        19
+        1
       ],
       "code_name": "Code A",
-      "id": 117,
-      "institution_id": 100,
+      "id": 1,
+      "institution_id": 1,
       "name": "Gymnázium Alfa A",
       "season_team": {
-        "id": 18,
+        "id": 1,
         "name": "Alfa A"
       },
       "short_name": "Alfa A",
@@ -982,21 +982,21 @@
         {
           "anonymous": false,
           "email": "a1@example.test",
-          "id": 370,
+          "id": 1,
           "name": "Speaker A1",
           "speaker_category_ids": []
         },
         {
           "anonymous": true,
           "email": null,
-          "id": 371,
+          "id": 2,
           "name": "Speaker A2",
           "speaker_category_ids": []
         },
         {
           "anonymous": false,
           "email": null,
-          "id": 372,
+          "id": 3,
           "name": "Speaker A3",
           "speaker_category_ids": []
         }
@@ -1004,11 +1004,11 @@
     },
     {
       "break_category_ids": [
-        19
+        1
       ],
       "code_name": "Code B",
-      "id": 118,
-      "institution_id": 100,
+      "id": 2,
+      "institution_id": 1,
       "name": "Gymnázium Alfa B",
       "season_team": null,
       "short_name": "Alfa B",
@@ -1016,35 +1016,35 @@
         {
           "anonymous": false,
           "email": "b1@example.test",
-          "id": 373,
+          "id": 4,
           "name": "Speaker B1",
           "speaker_category_ids": []
         },
         {
           "anonymous": false,
           "email": null,
-          "id": 374,
+          "id": 5,
           "name": "Speaker B2",
           "speaker_category_ids": []
         },
         {
           "anonymous": false,
           "email": null,
-          "id": 375,
+          "id": 6,
           "name": "Speaker B3",
           "speaker_category_ids": [
-            18
+            1
           ]
         }
       ]
     },
     {
       "break_category_ids": [
-        19
+        1
       ],
       "code_name": "Code C",
-      "id": 119,
-      "institution_id": 101,
+      "id": 3,
+      "institution_id": 2,
       "name": "Gymnázium Beta C",
       "season_team": null,
       "short_name": "Beta C",
@@ -1052,23 +1052,23 @@
         {
           "anonymous": false,
           "email": "c1@example.test",
-          "id": 376,
+          "id": 7,
           "name": "Speaker C1",
           "speaker_category_ids": [
-            18
+            1
           ]
         },
         {
           "anonymous": false,
           "email": null,
-          "id": 377,
+          "id": 8,
           "name": "Speaker C2",
           "speaker_category_ids": []
         },
         {
           "anonymous": false,
           "email": null,
-          "id": 378,
+          "id": 9,
           "name": "Speaker C3",
           "speaker_category_ids": []
         }
@@ -1076,11 +1076,11 @@
     },
     {
       "break_category_ids": [
-        19
+        1
       ],
       "code_name": "Code D",
-      "id": 120,
-      "institution_id": 101,
+      "id": 4,
+      "institution_id": 2,
       "name": "Gymnázium Beta D",
       "season_team": null,
       "short_name": "Beta D",
@@ -1088,21 +1088,21 @@
         {
           "anonymous": false,
           "email": "d1@example.test",
-          "id": 379,
+          "id": 10,
           "name": "Speaker D1",
           "speaker_category_ids": []
         },
         {
           "anonymous": false,
           "email": null,
-          "id": 380,
+          "id": 11,
           "name": "Speaker D2",
           "speaker_category_ids": []
         },
         {
           "anonymous": false,
           "email": null,
-          "id": 381,
+          "id": 12,
           "name": "Speaker D3",
           "speaker_category_ids": []
         }
@@ -1113,14 +1113,14 @@
     "break_tournament": {
       "counts_for_break": true,
       "frozen_at": null,
-      "id": 24,
+      "id": 1,
       "region": {
-        "id": 24,
+        "id": 1,
         "name": "Západ",
         "slug": "zapad"
       },
       "season": {
-        "id": 24,
+        "id": 1,
         "name": "SDL 2026/2027",
         "slug": "sdl-2026-2027"
       }
@@ -1128,11 +1128,25 @@
     "ends_on": "2026-11-22",
     "format": {
       "reply_speeches": true,
+      "speaker_standings_extra_metrics": [
+        "average",
+        "count"
+      ],
+      "speaker_standings_precedence": [
+        "total"
+      ],
       "speakers_per_team": 3,
+      "team_standings_extra_metrics": [
+        "margin_sum"
+      ],
+      "team_standings_precedence": [
+        "wins",
+        "speaks_sum"
+      ],
       "teams_per_debate": 2,
       "uses_cross_examination": true
     },
-    "id": 68,
+    "id": 1,
     "league": "SDL",
     "league_slug": "sdl",
     "name": "Results Open",
