@@ -339,17 +339,105 @@ class ExportJobTests(TestCase):
         self.assertEqual(job.items.get().status, 'sent')
 
     @patch('feedbackexport.services.urllib.request.urlopen')
-    def test_pause_survives_restart_and_blocks_later_jobs(self, http):
+    def test_pause_survives_restart_and_does_not_hold_later_jobs(self, http):
+        http.return_value = fixtures.FakeHTTPResponse()
         first = self.start()
         control_job(first.id, 'pause')
-        second = self.start()
-        worker_tick()
-        http.assert_not_called()
-        self.assertFalse(second.items.exists())
+        second = self.start(force=True)
+        self.assertTrue(worker_tick())
+        second.refresh_from_db()
+        self.assertEqual(second.status, 'completed')
+        first.refresh_from_db()
+        self.assertEqual(first.status, 'paused')
+        self.assertFalse(first.items.exists())
+        self.assertFalse(worker_tick())
         control_job(first.id, 'resume')
-        http.return_value = fixtures.FakeHTTPResponse()
         worker_tick()
-        self.assertEqual(first.items.get().status, 'sent')
+        first.refresh_from_db()
+        self.assertEqual(first.status, 'completed')
+
+    @patch('feedbackexport.services.urllib.request.urlopen')
+    def test_job_waiting_for_a_retry_does_not_hold_later_jobs(self, http):
+        http.side_effect = urllib.error.HTTPError('https://dr.example.test', 503, '', {}, io.BytesIO(b'{}'))
+        older = self.start()
+        worker_tick()
+        older.refresh_from_db()
+        self.assertEqual(older.status, 'waiting')
+        self.assertGreater(older.items.get().next_attempt_at, timezone.now())
+
+        http.side_effect = None
+        http.return_value = fixtures.FakeHTTPResponse()
+        newer = create_job(tournament_ids=[self.tournament.id], kinds=['activity'])
+        self.assertTrue(worker_tick())
+        newer.refresh_from_db()
+        self.assertEqual(newer.status, 'completed')
+        older.refresh_from_db()
+        self.assertEqual((older.status, older.items.get().status), ('waiting', 'retry'))
+        self.assertEqual(http.call_count, 2)
+
+        # Nothing is due: the worker idles instead of re-sending early.
+        self.assertFalse(worker_tick())
+        self.assertEqual(http.call_count, 2)
+
+        # The older job still finishes once its retry time comes.
+        self.due(older)
+        self.assertTrue(worker_tick())
+        older.refresh_from_db()
+        self.assertEqual((older.status, older.items.get().status), ('completed', 'sent'))
+
+    @patch('feedbackexport.services.urllib.request.urlopen')
+    def test_blocked_job_does_not_hold_later_jobs(self, http):
+        def response(request, **kwargs):
+            if '/feedback' in request.full_url:
+                raise urllib.error.HTTPError(request.full_url, 401, '', {}, io.BytesIO(b'{}'))
+            return fixtures.FakeHTTPResponse()
+        http.side_effect = response
+        blocked = self.start()
+        worker_tick()
+        blocked.refresh_from_db()
+        self.assertEqual(blocked.status, 'blocked')
+        newer = create_job(tournament_ids=[self.tournament.id], kinds=['activity'])
+        self.assertTrue(worker_tick())
+        newer.refresh_from_db()
+        self.assertEqual(newer.status, 'completed')
+        blocked.refresh_from_db()
+        self.assertEqual(blocked.status, 'blocked')
+
+    @patch('feedbackexport.services.urllib.request.urlopen')
+    def test_claim_left_by_a_cut_off_send_is_reclaimed(self, http):
+        http.return_value = fixtures.FakeHTTPResponse()
+        job = self.start()
+        # A worker claimed the record, then died mid-request (its lease expired).
+        dead = acquire_worker()
+        prepare_batch(job.id, dead)
+        item = claim_item(job.id, dead)
+        self.assertEqual(item.status, 'sending')
+        ExportWorkerState.objects.filter(pk=1).update(lease_expires_at=timezone.now() - timedelta(seconds=1))
+        self.assertTrue(worker_tick())
+        item.refresh_from_db()
+        job.refresh_from_db()
+        self.assertEqual((item.status, item.claim_token, job.status), ('sent', None, 'completed'))
+        self.assertEqual(http.call_count, 1)
+
+    @patch('feedbackexport.services.urllib.request.urlopen')
+    def test_cut_off_claim_in_an_older_job_is_reclaimed_behind_a_waiting_record(self, http):
+        # The production case: an older job holds a record in backoff and one
+        # left "sending"; a newer job must run, and the stuck record is resent.
+        http.return_value = fixtures.FakeHTTPResponse()
+        older = create_job(tournament_ids=[self.tournament.id], kinds=['feedback', 'activity'])
+        dead = acquire_worker()
+        prepare_batch(older.id, dead)
+        older.items.filter(kind='feedback').update(status='retry', next_attempt_at=timezone.now() + timedelta(hours=1))
+        older.items.filter(kind='activity').update(status='sending', claim_token=uuid.uuid4())
+        ExportWorkerState.objects.filter(pk=1).update(token=None, lease_expires_at=None)
+        newer = create_job(tournament_ids=[self.tournament.id], kinds=['activity'], force=True)
+        self.assertTrue(worker_tick())  # Recovers and sends the stuck record of the older job.
+        self.assertEqual(older.items.get(kind='activity').status, 'sent')
+        self.assertTrue(worker_tick())  # The older job only waits now; the newer one runs.
+        newer.refresh_from_db()
+        self.assertEqual(newer.status, 'completed', list(newer.items.values('status', 'last_error')))
+        older.refresh_from_db()
+        self.assertEqual(older.status, 'waiting')
 
     def test_cleanup_preserves_hashes_and_unresolved_payloads(self):
         event = queue_feedback_export(self.feedback)

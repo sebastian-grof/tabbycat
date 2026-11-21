@@ -128,7 +128,13 @@ History is paginated and can be filtered by tournament, data type and outcome.
 * Invalid source data and other client errors require attention. Correct source
   data and start a new export; **Retry failed** retries an existing prepared
   snapshot without rebuilding it. HTTP 409 is a conflict, not a successful send.
-* Jobs run in creation order. A paused or blocked oldest job holds later jobs.
+* Jobs run in creation order, one at a time. A job that cannot progress right
+  now (paused, blocked, or with every remaining record waiting for its retry
+  time) is skipped, so it never holds later jobs; it continues when resumed or
+  when a retry is due. An older version of a record is never delivered after a
+  newer one.
+* A record left *Sending* by a cut-off worker is sent again (same body and key)
+  the next time its job runs.
 * A crashed worker's claim is recovered after its 120-second lease expires.
   Results from an expired worker cannot overwrite the recovered job.
 

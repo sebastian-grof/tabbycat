@@ -1073,6 +1073,11 @@ def _store_snapshot(model, payload, source_fields, *, force=False, reset_attempt
         )
         # Do not reset a snapshot currently owned by another unfinished job.
         if event.job_items.exclude(job__status__in=['completed', 'completed_errors']).exists():
+            if force and event.payload is None:
+                # That job already delivered it (which drops the payload); a
+                # forced re-send needs the body back. Same key, same content.
+                event.payload = payload
+                event.save(update_fields=['payload'])
             return event
         source_field = model.export_source_field
         latest = model.objects.filter(

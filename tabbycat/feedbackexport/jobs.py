@@ -254,7 +254,7 @@ def prepare_batch(job_id, token):
         lock_worker(token)
         job = ExportJob.objects.select_for_update().get(pk=job_id)
         if job.status == 'paused' or job.preparation_done:
-            return
+            return False
         job.status = 'preparing'
         tournament_ids = [row['id'] for row in job.tournaments]
         season_ids = [row['id'] for row in job.seasons]
@@ -328,6 +328,7 @@ def prepare_batch(job_id, token):
         if job.preparation_done:
             job.status = 'running'
         job.save()
+        return True
 
 
 def claim_item(job_id, token):
@@ -443,39 +444,56 @@ def _superseded(event, kind, prepared_at):
     ).exclude(pk=event.pk).exists()
 
 
+def _run_job(job_id, token, should_stop=None):
+    """Prepare or send one batch of a job. Returns whether it did any work."""
+    worked = prepare_batch(job_id, token)  # False once preparation is done or while paused.
+    job = ExportJob.objects.get(pk=job_id)
+    if not job.preparation_done:
+        return worked
+    for _ in range(SEND_BATCH):
+        if should_stop and should_stop():
+            break
+        item = claim_item(job.id, token)
+        if item is None:
+            break
+        worked = True
+        if item.status == 'failed':
+            continue
+        event = item.event
+        if event is None:
+            result = {'status': 'failed', 'error': 'The prepared export event is missing. Start a new export.'}
+        elif _superseded(event, item.kind, item.prepared_at):
+            result = {'status': 'failed', 'error': 'A newer version was already delivered. Start a new export to send current source data.'}
+        elif event.status == 'sent' and not job.force:
+            result = {'status': 'sent', 'http_status': event.last_http_status, 'receipt': event.receipt}
+        else:
+            result = deliver_snapshot(event, item.kind)
+        finish_item(item.id, token, result)
+    # Also settles a job whose last records finished, or that is only waiting.
+    settle_job(job.id, token)
+    return worked
+
+
 def worker_tick(*, heartbeat=False, should_stop=None):
+    """Work on the oldest job that can make progress now.
+
+    Jobs are tried in creation order, but a job with nothing to do yet (all its
+    records waiting for a retry time or blocked) is settled and skipped instead
+    of holding every newer job; paused jobs are skipped. One job gets work per
+    tick. An older version can never overwrite a newer delivery (_superseded).
+    """
     token = acquire_worker()
     if token is None:
         return False
     try:
         with renew_lease(token, heartbeat):
-            job = ExportJob.objects.exclude(status__in=TERMINAL).order_by('id').first()
-            if job is None or job.status == 'paused':
-                return False
-            if not job.preparation_done:
-                prepare_batch(job.id, token)
-                job.refresh_from_db()
-            if job.preparation_done:
-                for _ in range(SEND_BATCH):
-                    if should_stop and should_stop():
-                        break
-                    item = claim_item(job.id, token)
-                    if item is None:
-                        break
-                    if item.status == 'failed':
-                        continue
-                    event = item.event
-                    if event is None:
-                        result = {'status': 'failed', 'error': 'The prepared export event is missing. Start a new export.'}
-                    elif _superseded(event, item.kind, item.prepared_at):
-                        result = {'status': 'failed', 'error': 'A newer version was already delivered. Start a new export to send current source data.'}
-                    elif event.status == 'sent' and not job.force:
-                        result = {'status': 'sent', 'http_status': event.last_http_status, 'receipt': event.receipt}
-                    else:
-                        result = deliver_snapshot(event, item.kind)
-                    finish_item(item.id, token, result)
-                settle_job(job.id, token)
-            return True
+            job_ids = list(ExportJob.objects.exclude(status__in=TERMINAL + ['paused']).order_by('id').values_list('id', flat=True))
+            for job_id in job_ids:
+                if should_stop and should_stop():
+                    break
+                if _run_job(job_id, token, should_stop):
+                    return True
+            return False
     except LostLeaseError:
         logger.warning('export_worker_lost_lease')
         return False
